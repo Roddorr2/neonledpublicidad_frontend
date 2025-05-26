@@ -6,12 +6,13 @@ import { SocialMedia } from "./components/SocialMedia"
 
 const AboutStatic = () => {
   return (
-    <div className="text-left max-w-md lg:max-w-lg px-4 z-10 relative">
+    <div className="text-left max-w-md lg:max-w-lg px-4 z-10 relative bg-black/30 rounded-lg p-4 backdrop-blur-sm">
       <h2 className="text-base md:text-xl mb-2 md:mb-3 text-white">Conoce más sobre</h2>
-      <h1 className="text-2xl md:text-4xl font-bold mb-4 md:mb-5 text-white neon-textov2">NOSOTROS</h1>
-      <p className="text-xs md:text-sm text-white max-w-md">
-        Somos Neon Led Publicidad, una empresa dedicada a la fabricación y venta de diseños personalizados de letreros
-        que transforman cualquier espacio en un reflejo único de estilo y personalidad.
+      <h1 className="text-2xl md:text-4xl font-extrabold mb-4 md:mb-5 text-white neon-textov2 animate-fade-in">
+        NOSOTROS
+      </h1>
+      <p className="text-xs md:text-sm text-gray-300 max-w-md">
+        En Neon Led Publicidad, nos especializamos en diseñar y fabricar letreros personalizados que iluminan espacios con estilo, identidad y personalidad. Convertimos ideas en experiencias visuales únicas.
       </p>
     </div>
   )
@@ -87,9 +88,9 @@ const Nosotros = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white font-montserrat">
       {/* Main content section with background */}
-      <section className="relative min-h-[500px] flex items-start pt-16 md:pt-24 overflow-hidden">
+      <section className="relative min-h-[500px] flex items-start pt-20 md:pt-32 overflow-hidden">
         {/* Background image */}
         <SectionBackground />
 
@@ -110,8 +111,17 @@ const Nosotros = () => {
 
           {/* Right column - Values */}
           <div className="w-full md:w-1/2 px-4 py-4 md:px-8 flex flex-col md:h-[calc(100%-2rem)] md:mt-10">
-            <div className="flex-grow">
-              <CompanyValues companyValues={companyValues} />
+            <div className="flex-grow grid gap-4">
+              {companyValues.map((val, idx) => (
+                <div
+                  key={idx}
+                  className={`p-4 rounded-lg text-center shadow-md hover:scale-105 transform transition-all duration-300 ${val.bgColor}`}
+                >
+                  <div className="flex justify-center mb-2">{val.icon}</div>
+                  <p className="text-xs uppercase tracking-wide">{val.title}</p>
+                  <h3 className="text-lg font-bold">{val.value}</h3>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -126,4 +136,3 @@ const Nosotros = () => {
 }
 
 export default Nosotros
-
