@@ -52,7 +52,7 @@ export default function NuestrosProductos() {
         animate={hasAnimated ? { x: 0, opacity: 1 } : {}}
         transition={{ duration: 2, ease: "easeOut" }}
       >
-        Ofrecemos una gran variedad de productos en NEON LED para tu negocio tanto exterior como interior.
+        Ofrecemos una gran variedad de letreros para tu negocio tanto exterior como interior.
       </motion.div>
     </div>
   );

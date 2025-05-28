@@ -103,9 +103,6 @@ export default function LoginPage() {
         <div className="absolute -top-16 -right-16 w-64 h-64 bg-blue-300 rounded-full opacity-20 blur-3xl"></div>
 
         <div className="relative z-10 text-center">
-          <div className="mb-8 inline-block p-2 bg-white/10 backdrop-blur-md rounded-xl">
-            <Mail className="w-12 h-12 text-white" />
-          </div>
           <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6">¡Bienvenido!</h1>
           <p className="text-white/90 text-lg mb-8 max-w-md">
             Accede a tu cuenta para gestionar tus recursos y servicios
@@ -115,16 +112,16 @@ export default function LoginPage() {
             <img
               src="/login/sesion.png"
               alt="Inicio de sesión"
-              className="relative z-10 w-full h-auto mx-auto animate-float"
+              className="relative z-10 w-[320px] h-[400px] mx-auto animate-float"
             />
           </div>
         </div>
       </div>
 
       {/* Right section with form */}
-      <div className="lg:w-1/2 w-full flex flex-col items-center justify-center p-6 relative">
+      <div className="lg:w-1/2 w-full flex flex-col items-center justify-center p-6 relative border rounded-l-lg">
         <Link href="/" className="absolute top-4 right-4">
-          <button className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white hover:scale-105 transition-all duration-300 shadow-lg text-blue-700 border border-blue-100">
+          <button className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white hover:scale-105 transition-all duration-300 shadow-lg text-gray-900 border border-blue-100">
             <ArrowLeft className="w-4 h-4" />
             Regresar
           </button>

@@ -22,19 +22,19 @@ export default function Home() {
       description: "LETRAS DE ACRÍLICO",
     },
     {
-      imgSrc: "/productosPrincipal/2yasin.jpg",
+      imgSrc: "/productosPrincipal/productos2_lux.webp",
       altText: "Producto 2",
       description: "LETRAS DORADAS Y PLATEADAS",
     },
     {
-      imgSrc: "/productosPrincipal/3crisol.webp",
+      imgSrc: "/productosPrincipal/productos3_farm.webp",
       altText: "Producto 3",
       description: "LETREROS LUMINOSOS",
     },
     {
-      imgSrc: "/productosPrincipal/1crocs.webp",
+      imgSrc: "/productosPrincipal/productos4_wok.webp",
       altText: "Producto 4",
-      description: "LETRAS DE NEON",
+      description: "LETRAS DE NEÓN",
     },
   ];
 
