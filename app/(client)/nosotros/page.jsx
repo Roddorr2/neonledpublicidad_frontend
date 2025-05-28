@@ -8,7 +8,7 @@ const AboutStatic = () => {
   return (
     <div className="text-left max-w-md lg:max-w-lg px-4 z-10 relative">
       <h2 className="text-base md:text-xl mb-2 md:mb-3 text-white">Conoce más sobre</h2>
-      <h1 className="text-2xl md:text-4xl font-bold mb-4 md:mb-5 text-white neon-textov2">NOSOTROS</h1>
+      <h1 className="text-2xl md:text-4xl font-bold mb-4 md:mb-5 text-white">NOSOTROS</h1>
       <p className="text-xs md:text-sm text-white max-w-md">
         Somos Neon Led Publicidad, una empresa dedicada a la fabricación y venta de diseños personalizados de letreros
         que transforman cualquier espacio en un reflejo único de estilo y personalidad.

@@ -11,7 +11,7 @@ export const MissionVision = () => {
               <circle cx="12" cy="12" r="2" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold neon-text">MISIÓN</h2>
+          <h2 className="text-xl font-bold">MISIÓN</h2>
         </div>
         <p className="text-xs md:text-sm text-gray-300 text-center">
           Somos una empresa importadora, fabricante de productos publicitarios, buscando hacer realidad las ideas de
@@ -28,7 +28,7 @@ export const MissionVision = () => {
               <circle cx="12" cy="12" r="3" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold neon-text">VISIÓN</h2>
+          <h2 className="text-xl font-bold">VISIÓN</h2>
         </div>
         <p className="text-xs md:text-sm text-gray-300 text-center">
           Ser la empresa que exprese innovación y creatividad en el mundo de la publicidad, buscando evolucionar en
