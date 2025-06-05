@@ -32,7 +32,7 @@ const data = [
   },
   {
     id: 3,
-    producto: "LETREROS LIMUNOSOS",
+    producto: "LETREROS LUMINOSOS",
     caracteristica: "Los letreros luminosos tiene la capacidad de iluminar grandes áreas de manera efectiva.",
     ventaja: "Estos letreros publicitarios se adaptan completamente a la identidad corporativa, permitiendo personalizar colores, luces y diseños.",
     consumo_energetico: "Como ejemplo, una caja de luz de 2.00 x 2.50 metros puede tener un consumo de 320 W con 16 tubos LED.",
@@ -145,12 +145,13 @@ export default function Datos({ idProducto }) {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#02101d]">
+    <div className="relative min-h-screen overflow-hidden bg-[#02101d] mb-20">
       <NeonBackground className="absolute inset-0 z-0" />
 
-      <div className="relative z-10 min-h-screen  text-white flex flex-col items-center justify-center p-6">
+      <div className="relative min-h-screen z-10 text-white flex flex-col items-center justify-center p-6">
+        <div className='mb-16'>
         <h1 className="text-4xl font-bold mb-8 text-center">Datos sobre: </h1>
-        <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">{item.producto}</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">{item.producto}</h1></div>
 
         {/* Versión móvil - Carrusel */}
         <div className="sm:hidden relative w-full max-w-6xl overflow-hidden">
