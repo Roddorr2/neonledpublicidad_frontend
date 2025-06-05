@@ -145,10 +145,10 @@ export default function Datos({ idProducto }) {
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen overflow-hidden bg-[#02101d]">
       <NeonBackground className="absolute inset-0 z-0" />
 
-      <div className="relative z-10 min-h-screen bg-gradient-to-b from-gray-900/80 to-black/80 text-white flex flex-col items-center justify-center p-6">
+      <div className="relative z-10 min-h-screen  text-white flex flex-col items-center justify-center p-6">
         <h1 className="text-4xl font-bold mb-8 text-center">Datos sobre: </h1>
         <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">{item.producto}</h1>
 
