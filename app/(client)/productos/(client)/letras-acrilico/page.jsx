@@ -15,21 +15,26 @@ export default function Home() {
      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
-      title: "Juguetería", 
-      description: "Espacio interior", 
-      image: "/productos/acrilico_producto_1.jpg" 
+      title: "Cafetería", 
+      description: "Espacio exterior", 
+      image: "/productos/acrilico_producto_1.png" 
     },
     { 
-      title: "Feria", 
+      title: "Tienda de ropa", 
       description: "Espacio interior", 
-      image: "/productos/acrilico_producto_2.jpg" 
+      image: "/productos/acrilico_producto_2.png" 
+    },
+    { 
+      title: "Cafetería", 
+      description: "Espacio exterior", 
+      image: "/productos/acrilico_producto_3.png" 
     }
   ];
   return (
     <>
       <Banner
-        titulo="LAS LETRAS DE ACRÍLICO"
-        imagen="/productosIndividuales/banner/letras-acrilico.webp"
+        titulo="LETRAS DE ACRÍLICO"
+        imagen="/productosIndividuales/banner/letras-acrilico.png"
       />
       <Section2 idProducto={idProducto} />
       <Datos idProducto={idProducto}/>

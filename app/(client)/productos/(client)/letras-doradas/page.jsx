@@ -13,14 +13,19 @@ export default function Home() {
      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
-      title: "Recepción", 
-      description: "Espacio interior", 
-      image: "/blog/letras_doradas.png" 
+      title: "Salon de belleza", 
+      description: "Espacio exterior", 
+      image: "/productos/letras_doradas_1.png" 
     },
     { 
-      title: "Tienda", 
+      title: "Negocio personal", 
+      description: "Espacio interior", 
+      image: "/productos/letras_doradas_2.png" 
+    },
+    { 
+      title: "Cuidado capilar", 
       description: "Espacio exterior", 
-      image: "/blog/letras_doradas2.jpg" 
+      image: "/productos/letras_doradas_3.png" 
     }
   ];
   const idProducto = 2;
@@ -28,7 +33,7 @@ export default function Home() {
     <>
       <Banner
         titulo="LETRAS DORADAS Y PLATEADAS"
-        imagen="/productosIndividuales/banner/letras-doradas.webp"
+        imagen="/productosIndividuales/banner/letras-doradas.png"
       />
       <Section2 idProducto={idProducto} />
       <Datos idProducto={idProducto}/>
