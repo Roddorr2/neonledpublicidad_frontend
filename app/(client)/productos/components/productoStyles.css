@@ -23,8 +23,8 @@
 }
 
 .neon-text {
-  color: #c5e8f9;
-  text-shadow: 0 0 1px #c5e8f9, 0 0 2px #c5e8f9, 0 0 20px #c5e8f9;
+  color: white;
+  text-shadow: 0 0 1px #c5e8f9, 0 0 2px #c5e8f9, 0 0 10px #c5e8f9;
 }
 
 /*Esta es una animación de respiración para el neon */
@@ -129,7 +129,7 @@ button:hover .arrow:before {
 
 .neon-background {
   position: absolute;
-  top: 250px;
+  top: -150px;
   left: 50%;
   transform: translateX(-50%);
   width: 400px;
