@@ -1,6 +1,6 @@
 .home-container {
   position: relative;
-  height: 110vh;
+  height: 60vh;
   width: 100%;
 }
 
@@ -13,10 +13,11 @@
 }
 
 .gradient-banner {
-  min-height: 110vh;
+  min-height: 45vh;
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 2%;
 }
 
 .white-line {
@@ -27,7 +28,7 @@
 
 .gradient-line {
   flex: 2;
-  height: 80%;
+  height: 100%;
   background: linear-gradient(to right, #44b0f8, #1a7af5, #1056d2);
 }
 
@@ -73,26 +74,27 @@
 
 .square-info-container {
   display: flex;
-  align-items: flex-end;
-  gap: 5rem;
+  align-items: stretch;
+  justify-content: space-between;
   width: 100%;
   position: absolute;
-  bottom: 10%;
+  bottom: 30%;
   z-index: 1;
-  justify-content: center;
 }
 
 .custom-square {
   background-color: #0e1721;
-  border-radius: 8px;
-  width: 320px;
-  height: 320px;
+  border-radius: 0 8px 8px 0;
+  width: 30%;
+  height: auto;
+  flex-shrink: 0;
+  /* border: 1px solid red; */
 }
 
 .info-rectangle {
   background-color: #0e1721;
-  border-radius: 12px;
-  padding: 5rem 8rem;
+  border-radius: 12px 0 0 12px;
+  padding: 5rem 4rem;
   width: 60%;
   color: white;
 }
@@ -113,21 +115,36 @@
   position: absolute;
   bottom: -20%;
   left: 17%;
-  transform: translateX(-10%) translateY(10%);
+  transform: translateX(-30%) translateY(30%);
   width: auto;
-  height: 300px;
+  height: 400px;
   z-index: 2;
 }
 
-@media (max-width: 768px) {
-  .custom-square {
-    display: none;
+@media (max-width: 768px) {  
+  .home-container {
+    height: 70vh;
+  }
+  .gradient-banner {
+    min-height: 60vh;
+    margin-top: 0;
   }
   .square-info-container {
     height: auto;
-    bottom: 8%;
-    flex-direction: column;
+    bottom: 45%;
+    /* flex-direction: column; */
     gap: 2rem;
+    justify-content: right;
+  }
+  .intermediate-image {
+    transform: translateX(-10%) translateY(65%);
+  }
+  .custom-square {
+    display: none;
+  }
+  .info-rectangle {
+    padding: 5rem 1.8rem 5rem 5rem;
+    width: 90%;
   }
   .card {
     max-height: 180px;
@@ -142,9 +159,6 @@
 }
 
 @media (max-width: 517px) {
-  .info-rectangle {
-    padding: 5rem 1.8rem 5rem 5rem;
-  }
   .info-description {
     font-size: 0.65rem;
   }
@@ -158,7 +172,7 @@
     font-size: 0.65rem;
   }
   .intermediate-image {
-    width: 240px;
+    width: auto;
     height: 230px;
   }
 }
@@ -176,9 +190,6 @@
 }
 
 @media (max-width: 480px) {
-  .gradient-banner {
-    min-height: 60vh;
-  }
   .white-line {
     flex: 1;
   }
