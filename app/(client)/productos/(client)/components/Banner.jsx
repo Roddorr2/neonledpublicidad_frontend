@@ -9,8 +9,8 @@ export default function Banner({ titulo, imagen }) {
         style={style}
         className="flex-1 mb-[-50px] bg-cover md:absolute md:w-full md:h-full"
       ></div>
-      <div className="bg-[#00b2fc] w-[1000px] h-[1000px] rotate-45 absolute border-[20px] hidden md:block -left-[520px] bottom-[506px]"></div>
-      <div className="md:rotate-45 md:bg-[#00101B] md:absolute md:-bottom-[600px] md:-left-[240px] md:w-[1000px] md:h-[1000px] md:border-[20px] overflow-hidden">
+      <div className="bg-[#00b2fc] w-[30vw] h-[90vh] rotate-45 absolute border-[2vw] hidden md:block -left-[8vw] bottom-[30vh] border-white"></div>
+      <div className="md:rotate-45 md:bg-[#00101B]  md:absolute md:-bottom-[67vh] md:-left-[19vw] md:w-[100vw] md:h-[100vh] md:border-[2vw] overflow-hidden">
         <div className="bg-[#00101B] rounded-t-[50px] p-14 flex flex-col justify-center items-center md:-rotate-45 md:w-[500px] md:p-28">
           <h1 className="text-white text-xl font-medium">
             Conoce más sobre
