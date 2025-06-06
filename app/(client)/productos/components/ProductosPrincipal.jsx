@@ -18,7 +18,7 @@ export default function Productos() {
         route: "/productos/letras-acrilico",
       },
       {
-        imgSrc: "/productosPrincipal/productos2_lux.webp",
+        imgSrc: "/productosPrincipal/productos5_dior.png",
         altText: "Producto 2",
         description: "LETRAS DORADAS Y PLATEADAS",
         route: "/productos/letras-doradas",
