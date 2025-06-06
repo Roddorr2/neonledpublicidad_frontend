@@ -38,13 +38,13 @@ export default function Productos() {
     ],
     [
       {
-        imgSrc: "/productosPrincipal/5palmera.jpg",
+        imgSrc: "/productosPrincipal/5letrasDeNeon.png",
         altText: "Producto 5",
         description: "NEÓN LED",
         route: "/productos/neon-led",
       },
       {
-        imgSrc: "/productosPrincipal/6comida.webp",
+        imgSrc: "/productosPrincipal/6impresionEnVinilo.png",
         altText: "Producto 6",
         description: "IMPRESIÓN EN VINILO",
         route: "/productos/impresion-vinilo",

@@ -13,12 +13,12 @@ export default function Home() {
      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
-      title: "Decorado", 
+      title: "Restaurante", 
       description: "Espacio interior", 
       image: "/productos/neon_led1.jpg"  
     },
     { 
-      title: "Estudio de música", 
+      title: "Barber Shop", 
       description: "Espacio interior", 
       image: "/productos/neon_led2.jpg"
     }
@@ -28,11 +28,11 @@ export default function Home() {
     <>
       <Banner
         titulo="LAS LUCES EN NEÓN LED"
-        imagen="/productosIndividuales/banner/neon-led.webp"
+        imagen="/productosIndividuales/banner/neon-led.png"
       />
       <Section2 idProducto={idProducto} />
-      <Datos idProducto={idProducto}/>
       <CardSlider cards={cards}/>
+      <Datos idProducto={idProducto}/>
     </>
   );
 }
