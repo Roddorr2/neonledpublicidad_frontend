@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <div className="relative bg-[#0e1721] min-h-screen">
       {/* Luz colocada primero para quedar debajo */}
-      <NeonBackground />
+      {/* <NeonBackground /> */}
       <div className="relative z-10">
         <Banner />
         <div className="pr-12 pl-12 lg:px-8 mt-20 mb-10">

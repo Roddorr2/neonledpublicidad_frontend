@@ -23,12 +23,12 @@ const data = [
   },
   {
     id: 4,
-    producto: "LETRAS DE NEÓN",
-    caracteristica: "Su diseño permite combinar las letras de neón LED con otros elementos decorativos creando letreros llamativos y funcionales.",
-    ventaja: "Son una herramienta de marketing que puede ayudar a los negocios o eventos a tener más presencia en redes sociales.",
-    consumo_energetico: "Las letras en tubos de neón led utilizan tecnología LED que reduce el consumo energético y tiene una mayor durabilidad.",
-    iluminacion: "El brillo depende del tipo de gas, diámetro del tubo y voltaje; ya que según eso el neón es más brillante.",
-    durabilidad: "Se permite su instalación tanto para el exterior como para el interior, debido a su fuerte resistencia a la intemperie en cualquier estación del año.",
+    producto: "LETRAS DE NEÓN EN TUBOS DE VIDRIO",
+    caracteristica: "Construidos a partir de tubos de vidrio, su estructura puede ser de un solo hilo o doble hilo. Gracias a esta versatilidad, son aptos para ser utilizados en interiores y exteriores.",
+    ventaja: "Permiten a negocios y eventos fortalecer su presencia en redes sociales y su visibilidad para ganar más clientes, actuando así como una herramienta clave e importante de marketing.",
+    consumo_energetico: "Las letras en tubos de neón led utilizan tecnología LED lo cual hace que consuman desde 30W en adelante dependiendo de su uso.",
+    iluminacion: "La intensidad luminosa varía según el gas utilizado, el grosor del tubo y el voltaje aplicado; estos factores determinan que el neón sea particularmente brillante.",
+    durabilidad: "Pueden instalarse tanto fuera como dentro, ya que su alta resistencia a la intemperie los hace aptos para cualquier estación durante todo el año.",
   },
   {
     id: 3,

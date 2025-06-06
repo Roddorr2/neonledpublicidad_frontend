@@ -7,12 +7,12 @@ export default function Section2({ idProducto }) {
   return (
     <div className="home-container">
       <Section2BG />
-      <div className="overlay-cards">
+      {/* <div className="overlay-cards">
         <ThreeCardRow idProducto={idProducto}/>
-      </div>
-      <div className="/productosIndividuales/LetrasDoradoLaptop.webp">
+      </div> */}
+  
         <SquareRectangle idProducto={idProducto} />
-      </div>
+      
     </div>
   );
 }
