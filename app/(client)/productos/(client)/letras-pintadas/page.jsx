@@ -21,6 +21,11 @@ export default function Home() {
       title: "Centro médico", 
       description: "Espacio interior",  
       image: "/productos/mdf2.jpg"     
+    },
+    { 
+      title: "Tienda", 
+      description: "Espacio interior",  
+      image: "/productos/mdf3.jpg"     
     }
   ];
   const idProducto = 8;
@@ -31,8 +36,9 @@ export default function Home() {
         imagen="/productosIndividuales/banner/letras-pintadas.webp"
       />
       <Section2 idProducto={idProducto} />
+      <CardSlider cards={cards}/>
       <Datos idProducto={idProducto}/>
-        <CardSlider cards={cards}/>
+        
     </>
   );
 }

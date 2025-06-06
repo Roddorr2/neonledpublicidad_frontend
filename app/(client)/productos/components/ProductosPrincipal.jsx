@@ -56,7 +56,7 @@ export default function Productos() {
         route: "/productos/menu-board",
       },
       {
-        imgSrc: "/productosPrincipal/8burnout.webp",
+        imgSrc: "/productosPrincipal/8burnout.jpg",
         altText: "Producto 8",
         description: "LETRAS PINTADAS EN MDF",
         route: "/productos/letras-pintadas",
