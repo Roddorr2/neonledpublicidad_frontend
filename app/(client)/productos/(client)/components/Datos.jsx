@@ -154,7 +154,7 @@ export default function Datos({ idProducto }) {
         <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">{item.producto}</h1></div>
 
         {/* Versión móvil - Carrusel */}
-        <div className="sm:hidden relative w-full max-w-6xl ">
+        <div className="sm:hidden relative w-full max-w-6xl overflow-hidden">
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}
