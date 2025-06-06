@@ -23,16 +23,16 @@ const data = [
   },
   {
     id: 4,
-    producto: "LETRAS DE NEÓN",
-    caracteristica: "Su diseño permite combinar las letras de neón LED con otros elementos decorativos creando letreros llamativos y funcionales.",
-    ventaja: "Son una herramienta de marketing que puede ayudar a los negocios o eventos a tener más presencia en redes sociales.",
-    consumo_energetico: "Las letras en tubos de neón led utilizan tecnología LED que reduce el consumo energético y tiene una mayor durabilidad.",
-    iluminacion: "El brillo depende del tipo de gas, diámetro del tubo y voltaje; ya que según eso el neón es más brillante.",
-    durabilidad: "Se permite su instalación tanto para el exterior como para el interior, debido a su fuerte resistencia a la intemperie en cualquier estación del año.",
+    producto: "LETRAS DE NEÓN EN TUBOS DE VIDRIO",
+    caracteristica: "Construidos a partir de tubos de vidrio, su estructura puede ser de un solo hilo o doble hilo. Gracias a esta versatilidad, son aptos para ser utilizados en interiores y exteriores.",
+    ventaja: "Permiten a negocios y eventos fortalecer su presencia en redes sociales y su visibilidad para ganar más clientes, actuando así como una herramienta clave e importante de marketing.",
+    consumo_energetico: "Las letras en tubos de neón led utilizan tecnología LED lo cual hace que consuman desde 30W en adelante dependiendo de su uso.",
+    iluminacion: "La intensidad luminosa varía según el gas utilizado, el grosor del tubo y el voltaje aplicado; estos factores determinan que el neón sea particularmente brillante.",
+    durabilidad: "Pueden instalarse tanto fuera como dentro, ya que su alta resistencia a la intemperie los hace aptos para cualquier estación durante todo el año.",
   },
   {
     id: 3,
-    producto: "LETREROS LIMUNOSOS",
+    producto: "LETREROS LUMINOSOS",
     caracteristica: "Los letreros luminosos tiene la capacidad de iluminar grandes áreas de manera efectiva.",
     ventaja: "Estos letreros publicitarios se adaptan completamente a la identidad corporativa, permitiendo personalizar colores, luces y diseños.",
     consumo_energetico: "Como ejemplo, una caja de luz de 2.00 x 2.50 metros puede tener un consumo de 320 W con 16 tubos LED.",
@@ -145,47 +145,48 @@ export default function Datos({ idProducto }) {
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen overflow-hidden bg-[#02101d] mb-20">
       <NeonBackground className="absolute inset-0 z-0" />
 
-      <div className="relative z-10 min-h-screen bg-gradient-to-b from-gray-900/80 to-black/80 text-white flex flex-col items-center justify-center p-6">
+      <div className="relative min-h-screen z-10 text-white flex flex-col items-center justify-center p-6">
+        <div className='mb-16'>
         <h1 className="text-4xl font-bold mb-8 text-center">Datos sobre: </h1>
-        <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">{item.producto}</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">{item.producto}</h1></div>
 
         {/* Versión móvil - Carrusel */}
-        <div className="sm:hidden relative w-full max-w-6xl overflow-hidden">
+        <div className="sm:hidden relative w-full max-w-6xl">
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 bg-gray-100 rounded-full shadow-md disabled:opacity-50"
+            className="absolute  left-2 top-1/2 -translate-y-1/2 z-10 p-2 flex justify-center text-9xl  text-[--azul_brillante] bg-transparent hover:bg-transparent disabled:opacity-50"
           >
-            ←
+           <img src="/Productos/vector-left.png" alt="" className='h-20' />
           </button>
           <button
             onClick={goNext}
             disabled={activeIndex === totalCards - 1}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 bg-gray-100 rounded-full shadow-md disabled:opacity-50"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 flex justify-center  text-9xl   text-[--azul_brillante] bg-transparent hover:bg-transparent disabled:opacity-50"
           >
-            →
+          <img src="/Productos/vector-right.png" alt="" className=' h-20'/>
           </button>
 
           <div 
             className="flex transition-transform duration-300"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
-            <div className="w-full flex-shrink-0 p-2">
+            <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={1} title="Característica" descripcion={item.caracteristica} />
             </div>
-            <div className="w-full flex-shrink-0 p-2">
+             <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={2} title="Ventaja" descripcion={item.ventaja} />
             </div>
-            <div className="w-full flex-shrink-0 p-2">
+             <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={3} title="Consumo Energético" descripcion={item.consumo_energetico} />
             </div>
-            <div className="w-full flex-shrink-0 p-2">
+             <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={4} title="Iluminación" descripcion={item.iluminacion} />
             </div>
-            <div className="w-full flex-shrink-0 p-2">
+             <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={5} title="Durabilidad" descripcion={item.durabilidad} />
             </div>
           </div>

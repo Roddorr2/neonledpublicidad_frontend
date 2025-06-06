@@ -5,9 +5,9 @@ const productosInfo = [
   { id: 1, title: "LETRAS DE ACRÍLICO", description: "Las letras de acrílico personalizadas son elementos decorativos y funcionales ideales para una amplia variedad de aplicaciones. Disponibles en versiones iluminadas para exteriores, las letras personalizadas para negocios y empresas se adaptan a tus necesidades.", image: "AcrilicoLaptop.webp" },
   { id: 2, title: "LETRAS DORADAS Y PLATEADAS", description: "Las letras doradas y plateadas son las más utilizadas al momento de querer destacar un acabado más elegante y exclusivo en la calidad de un negocio. Son mayormente utilizadas en restaurantes, hoteles, joyerías o tiendas más exclusivas.", image: "LetrasDoradoLaptop.webp" },
   { id: 3, title: "LETREROS LUMINOSOS", description: "Los letreros luminosos son una poderosa herramienta publicitaria efectiva que combina tecnología innovadora y diseño personalizado para captar la atención de los consumidores. Los letreros luminosos pueden ser cajas de luz, letras y logotipos corpóreos o bandejas.", image: "LetrerosLuminososLaptop.webp" },
-  { id: 4, title: "LETRAS NEÓN", description: "Los letreros de neón personalizados pueden adoptar cualquier forma, creando letras que se pueden personalizar según las preferencias del cliente. Además de ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.", image: "LetrasNeonLaptop.png" },
-  { id: 5, title: "NEÓN LED", description: "La manguera LED neón es una solución de iluminación LED moderna y flexible ideal para personalizar y embellecer cualquier espacio. Este producto combina tiras de luces LED decorativas encapsuladas en un tubo resistente, diseñado para brindar durabilidad y estilo.", image: "CarroLaptop.png" },
-  { id: 6, title: "IMPRESIÓN EN VINILES DECORATIVOS", description: "Los viniles impresos personalizados son la solución perfecta para llevar tu mensaje, diseño o logotipo a cualquier superficie de forma creativa y resistente. Gracias a su versatilidad, los viniles impresos permiten lograr acabados exactos y detallados que se adaptan a cualquier estilo.", image: "ViniloLaptop.webp" },
+  { id: 4, title: "LETRAS DE NEÓN EN TUBOS DE VIDRIO", description: "Tubos de vidrio se adaptan cualquier forma, creando letras de neón que se pueden personalizar según las preferencias del cliente. Además estos letreros neón pueden ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.", image: "LetrasNeonLaptop.png" },
+  { id: 5, title: "LETRAS DE NEÓN LED", description: "Tubos con led se adaptan cualquier forma, creando letras de neón que se pueden personalizar según las preferencias del cliente. Además estos letreros neón pueden ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.", image: "burguerLaptop.png" },
+  { id: 6, title: "IMPRESIÓN EN VINILES DECORATIVOS", description: "Vinilos para pared es la solución perfecta para llevar tu mensaje, diseño o logotipo a cualquier superficie de forma creativa y resistente. Gracias a su versatilidad, vinilos decorativos permiten lograr acabados exactos y detallados que se adaptan a cualquier estilo.", image: "ViniloLaptop.webp" },
   { id: 7, title: "MENÚ BOARD", description: "Las imágenes en alta definición que usa los Menú Board, el colorido y la variedad de los contenidos atrapan a todo el tipo de público. Eso es debido a la capacidad de variar contenidos de adaptarlos a los horarios y a las características de los clientes.", image: "MenuLaptop.webp" },
   { id: 8, title: "LETRAS PINTADAS EN MDF", description: "Las letras en MDF ofrecen una solución ideal para decoración y señalizacion gracias a su alta personalización, permitiendo elegir formas, tamaños y colores. Y con acabados premium, estas logran una apariencia impecable y elegante, destacando en cualquier entorno.", image: "LetrasMDFLaptop.webp" },
   { id: 9, title: "DISPLAYS", description: "Los displays LED ofrecen una tecnología innovadora que no solo transforma la forma en que presentas tu mensaje, sino que tambien contribuye a un impacto ambiental positivo. Al ser más eficientes que las opciones tradicionales.", image: "DisplaysLaptop.webp" },
@@ -27,12 +27,12 @@ export default function SquareRectangle({ idProducto }) {
     <div className="square-info-container">
       {/* Cuadrado sin contenido */}
       <div className="custom-square"></div>
-
+   
       {/* Imagen entre el cuadrado y el rectángulo */}
       <img
         src={`/productosIndividuales/${producto.image}`}
         alt={producto.title}
-        className="intermediate-image"
+        className="intermediate-image overflow-hidden"
       />
 
       {/* Rectángulo con título y descripción */}

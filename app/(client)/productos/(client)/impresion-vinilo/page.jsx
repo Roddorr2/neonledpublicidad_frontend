@@ -13,12 +13,12 @@ export default function Home() {
      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
-      title: "Juguería", 
+      title: "Sanguchería", 
       description: "Espacio interior", 
       image: "/productos/impresion_vinil_1.jpg"  
     },
     { 
-      title: "Hogar", 
+      title: "Pollería", 
       description: "Espacio interior",  
       image: "/productos/impresion_vinil_2.jpg"  
     }

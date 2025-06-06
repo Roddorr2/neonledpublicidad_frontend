@@ -6,11 +6,11 @@ import { motion } from "framer-motion";
 
 
 function CardSlider({cards}) {
-  const [offset, setOffset] = useState(-15);
+  const [offset, setOffset] = useState(15);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setOffset((prev) => (prev === -15 ? 0 : -15));
+      setOffset((prev) => (prev === -15 ? 15 : -15));
     }, 4000);
 
     return () => clearInterval(interval);
@@ -21,15 +21,15 @@ function CardSlider({cards}) {
       <motion.div
         className="flex gap-6"
         animate={{ x: `${offset}%` }}
-        transition={{ duration: 1.5, ease: "easeInOut" }}
+        transition={{ duration: 2, ease: "easeInOut" }}
       >
         {cards.map((card, i) => (
           <div 
             key={i} 
-            className={`relative flex-shrink-0 rounded-lg shadow-lg overflow-hidden ${
+            className={`relative flex-shrink-0 left-60 md:left-auto rounded-lg shadow-lg overflow-hidden ${
               i === 0 
-             ?  "w-[780px] h-[300px] bg-gray-900 text-white flex flex-col justify-center items-center px-6 py-4"
-             :  "w-[400px] h-[300px]"
+             ?  "w-[350px] h-[300px] md:w-[500px] md:h-[375px] bg-gray-900 text-white flex flex-col justify-center items-center px-6 py-4"
+             :  "w-[300px] h-[300px] md:w-[400px] md:h-[375px]"
   }`}
           >
             {card.image ? (
@@ -39,9 +39,10 @@ function CardSlider({cards}) {
                   alt={card.title} 
                   className="w-full h-full object-cover rounded-lg filter brightness-75 group-hover:brightness-100 transition duration-300 "
                 />
-                <div className="absolute inset-0 flex flex-col justify-end p-5  text-white ">
-                  <h2 className="text-3xl font-bold">{card.title}</h2>
-                  <p className="text-xl font-bold drop-shadow-lg  opacity-80  ">{card.description}</p>
+                <div className="absolute h-full inset-0 flex flex-col justify-end text-white ">
+                  <div className="bg-black/30 rounded-xl p-4">
+                  <h2 className="text-xl font-bold">{card.title}</h2>
+                  <p className="font-bold drop-shadow-lg  opacity-80  ">{card.description}</p></div>
                 </div>
               </div>
             ) : (

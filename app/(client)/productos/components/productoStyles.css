@@ -23,8 +23,8 @@
 }
 
 .neon-text {
-  color: #c5e8f9;
-  text-shadow: 0 0 1px #c5e8f9, 0 0 2px #c5e8f9, 0 0 20px #c5e8f9;
+  color: white;
+  text-shadow: 0 0 1px #c5e8f9, 0 0 2px #c5e8f9, 0 0 10px #c5e8f9;
 }
 
 /*Esta es una animación de respiración para el neon */
@@ -129,7 +129,7 @@ button:hover .arrow:before {
 
 .neon-background {
   position: absolute;
-  top: 250px;
+  top: -150px;
   left: 50%;
   transform: translateX(-50%);
   width: 400px;
@@ -149,7 +149,7 @@ button:hover .arrow:before {
 .producto-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
+  gap: 3rem;
   justify-items: center;
   align-items: center;
   margin-bottom: 3rem;
@@ -160,6 +160,8 @@ button:hover .arrow:before {
   overflow: hidden;
   border-radius: 0.5rem;
   display: flex;
+  align-items: center;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -205,33 +207,29 @@ button:hover .arrow:before {
 }
 
 .producto-img {
-  width: 80%;
-  height: auto;
+ 
   display: block;
   /* border-radius: 8px; */
   border-radius: 0.5rem;
-  max-width: 250px;
 
-  width: 100%;
-  height: 100%;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
-  object-position: left;
+  object-position: center;
 }
 
 .producto-description {
-  width: 80%;
+  width: 100%;
   height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  position: absolute;
   bottom: 5%;
   left: 10%;
   right: 0;
   font-weight: bold;
   color: white;
-  background-color: rgba(0, 0, 0, 0.5);
   padding: 0.5rem;
   border-radius: 5%;
   box-sizing: border-box;
