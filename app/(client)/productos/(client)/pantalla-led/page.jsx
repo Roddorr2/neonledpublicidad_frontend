@@ -31,8 +31,8 @@ export default function Home() {
         imagen="/productosIndividuales/banner/pantalla-led.webp"
       />
       <Section2 idProducto={idProducto} />
-      <Datos idProducto={idProducto}/>
       <CardSlider cards={cards}/>
+      <Datos idProducto={idProducto}/>
     </>
   );
 }

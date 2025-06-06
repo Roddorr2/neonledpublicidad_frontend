@@ -1,7 +1,8 @@
 .home-container {
   position: relative;
-  height: 110vh;
+  height: 50vh;
   width: 100%;
+ margin-bottom: 20px;
 }
 
 .overlay-cards {
