@@ -56,7 +56,7 @@ export default function Productos() {
         route: "/productos/menu-board",
       },
       {
-        imgSrc: "/productosPrincipal/8burnout.webp",
+        imgSrc: "/productosPrincipal/8burnout.jpg",
         altText: "Producto 8",
         description: "LETRAS PINTADAS EN MDF",
         route: "/productos/letras-pintadas",
@@ -76,13 +76,13 @@ export default function Productos() {
         route: "/productos/pantalla-led",
       },
       {
-        imgSrc: "/productosPrincipal/11lampara.webp",
+        imgSrc: "/productosPrincipal/holograma_3d_1.png",
         altText: "Producto 11",
         description: "HOLOGRÁFICO",
         route: "/productos/holografico",
       },
       {
-        imgSrc: "/productosPrincipal/12tunel.webp",
+        imgSrc: "/productosPrincipal/pixel_led_1.png",
         altText: "Producto 12",
         description: "PIXEL LED",
         route: "/productos/pixel-led",
@@ -90,13 +90,13 @@ export default function Productos() {
     ],
     [
       {
-        imgSrc: "/productosPrincipal/13cubos.webp",
+        imgSrc: "/productosPrincipal/sillas_luminosas_1.png",
         altText: "Producto 13",
         description: "SILLAS LUMINOSAS",
         route: "/productos/sillas-luminosas",
       },
       {
-        imgSrc: "/productosPrincipal/14carro.webp",
+        imgSrc: "/productosPrincipal/luces_led_techo_1.png",
         altText: "Producto 14",
         description: "TECHOS LED",
         route: "/productos/techos-led",

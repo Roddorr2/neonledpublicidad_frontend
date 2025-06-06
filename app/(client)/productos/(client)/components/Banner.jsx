@@ -14,9 +14,10 @@ export default function Banner({ titulo, imagen }) {
         <div className="bg-[#00101B] rounded-t-[50px] p-14 flex flex-col justify-center items-center md:-rotate-45 md:w-[500px] md:p-28">
           <h1 className="text-white text-xl font-medium">
             Conoce más sobre
-            <span className="font-title text-6xl sm:text-5xl font-normal block drop-shadow-[0_0_10px_#00B2FA]">
+            <span className="font-league text-6xl sm:text-7xl font-normal block drop-shadow-[0_0_10px_#00B2FA]">
               {titulo}
             </span>
+
             en nuestra página
           </h1>
           <hr className="border-[#00B2FA] w-[144px] border-t-[3px] mt-6 mb-12" />

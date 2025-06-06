@@ -21,6 +21,11 @@ export default function Home() {
       title: "Establecimiento", 
       description: "Espacio interior",  
       image: "/productos/menu_boards2.jpg"    
+    },
+    { 
+      title: "Restaurante", 
+      description: "Espacio interior",  
+      image: "/productos/menu_boards3.png"    
     }
   ];
   const idProducto = 7;
@@ -31,8 +36,9 @@ export default function Home() {
         imagen="/productosIndividuales/banner/menu-board.webp"
       />
       <Section2 idProducto={idProducto} />
+      <CardSlider cards={cards}/>
       <Datos idProducto={idProducto}/>
-     <CardSlider cards={cards}/>
+     
     </>
   );
 }
