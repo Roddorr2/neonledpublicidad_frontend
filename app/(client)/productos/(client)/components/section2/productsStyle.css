@@ -1,5 +1,5 @@
 .home-container {
-  position: relative;  
+  position: relative;
   height: 60vh;
   width: 100%;
 }
@@ -13,20 +13,22 @@
 }
 
 .gradient-banner {
-  min-height: 50vh;
+  min-height: 45vh;
   display: flex;
   flex-direction: column;
-  width: 100%; margin:50px 0;
+  width: 100%;
+  margin-top: 2%;
 }
 
 .white-line {
-  flex:0.5;
-  height: 10%;
-   background-color: #ffffff;
+  height: 30%;
+  flex: 1;
+  background-color: #ffffff;
 }
 
 .gradient-line {
-  flex: 1.5;  height: 5%;
+  flex: 2;
+  height: 100%;
   background: linear-gradient(to right, #44b0f8, #1a7af5, #1056d2);
 }
 
@@ -72,28 +74,28 @@
 
 .square-info-container {
   display: flex;
-  gap: 5rem;
+  align-items: stretch;
+  justify-content: space-between;
   width: 100%;
-  height: 40%;
   position: absolute;
-  bottom:45%;
+  bottom: 30%;
   z-index: 1;
-  justify-content: space-between  ;
 }
 
 .custom-square {
   background-color: #0e1721;
-  border-radius:0px 8px 8px 0px;
-  width: 320px;
-  height: 320px;
+  border-radius: 0 8px 8px 0;
+  width: 30%;
+  height: auto;
+  flex-shrink: 0;
+  /* border: 1px solid red; */
 }
 
 .info-rectangle {
   background-color: #0e1721;
-  border-radius: 12px 0px 0px 12px;
-  padding: 5rem 3rem;
-  height: 320px;
-  width: 55%;
+  border-radius: 12px 0 0 12px;
+  padding: 5rem 4rem;
+  width: 60%;
   color: white;
 }
 
@@ -110,23 +112,39 @@
 }
 
 .intermediate-image {
-  position: absolute;  
-  left: 3%;
-  transform: translateX(-10%) translateY(10%);
+  position: absolute;
+  bottom: -20%;
+  left: 17%;
+  transform: translateX(-30%) translateY(30%);
   width: auto;
-  height: 450px;
+  height: 400px;
   z-index: 2;
 }
 
-@media (max-width: 768px) {
-  .custom-square {
-    display: none;
+@media (max-width: 768px) {  
+  .home-container {
+    height: 70vh;
+  }
+  .gradient-banner {
+    min-height: 60vh;
+    margin-top: 0;
   }
   .square-info-container {
     height: auto;
-    bottom: 8%;
-    flex-direction: column;
+    bottom: 45%;
+    /* flex-direction: column; */
     gap: 2rem;
+    justify-content: right;
+  }
+  .intermediate-image {
+    transform: translateX(-10%) translateY(65%);
+  }
+  .custom-square {
+    display: none;
+  }
+  .info-rectangle {
+    padding: 5rem 1.8rem 5rem 5rem;
+    width: 90%;
   }
   .card {
     max-height: 180px;
@@ -141,9 +159,6 @@
 }
 
 @media (max-width: 517px) {
-  .info-rectangle {
-    padding: 5rem 1.8rem 5rem 5rem;
-  }
   .info-description {
     font-size: 0.65rem;
   }
@@ -157,7 +172,7 @@
     font-size: 0.65rem;
   }
   .intermediate-image {
-    width: 240px;
+    width: auto;
     height: 230px;
   }
 }
@@ -175,9 +190,6 @@
 }
 
 @media (max-width: 480px) {
-  .gradient-banner {
-    min-height: 60vh;
-  }
   .white-line {
     flex: 1;
   }

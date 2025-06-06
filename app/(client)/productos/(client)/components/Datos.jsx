@@ -154,39 +154,39 @@ export default function Datos({ idProducto }) {
         <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">{item.producto}</h1></div>
 
         {/* Versión móvil - Carrusel */}
-        <div className="sm:hidden relative w-full max-w-6xl overflow-hidden">
+        <div className="sm:hidden relative w-full max-w-6xl ">
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 bg-gray-100 rounded-full shadow-md disabled:opacity-50"
+            className="absolute  left-2 top-1/2 -translate-y-1/2 z-10 p-2 flex justify-center text-9xl  text-[--azul_brillante] bg-transparent hover:bg-transparent disabled:opacity-50"
           >
-            ←
+           <img src="/Productos/vector-left.png" alt="" className='h-20' />
           </button>
           <button
             onClick={goNext}
             disabled={activeIndex === totalCards - 1}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 bg-gray-100 rounded-full shadow-md disabled:opacity-50"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 flex justify-center  text-9xl   text-[--azul_brillante] bg-transparent hover:bg-transparent disabled:opacity-50"
           >
-            →
+          <img src="/Productos/vector-right.png" alt="" className=' h-20'/>
           </button>
 
           <div 
             className="flex transition-transform duration-300"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
-            <div className="w-full flex-shrink-0 p-2">
+            <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={1} title="Característica" descripcion={item.caracteristica} />
             </div>
-            <div className="w-full flex-shrink-0 p-2">
+             <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={2} title="Ventaja" descripcion={item.ventaja} />
             </div>
-            <div className="w-full flex-shrink-0 p-2">
+             <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={3} title="Consumo Energético" descripcion={item.consumo_energetico} />
             </div>
-            <div className="w-full flex-shrink-0 p-2">
+             <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={4} title="Iluminación" descripcion={item.iluminacion} />
             </div>
-            <div className="w-full flex-shrink-0 p-2">
+             <div className="w-full flex justify-center flex-shrink-0 p-2">
               <Card numero={5} title="Durabilidad" descripcion={item.durabilidad} />
             </div>
           </div>

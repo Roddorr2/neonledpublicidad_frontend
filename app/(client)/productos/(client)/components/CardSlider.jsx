@@ -26,10 +26,10 @@ function CardSlider({cards}) {
         {cards.map((card, i) => (
           <div 
             key={i} 
-            className={`relative flex-shrink-0 rounded-lg shadow-lg overflow-hidden ${
+            className={`relative flex-shrink-0 left-60 md:left-auto rounded-lg shadow-lg overflow-hidden ${
               i === 0 
-             ?  "w-[500px] h-[375px] bg-gray-900 text-white flex flex-col justify-center items-center px-6 py-4"
-             :  "w-[400px] h-[375px]"
+             ?  "w-[350px] h-[300px] md:w-[500px] md:h-[375px] bg-gray-900 text-white flex flex-col justify-center items-center px-6 py-4"
+             :  "w-[300px] h-[300px] md:w-[400px] md:h-[375px]"
   }`}
           >
             {card.image ? (

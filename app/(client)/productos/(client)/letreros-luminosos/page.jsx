@@ -8,9 +8,9 @@ export default function Home() {
     { 
       title: "LETREROS LUMINOSOS", 
       description: "Le mostramos la implementación de las letreros luminosos en diversos espacios.", 
-      bgColor:"bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
+      bgColor:"bg-gray-900 text-white md:px-4 md:py-6 rounded-lg flex flex-col justify-center items-center",
       glow: "text-white-400 text-3xl font-bold px-10 tracking-wide mb-4",
-     textStyle: "text-white text-center w-full leading-relaxed text-lg whitespace-pre-line"
+     textStyle: "text-white text-center w-full leading-relaxed text-md whitespace-pre-line"
     },
     { 
       title: "Centro comercial", 

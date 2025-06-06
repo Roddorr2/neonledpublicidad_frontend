@@ -9,8 +9,8 @@ export default function Home() {
       title: "LETRAS DE NEÓN EN TUBOS DE VIDRIO", 
       description: "Le mostramos la implementación de las letras en neón en diversos espacios.", 
       bgColor:"bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
-      glow: "text-white-400 text-3xl font-bold tracking-wide mb-4",
-     textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
+      glow: "text-white-400 text-xl md:px-10 font-bold tracking-wide mb-4",
+     textStyle: "text-white text-center leading-relaxed text-lg whitespace-pre-line"
     },
     { 
       title: "Bar", 
