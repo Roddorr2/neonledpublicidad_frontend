@@ -4,10 +4,12 @@ export default function Banner({ titulo, imagen }) {
   };
 
   return (
-    <main className="h-[calc(100vh-100px)]  text-center flex flex-col overflow-hidden relative">
+    <main className="h-[calc(100vh-100px)] max-w-[]  text-center flex flex-col overflow-hidden relative">
+    
+     
       <div
         style={style}
-        className="flex-1 mb-[-50px] bg-cover md:absolute md:w-full md:h-full"
+        className="flex-1 mb-[-50px] bg-cover md:absolute md:w-full  md:h-full"
       ></div>
       <div className="bg-[#00b2fc] w-[910px] h-[2000px] rotate-45 absolute border-[2vw] hidden md:block -left-[100px] bottom-[300px] border-white"></div>
       <div className="md:rotate-45 md:bg-[#00101B]  md:absolute md:-bottom-[670px] md:-left-[300px] md:w-[1000px] md:h-[1000px] md:border-[2vw] overflow-hidden">
