@@ -13,15 +13,20 @@ export default function Home() {
      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
-      title: "Jardin ", 
-      description: "Espacio exterior", 
-      image: "/productos/tunel_led1.jpg"  
-    },
-    { 
       title: "Feria", 
       description: "Espacio interior",  
-      image: "/productos/tunel_led2.jpg"        
-    }
+      image: "/productos/tunel_led.jpg"        
+    },
+    { 
+      title: "Bares", 
+      description: "Espacio exterior", 
+      image: "/productos/bar_luminoso.jpg"  
+    },
+    { 
+      title: "Fiestas", 
+      description: "Espacio exterior", 
+      image: "/productos/fiesta_luminosa.jpg"  
+    },
   ];
   const idProducto = 12;
   return (

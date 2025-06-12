@@ -13,14 +13,19 @@ export default function Home() {
      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
-      title: "Ballena - Animal", 
+      title: "Productos", 
       description: "Espacio interior", 
       image: "/productos/holografico_1.jpg"  
     },
     { 
-      title: "Dinosaurio", 
+      title: "Eventos de temporada", 
       description: "Espacio interior",  
       image: "/productos/holografico_2.jpg"        
+    },
+    { 
+      title: "Personas", 
+      description: "Espacio interior",  
+      image: "/productos/holografico_3.jpg"        
     }
   ];
   const idProducto = 11;

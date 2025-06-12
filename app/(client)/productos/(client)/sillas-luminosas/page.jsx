@@ -21,6 +21,11 @@ export default function Home() {
       title: "Jardin", 
       description: "Espacio exterior",  
       image: "/productos/sillas_luminosas2.jpg"        
+    },
+    { 
+      title: "Jardin", 
+      description: "Espacio exterior",  
+      image: "/productos/sillas_luminosas2.jpg"        
     }
   ];
   const idProducto = 13;
