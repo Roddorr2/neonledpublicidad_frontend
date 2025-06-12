@@ -13,19 +13,19 @@ export default function Home() {
      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
-      title: "Dormitorio", 
+      title: "Discoteca", 
       description: "Espacio interior", 
-      image: "/productos/sillas_luminosas1.jpg"  
+      image: "/productos/sillas_luminosas_discoteca.jpg"  
     },
     { 
-      title: "Jardin", 
+      title: "Eventos", 
       description: "Espacio exterior",  
-      image: "/productos/sillas_luminosas2.jpg"        
+      image: "/productos/sillas_luminosas_eventos.jpg"        
     },
     { 
-      title: "Jardin", 
-      description: "Espacio exterior",  
-      image: "/productos/sillas_luminosas2.jpg"        
+      title: "Zona VIP", 
+      description: "Espacio interior",  
+      image: "/productos/sillas_luminosas_zonavip.jpg"        
     }
   ];
   const idProducto = 13;
@@ -33,7 +33,7 @@ export default function Home() {
     <>
       <Banner
         titulo="LAS SILLAS LUMINOSAS"
-        imagen="/productosIndividuales/banner/sillas-luminosas.webp"
+        imagen="/productosIndividuales/banner/sillas-luminosas.png"
       />
       <Section2 idProducto={idProducto} />
       <Datos idProducto={idProducto}/>
