@@ -13,14 +13,19 @@ export default function Home() {
      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
-      title: "Decorado", 
+      title: "Taller mecánico", 
       description: "Espacio interior", 
       image: "/productos/techos_led1.jpg"  
     },
     { 
-      title: "Estudio", 
+      title: "Casino", 
       description: "Espacio interior",  
       image: "/productos/techos_led2.jpg"       
+    },
+    { 
+      title: "Local comercial", 
+      description: "Espacio interior",  
+      image: "/productos/techos_led3.jpg"       
     }
   ];
   const idProducto = 14;
@@ -28,7 +33,7 @@ export default function Home() {
     <>
       <Banner
         titulo="LOS TECHOS LED"
-        imagen="/productosIndividuales/banner/techos-led.webp"
+        imagen="/productosIndividuales/banner/techos-led.png"
       />
       <Section2 idProducto={idProducto} />
       <Datos idProducto={idProducto}/>
