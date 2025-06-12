@@ -64,13 +64,13 @@ export default function Productos() {
     ],
     [
       {
-        imgSrc: "/productosPrincipal/9chica.webp",
+        imgSrc: "/productosPrincipal/monitores_tactiles.jpg",
         altText: "Producto 9",
-        description: "DISPLAYS",
+        description: "MONITORES DE PUBLICIDAD",
         route: "/productos/displays",
       },
       {
-        imgSrc: "/productosPrincipal/10tablet.webp",
+        imgSrc: "/productosPrincipal/Pantallas_led.jpg",
         altText: "Producto 10",
         description: "PANTALLAS LED",
         route: "/productos/pantalla-led",

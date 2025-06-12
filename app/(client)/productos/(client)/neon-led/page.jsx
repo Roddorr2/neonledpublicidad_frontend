@@ -21,6 +21,11 @@ export default function Home() {
       title: "Barber Shop", 
       description: "Espacio interior", 
       image: "/productos/neon_led2.jpg"
+    },
+    { 
+      title: "Espacio de entretenimiento", 
+      description: "Espacio interior", 
+      image: "/productos/neon_led3.jpg"
     }
   ];
   const idProducto = 5;

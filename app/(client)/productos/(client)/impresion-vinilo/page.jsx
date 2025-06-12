@@ -21,7 +21,12 @@ export default function Home() {
       title: "Pollería", 
       description: "Espacio interior",  
       image: "/productos/impresion_vinil_2.jpg"  
-    }
+    },
+    { 
+      title: "Decoracion en vinilo para paredes", 
+      description: "Espacio interior",  
+      image: "/productos/decoracion_vinilo_paredes.jpg"  
+    },
   ];
   const idProducto = 6;
   return (
