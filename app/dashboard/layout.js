@@ -23,13 +23,6 @@ import {
   Mail,
 } from "lucide-react"
 
-// Estilos adicionales para resolver el problema
-const iconStyle = {
-  // Este estilo solo se aplica inicialmente para prevenir el fondo morado
-  // pero no afecta al hover porque no especifica hover
-  backgroundColor: 'transparent'
-};
-
 export default function RootLayout({ children }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -43,39 +36,27 @@ export default function RootLayout({ children }) {
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [isSidebarOpen, setSidebarOpen] = useState(true)
 
-  // Estado y lógica del Dark Mode con solución más agresiva
-  const [mounted, setMounted] = useState(false)
+  // Estado simplificado para el Dark Mode
   const [darkMode, setDarkMode] = useState(false)
 
-  // Montamos el componente después de la hidratación
+  // Efecto simplificado para el tema
   useEffect(() => {
-    setMounted(true)
-    
-    // Recuperamos la preferencia de tema
+    // Recuperar preferencia guardada
     const savedMode = localStorage.getItem("darkMode") === "true"
     setDarkMode(savedMode)
     
-    if (savedMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
+    // Aplicar tema inmediatamente
+    document.documentElement.classList.toggle("dark", savedMode)
   }, [])
 
-  // Este efecto maneja los cambios de tema
+  // Manejar cambios de tema
   useEffect(() => {
-    if (mounted) {
-      if (darkMode) {
-        document.documentElement.classList.add("dark")
-      } else {
-        document.documentElement.classList.remove("dark")
-      }
-      localStorage.setItem("darkMode", darkMode)
-    }
-  }, [darkMode, mounted])
+    document.documentElement.classList.toggle("dark", darkMode)
+    localStorage.setItem("darkMode", darkMode.toString())
+  }, [darkMode])
 
   const toggleDarkMode = () => {
-    setDarkMode(prevMode => !prevMode)
+    setDarkMode(prev => !prev)
   }
 
   const handleLogout = async () => {
@@ -96,41 +77,9 @@ export default function RootLayout({ children }) {
     return section.charAt(0).toUpperCase() + section.slice(1).replace(/-/g, " ")
   }
 
-  // Este es un componente que sustituye a los botones con iconos hasta que la página esté montada
-  const IconPlaceholder = () => (
-    <div className="w-5 h-5"></div>
-  )
-
-  // Componentes de iconos envueltos
-  const ThemeIcon = () => {
-    if (!mounted) return <IconPlaceholder />
-    return darkMode ? 
-      <Sun className="h-5 w-5" /> : 
-      <Moon className="h-5 w-5" />
-  }
-
-  const CollapseIcon = () => {
-    if (!mounted) return <IconPlaceholder />
-    return (
-      <ChevronRight
-        className={`h-5 w-5 transition-transform duration-300 ${isSidebarOpen ? "rotate-180" : ""}`}
-      />
-    )
-  }
-
   return (
     <DisplayNameContext.Provider value={{ displayName, updateDisplayName: setDisplayName }}>
       <AuthGuard>
-        {/* Este div crea algunos estilos CSS importantes para sobrescribir el fondo morado */}
-        {!mounted && (
-          <style jsx global>{`
-            /* Esto oculta los iconos durante la hidratación */
-            svg {
-              background-color: transparent !important;
-            }
-          `}</style>
-        )}
-        
         <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
           {/* Sidebar */}
           <aside
@@ -142,7 +91,6 @@ export default function RootLayout({ children }) {
                 {isSidebarOpen && (
                 <>
                 <img src="/dashboard/main-icon.svg" alt="Logo" className="h-8 w-8" />
-
                   <span className="ml-2 text-lg font-semibold text-blue-primary dark:text-white">
                     Neon Led Publicidad
                   </span>
@@ -151,9 +99,12 @@ export default function RootLayout({ children }) {
               </div>
               <button
                 onClick={() => setSidebarOpen(!isSidebarOpen)}
-                className="p-1 rounded-md text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-400"
+                className="btn-ghost-safe p-1 rounded-md"
+                type="button"
               >
-                <CollapseIcon />
+                <ChevronRight
+                  className={`h-5 w-5 transition-transform duration-300 ${isSidebarOpen ? "rotate-180" : ""}`}
+                />
               </button>
             </div>
 
@@ -166,7 +117,6 @@ export default function RootLayout({ children }) {
                   icon={<Home className="h-5 w-5" />}
                   isCollapsed={!isSidebarOpen}
                   isActive={pathname === "/dashboard/main"}
-                  mounted={mounted}
                 />
 
                 {auth_service.hasPermission("ver-empleados") && (
@@ -176,7 +126,6 @@ export default function RootLayout({ children }) {
                     icon={<Users className="h-5 w-5" />}
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname.includes("/dashboard/empleados")}
-                    mounted={mounted}
                   />
                 )}
 
@@ -187,7 +136,6 @@ export default function RootLayout({ children }) {
                     icon={<Mail className="h-5 w-5" />}
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname.includes("/dashboard/contactos")}
-                    mounted={mounted}
                   />
                 )}
 
@@ -198,7 +146,6 @@ export default function RootLayout({ children }) {
                     icon={<AlertCircle className="h-5 w-5" />}
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname.includes("/dashboard/modales")}
-                    mounted={mounted}
                   />
                 )}
 
@@ -209,7 +156,6 @@ export default function RootLayout({ children }) {
                     icon={<MessageSquare className="h-5 w-5" />}
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname.includes("/dashboard/reclamaciones")}
-                    mounted={mounted}
                   />
                 )}
 
@@ -220,7 +166,6 @@ export default function RootLayout({ children }) {
                     icon={<FileText className="h-5 w-5" />}
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname.includes("/dashboard/blogs")}
-                    mounted={mounted}
                   />
                 )}
 
@@ -231,7 +176,6 @@ export default function RootLayout({ children }) {
                     icon={<Settings className="h-5 w-5" />}
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname.includes("/dashboard/role-permission")}
-                    mounted={mounted}
                   />
                 )}
               </ul>
@@ -244,7 +188,7 @@ export default function RootLayout({ children }) {
                   <div className="flex items-center space-x-3">
                     <div className="flex-shrink-0">
                       <div className="h-10 w-10 rounded-full bg-blue-primary flex items-center justify-center text-white">
-                        {mounted ? <User className="h-5 w-5" /> : <IconPlaceholder />}
+                        <User className="h-5 w-5" />
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
@@ -254,23 +198,19 @@ export default function RootLayout({ children }) {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    {mounted ? (
-                      <button
-                        onClick={toggleDarkMode}
-                        className="p-2 rounded-md text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-400"
-                      >
-                        <ThemeIcon />
-                      </button>
-                    ) : (
-                      <div className="p-2 opacity-0">
-                        <div className="h-5 w-5"></div>
-                      </div>
-                    )}
+                    <button
+                      onClick={toggleDarkMode}
+                      className="btn-ghost-safe p-2 rounded-md"
+                      type="button"
+                    >
+                      {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                    </button>
 
                     <button
                       onClick={handleLogout}
                       disabled={isLoggingOut}
-                      className="flex items-center justify-center px-3 py-2 text-sm font-medium rounded-md text-white bg-blue-primary hover:bg-blue-dark transition-colors disabled:opacity-70"
+                      className="btn-safe flex items-center justify-center px-3 py-2 text-sm font-medium rounded-md text-white bg-blue-primary hover:bg-blue-dark transition-colors disabled:opacity-70"
+                      type="button"
                     >
                       {isLoggingOut ? (
                         <div className="flex items-center">
@@ -298,7 +238,7 @@ export default function RootLayout({ children }) {
                         </div>
                       ) : (
                         <div className="flex items-center">
-                          {mounted ? <LogOut className="h-4 w-4 mr-2" /> : <div className="h-4 w-4 mr-2"></div>}
+                          <LogOut className="h-4 w-4 mr-2" />
                           <span>Cerrar sesión</span>
                         </div>
                       )}
@@ -308,26 +248,22 @@ export default function RootLayout({ children }) {
               ) : (
                 <div className="flex flex-col items-center space-y-4">
                   <div className="h-10 w-10 rounded-full bg-blue-primary flex items-center justify-center text-white">
-                    {mounted ? <User className="h-5 w-5" /> : <IconPlaceholder />}
+                    <User className="h-5 w-5" />
                   </div>
                   
-                  {mounted ? (
-                    <button
-                      onClick={toggleDarkMode}
-                      className="p-2 rounded-md text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-400"
-                    >
-                      <ThemeIcon />
-                    </button>
-                  ) : (
-                    <div className="p-2 opacity-0">
-                      <div className="h-5 w-5"></div>
-                    </div>
-                  )}
+                  <button
+                    onClick={toggleDarkMode}
+                    className="btn-ghost-safe p-2 rounded-md"
+                    type="button"
+                  >
+                    {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                  </button>
                   
                   <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className="p-2 rounded-md text-white bg-blue-primary hover:bg-blue-dark transition-colors disabled:opacity-70"
+                    className="btn-safe p-2 rounded-md text-white bg-blue-primary hover:bg-blue-dark transition-colors disabled:opacity-70"
+                    type="button"
                   >
                     {isLoggingOut ? (
                       <svg
@@ -351,7 +287,7 @@ export default function RootLayout({ children }) {
                         ></path>
                       </svg>
                     ) : (
-                      mounted ? <LogOut className="h-5 w-5" /> : <IconPlaceholder />
+                      <LogOut className="h-5 w-5" />
                     )}
                   </button>
                 </div>
@@ -367,7 +303,7 @@ export default function RootLayout({ children }) {
             </header>
 
             {/* Page content */}
-            <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 p-0 ">{children}</main>
+            <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 p-0">{children}</main>
           </div>
         </div>
       </AuthGuard>
@@ -375,31 +311,21 @@ export default function RootLayout({ children }) {
   )
 }
 
-// Navigation link component
-function NavLink({ href, title, icon, isActive, isCollapsed, mounted }) {
-  // Si no está montado, mostramos un espacio en blanco
-  if (!mounted) {
-    return (
-      <li>
-        <div className={`flex items-center ${isCollapsed ? "justify-center" : "justify-start"} p-2 rounded-lg`}>
-          <div className="h-5 w-5"></div>
-          {!isCollapsed && <div className="ml-3 h-5"></div>}
-        </div>
-      </li>
-    );
-  }
-  
+// Navigation link component simplificado
+function NavLink({ href, title, icon, isActive, isCollapsed }) {
   return (
     <li>
       <Link
         href={href}
-        className={`flex items-center ${isCollapsed ? "justify-center" : "justify-start"} p-2 rounded-lg transition-colors ${
+        className={`btn-safe flex items-center ${isCollapsed ? "justify-center" : "justify-start"} p-2 rounded-lg transition-colors ${
           isActive
             ? "bg-blue-primary text-white"
             : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
-        <span className={`${isActive ? "text-white" : "text-blue-primary dark:text-gray-300"}`}>{icon}</span>
+        <span className={`${isActive ? "text-white" : "text-blue-primary dark:text-gray-300"}`}>
+          {icon}
+        </span>
         {!isCollapsed && <span className="ml-3">{title}</span>}
       </Link>
     </li>

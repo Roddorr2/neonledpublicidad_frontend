@@ -7,6 +7,7 @@ import Table from "../components/Table";
 import FormModal from "../components/FormModal";
 import EditFormModal from "../components/EditFormModal";
 import { useEffect, useState } from "react";
+import API_URL from "@/api/url"
 
 const headers = ["id", "nombre"];
 
@@ -25,7 +26,7 @@ function ReclamacionesPage() {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://127.0.0.1:8000/api/servicios?page=${page}`
+        `${API_URL}/api/servicios?page=${page}`
       );
       const data = await response.json();
 
