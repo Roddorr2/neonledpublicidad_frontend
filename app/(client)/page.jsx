@@ -39,10 +39,10 @@ export default function Home() {
   ];
 
   const slidesData = [
-    { imgSrc: "/home/fondo1.webp", altText: "Descripción 1" },
-    { imgSrc: "/home/fondo2.webp", altText: "Descripción 2" },
-    { imgSrc: "/home/fondo3.webp", altText: "Descripción 3" },
-    { imgSrc: "/home/fondo4.webp", altText: "Descripción 4" },
+    { imgSrc: "/home/letreros_negocio_1.webp", altText: "Descripción 1" },
+    { imgSrc: "/home/letreros_negocio_2.webp", altText: "Descripción 2" },
+    { imgSrc: "/home/letreros_negocio_3.webp", altText: "Descripción 3" },
+    { imgSrc: "/home/letreros_negocio_4.webp", altText: "Descripción 4" },
   ];
 
     const clientLogos = [

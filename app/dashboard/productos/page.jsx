@@ -3,7 +3,6 @@
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Pagination from "../components/Pagination";
-import Table from "../components/Table";
 import FormModal from "../components/FormModal";
 import EditFormModal from "../components/EditFormModal";
 import { useEffect, useState } from "react";

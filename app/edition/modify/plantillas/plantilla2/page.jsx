@@ -2,7 +2,7 @@
 import FormBody2 from '../../components/FormBody2'
 import FormFooter from '../../components/FormFooter'
 import FormHeader from '../../components/FormHeader'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Save } from "lucide-react"
 import Swal from 'sweetalert2';
 import { useRouter } from "next/navigation";
@@ -11,6 +11,14 @@ import { useSearchParams } from "next/navigation"
 import Fetch from "../../services/fetch"
 import { Loader2 } from "lucide-react"
 
+
+const Page = () => {
+  return (
+    <Suspense fallback={<div className="flex justify-center items-center h-screen text-gray-700">Cargando...</div>}>
+      <PageContent />
+    </Suspense>
+  )
+}
 
 const PageContent= () => {
 
@@ -694,4 +702,4 @@ const PageContent= () => {
   );
 };
 
-export default PageContent;
+export default Page;

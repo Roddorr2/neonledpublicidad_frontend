@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect,Suspense } from "react";
 import Link from "next/link";
 import fetch from "../../services/fetch";
 import { Loader2, BookOpen, AlertCircle } from "lucide-react";
@@ -14,6 +14,14 @@ const ITEMS_PER_PAGE = 4;
 const normalizeText = (text) => {
   return text.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, "").trim(); // Eliminar caracteres no alfanuméricos
 };
+
+const Page = () => {
+  return (
+    <Suspense fallback={<div className="flex justify-center items-center h-screen text-gray-700">Cargando...</div>}>
+      <Blogs />
+    </Suspense>
+  )
+}
 
 const Blogs = () => {
   const router = useRouter();
@@ -221,4 +229,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default Page;

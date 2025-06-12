@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import SidebarMenu from '../SidebarMenu/SidebarMenu';
 
 export default function page() {
     
@@ -30,9 +29,7 @@ export default function page() {
         </div>
       </div>
       
-      {/* Integramos el sidebar menu independiente del contenido principal */}
-      <SidebarMenu />
-      
+
       {/* Contenido del blog con margen superior sobre fondo blanco y barra lateral celeste */}
       <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
         {/* Barra lateral celeste con ancho adaptativo */}
