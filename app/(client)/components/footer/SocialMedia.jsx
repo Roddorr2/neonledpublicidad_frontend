@@ -7,22 +7,22 @@ export const SocialMedia = () => {
 
     const socialMedia = [
         {
-            href: "https://www.tiktok.com/@digimediamkt",
+            href: "https://www.tiktok.com/@neonled.publicidad",
             src: "/header_footer/tiktock.svg",
             alt: "TikTok"
         },
         {
-            href: "https://www.youtube.com/@digimediamarketing",
+            href: "https://www.youtube.com/@neonledpublicidad_2025",
             src: "/header_footer/youtube.svg",
             alt: "YouTube"
         },
         {
-            href: "https://www.facebook.com/DigiMedia.Marketing1",
+            href: "https://www.facebook.com/ledneonpublicidad",
             src: "/header_footer/facebook.svg",
             alt: "Facebook"
         },
         {
-            href: "https://www.instagram.com/digimediamkt/",
+            href: "https://www.instagram.com/neonledpublicidad.oficial/",
             src: "/header_footer/instagram.svg",
             alt: "Instagram"
         },
