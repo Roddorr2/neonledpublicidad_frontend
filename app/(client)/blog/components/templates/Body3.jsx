@@ -105,7 +105,7 @@ export default function Body3({ id_blog_body, fecha }) {
 
     return (
         <div className="relative lg:mx-48 bg-white text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden">
-            <div className="bg-gradient-to-r from-indigo-900 to-purple-900 py-3 px-6 flex justify-between items-center">
+            <div className="bg-gradient-to-r from-[--azul_oscuro] to-[--azul_claro] py-3 px-6 flex justify-between items-center">
                 <div className="flex items-center text-white">
                     <Calendar className="w-4 h-4 mr-2" />
                     <span className="text-sm font-medium">{fecha}</span>
@@ -118,15 +118,15 @@ export default function Body3({ id_blog_body, fecha }) {
             </div>
 
             <div className="relative">
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-indigo-100 to-transparent"></div>
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[--azul_oscuro]-100 to-transparent"></div>
                 <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center">
                     <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
-                        <h1 className="text-4xl md:text-5xl font-black text-indigo-900 leading-tight mb-6">{data.titulo}</h1>
-                        <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mb-6"></div>
+                        <h1 className="text-4xl md:text-5xl font-black text-[--azul_oscuro]-900 leading-tight mb-6">{data.titulo}</h1>
+                        <div className="w-20 h-1 bg-gradient-to-r from-[--azul_oscuro] to-[--azul_brillante] mb-6"></div>
                         <p className="text-lg text-gray-700 leading-relaxed">{data.descripcion}</p>
                         <button
                             onClick={() => scrollToSection("content-details")}
-                            className="mt-6 inline-flex items-center text-indigo-600 font-medium hover:text-indigo-800 transition-colors"
+                            className="mt-6 inline-flex items-center text-[--azul_brillante] font-medium hover:text-[--azul_oscuro] transition-colors"
                         >
                             <span>Continuar leyendo</span>
                             <ArrowDownCircle className="ml-2 w-5 h-5" />
@@ -134,7 +134,7 @@ export default function Body3({ id_blog_body, fecha }) {
                     </div>
                     <div className="md:w-1/2 flex justify-center">
                         <div className="relative">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur"></div>
+                            <div className="absolute -inset-1 bg-gradient-to-r from-[--azul_intenso] to-[--azul_brillante] rounded-3xl blur"></div>
                             <div className="relative">
                                 <img
                                     src={data.public_image1}
@@ -152,17 +152,17 @@ export default function Body3({ id_blog_body, fecha }) {
             <div id="content-details" className="p-8 md:p-12 bg-gradient-to-b from-white to-indigo-50">
                 <div className="mb-16">
                     <div className="flex items-center mb-8">
-                        <div className="w-8 h-8 rounded-full bg-indigo-900 flex items-center justify-center text-white font-bold mr-3">
+                        <div className="w-8 h-8 rounded-full bg-[--azul_oscuro] flex items-center justify-center text-white font-bold mr-3">
                             G
                         </div>
-                        <h2 className="text-2xl font-bold text-indigo-900">Galería</h2>
+                        <h2 className="text-2xl font-bold text-[--azul_oscuro]">Galería</h2>
                         <div className="h-px flex-grow bg-indigo-200 ml-4"></div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {[data.public_image2 || "/blog/blog-10.jpg", data.public_image3 || "/blog/blog-1.jpg"].map((src, index) => (
                             <div key={index} className="group relative overflow-hidden rounded-xl shadow-lg">
-                                <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-[--azul_oscuro]/80 via-[--azul_oscuro]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <img
                                     src={src}
                                     alt={`Imagen ${index + 1} del artículo`}
@@ -170,7 +170,7 @@ export default function Body3({ id_blog_body, fecha }) {
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <div className="bg-white/90 px-4 py-2 rounded-lg shadow-lg">
-                                        <ExternalLink className="w-6 h-6 text-indigo-600" />
+                                        <ExternalLink className="w-6 h-6 text-[--azul_brillante]" />
                                     </div>
                                 </div>
                             </div>
@@ -235,7 +235,7 @@ export default function Body3({ id_blog_body, fecha }) {
                                             className={`mb-8 flex flex-col ${isEven ? "md:flex-row" : "md:flex-row-reverse"} bg-white rounded-xl overflow-hidden shadow-md`}
                                         >
                                             <div
-                                                className={`md:w-1/3 bg-gradient-to-br ${isEven ? "from-blue-600 to-indigo-700" : "from-indigo-700 to-purple-800"} p-6 flex items-center justify-center`}
+                                                className={`md:w-1/3 bg-gradient-to-br ${isEven ? "from-blue-600 to-[--azul_cobalto]" : "from-[--azul_cobalto] to-[--azul_brillante]"} p-6 flex items-center justify-center`}
                                             >
                                                 <h3 className="text-2xl font-bold text-white text-center">{section.titulo}</h3>
                                             </div>
@@ -250,7 +250,7 @@ export default function Body3({ id_blog_body, fecha }) {
                 </div>
             </div>
 
-            <div className="h-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
+            <div className="h-3 bg-gradient-to-r from-[--azul_cobalto] via-[--azul_brillante] to-[--azul_cobalto]"></div>
         </div>
     )
 }

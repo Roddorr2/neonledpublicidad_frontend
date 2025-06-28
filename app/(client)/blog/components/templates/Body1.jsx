@@ -118,18 +118,18 @@ export default function Body1({ id_blog_body, fecha }) {
                 <div className="relative z-20 h-full flex flex-col justify-end items-center p-8 text-center">
                     <h2 className="text-4xl md:text-5xl font-extrabold text-black mb-4 bg-opacity-60 inline w-fit">{data.titulo}</h2>
                     <p className="text-black mb-2 bg-opacity-60 inline w-fit">{fecha}</p>
-                    <p className="text-lg py-5 px-5 leading-relaxed bg-black bg-opacity-60 w-fit text-white">{data.descripcion}</p>
+                    <p className="text-lg py-5 px-5 leading-relaxed bg-[--azul_cobalto] w-fit text-white">{data.descripcion}</p>
                     
                 </div>
             </div>
 
             <div className="bg-black/5 p-8">
 
-                <div className="mb-16 p-6 bg-gradient-to-br from-green-900 to-gray-800 rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-gray-100">
+                <div className="mb-16 p-6 bg-gradient-to-br from-[--azul_oscuro] to-gray-800 rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-gray-100">
                     <div className="flex items-center justify-center mb-4">
                         <div className="h-0.5 w-12 bg-gray-400 mr-4"></div>
-                        <h3 className="text-2xl font-bold text-green-400">{data.commend_tarjeta?.titulo || "Consejos"}</h3>
-                        <div className="h-0.5 w-12 bg-green-400 ml-4"></div>
+                        <h3 className="text-2xl font-bold text-white">{data.commend_tarjeta?.titulo || "Consejos"}</h3>
+                        <div className="h-0.5 w-12 bg-gray-400 ml-4"></div>
                     </div>
 
                     <ul className="list-none text-black-600 space-y-3 max-w-2xl mx-auto">
@@ -143,8 +143,8 @@ export default function Body1({ id_blog_body, fecha }) {
                             ]
                                 .filter((text) => text)
                                 .map((text, index) => (
-                                    <li key={`commend-${index}`} className="flex items-center gap-3 bg-green-600 p-3 rounded-lg">
-                                        <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
+                                    <li key={`commend-${index}`} className="flex items-center gap-3 bg-[--azul_cobalto] p-3 rounded-lg">
+                                        <CheckCircle className="w-6 h-6 text-white flex-shrink-0" />
                                         <span className="text-left">{text}</span>
                                     </li>
                                 ))}
@@ -163,10 +163,10 @@ export default function Body1({ id_blog_body, fecha }) {
                         {data.tarjetas &&
                             data.tarjetas.map((section, index) => {
                                 const styles = [
-                                    "bg-gradient-to-br from-purple-500 to-purple-900 border-l-4",
-                                    "bg-gradient-to-br from-purple-500 to-purple-900 border-l-4",
-                                    "bg-gradient-to-br from-purple-500 to-purple-900 border-l-4",
-                                    "bg-gradient-to-br from-purple-500 to-purple-900 border-l-4",
+                                    "bg-gradient-to-br from-yellow-500 via-blue-600 to-yellow-500 border-l-4",
+                                    "bg-gradient-to-br from-yellow-500 via-blue-600 to-yellow-500 border-l-4",
+                                    "bg-gradient-to-br from-yellow-500 via-blue-600 to-yellow-500 border-l-4",
+                                    "bg-gradient-to-br from-yellow-500 via-blue-600 to-yellow-500 border-l-4",
                                 ]
 
                                 return (

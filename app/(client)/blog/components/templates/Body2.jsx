@@ -106,10 +106,10 @@ export default function Body2({ id_blog_body, fecha }) {
                 </div>
                 <div className="flex space-x-3">
                     <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                        <Bookmark className="w-5 h-5 text-teal-600" />
+                        <Bookmark className="w-5 h-5 text-yellow-500" />
                     </button>
                     <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                        <Share2 className="w-5 h-5 text-teal-600" />
+                        <Share2 className="w-5 h-5 text-yellow-500" />
                     </button>
                 </div>
             </div>
@@ -123,7 +123,7 @@ export default function Body2({ id_blog_body, fecha }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
                     <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">{data.titulo}</h1>
-                    <div className="w-16 h-1 bg-teal-500 mb-4"></div>
+                    <div className="w-16 h-1 bg-yellow-500 mb-4"></div>
                 </div>
             </div>
 
@@ -132,19 +132,19 @@ export default function Body2({ id_blog_body, fecha }) {
 
                 <div className="flex border-b border-gray-200 mb-8">
                     <button
-                        className={`px-4 py-2 font-medium text-sm ${activeTab === "info" ? "text-teal-600 border-b-2 border-teal-600" : "text-gray-500 hover:text-gray-700"}`}
+                        className={`px-4 py-2 font-medium text-sm ${activeTab === "info" ? "text-[--azul_intenso] border-b-2 border-[--azul_intenso]" : "text-gray-500 hover:text-gray-700"}`}
                         onClick={() => setActiveTab("info")}
                     >
                         Información
                     </button>
                     <button
-                        className={`px-4 py-2 font-medium text-sm ${activeTab === "tips" ? "text-teal-600 border-b-2 border-teal-600" : "text-gray-500 hover:text-gray-700"}`}
+                        className={`px-4 py-2 font-medium text-sm ${activeTab === "tips" ? "text-[--azul_intenso] border-b-2 border-[--azul_intenso]" : "text-gray-500 hover:text-gray-700"}`}
                         onClick={() => setActiveTab("tips")}
                     >
                         Consejos
                     </button>
                     <button
-                        className={`px-4 py-2 font-medium text-sm ${activeTab === "gallery" ? "text-teal-600 border-b-2 border-teal-600" : "text-gray-500 hover:text-gray-700"}`}
+                        className={`px-4 py-2 font-medium text-sm ${activeTab === "gallery" ? "text-[--azul_intenso] border-b-2 border-[--azul_intenso]" : "text-gray-500 hover:text-gray-700"}`}
                         onClick={() => setActiveTab("gallery")}
                     >
                         Galería
@@ -172,7 +172,7 @@ export default function Body2({ id_blog_body, fecha }) {
 
                     {activeTab === "tips" && (
                         <div className="bg-gradient-to-br from-teal-50 to-gray-50 rounded-xl p-6">
-                            <h3 className="text-2xl font-bold mb-6 text-teal-700 text-center">
+                            <h3 className="text-2xl font-bold mb-6 text-slate-800 text-center">
                                 {data.commend_tarjeta?.titulo || "Consejos"}
                             </h3>
                             <ul className="space-y-4">
@@ -188,7 +188,7 @@ export default function Body2({ id_blog_body, fecha }) {
                                         .map((text, index) => (
                                             <li key={`commend-${index}`} className="flex items-start bg-white p-4 rounded-lg shadow-sm">
                                                 <div className="bg-teal-100 p-2 rounded-full mr-4">
-                                                    <CheckCircle className="w-5 h-5 text-teal-600" />
+                                                    <CheckCircle className="w-5 h-5 text-yellow-600" />
                                                 </div>
                                                 <div>
                                                     <p className="text-gray-700">{text}</p>

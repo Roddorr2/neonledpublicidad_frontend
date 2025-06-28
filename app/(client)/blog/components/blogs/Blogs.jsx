@@ -175,7 +175,7 @@ const Blogs = () => {
                   <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">{dato.descripcion}</p>
                 </div>
                 <CardFooter className="px-0 pt-4">
-                  <Link href={`./plantillas/plantilla${dato.id_plantilla}?id_blog=${dato.id_blog}`} className="w-full">
+                  <Link href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`} className="w-full">
                     <Button className="w-full bg-gradient-to-r from-[--azul_cobalto] to-[--azul_cobalto] hover:opacity-90 transition-all duration-300 transform hover:scale-[1.02]">
                       Leer más
                     </Button>

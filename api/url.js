@@ -1,4 +1,6 @@
-const url ="https://back.ledneonpublicidad.com";
-//const url ="http://127.0.0.1:8000";
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.NEXT_PUBLIC_API_URL_PROD
+    : process.env.NEXT_PUBLIC_API_URL_DEV;
 
 export default url;

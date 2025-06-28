@@ -3,10 +3,10 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
-import Header from "../components/Header";
-import Body2 from "../components/Body2";
-import Footer from "../components/Footer";
-import Fetch from "../../services/fetch";
+import Header from "../components/templates/Header";
+import Body2 from "../components/templates/Body2";
+import Footer from "../components/templates/Footer";
+import Fetch from "../services/fetch";
 import { Loader2 } from "lucide-react";
 
 const LoadingComponent = () => (
@@ -23,12 +23,12 @@ const PageContent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
-  const id_blog = searchParams.get("id_blog");
+  const blogLink = searchParams.get("blog");
 
   useEffect(() => {
     const fetchBlogData = async () => {
-      if (!id_blog) {
-        setError("ID de blog no proporcionado");
+      if (!blogLink || blogLink === "null") {
+        setError("Link de blog no proporcionado");
         setIsLoading(false);
         return;
       }
@@ -36,7 +36,7 @@ const PageContent = () => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await Fetch.fetchBlogById(id_blog);
+        const response = await Fetch.fetchBlogByLink(blogLink);
         setDataResponse(response);
       } catch (error) {
         console.error("Error fetching blog data:", error);
@@ -53,7 +53,7 @@ const PageContent = () => {
     };
 
     fetchBlogData();
-  }, [id_blog]);
+  }, [blogLink]);
 
   if (error) {
     return (

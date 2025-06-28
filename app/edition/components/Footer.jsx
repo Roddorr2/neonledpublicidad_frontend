@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="flex items-center space-x-2">
             <img
               src="/header_footer/logo.png"
-              alt="Digimedia"
+              alt="Logo de Neon Led Publicidad"
               loading="lazy"
               className="w-[25px] h-auto object-contain"
             />
