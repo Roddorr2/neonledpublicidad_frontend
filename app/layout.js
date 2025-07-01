@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "NeonLedStore",
-  description: "",
+  title: "Neon Led Publicidad _ Inicio",
+   description: "Transforma tu marca con Neones LED, Pantallas publicitarias, vinilos personalizados y más. Diseños innovadores, instalación profesional y atención local.",
   
 };
 
