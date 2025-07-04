@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Feria", 
       description: "Espacio interior",  
-      image: "/productos/tunel_led.jpg"        
+      image: "/productos/pasillo-led-verde-evento.webp"        
     },
     { 
       title: "Bares", 
       description: "Espacio exterior", 
-      image: "/productos/bar_luminoso.jpg"  
+      image: "/productos/barra-discoteca-con-pixel-led.webp"  
     },
     { 
       title: "Fiestas", 
       description: "Espacio exterior", 
-      image: "/productos/fiesta_luminosa.jpg"  
+      image: "/productos/techo-pixel-led-club-nocturno.webp"  
     },
   ];
   const idProducto = 12;

@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Taller mecánico", 
       description: "Espacio interior", 
-      image: "/productos/techos_led1.jpg"  
+      image: "/productos/centro-detallado-autos-iluminacion-led.webp"  
     },
     { 
       title: "Casino", 
       description: "Espacio interior",  
-      image: "/productos/techos_led2.jpg"       
+      image: "/productos/casino-techo-luces-led-rgb.webp"       
     },
     { 
       title: "Local comercial", 
       description: "Espacio interior",  
-      image: "/productos/techos_led3.jpg"       
+      image: "/productos/tienda-comercial-techo-led-moderno.webp"       
     }
   ];
   const idProducto = 14;

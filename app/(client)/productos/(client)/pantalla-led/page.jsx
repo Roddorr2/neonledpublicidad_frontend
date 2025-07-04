@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Tienda de ropa", 
       description: "Espacio interior", 
-      image: "/productos/pantalla_led1.jpg"  
+      image: "/productos/pantalla-led-programa-kelly-clarkson-show.webp"  
     },
     { 
       title: "Tienda de calzado", 
       description: "Espacio interior", 
-      image: "/productos/tienda_calzado.jpg"  
+      image: "/productos/pantalla-led-publicitaria-tienda-zapatos-mujer.webp"  
     },
     { 
       title: "Centro comercial", 
       description: "Espacio interior",  
-      image: "/productos/pantalla_led2.jpg"       
+      image: "/productos/pantalla-led-gigante-publicidad-20th-century-fox.webp"       
     }
   ];
   const idProducto = 10;

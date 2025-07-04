@@ -7,7 +7,7 @@ export default function Blog4() {
     <div>
       {/* Contenedor de la imagen y el título - SIN CAMBIOS */}
       <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat" 
-        style={{ backgroundImage: "url('/blog/letra_neonled2.png')" }}>
+        style={{ backgroundImage: "url('/blog/Bar_letras_neonled.webp')" }}>
         
         <div className="absolute inset-0 bg-black/60"></div>
 
