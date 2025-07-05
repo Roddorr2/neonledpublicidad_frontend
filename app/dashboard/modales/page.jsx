@@ -355,7 +355,7 @@ export default function Page() {
         ) : (
           <>
             <div className="overflow-x-auto rounded-lg border border-gray-100">
-              <table className="min-w-full divide-y divide-gray-200">
+              <table className="min-w-full divide-y divide-blue-600 border-4 border-blue-600 dark:bg-blue-600 dark:border-white">
                 <thead className="bg-gray-50 dark:bg-gray-800">
                   <tr>
                     <th
@@ -396,7 +396,7 @@ export default function Page() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
+                <tbody className="bg-white divide-y divide-blue-600 dark:bg-gray-900">
                   {filteredData.length > 0 ? (
                     filteredData
                     .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)

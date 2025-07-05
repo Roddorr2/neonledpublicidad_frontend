@@ -2,7 +2,6 @@
 
 import { useSearchParams } from "next/navigation";
 import Pagination from "../components/Pagination";
-import Table from "../components/Table";
 import { useEffect, useState, Suspense } from "react";
 import Modal_usuario from "./components/Modal_usuario";
 import user_service from "./services/user.service";

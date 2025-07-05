@@ -296,25 +296,25 @@ export default function Page() {
                 <>
                     <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
                         <div className="overflow-x-auto">
-                            <table className="w-full">
+                            <table className="w-full border border-blue-600">
                                 <thead>
-                                    <tr className="bg-slate-50 border-b border-slate-100 text-center">
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    <tr className="bg-blue-600 border-b border-blue-600 text-center ">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                             ID
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                             Título
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                             Descripción
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                             Imagen
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                             Autor
                                         </th>
-                                        <th className="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-right text-xs font-semibold text-white uppercase tracking-wider">
                                             Acciones
                                         </th>
                                     </tr>
@@ -344,7 +344,7 @@ export default function Page() {
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <div className="flex justify-end gap-2">
                                                     <Link
-                                                        href={`/blog/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                                                        href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100 transition-colors"

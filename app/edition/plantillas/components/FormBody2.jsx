@@ -417,10 +417,10 @@ export default function FormBody2(props) {
             </div>
             <div className="flex space-x-3">
               <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                <Bookmark className="w-5 h-5 text-teal-600" />
+                <Bookmark className="w-5 h-5 text-yellow-500" />
               </button>
               <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                <Share2 className="w-5 h-5 text-teal-600" />
+                <Share2 className="w-5 h-5 text-yellow-500" />
               </button>
             </div>
           </div>
@@ -434,7 +434,7 @@ export default function FormBody2(props) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
               <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">{formEncabezadoBody.titulo}</h1>
-              <div className="w-16 h-1 bg-teal-500 mb-4"></div>
+              <div className="w-16 h-1 bg-yellow-500 mb-4"></div>
             </div>
           </div>
 
@@ -547,19 +547,19 @@ export default function FormBody2(props) {
       <div className="px-6 md:px-10 pb-8">
         <div className="flex border-b border-gray-200 mb-8">
           <button
-            className={`px-4 py-2 font-medium text-sm ${activeTab === "info" ? "text-teal-600 border-b-2 border-teal-600" : "text-gray-500 hover:text-gray-700"}`}
+            className={`px-4 py-2 font-medium text-sm ${activeTab === "info" ? "text-[--azul_intenso] border-b-2 border-[--azul_intenso]" : "text-gray-500 hover:text-gray-700"}`}
             onClick={() => setActiveTab("info")}
           >
             Información
           </button>
           <button
-            className={`px-4 py-2 font-medium text-sm ${activeTab === "tips" ? "text-teal-600 border-b-2 border-teal-600" : "text-gray-500 hover:text-gray-700"}`}
+            className={`px-4 py-2 font-medium text-sm ${activeTab === "tips" ? "text-[--azul_intenso] border-b-2 border-[--azul_intenso]" : "text-gray-500 hover:text-gray-700"}`}
             onClick={() => setActiveTab("tips")}
           >
             Consejos
           </button>
           <button
-            className={`px-4 py-2 font-medium text-sm ${activeTab === "gallery" ? "text-teal-600 border-b-2 border-teal-600" : "text-gray-500 hover:text-gray-700"}`}
+            className={`px-4 py-2 font-medium text-sm ${activeTab === "gallery" ? "text-[--azul_intenso] border-b-2 border-[--azul_intenso]" : "text-gray-500 hover:text-gray-700"}`}
             onClick={() => setActiveTab("gallery")}
           >
             Galería
@@ -574,9 +574,9 @@ export default function FormBody2(props) {
                     <div
                       className="bg-gradient-to-r w-full  from-teal-50 to-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
                     >
-                      <div className="p-1 bg-gradient-to-r from-teal-400 to-teal-600"></div>
+                      <div className="p-1 bg-gradient-to-r from-[--azul_intenso] to-[--azul_oscuro]"></div>
                       <div className="p-6">
-                        <h3 className="text-xl font-bold mb-3 text-teal-700">{section.titulo}</h3>
+                        <h3 className="text-xl font-bold mb-3 text-[--azul_intenso]">{section.titulo}</h3>
                         <p className="text-gray-700">{section.descripcion}</p>
                       </div>
                     </div>
@@ -623,7 +623,7 @@ export default function FormBody2(props) {
 
           {activeTab === "tips" && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              <div className="bg-green-400/60 rounded-xl shadow-sm p-8 border border-slate-100 ">
+              <div className="bg-yellow-300/60 rounded-xl shadow-sm p-8 border border-slate-100 ">
                 <h3 className="text-2xl font-semibold mb-8 text-slate-800 text-center">
                   {formCommendBody.titulo || "Consejos"}
                 </h3>
@@ -644,7 +644,7 @@ export default function FormBody2(props) {
                           className="flex items-start group transition-all duration-300 hover:translate-x-1 bg-white rounded-xl p-2"
                         >
                           <div className="bg-emerald-50 p-2 rounded-full mr-4 group-hover:bg-emerald-100 transition-colors duration-300">
-                            <CheckCircle className="w-5 h-5 text-emerald-600" />
+                            <CheckCircle className="w-5 h-5 text-yellow-600" />
                           </div>
                           <div className="pt-1.5">
                             <p className="text-slate-700 leading-relaxed">{text}</p>
@@ -797,7 +797,7 @@ export default function FormBody2(props) {
           )}
         </div>
       </div>
-      <div className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-6 text-center">
+      <div className="bg-gradient-to-r from-slate-600 to-slate-900 text-white p-6 text-center">
         <p className="text-sm">© {new Date().getFullYear()} - Todos los derechos reservados</p>
       </div>
     </div>

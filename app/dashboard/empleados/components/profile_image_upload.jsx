@@ -89,6 +89,8 @@ export default function ProfileImageUpload({ empleadoId, onImageUpload }) {
 
   return (
     <CldUploadWidget
+    //NO cambiar de nombre (Este es el identificador usado en Cloudinary)
+    //(Opcional a futuro) Crear otro Preset en Cloudinary y cambiar nombre nada más
       uploadPreset="nextjs_digimedia_unsigned"
       options={{
         folder: `empleados/perfiles/${empleadoId}`,

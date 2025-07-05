@@ -317,7 +317,7 @@ export default function Page() {
     <main className="p-4 md:p-6 flex flex-col w-full h-[100vh] bg-gray-50 dark:bg-gray-900">
       <div className="bg-white rounded-xl shadow-sm p-6 mb-6 dark:bg-gray-800 dark:text-white">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Gestión de Reclamaciones</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white ">Gestión de Reclamaciones</h1>
 
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="relative flex-grow">
@@ -362,36 +362,36 @@ export default function Page() {
         ) : (
           <>
             <div className="overflow-x-auto rounded-lg border border-gray-100">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50 dark:bg-gray-800">
+              <table className="min-w-full divide-y divide-gray-200 border border-blue-600">
+                <thead className="bg-blue-600 dark:bg-gray-800">
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider dark:text-[#03c4ff]"
                     >
                       ID
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider dark:text-[#03c4ff]"
                     >
                       Nombres
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider dark:text-[#03c4ff]"
                     >
                       Correo
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider dark:text-[#03c4ff]"
                     >
                       Estado
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-right text-xs font-medium text-white uppercase tracking-wider dark:text-[#03c4ff]"
                     >
                       Acciones
                     </th>

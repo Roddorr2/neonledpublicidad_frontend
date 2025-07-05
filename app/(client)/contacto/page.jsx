@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { SocialMedia } from "../components/footer/SocialMedia"
 import Swal from "sweetalert2"
+import API_URL from "@/api/url"
 
 const Contacto = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ const Contacto = () => {
     setStatus("loading")
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/contactanos", {
+      const response = await fetch(`${API_URL}/api/contactanos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

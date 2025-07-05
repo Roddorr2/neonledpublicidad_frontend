@@ -62,7 +62,7 @@ export default function Page()  {
                     />
                     <button 
                         type="submit"
-                        className="w-full bg-pink-600 text-white py-3 rounded-md hover:bg-pink-700 transition flex justify-center items-center"
+                        className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-pink-700 transition flex justify-center items-center"
                         disabled={loading}
                     >
                         {loading ? (

@@ -353,7 +353,7 @@ export default function Page() {
         ) : (
           <>
             <div className="overflow-x-auto rounded-lg border border-gray-100">
-              <table className="min-w-full divide-y divide-gray-200">
+              <table className="min-w-full divide-y divide-gray-200 border-4">
                 <thead className="bg-[#0d6fdc] dark:bg-gray-800">
                   <tr>
                     <th

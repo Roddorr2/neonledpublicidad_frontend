@@ -22,6 +22,7 @@ export default function Banner({ titulo, imagen }) {
             <span className="font-title px-10 text-5xl sm:text-4xl font-normal block drop-shadow-[0_0_10px_#00B2FA]">
               {titulo}
             </span>
+
             en nuestra página
           </h1>
           <hr className="border-[#00B2FA] w-[144px] border-t-[3px] mt-6 mb-12" />

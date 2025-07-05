@@ -77,12 +77,12 @@ const data = [
   },
   {
     id: 9,
-    producto: "DISPLAYS",
-    caracteristica: "Los formatos de los displays son altamente flexibles, permitiendo la inclusión de diversos tipos de contenido como imágenes, videos y texto.",
-    ventaja: "En el caso de displays físicos, son fáciles montar y transportar, lo que los convierte en herramientas prácticas para eventos y puntos de venta.",
-    consumo_energetico: "Los formatos de los displays son altamente flexibles, permitiendo la inclusión de diversos tipos de contenido como imágenes, videos y texto.",
-    iluminacion: "Gracias a la incorporación de las luces led en un innovador diseño el póster destacará de manera elegante y llamativo.",
-    durabilidad: "Como ejemplo, la vida útil promedio de una display de celular es de aproximadamente 2 a 3 años en condiciones normales.",
+    producto: "MONITORES DE PUBLICIDAD DIGITAL",
+    caracteristica: "Las pantallas táctiles publicitarias son muy flexibles, lo que implica variaciones en su diseño y materiales de construcción. Esto permite mostrar diversos tipos de contenido como imágenes, videos y texto, y además pueden ubicarse tanto en el interior como en el exterior del local.",
+    ventaja: "Su facilidad de montaje y transporte convierte a los monitores en una solución práctica para eventos y establecimientos comerciales.",
+    consumo_energetico: "Los formatos de los Monitores táctiles generan un consumo de alrededor de 150W por metro cuadrado.",
+    iluminacion: "El uso de luces LED dentro de un diseño novedoso asegura que los displays publicitarios se destaquen con elegancia un y atractivo visual.",
+    durabilidad: "Un monitor de publicidad digital para celular dura, en promedio y en condiciones normales, entre 2 y 3 años.",
   },
   {
     id: 10,

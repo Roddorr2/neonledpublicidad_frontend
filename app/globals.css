@@ -1,9 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=League+Gothic&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=League+Gothic&display=swap');
+
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 :root {
   /* Original custom colors */
@@ -200,4 +203,8 @@
 
 .border-azul-cobalto {
   border-color: var(--azul_cobalto);
+}
+
+.font-league {
+  font-family: 'League Gothic', sans-serif;
 }

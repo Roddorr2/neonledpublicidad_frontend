@@ -18,6 +18,11 @@ export default function Home() {
       image: "/productos/pantalla_led1.jpg"  
     },
     { 
+      title: "Tienda de calzado", 
+      description: "Espacio interior", 
+      image: "/productos/tienda_calzado.jpg"  
+    },
+    { 
       title: "Centro comercial", 
       description: "Espacio interior",  
       image: "/productos/pantalla_led2.jpg"       
@@ -31,8 +36,8 @@ export default function Home() {
         imagen="/productosIndividuales/banner/pantalla-led.webp"
       />
       <Section2 idProducto={idProducto} />
-      <Datos idProducto={idProducto}/>
       <CardSlider cards={cards}/>
+      <Datos idProducto={idProducto}/>
     </>
   );
 }

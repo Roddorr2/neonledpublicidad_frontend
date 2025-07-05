@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import Swal from "sweetalert2"
+import API_URL from "@/api/url"
 
 export default function Page() {
   const [declaracion, setDeclaracion] = useState(false)
@@ -49,7 +50,7 @@ export default function Page() {
     try {
       formData.checkReclamoForm = declaracion
       formData.aceptaPoliticaPrivacidad = politica
-      const response = await fetch("http://127.0.0.1:8000/api/reclamaciones", {
+      const response = await fetch(`${API_URL}/api/reclamaciones`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
