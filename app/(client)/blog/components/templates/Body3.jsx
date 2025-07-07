@@ -4,12 +4,26 @@ import { useEffect, useState } from "react"
 import Swal from "sweetalert2"
 import { Loader2, CheckCircle, Calendar, ArrowDownCircle, ExternalLink } from "lucide-react"
 import Fetch from "../../services/fetch"
+import { Modal } from "../index"
 
 export default function Body3({ id_blog_body, fecha }) {
     const [data, setDataResponse] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
+    
+    // Modal states
+    const [isModalOpen, setModalOpen] = useState(false)
+    const [ModalImgSrc, setModalImgSrc] = useState("")
 
+    const openModal = (ImgSrc) => {
+        setModalImgSrc(ImgSrc)
+        setModalOpen(true)
+    }
+
+    const closeModal = () => {
+        setModalOpen(false)
+    }
+    
     useEffect(() => {
         const fetchBlogData = async () => {
             try {
@@ -159,16 +173,21 @@ export default function Body3({ id_blog_body, fecha }) {
                         <div className="h-px flex-grow bg-indigo-200 ml-4"></div>
                     </div>
 
+                    {/* Modal component */}
+                    <Modal isActive={isModalOpen} closeFunction={closeModal} imgSrc={ModalImgSrc}></Modal>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {[data.public_image2 || "/blog/blog-10.jpg", data.public_image3 || "/blog/blog-1.jpg"].map((src, index) => (
-                            <div key={index} className="group relative overflow-hidden rounded-xl shadow-lg">
+                            <div 
+                            onClick={() => openModal(src)} // Here the modal is opened, to close only click anywhere of the screen
+                            key={index} 
+                            className="group relative overflow-hidden rounded-xl shadow-lg">
                                 <div className="absolute inset-0 bg-gradient-to-t from-[--azul_oscuro]/80 via-[--azul_oscuro]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <img
                                     src={src}
                                     alt={`Imagen ${index + 1} del artículo`}
                                     className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:cursor-pointer">
                                     <div className="bg-white/90 px-4 py-2 rounded-lg shadow-lg">
                                         <ExternalLink className="w-6 h-6 text-[--azul_brillante]" />
                                     </div>
