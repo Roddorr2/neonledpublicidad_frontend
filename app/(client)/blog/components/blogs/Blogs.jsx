@@ -7,6 +7,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -41,7 +42,14 @@ const Blogs = () => {
       setIsLoading(true);
       setError(null);
       const response = await fetch.fetchCards();
-      setDataResponse(response);
+      
+      // Cuando el servidor no response correctamente el componente se rompe 
+      // Esta validación muestra el error en caso el helper fetchCards responde con un error de axios
+      // Evita la propagación de la instancia de error (AxiosError) en filteredData
+      console.log(JSON.stringify(response))
+      if(axios.isAxiosError(response) || response instanceof Error)
+        setError("Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente.")
+      else setDataResponse(response);
     } catch (error) {
       console.error("Error fetching blogs:", error);
       setError("Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente.");
@@ -61,6 +69,7 @@ const Blogs = () => {
   }, [data]);
 
   const getCurrentPageItems = () => {
+    console.log(`getCurrentPageItems | ${filteredData}`)
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return filteredData.slice(startIndex, endIndex);
