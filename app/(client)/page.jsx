@@ -20,21 +20,25 @@ export default function Home() {
       imgSrc: "/productosPrincipal/1crocs.webp",
       altText: "Producto 1",
       description: "LETRAS DE ACRÍLICO",
+      route: "/productos/letras-acrilico"
     },
     {
       imgSrc: "/productosPrincipal/productos2_lux.webp",
       altText: "Producto 2",
       description: "LETRAS DORADAS Y PLATEADAS",
+      route: "/productos/letras-doradas"
     },
     {
       imgSrc: "/productosPrincipal/productos3_farm.webp",
       altText: "Producto 3",
       description: "LETREROS LUMINOSOS",
+      route: "/productos/letreros-luminosos"
     },
     {
       imgSrc: "/productosPrincipal/productos4_wok.webp",
       altText: "Producto 4",
       description: "LETRAS DE NEÓN",
+      route: "/productos/letras-neon"
     },
   ];
 
