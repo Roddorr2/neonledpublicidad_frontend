@@ -13,7 +13,7 @@ export const WelcomeSection = () => {
       </h2>
       <div className="z-10">
         <img
-          src="/blog/description/logonhl.png"
+          src="/blog/description/logo_blanco_letraBlanco_ledneonpublicidad.webp"
           alt="Logo de la empresa"
           className="mx-auto mt-2"
         />

@@ -11,7 +11,7 @@ const ImageSection = () => {
       </p>
       <div className="mt-4 border-[10px] border-[#0F1721] rounded-lg shadow-lg overflow-hidden">
         <img
-          src="/blog/description/xd.png"
+          src="/blog/description/luces_neonled_ledneopublicidad.webp"
           alt="Imagen destacada"
           className="max-h-[23rem] object-cover rounded-lg"
         />

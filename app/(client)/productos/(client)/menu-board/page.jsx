@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Cafetería", 
       description: "Espacio interior", 
-      image: "/productos/menu_boards1.jpg"  
+      image: "/productos/menu-digital-cafeteria-gloria-jeans-con-bebidas.webp"  
     },
     { 
       title: "Establecimiento", 
       description: "Espacio interior",  
-      image: "/productos/menu_boards2.jpg"    
+      image: "/productos/menu-digital-fast-food-colleccion-del-rey.webp"    
     },
     { 
       title: "Restaurante", 
       description: "Espacio interior",  
-      image: "/productos/menu_boards3.png"    
+      image: "/productos/pantallas-menu-digital-con-desayuno-y-hamburguesas.webp"    
     }
   ];
   const idProducto = 7;

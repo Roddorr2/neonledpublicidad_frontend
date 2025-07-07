@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Tienda de ropa", 
       description: "Espacio interior", 
-      image: "/productos/tienda_ropa.png"  
+      image: "/productos/monitor-publicitario-interactivo-tienda-ropa.webp"  
     },
     { 
       title: "Comida rapida", 
       description: "Espacio interior",  
-      image: "/productos/comida_rapida.png"       
+      image: "/productos/monitores-publicidad-drive-thru-menu-digital.webp"       
     },
     { 
       title: "Zapatería", 
       description: "Espacio interior",  
-      image: "/productos/zapateria.png"       
+      image: "/productos/pantalla-publicitaria-digital-tienda-zapatillas.webp"       
     }
   ];
   const idProducto = 9;
