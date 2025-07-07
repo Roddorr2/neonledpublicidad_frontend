@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Productos", 
       description: "Espacio interior", 
-      image: "/productos/holografico_1.jpg"  
+      image: "/productos/holograma-zapatilla-rotativa-publicidad.webp"  
     },
     { 
       title: "Eventos de temporada", 
       description: "Espacio interior",  
-      image: "/productos/holografico_2.jpg"        
+      image: "/productos/holograma-navidad-arbol-publicitario.webp"        
     },
     { 
       title: "Personas", 
       description: "Espacio interior",  
-      image: "/productos/holografico_3.jpg"        
+      image: "/productos/presentacion-holografica-persona-3d-escenario.webp"        
     }
   ];
   const idProducto = 11;

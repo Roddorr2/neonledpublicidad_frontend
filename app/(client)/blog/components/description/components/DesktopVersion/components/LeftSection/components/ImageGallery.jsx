@@ -9,7 +9,7 @@ export const ImageGallery = () => {
       <div className="ml-auto flex flex-col md:flex-row">
         <div className="md:w-[90%] relative z-10">
           <img
-            src="/blog/description/cafecreepe.png"
+            src="/blog/description/cafecrepe_letras_neonled_ledneonpublicidad.webp"
             alt="Imagen izquierda"
             className="max-h-[40rem] min-w-[40rem] max-[1400px]:min-w-[30rem] max-[1200px]:min-w-[20rem] max-[900px]:min-w-[10rem] object-cover"
           />
@@ -23,7 +23,7 @@ export const ImageGallery = () => {
         <div className="absolute bottom-6 right-0 md:w-[50%]  z-20">
           <div className="border-[10px] border-[#0F1721] rounded-[20px] shadow-lg overflow-hidden">
             <img
-              src="/blog/description/xd.png"
+              src="/blog/description/luces_neonled_ledneopublicidad.webp"
               alt="Imagen derecha"
               className="max-h-[23rem] min-w-full object-cover rounded-lg"
             />

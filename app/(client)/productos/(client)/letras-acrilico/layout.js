@@ -8,9 +8,9 @@ export const metadata = {
       "Dale estilo a tu marca con letras de acrílico: resistentes, modernas y perfectas para destacar en interiores o exteriores.",
     url: "https://ledneonpublicidad.com/productos/letras-acrilico",
     siteName: "Neon Led Publicidad",
-    images: [],
+    images: [], // podrías añadir imágenes aquí
     locale: "es_PE",
-    type: "website",
+    type: "website", // ✅ corregido
   },
 };
 

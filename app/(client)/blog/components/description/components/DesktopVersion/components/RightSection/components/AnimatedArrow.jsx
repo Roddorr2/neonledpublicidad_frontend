@@ -23,7 +23,7 @@ export const AnimatedArrow = () => {
   return (
     <motion.img
       id="animatedArrow"
-      src="/blog/description/flechaabajo.png"
+      src="/blog/description/flechaabajo_ledneonpublicidad.webp"
       alt="Flecha hacia abajo"
       className="mx-auto"
       initial={{ y: 0 }}

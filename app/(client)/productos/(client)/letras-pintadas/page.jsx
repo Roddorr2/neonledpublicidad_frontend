@@ -25,7 +25,7 @@ export default function Home() {
     { 
       title: "Tienda", 
       description: "Espacio interior",  
-      image: "/productos/mdf3.jpg"     
+      image: "/productos/letras-mdf-retroiluminadas-marks-and-spencer.webp"     
     }
   ];
   const idProducto = 8;

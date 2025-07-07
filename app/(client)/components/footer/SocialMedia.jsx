@@ -8,23 +8,23 @@ export const SocialMedia = () => {
     const socialMedia = [
         {
             href: "https://www.tiktok.com/@neonled.publicidad",
-            src: "/header_footer/tiktock.svg",
-            alt: "TikTok"
+            src: "/header_footer/tiktok_ledneonpublicidad.webp",
+            alt: "Logotipo oficial de la red social TikTok con diseño minimalista"
         },
         {
             href: "https://www.youtube.com/@neonledpublicidad_2025",
-            src: "/header_footer/youtube.svg",
-            alt: "YouTube"
+            src: "/header_footer/youtube_ledneonpublicidad.webp",
+            alt: "Icono de la red social YouTube en formato simplificado"
         },
         {
             href: "https://www.facebook.com/ledneonpublicidad",
-            src: "/header_footer/facebook.svg",
-            alt: "Facebook"
+            src: "/header_footer/facebook_ledneonpublicidad.webp",
+            alt: "Logotipo de Facebook representado como icono social en línea"
         },
         {
             href: "https://www.instagram.com/neonledpublicidad.oficial/",
-            src: "/header_footer/instagram.svg",
-            alt: "Instagram"
+            src: "/header_footer/instagram_ledneonpublicidad.webp",
+            alt: "Icono colorido de la red social Instagram con diseño moderno"
         },
     ]
 

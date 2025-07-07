@@ -88,7 +88,7 @@ const Contacto = () => {
                 <div className="flex flex-col items-center text-center">
                   <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-4">
                     <Image
-                      src="/contacto/icono_contacto_celular.svg"
+                      src="/contacto/icono_contacto_celular_ledneonpublicidad.webp"
                       alt="Icono Celular"
                       width={32}
                       height={32}

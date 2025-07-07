@@ -1,8 +1,8 @@
 export const MissionVision = () => {
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col md:flex-row items-start">
       {/* Mission */}
-      <div className="bg-gray-900/80 rounded-lg p-5 backdrop-blur-sm">
+       <div className="bg-gray-900/80 p-5 backdrop-blur-sm w-full md:w-[320px] min-h-[220px]">
         <div className="flex items-center justify-center mb-4">
           <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
             <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -20,7 +20,7 @@ export const MissionVision = () => {
       </div>
 
       {/* Vision */}
-      <div className="bg-gray-900/80 rounded-lg p-5 backdrop-blur-sm">
+      <div className="bg-gray-900/80 p-5 backdrop-blur-sm w-full md:w-[320px] min-h-[220px]">
         <div className="flex items-center justify-center mb-4">
           <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
             <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">

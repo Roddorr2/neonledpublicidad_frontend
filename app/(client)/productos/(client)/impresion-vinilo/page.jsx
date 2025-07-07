@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Sanguchería", 
       description: "Espacio interior", 
-      image: "/productos/impresion_vinil_1.jpg"  
+      image: "/productos/vinilo-tipografico-keep-burger-calm.webp"  
     },
     { 
       title: "Pollería", 
       description: "Espacio interior",  
-      image: "/productos/impresion_vinil_2.jpg"  
+      image: "/productos/vinilo-piri-piri-chicken-restaurante-rojo.webp"  
     },
     { 
       title: "Decoracion en vinilo para paredes", 
       description: "Espacio interior",  
-      image: "/productos/decoracion_vinilo_paredes.jpg"  
+      image: "/productos/vinilo-japones-no1-beef-bowl-pared.webp"  
     },
   ];
   const idProducto = 6;
