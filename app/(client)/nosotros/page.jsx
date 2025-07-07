@@ -6,15 +6,15 @@ import { SocialMedia } from "./components/SocialMedia"
 
 const AboutStatic = () => {
   return (
-    <div className="text-left max-w-md lg:max-w-lg px-4 z-10 relative">
-      <h2 className="text-base md:text-xl mb-2 md:mb-3 text-white">Conoce más sobre</h2>
-      <h1 className="text-2xl md:text-4xl font-bold mb-4 md:mb-5 text-white">NOSOTROS</h1>
-      <p className="text-xs md:text-sm text-white max-w-md">
-        Somos Neon Led Publicidad, una empresa dedicada a la fabricación y venta de diseños personalizados de letreros
-        que transforman cualquier espacio en un reflejo único de estilo y personalidad.
-      </p>
-    </div>
-  )
+   <div className="text-center max-w-md lg:max-w-lg px-4 z-10 relative mx-auto">
+    <h2 className="text-base md:text-xl mb-2 md:mb-3 text-white">Conoce más sobre</h2>
+    <h1 className="text-2xl md:text-4xl font-bold mb-4 md:mb-5 text-white">NOSOTROS</h1>
+    <p className="text-xs md:text-sm text-white">
+      Somos Neon Led Publicidad, una empresa dedicada a la fabricación y venta de diseños personalizados de letreros
+      que transforman cualquier espacio en un reflejo único de estilo y personalidad.
+    </p>
+  </div>
+ )
 }
 
 const Nosotros = () => {
@@ -56,11 +56,26 @@ const Nosotros = () => {
     {
       title: "Somos",
       value: "PROFESIONALES",
-      bgColor: "bg-blue-500",
+      bgColor: "bg-blue-700",
       icon: (
-        <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-        </svg>
+        <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  className="lucide lucide-hard-hat-icon lucide-hard-hat"
+>
+  <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" />
+  <path d="M14 6a6 6 0 0 1 6 6v3" />
+  <path d="M4 15v-3a6 6 0 0 1 6-6" />
+  <rect x="2" y="15" width="20" height="4" rx="1" />
+</svg>
+
       ),
     },
     {
@@ -94,22 +109,22 @@ const Nosotros = () => {
         <SectionBackground />
 
         {/* Two-column layout */}
-        <div className="container mx-auto z-10 flex flex-col md:flex-row">
+        <div className="w-full z-10 flex flex-col md:flex-row justify-between items-start">
           {/* Left column - About, Mission, Vision */}
-          <div className="w-full md:w-1/2 px-4 md:px-8 flex flex-col">
+          <div className="flex flex-col items-center max-w-[700px] mx-auto w-full">
             {/* About section */}
-            <div className="mb-10">
+            <div className="mb-10 w-full px-4">
               <AboutStatic />
             </div>
 
             {/* Mission & Vision Section */}
-            <div className="mb-8 max-w-md mx-auto md:mx-0">
+            <div className="mb-8 w-full px-4">
               <MissionVision />
             </div>
           </div>
 
           {/* Right column - Values */}
-          <div className="w-full md:w-1/2 px-4 py-4 md:px-8 flex flex-col md:h-[calc(100%-2rem)] md:mt-10">
+       <div className="w-full md:w-[600px] py-4 flex flex-col md:h-[calc(100%-2rem)] md:-mt-10">
             <div className="flex-grow">
               <CompanyValues companyValues={companyValues} />
             </div>

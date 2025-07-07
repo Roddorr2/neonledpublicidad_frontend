@@ -35,7 +35,7 @@ const Slider = ({ slides }) => {
     <div className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh]">
       {/* Texto superpuesto - Ajustado para móviles */}
       <SliderContent />
-
+      {/*Contenido de la izquierda  que tiene background de imagen*/}
       {/* Contenedor principal del slide */}
       <div className="relative w-full h-full">
         <SlideItem slides={slides} current={current} />

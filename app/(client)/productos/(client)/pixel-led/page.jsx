@@ -17,7 +17,7 @@ export default function Home() {
       description: "Espacio interior",  
       image: "/productos/pasillo-led-verde-evento.webp"        
     },
-    { 
+    {   
       title: "Bares", 
       description: "Espacio exterior", 
       image: "/productos/barra-discoteca-con-pixel-led.webp"  

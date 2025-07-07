@@ -10,7 +10,7 @@ export const metadata = {
     siteName: "Neon Led Publicidad",
     images: [],
     locale: "es_PE",
-    type: "product",
+    type: "website",
   },
 };
 
