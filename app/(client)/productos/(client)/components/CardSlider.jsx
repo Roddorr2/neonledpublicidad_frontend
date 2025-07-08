@@ -35,8 +35,10 @@ function CardSlider({cards}) {
             {card.image ? (
               <div className="relative w-full h-full group ">
                 <img 
-                  src={card.image} 
-                  alt={card.title} 
+                  src={card.image}
+                  // Se añadió un atributo alt a los objetos card 
+                  // alt={card.title} 
+                  alt={card.alt ? card.alt : card.title}
                   className="w-full h-full object-cover rounded-lg filter brightness-75 group-hover:brightness-100 transition duration-300 "
                 />
                 <div className="absolute h-full inset-0 flex flex-col justify-end text-white ">

@@ -1,4 +1,6 @@
-export default function Banner({ titulo, imagen }) {
+import Image from "next/image";
+
+export default function Banner({ titulo, imagen, alt="" }) {
   const style = {
     backgroundImage: `url(${imagen})`,
   };
@@ -6,10 +8,19 @@ export default function Banner({ titulo, imagen }) {
   return (
     <main className="h-[calc(100vh-100px)]  text-center grid grid-cols-1 justify-center overflow-hidden relative">
       <div className="w-full h-full flex justify-center">
-          <div
-        style={style}
-        className="md:flex-1 h-full flex mb-[-50px] bg-cover bg-center md:bg-left w-full  md:absolute md:w-full  md:h-full"
-      ></div></div>
+        <div className="relative md:flex-1 h-full mb-[-50px] w-full md:absolute md:w-full md:h-full">
+          {/* Refactorización: de background a Image de Next */}
+          <Image
+            src={imagen}
+            alt={alt}
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover object-center md:object-left select-none"
+            draggable={false}
+          />
+        </div>
+      </div>
       <div className="bg-[#00b2fc] w-[910px] h-[2000px] rotate-45 absolute border-[2vw] hidden md:block -left-[100px] bottom-[300px] border-white"></div>
       <div className="md:rotate-45 md:bg-[#00101B]  md:absolute md:-bottom-[670px] md:-left-[300px] md:w-[1000px] md:h-[1000px] md:border-[2vw] overflow-hidden"></div>
       <div className="absolute bottom-0 md:bottom-14 bg-[#00101B] md:bg-transparent  flex flex-col justify-center items-center w-screen py-12 md:py-0 rounded-t-[50px] md:w-[450px]">
