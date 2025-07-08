@@ -17,17 +17,20 @@ export default function Home() {
     { 
       title: "Cafetería", 
       description: "Espacio exterior", 
-      image: "/productos/letras_de_acrílico_para_negocio_ledneonpublicidad.webp" 
+      image: "/productos/letras_de_acrílico_para_negocio_ledneonpublicidad.webp",
+      alt: "Letrero de cafetería con letras de acrílico"
     },
     { 
       title: "Tienda de ropa", 
       description: "Espacio interior", 
-      image: "/productos/letreros_volumétricos_con_luces_LED_ledneonpublicidad.webp"
+      image: "/productos/letreros_volumétricos_con_luces_LED_ledneonpublicidad.webp",
+      alt: "Letrero con letras de acrílico en una tienda de ropa"
     },
     { 
       title: "Cafetería", 
       description: "Espacio exterior", 
-      image: "/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp" 
+      image: "/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp",
+      alt: "Letrero de cafetería con letras de acrílico" 
     }
   ];
   return (
@@ -35,6 +38,7 @@ export default function Home() {
       <Banner
         titulo="LETRAS DE ACRÍLICO"
         imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad.webp"
+        alt="Letrero de tienda kawasaki con letras de acrílico color rojo"
       />
       <Section2 idProducto={idProducto} />
       <Datos idProducto={idProducto}/>
