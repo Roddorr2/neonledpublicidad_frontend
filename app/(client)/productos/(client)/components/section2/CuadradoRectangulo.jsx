@@ -24,19 +24,19 @@ const productosInfo = [
     title: "LETRAS DE NEÓN EN TUBOS DE VIDRIO", 
     description: "Tubos de vidrio se adaptan cualquier forma, creando letras de neón que se pueden personalizar según las preferencias del cliente. Además estos letreros neón pueden ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.", 
     image: "letras_neon_de_vidrio_ledneonpublicidad.webp",
-    alt: ""
+    alt: "laptop con fondo de pantalla de letras neón en tubo de vidrio"
   },
   { id: 5, 
     title: "LETRAS DE NEÓN LED", 
     description: "Tubos con led se adaptan cualquier forma, creando letras de neón que se pueden personalizar según las preferencias del cliente. Además estos letreros neón pueden ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.", 
     image: "letras_de_neon_ledneonpublicidad.webp",
-    alt: ""
+    alt: "Diseño de letrero neón Burger proyectado en pantalla de laptop sobre pared de ladrillo"
   },
   { id: 6, 
     title: "IMPRESIÓN EN VINILES DECORATIVOS", 
     description: "Vinilos para pared es la solución perfecta para llevar tu mensaje, diseño o logotipo a cualquier superficie de forma creativa y resistente. Gracias a su versatilidad, vinilos decorativos permiten lograr acabados exactos y detallados que se adaptan a cualquier estilo.", 
     image: "vinilo-decorativo-menu-para-restaurante.webp",
-    alt: ""
+    alt: "Vinilo decorativo con menú ilustrado en pared de restaurante con temática de comida rápida"
   },
   { id: 7, 
     title: "MENÚ BOARD", 
