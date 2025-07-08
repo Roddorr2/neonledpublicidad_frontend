@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Neon Led Publicidad - Nosotros",
+  title: "Neon Led Publicidad _ Nosotros",
   description:
     "Conoce más sobre Neon Led Publicidad, una empresa peruana dedicada a la fabricación y venta de letreros LED personalizados para transformar cualquier espacio en un reflejo único de estilo y personalidad.",
   openGraph: {
