@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Restaurante", 
       description: "Espacio interior", 
-      image: "/productos/neon_led1.jpg"  
+      image: "/productos/anuncio_neon_led_ledneonpublicidad.webp"  
     },
     { 
       title: "Barber Shop", 
       description: "Espacio interior", 
-      image: "/productos/neon_led2.jpg"
+      image: "/productos/letrero_barber_shop_neon_rojo_interior.webp"
     },
     { 
       title: "Espacio de entretenimiento", 
       description: "Espacio interior", 
-      image: "/productos/neon_led3.jpg"
+      image: "/productos/letreros_neon_en_sala_de_juegos_arcade.webp"
     }
   ];
   const idProducto = 5;

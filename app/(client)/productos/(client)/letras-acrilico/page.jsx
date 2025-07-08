@@ -17,24 +17,24 @@ export default function Home() {
     { 
       title: "Cafetería", 
       description: "Espacio exterior", 
-      image: "/productos/acrilico_producto_1.png" 
+      image: "/productos/letras_de_acrílico_para_negocio_ledneonpublicidad.webp" 
     },
     { 
       title: "Tienda de ropa", 
       description: "Espacio interior", 
-      image: "/productos/acrilico_producto_2.png" 
+      image: "/productos/letreros_volumétricos_con_luces_LED_ledneonpublicidad.webp"
     },
     { 
       title: "Cafetería", 
       description: "Espacio exterior", 
-      image: "/productos/acrilico_producto_3.png" 
+      image: "/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp" 
     }
   ];
   return (
     <>
       <Banner
         titulo="LETRAS DE ACRÍLICO"
-        imagen="/productosIndividuales/banner/letras-acrilico.png"
+        imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad.webp"
       />
       <Section2 idProducto={idProducto} />
       <Datos idProducto={idProducto}/>

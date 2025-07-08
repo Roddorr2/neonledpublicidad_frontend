@@ -27,7 +27,7 @@ export default function Banner({ titulo, imagen }) {
           </h1>
           <hr className="border-[#00B2FA] w-[144px] border-t-[3px] mt-6 mb-12" />
           <img
-            src="/productosIndividuales/banner/flecha.svg"
+            src="/productosIndividuales/banner/icono_flecha_direccion.webp"
             alt=""
             className="md:hidden"
           />

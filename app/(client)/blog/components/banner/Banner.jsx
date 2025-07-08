@@ -1,11 +1,4 @@
 import React from 'react';
-import { Montserrat } from 'next/font/google';
-
-const montserrat = Montserrat({
-    subsets: ['latin'],
-    weight: ['400', '500', '700'],
-    variable: '--font-montserrat',
-});
 
 const Banner = () => {
     return (
@@ -27,14 +20,14 @@ const Banner = () => {
             {/* Curved edges */}
             <div className="absolute top-0 right-0 w-[350px] sm:w-[500px] h-[200px] sm:h-[300px]">
                 <img
-                    src="/blog/banner/vector_2.png"
+                    src="/blog/banner/vector_2_ledneonpublicidad.webp"
                     alt="Imagen superior derecha"
                     className="w-full h-full object-cover rounded-bl-[50px] opacity-70"
                 />
             </div>
             <div className="absolute bottom-0 left-0 w-[350px] sm:w-[500px] h-[200px] sm:h-[300px]">
                 <img
-                    src="/blog/banner/vector_1.png"
+                    src="/blog/banner/vector_1_ledneonpublicidad.webp"
                     alt="Imagen inferior izquierda"
                     className="w-full h-full object-cover rounded-tr-[50px] opacity-70"
                 />

@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Discoteca", 
       description: "Espacio interior", 
-      image: "/productos/sillas_luminosas_discoteca.jpg"  
+      image: "/productos/mobiliario-led-colorido-para-bar-nocturno.webp"  
     },
     { 
       title: "Eventos", 
       description: "Espacio exterior",  
-      image: "/productos/sillas_luminosas_eventos.jpg"        
+      image: "/productos/sillas-led-iluminadas-para-terraza-nocturna.webp"        
     },
     { 
       title: "Zona VIP", 
       description: "Espacio interior",  
-      image: "/productos/sillas_luminosas_zonavip.jpg"        
+      image: "/productos/mobiliario-luminoso-para-discotecas-y-bares.webp"        
     }
   ];
   const idProducto = 13;

@@ -15,17 +15,17 @@ export default function Home() {
     { 
       title: "Bar", 
       description: "Espacio interior", 
-      image: "/productos/letra_neon_led_1.png" 
+      image: "/productos/letras_de_vidrio_iluminadas_ledneonpublicidad.webp" 
     },
     { 
       title: "Restaurante", 
       description: "Espacio exterior", 
-      image: "/productos/letra_neon_led_2.png" 
+      image: "/productos/letras_de_neon_en_vidrio_ledneonpublicidad.webp" 
     },
     { 
       title: "Tienda de estilo retro", 
       description: "Espacio interior", 
-      image: "/productos/letra_neon_led_3.png" 
+      image: "/productos/Letras_de_neon_en_vidrio_ledneonpublicidad2.webp" 
     }
   ];
   const idProducto = 4;

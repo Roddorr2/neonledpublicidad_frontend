@@ -17,40 +17,44 @@ const AboutStatic = () => (
 export default function Home() {
   const fila1 = [
     {
-      imgSrc: "/productosPrincipal/1crocs.webp",
+      imgSrc: "/productosPrincipal/letrero_crocs_verde_con_letras_blancas.webp",
       altText: "Producto 1",
       description: "LETRAS DE ACRÍLICO",
+      route: "/productos/letras-acrilico"
     },
     {
-      imgSrc: "/productosPrincipal/productos2_lux.webp",
+      imgSrc: "/productosPrincipal/logo_lux_nails_studio_iluminado_en_dorado.webp",
       altText: "Producto 2",
       description: "LETRAS DORADAS Y PLATEADAS",
+      route: "/productos/letras-doradas"
     },
     {
-      imgSrc: "/productosPrincipal/productos3_farm.webp",
-      altText: "Producto 3",
+      imgSrc: "/productosPrincipal/fachada_farmacia_maria_pacheco_con_cruz_verde.webp",
+      altText: "Fachada de Farmacia Lda. Maria Pacheco con cruz verde luminosa",
       description: "LETREROS LUMINOSOS",
+      route: "/productos/letreros-luminosos"
     },
     {
-      imgSrc: "/productosPrincipal/productos4_wok.webp",
-      altText: "Producto 4",
+      imgSrc: "/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar.webp",
+      altText: "Letrero neón de Wok's Cerveza Artesanal en colores verde y ámbar de noche",
       description: "LETRAS DE NEÓN",
+      route: "/productos/letras-neon"
     },
   ];
 
   const slidesData = [
-    { imgSrc: "/home/letreros_negocio_1.webp", altText: "Descripción 1" },
-    { imgSrc: "/home/letreros_negocio_2.webp", altText: "Descripción 2" },
-    { imgSrc: "/home/letreros_negocio_3.webp", altText: "Descripción 3" },
-    { imgSrc: "/home/letreros_negocio_4.webp", altText: "Descripción 4" },
+    { imgSrc: "/home/logo_mlg_letras_doradas_con_iluminacion.webp", altText: "Logotipo dorado iluminado de MLG en pared de oficina" },
+    { imgSrc: "/home/letreros_negocio_2.webp", altText: "Letrero iluminado de Bembos" },
+    { imgSrc: "/home/letrero_neon_tienda_tatuajes_tattoo.webp", altText: "Letrero neón con diseño de máquina de tatuajes y palabra Tattoo en vidriera" },
+    { imgSrc: "/home/letrero_tambo_colores_amarillo_y_magenta.webp", altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta" },
   ];
 
     const clientLogos = [
-    { imgSrc: "/home/JockeyPlazaLogo.svg", altText: "JockeyPlaza" },
-    { imgSrc: "/home/MallDelSurLogo.svg", altText: "Mall del Sur" },
-    { imgSrc: "/home/LyKLogo.svg", altText: "L&K" },
-    { imgSrc: "/home/CrisolLogo.svg", altText: "Crisol" }, 
-    { imgSrc: "/home/BancoNacion.svg", altText: "Crisol" }, 
+    { imgSrc: "/home/Jockeyplaza_Logo_ledneonpublicidad.webp", altText: "Logotipo blanco y negro del centro comercial Jockey Plaza con letra J" },
+    { imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad.webp", altText: "Logotipo de Mall del Sur con pétalos de colores sobre fondo azul" },
+    { imgSrc: "/home/logo_lk_constructora_e_inversiones.webp", altText: "Logotipo de L&K Constructora e Inversiones con diseño de edificio en tonos azules y verdes" },
+    { imgSrc: "/home/Crisol_Logo_ledneopublicidad.webp", altText: "Logotipo de Crisol con fondo amarillo y texto azul Libros y Más" }, 
+    { imgSrc: "/home/BancodelaNación_ledneonpublicidad.webp", altText: "Logotipo del Banco de la Nación Perú con texto negro y símbolo rojo" }, 
   ];
 
   return (
