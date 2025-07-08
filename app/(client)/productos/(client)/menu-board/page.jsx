@@ -15,17 +15,20 @@ export default function Home() {
     { 
       title: "Cafetería", 
       description: "Espacio interior", 
-      image: "/productos/menu-digital-cafeteria-gloria-jeans-con-bebidas.webp"  
+      image: "/productos/menu-digital-cafeteria-gloria-jeans-con-bebidas.webp",
+      alt: "Pantallas digitales con menú de bebidas, espresso y sándwiches en cafetería Gloria Jean’s"
     },
     { 
       title: "Establecimiento", 
       description: "Espacio interior",  
-      image: "/productos/menu-digital-fast-food-colleccion-del-rey.webp"    
+      image: "/productos/menu-digital-fast-food-colleccion-del-rey.webp" ,
+      alt: "Menú digital iluminado de comida rápida con hamburguesas, combos y pollo frito de la Colección del Rey" 
     },
     { 
       title: "Restaurante", 
       description: "Espacio interior",  
-      image: "/productos/pantallas-menu-digital-con-desayuno-y-hamburguesas.webp"    
+      image: "/productos/pantallas-menu-digital-con-desayuno-y-hamburguesas.webp",
+      alt: "Pantallas digitales de menú con desayuno, hamburguesas y acompañamientos en restaurante de comida rápida"  
     }
   ];
   const idProducto = 7;

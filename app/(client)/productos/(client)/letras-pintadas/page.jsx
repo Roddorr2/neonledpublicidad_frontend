@@ -25,7 +25,8 @@ export default function Home() {
     { 
       title: "Tienda", 
       description: "Espacio interior",  
-      image: "/productos/letras-mdf-retroiluminadas-marks-and-spencer.webp"     
+      image: "/productos/letras-mdf-retroiluminadas-marks-and-spencer.webp",
+      alt: "Letras pintadas en MDF retroiluminadas del letrero Marks & Spencer en tienda comercial"    
     }
   ];
   const idProducto = 8;

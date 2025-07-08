@@ -15,17 +15,20 @@ export default function Home() {
     { 
       title: "Tienda de ropa", 
       description: "Espacio interior", 
-      image: "/productos/pantalla-led-programa-kelly-clarkson-show.webp"  
+      image: "/productos/pantalla-led-programa-kelly-clarkson-show.webp",
+      alt: "Pantalla LED en set de televisión mostrando el logo del programa The Kelly Clarkson Show"  
     },
     { 
       title: "Tienda de calzado", 
       description: "Espacio interior", 
-      image: "/productos/pantalla-led-publicitaria-tienda-zapatos-mujer.webp"  
+      image: "/productos/pantalla-led-publicitaria-tienda-zapatos-mujer.webp",
+      alt: "Pantalla LED vertical en tienda de calzado mostrando publicidad de moda femenina"  
     },
     { 
       title: "Centro comercial", 
       description: "Espacio interior",  
-      image: "/productos/pantalla-led-gigante-publicidad-20th-century-fox.webp"       
+      image: "/productos/pantalla-led-gigante-publicidad-20th-century-fox.webp",
+      alt: "Pantalla LED gigante en interior transmitiendo animación de 20th Century Fox"       
     }
   ];
   const idProducto = 10;

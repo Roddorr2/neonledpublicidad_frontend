@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function Banner({ titulo, imagen, alt="" }) {
+export default function Banner({ titulo, imagen, alt }) {
   const style = {
     backgroundImage: `url(${imagen})`,
   };
@@ -12,7 +12,7 @@ export default function Banner({ titulo, imagen, alt="" }) {
           {/* Refactorización: de background a Image de Next */}
           <Image
             src={imagen}
-            alt={alt}
+            alt={alt ? alt : titulo}
             fill
             sizes="100vw"
             priority
