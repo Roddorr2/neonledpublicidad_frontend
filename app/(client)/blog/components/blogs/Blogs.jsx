@@ -92,7 +92,7 @@ const Blogs = () => {
     setFilteredData(filtered);
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
     // Actualizamos la URL solo cuando se presiona el botón
-    router.push(`?search=${searchTerm}&page=1`);
+    router.push(`?search=${searchTerm}&page=1`, { scroll : false});
   };
 
   if (isLoading) {
