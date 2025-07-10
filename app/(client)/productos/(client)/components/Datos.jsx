@@ -160,14 +160,14 @@ export default function Datos({ idProducto }) {
             disabled={activeIndex === 0}
             className="absolute  left-2 top-1/2 -translate-y-1/2 z-10 p-2 flex justify-center text-9xl  text-[--azul_brillante] bg-transparent hover:bg-transparent disabled:opacity-50"
           >
-           <img src="/Productos/vector-left.png" alt="" className='h-20' />
+           <img src="/productos/vector-left.png" alt="" className='h-20' />
           </button>
           <button
             onClick={goNext}
             disabled={activeIndex === totalCards - 1}
             className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 flex justify-center  text-9xl   text-[--azul_brillante] bg-transparent hover:bg-transparent disabled:opacity-50"
           >
-          <img src="/Productos/vector-right.png" alt="" className=' h-20'/>
+          <img src="productos/vector-right.png" alt="" className=' h-20'/>
           </button>
 
           <div 
