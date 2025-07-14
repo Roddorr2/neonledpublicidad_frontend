@@ -26,7 +26,7 @@ export default function Banner({ titulo, imagen, alt }) {
       <div className="absolute bottom-0 md:bottom-14 bg-[#00101B] md:bg-transparent  flex flex-col justify-center items-center w-screen py-12 md:py-0 rounded-t-[50px] md:w-[450px]">
           <h1 className="text-white text-xl font-medium">
             Conoce más sobre
-            <span className="font-title px-10 text-5xl sm:text-4xl font-normal block drop-shadow-[0_0_10px_#00B2FA]">
+            <span className="font-title px-101 text-5xl sm:text-6xl font-normal block drop-shadow-[0_0_10px_#00B2FA]">  
               {titulo}
             </span>
 
