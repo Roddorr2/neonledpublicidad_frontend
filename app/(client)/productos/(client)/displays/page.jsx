@@ -14,7 +14,7 @@ export default function Home() {
     },
     { 
       title: "Tienda de ropa", 
-      description: "Espacio interior", 
+      description: "Espacio exterior", 
       image: "/productos/monitor-publicitario-interactivo-tienda-ropa.webp",
       alt: "Pantalla digital interactiva de publicidad en tienda de ropa con cliente usando el sistema táctil"  
     },

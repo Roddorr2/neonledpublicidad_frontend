@@ -59,7 +59,7 @@ export default {
   		},
   		fontFamily: {
   			title: [
-  				'Telegraf',
+  				'League Gothic',
   				'ui-serif'
   			]
   		},
