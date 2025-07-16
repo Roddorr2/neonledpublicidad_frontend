@@ -11,6 +11,9 @@ export const metadata = {
     images: [],
     locale: "es_PE",
     type: "website",
+    alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/letras-doradas/",
+  },
   },
 };
 

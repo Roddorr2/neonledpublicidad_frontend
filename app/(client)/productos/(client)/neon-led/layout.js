@@ -12,6 +12,9 @@ export const metadata = {
     locale: "es_PE",
     type: "website",
   },
+  alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/neon-led",
+  },
 };
 
 export default function NeonLedLayout({ children }) {
