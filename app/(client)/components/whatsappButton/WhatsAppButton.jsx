@@ -5,8 +5,7 @@ import { usePathname } from "next/navigation";
 export default function WhatsAppButton() {
   const pathname = usePathname();
 
-  // Ocultar si la ruta comienza con /login o /admin
-  if (pathname.startsWith("/login") || pathname.startsWith("/dashboard")) {
+  if (pathname.startsWith("/login") || pathname.startsWith("/dashboard") || pathname.startsWith("/edition")) {
     return null;
   }
 
