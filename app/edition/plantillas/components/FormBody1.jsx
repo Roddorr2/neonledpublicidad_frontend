@@ -418,7 +418,14 @@ export default function FormBody1(props) {
                     className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${styles[index % styles.length]}`}
                   >
                     <h3 className="text-xl font-bold mb-3 text-white">{section.titulo}</h3>
-                    <p className="text-gray-100">{section.descripcion}</p>
+                    {/* <p className="text-gray-100">{section.descripcion}</p> */}
+                    <p className="text-gray-100">
+                      {renderDescripcion(
+                        section.descripcion,
+                        section.palabra,
+                        section.enlace
+                      )}
+                    </p>
                   </div>
                 );
               })}
