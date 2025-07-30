@@ -422,8 +422,8 @@ export default function FormBody1(props) {
                     <p className="text-gray-100">
                       {renderDescripcion(
                         section.descripcion,
-                        section.palabra,
-                        section.enlace
+                        section.keyword,
+                        section.link
                       )}
                     </p>
                   </div>
