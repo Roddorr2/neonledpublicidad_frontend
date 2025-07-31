@@ -42,25 +42,25 @@ export default function Productos() {
     ],
     [
       {
-        imgSrc: "/productosPrincipal/5letrasDeNeon.png",
+        imgSrcMobile: "/productosPrincipal/5letrasDeNeon.png",
         altText: "Producto 5",
         description: "NEÓN LED",
         route: "/productos/neon-led",
       },
       {
-        imgSrc: "/productosPrincipal/6impresionEnVinilo.png",
+        imgSrcMobile: "/productosPrincipal/6impresionEnVinilo.png",
         altText: "Producto 6",
         description: "IMPRESIÓN EN VINILO",
         route: "/productos/impresion-vinilo",
       },
       {
-        imgSrc: "/productosPrincipal/7hamburguesa.webp",
+        imgSrcMobile: "/productosPrincipal/7hamburguesa.webp",
         altText: "Producto 7",
         description: "MENÚ BOARD",
         route: "/productos/menu-board",
       },
       {
-        imgSrc: "/productosPrincipal/8burnout.jpg",
+        imgSrcMobile: "/productosPrincipal/8burnout.jpg",
         altText: "Producto 8",
         description: "LETRAS PINTADAS EN MDF",
         route: "/productos/letras-pintadas",
@@ -68,25 +68,25 @@ export default function Productos() {
     ],
     [
       {
-        imgSrc: "/productosPrincipal/monitores_tactiles.jpg",
+        imgSrcMobile: "/productosPrincipal/monitores_tactiles.jpg",
         altText: "Producto 9",
         description: "MONITORES DE PUBLICIDAD",
         route: "/productos/displays",
       },
       {
-        imgSrc: "/productosPrincipal/Pantallas_led.jpg",
+        imgSrcMobile: "/productosPrincipal/Pantallas_led.jpg",
         altText: "Producto 10",
         description: "PANTALLAS LED",
         route: "/productos/pantalla-led",
       },
       {
-        imgSrc: "/productosPrincipal/holograma_3d_1.png",
+        imgSrcMobile: "/productosPrincipal/holograma_3d_1.png",
         altText: "Producto 11",
         description: "HOLOGRÁFICO",
         route: "/productos/holografico",
       },
       {
-        imgSrc: "/productosPrincipal/pixel_led_1.png",
+        imgSrcMobile: "/productosPrincipal/pixel_led_1.png",
         altText: "Producto 12",
         description: "PIXEL LED",
         route: "/productos/pixel-led",
@@ -94,13 +94,13 @@ export default function Productos() {
     ],
     [
       {
-        imgSrc: "/productosPrincipal/sillas_luminosas_1.png",
+        imgSrcMobile: "/productosPrincipal/sillas_luminosas_1.png",
         altText: "Producto 13",
         description: "SILLAS LUMINOSAS",
         route: "/productos/sillas-luminosas",
       },
       {
-        imgSrc: "/productosPrincipal/luces_led_techo_1.png",
+        imgSrcMobile: "/productosPrincipal/luces_led_techo_1.png",
         altText: "Producto 14",
         description: "TECHOS LED",
         route: "/productos/techos-led",
