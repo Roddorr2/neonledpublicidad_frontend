@@ -15,17 +15,20 @@ export default function Home() {
     { 
       title: "Salon de belleza", 
       description: "Espacio exterior", 
-      image: "/productos/letras_doradas_ledneonpublicidad.webp"
+      image: "/productos/letras_doradas_ledneonpublicidad.webp",
+      alt: "Cartel de letras doradas"
     },
     { 
       title: "Negocio personal", 
       description: "Espacio interior", 
-      image: "/productos/letras_doradas_ledneonpublicidad2.webp"
+      image: "/productos/letras_doradas_ledneonpublicidad2.webp",
+      alt: "Cartel de letras doradas"
     },
     { 
       title: "Cuidado capilar", 
       description: "Espacio exterior", 
-      image: "/productos/letras_doradas_ledneonpublicidad3.webp" 
+      image: "/productos/letras_doradas_ledneonpublicidad3.webp",
+      alt: "Cartel de letras doradas"
     }
   ];
   const idProducto = 2;

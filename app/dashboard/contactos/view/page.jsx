@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Mail, User, Phone, Calendar, MessageSquare, CheckCircle, XCircle } from "lucide-react"
+import { ArrowLeft, Mail, User, Phone, Calendar, MessageSquare, CheckCircle, XCircle, MapPinned } from "lucide-react"
 
 export default function Page() {
   const router = useRouter()
@@ -80,6 +80,14 @@ export default function Page() {
                 <h3 className="text-sm font-semibold text-gray-500 mb-1">Nombre</h3>
                 <p className="text-lg font-medium text-gray-800">{contacto.nombre}</p>
               </div>
+              
+              <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div className="bg-[#0d6fdc]/10 p-3 rounded-full mb-3">
+                  <MapPinned className="w-6 h-6 text-[#0d6fdc]" />
+                </div>
+                <h3 className="text-sm font-semibold text-gray-500 mb-1">Distrito</h3>
+                <p className="text-lg font-medium text-gray-800">{contacto.distrito}</p>
+              </div>
 
               <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div className="bg-[#0d6fdc]/10 p-3 rounded-full mb-3">
@@ -96,23 +104,25 @@ export default function Page() {
                 </a>
               </div>
 
-              <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
-                <div className="bg-[#0d6fdc]/10 p-3 rounded-full mb-3">
-                  <Phone className="w-6 h-6 text-[#0d6fdc]" />
+              <div className="col-span-3">
+                <div className="w-1/3 mx-auto bg-gray-50 rounded-xl flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                  <div className="bg-[#0d6fdc]/10 p-3 rounded-full mb-3">
+                    <Phone className="w-6 h-6 text-[#0d6fdc]" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-gray-500 mb-1">Teléfono</h3>
+                  {contacto.telefono ? (
+                    <a 
+                      href={`https://wa.me/+51${contacto.telefono.replace(/\D/g, '')}`}
+                      className="text-lg font-medium text-[#0d6fdc] hover:underline flex items-center group"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {contacto.telefono}
+                    </a>
+                  ) : (
+                    <p className="text-lg font-medium text-gray-800">No proporcionado</p>
+                  )}
                 </div>
-                <h3 className="text-sm font-semibold text-gray-500 mb-1">Teléfono</h3>
-                {contacto.numero ? (
-                  <a 
-                    href={`https://wa.me/+51${contacto.numero.replace(/\D/g, '')}`}
-                    className="text-lg font-medium text-[#0d6fdc] hover:underline flex items-center group"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {contacto.numero}
-                  </a>
-                ) : (
-                  <p className="text-lg font-medium text-gray-800">No proporcionado</p>
-                )}
               </div>
             </div>
 

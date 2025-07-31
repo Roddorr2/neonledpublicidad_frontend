@@ -15,17 +15,20 @@ export default function Home() {
     { 
       title: "Bar", 
       description: "Espacio interior", 
-      image: "/productos/letras_de_vidrio_iluminadas_ledneonpublicidad.webp" 
+      image: "/productos/letras_de_vidrio_iluminadas_ledneonpublicidad.webp",
+      alt: "letrero de un restaurante con letras neón en tubo de vidrio"
     },
     { 
       title: "Restaurante", 
       description: "Espacio exterior", 
-      image: "/productos/letras_de_neon_en_vidrio_ledneonpublicidad.webp" 
+      image: "/productos/letras_de_neon_en_vidrio_ledneonpublicidad.webp",
+      alt: "letrero de un restaurante con letras neón en tubo de vidrio"
     },
     { 
       title: "Tienda de estilo retro", 
       description: "Espacio interior", 
-      image: "/productos/Letras_de_neon_en_vidrio_ledneonpublicidad2.webp" 
+      image: "/productos/Letras_de_neon_en_vidrio_ledneonpublicidad2.webp",
+      alt: "letrero de un tienda con letras neón en tubo de vidrio"
     }
   ];
   const idProducto = 4;

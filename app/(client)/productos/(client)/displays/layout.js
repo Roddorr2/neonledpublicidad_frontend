@@ -12,6 +12,9 @@ export const metadata = {
     locale: "es_PE",
     type: "website",
   },
+  alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/displays",
+  },
 };
 
 export default function DisplaysLayout({ children }) {

@@ -18,10 +18,29 @@ const Contacto = () => {
   })
 
   const [status, setStatus] = useState(null)
+  
+  const textRegex = /^[a-zA-Z\s]*$/;
+  const numberRegex = /^[+-]?\d*\.?\d*$/;
+  // const emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
+
+  const textTypeInputs = ["nombre", "apellido", "distrito"]
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData((prevData) => ({ ...prevData, [name]: value }))
+
+    let newValue = value
+    
+    if(textTypeInputs.includes(String(name)) && textRegex.test(value)) {
+      newValue = value
+    } else if(String(name) === "telefono" && numberRegex.test(value)) {
+      newValue = value
+    } else if(String(name) === "email") {
+      newValue = value
+    } else {
+      newValue = formData[name]
+    }
+
+    setFormData((prevData) => ({ ...prevData, [name]: newValue }))
   }
 
   const handleSubmit = async (e) => {

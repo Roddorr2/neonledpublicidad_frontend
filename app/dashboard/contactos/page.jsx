@@ -211,6 +211,10 @@ export default function Page() {
         },
       })
       if (response.status === 200 && response.data) {
+        
+        console.log("Here's the cookie for contact:")
+        console.log(`${JSON.stringify(response.data.data)}`)
+
         setCookie("contacto", JSON.stringify(response.data.data), {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",

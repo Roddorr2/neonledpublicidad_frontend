@@ -15,17 +15,20 @@ export default function Home() {
     { 
       title: "Taller mecánico", 
       description: "Espacio interior", 
-      image: "/productos/centro-detallado-autos-iluminacion-led.webp"  
+      image: "/productos/centro-detallado-autos-iluminacion-led.webp",
+      alt: "Centro de detallado de autos con techos LED hexagonales"  
     },
     { 
       title: "Casino", 
       description: "Espacio interior",  
-      image: "/productos/casino-techo-luces-led-rgb.webp"       
+      image: "/productos/casino-techo-luces-led-rgb.webp",
+      alt: "Sala de casino con techos iluminados con luces LED RGB modernas"       
     },
     { 
       title: "Local comercial", 
       description: "Espacio interior",  
-      image: "/productos/tienda-comercial-techo-led-moderno.webp"       
+      image: "/productos/tienda-comercial-techo-led-moderno.webp",
+      alt: "Tienda comercial con diseño de techo moderno e iluminación LED cuadrada"       
     }
   ];
   const idProducto = 14;

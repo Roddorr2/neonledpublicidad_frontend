@@ -15,17 +15,20 @@ export default function Home() {
     { 
       title: "Restaurante", 
       description: "Espacio interior", 
-      image: "/productos/anuncio_neon_led_ledneonpublicidad.webp"  
+      image: "/productos/anuncio_neon_led_ledneonpublicidad.webp",
+      alt: "Letrero neón con la frase Just Eat It en interior de restaurante"
     },
     { 
       title: "Barber Shop", 
       description: "Espacio interior", 
-      image: "/productos/letrero_barber_shop_neon_rojo_interior.webp"
+      image: "/productos/letrero_barber_shop_neon_rojo_interior.webp",
+      alt: "Letrero neón rojo Barber Shop en la pared de una barbería"
     },
     { 
       title: "Espacio de entretenimiento", 
       description: "Espacio interior", 
-      image: "/productos/letreros_neon_en_sala_de_juegos_arcade.webp"
+      image: "/productos/letreros_neon_en_sala_de_juegos_arcade.webp",
+      alt: "Sala de juegos arcade decorada con múltiples letreros neón en techo y paredes"
     }
   ];
   const idProducto = 5;

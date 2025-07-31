@@ -15,17 +15,20 @@ export default function Home() {
     { 
       title: "Discoteca", 
       description: "Espacio interior", 
-      image: "/productos/mobiliario-led-colorido-para-bar-nocturno.webp"  
+      image: "/productos/mobiliario-led-colorido-para-bar-nocturno.webp",
+      alt: "Mobiliario LED de colores vibrantes en bar nocturno con ambiente moderno"  
     },
     { 
       title: "Eventos", 
       description: "Espacio exterior",  
-      image: "/productos/sillas-led-iluminadas-para-terraza-nocturna.webp"        
+      image: "/productos/sillas-led-iluminadas-para-terraza-nocturna.webp",
+      alt: "Sillas LED iluminadas al aire libre sobre césped artificial en terraza nocturna"        
     },
     { 
       title: "Zona VIP", 
       description: "Espacio interior",  
-      image: "/productos/mobiliario-luminoso-para-discotecas-y-bares.webp"        
+      image: "/productos/mobiliario-luminoso-para-discotecas-y-bares.webp",
+      alt: "Sofás y mesas LED luminosas en discoteca con ambiente moderno"        
     }
   ];
   const idProducto = 13;

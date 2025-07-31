@@ -15,17 +15,20 @@ export default function Home() {
     { 
       title: "Productos", 
       description: "Espacio interior", 
-      image: "/productos/holograma-zapatilla-rotativa-publicidad.webp"  
+      image: "/productos/holograma-zapatilla-rotativa-publicidad.webp",
+      alt: "Holograma de zapatilla deportiva giratoria para publicidad en tienda"  
     },
     { 
       title: "Eventos de temporada", 
       description: "Espacio interior",  
-      image: "/productos/holograma-navidad-arbol-publicitario.webp"        
+      image: "/productos/holograma-navidad-arbol-publicitario.webp",
+      alt: "Árbol de Navidad proyectado en holograma decorando terraza comercial"        
     },
     { 
       title: "Personas", 
       description: "Espacio interior",  
-      image: "/productos/presentacion-holografica-persona-3d-escenario.webp"        
+      image: "/productos/presentacion-holografica-persona-3d-escenario.webp",
+      alt: "Presentación holográfica de persona en escenario con sillas de audiencia"        
     }
   ];
   const idProducto = 11;

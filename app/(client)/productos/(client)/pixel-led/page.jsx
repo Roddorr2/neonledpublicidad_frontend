@@ -15,17 +15,20 @@ export default function Home() {
     { 
       title: "Feria", 
       description: "Espacio interior",  
-      image: "/productos/pasillo-led-verde-evento.webp"        
+      image: "/productos/pasillo-led-verde-evento.webp",
+      alt: "Túnel de ingreso a evento decorado con estructuras LED verdes"        
     },
     {   
       title: "Bares", 
       description: "Espacio exterior", 
-      image: "/productos/barra-discoteca-con-pixel-led.webp"  
+      image: "/productos/barra-discoteca-con-pixel-led.webp",
+      alt: "Barra de discoteca iluminada con luces pixel LED multicolor en techo y superficies"  
     },
     { 
       title: "Fiestas", 
       description: "Espacio exterior", 
-      image: "/productos/techo-pixel-led-club-nocturno.webp"  
+      image: "/productos/techo-pixel-led-club-nocturno.webp",
+      alt: "Club nocturno con techo de tiras pixel LED verdes y luces láser rojas durante fiesta"  
     },
   ];
   const idProducto = 12;

@@ -14,18 +14,21 @@ export default function Home() {
     },
     { 
       title: "Tienda de ropa", 
-      description: "Espacio interior", 
-      image: "/productos/monitor-publicitario-interactivo-tienda-ropa.webp"  
+      description: "Espacio exterior", 
+      image: "/productos/monitor-publicitario-interactivo-tienda-ropa.webp",
+      alt: "Pantalla digital interactiva de publicidad en tienda de ropa con cliente usando el sistema táctil"  
     },
     { 
       title: "Comida rapida", 
       description: "Espacio interior",  
-      image: "/productos/monitores-publicidad-drive-thru-menu-digital.webp"       
+      image: "/productos/monitores-publicidad-drive-thru-menu-digital.webp",
+      alt: "Monitores publicitarios en drive-thru con menú digital y señalización de autoservicio"       
     },
     { 
       title: "Zapatería", 
       description: "Espacio interior",  
-      image: "/productos/pantalla-publicitaria-digital-tienda-zapatillas.webp"       
+      image: "/productos/pantalla-publicitaria-digital-tienda-zapatillas.webp",
+      alt: "Pantalla publicitaria en tienda de zapatillas mostrando información del producto al cliente"       
     }
   ];
   const idProducto = 9;
