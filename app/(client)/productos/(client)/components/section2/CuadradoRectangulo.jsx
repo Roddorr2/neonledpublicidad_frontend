@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./productsStyle.module.css";
+import TextWithLinks from "./TextWithLinks";
+import { getProductKeywords } from "./keywordsConfig";
 
 const productosInfo = [
   { id: 1, 
