@@ -5,32 +5,36 @@ import { motion } from "framer-motion";
 import FilaProductos from "./FilaProductos";
 import LineaHorizontal from "./LineaHorizontal";
 
-import "./productoStyles.css";
+import styles from "./productoStyles.module.css";
 
 export default function Productos() {
   // Definimos los productos por fila como un arreglo de objetos
   const filas = [
-    [
+    [ 
       {
         imgSrc: "/productosPrincipal/letrero_crocs_verde_con_letras_blancas.webp",
+         imgSrcMobile:"/productosPrincipal/letrero_crocs_verde_con_letras_blancas_mobile.webp",
         altText: "Letrero de tienda Crocs en color verde con letras blancas retroiluminadas",
         description: "LETRAS DE ACRÍLICO",
         route: "/productos/letras-acrilico",
       },
       {
         imgSrc: "/productosPrincipal/logo_lux_nails_studio_iluminado_en_dorado.webp",
+         imgSrcMobile:"/productosPrincipal/logo_lux_nails_studio_iluminado_en_dorado_mobile.webp",
         altText: "Logotipo de Lux Nails Studio iluminado en dorado sobre pared oscura",
         description: "LETRAS DORADAS Y PLATEADAS",
         route: "/productos/letras-doradas",
       }, 
       {
         imgSrc: "/productosPrincipal/fachada_farmacia_maria_pacheco_con_cruz_verde.webp",
+         imgSrcMobile:"/productosPrincipal/fachada_farmacia_maria_pacheco_con_cruz_verde_mobile.webp",
         altText: "Fachada de Farmacia Lda. Maria Pacheco con cruz verde luminosa",
         description: "LETREROS LUMINOSOS",
         route: "/productos/letreros-luminosos",
       },
       {
         imgSrc: "/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar.webp",
+         imgSrcMobile:"/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar_mobile.webp",
         altText: "Letrero neón de Wok's Cerveza Artesanal en colores verde y ámbar de noche",
         description: "LETRAS DE NEÓN EN TUBOS DE VIDRIO",
         route: "/productos/letras-neon",
@@ -148,12 +152,12 @@ export default function Productos() {
   }, []);
 
   return (
-    <div className="productos-container mt-12">
+    <div className={`${styles["productos-container"]} mt-12`}>
       {filas.map((fila, index) => (
         <div key={index}>
           <motion.div
             ref={(el) => (filasRefs.current[index] = el)}
-            className="fila-productos"
+            className={styles["fila-productos"]}
             initial={{ x: index % 2 === 0 ? "100%" : "-100%" }}
             animate={{
               x: isAnimations[index] ? 0 : index % 2 === 0 ? "100%" : "-100%",

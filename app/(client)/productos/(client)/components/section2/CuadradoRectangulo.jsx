@@ -1,5 +1,5 @@
 import React from "react";
-import "./productsStyle.css";
+import styles from "./productsStyle.module.css";
 
 const productosInfo = [
   { id: 1, title: "LETRAS DE ACRÍLICO", description: "Las letras de acrílico personalizadas son elementos decorativos y funcionales ideales para una amplia variedad de aplicaciones. Disponibles en versiones iluminadas para exteriores, las letras personalizadas para negocios y empresas se adaptan a tus necesidades.", image: "letras_acrílico_ledneonpublicidad.webp" },
@@ -24,21 +24,21 @@ export default function SquareRectangle({ idProducto }) {
   if (!producto) return <div>Producto no encontrado</div>;
 
   return (
-    <div className="square-info-container">
+    <div className={styles["square-info-container"]}>
       {/* Cuadrado sin contenido */}
-      <div className="custom-square"></div>
+      <div className={styles["custom-square"]}></div>
    
       {/* Imagen entre el cuadrado y el rectángulo */}
       <img
         src={`/productosIndividuales/${producto.image}`}
         alt={producto.title}
-        className="intermediate-image overflow-hidden"
+        className={`${styles["intermediate-image"]} overflow-hidden`}
       />
 
       {/* Rectángulo con título y descripción */}
-      <div className="info-rectangle">
-        <h3 className="info-title">{producto.title}</h3>
-        <p className="info-description">{producto.description}</p>
+      <div className={styles["info-rectangle"]}>
+        <h3 className={styles["info-title"]}>{producto.title}</h3>
+        <p className={styles["info-description"]}>{producto.description}</p>
       </div>
     </div>
   );
