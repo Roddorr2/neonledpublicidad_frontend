@@ -13,29 +13,33 @@ const AboutStatic = () => (
     </p>
   </section>
 );
-
+ 
 export default function Home() {
   const fila1 = [
     {
       imgSrc: "/productosPrincipal/letrero_crocs_verde_con_letras_blancas.webp",
+      imgSrcMobile:"/productosPrincipal/letrero_crocs_verde_con_letras_blancas_mobile.webp",
       altText: "Producto 1",
       description: "LETRAS DE ACRÍLICO",
       route: "/productos/letras-acrilico"
     },
     {
       imgSrc: "/productosPrincipal/logo_lux_nails_studio_iluminado_en_dorado.webp",
+      imgSrcMobile:"/productosPrincipal/logo_lux_nails_studio_iluminado_en_dorado_mobile.webp",
       altText: "Producto 2",
       description: "LETRAS DORADAS Y PLATEADAS",
       route: "/productos/letras-doradas"
     },
     {
       imgSrc: "/productosPrincipal/fachada_farmacia_maria_pacheco_con_cruz_verde.webp",
+      imgSrcMobile:"/productosPrincipal/fachada_farmacia_maria_pacheco_con_cruz_verde_mobile.webp",
       altText: "Fachada de Farmacia Lda. Maria Pacheco con cruz verde luminosa",
       description: "LETREROS LUMINOSOS",
       route: "/productos/letreros-luminosos"
     },
     {
       imgSrc: "/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar.webp",
+      imgSrcMobile:"/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar_mobile.webp",
       altText: "Letrero neón de Wok's Cerveza Artesanal en colores verde y ámbar de noche",
       description: "LETRAS DE NEÓN",
       route: "/productos/letras-neon"
@@ -43,18 +47,20 @@ export default function Home() {
   ];
 
   const slidesData = [
-    { imgSrc: "/home/logo_mlg_letras_doradas_con_iluminacion.webp", altText: "Logotipo dorado iluminado de MLG en pared de oficina" },
-    { imgSrc: "/home/letreros_negocio_2.webp", altText: "Letrero iluminado de Bembos" },
-    { imgSrc: "/home/letrero_neon_tienda_tatuajes_tattoo.webp", altText: "Letrero neón con diseño de máquina de tatuajes y palabra Tattoo en vidriera" },
-    { imgSrc: "/home/letrero_tambo_colores_amarillo_y_magenta.webp", altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta" },
+    { imgSrc: "/home/logo_mlg_letras_doradas_con_iluminacion.webp", imgSrcMobile:"/home/logo_mlg_letras_doradas_con_iluminacion_mobile.webp",
+      imgSrcIcon:"/home/logo_mlg_letras_doradas_con_iluminacion_icon.webp",
+      altText: "Logotipo dorado iluminado de MLG en pared de oficina" },
+    { imgSrc: "/home/letreros_negocio_2.webp", imgSrcMobile:"/home/letreros_negocio_2_mobile.webp", imgSrcIcon:"/home/letreros_negocio_2_icon.webp", altText: "Letrero iluminado de Bembos" },
+    { imgSrc: "/home/letrero_neon_tienda_tatuajes_tattoo.webp", imgSrcMobile:"/home/letrero_neon_tienda_tatuajes_tattoo_mobile.webp", imgSrcIcon:"/home/letrero_neon_tienda_tatuajes_tattoo_icon.webp", altText: "Letrero neón con diseño de máquina de tatuajes y palabra Tattoo en vidriera" },
+    { imgSrc: "/home/letrero_tambo_colores_amarillo_y_magenta.webp", imgSrcMobile:"/home/letrero_tambo_colores_amarillo_y_magenta_mobile.webp", imgSrcIcon:"/home/letrero_tambo_colores_amarillo_y_magenta_icon.webp", altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta" },
   ];
 
     const clientLogos = [
     { imgSrc: "/home/Jockeyplaza_Logo_ledneonpublicidad.webp", altText: "Logotipo blanco y negro del centro comercial Jockey Plaza con letra J" },
-    { imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad.webp", altText: "Logotipo de Mall del Sur con pétalos de colores sobre fondo azul" },
+    { imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad2.webp", altText: "Logotipo de Mall del Sur con pétalos de colores sobre fondo azul" },
     { imgSrc: "/home/logo_lk_constructora_e_inversiones.webp", altText: "Logotipo de L&K Constructora e Inversiones con diseño de edificio en tonos azules y verdes" },
-    { imgSrc: "/home/Crisol_Logo_ledneopublicidad.webp", altText: "Logotipo de Crisol con fondo amarillo y texto azul Libros y Más" }, 
-    { imgSrc: "/home/BancodelaNación_ledneonpublicidad.webp", altText: "Logotipo del Banco de la Nación Perú con texto negro y símbolo rojo" }, 
+    { imgSrc: "/home/Crisol_Logo_ledneopublicidad2.webp", altText: "Logotipo de Crisol con fondo amarillo y texto azul Libros y Más" }, 
+    { imgSrc: "/home/BancodelaNación_ledneonpublicidad2.webp", altText: "Logotipo del Banco de la Nación Perú con texto negro y símbolo rojo" }, 
   ];
 
   return (

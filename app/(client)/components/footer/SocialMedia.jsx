@@ -43,7 +43,6 @@ export const SocialMedia = () => {
                                 width={44}
                                 height={44}
                                 className="text-white"
-                                unoptimized
                             />
                         </div>
                     </a>

@@ -1,7 +1,5 @@
 import React from "react";
-import "./productsStyle.css";
-import TextWithLinks from "./TextWithLinks";
-import { getProductKeywords } from "./keywordsConfig";
+import styles from "./productsStyle.module.css";
 
 const productosInfo = [
   { id: 1, 
@@ -168,21 +166,21 @@ export default function SquareRectangle({ idProducto }) {
   if (!producto) return <div>Producto no encontrado</div>;
 
   return (
-    <div className="square-info-container">
+    <div className={styles["square-info-container"]}>
       {/* Cuadrado sin contenido */}
-      <div className="custom-square"></div>
+      <div className={styles["custom-square"]}></div>
    
       {/* Imagen entre el cuadrado y el rectángulo */}
       <img
         src={`/productosIndividuales/${producto.image}`}
         alt={producto.alt ? producto.alt : producto.title}
-        className="intermediate-image overflow-hidden"
+        className={`${styles["intermediate-image"]} overflow-hidden`}
       />
 
       {/* Rectángulo con título y descripción */}
-      <div className="info-rectangle">
-        <h3 className="info-title">{producto.title}</h3>
-        <p className="info-description">
+      <div className={styles["info-rectangle"]}>
+        <h3 className={styles["info-title"]}>{producto.title}</h3>
+        <p className={styles["info-description"]}>
           <TextWithLinks 
             text={producto.description} 
             keywords={keywords}
