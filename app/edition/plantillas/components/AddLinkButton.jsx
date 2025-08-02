@@ -66,7 +66,7 @@ export default function AddLinkButton({
           <button
             onClick={() => setOpen(true)}
             type="button"
-            className="p-1 text-purple-400 hover:bg-purple-100 rounded-xl m-1"
+            className="p-1 text-slate-400 hover:bg-slate-100 rounded-xl m-1"
           >
             <Link />
           </button>
