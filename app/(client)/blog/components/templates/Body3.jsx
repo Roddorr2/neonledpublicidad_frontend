@@ -10,6 +10,29 @@ export default function Body3({ id_blog_body, fecha }) {
     const [data, setDataResponse] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
+
+    function renderDescripcion(texto, palabraClave, enlace) {
+        if (!palabraClave || !enlace) {
+            return texto;
+        }
+        return texto.split(" ").map((palabra, i) => {
+        const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
+        const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+
+        return isMatch ? (
+            <a
+            key={i}
+            href={enlace}
+            target="_blank"
+            className="text-blue-400 font-bold underline hover:text-blue-200"
+            >
+            {palabraClave}
+            </a>
+        ) : (
+            <span key={i}>{" " + palabra + " "}</span>
+        );
+        });
+    }
     
     // Modal states
     const [isModalOpen, setModalOpen] = useState(false)
@@ -259,7 +282,13 @@ export default function Body3({ id_blog_body, fecha }) {
                                                 <h3 className="text-2xl font-bold text-white text-center">{section.titulo}</h3>
                                             </div>
                                             <div className="md:w-2/3 p-6">
-                                                <p className="text-gray-700 leading-relaxed">{section.descripcion}</p>
+                                                <p className="text-gray-700 leading-relaxed">
+                                                    {renderDescripcion(
+                                                        section.descripcion,
+                                                        section.keyword,
+                                                        section.link
+                                                    )}
+                                                </p>
                                             </div>
                                         </div>
                                     )

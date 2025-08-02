@@ -3,8 +3,12 @@ import React from 'react'
 import { CheckCircle, Clock, Bookmark, Share2, Eye, Image, Type, AlignLeft, Clock1, Loader2, Trash2, BookType } from "lucide-react"
 import { useState } from 'react';
 
-export default function FormBody2(props) {
+import { ProductosLink } from '../utils';
+import AddLinkButton from "./AddLinkButton";
 
+export default function FormBody2(props) {
+  const productos = ProductosLink
+  
   const [activeTab, setActiveTab] = useState("info")
   const [uploading, setUploading] = useState(false);
 
@@ -360,6 +364,29 @@ export default function FormBody2(props) {
     fecha: { message: 'Fecha', isValid: null }
   });
 
+  function renderDescripcion(texto, palabraClave, enlace) {
+    if (!palabraClave || !enlace) {
+      return texto;
+    }
+    return texto.split(" ").map((palabra, i) => {
+      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
+      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+
+      return isMatch ? (
+        <a
+          key={i}
+          href={enlace}
+          target="_blank"
+          className="text-blue-400 font-bold underline hover:text-blue-200"
+        >
+          {palabraClave}
+        </a>
+      ) : (
+        <span key={i}>{" " + palabra + " "}</span>
+      );
+    });
+  }
+  
   const ValidationMessage = ({ error }) => (
 
     <h1 className={`text-xs mt-1 ml-3 ${error.isValid === null ? 'text-gray-500' :
@@ -577,7 +604,13 @@ export default function FormBody2(props) {
                       <div className="p-1 bg-gradient-to-r from-[--azul_intenso] to-[--azul_oscuro]"></div>
                       <div className="p-6">
                         <h3 className="text-xl font-bold mb-3 text-[--azul_intenso]">{section.titulo}</h3>
-                        <p className="text-gray-700">{section.descripcion}</p>
+                        <p className="text-gray-700">
+                          {renderDescripcion(
+                            section.descripcion,
+                            section.keyword,
+                            section.link
+                          )}
+                        </p>
                       </div>
                     </div>
                     <div className="bg-black/90 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg w-[650px] mr-4">
@@ -614,6 +647,14 @@ export default function FormBody2(props) {
                             placeholder="Descripción corta"
                           ></textarea>
                         </div>
+                        <div className="w-full flex justify-end">
+                            <AddLinkButton
+                              item={section}
+                              index={index}
+                              servicios={productos}
+                              handleChange={handleChangeMap}
+                            ></AddLinkButton>
+                          </div>
                       </form>
                     </div>
                   </div>
