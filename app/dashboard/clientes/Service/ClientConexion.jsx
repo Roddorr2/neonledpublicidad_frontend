@@ -23,9 +23,13 @@ import url from "../../../../api/url";
     }
   };
 
-  export const getCustomers = async (page = 1) => {
-    return fetchApi(`/cliente?page=${page}`);
-  };
+export const getCustomers = async (page = 1, searchTerm = '') => {
+  const endpoint = searchTerm 
+    ? `/cliente?all=true&search=${encodeURIComponent(searchTerm)}`
+    : `/cliente?page=${page}`;
+  
+  return fetchApi(endpoint);
+};
 
   export const createCustomer = async (customerData) => {
     return fetchApi("/cliente", "POST", customerData);
@@ -63,6 +67,7 @@ import url from "../../../../api/url";
   export const handleEditConfirm = async (updatedData, loadCustomers, currentPage, setNotification, setShowEditModal) => {
     try {
       const { id, ...data } = updatedData;
+      console.log("Datos a enviar:", {id, data});
       await updateCustomer(id, data);
       await loadCustomers(currentPage);
       setNotification({

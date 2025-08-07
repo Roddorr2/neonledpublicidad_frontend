@@ -6,28 +6,28 @@ import { CheckCircle2, AlertCircle, Trash2, Edit } from "lucide-react";
 const Notification = ({ type, email, onClose, duration = 5000 }) => {
     const notificationConfig = {
         create : {
-            icon: <CheckCircle2 className="text-green-500" size={20}/>,
+            icon: <CheckCircle2 className="text-green-500 dark:text-green-400" size={20}/>,
             title: "Cliente creado exitosamente",
             message: `Se ha enviado un correo con las credenciales a ${email}`,
-            bgColor: "bg-green-50"
+            bgColor: "bg-green-50 dark:bg-green-900/30"
         },
         edit: {
-            icon: <Edit className="text-blue-500" size={20}/>,
+            icon: <Edit className="text-blue-500 dark:text-blue-400" size={20}/>,
             title: "Cliente editado exitosamente",
             message: `Los datos del cliente han sido actualizados.`,
-            bgColor: "bg-blue-50"
+            bgColor: "bg-blue-50 dark:bg-blue-900/30"
         },
         delete: {
-            icon: <Trash2 className="text-red-500" size={20}/>,
+            icon: <Trash2 className="text-red-500 dark:text-red-400" size={20}/>,
             title: "Cliente eliminado exitosamente",
             message: `El cliente y sus propuestas asociadas han sido eliminados.`,
-            bgColor: "bg-red-50"
+            bgColor: "bg-red-50 dark:border-red-900/30"
         },
         error: {
-            icon: <AlertCircle className="text-red-500" size={20}/>,
+            icon: <AlertCircle className="text-red-500 dark:text-red-400" size={20}/>,
             title: "Error",
             message: "Ha ocurrido un error, por favor notifique al soporte.",
-            bg: "bg-yellow-50",
+            bg: "bg-yellow-50 dark:bg-yellow-900/30",
         },
     };
 
@@ -49,16 +49,16 @@ const Notification = ({ type, email, onClose, duration = 5000 }) => {
                         {config.icon}
                     </div>
                     <div className="flex-1">
-                        <h3 className="font-bold text-gray-900 text-base mb-1">
+                        <h3 className="font-bold text-gray-900 dark:text-white text-base mb-1">
                             {config.title}
                         </h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
+                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                             {config.message}
                         </p>
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-gray-400 hover:text-gray-600 transition-colors ml-2"
+                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors ml-2"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path

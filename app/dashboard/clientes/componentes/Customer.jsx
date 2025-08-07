@@ -12,6 +12,7 @@ import {
   handleEditConfirm,
   handleDeleteConfirm,
 } from "../Service/ClientConexion";
+import Link from "next/link";
 
 const Customer = () => {
   const [customers, setCustomers] = useState([]);
@@ -30,7 +31,7 @@ const Customer = () => {
       const loadCustomers = async (page = 1) => {
         try {
           setIsRefreshing(true);
-          const data = await getCustomers(page);
+          const data = await getCustomers(page, searchTerm);
           setCustomers(data.data.map(cliente => ({
             id: cliente.id_cliente,
             nombre: cliente.nombre,
@@ -51,7 +52,7 @@ const Customer = () => {
       };
     useEffect(() => {
       loadCustomers(1);
-    }, []);
+    }, [searchTerm]);
 
   const handleRefresh = async () => {
     try {
@@ -63,15 +64,6 @@ const Customer = () => {
       setIsRefreshing(false);
     }
   };
-
-  // Filtrar clientes por búsqueda
-  const filteredCustomers = customers.filter(
-    (customer) =>
-      customer.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.apellido.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-
 
   const handleDeleteClick = (customer) => {
     setCustomerToDelete(customer);
@@ -166,15 +158,15 @@ const Customer = () => {
     <div className="flex justify-center items-center mt-6">
       {pages}
     </div>
-  );
-};
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-sceen bg-gray-100 dark:bg-gray-900 p-8">
       <div className="max-w-[1400px] mx-auto">
         {/* Header */}
         <div className="bg-blue-600 rounded-t-2xl px-8 py-6 text-white">
-          <div className="flex justify-between items-start">
+          <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold mb-2 flex items-center gap-2">
                 <UserRoundPen size={24} />
@@ -195,12 +187,12 @@ const Customer = () => {
         </div>
 
         {/* Contenedor Principal*/}
-        <div className="bg-gray-200 rounded-b-2xl p-8 shadow-lg px-5">
+        <div className="bg-gray-200 dark:bg-gray-800 rounded-b-2xl p-8 shadow-lg px-5">
           {/* Busqueda */}
           <div className="mb-6">
             <div className="flex justify-between items-center">
               <div className="flex-1 max-w-md">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   BUSCAR
                 </label>
                 <div className="relative">
@@ -213,7 +205,7 @@ const Customer = () => {
                     placeholder="Nombre del cliente"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none bg-white"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none bg-white dark:bg-gray-800 dark:text-white"
                   />
                 </div>
               </div>
@@ -232,7 +224,7 @@ const Customer = () => {
           </div>
 
           {/* Tabla */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-sm">
+          <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-blue-600 text-white">
@@ -260,55 +252,57 @@ const Customer = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {filteredCustomers.length === 0 ? (
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {customers.length === 0 ? (
                     <tr>
-                      <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
+                      <td colSpan="7" className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                         {customers.length === 0
                           ? "No hay clientes registrados"
                           : `No se encontraron resultados que coincidan con "${searchTerm}"`}
                       </td>
                     </tr>
                   ) : (
-                    filteredCustomers.map((customer, index) => (
+                    customers.map((customer, index) => (
                       <tr
                         key={customer.id}
-                        className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                        className={index % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-700"}
                       >
-                      <td className="px-6 py-6 text-gray-900 text-base whitespace-nowrap">
+                      <td className="px-6 py-6 text-gray-900 text-base whitespace-nowrap dark:text-white">
                         {customer.nombre}
                       </td>
-                      <td className="px-6 py-6 text-gray-900 text-center whitespace-nowrap">
+                      <td className="px-6 py-6 text-gray-900 text-center whitespace-nowrap dark:text-white">
                         {customer.apellido}
                       </td>
-                      <td className="px-6 py-6 text-gray-900 text-center whitespace-nowrap">
+                      <td className="px-6 py-6 text-gray-900 text-center whitespace-nowrap dark:text-white">
                         {customer.email}
                       </td>
-                      <td className="px-6 py-6 text-gray-900 text-center whitespace-nowrap">
+                      <td className="px-6 py-6 text-gray-900 text-center whitespace-nowrap dark:text-white">
                         {customer.telefono}
                       </td>
-                      <td className="px-6 py-6 text-gray-900 text-base whitespace-nowrap">
+                      <td className="px-6 py-6 text-gray-900 text-base whitespace-nowrap dark:text-white">
                         {customer.distrito}
                       </td>
                       <td className="px-6 py-6 text-center whitespace-nowrap">
-                        <span className="inline-flex items-center justify-center w-8 h-8 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">
-                          {customer.propuestas}
+                        <span className="inline-flex items-center justify-center w-8 h-8 bg-gray-200 text-gray-700 rounded-full text-sm font-medium dark:bg-gray-600 dark:text-white">
+                          {customer.propuestas || 0}
                         </span>
                       </td>
                       <td className="px-6 py-6 whitespace-nowrap ">
                         <div className="flex justify-center gap-2">
-                          <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                            <Eye size={16} />
+                          <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors dark:hover:bg-gray-600 dark:text-blue-400">
+                            <Link href={`/dashboard/propuestas?cliente=${customer.id}`}>
+                              <Eye size={16}/>
+                            </Link>
                           </button>
                           <button
                             onClick={() => handleEditClick(customer)}
-                            className="p-2 text-yellow-600 hover:bg-yellow-50 rounded-lg transition-colors"
+                            className="p-2 text-yellow-600 hover:bg-yellow-50 rounded-lg transition-colors dark:hover:bg-gray-600"
                           >
                             <Edit size={16} />
                           </button>
                           <button
                             onClick={() => handleDeleteClick(customer)}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors dark:hover:bg-gray-600"
                           >
                             <Trash2 size={16} />
                           </button>
