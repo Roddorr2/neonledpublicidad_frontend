@@ -41,6 +41,8 @@ const PageContent= () => {
   const [FileFooterFile2, setFileFooterFile2] = useState(null);
   const [FileFooterFile3, setFileFooterFile3] = useState(null);
 
+  const [blogAuthor, setBlogAuthor] = useState(null);
+
   //data blog
   const [dataBlog, setDataBlog] = useState(null);
 
@@ -93,6 +95,8 @@ const PageContent= () => {
 
       if (response) {
         setDataBlog(response);
+
+        setBlogAuthor(response.card.id_empleado);
 
         {/*Obtiene el header */ }
         const responseHeader = await Fetch.fetchBlogHead(response.id_blog_head);
@@ -385,7 +389,7 @@ const PageContent= () => {
     }
   }
 
-  async function guardarCard(id_empleado) {
+  async function guardarCard() {
     const form = {
       id_blog: dataBlog.id_blog,
       titulo: dataHeader.titulo,
@@ -393,7 +397,9 @@ const PageContent= () => {
       public_image: dataHeader.public_image,
       url_image: dataHeader.url_image,
       id_plantilla: 2,
-      id_empleado: id_empleado,
+      // Para no editar el autor original del blog
+      // id_empleado: id_empleado,
+      id_empleado: blogAuthor
     }
 
     console.log("Form Card: ", form);
@@ -422,6 +428,8 @@ const PageContent= () => {
             id_blog_body: dataBody.id_blog_body,
             titulo: section.titulo,
             descripcion: section.descripcion,
+            keyword: section.keyword,
+            link: section.link
           };
           const id = await Fetch.updateTarjeta(section.id_tarjeta, form);
           if (!id || id <= 0) throw new Error("Error al guardar tarjeta");
