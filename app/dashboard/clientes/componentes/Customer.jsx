@@ -70,33 +70,13 @@ const Customer = () => {
     setShowDeleteModal(true);
   };
 
-
-  const handleDeleteCancel = () => {
-    setShowDeleteModal(false);
-    setCustomerToDelete(null);
-  };
-
   const handleEditClick = (customer) => {
     setCustomerToEdit(customer);
     setShowEditModal(true);
   };
 
-
-  const handleEditCancel = () => {
-    setShowEditModal(false);
-    setCustomerToEdit(null);
-  };
-
   const handleCreateClick = () => {
     setShowCreateModal(true);
-  };
-
-  const handleCreateCancel = () => {
-    setShowCreateModal(false);
-  };
-
-    const handleCloseNotification = () => {
-    setNotification(null);
   };
 
   const renderPagination = () => {

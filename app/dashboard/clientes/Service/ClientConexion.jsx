@@ -1,11 +1,17 @@
 import url from "../../../../api/url";
+//import { getCookie } from 'cookies-next';
 
   const fetchApi = async (endpoint, method = 'GET', body = null) => {
     try {
       const response = await fetch(`${url}/api${endpoint}`, {
         method,
-        headers: { 'Content-Type': 'application/json' },
-        body: body ? JSON.stringify(body) : null
+        headers: { "Content-Type": "application/json" },
+        /*headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },*/
+        body: body ? JSON.stringify(body) : null,
       });
       
       

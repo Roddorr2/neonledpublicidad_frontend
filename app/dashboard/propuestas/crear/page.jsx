@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { Camera, Video, ChevronDown, X } from "lucide-react"
 import { createProposal, getAllCustomers } from "../Services/PropuestasConexion"
@@ -16,7 +16,8 @@ export default function CrearPropuesta() {
   })
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [customers, setCustomers] = useState([])
+  const [customers, setCustomers] = useState([]) 
+
   const volverAGestion = () => {
     router.push("/dashboard/propuestas")
   }
@@ -79,25 +80,25 @@ export default function CrearPropuesta() {
   }
 
   const removeImage = (index) => {
+    URL.revokeObjectURL(formData.images[index]);
+
     setFormData(prev => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index)
     }))
   }
 
+  useEffect(() => {
+  return () => {
+    formData.images.forEach(image => URL.revokeObjectURL(image));
+  };
+}, []);
+
   const removeVideo = (index) => {
     setFormData(prev => ({
       ...prev,
       videos: prev.videos.filter((_, i) => i !== index)
     }))
-  }
-
-  const validarFormulario = () => {
-    const nuevosErrores = {}
-    if (!formData.id_cliente) nuevosErrores.id_cliente = "Seleccione un cliente"
-    if (!formData.nombre.trim()) nuevosErrores.nombre = "El nombre es requerido"
-    setErrors(nuevosErrores)
-    return Object.keys(nuevosErrores).length === 0
   }
 
 const handleSubmit = async (e) => {
@@ -110,7 +111,7 @@ const handleSubmit = async (e) => {
     const datosEnvio = new FormData();
     datosEnvio.append("id_cliente", formData.id_cliente);
     datosEnvio.append("nombre", formData.nombre);
-    datosEnvio.append("descripcion", formData.descripcion);
+    datosEnvio.append("descripcion", formData.descripcion || "");
 
     formData.images.forEach((file, index) => {
       datosEnvio.append(`files[${index}]`, file);
@@ -129,14 +130,53 @@ const handleSubmit = async (e) => {
     router.push(`/dashboard/propuestas/detalle-propuesta?id=${response.id}`);
   } catch (error) {
     console.error("Error al crear propuesta:", error);
+let errorMessage = "Ocurrió un error al crear la propuesta";
+    
+    if (error.response?.data?.message) {
+      errorMessage = error.response.data.message;
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     setErrors({
-      submit: error.message || "Ocurrió un error al crear la propuesta",
+      submit: errorMessage,
     });
   } finally {
     setIsSubmitting(false);
   }
 };
+  const validarFormulario = () => {
+    const nuevosErrores = {};
+    if (!formData.id_cliente) {nuevosErrores.id_cliente = "Es necesario seleccionar un cliente";}
+    
+    const nombre = formData.nombre.trim();
+    if (!nombre) {nuevosErrores.nombre = "El nombre de la propuesta es requerido";}
+    else if (nombre.length < 3){ nuevosErrores.nombre = "Mínimo 3 caracteres";}
+    
+    const descripcion = formData.descripcion.trim();
+    if (!descripcion) { nuevosErrores.descripcion = "La descripción es requerida";}
+    else if (descripcion.length < 10) {nuevosErrores.descripcion ="Mínimo 10 caracteres";}
 
+    setErrors(nuevosErrores)
+    return Object.keys(nuevosErrores).length === 0
+  }
+
+const useAutoResizeTextarea = (value) => {
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; 
+    }
+  },[value]);
+  return textareaRef;
+}
+
+  const textareaRef = useAutoResizeTextarea(formData.descripcion);
+
+
+  
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8">
       <div className="max-w-[1000px] mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
@@ -173,7 +213,6 @@ const handleSubmit = async (e) => {
                       errors.id_cliente ? "border-red-500" : "border-blue-200 dark:border-gray-600"
                     }`}
                     disabled={isSubmitting}
-                    required
                   >
                     <option value="" className="dark:bg-gray-700">Seleccionar cliente</option>
                     {customers.map(cliente => (
@@ -203,26 +242,29 @@ const handleSubmit = async (e) => {
                   className={`w-full bg-blue-50 dark:bg-gray-700 border rounded-lg px-4 py-3 text-gray-700 dark:text-gray-300 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                     errors.nombre ? "border-red-500" : "border-blue-200 dark:border-gray-600"
                   }`}
-                  disabled={isSubmitting}
-                  required
                 />
                 {errors.nombre && (
                   <p className="text-red-500 text-sm mt-1">{errors.nombre}</p>
                 )}
               </div>
 
-              {/* Description */}
+              {/* Descripccion */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Comentario/Descripción</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Comentario/Descripción <span className="text-red-500">*</span></label>
                 <textarea
+                  ref={textareaRef}
                   name="descripcion"
                   value={formData.descripcion}
                   onChange={handleChange}
                   placeholder="Describe los detalles de la propuesta, colores, efectos especiales, etc."
-                  rows={4}
-                  className="w-full bg-blue-50 dark:bg-gray-700 border border-blue-200 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-700 dark:text-gray-300 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                  disabled={isSubmitting}
+                  rows={5}
+                  className={`w-full bg-blue-50 dark:bg-gray-700 border rounded-lg px-4 py-3 text-gray-700 dark:text-gray-300 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    errors.descripcion ? "border-red-500" : "border-blue-200 dark:border-gray-600"
+                  }`}
                 />
+                {errors.descripcion && (
+                  <p className="text-red-500 text-sm mt-1">{errors.descripcion}</p>
+                )}
               </div>
             </div>
           </div>
@@ -233,7 +275,8 @@ const handleSubmit = async (e) => {
               <div className="w-1 h-6 bg-blue-500 rounded"></div>
               <h2 className="text-lg font-semibold text-blue-600 dark:text-blue-400">Imágenes (Máximo 10)</h2>
             </div>
-
+            
+            {formData.images.length === 0 && (
             <div className="relative">
               <input
                 type="file"
@@ -254,29 +297,59 @@ const handleSubmit = async (e) => {
                 <p className="text-sm text-gray-500 dark:text-gray-400">Formatos: JPG, PNG (máx. 5 MB c/u)</p>
               </label>
             </div>
-            {errors.images && (
-              <p className="text-red-500 text-sm mt-2">{errors.images}</p>
             )}
 
             {formData.images.length > 0 && (
               <div className="mt-4">
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{formData.images.length} imagen(es) seleccionada(s)</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-4">
                   {formData.images.map((file, index) => (
-                    <div key={index} className="relative bg-blue-100 dark:bg-gray-700 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-sm">
-                      {file.name}
-                      <button
+                    <div key={index} className="relative w-32 h-32 bg-gray-100 dark:bg-gray-700 rounded-lg overflo-hidden">
+                      <img 
+                      src={URL.createObjectURL(file)} 
+                      alt={file.name}
+                      className="w-full h-full object-cover"
+                      />
+                      <button 
                         type="button"
                         onClick={() => removeImage(index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
+                        className="absolute top-2 rigth-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                       >
-                        <X size={12} />
+                        <X size={16}/>
                       </button>
+                      <div className="absolute bottom-0 left-0 rigth-0 bg-black bg-opacity-50 text-white text-xs p-1 truncate">
+                        {file.name}
+                      </div>
                     </div>
                   ))}
                 </div>
-              </div>
-            )}
+      {formData.images.length < 10 && (
+        <div className="mt-4 relative">
+          <input
+            type="file"
+            id="image-upload-more"
+            accept="image/jpeg,image/png"
+            multiple
+            onChange={handleImageUpload}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            disabled={isSubmitting}
+          />
+          <label
+            htmlFor="image-upload-more"
+            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer transition-colors"
+          >
+            Agregar más imágenes
+          </label>
+          <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+            {formData.images.length}/10 seleccionadas
+          </span>
+        </div>
+      )}
+    </div>
+  )}
+
+  {errors.images && (
+    <p className="text-red-500 text-sm mt-2">{errors.images}</p>
+  )}
           </div>
 
           {/* Sección de Videos */}

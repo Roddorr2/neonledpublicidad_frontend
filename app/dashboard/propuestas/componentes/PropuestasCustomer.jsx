@@ -1,23 +1,13 @@
 "use client";
 
-import {
-  BookText,
-  Search,
-  RefreshCw,
-  Plus,
-  Eye,
-  Edit,
-  Trash2,
-} from "lucide-react";
+import { BookText, Search, RefreshCw, Plus, Eye, Edit} from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  getAllProposals,
-  getAllCustomers,
-  handleDeleteProposal,
-} from "../Services/PropuestasConexion";
+import { getAllProposals,getAllCustomers } from "../Services/PropuestasConexion";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import DeletePropuesta from "./DeletePropuesta";
+import NotificacionesPropuesta from "./NotificacionesPropuesta";
 
 const PropuestasCustomer = () => {
   const router = useRouter();
@@ -27,6 +17,7 @@ const PropuestasCustomer = () => {
   const [loading, setLoading] = useState(false);
   const [proposals, setProposals] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     loadData();
@@ -128,6 +119,19 @@ const PropuestasCustomer = () => {
 
     return matchesSearch && matchesCustomer && matchesDate;
   });
+
+  useEffect(() => {
+  const searchParams = new URLSearchParams(window.location.search);
+  if (searchParams.get('deleted') === 'true') {
+    setNotification({
+      type: "delete",
+      message: "Propuesta eliminada exitosamente"
+    });
+    // Limpia el query param
+    const newUrl = window.location.pathname;
+    window.history.replaceState({}, '', newUrl);
+  }
+}, []);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8">
@@ -313,14 +317,17 @@ const PropuestasCustomer = () => {
                               >
                                 <Eye size={16} />
                               </button>
-                              <button className="p-2 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-full transition-colors">
+                              <button className="p-2 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-full transition-colors"
+                                onClick={() => router.push(`/dashboard/propuestas/editar-propuesta?id=${proposal.id}`)}
+                              >
                                 <Edit size={16} />
                               </button>
-                              <button
-                                className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
-                              >
-                                <Trash2 size={16} />
-                              </button>
+                                <DeletePropuesta
+                                  proposal={proposal}
+                                  loadProposals={loadData}
+                                  setNotification={setNotification}
+                                  variant="icon"
+                                />
                             </div>
                           </td>
                         </tr>
@@ -344,6 +351,12 @@ const PropuestasCustomer = () => {
           )}
         </div>
       </div>
+          {notification && (
+      <NotificacionesPropuesta
+        type={notification.type}
+        onClose={() => setNotification(null)}
+      />
+    )}
     </div>
   );
 };

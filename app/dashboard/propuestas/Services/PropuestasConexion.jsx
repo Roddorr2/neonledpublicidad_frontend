@@ -1,4 +1,5 @@
 import url from "../../../../api/url";
+//import { getCookie } from 'cookies-next';
 
 const fetchApi = async (endpoint, method = 'GET', body = null) => {
     console.log(`Enviando petición a: ${url}/api${endpoint}`);
@@ -6,6 +7,12 @@ const fetchApi = async (endpoint, method = 'GET', body = null) => {
         const response = await fetch(`${url}/api${endpoint}`, {
             method,
             headers: { 'Content-Type': 'application/json' },
+            /*
+              headers: {
+              Authorization: `Bearer ${getCookie('token')}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              },*/
             body: body ? JSON.stringify(body) : null
         });
         
@@ -173,7 +180,7 @@ export const handleEditProposal = async (id, proposalData, loadProposals, setNot
   }
 };
 
-export const handleDeleteProposal = async (id, loadProposals, setNotification, setShowDeleteModal) => {
+export const handleDeleteProposal = async (id, loadProposals, setNotification = () => {}, onSuccess) => {
   try {
     await deleteProposal(id);
     await loadProposals();
@@ -181,13 +188,14 @@ export const handleDeleteProposal = async (id, loadProposals, setNotification, s
       type: "delete",
       message: "Propuesta eliminada exitosamente",
     });
+    if (typeof onSuccess === 'function') {
+      onSuccess();
+    }
   } catch (error) {
     console.error("Error al eliminar propuesta:", error);
     setNotification({
       type: "error",
       message: "Error al eliminar propuesta",
     });
-  } finally {
-    setShowDeleteModal(false);
   }
 };

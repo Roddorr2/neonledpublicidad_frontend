@@ -1,9 +1,10 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, Edit, Trash2, Plus, Camera, Video } from "lucide-react";
+import { ArrowLeft, Edit, Plus, Camera, Video } from "lucide-react";
 import { getProposalById } from "../Services/PropuestasConexion";
 import { useState, useEffect } from "react";
 import { ImageModal } from "../componentes/ImageModal";
+import DeletePropuesta from "../componentes/DeletePropuesta";
 
 export default function DetallePropuestaPage() {
   const router = useRouter();
@@ -15,40 +16,42 @@ export default function DetallePropuestaPage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-useEffect(() => {
-  const loadData = async () => {
-    try {
-      const response = await getProposalById(id);
-      if (response.data) {
-        setProposalData(response.data);
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await getProposalById(id);
+        if (response.data) {
+          setProposalData(response.data);
+        }
+      } catch (error) {
+        console.error("Error loading proposal:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error loading proposal:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  if (id) loadData();
-}, [id]);
+    if (id) loadData();
+  }, [id]);
   const handlePrevImage = () => {
     if (!proposalData?.images?.length) return;
-    
-    const newIndex = currentImageIndex > 0 
-      ? currentImageIndex - 1 
-      : proposalData.images.length - 1;
-    
+
+    const newIndex =
+      currentImageIndex > 0
+        ? currentImageIndex - 1
+        : proposalData.images.length - 1;
+
     setCurrentImageIndex(newIndex);
     setSelectedImage(proposalData.images[newIndex]);
   };
 
   const handleNextImage = () => {
     if (!proposalData?.images?.length) return;
-    
-    const newIndex = currentImageIndex < proposalData.images.length - 1 
-      ? currentImageIndex + 1 
-      : 0;
-    
+
+    const newIndex =
+      currentImageIndex < proposalData.images.length - 1
+        ? currentImageIndex + 1
+        : 0;
+
     setCurrentImageIndex(newIndex);
     setSelectedImage(proposalData.images[newIndex]);
   };
@@ -70,9 +73,9 @@ useEffect(() => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 dark:bg-gray-900">
+    <div className="max-w-[1200px] mx-auto p-6 space-y-6 dark:bg-gray-900">
       <button
-        onClick={() => router.back()}
+        onClick={() => router.push("/dashboard/propuestas")}
         className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
       >
         <ArrowLeft className="mr-2" /> Volver
@@ -84,26 +87,33 @@ useEffect(() => {
             <h1 className="text-2xl font-bold text-blue-600 mb-2">
               {proposalData.nombre || "Nombre de la Propuesta"}
             </h1>
-            <p className="text-gray-600 dark:text-white text-sm">
+            <p className="dark:text-white text-sm">
               Fecha de creación:{" "}
               {proposalData.created_at
-                ? new Date(proposalData.created_at).toLocaleDateString("es-ES", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })
+                ? new Date(proposalData.created_at).toLocaleDateString(
+                    "es-ES",
+                    {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    }
+                  )
                 : "Fecha no disponible"}
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+              onClick={() => router.push(`/dashboard/propuestas/editar-propuesta?id=${proposalData.id}`)}
+            >
               <Edit size={16} />
               Editar
             </button>
-            <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors">
-              <Trash2 size={16} />
-              Eliminar
-            </button>
+            <DeletePropuesta
+              proposal={proposalData}
+              loadProposals={() => router.push("/dashboard/propuestas?deleted=true")}
+              variant="button"
+              onSuccess={() => router.push("/dashboard/propuestas?deleted=true")}
+            />
           </div>
         </div>
 
@@ -114,7 +124,7 @@ useEffect(() => {
               {proposalData.cliente.apellido?.charAt(0) || ""}
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+              <h2 className="text-lg font-semibold dark:text-white mb-1">
                 {proposalData.cliente.nombre} {proposalData.cliente.apellido}
               </h2>
               <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-white">
@@ -141,13 +151,12 @@ useEffect(() => {
           </div>
         )}
 
-        <div className="bg-blue-50 dark:bg-gray-700 rounded-lg p-6 border-l-4 border-blue-500">
-          <h3 className="text-lg font-semibold text-blue-700 mb-3">
+        <div className="bg-blue-100 dark:bg-gray-700 rounded-lg p-6 border-2 border-red">
+          <h3 className="text-lg font-semibold text-blue-500 mb-3">
             Descripción de la propuesta
           </h3>
           <p className="text-gray-700 dark:text-gray-300">
             {proposalData.descripcion ||
-              proposalData.description ||
               "Describe los detalles de la propuesta, colores, efectos especiales, etc"}
           </p>
         </div>
@@ -156,7 +165,7 @@ useEffect(() => {
       <div className="bg-gray-100 rounded-lg p-6 dark:bg-gray-800">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-2">
-            <div className="w-1 h-6 bg-blue-500 rounded"></div>
+            <div className="w-1 h-6 bg-blue-600 rounded"></div>
             <h3 className="text-xl font-semibold text-blue-600">
               Galería de Imágenes
             </h3>
@@ -186,7 +195,7 @@ useEffect(() => {
                   alt={`Imagen ${index + 1}`}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.target.src = '/placeholder-image.jpg';
+                    e.target.src = "/placeholder-image.jpg";
                   }}
                 />
               </div>
@@ -215,7 +224,7 @@ useEffect(() => {
       <div className="bg-gray-100 rounded-lg p-6 dark:bg-gray-800">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-2">
-            <div className="w-1 h-6 bg-blue-500 rounded"></div>
+            <div className="w-1 h-6 bg-blue-600 rounded"></div>
             <h3 className="text-xl font-semibold text-blue-600">
               Galería de Videos
             </h3>
