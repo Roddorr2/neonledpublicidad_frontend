@@ -1,6 +1,6 @@
 "use client";
 
-import "./productsStyle.css";
+import styles from "./productsStyle.module.css";
 
 const prodInfo = [
   { id: 1, description1: "Acrílico", description2: "Exterior", description3: "Variedad de color y diseño" },
@@ -43,12 +43,12 @@ export default function ThreeCardRow({ idProducto }) {
   if (!producto) return <div>Producto no encontrado</div>;
 
   return (
-    <div className="three-card-row">
+    <div className={styles["three-card-row"]}>
       {cards.map((card, index) => (
-        <div className="card" key={index}>
-          <img src={card.icon} alt={card.title} className="card-icon" />
-          <h2 className="card-title">{card.title}</h2>
-          <p className="card-description">{producto[card.descriptionKey]}</p>
+        <div className={styles.card} key={index}>
+          <img src={card.icon} alt={card.title} className={styles["card-icon"]} />
+          <h2 className={styles["card-title"]}>{card.title}</h2>
+          <p className={styles["card-description"]}>{producto[card.descriptionKey]}</p>
         </div>
       ))}
     </div>

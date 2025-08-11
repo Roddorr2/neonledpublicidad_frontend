@@ -66,7 +66,7 @@
   animation: neonv4 1.5s ease-in-out infinite alternate;
 }
 
-button {
+.boton {
   --primary-color: #645bff;
   --secondary-color: #fff;
   --hover-color: #1a7af5;
@@ -86,13 +86,13 @@ button {
   margin: 0 auto;
 }
 
-button .arrow-wrapper {
+.boton .arrow-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-button .arrow {
+.boton .arrow {
   margin-top: 1px;
   width: var(--arrow-width);
   background: var(--primary-color);
@@ -101,7 +101,7 @@ button .arrow {
   transition: 0.2s;
 }
 
-button .arrow::before {
+.boton .arrow::before {
   content: "";
   box-sizing: border-box;
   position: absolute;
@@ -115,15 +115,15 @@ button .arrow::before {
   transform: rotate(-45deg);
 }
 
-button:hover {
+.boton:hover {
   background-color: var(--hover-color);
 }
 
-button:hover .arrow {
+.boton:hover .arrow {
   background: var(--secondary-color);
 }
 
-button:hover .arrow:before {
+.boton:hover .arrow:before {
   right: 0;
 }
 
@@ -260,5 +260,12 @@ button:hover .arrow:before {
   .producto-row {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .producto-img {
+    max-width: 300px;
   }
 }

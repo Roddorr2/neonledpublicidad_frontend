@@ -1,5 +1,4 @@
 "use client"
-import "../globals.css"
 import Link from "next/link"
 import AuthGuard from "./components/AuthGuard"
 import auth_service from "./users/services/auth.service"
