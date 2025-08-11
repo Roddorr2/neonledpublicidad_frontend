@@ -34,7 +34,7 @@ const Contacto = () => {
       newValue = value
     } else if(String(name) === "telefono" && numberRegex.test(value)) {
       newValue = value
-    } else if(String(name) === "email") {
+    } else if(String(name) === "email" || String(name) === "tipo_reclamo" || String(name) === "mensaje") {
       newValue = value
     } else {
       newValue = formData[name]
