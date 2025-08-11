@@ -1,13 +1,5 @@
 @media (max-width: 467px) {
-    h2 {
-        font-size: clamp(0.8rem, 4vw, 1rem); 
-    }
-
-    p {
-        font-size: clamp(0.75rem, 3.5vw, 0.875rem);
-    }
-
-    .footer-content {
+        .footer-content {
         max-width: 90vw; 
         margin: 0 auto; 
         padding: 0 10px; 

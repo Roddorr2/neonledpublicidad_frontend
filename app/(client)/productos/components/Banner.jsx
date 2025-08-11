@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useRouter } from 'next/navigation';
-import "./productoStyles.css";
+import styles from "./productoStyles.module.css";
 
 export default function Banner() {
   const circleRef = useRef(null);
@@ -10,11 +10,11 @@ export default function Banner() {
   const router = useRouter();
 
   return (
-    <div className="bg-black w-full h-[600px] flex items-center justify-center">
+    <div className={`${styles["bg-black"]} bg-black w-full h-[600px] flex items-center justify-center`}>
       {/* Contenedor de la imagen del aro */}
       <motion.div
         ref={circleRef}
-        className="circle-container z-0"
+        className={`${styles["circle-container"]}`}
         initial={{ rotate: 0 }}
         animate={isInView ? { rotate: -360 } : {}}
         transition={{ duration: 20, ease: "linear" }}
@@ -27,16 +27,16 @@ export default function Banner() {
         animate={{ opacity: 1 }}
         transition={{ duration: 4, ease: "easeOut" }}
       >
-        <p className="text-lg text-color">¿Quieres</p>
-        <h1 className="text-6xl neon-text">ILUMINAR</h1>
-        <p className="text-6xl neon-text">TU VIDA?</p>
+        <p className={`text-lg ${styles["text-color"]}`}>¿Quieres</p>
+        <h1 className={`text-6xl ${styles["neon-text"]}`}>ILUMINAR</h1>
+        <p className={`text-6xl ${styles["neon-text"]}`}>TU VIDA?</p>
 
         <br />
 
-        <button onClick={()=> router.push("/contacto")}>
+        <button className={styles.boton} onClick={()=> router.push("/contacto")}>
           Pide Ya!
-          <div className="arrow-wrapper">
-            <div className="arrow"></div>
+          <div className={styles["arrow-wrapper"]}>
+            <div className={styles.arrow}></div>
           </div>
         </button>
       </motion.div>
