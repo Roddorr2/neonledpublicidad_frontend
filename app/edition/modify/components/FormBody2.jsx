@@ -2,8 +2,11 @@
 import React from 'react'
 import { CheckCircle, Clock, Bookmark, Share2, Eye, Image, Type, AlignLeft, Clock1, Loader2, Trash2, BookType } from "lucide-react"
 import { useState } from 'react';
+import { ProductosLink } from '../../plantillas/utils';
+import AddLinkButton from '../../plantillas/components/AddLinkButton';
 
 export default function FormBody2(props) {
+  const productos = ProductosLink
 
   const [activeTab, setActiveTab] = useState("info")
   const [uploading, setUploading] = useState(false);
@@ -369,6 +372,29 @@ export default function FormBody2(props) {
     </h1>
   );
 
+  function renderDescripcion(texto, palabraClave, enlace) {
+      if (!palabraClave || !enlace) {
+      return texto;
+      }
+      return texto.split(" ").map((palabra, i) => {
+      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
+      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+
+      return isMatch ? (
+          <a
+          key={i}
+          href={enlace}
+          target="_blank"
+          className="text-blue-400 font-bold underline hover:text-blue-200"
+          >
+          {palabraClave}
+          </a>
+      ) : (
+          <span key={i}>{" " + palabra + " "}</span>
+      );
+      });
+  }
+
   const handleEncabezadoBodyChange = (e) => {
     const { name, value } = e.target
     let isValid = true;
@@ -579,7 +605,13 @@ export default function FormBody2(props) {
                       <div className="p-1 bg-gradient-to-r from-teal-400 to-teal-600"></div>
                       <div className="p-6">
                         <h3 className="text-xl font-bold mb-3 text-teal-700">{section.titulo}</h3>
-                        <p className="text-gray-700">{section.descripcion}</p>
+                        <p className="text-gray-700">
+                          {renderDescripcion(
+                            section.descripcion,
+                            section.keyword,
+                            section.link
+                          )}
+                        </p>
                       </div>
                     </div>
                     <div className="bg-black/90 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg w-[650px] mr-4">
@@ -616,6 +648,13 @@ export default function FormBody2(props) {
                             placeholder="Descripción corta"
                           ></textarea>
                         </div>
+                        <AddLinkButton
+                            servicios = {productos}
+                            item = {section}
+                            index = {index}
+                            handleChange = {handleChangeMap}
+                          >  
+                          </AddLinkButton>
                       </form>
                     </div>
                   </div>
