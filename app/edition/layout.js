@@ -6,7 +6,6 @@ import Header from "./components/Header"
 import Footer from "./components/Footer"
 import { Button } from "@/components/ui/button"
 import { Save, Layout, Type, FootprintsIcon as FooterIcon, House, BookTemplate, Pencil } from "lucide-react"
-import "../globals.css"
 
 export default function EditionLayout({ children }) {
   const [selectedSection, setSelectedSection] = useState("header")

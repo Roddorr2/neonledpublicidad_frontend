@@ -1,6 +1,9 @@
 import React from "react";
-import "./productoStyles.css";
+import styles from "./productoStyles.module.css";
+import { cn } from "@/lib/utils";
 
-export default function NeonBackground() {
-  return <div className="neon-background"></div>;
+
+
+export default function NeonBackground({className}) {
+  return <div className={cn(styles["neon-background"], className)}></div>;
 }
