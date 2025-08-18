@@ -1,9 +1,8 @@
 "use client";
-
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, Save, Trash2, Plus, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Image as ImageIcon, Video } from "lucide-react";
 import { useState, useEffect } from "react";
-import { getProposalById, updateProposal, getAllCustomers } from "../Services/PropuestasConexion";
+import { proposalApi, customerApi } from "../Services/PropuestasConexion";
 import NotificacionesPropuesta from "../componentes/NotificacionesPropuesta";
 
 export default function EditarPropuestaPage() {
@@ -14,56 +13,59 @@ export default function EditarPropuestaPage() {
   const [formData, setFormData] = useState({
     id_cliente: "",
     nombre: "",
-    descripcion: ""
+    descripcion: "",
   });
   const [clientes, setClientes] = useState([]);
   const [imagenes, setImagenes] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
       try {
+        setLoading(true);
         const [clientesResponse, propuestaResponse] = await Promise.all([
-          getAllCustomers(),
-          getProposalById(id)
+          customerApi.getAll(),
+          proposalApi.getById(id),
         ]);
 
         const formattedClientes = Array.isArray(clientesResponse)
-          ? clientesResponse.map(c => ({
+          ? clientesResponse.map((c) => ({
               id: c.id_cliente || c.id,
               nombre: c.nombre || "",
               apellido: c.apellido || "",
-              email: c.email || ""
+              email: c.email || "",
             }))
           : [];
 
         setClientes(formattedClientes);
-        
-        if (propuestaResponse.data) {
-          setFormData({
-            id_cliente: propuestaResponse.data.id_cliente || "",
-            nombre: propuestaResponse.data.nombre || "",
-            descripcion: propuestaResponse.data.descripcion || ""
-          });
-          setImagenes(propuestaResponse.data.images || []);
 
-          if (propuestaResponse.data.id_cliente && 
-              !formattedClientes.some(c => c.id === propuestaResponse.data.id_cliente)) {
-            setClientes(prev => [...prev, {
-              id: propuestaResponse.data.id_cliente,
-              nombre: propuestaResponse.data.cliente?.nombre || "",
-              apellido: propuestaResponse.data.cliente?.apellido || "",
-              email: propuestaResponse.data.cliente?.email || ""
-            }]);
+        if (propuestaResponse) {
+          setFormData({
+            id_cliente: propuestaResponse.id_cliente || "",
+            nombre: propuestaResponse.nombre || "",
+            descripcion: propuestaResponse.descripcion || "",
+          });
+          setImagenes(propuestaResponse.images || []);
+          setVideos(propuestaResponse.videos || []);
+
+          if (propuestaResponse.id_cliente && !formattedClientes.some(c => c.id === propuestaResponse.id_cliente)) {
+            setClientes(prev => [
+              ...prev,
+              {
+                id: propuestaResponse.id_cliente,
+                nombre: propuestaResponse.cliente?.nombre || "",
+                apellido: propuestaResponse.cliente?.apellido || "",
+                email: propuestaResponse.cliente?.email || "",
+              }
+            ]);
           }
         }
       } catch (error) {
         console.error("Error cargando datos:", error);
-        setNotification({
-          type: "error",
-          message: "Error al cargar los datos"
-        });
+        setError("Error al cargar los datos");
       } finally {
         setLoading(false);
       }
@@ -84,23 +86,102 @@ export default function EditarPropuestaPage() {
     }
   };
 
-  const removeImage = (index) => {
-    setImagenes(prev => prev.filter((_, i) => i !== index));
+  const handleVideoChange = (e) => {
+    if (e.target.files) {
+      const newVideos = Array.from(e.target.files).slice(0, 5 - videos.length);
+      setVideos(prev => [...prev, ...newVideos]);
+    }
+  };
+
+  const removeImage = async (index, imageUrl) => {
+    try {
+      if (typeof imageUrl === 'string') {
+        const pathParts = imageUrl.split('/');
+        const filenameWithExtension = pathParts.pop();
+        const filename = filenameWithExtension.replace(/\.[^/.]+$/, "");
+        
+        await proposalApi.deleteImage(id, {
+          id_cliente: formData.id_cliente.toString(),
+          filename: filename,
+        });
+      }
+      
+      setImagenes(prev => prev.filter((_, i) => i !== index));
+      setNotification({
+        type: "success",
+        message: "Imagen eliminada correctamente",
+      });
+    } catch (error) {
+      console.error("Error eliminando imagen:", error);
+      setNotification({
+        type: "error",
+        message: error.response?.data?.message || "Error al eliminar la imagen",
+      });
+    }
+  };
+
+  const removeVideo = async (index, videoUrl) => {
+    try {
+      if (typeof videoUrl === 'string') {
+        const pathParts = videoUrl.split('/');
+        const filename = pathParts.pop();
+        
+        await proposalApi.deleteVideo(id, {
+          id_cliente: formData.id_cliente,
+          filename: filename
+        });
+      }
+      
+      setVideos(prev => prev.filter((_, i) => i !== index));
+      
+      setNotification({
+        type: "edit",
+        message: "Video eliminado correctamente",
+      });
+    } catch (error) {
+      console.error("Error eliminando video:", error);
+      setNotification({
+        type: "error",
+        message: "Error al eliminar el video",
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateProposal(id, {
+      await proposalApi.update(id, {
         ...formData,
-        images: imagenes
+        id_cliente: formData.id_cliente.toString()
       });
       
+      if (imagenes.some(img => img instanceof File)) {
+        for (const img of imagenes) {
+          if (img instanceof File) {
+            await proposalApi.uploadImage(id, {
+              file: img,
+              filename: img.name.replace(/\.[^/.]+$/, "")
+            });
+          }
+        }
+      }
+      
+      if (videos.some(video => video instanceof File)) {
+        for (const video of videos) {
+          if (video instanceof File) {
+            await proposalApi.uploadVideo(id, {
+              file: video,
+              filename: video.name.replace(/\.[^/.]+$/, "") 
+            });
+          }
+        }
+      }
+
       setNotification({
         type: "edit",
-        message: "Propuesta actualizada exitosamente"
+        message: "Propuesta actualizada exitosamente",
       });
-      
+
       setTimeout(() => {
         router.push(`/dashboard/propuestas/detalle-propuesta?id=${id}`);
       }, 1500);
@@ -108,7 +189,7 @@ export default function EditarPropuestaPage() {
       console.error("Error actualizando propuesta:", error);
       setNotification({
         type: "error",
-        message: "Error al actualizar la propuesta"
+        message: "Error al actualizar la propuesta",
       });
     }
   };
@@ -117,6 +198,14 @@ export default function EditarPropuestaPage() {
     return (
       <div className="flex justify-center items-center h-screen dark:bg-gray-900">
         Cargando...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen dark:bg-gray-900">
+        {error}
       </div>
     );
   }
@@ -131,8 +220,10 @@ export default function EditarPropuestaPage() {
       </button>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">Editar Propuesta</h1>
-        
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+          Editar Propuesta
+        </h1>
+
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Sección Información Básica */}
           <div className="space-y-6">
@@ -151,13 +242,15 @@ export default function EditarPropuestaPage() {
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
                 required
               >
-              {formData.id_cliente ? null : <option value="">Seleccionar cliente</option>}
-              {clientes.map(cliente => (
-                <option key={cliente.id} value={cliente.id}>
-                  {cliente.nombre} {cliente.apellido}
-                </option>
-              ))}
-            </select>
+                {formData.id_cliente ? null : (
+                  <option value="">Seleccionar cliente</option>
+                )}
+                {clientes.map((cliente) => (
+                  <option key={cliente.id} value={cliente.id}>
+                    {cliente.nombre} {cliente.apellido}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
@@ -201,21 +294,24 @@ export default function EditarPropuestaPage() {
               {imagenes.map((img, index) => (
                 <div key={`img-${index}`} className="relative group">
                   <div className="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
-                    {typeof img === 'string' ? (
-                      <img 
-                        src={img} 
-                        alt={`Imagen ${index + 1}`} 
+                    {typeof img === "string" ? (
+                      <img
+                        src={img}
+                        alt={`Imagen ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <ImageIcon className="text-gray-400" size={24} />
+                        <span className="text-xs text-gray-500 ml-1">
+                          {img.name}
+                        </span>
                       </div>
                     )}
                   </div>
                   <button
                     type="button"
-                    onClick={() => removeImage(index)}
+                    onClick={() => removeImage(index, img)}
                     className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <Trash2 size={16} />
@@ -226,10 +322,12 @@ export default function EditarPropuestaPage() {
               {imagenes.length < 10 && (
                 <label className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
                   <Plus size={24} className="text-gray-400 mb-2" />
-                  <span className="text-sm text-gray-500 dark:text-gray-400">Agregar imagen</span>
-                  <input 
-                    type="file" 
-                    className="hidden" 
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    Agregar imagen
+                  </span>
+                  <input
+                    type="file"
+                    className="hidden"
                     accept="image/*"
                     multiple
                     onChange={handleImageChange}
@@ -243,18 +341,58 @@ export default function EditarPropuestaPage() {
             </div>
           </div>
 
-          {/* Sección Videos (placeholder) */}
+          {/* Sección Videos */}
           <div className="space-y-6">
             <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 border-b pb-2">
               Videos (Máximo 5)
             </h2>
-            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
-              <p className="text-gray-500 dark:text-gray-400 mb-2">
-                Haz clic para seleccionar videos o arrastra y suelta
-              </p>
-              <p className="text-xs text-gray-400 dark:text-gray-500">
-                Formatos: MP4, MOV, AVI (máx. 50 MB c/u)
-              </p>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {videos.map((video, index) => (
+                <div key={`video-${index}`} className="relative group">
+                  <div className="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                    {typeof video === "string" ? (
+                      <video className="w-full h-full object-cover">
+                        <source src={video} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Video className="text-gray-400" size={24} />
+                        <span className="text-xs text-gray-500 ml-1">
+                          {video.name}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeVideo(index, video)}
+                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              ))}
+
+              {videos.length < 5 && (
+                <label className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
+                  <Plus size={24} className="text-gray-400 mb-2" />
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    Agregar video
+                  </span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="video/*"
+                    multiple
+                    onChange={handleVideoChange}
+                  />
+                </label>
+              )}
+            </div>
+
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              {videos.length}/5 videos seleccionados
             </div>
           </div>
 
@@ -281,6 +419,7 @@ export default function EditarPropuestaPage() {
       {notification && (
         <NotificacionesPropuesta
           type={notification.type}
+          message={notification.message}
           onClose={() => setNotification(null)}
         />
       )}

@@ -1,15 +1,15 @@
 import url from "../../../../api/url";
-//import { getCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 
 const fetchApi = async (endpoint, method = "GET", body = null) => {
+  const token = getCookie('token');
   const response = await fetch(`${url}/api${endpoint}`, {
     method,
-    headers: { "Content-Type": "application/json" },
-    /*headers: {
-        Authorization: `Bearer ${getCookie("token")}`,
+    headers: {
+        Authorization: `Bearer ${token}`,
         Accept: "application/json",
         "Content-Type": "application/json",
-        },*/
+        },
     body: body ? JSON.stringify(body) : null,
   });
 
@@ -31,9 +31,29 @@ export const getCustomers = async (page = 1, searchTerm = "") => {
 };
 
 export const createCustomer = async (customerData) => {
-  return fetchApi("/cliente", "POST", customerData);
-};
+  const token = getCookie('token');
+  const response = await fetch(`${url}/api/cliente`, {
+    method: "POST",
+        headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        },
+    body: JSON.stringify(customerData),
+  });
 
+  const data = await response.json();
+
+  if (!response.ok) {
+    const errorMessage =
+      data.errors?.email?.[0] || data.message || `Error ${response.status}`;
+    const error = new Error(errorMessage);
+    if (data.errors) error.errors = data.errors;
+    throw error;
+  }
+
+  return data;
+};
 export const updateCustomer = async (id, customerData) => {
   try {
     return await fetchApi(`/cliente/${id}`, "PUT", customerData);

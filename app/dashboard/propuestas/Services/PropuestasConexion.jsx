@@ -1,201 +1,273 @@
 import url from "../../../../api/url";
-//import { getCookie } from 'cookies-next';
+import { getCookie } from "cookies-next";
 
-const fetchApi = async (endpoint, method = 'GET', body = null) => {
-    console.log(`Enviando petición a: ${url}/api${endpoint}`);
+const fetchApi = async (
+  endpoint,
+  method = "GET",
+  body = null,
+  isFormData = false
+) => {
+  const token = getCookie("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+  };
+
+  if (!isFormData) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  try {
+    const options = {
+      method,
+      headers,
+      body: isFormData ? body : body ? JSON.stringify(body) : null,
+    };
+
+    const response = await fetch(`${url}/api${endpoint}`, options);
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `Error ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error en ${method} ${endpoint}:`, error);
+    throw error;
+  }
+};
+
+// Operaciones CRUD
+export const proposalApi = {
+  getAll: async () => {
     try {
-        const response = await fetch(`${url}/api${endpoint}`, {
-            method,
-            headers: { 'Content-Type': 'application/json' },
-            /*
-              headers: {
-              Authorization: `Bearer ${getCookie('token')}`,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              },*/
-            body: body ? JSON.stringify(body) : null
-        });
-        
-        console.log('Respuesta recibida:', response);
-        
-        const text = await response.text();
-        const data = text ? JSON.parse(text) : {}; 
-        
-        if (!response.ok) {
-            if(data.errors){
-                console.error("Errores:", data.errors);
-            }
-            throw new Error(data.message || `Error ${response.status}`);
-        }
-        return data;
+      const response = await fetchApi("/propuestas");
+      const data = response?.data || response?.message || response || [];
+
+      return Array.isArray(data)
+        ? data.map((propuesta) => ({
+            ...propuesta,
+            cliente_nombre: propuesta.cliente_nombre || "",
+            cliente_apellido: propuesta.cliente_apellido || "",
+            cliente_email: propuesta.cliente_email || "",
+            images: (propuesta.images || []).map((img) => processMediaUrl(img)),
+            videos: (propuesta.videos || []).map((video) =>
+              processMediaUrl(video)
+            ),
+          }))
+        : [];
     } catch (error) {
-        console.error(`Error en ${method} ${endpoint}:`, error);
-        throw error;
+      console.error("Error al obtener propuestas:", error);
+      throw error;
     }
-};
+  },
 
-export const getAllProposals = async () => {
-  const response = await fetchApi('/propuesta');
-  return response?.data || response?.message || response || [];
-};
-
-export const getProposalById = async (id) => {
-  try {
-    const response = await fetch(`${url}/api/propuesta/${id}`);
-    const text = await response.text();
-    const data = text ? JSON.parse(text) : {};
-    
-    if (!response.ok) {
-      throw new Error(data.message || `Error ${response.status}`);
-    }
-
-    const transformedData = {
-      ...data.data?.message || data.data || data,
-      images: (data.data?.images || []).map(img => {
-        if (img.startsWith('http') || img.startsWith('data:')) {
-          return img;
-        }
-        if (img.startsWith('/storage')) {
-          return `${url.replace('/api', '')}${img}`;
-        }
-        return `${url}${img}`;
-      })
-    };
-
-    return {
-      status: response.status,
-      data: transformedData,
-      message: data.message || null
-    };
-  } catch (error) {
-    console.error('Error al obtener propuesta:', error);
-    throw error;
-  }
-};
-
-export const createProposal = async (formData) => {
-  try {
-    const response = await fetch (`${url}/api/propuesta`, {
-      method: 'POST',
-      body: formData
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.mesage || `Error ${response.status}`);
-    }
-    return data;
-  } catch (error) {
-    console.error('Error al crear propuesta:', error);
-    throw error;
-  }
-};
-
-export const updateProposal = async (id, proposalData) => {
-  return fetchApi(`/propuesta/${id}`, 'PUT', proposalData)
-};
-
-export const deleteProposal = async (id) => {
-  return fetchApi(`/propuesta/${id}`, 'DELETE');
-};
-
-export const uploadProposalImage = async (id, imageData) => {
-  const formData = new FormData();
-  formData.append('file', imageData.file);
-  formData.append('filename', imageData.filename);
+getById: async (id) => {
+  const response = await fetchApi(`/propuesta/${id}`);
+  const images = response.data?.images || response.images || [];
+  const videos = response.data?.videos || response.videos || [];
   
-  try {
-    const response = await fetch(`${url}/api/imagen_propuesta/${id}`, {
-      method: 'POST',
-      body: formData
-    });
-    
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || `Error ${response.status}`);
+  return {
+    ...(response.data || response),
+    cliente: (response.data || response).cliente || {},
+    images: images.map((img) => processMediaUrl(img)),
+    videos: videos.map((video) => processMediaUrl(video)),
+  };
+},
+
+  create: async (formData) => {
+    try {
+      const token = getCookie("token");
+      const response = await fetch(`${url}/api/propuesta`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Error ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error al crear propuesta:", error);
+      throw error;
     }
-    return data;
-  } catch (error) {
-    console.error('Error al subir imagen:', error);
-    throw error;
-  }
-};
+  },
 
-export const deleteProposalImage = async (id, imageData) => {
-  return fetchApi(`/imagen_propuesta/${id}`, 'DELETE', imageData);
-};
+  update: async (id, data) => {
+    return fetchApi(`/propuesta/${id}`, "PUT", data);
+  },
 
-// Clientes
-export const getAllCustomers = async () => {
-  const response = await fetchApi('/cliente?all=true');
-  if (response.status === 200){
-    return response.data;
-  }
-  throw new Error(response.message || "Error al obtener clientes");
-};
+  delete: async (id) => {
+    return fetchApi(`/propuesta/${id}`, "DELETE");
+  },
 
-export const getCustomerPaginated = async (page = 1) => {
-  return fetchApi(`/cliente/?page=${page}`);
-};
+  uploadImage: async (id, imageData) => {
+    const formData = new FormData();
+    formData.append("file", imageData.file);
+    formData.append("filename", imageData.filename);
 
-export const getCustomerById = async (id) => {
-  return fetchApi(`/cliente/${id}`);
-};
+    try {
+      const token = getCookie("token");
+      const response = await fetch(`${url}/api/imagen_propuesta/${id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-// Handlers para propuestas
-export const handleCreateProposal = async (proposalData, loadProposals, setNotification, setShowCreateModal) => {
-  try {
-    await createProposal(proposalData);
-    await loadProposals();
-    setNotification({
-      type: "create",
-      message: "Propuesta creada exitosamente",
-    });
-  } catch (error) {
-    console.error("Error al crear propuesta:", error);
-    setNotification({
-      type: "error",
-      message: "Error al crear propuesta, por favor intente nuevamente.",
-    });
-  } finally {
-    setShowCreateModal(false);
-  }
-};
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Error ${response.status}`);
+      }
 
-export const handleEditProposal = async (id, proposalData, loadProposals, setNotification, setShowEditModal) => {
-  try {
-    await updateProposal(id, proposalData);
-    await loadProposals();
-    setNotification({
-      type: "edit",
-      message: "Propuesta actualizada exitosamente",
-    });
-  } catch (error) {
-    console.error("Error al actualizar propuesta:", error);
-    setNotification({
-      type: "error",
-      message: "Error al actualizar propuesta, por favor intente nuevamente.",
-    });
-  } finally {
-    setShowEditModal(false);
-  }
-};
-
-export const handleDeleteProposal = async (id, loadProposals, setNotification = () => {}, onSuccess) => {
-  try {
-    await deleteProposal(id);
-    await loadProposals();
-    setNotification({
-      type: "delete",
-      message: "Propuesta eliminada exitosamente",
-    });
-    if (typeof onSuccess === 'function') {
-      onSuccess();
+      return await response.json();
+    } catch (error) {
+      console.error("Error al subir imagen:", error);
+      throw error;
     }
-  } catch (error) {
-    console.error("Error al eliminar propuesta:", error);
-    setNotification({
-      type: "error",
-      message: "Error al eliminar propuesta",
-    });
-  }
+  },
+
+  deleteImage: async (id, imageData) => {
+    return fetchApi(`/imagen_propuesta/${id}`, "DELETE", imageData);
+  },
+  uploadVideo: async (id, videoData) => {
+    const formData = new FormData();
+    formData.append("video", videoData.file);
+
+    try {
+      const token = getCookie("token");
+      const response = await fetch(`${url}/api/video_propuesta/${id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Error ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error al subir video:", error);
+      throw error;
+    }
+  },
+
+  deleteVideo: async (id, videoData) => {
+    return fetchApi(`/video_propuesta/${id}`, "DELETE", videoData);
+  },
 };
+
+// Operaciones para Clientes
+export const customerApi = {
+  getAll: async () => {
+    try {
+      const response = await fetchApi("/cliente?all=true");
+      if (response.status === 200) return response.data;
+      throw new Error(response.message || "Error al obtener clientes");
+    } catch (error) {
+      console.error("Error al obtener clientes:", error);
+      throw error;
+    }
+  },
+
+  getPaginated: async (page = 1) => {
+    return fetchApi(`/cliente/?page=${page}`);
+  },
+
+  getById: async (id) => {
+    return fetchApi(`/cliente/${id}`);
+  },
+};
+
+// Handlers de alto nivel
+export const proposalHandlers = {
+  create: async (
+    proposalData,
+    loadProposals,
+    setNotification,
+    setShowModal
+  ) => {
+    try {
+      await proposalApi.create(proposalData);
+      await loadProposals();
+      setNotification({
+        type: "create",
+        message: "Propuesta creada exitosamente",
+      });
+    } catch (error) {
+      console.error("Error al crear propuesta:", error);
+      setNotification({
+        type: "error",
+        message: "Error al crear propuesta, por favor intente nuevamente.",
+      });
+      throw error;
+    } finally {
+      setShowModal(false);
+    }
+  },
+
+  edit: async (
+    id,
+    proposalData,
+    loadProposals,
+    setNotification,
+    setShowModal
+  ) => {
+    try {
+      await proposalApi.update(id, proposalData);
+      await loadProposals();
+      setNotification({
+        type: "edit",
+        message: "Propuesta actualizada exitosamente",
+      });
+    } catch (error) {
+      console.error("Error al actualizar propuesta:", error);
+      setNotification({
+        type: "error",
+        message: "Error al actualizar propuesta, por favor intente nuevamente.",
+      });
+      throw error;
+    } finally {
+      setShowModal(false);
+    }
+  },
+
+  delete: async (id, loadProposals, setNotification = () => {}, onSuccess) => {
+    try {
+      await proposalApi.delete(id);
+      await loadProposals();
+      setNotification({
+        type: "delete",
+        message: "Propuesta eliminada exitosamente",
+      });
+      onSuccess?.();
+    } catch (error) {
+      console.error("Error al eliminar propuesta:", error);
+      setNotification({
+        type: "error",
+        message: "Error al eliminar propuesta",
+      });
+      throw error;
+    }
+  },
+};
+
+// Función auxiliar URLs
+function processMediaUrl(urlPath) {
+  if (!urlPath) return "";
+  if (urlPath.startsWith("http") || urlPath.startsWith("data:")) {
+    return urlPath;
+  }
+  const baseUrl = url; 
+  return `${baseUrl}${urlPath}`;
+}

@@ -2,7 +2,7 @@
 
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
-import { handleDeleteProposal } from "../Services/PropuestasConexion";
+import { proposalHandlers } from "../Services/PropuestasConexion";
 import { useRouter } from "next/navigation";
 
 const DeletePropuesta = ({ 
@@ -17,22 +17,19 @@ const DeletePropuesta = ({
   const router = useRouter();
 
   const handleDelete = async () => {
-  setIsDeleting(true);
-  try {
-    await handleDeleteProposal(
-      proposal.id,
-      loadProposals,
-      () => {},
-      () => {
-        setIsOpen(false);
-        if (onSuccess) onSuccess();
-      }
-    );
-  } catch (error) {
-    console.error("Error al eliminar propuesta:", error);
-    setIsDeleting(false);
-  }
-};
+    setIsDeleting(true);
+    try {
+      await proposalHandlers.delete(
+        proposal.id,
+        loadProposals,
+        setNotification,
+        onSuccess
+      );
+    } catch (error) {
+      console.error("Error al eliminar propuesta:", error);
+      setIsDeleting(false);
+    }
+  };
 
   const TriggerButton = () => {
     if (variant === "button") {

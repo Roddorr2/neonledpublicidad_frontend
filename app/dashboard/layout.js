@@ -129,7 +129,7 @@ export default function RootLayout({ children }) {
                     isActive={pathname.includes("/dashboard/empleados")}
                   />
                 )}
-                {auth_service.hasPermission("ver-empleados") && (
+                {auth_service.hasPermission("ver-cliente") && (
                   <NavLink
                     href="/dashboard/clientes"
                     title="Clientes"
@@ -139,7 +139,7 @@ export default function RootLayout({ children }) {
                   />
                 )}
 
-                {auth_service.hasPermission("ver-empleados") && (
+                {auth_service.hasPermission("ver-propuestas") && (
                   <NavLink
                     href="/dashboard/propuestas"
                     title="Propuestas"

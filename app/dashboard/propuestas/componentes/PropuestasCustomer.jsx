@@ -3,7 +3,7 @@
 import { BookText, Search, RefreshCw, Plus, Eye, Edit} from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getAllProposals,getAllCustomers } from "../Services/PropuestasConexion";
+import { proposalApi,customerApi } from "../Services/PropuestasConexion";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import DeletePropuesta from "./DeletePropuesta";
@@ -27,25 +27,19 @@ const PropuestasCustomer = () => {
     setLoading(true);
     try {
       const [proposalsResponse, customersResponse] = await Promise.all([
-        getAllProposals().catch((e) => ({ data: [] })),
-        getAllCustomers().catch((e) => []),
+        proposalApi.getAll().catch((e) => ({ data: [] })),
+        customerApi.getAll().catch((e) => []),
       ]);
 
-      const propuestasData = (
-        Array.isArray(proposalsResponse?.data)
-          ? proposalsResponse.data
-          : Array.isArray(proposalsResponse?.message)
-          ? proposalsResponse.message
-          : Array.isArray(proposalsResponse)
-          ? proposalsResponse
-          : []
-      ).map((propuesta) => ({
-        ...propuesta,
-        cliente_nombre: propuesta.cliente_nombre || "",
-        cliente_apellido: propuesta.cliente_apellido || "",
-        cliente_email: propuesta.cliente_email || "",
-        images: propuesta.images || [],
-      }));
+      const propuestasData = Array.isArray(proposalsResponse)
+        ? proposalsResponse.map((propuesta) => ({
+          ...propuesta,
+          cliente_nombre: propuesta.cliente_nombre || propuesta.cliente?.nombre || "",
+            cliente_apellido: propuesta.cliente_apellido || propuesta.cliente?.apellido || "",
+            cliente_email: propuesta.cliente_email || propuesta.cliente?.email || "",
+            images: propuesta.images || [],
+          }))
+        : [];
 
       const clientesData = Array.isArray(customersResponse)
         ? customersResponse.map((c) => ({
@@ -302,7 +296,7 @@ const PropuestasCustomer = () => {
                             <span>{proposal.images?.length || 0}</span>
                           </td>
                           <td className="px-6 py-4 text-center text-gray-600 dark:text-gray-300  w-[10%]">
-                            <span>0</span>
+                            <span>{proposal.videos?.length || 0}</span>
                           </td>
                           <td className="px-6 py-4  w-[15%]">
                             <div className="flex justify-center gap-1">
