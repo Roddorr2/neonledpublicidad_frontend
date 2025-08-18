@@ -63,18 +63,18 @@ export const proposalApi = {
     }
   },
 
-getById: async (id) => {
-  const response = await fetchApi(`/propuesta/${id}`);
-  const images = response.data?.images || response.images || [];
-  const videos = response.data?.videos || response.videos || [];
-  
-  return {
-    ...(response.data || response),
-    cliente: (response.data || response).cliente || {},
-    images: images.map((img) => processMediaUrl(img)),
-    videos: videos.map((video) => processMediaUrl(video)),
-  };
-},
+  getById: async (id) => {
+    const response = await fetchApi(`/propuesta/${id}`);
+    const images = response.data?.images || response.images || [];
+    const videos = response.data?.videos || response.videos || [];
+
+    return {
+      ...(response.data || response),
+      cliente: (response.data || response).cliente || {},
+      images: images.map((img) => processMediaUrl(img)),
+      videos: videos.map((video) => processMediaUrl(video)),
+    };
+  },
 
   create: async (formData) => {
     try {
@@ -107,11 +107,7 @@ getById: async (id) => {
     return fetchApi(`/propuesta/${id}`, "DELETE");
   },
 
-  uploadImage: async (id, imageData) => {
-    const formData = new FormData();
-    formData.append("file", imageData.file);
-    formData.append("filename", imageData.filename);
-
+  uploadImage: async (id, formData) => {
     try {
       const token = getCookie("token");
       const response = await fetch(`${url}/api/imagen_propuesta/${id}`, {
@@ -122,12 +118,17 @@ getById: async (id) => {
         body: formData,
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || `Error ${response.status}`);
+        throw new Error(
+          responseData.message ||
+            JSON.stringify(responseData.errors) ||
+            `Error ${response.status}`
+        );
       }
 
-      return await response.json();
+      return responseData;
     } catch (error) {
       console.error("Error al subir imagen:", error);
       throw error;
@@ -137,10 +138,7 @@ getById: async (id) => {
   deleteImage: async (id, imageData) => {
     return fetchApi(`/imagen_propuesta/${id}`, "DELETE", imageData);
   },
-  uploadVideo: async (id, videoData) => {
-    const formData = new FormData();
-    formData.append("video", videoData.file);
-
+  uploadVideo: async (id, formData) => {
     try {
       const token = getCookie("token");
       const response = await fetch(`${url}/api/video_propuesta/${id}`, {
@@ -151,11 +149,17 @@ getById: async (id) => {
         body: formData,
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || `Error ${response.status}`);
+        throw new Error(
+          responseData.message ||
+            JSON.stringify(responseData.errors) ||
+            `Error ${response.status}`
+        );
       }
-      return await response.json();
+
+      return responseData;
     } catch (error) {
       console.error("Error al subir video:", error);
       throw error;
@@ -268,6 +272,6 @@ function processMediaUrl(urlPath) {
   if (urlPath.startsWith("http") || urlPath.startsWith("data:")) {
     return urlPath;
   }
-  const baseUrl = url; 
+  const baseUrl = url;
   return `${baseUrl}${urlPath}`;
 }

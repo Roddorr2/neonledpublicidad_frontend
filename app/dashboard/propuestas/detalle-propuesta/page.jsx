@@ -2,10 +2,11 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, Edit, Plus, Camera, Video, ChevronLeft, ChevronRight, Trash2, Play, X } from "lucide-react";
 import { proposalApi } from "../Services/PropuestasConexion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import DeletePropuesta from "../componentes/DeletePropuesta";
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from "../../../../components/ui/dialog";
 import { Button } from "../../../../components/ui/button";
+import NotificacionesPropuesta from "../componentes/NotificacionesPropuesta";
 
 export default function DetallePropuestaPage() {
   const router = useRouter();
@@ -19,62 +20,166 @@ export default function DetallePropuestaPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [error, setError] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const imageInputRef = useRef(null);
+  const videoInputRef = useRef(null);
+  const [notification, setNotification] = useState(null);
 
-useEffect(() => {
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      const response = await proposalApi.getById(id);
-      if (response) {     
-        setProposalData({
-          ...response,
-          cliente: response.cliente || {
-            nombre: "",
-            apellido: "",
-            email: "",
-            telefono: "",
-            distrito: ""
-          }
-        });
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const response = await proposalApi.getById(id);
+        if (response) {
+          setProposalData({
+            ...response,
+            cliente: response.cliente || {
+              nombre: "",
+              apellido: "",
+              email: "",
+              telefono: "",
+              distrito: "",
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error loading proposal:", error);
+        setError("Error al cargar la propuesta");
+      } finally {
+        setLoading(false);
       }
+    };
+
+    if (id) loadData();
+  }, [id]);
+
+  const handleImageUploadClick = () => {
+    imageInputRef.current.click();
+  };
+
+  const handleVideoUploadClick = () => {
+    videoInputRef.current.click();
+  };
+
+  const handleImageChange = async (e) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    try {
+      setUploading(true);
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("files[]", files[i]);
+      }
+
+      const response = await proposalApi.uploadImage(id, formData);
+      console.log("Respuesta del servidor:", response);
+
+      const updatedData = await proposalApi.getById(id);
+      setProposalData({
+        ...updatedData,
+        cliente: updatedData.cliente || {
+          nombre: "",
+          apellido: "",
+          email: "",
+          telefono: "",
+          distrito: "",
+        },
+      });
     } catch (error) {
-      console.error("Error loading proposal:", error);
-      setError("Error al cargar la propuesta");
+      console.error("Error uploading images:", error);
+      setError(`Error al subir imágenes: ${error.message}`);
     } finally {
-      setLoading(false);
+      setUploading(false);
+      e.target.value = "";
     }
   };
 
-  if (id) loadData();
-}, [id]);
+  const handleVideoChange = async (e) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
+    try {
+      setUploading(true);
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("videos[]", files[i]);
+      }
+
+      const response = await proposalApi.uploadVideo(id, formData);
+      console.log("Respuesta del servidor:", response);
+
+      const updatedData = await proposalApi.getById(id);
+      setProposalData({
+        ...updatedData,
+        cliente: updatedData.cliente || {
+          nombre: "",
+          apellido: "",
+          email: "",
+          telefono: "",
+          distrito: "",
+        },
+      });
+    } catch (error) {
+      console.error("Error uploading video:", error);
+      setError(`Error al subir video: ${error.message}`);
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  };
   const handlePrevImage = () => {
     if (!proposalData?.images?.length) return;
-    const newIndex = currentImageIndex > 0 ? currentImageIndex - 1 : proposalData.images.length - 1;
+    const newIndex =
+      currentImageIndex > 0
+        ? currentImageIndex - 1
+        : proposalData.images.length - 1;
     setCurrentImageIndex(newIndex);
     setSelectedImage(proposalData.images[newIndex]);
   };
 
   const handleNextImage = () => {
     if (!proposalData?.images?.length) return;
-    const newIndex = currentImageIndex < proposalData.images.length - 1 ? currentImageIndex + 1 : 0;
+    const newIndex =
+      currentImageIndex < proposalData.images.length - 1
+        ? currentImageIndex + 1
+        : 0;
     setCurrentImageIndex(newIndex);
     setSelectedImage(proposalData.images[newIndex]);
   };
 
   const handlePrevVideo = () => {
-  if (!proposalData?.videos?.length) return;
-  const newIndex = currentVideoIndex > 0 ? currentVideoIndex - 1 : proposalData.videos.length - 1;
-  setCurrentVideoIndex(newIndex);
-  setSelectedVideo(proposalData.videos[newIndex]);
-};
+    if (!proposalData?.videos?.length) return;
+    const newIndex =
+      currentVideoIndex > 0
+        ? currentVideoIndex - 1
+        : proposalData.videos.length - 1;
+    setCurrentVideoIndex(newIndex);
+    setSelectedVideo(proposalData.videos[newIndex]);
+  };
 
-const handleNextVideo = () => {
-  if (!proposalData?.videos?.length) return;
-  const newIndex = currentVideoIndex < proposalData.videos.length - 1 ? currentVideoIndex + 1 : 0;
-  setCurrentVideoIndex(newIndex);
-  setSelectedVideo(proposalData.videos[newIndex]);
-};
+  const handleNextVideo = () => {
+    if (!proposalData?.videos?.length) return;
+    const newIndex =
+      currentVideoIndex < proposalData.videos.length - 1
+        ? currentVideoIndex + 1
+        : 0;
+    setCurrentVideoIndex(newIndex);
+    setSelectedVideo(proposalData.videos[newIndex]);
+  };
+
+  useEffect(() => {
+    const created = searchParams.get("created");
+    if (created === "true") {
+      setNotification({
+        type: "create",
+        message: "Propuesta creada exitosamente",
+      });
+
+      const newUrl = window.location.pathname + "?id=" + id;
+      window.history.replaceState({}, "", newUrl);
+    }
+  }, [searchParams, id]);
 
   if (loading) {
     return (
@@ -102,6 +207,22 @@ const handleNextVideo = () => {
 
   return (
     <div className="max-w-[1200px] mx-auto p-6 space-y-6 dark:bg-gray-900">
+      <input
+        type="file"
+        ref={imageInputRef}
+        onChange={handleImageChange}
+        multiple
+        accept="image/*"
+        style={{ display: "none" }}
+      />
+      <input
+        type="file"
+        ref={videoInputRef}
+        onChange={handleVideoChange}
+        accept="video/*"
+        multiple
+        style={{ display: "none" }}
+      />
       <button
         onClick={() => router.push("/dashboard/propuestas")}
         className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
@@ -130,17 +251,26 @@ const handleNextVideo = () => {
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
-              onClick={() => router.push(`/dashboard/propuestas/editar-propuesta?id=${proposalData.id}`)}
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+              onClick={() =>
+                router.push(
+                  `/dashboard/propuestas/editar-propuesta?id=${proposalData.id}`
+                )
+              }
             >
               <Edit size={16} />
               Editar
             </button>
             <DeletePropuesta
               proposal={proposalData}
-              loadProposals={() => router.push("/dashboard/propuestas?deleted=true")}
+              loadProposals={() =>
+                router.push("/dashboard/propuestas?deleted=true")
+              }
               variant="button"
-              onSuccess={() => router.push("/dashboard/propuestas?deleted=true")}
+              onSuccess={() =>
+                router.push("/dashboard/propuestas?deleted=true")
+              }
             />
           </div>
         </div>
@@ -201,9 +331,19 @@ const handleNextVideo = () => {
               {proposalData.images?.length || 0} Imágenes
             </span>
           </div>
-          <button className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors">
-            <Plus size={16} />
-            Agregar Imagen
+          <button
+            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+            onClick={handleImageUploadClick}
+            disabled={uploading}
+          >
+            {uploading ? (
+              "Subiendo..."
+            ) : (
+              <>
+                <Plus size={16} />
+                Agregar Imagen
+              </>
+            )}
           </button>
         </div>
 
@@ -237,206 +377,243 @@ const handleNextVideo = () => {
         </div>
       </div>
 
-{/* modal imágenes */}
-<Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>
-  <DialogContent className="p-0 bg-transparent border-none max-w-[90vw] w-full h-[90vh] flex items-center justify-center">
-    {/* Botón cerrar */}
-    <DialogClose asChild>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute right-4 top-4 z-50 rounded-full bg-black/50 hover:bg-black/70 text-white"
+      {/* modal imágenes */}
+      <Dialog
+        open={!!selectedImage}
+        onOpenChange={(open) => !open && setSelectedImage(null)}
       >
-        <X className="h-5 w-5" />
-      </Button>
-    </DialogClose>
+        <DialogContent className="p-0 bg-transparent border-none max-w-[90vw] w-full h-[90vh] flex items-center justify-center">
+          {/* Botón cerrar */}
+          <DialogClose asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 top-4 z-50 rounded-full bg-black/50 hover:bg-black/70 text-white"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </DialogClose>
 
-    <DialogTitle className="sr-only">Visualización de imagen</DialogTitle>
-    <DialogDescription className="sr-only">Galería de imágenes de la propuesta</DialogDescription>
-    
-    {selectedImage && (
-  <div className="relative w-full h-full flex flex-col items-center p-4">
-    {/* Contenedor principal para imagen */}
-    <div className="flex-1 w-full flex justify-center items-center overflow-hidden relative">
-      {/* Flecha izquierda */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={handlePrevImage}
-        disabled={!proposalData?.images?.length || proposalData.images.length <= 1}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all"
-      >
-        <ChevronLeft size={32} />
-      </Button>
+          <DialogTitle className="sr-only">Visualización de imagen</DialogTitle>
+          <DialogDescription className="sr-only">
+            Galería de imágenes de la propuesta
+          </DialogDescription>
 
-      {/* Imagen adaptada */}
-      <img 
-        src={selectedImage}
-        className="max-h-full max-w-full object-contain"
-        alt={`Imagen ${currentImageIndex + 1}`}
-        onError={(e) => {
-          e.target.src = "/placeholder-image.jpg";
-        }}
-      />
+          {selectedImage && (
+            <div className="relative w-full h-full flex flex-col items-center p-4">
+              {/* Contenedor principal para imagen */}
+              <div className="flex-1 w-full flex justify-center items-center overflow-hidden relative">
+                {/* Flecha izquierda */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handlePrevImage}
+                  disabled={
+                    !proposalData?.images?.length ||
+                    proposalData.images.length <= 1
+                  }
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all"
+                >
+                  <ChevronLeft size={32} />
+                </Button>
 
-      {/* Flecha derecha */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={handleNextImage}
-        disabled={!proposalData?.images?.length || proposalData.images.length <= 1}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all"
-      >
-        <ChevronRight size={32} />
-      </Button>
-    </div>
+                {/* Imagen adaptada */}
+                <img
+                  src={selectedImage}
+                  className="max-h-full max-w-full object-contain"
+                  alt={`Imagen ${currentImageIndex + 1}`}
+                  onError={(e) => {
+                    e.target.src = "/placeholder-image.jpg";
+                  }}
+                />
 
-    {/* Footer */}
-    <div className="w-full max-w-[90%] flex justify-between items-center bg-gray-900/80 p-4 rounded-lg mt-4">
-      <div className="text-white font-medium">
-        {currentImageIndex + 1} / {proposalData?.images?.length || 0}
-      </div>
-      <Button
-        variant="destructive"
-        onClick={() => console.log("Eliminar imagen", selectedImage)}
-        className="flex items-center gap-2"
-      >
-        <Trash2 size={20} />
-        Eliminar
-      </Button>
-    </div>
-  </div>
-)}
-  </DialogContent>
-</Dialog>
+                {/* Flecha derecha */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleNextImage}
+                  disabled={
+                    !proposalData?.images?.length ||
+                    proposalData.images.length <= 1
+                  }
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all"
+                >
+                  <ChevronRight size={32} />
+                </Button>
+              </div>
 
+              {/* Footer */}
+              <div className="w-full max-w-[90%] flex justify-between items-center bg-gray-900/80 p-4 rounded-lg mt-4">
+                <div className="text-white font-medium">
+                  {currentImageIndex + 1} / {proposalData?.images?.length || 0}
+                </div>
+                <Button
+                  variant="destructive"
+                  onClick={() => console.log("Eliminar imagen", selectedImage)}
+                  className="flex items-center gap-2"
+                >
+                  <Trash2 size={20} />
+                  Eliminar
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
-{/* Galería de videos */}
-<div className="bg-gray-100 rounded-lg p-6 dark:bg-gray-800">
-  <div className="flex justify-between items-center mb-4">
-    <div className="flex items-center gap-2">
-      <div className="w-1 h-6 bg-blue-600 rounded"></div>
-      <h3 className="text-xl font-semibold text-blue-600">
-        Galería de Videos
-      </h3>
-      <span className="text-sm text-gray-500 ml-2">
-        {proposalData.videos?.length || 0} Videos
-      </span>
-    </div>
-    <button className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors">
-      <Plus size={16} />
-      Agregar video
-    </button>
-  </div>
-
-  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    {proposalData.videos?.length > 0 ? (
-      proposalData.videos.map((video, index) => (
-        <div
-          key={index}
-          className="relative aspect-square bg-white rounded-lg overflow-hidden border-2 border-blue-200 group cursor-pointer hover:border-blue-400 transition-all"
-          onClick={() => {
-            setSelectedVideo(video);
-            setCurrentVideoIndex(index);
-          }}
-        >
-          <video className="w-full h-full object-cover">
-            <source src={video} type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-            <Play className="text-white w-12 h-12" />
+      {/* Galería de videos */}
+      <div className="bg-gray-100 rounded-lg p-6 dark:bg-gray-800">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-6 bg-blue-600 rounded"></div>
+            <h3 className="text-xl font-semibold text-blue-600">
+              Galería de Videos
+            </h3>
+            <span className="text-sm text-gray-500 ml-2">
+              {proposalData.videos?.length || 0} Videos
+            </span>
           </div>
+          <button
+            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+            onClick={handleVideoUploadClick}
+            disabled={uploading}
+          >
+            {uploading ? (
+              "Subiendo..."
+            ) : (
+              <>
+                <Plus size={16} />
+                Agregar Video
+              </>
+            )}
+          </button>
         </div>
-      ))
-    ) : (
-      <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200">
-        <Video size={32} className="text-gray-500" />
-        <span className="ml-2 text-gray-600">No hay videos</span>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {proposalData.videos?.length > 0 ? (
+            proposalData.videos.map((video, index) => (
+              <div
+                key={index}
+                className="relative aspect-square bg-white rounded-lg overflow-hidden border-2 border-blue-200 group cursor-pointer hover:border-blue-400 transition-all"
+                onClick={() => {
+                  setSelectedVideo(video);
+                  setCurrentVideoIndex(index);
+                }}
+              >
+                <video className="w-full h-full object-cover">
+                  <source src={video} type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                  <Play className="text-white w-12 h-12" />
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200">
+              <Video size={32} className="text-gray-500" />
+              <span className="ml-2 text-gray-600">No hay videos</span>
+            </div>
+          )}
+        </div>
       </div>
-    )}
-  </div>
-</div>
 
-{/* modal videos */}
-<Dialog open={!!selectedVideo} onOpenChange={(open) => !open && setSelectedVideo(null)}>
-  <DialogContent className="p-0 bg-transparent border-none max-w-[90vw] w-full h-[90vh] flex items-center justify-center">
-    {/* Botón cerrar */}
-    <DialogClose asChild>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute right-4 top-4 z-50 rounded-full bg-black/50 hover:bg-black/70 text-white"
+      {/* modal videos */}
+      <Dialog
+        open={!!selectedVideo}
+        onOpenChange={(open) => !open && setSelectedVideo(null)}
       >
-        <X className="h-5 w-5" />
-      </Button>
-    </DialogClose>
+        <DialogContent className="p-0 bg-transparent border-none max-w-[90vw] w-full h-[90vh] flex items-center justify-center">
+          {/* Botón cerrar */}
+          <DialogClose asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 top-4 z-50 rounded-full bg-black/50 hover:bg-black/70 text-white"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </DialogClose>
 
-    <DialogTitle className="sr-only">Visualización de video</DialogTitle>
-    <DialogDescription className="sr-only">Galería de videos de la propuesta</DialogDescription>
-    
-    {selectedVideo && (
-  <div className="relative w-full h-full flex flex-col items-center p-4">
-    {/* Contenedor principal para video */}
-    <div className="flex-1 w-full flex justify-center items-center overflow-hidden relative">
-      {/* Flecha izquierda */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={(e) => {
-          e.stopPropagation();
-          handlePrevVideo();
-        }}
-        disabled={!proposalData?.videos?.length || proposalData.videos.length <= 1}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all"
-      >
-        <ChevronLeft size={32} />
-      </Button>
+          <DialogTitle className="sr-only">Visualización de video</DialogTitle>
+          <DialogDescription className="sr-only">
+            Galería de videos de la propuesta
+          </DialogDescription>
 
-      {/* Video adaptado */}
-      <video
-        key={selectedVideo}
-        controls
-        className="max-h-full max-w-full object-contain"
-        preload="metadata"
-      >
-        <source src={selectedVideo} type="video/mp4" />
-        Tu navegador no soporta el elemento de video.
-      </video>
+          {selectedVideo && (
+            <div className="relative w-full h-full flex flex-col items-center p-4">
+              {/* Contenedor principal para video */}
+              <div className="flex-1 w-full flex justify-center items-center overflow-hidden relative">
+                {/* Flecha izquierda */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePrevVideo();
+                  }}
+                  disabled={
+                    !proposalData?.videos?.length ||
+                    proposalData.videos.length <= 1
+                  }
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all"
+                >
+                  <ChevronLeft size={32} />
+                </Button>
 
-      {/* Flecha derecha */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={(e) => {
-          e.stopPropagation();
-          handleNextVideo();
-        }}
-        disabled={!proposalData?.videos?.length || proposalData.videos.length <= 1}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all"
-      >
-        <ChevronRight size={32} />
-      </Button>
-    </div>
+                {/* Video adaptado */}
+                <video
+                  key={selectedVideo}
+                  controls
+                  className="max-h-full max-w-full object-contain"
+                  preload="metadata"
+                >
+                  <source src={selectedVideo} type="video/mp4" />
+                  Tu navegador no soporta el elemento de video.
+                </video>
 
-    {/* Footer */}
-    <div className="w-full max-w-[90%] flex justify-between items-center bg-gray-900/80 p-4 rounded-lg mt-4">
-      <div className="text-white font-medium">
-        {currentVideoIndex + 1} / {proposalData?.videos?.length || 0}
-      </div>
-      <Button
-        variant="destructive"
-        onClick={() => console.log("Eliminar video", selectedVideo)}
-        className="flex items-center gap-2"
-      >
-        <Trash2 size={20} />
-        Eliminar
-      </Button>
-    </div>
-  </div>
-)}
-  </DialogContent>
-</Dialog>
+                {/* Flecha derecha */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNextVideo();
+                  }}
+                  disabled={
+                    !proposalData?.videos?.length ||
+                    proposalData.videos.length <= 1
+                  }
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all"
+                >
+                  <ChevronRight size={32} />
+                </Button>
+              </div>
 
+              {/* Footer */}
+              <div className="w-full max-w-[90%] flex justify-between items-center bg-gray-900/80 p-4 rounded-lg mt-4">
+                <div className="text-white font-medium">
+                  {currentVideoIndex + 1} / {proposalData?.videos?.length || 0}
+                </div>
+                <Button
+                  variant="destructive"
+                  onClick={() => console.log("Eliminar video", selectedVideo)}
+                  className="flex items-center gap-2"
+                >
+                  <Trash2 size={20} />
+                  Eliminar
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+      {notification && (
+        <NotificacionesPropuesta
+          type={notification.type}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 }

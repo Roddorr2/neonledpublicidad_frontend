@@ -142,7 +142,7 @@ export default function CrearPropuesta() {
         throw new Error("No se recibió un ID válido en la respuesta");
       }
 
-      router.push(`/dashboard/propuestas/detalle-propuesta?id=${response.id}`);
+      router.push(`/dashboard/propuestas/detalle-propuesta?id=${response.id}&created=true`);
     } catch (error) {
       console.error("Error al crear propuesta:", error);
       let errorMessage = "Ocurrió un error al crear la propuesta";
