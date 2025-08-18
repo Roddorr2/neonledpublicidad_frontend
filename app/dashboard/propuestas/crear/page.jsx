@@ -142,7 +142,9 @@ export default function CrearPropuesta() {
         throw new Error("No se recibió un ID válido en la respuesta");
       }
 
-      router.push(`/dashboard/propuestas/detalle-propuesta?id=${response.id}&created=true`);
+      router.push(
+        `/dashboard/propuestas/detalle-propuesta?id=${response.id}&created=true`
+      );
     } catch (error) {
       console.error("Error al crear propuesta:", error);
       let errorMessage = "Ocurrió un error al crear la propuesta";
@@ -534,7 +536,7 @@ export default function CrearPropuesta() {
               </div>
             )}
           </div>
-          
+
           {/* Botones de Acción */}
           <div className="flex justify-center gap-4 pt-6">
             <button

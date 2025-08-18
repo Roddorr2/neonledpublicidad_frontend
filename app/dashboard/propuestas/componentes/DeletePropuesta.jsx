@@ -5,12 +5,12 @@ import { useState } from "react";
 import { proposalHandlers } from "../Services/PropuestasConexion";
 import { useRouter } from "next/navigation";
 
-const DeletePropuesta = ({ 
-  proposal, 
-  loadProposals, 
-  setNotification, 
-  variant = "icon", 
-  onSuccess 
+const DeletePropuesta = ({
+  proposal,
+  loadProposals,
+  setNotification,
+  variant = "icon",
+  onSuccess,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -74,8 +74,7 @@ const DeletePropuesta = ({
             </p>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
               Cliente:{" "}
-              {proposal.cliente_nombre ||
-                (proposal.cliente?.nombre || "")}{" "}
+              {proposal.cliente_nombre || proposal.cliente?.nombre || ""}{" "}
               {proposal.cliente_apellido || proposal.cliente?.apellido || ""}
             </p>
 
@@ -84,8 +83,8 @@ const DeletePropuesta = ({
                 ¿Estás seguro?
               </h4>
               <p className="text-gray-600 dark:text-gray-400">
-                Esta acción no se puede deshacer. Se eliminará permanentemente la
-                propuesta.
+                Esta acción no se puede deshacer. Se eliminará permanentemente
+                la propuesta.
               </p>
             </div>
 

@@ -1,13 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  ArrowLeft,
-  Save,
-  Trash2,
-  Plus,
-  Image as ImageIcon,
-  Video,
-} from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Image as ImageIcon, Video, Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { proposalApi, customerApi } from "../Services/PropuestasConexion";
 import NotificacionesPropuesta from "../componentes/NotificacionesPropuesta";
@@ -29,6 +22,9 @@ export default function EditarPropuestaPage() {
   const [notification, setNotification] = useState(null);
   const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredClientes, setFilteredClientes] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -59,21 +55,11 @@ export default function EditarPropuestaPage() {
           setImagenes(propuestaResponse.images || []);
           setVideos(propuestaResponse.videos || []);
 
-          if (
-            propuestaResponse.id_cliente &&
-            !formattedClientes.some(
-              (c) => c.id === propuestaResponse.id_cliente
-            )
-          ) {
-            setClientes((prev) => [
-              ...prev,
-              {
-                id: propuestaResponse.id_cliente,
-                nombre: propuestaResponse.cliente?.nombre || "",
-                apellido: propuestaResponse.cliente?.apellido || "",
-                email: propuestaResponse.cliente?.email || "",
-              },
-            ]);
+          const clienteActual = formattedClientes.find(
+            (c) => c.id === propuestaResponse.id_cliente
+          );
+          if (clienteActual) {
+            setSearchTerm(`${clienteActual.nombre} ${clienteActual.apellido}`);
           }
         }
       } catch (error) {
@@ -87,9 +73,28 @@ export default function EditarPropuestaPage() {
     if (id) loadData();
   }, [id]);
 
+  useEffect(() => {
+    if (searchTerm) {
+      const filtered = clientes.filter((cliente) =>
+        `${cliente.nombre} ${cliente.apellido} ${cliente.email}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
+      setFilteredClientes(filtered);
+    } else {
+      setFilteredClientes(clientes);
+    }
+  }, [searchTerm, clientes]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleClientSelect = (cliente) => {
+    setFormData((prev) => ({ ...prev, id_cliente: cliente.id }));
+    setSearchTerm(`${cliente.nombre} ${cliente.apellido}`);
+    setShowDropdown(false);
   };
 
   const handleImageChange = async (e) => {
@@ -213,32 +218,13 @@ export default function EditarPropuestaPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await proposalApi.update(id, {
-        ...formData,
-        id_cliente: formData.id_cliente.toString(),
-      });
+      const updateData = {};
+      if (formData.nombre) updateData.nombre = formData.nombre;
+      if (formData.descripcion) updateData.descripcion = formData.descripcion;
+      if (formData.id_cliente)
+        updateData.id_cliente = formData.id_cliente.toString();
 
-      if (imagenes.some((img) => img instanceof File)) {
-        for (const img of imagenes) {
-          if (img instanceof File) {
-            await proposalApi.uploadImage(id, {
-              file: img,
-              filename: img.name.replace(/\.[^/.]+$/, ""),
-            });
-          }
-        }
-      }
-
-      if (videos.some((video) => video instanceof File)) {
-        for (const video of videos) {
-          if (video instanceof File) {
-            await proposalApi.uploadVideo(id, {
-              file: video,
-              filename: video.name.replace(/\.[^/.]+$/, ""),
-            });
-          }
-        }
-      }
+      await proposalApi.update(id, updateData);
 
       setNotification({
         type: "edit",
@@ -294,23 +280,44 @@ export default function EditarPropuestaPage() {
               Información Básica
             </h2>
 
+            {/* Nuevo campo de búsqueda de cliente */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Cliente
+                Cliente <span className="text-red-500">*</span>
               </label>
-              <div className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white">
-                {clientes.find((c) => c.id === formData.id_cliente)?.nombre ||
-                  "Cliente no seleccionado"}
-                {clientes.find((c) => c.id === formData.id_cliente)?.apellido &&
-                  " " +
-                    clientes.find((c) => c.id === formData.id_cliente)
-                      ?.apellido}
+              <div className="relative">
+                <div className="relative">
+                  <Search
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
+                    size={20}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Nombre del cliente"
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      setShowDropdown(true);
+                    }}
+                    onFocus={() => setShowDropdown(true)}
+                    onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                    className="w-full pl-10 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+                {showDropdown && filteredClientes.length > 0 && (
+                  <ul className="absolute z-10 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto mt-1 dark:text-white">
+                    {filteredClientes.map((cliente) => (
+                      <li
+                        key={cliente.id}
+                        onMouseDown={() => handleClientSelect(cliente)}
+                        className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer"
+                      >
+                        {cliente.nombre} {cliente.apellido} ({cliente.email})
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-              <input
-                type="hidden"
-                name="id_cliente"
-                value={formData.id_cliente}
-              />
             </div>
 
             <div>

@@ -1,15 +1,15 @@
 import url from "../../../../api/url";
-import { getCookie } from 'cookies-next';
+import { getCookie } from "cookies-next";
 
 const fetchApi = async (endpoint, method = "GET", body = null) => {
-  const token = getCookie('token');
+  const token = getCookie("token");
   const response = await fetch(`${url}/api${endpoint}`, {
     method,
     headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        },
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     body: body ? JSON.stringify(body) : null,
   });
 
@@ -31,14 +31,14 @@ export const getCustomers = async (page = 1, searchTerm = "") => {
 };
 
 export const createCustomer = async (customerData) => {
-  const token = getCookie('token');
+  const token = getCookie("token");
   const response = await fetch(`${url}/api/cliente`, {
     method: "POST",
-        headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(customerData),
   });
 

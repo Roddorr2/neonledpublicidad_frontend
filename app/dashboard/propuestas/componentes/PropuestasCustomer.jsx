@@ -1,9 +1,9 @@
 "use client";
 
-import { BookText, Search, RefreshCw, Plus, Eye, Edit} from "lucide-react";
+import { BookText, Search, RefreshCw, Plus, Eye, Edit } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { proposalApi,customerApi } from "../Services/PropuestasConexion";
+import { proposalApi, customerApi } from "../Services/PropuestasConexion";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import DeletePropuesta from "./DeletePropuesta";
@@ -33,10 +33,13 @@ const PropuestasCustomer = () => {
 
       const propuestasData = Array.isArray(proposalsResponse)
         ? proposalsResponse.map((propuesta) => ({
-          ...propuesta,
-          cliente_nombre: propuesta.cliente_nombre || propuesta.cliente?.nombre || "",
-            cliente_apellido: propuesta.cliente_apellido || propuesta.cliente?.apellido || "",
-            cliente_email: propuesta.cliente_email || propuesta.cliente?.email || "",
+            ...propuesta,
+            cliente_nombre:
+              propuesta.cliente_nombre || propuesta.cliente?.nombre || "",
+            cliente_apellido:
+              propuesta.cliente_apellido || propuesta.cliente?.apellido || "",
+            cliente_email:
+              propuesta.cliente_email || propuesta.cliente?.email || "",
             images: propuesta.images || [],
           }))
         : [];
@@ -115,17 +118,17 @@ const PropuestasCustomer = () => {
   });
 
   useEffect(() => {
-  const searchParams = new URLSearchParams(window.location.search);
-  if (searchParams.get('deleted') === 'true') {
-    setNotification({
-      type: "delete",
-      message: "Propuesta eliminada exitosamente"
-    });
-    // Limpia el query param
-    const newUrl = window.location.pathname;
-    window.history.replaceState({}, '', newUrl);
-  }
-}, []);
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("deleted") === "true") {
+      setNotification({
+        type: "delete",
+        message: "Propuesta eliminada exitosamente",
+      });
+      // Limpia el query param
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, "", newUrl);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8">
@@ -311,17 +314,22 @@ const PropuestasCustomer = () => {
                               >
                                 <Eye size={16} />
                               </button>
-                              <button className="p-2 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-full transition-colors"
-                                onClick={() => router.push(`/dashboard/propuestas/editar-propuesta?id=${proposal.id}`)}
+                              <button
+                                className="p-2 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-full transition-colors"
+                                onClick={() =>
+                                  router.push(
+                                    `/dashboard/propuestas/editar-propuesta?id=${proposal.id}`
+                                  )
+                                }
                               >
                                 <Edit size={16} />
                               </button>
-                                <DeletePropuesta
-                                  proposal={proposal}
-                                  loadProposals={loadData}
-                                  setNotification={setNotification}
-                                  variant="icon"
-                                />
+                              <DeletePropuesta
+                                proposal={proposal}
+                                loadProposals={loadData}
+                                setNotification={setNotification}
+                                variant="icon"
+                              />
                             </div>
                           </td>
                         </tr>
@@ -345,12 +353,12 @@ const PropuestasCustomer = () => {
           )}
         </div>
       </div>
-          {notification && (
-      <NotificacionesPropuesta
-        type={notification.type}
-        onClose={() => setNotification(null)}
-      />
-    )}
+      {notification && (
+        <NotificacionesPropuesta
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 };

@@ -100,7 +100,7 @@ export const proposalApi = {
   },
 
   update: async (id, data) => {
-    return fetchApi(`/propuesta/${id}`, "PUT", data);
+    return fetchApi(`/propuesta/${id}`, "PATCH", data);
   },
 
   delete: async (id) => {
