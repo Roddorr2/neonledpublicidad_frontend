@@ -20,6 +20,8 @@ import {
   FileText,
   Settings,
   Mail,
+  UserRoundPen,
+  BookText,
 } from "lucide-react"
 
 export default function RootLayout({ children }) {
@@ -127,6 +129,25 @@ export default function RootLayout({ children }) {
                     isActive={pathname.includes("/dashboard/empleados")}
                   />
                 )}
+                {auth_service.hasPermission("ver-cliente") && (
+                  <NavLink
+                    href="/dashboard/clientes"
+                    title="Clientes"
+                    icon={<UserRoundPen className="h-5 w-5" />}
+                    isCollapsed={!isSidebarOpen}
+                    isActive={pathname.includes("/dashboard/clientes")}
+                  />
+                )}
+
+                {auth_service.hasPermission("ver-propuestas") && (
+                  <NavLink
+                    href="/dashboard/propuestas"
+                    title="Propuestas"
+                    icon={<BookText className="h-5 w-5" />}
+                    isCollapsed={!isSidebarOpen}
+                    isActive={pathname.includes("/dashboard/propuestas")}
+                  />
+                )}
 
                 {auth_service.hasPermission("ver-contactos") && (
                   <NavLink
@@ -147,6 +168,7 @@ export default function RootLayout({ children }) {
                     isActive={pathname.includes("/dashboard/modales")}
                   />
                 )}
+                
 
                 {auth_service.hasPermission("ver-reclamaciones") && (
                   <NavLink
