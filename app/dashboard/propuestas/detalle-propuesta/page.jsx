@@ -21,7 +21,8 @@ export default function DetallePropuestaPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [error, setError] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const [uploadingVideos, setUploadingVideos] = useState(false);
   const imageInputRef = useRef(null);
   const videoInputRef = useRef(null);
   const [notification, setNotification] = useState(null);
@@ -69,7 +70,7 @@ export default function DetallePropuestaPage() {
     if (!files || files.length === 0) return;
 
     try {
-      setUploading(true);
+      setUploadingImages(true);
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
         formData.append("files[]", files[i]);
@@ -93,7 +94,7 @@ export default function DetallePropuestaPage() {
       console.error("Error uploading images:", error);
       setError(`Error al subir imágenes: ${error.message}`);
     } finally {
-      setUploading(false);
+      setUploadingImages(false);
       e.target.value = "";
     }
   };
@@ -103,7 +104,7 @@ export default function DetallePropuestaPage() {
     if (!files || files.length === 0) return;
 
     try {
-      setUploading(true);
+      setUploadingVideos(true);
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
         formData.append("videos[]", files[i]);
@@ -127,7 +128,7 @@ export default function DetallePropuestaPage() {
       console.error("Error uploading video:", error);
       setError(`Error al subir video: ${error.message}`);
     } finally {
-      setUploading(false);
+      setUploadingVideos(false);
       e.target.value = "";
     }
   };
@@ -181,18 +182,24 @@ export default function DetallePropuestaPage() {
     if (!mediaToDelete || !proposalData) return;
 
     try {
-      const extractFilename = (url) => {
+      const extractFileInfo = (url) => {
         const urlParts = url.split("/");
-        return urlParts[urlParts.length - 1].split(".")[0]; // Remover extensión
+        const fullFilename = urlParts[urlParts.length - 1];
+        const lastDotIndex = fullFilename.lastIndexOf(".");
+
+        return {
+          filename: fullFilename.substring(0, lastDotIndex),
+          extension: fullFilename.substring(lastDotIndex + 1),
+        };
       };
 
-      const filename = extractFilename(mediaToDelete.url);
+      const fileInfo = extractFileInfo(mediaToDelete.url);
       const id_cliente = proposalData.id_cliente || proposalData.cliente?.id;
 
       if (mediaToDelete.type === "image") {
         await proposalApi.deleteImage(id, {
           id_cliente: id_cliente.toString(),
-          filename: filename,
+          filename: fileInfo.filename,
         });
 
         const updatedImages = [...proposalData.images];
@@ -213,7 +220,8 @@ export default function DetallePropuestaPage() {
       } else if (mediaToDelete.type === "video") {
         await proposalApi.deleteVideo(id, {
           id_cliente: id_cliente.toString(),
-          filename: filename,
+          filename: fileInfo.filename,
+          extension: fileInfo.extension,
         });
 
         const updatedVideos = [...proposalData.videos];
@@ -408,11 +416,11 @@ export default function DetallePropuestaPage() {
             </span>
           </div>
           <button
-            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors dark:hover:bg-gray-600"
             onClick={handleImageUploadClick}
-            disabled={uploading}
+            disabled={uploadingImages}
           >
-            {uploading ? (
+            {uploadingImages ? (
               "Subiendo..."
             ) : (
               <>
@@ -445,9 +453,9 @@ export default function DetallePropuestaPage() {
               </div>
             ))
           ) : (
-            <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200">
-              <Camera size={32} className="text-gray-500" />
-              <span className="ml-2 text-gray-600">No hay imágenes</span>
+            <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200 dark:bg-gray-700">
+              <Camera size={32} className="text-gray-500 dark:text-gray-300" />
+              <span className="ml-2 text-gray-600 dark:text-gray-300">No hay imágenes</span>
             </div>
           )}
         </div>
@@ -552,11 +560,11 @@ export default function DetallePropuestaPage() {
             </span>
           </div>
           <button
-            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors dark:hover:bg-gray-600"
             onClick={handleVideoUploadClick}
-            disabled={uploading}
+            disabled={uploadingVideos }
           >
-            {uploading ? (
+            {uploadingVideos  ? (
               "Subiendo..."
             ) : (
               <>
@@ -587,9 +595,9 @@ export default function DetallePropuestaPage() {
               </div>
             ))
           ) : (
-            <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200">
-              <Video size={32} className="text-gray-500" />
-              <span className="ml-2 text-gray-600">No hay videos</span>
+            <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200 dark:bg-gray-700">
+              <Video size={32} className="text-gray-500 dark:text-gray-300" />
+              <span className="ml-2 text-gray-600 dark:text-gray-300">No hay videos</span>
             </div>
           )}
         </div>

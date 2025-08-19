@@ -197,13 +197,14 @@ export default function EditarPropuestaPage() {
       if (typeof videoUrl === "string") {
         const filename = videoUrl.split("/").pop();
         const extension = filename.split(".").pop();
+        const filenameWithoutExtension = filename.replace(`.${extension}`, "");
 
         await proposalApi.deleteVideo(id, {
           id_cliente: originalClienteId.toString(),
-          filename: filename.replace(`.${extension}`, ""),
+          filename: filenameWithoutExtension,
+          extension: extension,
         });
       }
-
       setVideos((prev) => prev.filter((_, i) => i !== index));
 
       setNotification({
