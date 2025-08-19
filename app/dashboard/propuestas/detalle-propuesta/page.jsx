@@ -7,6 +7,7 @@ import DeletePropuesta from "../componentes/DeletePropuesta";
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from "../../../../components/ui/dialog";
 import { Button } from "../../../../components/ui/button";
 import NotificacionesPropuesta from "../componentes/NotificacionesPropuesta";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../../../../components/ui/alert-dialog";
 
 export default function DetallePropuestaPage() {
   const router = useRouter();
@@ -24,6 +25,8 @@ export default function DetallePropuestaPage() {
   const imageInputRef = useRef(null);
   const videoInputRef = useRef(null);
   const [notification, setNotification] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [mediaToDelete, setMediaToDelete] = useState(null); 
 
   useEffect(() => {
     const loadData = async () => {
@@ -128,6 +131,7 @@ export default function DetallePropuestaPage() {
       e.target.value = "";
     }
   };
+
   const handlePrevImage = () => {
     if (!proposalData?.images?.length) return;
     const newIndex =
@@ -166,6 +170,78 @@ export default function DetallePropuestaPage() {
         : 0;
     setCurrentVideoIndex(newIndex);
     setSelectedVideo(proposalData.videos[newIndex]);
+  };
+
+  const handleDeleteMedia = (type, url, index) => {
+    setMediaToDelete({ type, url, index });
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteMedia = async () => {
+    if (!mediaToDelete || !proposalData) return;
+
+    try {
+      const extractFilename = (url) => {
+        const urlParts = url.split("/");
+        return urlParts[urlParts.length - 1].split(".")[0]; // Remover extensión
+      };
+
+      const filename = extractFilename(mediaToDelete.url);
+      const id_cliente = proposalData.id_cliente || proposalData.cliente?.id;
+
+      if (mediaToDelete.type === "image") {
+        await proposalApi.deleteImage(id, {
+          id_cliente: id_cliente.toString(),
+          filename: filename,
+        });
+
+        const updatedImages = [...proposalData.images];
+        updatedImages.splice(mediaToDelete.index, 1);
+        setProposalData({
+          ...proposalData,
+          images: updatedImages,
+        });
+
+        if (selectedImage === mediaToDelete.url) {
+          setSelectedImage(null);
+        }
+
+        setNotification({
+          type: "success",
+          message: "Imagen eliminada exitosamente",
+        });
+      } else if (mediaToDelete.type === "video") {
+        await proposalApi.deleteVideo(id, {
+          id_cliente: id_cliente.toString(),
+          filename: filename,
+        });
+
+        const updatedVideos = [...proposalData.videos];
+        updatedVideos.splice(mediaToDelete.index, 1);
+        setProposalData({
+          ...proposalData,
+          videos: updatedVideos,
+        });
+
+        if (selectedVideo === mediaToDelete.url) {
+          setSelectedVideo(null);
+        }
+
+        setNotification({
+          type: "success",
+          message: "Video eliminado exitosamente",
+        });
+      }
+    } catch (error) {
+      console.error("Error al eliminar:", error);
+      setNotification({
+        type: "error",
+        message: "Error al eliminar el archivo",
+      });
+    } finally {
+      setDeleteDialogOpen(false);
+      setMediaToDelete(null);
+    }
   };
 
   useEffect(() => {
@@ -449,7 +525,9 @@ export default function DetallePropuestaPage() {
                 </div>
                 <Button
                   variant="destructive"
-                  onClick={() => console.log("Eliminar imagen", selectedImage)}
+                  onClick={() =>
+                    handleDeleteMedia("image", selectedImage, currentImageIndex)
+                  }
                   className="flex items-center gap-2"
                 >
                   <Trash2 size={20} />
@@ -596,7 +674,9 @@ export default function DetallePropuestaPage() {
                 </div>
                 <Button
                   variant="destructive"
-                  onClick={() => console.log("Eliminar video", selectedVideo)}
+                  onClick={() =>
+                    handleDeleteMedia("video", selectedVideo, currentVideoIndex)
+                  }
                   className="flex items-center gap-2"
                 >
                   <Trash2 size={20} />
@@ -607,6 +687,31 @@ export default function DetallePropuestaPage() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Diálogo de confirmación para eliminar */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="dark:text-white">
+              ¿Estás seguro de querer eliminarlo?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Al efectuar esta acción no hay modo de recuperar el archivo
+              eliminado.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="dark:text-white">Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDeleteMedia}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Eliminar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {notification && (
         <NotificacionesPropuesta
           type={notification.type}
