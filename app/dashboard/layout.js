@@ -112,13 +112,15 @@ export default function RootLayout({ children }) {
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto py-4 px-3">
               <ul className="space-y-1">
-                <NavLink
-                  href="/dashboard/main"
-                  title="Sección Principal"
-                  icon={<Home className="h-5 w-5" />}
-                  isCollapsed={!isSidebarOpen}
-                  isActive={pathname === "/dashboard/main"}
-                />
+                {!auth_service.hasRole("cliente") && (
+                  <NavLink
+                    href="/dashboard/main"
+                    title="Sección Principal"
+                    icon={<Home className="h-5 w-5" />}
+                    isCollapsed={!isSidebarOpen}
+                    isActive={pathname === "/dashboard/main"}
+                  />
+                )}
 
                 {auth_service.hasPermission("ver-empleados") && (
                   <NavLink
@@ -187,6 +189,27 @@ export default function RootLayout({ children }) {
                     icon={<FileText className="h-5 w-5" />}
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname.includes("/dashboard/blogs")}
+                  />
+                )}
+                
+                {auth_service.hasRole("cliente") && (
+                  <NavLink
+                    href="/dashboard/user-client/main"
+                    title="Dashboard"
+                    icon={<Home className="h-5 w-5" />}
+                    isCollapsed={!isSidebarOpen}
+                    isActive={pathname === "/dashboard/user-client/main"}
+                  />
+                )}
+                {auth_service.hasRole("cliente") && (
+                  <NavLink
+                    href="/dashboard/user-client/propuesta"
+                    title="Mis Propuestas"
+                    icon={<FileText className="h-5 w-5" />}
+                    isCollapsed={!isSidebarOpen}
+                    isActive={pathname.includes(
+                      "/dashboard/user-client/propuesta"
+                    )}
                   />
                 )}
 
