@@ -25,6 +25,7 @@ export default function EditarPropuestaPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredClientes, setFilteredClientes] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [originalClienteId, setOriginalClienteId] = useState("");
 
   useEffect(() => {
     const loadData = async () => {
@@ -47,8 +48,11 @@ export default function EditarPropuestaPage() {
         setClientes(formattedClientes);
 
         if (propuestaResponse) {
+          const clienteId = propuestaResponse.id_cliente || "";
+          setOriginalClienteId(clienteId);
+
           setFormData({
-            id_cliente: propuestaResponse.id_cliente || "",
+            id_cliente: clienteId,
             nombre: propuestaResponse.nombre || "",
             descripcion: propuestaResponse.descripcion || "",
           });
@@ -56,7 +60,7 @@ export default function EditarPropuestaPage() {
           setVideos(propuestaResponse.videos || []);
 
           const clienteActual = formattedClientes.find(
-            (c) => c.id === propuestaResponse.id_cliente
+            (c) => c.id === clienteId
           );
           if (clienteActual) {
             setSearchTerm(`${clienteActual.nombre} ${clienteActual.apellido}`);
@@ -169,7 +173,7 @@ export default function EditarPropuestaPage() {
           .pop()
           .replace(/\.webp$/, "");
         await proposalApi.deleteImage(id, {
-          id_cliente: formData.id_cliente.toString(),
+          id_cliente: originalClienteId.toString(),
           filename: filename,
         });
       }
@@ -195,7 +199,7 @@ export default function EditarPropuestaPage() {
         const extension = filename.split(".").pop();
 
         await proposalApi.deleteVideo(id, {
-          id_cliente: formData.id_cliente.toString(),
+          id_cliente: originalClienteId.toString(),
           filename: filename.replace(`.${extension}`, ""),
         });
       }
