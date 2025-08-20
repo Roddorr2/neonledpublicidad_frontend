@@ -1,6 +1,14 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, Save, Trash2, Plus, Image as ImageIcon, Video, Search } from "lucide-react";
+import {
+  ArrowLeft,
+  Save,
+  Trash2,
+  Plus,
+  Image as ImageIcon,
+  Video,
+  Search,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import { proposalApi, customerApi } from "../Services/PropuestasConexion";
 import NotificacionesPropuesta from "../componentes/NotificacionesPropuesta";
@@ -26,6 +34,10 @@ export default function EditarPropuestaPage() {
   const [filteredClientes, setFilteredClientes] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [originalClienteId, setOriginalClienteId] = useState("");
+  const [pendingImageUploads, setPendingImageUploads] = useState([]);
+  const [pendingVideoUploads, setPendingVideoUploads] = useState([]);
+  const [pendingImageDeletions, setPendingImageDeletions] = useState([]);
+  const [pendingVideoDeletions, setPendingVideoDeletions] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -105,26 +117,33 @@ export default function EditarPropuestaPage() {
     if (e.target.files && e.target.files.length > 0) {
       try {
         setUploading(true);
-        const formData = new FormData();
-        Array.from(e.target.files).forEach((file, index) => {
-          formData.append(`files[${index}]`, file);
-        });
+        const files = Array.from(e.target.files);
 
-        const response = await proposalApi.uploadImage(id, formData);
-        console.log("Imágenes subidas:", response);
+        if (imagenes.length + files.length > 10) {
+          setNotification({
+            type: "error",
+            message:
+              "Error al cargar archivos: Estás tratando de exceder el límite de archivos permitidos. Intenta de nuevo cargando la cantidad de archivos necesarios.",
+          });
+          e.target.value = "";
+          return;
+        }
 
-        const updatedData = await proposalApi.getById(id);
-        setImagenes(updatedData.images || []);
+        setPendingImageUploads((prev) => [...prev, ...files]);
+
+        const previewUrls = files.map((file) => URL.createObjectURL(file));
+        setImagenes((prev) => [...prev, ...previewUrls]);
 
         setNotification({
           type: "success",
-          message: "Imágenes agregadas correctamente",
+          message:
+            "Imágenes agregadas para subir. Guarda los cambios para confirmar.",
         });
       } catch (error) {
-        console.error("Error subiendo imágenes:", error);
+        console.error("Error procesando imágenes:", error);
         setNotification({
           type: "error",
-          message: error.message || "Error al subir imágenes",
+          message: "Error al procesar las imágenes",
         });
       } finally {
         setUploading(false);
@@ -137,26 +156,33 @@ export default function EditarPropuestaPage() {
     if (e.target.files && e.target.files.length > 0) {
       try {
         setUploading(true);
-        const formData = new FormData();
-        Array.from(e.target.files).forEach((file, index) => {
-          formData.append(`videos[${index}]`, file);
-        });
+        const files = Array.from(e.target.files);
 
-        const response = await proposalApi.uploadVideo(id, formData);
-        console.log("Videos subidos:", response);
+        if (videos.length + files.length > 5) {
+          setNotification({
+            type: "error",
+            message:
+              "Error al cargar archivos: Estás tratando de exceder el límite de archivos permitidos. Intenta de nuevo cargando la cantidad de archivos necesarios.",
+          });
+          e.target.value = "";
+          return;
+        }
 
-        const updatedData = await proposalApi.getById(id);
-        setVideos(updatedData.videos || []);
+        setPendingVideoUploads((prev) => [...prev, ...files]);
+
+        const previewUrls = files.map((file) => URL.createObjectURL(file));
+        setVideos((prev) => [...prev, ...previewUrls]);
 
         setNotification({
           type: "success",
-          message: "Videos agregados correctamente",
+          message:
+            "Videos agregados para subir. Guarda los cambios para confirmar.",
         });
       } catch (error) {
-        console.error("Error subiendo videos:", error);
+        console.error("Error procesando videos:", error);
         setNotification({
           type: "error",
-          message: error.message || "Error al subir videos",
+          message: "Error al procesar los videos",
         });
       } finally {
         setUploading(false);
@@ -165,58 +191,117 @@ export default function EditarPropuestaPage() {
     }
   };
 
-  const removeImage = async (index, imageUrl) => {
-    try {
-      if (typeof imageUrl === "string") {
-        const filename = imageUrl
-          .split("/")
-          .pop()
-          .replace(/\.webp$/, "");
-        await proposalApi.deleteImage(id, {
-          id_cliente: originalClienteId.toString(),
-          filename: filename,
-        });
-      }
+  const removeImage = (index, imageUrl) => {
+    if (typeof imageUrl === "string" && imageUrl.startsWith("http")) {
+      const filename = imageUrl
+        .split("/")
+        .pop()
+        .replace(/\.webp$/, "");
+      setPendingImageDeletions((prev) => [...prev, { filename, index }]);
+    } else {
+      const blobIndex = imagenes.findIndex((img) => img === imageUrl);
+      if (blobIndex !== -1) {
+        const correspondingFileIndex = imagenes
+          .slice(0, blobIndex)
+          .filter(
+            (img) => typeof img === "string" && img.startsWith("blob:")
+          ).length;
 
-      setImagenes((prev) => prev.filter((_, i) => i !== index));
-      setNotification({
-        type: "success",
-        message: "Imagen eliminada correctamente",
-      });
-    } catch (error) {
-      console.error("Error eliminando imagen:", error);
-      setNotification({
-        type: "error",
-        message: error.response?.data?.message || "Error al eliminar la imagen",
-      });
+        setPendingImageUploads((prev) =>
+          prev.filter((_, i) => i !== correspondingFileIndex)
+        );
+      }
     }
+
+    setImagenes((prev) => prev.filter((_, i) => i !== index));
+
+    setNotification({
+      type: "success",
+      message:
+        "Imagen marcada para eliminar. Guarda los cambios para confirmar.",
+    });
   };
 
-  const removeVideo = async (index, videoUrl) => {
-    try {
-      if (typeof videoUrl === "string") {
-        const filename = videoUrl.split("/").pop();
-        const extension = filename.split(".").pop();
-        const filenameWithoutExtension = filename.replace(`.${extension}`, "");
+  const removeVideo = (index, videoUrl) => {
+    if (typeof videoUrl === "string" && videoUrl.startsWith("http")) {
+      const filename = videoUrl.split("/").pop();
+      const extension = filename.split(".").pop();
+      const filenameWithoutExtension = filename.replace(`.${extension}`, "");
 
-        await proposalApi.deleteVideo(id, {
-          id_cliente: originalClienteId.toString(),
+      setPendingVideoDeletions((prev) => [
+        ...prev,
+        {
           filename: filenameWithoutExtension,
           extension: extension,
+          index,
+        },
+      ]);
+    } else {
+      const blobIndex = videos.findIndex((vid) => vid === videoUrl);
+      if (blobIndex !== -1) {
+        const correspondingFileIndex = videos
+          .slice(0, blobIndex)
+          .filter(
+            (vid) => typeof vid === "string" && vid.startsWith("blob:")
+          ).length;
+
+        setPendingVideoUploads((prev) =>
+          prev.filter((_, i) => i !== correspondingFileIndex)
+        );
+      }
+    }
+
+    setVideos((prev) => prev.filter((_, i) => i !== index));
+
+    setNotification({
+      type: "success",
+      message:
+        "Video marcado para eliminar. Guarda los cambios para confirmar.",
+    });
+  };
+
+  const processPendingChanges = async () => {
+    try {
+      for (const deletion of pendingImageDeletions) {
+        await proposalApi.deleteImage(id, {
+          id_cliente: originalClienteId.toString(),
+          filename: deletion.filename,
         });
       }
-      setVideos((prev) => prev.filter((_, i) => i !== index));
 
-      setNotification({
-        type: "success",
-        message: "Video eliminado correctamente",
-      });
+      for (const deletion of pendingVideoDeletions) {
+        await proposalApi.deleteVideo(id, {
+          id_cliente: originalClienteId.toString(),
+          filename: deletion.filename,
+          extension: deletion.extension,
+        });
+      }
+
+      if (pendingImageUploads.length > 0) {
+        const formData = new FormData();
+        pendingImageUploads.forEach((file, index) => {
+          formData.append(`files[${index}]`, file);
+        });
+        await proposalApi.uploadImage(id, formData);
+      }
+
+      if (pendingVideoUploads.length > 0) {
+        const formData = new FormData();
+        pendingVideoUploads.forEach((file, index) => {
+          formData.append(`videos[${index}]`, file);
+        });
+        await proposalApi.uploadVideo(id, formData);
+      }
+
+      setPendingImageDeletions([]);
+      setPendingVideoDeletions([]);
+      setPendingImageUploads([]);
+      setPendingVideoUploads([]);
+
+      return true;
     } catch (error) {
-      console.error("Error eliminando video:", error);
-      setNotification({
-        type: "error",
-        message: error.message || "Error al eliminar el video",
-      });
+      console.error("Error procesando cambios pendientes:", error);
+      throw error;
     }
   };
 
@@ -231,6 +316,15 @@ export default function EditarPropuestaPage() {
 
       await proposalApi.update(id, updateData);
 
+      if (
+        pendingImageDeletions.length > 0 ||
+        pendingVideoDeletions.length > 0 ||
+        pendingImageUploads.length > 0 ||
+        pendingVideoUploads.length > 0
+      ) {
+        await processPendingChanges();
+      }
+
       setNotification({
         type: "edit",
         message: "Propuesta actualizada exitosamente",
@@ -243,9 +337,19 @@ export default function EditarPropuestaPage() {
       console.error("Error actualizando propuesta:", error);
       setNotification({
         type: "error",
-        message: "Error al actualizar la propuesta",
+        message:
+          "Error al actualizar la propuesta: " +
+          (error.message || "Error desconocido"),
       });
     }
+  };
+
+  const handleCancel = () => {
+    setPendingImageDeletions([]);
+    setPendingVideoDeletions([]);
+    setPendingImageUploads([]);
+    setPendingVideoUploads([]);
+    router.back();
   };
 
   if (loading) {
@@ -474,7 +578,7 @@ export default function EditarPropuestaPage() {
           <div className="flex justify-end space-x-4 pt-6">
             <button
               type="button"
-              onClick={() => router.back()}
+              onClick={handleCancel}
               className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancelar

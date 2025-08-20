@@ -356,6 +356,7 @@ const PropuestasCustomer = () => {
       {notification && (
         <NotificacionesPropuesta
           type={notification.type}
+          message={notification.message}
           onClose={() => setNotification(null)}
         />
       )}
