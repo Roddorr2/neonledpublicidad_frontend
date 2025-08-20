@@ -20,17 +20,15 @@ export default function Page() {
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
-    tipoDocumento: "",
-    numeroDocumento: "",
-    correoElectronico: "",
-    celular: "",
+    email: "",
+    telefono: "",
+    departamento: "",
     direccion: "",
     distrito: "",
-    ciudad: "",
-    tipoReclamo: "",
-    servicioContratado: "",
-    fechaReclamo: "",
-    detalleReclamo: "",
+    id_servicio: "",
+    fechaIncidente: "",
+    montoReclamado: "",
+    descripcionServicio: "",
     checkReclamoForm: false,
     aceptaPoliticaPrivacidad: false,
     estado: "Pendiente",
@@ -55,31 +53,22 @@ export default function Page() {
       const response = await fetch(`${API_URL}/api/reclamaciones`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          email: formData.correoElectronico,
-          telefono: formData.celular,
-          descripcionServicio: formData.detalleReclamo,
-          fechaIncidente: formData.fechaReclamo,
-          id_servicio: formData.servicioContratado,
-        }),
+        body: JSON.stringify(formData),
       })
       if (response.ok) {
         setStatus("success")
         setFormData({
           nombre: "",
           apellido: "",
-          tipoDocumento: "",
-          numeroDocumento: "",
-          correoElectronico: "",
-          celular: "",
+          email: "",
+          telefono: "",
+          departamento: "",
           direccion: "",
           distrito: "",
-          ciudad: "",
-          tipoReclamo: "",
-          servicioContratado: "",
-          fechaReclamo: "",
-          detalleReclamo: "",
+          id_servicio: "",
+          fechaIncidente: "",
+          montoReclamado: "",
+          descripcionServicio: "",
           checkReclamoForm: false,
           aceptaPoliticaPrivacidad: false,
           estado: "Pendiente",
@@ -117,7 +106,7 @@ export default function Page() {
   return (
     <>
       <main
-        className="relative flex p-8 justify-start items-end text-white min-h-[400px] md:min-h-[500px] lg:min-h-[600px] overflow-hidden"
+        className="relative flex p-8 justify-center items-center text-white min-h-[400px] md:min-h-[500px] lg:min-h-[600px] overflow-hidden"
         style={{
           backgroundPosition: "center",
           backgroundSize: "cover",
@@ -132,9 +121,9 @@ export default function Page() {
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
 
-        <div className="relative z-20">
-          <div className="text-left max-w-4xl">
-            <h1 className="text-3xl md:text-5xl lg:text-5xl font-bold leading-tight">
+        <div className="relative z-20 flex items-center justify-center">
+          <div className="text-center md:text-left max-w-4xl px-4">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
               <span className="text-cyan-400">COMPROMETIDOS</span> <span className="text-white">CON TU MARCA,</span>
               <br />
               <span className="text-white">APASIONADOS POR EL DISEÑO</span>
@@ -142,266 +131,170 @@ export default function Page() {
           </div>
         </div>
       </main>
-      <section className="p-8 max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          {/* Header */}
-          <div className="text-left mb-8">
-            <h1 className="text-3xl font-bold text-black mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>Libro de Reclamaciones</h1>
-            <div className="text-sm text-gray-600 space-y-1" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              <p>Conforme está establecido en el Código de Protección y Defensa del Consumidor contamos con un Libro de Reclamaciones Virtual a tu disposición, ledipublicidad.com</p>
-              <p>Debes de tener en cuenta que nos reclamamos conforme a ley, debes ser respetuoso en un plazo no mayor a 30 días, pudiendo extenderse el plazo cuando la naturaleza del reclamo lo amerite. Art. 154 Ley 29571.</p>
-              <div className="mt-4 flex flex-wrap gap-8">
-                <span><strong>Razón Social: Neonledpublicidad S.A.C.</strong></span>
-                <span><strong>RUC: 20247552250</strong></span>
-              </div>
-            </div>
-          </div>
-
-          <h2 className="text-xl font-bold text-black mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>Formulario de Reclamaciones</h2>
+      <section className="p-8 text-[#b2b2b2] md:border-2 md:my-16 border-[#b2b2b2] max-w-3xl mx-auto">
+        <h2 className="text-center text-black md:text-left">Déjanos tus datos para poder atender tu reclamo</h2>
 
         <form onSubmit={handleSubmit}>
-          <h3 className="text-lg font-semibold text-black mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>Datos Personales</h3>
+          <h3 className="text-xl text-center mb-4 mt-2 text-black md:text-left">Identidad del consumidor reclamante</h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <BlueInput
-              placeholder="Nombre"
+          <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
+            <Input
+              placeholder="Nombre*"
               type="text"
               name="nombre"
               value={formData.nombre}
               onChange={handleChange}
               required
             />
-            <BlueInput
-              placeholder="Apellido"
+            <Input
+              placeholder="Apellido*"
               type="text"
               name="apellido"
               value={formData.apellido}
               onChange={handleChange}
               required
             />
-            
-            <BlueSelect
-              name="tipoDocumento"
-              value={formData.tipoDocumento}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Tipo de Documento</option>
-              <option value="dni">DNI</option>
-              <option value="carnet">Carnet de Extranjería</option>
-              <option value="pasaporte">Pasaporte</option>
-            </BlueSelect>
-            
-            <BlueInput
-              placeholder="Número de documento"
-              type="text"
-              name="numeroDocumento"
-              value={formData.numeroDocumento}
-              onChange={handleChange}
-              required
-            />
-            <BlueInput
-              placeholder="Correo electrónico"
+            <Input
+              placeholder="Email*"
               type="email"
-              name="correoElectronico"
-              value={formData.correoElectronico}
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
-            <BlueInput
-              placeholder="Celular"
+            <Input
+              placeholder="Telefono*"
               type="text"
-              name="celular"
-              value={formData.celular}
+              name="telefono"
+              value={formData.telefono}
               onChange={handleChange}
               required
             />
-          </div>
-
-          <BlueInput
-            placeholder="Dirección"
-            type="text"
-            name="direccion"
-            value={formData.direccion}
-            onChange={handleChange}
-            required
-            fullWidth
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 mt-4">
-            <BlueInput
-              placeholder="Distrito"
+            <Input
+              placeholder="Departamento*"
+              type="text"
+              name="departamento"
+              value={formData.departamento}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              placeholder="Dirección*"
+              type="text"
+              name="direccion"
+              value={formData.direccion}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              placeholder="Distrito*"
               type="text"
               name="distrito"
               value={formData.distrito}
               onChange={handleChange}
               required
             />
-            <BlueInput
-              placeholder="Ciudad"
-              type="text"
-              name="ciudad"
-              value={formData.ciudad}
-              onChange={handleChange}
-              required
-            />
           </div>
 
-          <h3 className="text-lg font-semibold text-black mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>Datos del Reclamo</h3>
+          <h3 className="text-xl text-center mb-4 mt-6 text-black md:text-left">Información del servicio</h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <BlueSelect
-              name="tipoReclamo"
-              value={formData.tipoReclamo}
+          <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
+            <select
+              name="id_servicio"
+              value={formData.id_servicio}
               onChange={handleChange}
+              className="border-[#b2b2b2] border-2 p-2 bg-white"
               required
             >
-              <option value="">Tipo de Reclamo</option>
-              <option value="reclamo">Reclamo</option>
-              <option value="queja">Queja</option>
-            </BlueSelect>
+              <option value="" disabled>
+                Tipo
+              </option>
+              <option value={1}>Diseño Web y Desarrollo Web</option>
+              <option value={2}>Gestión de Redes Sociales</option>
+              <option value={3}>Marketing y Gestión Digital</option>
+              <option value={4}>Branding y Diseño</option>
+            </select>
 
-            <BlueSelect
-              name="servicioContratado"
-              value={formData.servicioContratado}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Servicio Contratado</option>
-              <option value="diseno-web">Diseño Web y Desarrollo Web</option>
-              <option value="redes-sociales">Gestión de Redes Sociales</option>
-              <option value="marketing">Marketing y Gestión Digital</option>
-              <option value="branding">Branding y Diseño</option>
-            </BlueSelect>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Fecha del Reclamo
-            </label>
-            <BlueInput
+            <Input
+              placeholder="Fecha*"
               type="date"
-              name="fechaReclamo"
-              value={formData.fechaReclamo}
+              name="fechaIncidente"
+              value={formData.fechaIncidente}
               onChange={handleChange}
               required
-              fullWidth
+            />
+            <Input
+              placeholder="Monto reclamado*"
+              type="number"
+              name="montoReclamado"
+              value={formData.montoReclamado}
+              onChange={handleChange}
+              required
             />
           </div>
-
-          <BlueTextarea
-            name="detalleReclamo"
-            value={formData.detalleReclamo}
+          <textarea
+            name="descripcionServicio"
+            value={formData.descripcionServicio}
             onChange={handleChange}
-            placeholder="Indique su reclamo"
-            rows={6}
+            className="border-[#b2b2b2] border-2 p-2 w-full mt-4"
+            rows={5}
+            placeholder="Descripción del servicio*"
             required
-          />
+          ></textarea>
 
-          <div className="space-y-4 my-6">
-            <label className="flex items-start gap-3" htmlFor="veraz">
-              <input
-                className="mt-1"
-                type="checkbox"
-                checked={declaracion}
-                name="checkReclamoForm"
-                onChange={(valor) => cambio_declaracion(valor.target.checked)}
-                id="veraz"
-                required
-              />
-              <span className="text-sm text-gray-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Soy consciente que la formulación del reclamo no impide acudir a otras vías de solución de controversias ni es requisito previo para interponer una denuncia ante el INDECOPI. "El proveedor deberá dar respuesta al reclamo en un plazo no mayor a treinta (30) días calendario, de acuerdo a la Ley 29571"
-              </span>
-            </label>
+          <label className="flex gap-2 my-4" htmlFor="veraz">
+            <input
+              className="w-8"
+              value={declaracion}
+              checked={declaracion}
+              name="checkReclamoForm"
+              type="checkbox"
+              onChange={(valor) => cambio_declaracion(valor.target.checked)}
+              id="veraz"
+              required
+            />
+            Doy fe que los datos e información proporcionados son veraces*
+          </label>
 
-            <label className="flex items-start gap-3" htmlFor="politica">
-              <input
-                type="checkbox"
-                checked={politica}
-                name="aceptaPoliticaPrivacidad"
-                onChange={(valor) => cambio_politica(valor.target.checked)}
-                id="politica"
-                required
-                className="mt-1"
-              />
-              <span className="text-sm text-gray-700" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Acepto las Políticas de Privacidad.
-              </span>
-            </label>
-          </div>
+          <label className="flex gap-2 my-4" htmlFor="politica">
+            <input
+              value={politica}
+              checked={politica}
+              name="aceptaPoliticaPrivacidad"
+              className="w-8"
+              type="checkbox"
+              onChange={(valor) => cambio_politica(valor.target.checked)}
+              id="politica"
+              required
+            />
+            <span>
+              Acepto la <a className="text-[#007bf9]">Política de Privacidad y Protección de Datos Personales</a>*
+            </span>
+          </label>
 
-          <div className="text-center">
-            <button 
-              type="submit" 
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-200"
-              disabled={status === "loading"}
-            >
-              {status === "loading" ? "Enviando..." : "Enviar Reclamación"}
-            </button>
-          </div>
+          <p>
+            Neon Led Publicidad deberá dar respuesta al reclamo o queja en un plazo no mayor a quince (15) días hábiles.
+          </p>
+
+          <button type="submit" className="bg-[#0c1a27] rounded-full p-4 px-16 font-bold block m-auto text-white">
+            {status === "loading" ? "Enviando..." : "Enviar"}
+          </button>
         </form>
-        </div>
       </section>
     </>
   )
 }
 
-function BlueInput({ placeholder, type, name, value, onChange, required, fullWidth }) {
+function Input({ placeholder, type, name, value, onChange }) {
   return (
     <input
-      className={`rounded-md p-3 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent ${fullWidth ? 'w-full' : ''}`}
-      style={{
-        backgroundColor: 'rgba(230, 237, 255, 1)',
-        borderColor: 'rgba(124, 111, 169, 1)',
-        borderWidth: '1px',
-        fontFamily: 'Montserrat, sans-serif'
-      }}
+      className="border-[#b2b2b2] border-2 p-2 flex-1 md:last:w-1/2"
       type={type}
       name={name}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      required={required}
-    />
-  )
-}
-
-function BlueSelect({ children, name, value, onChange, required }) {
-  return (
-    <select
-      name={name}
-      value={value}
-      onChange={onChange}
-      required={required}
-      className="rounded-md p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
-      style={{
-        backgroundColor: 'rgba(230, 237, 255, 1)',
-        borderColor: 'rgba(124, 111, 169, 1)',
-        borderWidth: '1px',
-        fontFamily: 'Montserrat, sans-serif'
-      }}
-    >
-      {children}
-    </select>
-  )
-}
-
-function BlueTextarea({ placeholder, name, value, onChange, rows, required }) {
-  return (
-    <textarea
-      name={name}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      rows={rows}
-      required={required}
-      className="rounded-md p-3 w-full text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent resize-none"
-      style={{
-        backgroundColor: 'rgba(230, 237, 255, 1)',
-        borderColor: 'rgba(124, 111, 169, 1)',
-        borderWidth: '1px',
-        fontFamily: 'Montserrat, sans-serif'
-      }}
+      required
     />
   )
 }
