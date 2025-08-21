@@ -1,6 +1,6 @@
 "use client";
 
-import { BookText, Search, RefreshCw, Plus, Eye, Edit } from "lucide-react";
+import { BookText, Search, RefreshCw, Plus, Eye, Edit, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { proposalApi, customerApi } from "../Services/PropuestasConexion";
@@ -18,6 +18,9 @@ const PropuestasCustomer = () => {
   const [proposals, setProposals] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [notification, setNotification] = useState(null);
+  const [customerSearchTerm, setCustomerSearchTerm] = useState("");
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [showCustomerDropdown, setShowCustomerDropdown] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -66,11 +69,38 @@ const PropuestasCustomer = () => {
   const clienteId = searchParams.get("cliente");
 
   useEffect(() => {
-    if (clienteId) {
+    if (clienteId && customers.length > 0) {
       setSelectedCustomer(clienteId);
+      const cliente = customers.find((c) => c.id.toString() === clienteId);
+      if (cliente) {
+        setCustomerSearchTerm(`${cliente.nombre} ${cliente.apellido}`);
+      }
     }
-    loadData();
-  }, [clienteId]);
+  }, [clienteId, customers]);
+
+  useEffect(() => {
+    if (customerSearchTerm) {
+      const filtered = customers.filter((cliente) =>
+        `${cliente.nombre} ${cliente.apellido} ${cliente.email}`
+          .toLowerCase()
+          .includes(customerSearchTerm.toLowerCase())
+      );
+      setFilteredCustomers(filtered);
+    } else {
+      setFilteredCustomers(customers);
+    }
+  }, [customerSearchTerm, customers]);
+
+  const handleCustomerSelect = (cliente) => {
+    setSelectedCustomer(cliente.id);
+    setCustomerSearchTerm(`${cliente.nombre} ${cliente.apellido}`);
+    setShowCustomerDropdown(false);
+  };
+
+  const clearCustomerSelection = () => {
+    setSelectedCustomer("");
+    setCustomerSearchTerm("");
+  };
 
   const formatDateForComparison = (dateString) => {
     try {
@@ -124,7 +154,6 @@ const PropuestasCustomer = () => {
         type: "delete",
         message: "Propuesta eliminada exitosamente",
       });
-      // Limpia el query param
       const newUrl = window.location.pathname;
       window.history.replaceState({}, "", newUrl);
     }
@@ -160,7 +189,7 @@ const PropuestasCustomer = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">
-                BUSCAR
+                BUSCAR POR NOMBRE
               </label>
               <div className="relative">
                 <Search
@@ -174,26 +203,71 @@ const PropuestasCustomer = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none bg-white dark:bg-gray-700 dark:text-white"
                 />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchTerm("")}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
               </div>
             </div>
 
             <div>
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">
-                CLIENTE
+                BUSCAR POR CLIENTE
               </label>
-              <select
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none bg-white dark:bg-gray-700 dark:text-white"
-                value={selectedCustomer}
-                onChange={(e) => setSelectedCustomer(e.target.value)}
-                disabled={loading}
-              >
-                <option value="">Todos los clientes</option>
-                {customers.map((customer) => (
-                  <option key={customer.id} value={customer.id}>
-                    {customer.nombre} {customer.apellido}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <div className="relative">
+                  <Search
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    size={16}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Buscar por nombre de cliente o email"
+                    value={customerSearchTerm}
+                    onChange={(e) => {
+                      setCustomerSearchTerm(e.target.value);
+                      setShowCustomerDropdown(true);
+                    }}
+                    onFocus={() => setShowCustomerDropdown(true)}
+                    onBlur={() =>
+                      setTimeout(() => setShowCustomerDropdown(false), 200)
+                    }
+                    className="w-full pl-10 pr-8 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:outline-none bg-white dark:bg-gray-700 dark:text-white"
+                  />
+                  {customerSearchTerm && (
+                    <button
+                      type="button"
+                      onClick={clearCustomerSelection}
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                </div>
+                {showCustomerDropdown && filteredCustomers.length > 0 && (
+                  <ul className="absolute z-10 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto mt-1">
+                    {filteredCustomers.map((cliente) => (
+                      <li
+                        key={cliente.id}
+                        onMouseDown={() => handleCustomerSelect(cliente)}
+                        className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer dark:text-white"
+                      >
+                        <div className="font-medium">
+                          {cliente.nombre} {cliente.apellido}
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-300">
+                          {cliente.email}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
 
             <div>

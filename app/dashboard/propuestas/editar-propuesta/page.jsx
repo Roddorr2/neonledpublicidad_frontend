@@ -1,14 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  ArrowLeft,
-  Save,
-  Trash2,
-  Plus,
-  Image as ImageIcon,
-  Video,
-  Search,
-} from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Image as ImageIcon, Video, Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { proposalApi, customerApi } from "../Services/PropuestasConexion";
 import NotificacionesPropuesta from "../componentes/NotificacionesPropuesta";
@@ -38,6 +30,8 @@ export default function EditarPropuestaPage() {
   const [pendingVideoUploads, setPendingVideoUploads] = useState([]);
   const [pendingImageDeletions, setPendingImageDeletions] = useState([]);
   const [pendingVideoDeletions, setPendingVideoDeletions] = useState([]);
+  const [imageValidationError, setImageValidationError] = useState(null);
+  const [videoValidationError, setVideoValidationError] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -113,38 +107,52 @@ export default function EditarPropuestaPage() {
     setShowDropdown(false);
   };
 
+  const validateImages = (filesArray) => {
+    if (imagenes.length + filesArray.length > 10) {
+      return "El máximo de imágenes permitido es de 10";
+    }
+
+    if (filesArray.some((file) => file.size > 5 * 1024 * 1024)) {
+      return "El tamaño máximo por imagen es 5MB";
+    }
+
+    return null;
+  };
+
+  const validateVideos = (filesArray) => {
+    if (videos.length + filesArray.length > 5) {
+      return "El máximo de videos permitido es de 5";
+    }
+
+    if (filesArray.some((file) => file.size > 50 * 1024 * 1024)) {
+      return "El tamaño máximo por video es 50MB";
+    }
+
+    return null;
+  };
+
   const handleImageChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       try {
         setUploading(true);
         const files = Array.from(e.target.files);
 
-        if (imagenes.length + files.length > 10) {
-          setNotification({
-            type: "error",
-            message:
-              "Error al cargar archivos: Estás tratando de exceder el límite de archivos permitidos. Intenta de nuevo cargando la cantidad de archivos necesarios.",
-          });
+        const validationError = validateImages(files);
+        if (validationError) {
+          setImageValidationError(validationError);
+          setTimeout(() => setImageValidationError(null), 5000);
           e.target.value = "";
           return;
         }
+
+        setImageValidationError(null);
 
         setPendingImageUploads((prev) => [...prev, ...files]);
 
         const previewUrls = files.map((file) => URL.createObjectURL(file));
         setImagenes((prev) => [...prev, ...previewUrls]);
-
-        setNotification({
-          type: "success",
-          message:
-            "Imágenes agregadas para subir. Guarda los cambios para confirmar.",
-        });
       } catch (error) {
         console.error("Error procesando imágenes:", error);
-        setNotification({
-          type: "error",
-          message: "Error al procesar las imágenes",
-        });
       } finally {
         setUploading(false);
         e.target.value = "";
@@ -158,32 +166,22 @@ export default function EditarPropuestaPage() {
         setUploading(true);
         const files = Array.from(e.target.files);
 
-        if (videos.length + files.length > 5) {
-          setNotification({
-            type: "error",
-            message:
-              "Error al cargar archivos: Estás tratando de exceder el límite de archivos permitidos. Intenta de nuevo cargando la cantidad de archivos necesarios.",
-          });
+        const validationError = validateVideos(files);
+        if (validationError) {
+          setVideoValidationError(validationError);
+          setTimeout(() => setVideoValidationError(null), 5000);
           e.target.value = "";
           return;
         }
+
+        setVideoValidationError(null);
 
         setPendingVideoUploads((prev) => [...prev, ...files]);
 
         const previewUrls = files.map((file) => URL.createObjectURL(file));
         setVideos((prev) => [...prev, ...previewUrls]);
-
-        setNotification({
-          type: "success",
-          message:
-            "Videos agregados para subir. Guarda los cambios para confirmar.",
-        });
       } catch (error) {
         console.error("Error procesando videos:", error);
-        setNotification({
-          type: "error",
-          message: "Error al procesar los videos",
-        });
       } finally {
         setUploading(false);
         e.target.value = "";
@@ -389,7 +387,7 @@ export default function EditarPropuestaPage() {
               Información Básica
             </h2>
 
-            {/* Nuevo campo de búsqueda de cliente */}
+            {/* Búsqueda de Cliente */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Cliente <span className="text-red-500">*</span>
@@ -516,6 +514,12 @@ export default function EditarPropuestaPage() {
             <div className="text-sm text-gray-500 dark:text-gray-400">
               {imagenes.length}/10 imágenes seleccionadas
             </div>
+
+            {imageValidationError && (
+              <p className="text-red-500 text-sm bg-red-50 dark:bg-red-900/20 p-2 rounded-md">
+                {imageValidationError}
+              </p>
+            )}
           </div>
 
           {/* Sección Videos */}
@@ -572,6 +576,12 @@ export default function EditarPropuestaPage() {
             <div className="text-sm text-gray-500 dark:text-gray-400">
               {videos.length}/5 videos seleccionados
             </div>
+
+            {videoValidationError && (
+              <p className="text-red-500 text-sm bg-red-50 dark:bg-red-900/20 p-2 rounded-md">
+                {videoValidationError}
+              </p>
+            )}
           </div>
 
           {/* Botones de acción */}

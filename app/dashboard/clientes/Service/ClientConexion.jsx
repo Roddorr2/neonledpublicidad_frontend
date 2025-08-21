@@ -69,8 +69,8 @@ export const deleteCustomer = async (id) => {
   try {
     return await fetchApi(`/cliente/${id}`, "DELETE");
   } catch (error) {
-    if (error.message.includes('carpetas')) {
-      throw new Error('Error al eliminar archivos del cliente');
+    if (error.message.includes("carpetas")) {
+      throw new Error("Error al eliminar archivos del cliente");
     }
     throw error;
   }

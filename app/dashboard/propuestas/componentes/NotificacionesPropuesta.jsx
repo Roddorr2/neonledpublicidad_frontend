@@ -13,13 +13,13 @@ import {
   Download,
 } from "lucide-react";
 
-const NotificacionesPropuesta = ({ 
-  type, 
-  message, 
-  title, 
-  onClose, 
+const NotificacionesPropuesta = ({
+  type,
+  message,
+  title,
+  onClose,
   duration = 5000,
-  customIcon 
+  customIcon,
 }) => {
   const notificationConfig = {
     create: {
@@ -49,9 +49,7 @@ const NotificacionesPropuesta = ({
       borderColor: "border-red-200 dark:border-red-800",
     },
     error: {
-      icon: (
-        <XCircle className="text-red-500 dark:text-red-400" size={20} />
-      ),
+      icon: <XCircle className="text-red-500 dark:text-red-400" size={20} />,
       defaultTitle: "Error",
       defaultMessage: "Ha ocurrido un error en la operación.",
       bgColor: "bg-red-50 dark:bg-red-900/30",
@@ -59,7 +57,10 @@ const NotificacionesPropuesta = ({
     },
     warning: {
       icon: (
-        <AlertCircle className="text-yellow-500 dark:text-yellow-400" size={20} />
+        <AlertCircle
+          className="text-yellow-500 dark:text-yellow-400"
+          size={20}
+        />
       ),
       defaultTitle: "Advertencia",
       defaultMessage: "Operación completada con observaciones.",
@@ -75,7 +76,10 @@ const NotificacionesPropuesta = ({
     },
     success: {
       icon: (
-        <CheckCircle2 className="text-green-500 dark:text-green-400" size={20} />
+        <CheckCircle2
+          className="text-green-500 dark:text-green-400"
+          size={20}
+        />
       ),
       defaultTitle: "Éxito",
       defaultMessage: "Operación completada correctamente.",
@@ -83,14 +87,18 @@ const NotificacionesPropuesta = ({
       borderColor: "border-green-200 dark:border-green-800",
     },
     upload: {
-      icon: <Upload className="text-purple-500 dark:text-purple-400" size={20} />,
+      icon: (
+        <Upload className="text-purple-500 dark:text-purple-400" size={20} />
+      ),
       defaultTitle: "Subida completada",
       defaultMessage: "Archivos subidos exitosamente.",
       bgColor: "bg-purple-50 dark:bg-purple-900/30",
       borderColor: "border-purple-200 dark:border-purple-800",
     },
     download: {
-      icon: <Download className="text-indigo-500 dark:text-indigo-400" size={20} />,
+      icon: (
+        <Download className="text-indigo-500 dark:text-indigo-400" size={20} />
+      ),
       defaultTitle: "Descarga completada",
       defaultMessage: "Archivos descargados exitosamente.",
       bgColor: "bg-indigo-50 dark:bg-indigo-900/30",
