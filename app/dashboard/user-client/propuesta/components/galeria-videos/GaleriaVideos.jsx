@@ -4,28 +4,10 @@ import { useRef } from "react";
 import url from "@/api/url";
 import propuesta_cliente_service from "../../../services/propuesta.service";
 import { getCookie } from "cookies-next";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 
 const GaleriaVideos = ({ videos, setModalVideo, cantidad_videos }) => {
-  const containerRef = useRef();
-
-  const handleDrag = (e) => {
-    const startX = e.pageX - containerRef.current.offsetLeft;
-    const scrollLeft = containerRef.current.scrollLeft;
-
-    const handleMove = (eMove) => {
-      const x = eMove.pageX - containerRef.current.offsetLeft;
-      const walk = x - startX;
-      containerRef.current.scrollLeft = scrollLeft - walk;
-    };
-
-    const stop = () => {
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("mouseup", stop);
-    };
-
-    window.addEventListener("mousemove", handleMove);
-    window.addEventListener("mouseup", stop);
-  };
 
   const descargarVideos = async () => {
     try {
@@ -82,39 +64,32 @@ const GaleriaVideos = ({ videos, setModalVideo, cantidad_videos }) => {
             SIN VIDEOS
           </div>
         ) : (
-          <div
-            ref={containerRef}
-            onMouseDown={handleDrag}
-            className="flex gap-4 overflow-x-auto scroll-smooth cursor-grab"
-            style={{
-              scrollbarWidth: "none",
-              WebkitOverflowScrolling: "touch",
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={20}
+            slidesPerView={1}
+            // navigation
+            // pagination={{ clickable: true }}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
             }}
+            className="w-full"
           >
             {videos.map((video, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-full md:w-[50%] xl:w-[30%] max-w-[500px] p-2"
-              >
-                {/* {video.endsWith(".mp4") ? ( */}
-                <video
-                  src={`${url}${video}`}
-                  className="h-40 rounded w-full cursor-pointer object-cover"
-                  onClick={() => setModalVideo(`${url}${video}`)}
-                />
-                {/* ) : (
-                <iframe
-                  src={`${url}${video}`}
-                  className="h-40 rounded w-full cursor-pointer"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title={`video-${index}`}
-                  onClick={() => setModalVideo(`${url}${video}`)}
-                />
-              )} */}
-              </div>
+              <SwiperSlide key={index}>
+                <div className="w-full h-40">
+                  <video
+                    src={`${url}${video}`}
+                    className="h-40 w-full rounded object-cover cursor-pointer"
+                    onClick={() => setModalVideo(`${url}${video}`)}
+                  />
+                </div>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
+        
+        
         )}
       </div>
     </div>
