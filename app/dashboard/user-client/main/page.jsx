@@ -5,36 +5,14 @@ import Slider from "./components/slider/SliderPropuesta";
 import propuesta_cliente_service from "../services/propuesta.service";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 
 export default function Page() {
   const [propuestas, setPropuestas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
-
-  const scrollRef = useRef(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    setStartX(e.pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
-  };
-
-  const handleMouseLeave = () => setIsDragging(false);
-  const handleMouseUp = () => setIsDragging(false);
-
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  const containerRef = useRef(null);
 
   useEffect(() => {
     fetchPropuestas();
@@ -50,31 +28,6 @@ export default function Page() {
       setIsLoading(false);
     }
   };
-
-  const handleDrag = (e) => {
-    if (!containerRef.current) return;
-    let isDown = true;
-    const startX = e.pageX - containerRef.current.offsetLeft;
-    const scrollLeft = containerRef.current.scrollLeft;
-
-    const handleMove = (ev) => {
-      if (!isDown) return;
-      ev.preventDefault();
-      const x = ev.pageX - containerRef.current.offsetLeft;
-      const walk = (x - startX) * 1.5; // velocidad del scroll
-      containerRef.current.scrollLeft = scrollLeft - walk;
-    };
-
-    const handleUp = () => {
-      isDown = false;
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("mouseup", handleUp);
-    };
-
-    window.addEventListener("mousemove", handleMove);
-    window.addEventListener("mouseup", handleUp);
-  };
-
 
   const visualizar = (id) => {
     setCookie("propuesta_id", id);
@@ -107,29 +60,29 @@ export default function Page() {
               <p className="ml-4 text-blue-primary">Cargando propuestas...</p>
             </div>
           ) : (
-            <div
-              ref={containerRef}
-              onMouseDown={handleDrag}
-              className="flex gap-4 overflow-x-auto scroll-smooth cursor-grab select-none"
-              style={{
-                scrollbarWidth: "none",
-                WebkitOverflowScrolling: "touch",
-              }} 
-            >
-              {propuestas.map((p) => (
-                <div
-                  key={p.id}
-                  className="border-azulPrincipal border-2 flex-shrink-0 w-[100%] lg:w-[50%] max-w-[510px] bg-[#1157D31A] rounded-2xl p-5 shadow-[5px_5px_5px_0px_#00000040]"
-                >
-               
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={20}
+            slidesPerView={1}
+            // navigation
+            // pagination={{ clickable: true }}
+            breakpoints={{
+              1024: { slidesPerView: 2 },
+            }}
+            className="w-full"
+          >
+            {propuestas.map((p) => (
+              <SwiperSlide key={p.id}>
+                <div className="border-azulPrincipal border-2 w-full bg-[#1157D31A] rounded-2xl p-5 shadow-[5px_5px_5px_0px_#00000040] select-none">
                   <Slider slides={p.images} />
+
                   <div className="my-2 md:my-4">
                     <div className="flex justify-between text-sm items-center">
                       <div className="font-semibold text-base lg:text-lg mb-1 text-azulPrincipal">
                         {p.nombre}
                       </div>
                       <span className="text-xs opacity-50 dark:text-white">
-                        {p.cantidad_imagenes} imagenes
+                        {p.cantidad_imagenes} imágenes
                       </span>
                     </div>
 
@@ -155,8 +108,10 @@ export default function Page() {
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          
           )}
         </div>
       </div>
