@@ -22,30 +22,28 @@ const PropuestasCustomer = () => {
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [showCustomerDropdown, setShowCustomerDropdown] = useState(false);
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
+  const loadData = async (signal = null) => {
     setLoading(true);
     try {
       const [proposalsResponse, customersResponse] = await Promise.all([
-        proposalApi.getAll().catch((e) => ({ data: [] })),
+        proposalApi.getAll(signal),
         customerApi.getAll().catch((e) => []),
       ]);
 
       const propuestasData = Array.isArray(proposalsResponse)
-        ? proposalsResponse.map((propuesta) => ({
-            ...propuesta,
-            cliente_nombre:
-              propuesta.cliente_nombre || propuesta.cliente?.nombre || "",
-            cliente_apellido:
-              propuesta.cliente_apellido || propuesta.cliente?.apellido || "",
-            cliente_email:
-              propuesta.cliente_email || propuesta.cliente?.email || "",
-            images: propuesta.images || [],
-          }))
+        ? proposalsResponse
         : [];
+
+      const propuestasFormateadas = propuestasData.map((propuesta) => ({
+        ...propuesta,
+        cliente_nombre:
+          propuesta.cliente_nombre || propuesta.cliente?.nombre || "",
+        cliente_apellido:
+          propuesta.cliente_apellido || propuesta.cliente?.apellido || "",
+        cliente_email:
+          propuesta.cliente_email || propuesta.cliente?.email || "",
+        images: propuesta.images || [],
+      }));
 
       const clientesData = Array.isArray(customersResponse)
         ? customersResponse.map((c) => ({
@@ -56,14 +54,22 @@ const PropuestasCustomer = () => {
           }))
         : [];
 
-      setProposals(propuestasData);
+      setProposals(propuestasFormateadas);
       setCustomers(clientesData);
     } catch (error) {
       console.error("Error al cargar datos:", error);
+      setProposals([]);
     } finally {
       setLoading(false);
     }
   };
+
+    useEffect(() => {
+    const abortController = new AbortController();
+    loadData(abortController.signal);
+
+    return () => abortController.abort();
+  }, []);
 
   const searchParams = useSearchParams();
   const clienteId = searchParams.get("cliente");
@@ -285,7 +291,7 @@ const PropuestasCustomer = () => {
             <div className="flex justify-end items-center">
               <button
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50"
-                onClick={loadData}
+                onClick={() => loadData()} 
                 disabled={loading}
               >
                 <RefreshCw

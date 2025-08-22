@@ -5,7 +5,8 @@ const fetchApi = async (
   endpoint,
   method = "GET",
   body = null,
-  isFormData = false
+  isFormData = false,
+  signal = null
 ) => {
   const token = getCookie("token");
   const headers = {
@@ -22,9 +23,22 @@ const fetchApi = async (
       method,
       headers,
       body: isFormData ? body : body ? JSON.stringify(body) : null,
+      signal,
     };
 
+    if (signal?.aborted) {
+      return { status: 499, message: "Request aborted", data: [] };
+    }
+
     const response = await fetch(`${url}/api${endpoint}`, options);
+
+    if (signal?.aborted) {
+      return { status: 499, message: "Request aborted", data: [] };
+    }
+
+    if (response.status === 404) {
+      return { status: 404, message: "No se encontraron propuestas", data: [] };
+    }
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -33,6 +47,10 @@ const fetchApi = async (
 
     return await response.json();
   } catch (error) {
+    if (error.name === "AbortError") {
+      return { status: 499, message: "Request aborted", data: [] };
+    }
+
     console.error(`Error en ${method} ${endpoint}:`, error);
     throw error;
   }
@@ -40,9 +58,27 @@ const fetchApi = async (
 
 // Operaciones CRUD
 export const proposalApi = {
-  getAll: async () => {
+  getAll: async (signal = null) => {
     try {
-      const response = await fetchApi("/propuestas");
+      const response = await fetchApi(
+        "/propuestas",
+        "GET",
+        null,
+        false,
+        signal
+      );
+
+      if (response.status === 499) {
+        return [];
+      }
+
+      if (
+        response.status === 404 &&
+        response.message === "No se encontraron propuestas"
+      ) {
+        return [];
+      }
+
       const data = response?.data || response?.message || response || [];
 
       return Array.isArray(data)
@@ -59,7 +95,7 @@ export const proposalApi = {
         : [];
     } catch (error) {
       console.error("Error al obtener propuestas:", error);
-      throw error;
+      return [];
     }
   },
 
