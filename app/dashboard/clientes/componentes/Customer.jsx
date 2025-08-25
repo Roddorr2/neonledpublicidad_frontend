@@ -291,6 +291,8 @@ const Customer = () => {
     isRefreshing: false,
     currentPage: 1,
     totalPages: 1,
+    isCreating: false,
+    isEditing: false,
   });
 
   const [alert, setAlert] = useState({
@@ -320,33 +322,37 @@ const Customer = () => {
   };
 
   // Cargar clientes
-  const loadCustomers = async (page = 1) => {
-    try {
-      setState((prev) => ({ ...prev, isRefreshing: true }));
-      const data = await getCustomers(page, state.searchTerm);
+const loadCustomers = async (page = 1) => {
+  try {
+    setState((prev) => ({ ...prev, isRefreshing: true }));
+    const response = await getCustomers(page, state.searchTerm);
 
-      setState((prev) => ({
-        ...prev,
-        customers:
-          data.data.map((c) => ({
-            id: c.id_cliente,
-            nombre: c.nombre,
-            apellido: c.apellido,
-            email: c.email,
-            telefono: c.telefono,
-            distrito: c.distrito,
-            propuestas: c.propuestas,
-          })) || [],
-        totalPages: Math.ceil(data.total / 5),
-        currentPage: page,
-        isRefreshing: false,
-      }));
-    } catch (error) {
-      console.error("Error loading customers:", error);
-      showAlert("error", "No se pudieron cargar los clientes");
-      setState((prev) => ({ ...prev, isRefreshing: false }));
-    }
-  };
+    setState((prev) => ({
+      ...prev,
+      customers: (response.data || []).map((c) => ({ 
+        id: c.id_cliente,
+        nombre: c.nombre,
+        apellido: c.apellido,
+        email: c.email,
+        telefono: c.telefono,
+        distrito: c.distrito,
+        propuestas: c.propuestas || 0,
+      })),
+      totalPages: Math.ceil((response.total || 0) / 5) || 1,
+      currentPage: page,
+      isRefreshing: false,
+    }));
+  } catch (error) {
+    console.error("Error loading customers:", error);
+    setState((prev) => ({
+      ...prev,
+      customers: [],
+      totalPages: 1,
+      currentPage: 1,
+      isRefreshing: false,
+    }));
+  }
+};
 
   // Handlers
   const handleRefresh = () => loadCustomers(state.currentPage);
@@ -377,6 +383,7 @@ const Customer = () => {
   // Submit handlers
   const handleSubmit = async (formData, isEdit = false) => {
     try {
+      setState(prev => ({ ...prev, [isEdit ? 'isEditing' : 'isCreating']: true }));
       if (isEdit) {
         await updateCustomer(
           state.customerToEdit.id,
@@ -414,6 +421,8 @@ const Customer = () => {
             `No se pudo ${isEdit ? "actualizar" : "crear"} el cliente`
         );
       }
+    } finally {
+      setState(prev => ({ ...prev, [isEdit ? 'isEditing' : 'isCreating']: false }));
     }
   };
   const handleDeleteConfirm = async () => {
@@ -540,6 +549,7 @@ const Customer = () => {
             setState((prev) => ({ ...prev, showCreateModal: false }))
           }
           onSubmit={(data) => handleSubmit(data, false)}
+          isLoading={state.isCreating}
         />
 
         <CustomerModal
@@ -551,6 +561,7 @@ const Customer = () => {
           }
           onSubmit={(data) => handleSubmit(data, true)}
           customer={state.customerToEdit}
+          isLoading={state.isEditing}
         />
 
         <DeleteModal
@@ -567,7 +578,7 @@ const Customer = () => {
 };
 
 // Componente de modal genérico para crear/editar
-const CustomerModal = ({ type, form, show, onClose, onSubmit, customer }) => (
+const CustomerModal = ({ type, form, show, onClose, onSubmit, customer, isLoading }) => (
   <Dialog open={show} onOpenChange={onClose}>
     <DialogContent className="sm:max-w-lg bg-white dark:bg-gray-900">
       <DialogHeader>
@@ -713,14 +724,42 @@ const CustomerModal = ({ type, form, show, onClose, onSubmit, customer }) => (
           <div className="flex gap-3 pt-4">
             <Button
               type="submit"
-              className="flex-1 bg-blue-600 hover:bg-blue-700"
+              className="flex-1 bg-blue-600 hover:bg-blue-700 flex items-center justify-center"
+              disabled={isLoading}
             >
-              {type === "create" ? "Crear Cliente" : "Guardar Cambios"}
+              {isLoading ? (
+                <>
+                  <svg 
+                    className="animate-spin h-5 w-5 text-white mr-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  {type === "create" ? "Creando..." : "Actualizando..."}
+                </>
+              ) : (
+                type === "create" ? "Crear Cliente" : "Guardar Cambios"
+              )}
             </Button>
             <Button
               type="button"
               onClick={onClose}
               className="flex-1 bg-red-600 hover:bg-red-700"
+              disabled={isLoading}
             >
               Cancelar
             </Button>
