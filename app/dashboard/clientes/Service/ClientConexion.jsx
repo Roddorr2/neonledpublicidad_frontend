@@ -24,10 +24,23 @@ const fetchApi = async (endpoint, method = "GET", body = null) => {
 
 // Operaciones CRUD básicas
 export const getCustomers = async (page = 1, searchTerm = "") => {
-  const params = searchTerm
-    ? `?all=true&search=${encodeURIComponent(searchTerm)}`
-    : `?page=${page}`;
-  return fetchApi(`/cliente${params}`);
+  try {
+    const params = searchTerm
+      ? `?all=true&search=${encodeURIComponent(searchTerm)}`
+      : `?page=${page}`;
+    
+    const response = await fetchApi(`/cliente${params}`);
+    
+    return {
+      data: response.data || [], 
+      total: response.total || 0,
+      page: response.page || 1
+    };
+    
+  } catch (error) {
+    console.error('Error in getCustomers:', error);
+    return { data: [], total: 0, page: 1 };
+  }
 };
 
 export const createCustomer = async (customerData) => {

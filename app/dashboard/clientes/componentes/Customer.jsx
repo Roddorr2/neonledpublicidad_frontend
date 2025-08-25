@@ -322,33 +322,37 @@ const Customer = () => {
   };
 
   // Cargar clientes
-  const loadCustomers = async (page = 1) => {
-    try {
-      setState((prev) => ({ ...prev, isRefreshing: true }));
-      const data = await getCustomers(page, state.searchTerm);
+const loadCustomers = async (page = 1) => {
+  try {
+    setState((prev) => ({ ...prev, isRefreshing: true }));
+    const response = await getCustomers(page, state.searchTerm);
 
-      setState((prev) => ({
-        ...prev,
-        customers:
-          data.data.map((c) => ({
-            id: c.id_cliente,
-            nombre: c.nombre,
-            apellido: c.apellido,
-            email: c.email,
-            telefono: c.telefono,
-            distrito: c.distrito,
-            propuestas: c.propuestas,
-          })) || [],
-        totalPages: Math.ceil(data.total / 5),
-        currentPage: page,
-        isRefreshing: false,
-      }));
-    } catch (error) {
-      console.error("Error loading customers:", error);
-      showAlert("error", "No se pudieron cargar los clientes");
-      setState((prev) => ({ ...prev, isRefreshing: false }));
-    }
-  };
+    setState((prev) => ({
+      ...prev,
+      customers: (response.data || []).map((c) => ({ 
+        id: c.id_cliente,
+        nombre: c.nombre,
+        apellido: c.apellido,
+        email: c.email,
+        telefono: c.telefono,
+        distrito: c.distrito,
+        propuestas: c.propuestas || 0,
+      })),
+      totalPages: Math.ceil((response.total || 0) / 5) || 1,
+      currentPage: page,
+      isRefreshing: false,
+    }));
+  } catch (error) {
+    console.error("Error loading customers:", error);
+    setState((prev) => ({
+      ...prev,
+      customers: [],
+      totalPages: 1,
+      currentPage: 1,
+      isRefreshing: false,
+    }));
+  }
+};
 
   // Handlers
   const handleRefresh = () => loadCustomers(state.currentPage);
