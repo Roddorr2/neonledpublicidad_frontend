@@ -9,7 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 6;
 
 // Función para normalizar el texto (eliminar puntuación, convertir todo a minúsculas)
 const normalizeText = (text) => {
