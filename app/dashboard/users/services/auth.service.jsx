@@ -196,6 +196,7 @@ const auth_service = {
         deleteCookie('empleado');
         deleteCookie('rol');
         deleteCookie('permisos');
+        deleteCookie('cliente');
     },
 
     getCurrentUser: () => {
@@ -273,6 +274,27 @@ const auth_service = {
     isVerifiedAccount: () => {
         const user = auth_service.getCurrentUser();
         return user?.email === "tmlighting@hotmail.com";
+    },
+    change_password:  async (formData) => {
+
+        try {
+            const response = await fetch(
+                `${api_url}/change-password`,
+                {
+                method: "POST",
+                headers: {
+                    authorization: `Bearer ${getCookie("token")}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+                }
+            );
+
+            return await response;
+        } catch (error) {
+            console.error("Error al cambiar contraseña", error);
+            throw error; 
+        }
     },
 };
 
