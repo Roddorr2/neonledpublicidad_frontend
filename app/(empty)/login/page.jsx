@@ -56,6 +56,9 @@ export default function LoginPage() {
       if (userData.empleado) {
         setCookie("empleado", JSON.stringify(userData.empleado), { maxAge: 30 * 24 * 60 * 60, path: "/" })
       }
+        if (userData.cliente) {
+        setCookie("cliente", JSON.stringify(userData.cliente), { maxAge: 30 * 24 * 60 * 60, path: "/" })
+      }
 
       if (userData.rol) {
         setCookie("rol", userData.rol, { maxAge: 30 * 24 * 60 * 60, path: "/" })
@@ -68,9 +71,13 @@ export default function LoginPage() {
         router.push("/dashboard/main")
       } else if (auth_service.hasRole("ventas")) {
         router.push("/dashboard/main")
-      } else {
+      } else if (auth_service.hasRole("cliente")){
+        router.push("/dashboard/user-client/main")
+      }else{
         // redirec default
+
         router.push("/dashboard/main")
+        
       }
     } catch (error) {
       setError(true)

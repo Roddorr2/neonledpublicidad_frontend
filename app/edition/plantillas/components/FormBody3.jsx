@@ -2,8 +2,12 @@
 import { Type, AlignLeft, Quote, Image, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Loader2, CheckCircle, Calendar, ExternalLink, Image as IconImage } from "lucide-react";
+import { ProductosLink } from "../utils";
+import AddLinkButton from "./AddLinkButton";
 
 export default function FormBody3(props) {
+
+  const productos = ProductosLink
 
   const {
     formCommendBody,
@@ -38,7 +42,29 @@ export default function FormBody3(props) {
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
+  function renderDescripcion(texto, palabraClave, enlace) {
+    if (!palabraClave || !enlace) {
+      return texto;
+    }
+    return texto.split(" ").map((palabra, i) => {
+      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
+      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
 
+      return isMatch ? (
+        <a
+          key={i}
+          href={enlace}
+          target="_blank"
+          className="text-blue-400 font-bold underline hover:text-blue-200"
+        >
+          {palabraClave}
+        </a>
+      ) : (
+        <span key={i}>{" " + palabra + " "}</span>
+      );
+    });
+  }
+  
   const [errors, setErrors] = useState({
     titulo: { message: 'Debe tener entre 10 y 50 caracteres', isValid: null },
     texto1: { message: 'Debe tener entre 10 y 150 caracteres', isValid: null },
@@ -430,7 +456,11 @@ export default function FormBody3(props) {
                         </div>
                         <div className="md:w-2/3 p-6">
                           <p className="text-gray-700 leading-relaxed">
-                            {section.descripcion}
+                            {renderDescripcion(
+                              section.descripcion,
+                              section.keyword,
+                              section.link
+                            )}
                           </p>
                         </div>
                       </div>
@@ -758,7 +788,12 @@ export default function FormBody3(props) {
                     placeholder="Descripción"
                   />
                   <ValidationMessage error={errorsInfoBody[index]?.descripcion || { isValid: null, message: '' }} />
-
+                  <AddLinkButton
+                    item={item}
+                    index={index}
+                    servicios={productos}
+                    handleChange={handleChangeMap}
+                  ></AddLinkButton>
                 </div>
               </div>
             ))}

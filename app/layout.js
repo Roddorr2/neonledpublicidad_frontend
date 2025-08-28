@@ -1,7 +1,9 @@
 import { Montserrat } from 'next/font/google';
 import "./globals.css";
 import { WhatsAppButton } from "./(client)/components/index";
-
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const montserrat = Montserrat({
   subsets: ["latin"],

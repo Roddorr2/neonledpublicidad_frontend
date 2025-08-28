@@ -9,7 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 6;
 
 // Función para normalizar el texto (eliminar puntuación, convertir todo a minúsculas)
 const normalizeText = (text) => {
@@ -25,18 +25,18 @@ const Page = () => {
 }
 
 const Blogs = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get("page") || 1);
-  const searchQuery = searchParams.get("search") || ""; // Obtener el término de búsqueda desde la URL
+  // const router = useRouter();
+  // const searchParams = useSearchParams();
+  // const currentPage = Number(searchParams.get("page") || 1);
+  // const searchQuery = searchParams.get("search") || "";
 
   const [data, setDataResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(searchQuery); // Inicializar con el término de búsqueda de la URL
+  const [searchTerm, setSearchTerm] = useState(""); // Inicializar con el término de búsqueda de la URL
   const [filteredData, setFilteredData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [currentPage, setCurrentPage] = useState(1)
   async function fetchData() {
     try {
       setIsLoading(true);
@@ -77,7 +77,7 @@ const Blogs = () => {
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
-    router.push(`?search=${searchTerm}&page=${page}`); // Asegurarse de que el término de búsqueda se mantenga
+    setCurrentPage(page)
   };
 
   // Maneja la búsqueda al presionar el botón
@@ -91,8 +91,10 @@ const Blogs = () => {
     );
     setFilteredData(filtered);
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
+
+    setCurrentPage(1)
     // Actualizamos la URL solo cuando se presiona el botón
-    router.push(`?search=${searchTerm}&page=1`, { scroll : false});
+    //router.push(`?search=${searchTerm}&page=1`, { scroll : false});
   };
 
   if (isLoading) {

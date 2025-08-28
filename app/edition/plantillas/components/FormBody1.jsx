@@ -3,9 +3,13 @@ import { Type, AlignLeft, Quote, Image, Trash2, Clock1, Clock } from "lucide-rea
 import { Loader2, CheckCircle, ArrowRight, Image as IconImage } from "lucide-react"
 import { useState } from "react";
 
+import { ProductosLink } from "../utils";
+import AddLinkButton from "./AddLinkButton";
+
 
 export default function FormBody1(props) {
-
+  const productos = ProductosLink
+  
   const {
     formCommendBody,
     setFormCommendBody,
@@ -126,6 +130,29 @@ export default function FormBody1(props) {
       [name]: value,
     }));
   };
+
+  function renderDescripcion(texto, palabraClave, enlace) {
+    if (!palabraClave || !enlace) {
+      return texto;
+    }
+    return texto.split(" ").map((palabra, i) => {
+      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
+      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+
+      return isMatch ? (
+        <a
+          key={i}
+          href={enlace}
+          target="_blank"
+          className="text-blue-400 font-bold underline hover:text-blue-200"
+        >
+          {palabraClave}
+        </a>
+      ) : (
+        <span key={i}>{" " + palabra + " "}</span>
+      );
+    });
+  }
 
   const ValidationMessage = ({ error }) => (
     <p className={`text-xs mt-1 ml-3 ${error.isValid === null ? 'text-gray-400' :
@@ -334,7 +361,14 @@ export default function FormBody1(props) {
                     className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${styles[index % styles.length]}`}
                   >
                     <h3 className="text-xl font-bold mb-3 text-white">{section.titulo}</h3>
-                    <p className="text-gray-100">{section.descripcion}</p>
+                    {/* <p className="text-gray-100">{section.descripcion}</p> */}
+                    <p className="text-gray-100">
+                      {renderDescripcion(
+                        section.descripcion,
+                        section.keyword,
+                        section.link
+                      )}
+                    </p>
                   </div>
                 );
               })}
@@ -562,6 +596,14 @@ export default function FormBody1(props) {
                       className="w-full resize-none h-[100px] bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm"
                       placeholder="Descripción"
                     />
+                    <div className="w-full flex justify-end">
+                      <AddLinkButton
+                        item={item}
+                        index={index}
+                        servicios={productos}
+                        handleChange={handleChangeMap}
+                      ></AddLinkButton>
+                    </div>
                   </div>
                 </div>
               ))

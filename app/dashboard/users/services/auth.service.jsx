@@ -88,6 +88,10 @@ const auth_service = {
             if (data.empleado) {
                 setAuthCookie('empleado', data.empleado);
             }
+            if (data.cliente) {
+                setAuthCookie('cliente', data.cliente);
+            }
+            
             
             if (data.rol) {
                 setAuthCookie('rol', data.rol);

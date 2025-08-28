@@ -2,8 +2,12 @@
 import { Type, AlignLeft, Quote, Image, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Loader2, CheckCircle, Calendar, ExternalLink, Image as IconImage } from "lucide-react";
+import { ProductosLink } from '../../plantillas/utils';
+import AddLinkButton from '../../plantillas/components/AddLinkButton';
 
 export default function FormBody3(props) {
+    const productos = ProductosLink
+
     const {
         formCommendBody,
         setFormCommendBody,
@@ -135,6 +139,28 @@ export default function FormBody3(props) {
         </p>
     );
 
+    function renderDescripcion(texto, palabraClave, enlace) {
+        if (!palabraClave || !enlace) {
+        return texto;
+        }
+        return texto.split(" ").map((palabra, i) => {
+        const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
+        const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+
+        return isMatch ? (
+            <a
+            key={i}
+            href={enlace}
+            target="_blank"
+            className="text-blue-400 font-bold underline hover:text-blue-200"
+            >
+            {palabraClave}
+            </a>
+        ) : (
+            <span key={i}>{" " + palabra + " "}</span>
+        );
+        });
+    }
 
     const [errorsInfoBody, setErrorsInfoBody] = useState(
         formInfoBody.map(() => ({
@@ -439,7 +465,11 @@ export default function FormBody3(props) {
                                                 </div>
                                                 <div className="md:w-2/3 p-6">
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        {section.descripcion}
+                                                        {renderDescripcion(
+                                                            section.descripcion,
+                                                            section.keyword,
+                                                            section.link
+                                                        )}
                                                     </p>
                                                 </div>
                                             </div>
@@ -761,7 +791,13 @@ export default function FormBody3(props) {
                                         placeholder="Descripción"
                                     />
                                     <ValidationMessage error={errorsInfoBody[index]?.descripcion || { isValid: null, message: '' }} />
-
+                                    <AddLinkButton
+                                        servicios = {productos}
+                                        item = {item}
+                                        index = {index}
+                                        handleChange = {handleChangeMap}
+                                    >  
+                                    </AddLinkButton>
                                 </div>
                             </div>
                         ))}
