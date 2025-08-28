@@ -13,6 +13,13 @@ const montserrat = Montserrat({
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      
+      <head>
+        <meta name="google-site-verification" content="GmKy-G0PSdvQqMQB1OXQMRRR-MImNAtg1dkxxtvCUug" />
+        
+     
+      </head>
+
       <body
         className={`${montserrat.variable} antialiased`}
       >
