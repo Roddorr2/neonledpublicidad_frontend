@@ -5,6 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation"
 import { User, Mail, Phone, BadgeIcon, Shield, ArrowLeft, Edit, KeyRound, Loader2 } from "lucide-react"
 
 import ModalEmpleado from "../empleados/components/modal_empleado"
+import ModalCliente from "../user-client/components/modal_cliente"
+
 import ModalUpdatePass from "../empleados/components/modal_update_password"
 import ProfileImageUpload from "../empleados/components/profile_image_upload"
 
@@ -25,6 +27,7 @@ export default function Page() {
   const [showEditModal, setShowEditModal] = useState(false)
   const [showPasswordModal, setShowPasswordModal] = useState(false)
 
+
   const [imageUrl, setImageUrl] = useState(null)
 
   const searchParams = useSearchParams()
@@ -32,10 +35,14 @@ export default function Page() {
   const empleadoId = searchParams.get("id_empleado")
   const api_url = `${url}/api/empleados`
 
+  const [showEditModalCliente, setShowEditModalCliente] = useState(false)
+
+
   useEffect(() => {
     setIsClient(true)
 
     const loadData = async () => {
+      console.log(empleadoId)
       if (empleadoId) {
         const userRole = getCookie("rol")
         if (userRole !== "administrador") {
@@ -95,6 +102,7 @@ export default function Page() {
           setIsLoading(false)
         }
       } else {
+
         try {
           const token = getCookie("token")
           if (!token) {
@@ -102,8 +110,8 @@ export default function Page() {
           }
 
           const empleadoCookie = getCookie("empleado")
-
-          if (empleadoCookie) {
+          const clienteCookie = getCookie("cliente")
+          if (empleadoCookie && empleadoCookie!=="null") {
             const empleado = JSON.parse(empleadoCookie)
             const idEmpleado = empleado.id_empleado
 
@@ -145,9 +153,13 @@ export default function Page() {
 
           const userCookie = getCookie("user")
           const rolCookie = getCookie("rol")
-
           if (userCookie) setUserData(JSON.parse(userCookie))
-          if (rolCookie && !userRole) setUserRole(rolCookie)
+          // if (rolCookie && !userRole) setUserRole(rolCookie)
+          if (rolCookie) setUserRole(rolCookie)
+          if (clienteCookie && clienteCookie !== "null") setUserData(JSON.parse(clienteCookie));
+
+  
+
         } catch (error) {
           console.error("Error al cargar datos del usuario:", error)
 
@@ -240,12 +252,13 @@ export default function Page() {
     )
   }
 
+console.log(userData)
   const nombre = empleadoData?.nombre || userData?.nombre || "No disponible"
   const apellido = empleadoData?.apellido || userData?.apellido || "No disponible"
   const dni = empleadoData?.dni || userData?.dni || "No disponible"
   const displayName = `${nombre} ${apellido}`
   const email = empleadoData?.email || userData?.email || "No disponible"
-  const telefono = empleadoData?.telefono || "No disponible"
+  const telefono = empleadoData?.telefono || userData?.telefono || "No disponible"
 
   const getRolePermissions = (role) => {
     switch (role.toLowerCase()) {
@@ -340,7 +353,12 @@ export default function Page() {
                     <div className="flex w-full gap-2">
                       <Button
                         variant="outline"
-                        onClick={() => setShowEditModal(true)}
+                        // onClick={() => setShowEditModal(true)}
+                          onClick={() =>
+                            userRole === "cliente"
+                              ? setShowEditModalCliente(true)
+                              : setShowEditModal(true)
+                          }
                         className="flex-1 text-sm dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
                       >
                         <Edit className="mr-1.5 h-3.5 w-3.5" />
@@ -487,6 +505,17 @@ export default function Page() {
       )}
       {showPasswordModal && (
         <ModalUpdatePass isVisible={showPasswordModal} onClose={() => setShowPasswordModal(false)} />
+      )}
+
+      {showEditModalCliente && (
+        <ModalCliente
+          isVisible={showEditModalCliente}
+          onClose={() => setShowEditModalCliente(false)}
+          data={userData}
+          onUpdateSuccessClient={(updatedClient) => {
+            setUserData(updatedClient); 
+          }}
+        />
       )}
     </div>
   )
