@@ -1,162 +1,81 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import empleado_service from "../services/empleado.service";
-import { getCookie } from 'cookies-next';
 import { Eye, EyeOff } from 'lucide-react';
 import ModalWrapper from "../../components/modal-wrapper"
+import auth_service from "../../users/services/auth.service";
 
 export default function ModalUpdatePassword({ isVisible, onClose }) {
-
-    const empleadoCookie = getCookie('empleado');
-    const empleadoAutenticado = empleadoCookie ? JSON.parse(empleadoCookie) : null;
-    const empleadoAutenticadoId = empleadoAutenticado?.id_empleado;
 
     const [formData, setFormData] = useState({
         currentPassword: "",
         newPassword: "",
         confirmPassword: "",
     });
-    const [error, setError] = useState({ status: undefined, message: "" });
-    const [loading, setLoading] = useState(false);
+
     const [showPasswords, setShowPasswords] = useState({
         currentPassword: false,
         newPassword: false,
-        confirmPassword: false
+        confirmPassword: false,
     });
 
-    // reset de form al abrirse
-    useEffect(() => {
-        if (isVisible) {
-            setFormData({
-                currentPassword: "",
-                newPassword: "",
-                confirmPassword: "",
-            });
-            setError({ status: undefined, message: "" });
-            setShowPasswords({
-                currentPassword: false,
-                newPassword: false,
-                confirmPassword: false
-            });
-        }
-    }, [isVisible]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({ status: undefined, message: "" });
 
-    if (!isVisible) return null;
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
 
-    const handleChange = (e) => {
-        // limpiar errores al escribir
-        if (error.status !== undefined) {
-            setError({ status: undefined, message: "" });
-        }
-        
-        setFormData((prev) => ({
-            ...prev,
-            [e.target.id]: e.target.value,
-        }));
-    };
+  const togglePasswordVisibility = (field) => {
+    setShowPasswords((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
 
-    const togglePasswordVisibility = (field) => {
-        setShowPasswords(prev => ({
-            ...prev,
-            [field]: !prev[field]
-        }));
-    };
+  const handleSubmit = async () => {
+    setError({ status: undefined, message: "" });
 
-    const handleSubmit = async () => {
-        const { currentPassword, newPassword, confirmPassword } = formData;
-    
-        // validaciones
-        if (!currentPassword || !newPassword || !confirmPassword) {
-            setError({ status: true, message: "Todos los campos son obligatorios." });
-            return;
-        }
-    
-        if (newPassword.length < 4) {
-            setError({ status: true, message: "La nueva contraseña debe tener al menos 4 caracteres." });
-            return;
-        }
-    
-        if (newPassword !== confirmPassword) {
-            setError({ status: true, message: "Las contraseñas no coinciden." });
-            return;
-        }
-    
-        setLoading(true);
-    
-        try {
-            const verifyData = {
-                currentPassword: currentPassword,
-                id_empleado: empleadoAutenticadoId,
-            };
+    if (!formData.currentPassword || !formData.newPassword || !formData.confirmPassword) {
+      setError({ status: true, message: "Todos los campos son obligatorios" });
+      return;
+    }
 
-            const verifyResponse = await empleado_service.verifyPassword(verifyData);
-            
-            if (verifyResponse.status !== 200) {
-                let errorMessage = "La contraseña actual es incorrecta. Por favor, verifica e intenta nuevamente.";
-                
-                try {
-                    const errorData = await verifyResponse.json();
-                    if (errorData && errorData.message) {
-                        errorMessage = errorData.message;
-                    }
-                } catch (jsonError) {
-                    console.log("No se pudo leer la respuesta como JSON:", jsonError);
-                }
-                
-                setError({ 
-                    status: true, 
-                    message: errorMessage
-                });
-                setLoading(false);
-                return;
-            }
+    if (formData.newPassword !== formData.confirmPassword) {
+      setError({ status: true, message: "Las contraseñas no coinciden" });
+      return;
+    }
+    
+    if (formData.newPassword.length < 8) {
+        setError({ status: true, message: "La nueva contraseña debe tener al menos 8caracteres." });
+        return;
+    }
 
-            const verifyResult = await verifyResponse.json();
-            if (!verifyResult.valid) {
-                setError({ 
-                    status: true, 
-                    message: "La contraseña actual es incorrecta. Por favor, verifica e intenta nuevamente." 
-                });
-                setLoading(false);
-                return;
-            }
-            
-            
-            const passwordData = {
-                currentPassword: currentPassword,
-                password: newPassword,         
-            };
-    
-            // solicitud para actualizar
-            const response = await empleado_service.updatePass(passwordData, empleadoAutenticadoId);
-    
-            // respuesta
-            const data = await response.json();
-            
-            // respuesta con error
-            if (response.status !== 200) {
-                const errorMessage = data.message || "Hubo un error al actualizar la contraseña.";
-                setError({ status: true, message: errorMessage });
-                setLoading(false);
-                return;
-            }
-            
-            // éxito
-            setError({ status: false, message: "Contraseña actualizada correctamente." });
-            setTimeout(() => {
-                onClose();
-            }, 1500);
-        } catch (error) {
-            console.error("Error al actualizar la contraseña:", error);
-            setError({ 
-                status: true, 
-                message: "No se pudo procesar la solicitud. Verifique su conexión e intente nuevamente." 
-            });
-        } finally {
-            setLoading(false);
-        }
-    };
+    try {
+      setLoading(true);
+        const result = await auth_service.change_password(formData);
+
+      if (!result.ok) {
+        setError({ status: true, message: result.error || "Error al cambiar contraseña" });
+      } else {
+        setError({ status: false, message: result.message || "Contraseña actualizada" });
+
+        setTimeout(() => {
+          onClose();
+        }, 1500);
+      }
+    } catch (err) {
+      setError({ status: true, message: "Error de conexión con el servidor" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isVisible) return null;
+
 
     return (
         <ModalWrapper>
