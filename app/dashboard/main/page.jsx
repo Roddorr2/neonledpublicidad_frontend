@@ -328,7 +328,7 @@ console.log(userData)
                     {userRole.charAt(0).toUpperCase() + userRole.slice(1)}
                   </Badge>
 
-                  {!empleadoId && (
+                  {!empleadoId &&  userRole !== "cliente" &&(
                     <div className="mt-2">
                       <ProfileImageUpload
                         empleadoId={empleadoData?.id_empleado}
