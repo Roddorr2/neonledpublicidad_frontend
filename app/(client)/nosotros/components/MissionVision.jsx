@@ -1,7 +1,7 @@
 export const MissionVision = () => {
   return (
     <div className="flex flex-col md:flex-row items-start">
-      {/* Mission */}
+
        <div className="bg-gray-900/80 p-5 backdrop-blur-sm w-full md:w-[320px] min-h-[220px]">
         <div className="flex items-center justify-center mb-4">
           <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
@@ -19,7 +19,6 @@ export const MissionVision = () => {
         </p>
       </div>
 
-      {/* Vision */}
       <div className="bg-gray-900/80 p-5 backdrop-blur-sm w-full md:w-[320px] min-h-[220px]">
         <div className="flex items-center justify-center mb-4">
           <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">

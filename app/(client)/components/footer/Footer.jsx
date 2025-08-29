@@ -1,63 +1,84 @@
 import Link from "next/link";
 import styles from './footer.module.css'
 import { SocialMedia } from "./SocialMedia";
+
 export default function Footer() {   
     return (
         <>
-            <footer className="overflow-hidden h-[900px] lg:h-auto bg-gradient-to-r from-[--azul_brillante] to-[--azul_intenso] w-full pb-20">
-                <div className="after:w-[200%] h-[800px] lg:h-auto after:translate-x-[-25%] after:z-10 after:absolute after:inset-0 relative after:bg-[--azul_oscuro] pt-16 pb-72  after:rounded-b-[50%]">
-                    <div className="rounded-full flex justify-center items-center p-7 bg-white overflow-hidden absolute w-[130px]  right-[calc(50%-65px)] bottom-[0] translate-y-[40%] z-30">
-                        <img className="w-[80px]" src="/header_footer/logo_azul_letraNegra_ledneonpublicidad2.webp" alt="Logotipo de Neon LED Publicidad con letras negras" />
+            <footer className="bg-[#0a0e27] text-white py-16 px-8 relative">
+                
+                <div className="absolute left-[120px] h-[370px]  top-0 bottom-0 w-1 bg-cyan-400"></div>
+                
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-12 pl-8">
+                    
+                  
+                    <div className="lg:col-span-1">
+                        <div className="flex items-center mb-6">
+                            <img width="150px" src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp" 
+                            />
+                        </div>
+                        
+                        <p className="text-sm leading-relaxed mb-8 max-w-xs">
+                            NOSOTROS SOMOS NEÓN LED PUBLICIDAD UNA EMPRESA FORMAL QUE SE DEDICA A LA CREACIÓN DE ESPACIOS PERSONALIZADOS QUE TRANSFORMAN TU NEGOCIO CON ESTILO Y PERSONALIDAD
+                        </p>
+                        
+                      
+                        <div className="flex gap-4 mb-4">
+                            <SocialMedia />
+                        </div>
+                        
+                     
+                        <div className="w-full h-1 bg-yellow-400"></div>
                     </div>
-                    <div className={`${styles["footer-content"]} absolute pt-10 inset-0 z-20 flex flex-col justify-center lg:flex-row lg:justify-center mx-28 gap-12 text-center lg:text-left text-white font-semibold mb-28`}>
-                        <ul>
-                            <li className="flex flex-col">
-                                <h2 className="text-[--azul_brillante] text-lg lg:text-xl">Contáctanos</h2>
-                                <span className="w-[30px] mx-auto lg:mx-0 h-[6px] border-t-2 border-solid border-t-[--azul_brillante]"></span>
-                            </li>
-                            <li className="flex flex-col">
-                                <p>Direcciónes:</p>
-                                <p>Jr. Paruro 1404. S130, Lima,</p>
-                                <p>Perú</p>
-                                <p>Urb. Alameda La Rivera</p>
-                                <p>Mz. F Lt. 30 Santa Marta,</p>
-                                <p>Ate Vitarte, Perú</p>
-                            </li>
-                            <li className="flex flex-col mt-4">
-                                <p>Celular:</p>
-                                <p>+51 994 078 320</p>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li className="flex flex-col">
-                                <h2 className="text-[--azul_brillante] text-lg lg:text-xl">Horario</h2>
-                                <span className="w-[30px] mx-auto lg:mx-0 h-[6px] border-t-2 border-solid border-t-[--azul_brillante]"></span>
-                            </li>
-                            <li className="flex flex-col text-base md:text-lg">
-                                <p>Disponibilidad:</p>
-                                <p>Lunes a Viernes</p>
-                                <p>8:00 a.m - 7:00 p.m</p>
-                            </li>
 
-                        </ul>
-                        <ul>
-                            <li className="flex flex-col">
-                                <h2 className="text-[--azul_brillante] text-lg lg:text-xl">Redes sociales</h2>
-                                <span className="w-[30px] mx-auto lg:mx-0 h-[6px] border-t-2 border-solid border-t-[--azul_brillante]"></span>
-                                <div className="flex gap-4 justify-center align-middle lg:justify-between mt-2">                                    
-                                    <SocialMedia />
+                 
+                    <div>
+                        <h2 className="text-cyan-400 text-xl font-bold mb-4">CONTÁCTANOS</h2>
+                        
+                        <div className="mb-6">
+                            <p className="font-semibold mb-2">DIRECCIONES:</p>
+                            <p className="text-sm mb-1">JR. PARURO 1404. S130, LIMA,</p>
+                            <p className="text-sm mb-3">PERÚ</p>
+                            <p className="text-sm mb-1">URB. ALAMEDA LA RIVERA</p>
+                            <p className="text-sm mb-1">MZ. F LT. 30 SANTA MARTA,</p>
+                            <p className="text-sm mb-4">ATE VITARTE, PERÚ</p>
+                        </div>
+                        
+                        <div>
+                            <p className="font-semibold mb-2">CELULAR:</p>
+                            <p className="text-sm">+51 994 078 320</p>
+                        </div>
+                    </div>
+
+        
+                    <div>
+                        <h2 className="text-cyan-400 text-xl font-bold mb-4">HORARIO</h2>
+                        
+                        <div>
+                            <p className="font-semibold mb-2">DISPONIBILIDAD:</p>
+                            <p className="text-sm mb-1">LUNES A VIERNES</p>
+                            <p className="text-sm">8:00 A.M - 7:00 P.M</p>
+                        </div>
+                    </div>
+
+                   
+                    <div>
+                        <h2 className="text-cyan-400 text-xl font-bold mb-4">RECLAMACIONES</h2>
+                        
+                        <div className="text-center">
+                            <p className="font-semibold mb-4">LIBRO DE RECLAMACIONES</p>
+                            <Link href="/reclamaciones">
+                                <div className="inline-block">
+                                    <img 
+                                        className="w-200 h-240 mx-auto" 
+                                        src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp" 
+                                        alt="Ilustración de un libro de reclamaciones abierto con páginas blancas" 
+                                    />
                                 </div>
-                            </li>
-                        </ul>
-                        <div className="flex flex-col items-center lg:items-start">
-                            <h2 className="text-[--azul_brillante] text-lg lg:text-xl">Reclamaciones</h2>
-                            <span className="w-[30px] mx-auto lg:mx-0 h-[6px] border-t-2 border-solid border-t-[--azul_brillante]"></span>
-                            <Link className="w-[200px] m-1" href={"/reclamaciones"}>
-                                <p className="text-center">Libro de reclamaciones</p>
-                                <img className="w-full" src="/reclamaciones/librodereclamaciones_ledneonpublicidad.webp" alt="Ilustración de un libro de reclamaciones abierto con páginas blancas" />
                             </Link>
                         </div>
                     </div>
+                    
                 </div>
             </footer>
         </>

@@ -5,15 +5,52 @@ import Slider from "./components/slider/Slider";
 import Slider2 from "./components/slider2/Slider2";
 
 const AboutStatic = () => (
-  <section className="flex flex-col justify-center items-center text-center bg-gradient-to-r from-[--azul_brillante] to-[--azul_cobalto] text-white p-4 md:p-8 w-4/5 max-w-4xl mx-auto rounded-2xl shadow-lg mb-12">
-    <h1 className="text-sm md:text-4xl font-bold mb-3">NOSOTROS</h1>
-    <span className="w-16 border-2 border-white mb-3"></span>
-    <p className="text-sm font-medium md:text-lg leading-relaxed max-w-full text-center sm:text-center whitespace-normal break-words px-10 ">
-        Nosotros somos Neón led publicidad una empresa formal que <br /> se dedica a la creación de espacios personalizados que <br /> transforman tu negocio con estilo y personalidad
-    </p>
+  <section className="bg-gradient-to-r from-purple-600 via-blue-500 to-orange-300 text-white p-6 md:p-8 w-4/5 max-w-4xl mx-auto rounded-[2.5rem] shadow-xl mb-12">
+    <div className="text-left">
+      <h1 className="text-4xl md:text-6xl font-bold mb-4 ml-4">NOSOTROS</h1>
+      <div className="w-96 h-1 bg-orange-400 mb-8 ml-4"></div>
+    </div>
+    <div className="text-left px-4">
+      <p className="text-lg md:text-xl leading-relaxed font-medium">
+        NOSOTROS SOMOS NEÓN LED PUBLICIDAD UNA EMPRESA FORMAL QUE SE
+        DEDICA A LA CREACIÓN DE ESPACIOS PERSONALIZADOS QUE TRANSFORMAN 
+        TU NEGOCIO CON ESTILO Y PERSONALIDAD
+      </p>
+    </div>
   </section>
 );
- 
+
+
+// Componente FilaProductos MODIFICADO para verse exactamente como la imagen
+const FilaProductosModificado = ({ productos }) => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+    {productos.map((producto, index) => (
+      <div 
+        key={index}
+        className="bg-white rounded-3xl p-1 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+      >
+        <div className="rounded-2xl overflow-hidden">
+          <div className="h-48 md:h-52 lg:h-56 overflow-hidden">
+            <img 
+              src={producto.imgSrc} 
+              alt={producto.altText}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
+            <h3 className="text-white font-bold text-sm md:text-base text-center leading-tight">
+              {producto.description}
+            </h3>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+
+
+
 export default function Home() {
   const fila1 = [
     {
@@ -56,22 +93,23 @@ export default function Home() {
   ];
 
     const clientLogos = [
-    { imgSrc: "/home/Jockeyplaza_Logo_ledneonpublicidad.webp", altText: "Logotipo blanco y negro del centro comercial Jockey Plaza con letra J" },
-    { imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad2.webp", altText: "Logotipo de Mall del Sur con pétalos de colores sobre fondo azul" },
     { imgSrc: "/home/logo_lk_constructora_e_inversiones.webp", altText: "Logotipo de L&K Constructora e Inversiones con diseño de edificio en tonos azules y verdes" },
-    { imgSrc: "/home/Crisol_Logo_ledneopublicidad2.webp", altText: "Logotipo de Crisol con fondo amarillo y texto azul Libros y Más" }, 
     { imgSrc: "/home/BancodelaNación_ledneonpublicidad2.webp", altText: "Logotipo del Banco de la Nación Perú con texto negro y símbolo rojo" }, 
+    { imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad2.webp", altText: "Logotipo de Mall del Sur con pétalos de colores sobre fondo azul" },
+    { imgSrc: "/home/Crisol_Logo_ledneopublicidad2.webp", altText: "Logotipo de Crisol con fondo amarillo y texto azul Libros y Más" }, 
+    { imgSrc: "/home/Jockeyplaza_Logo_ledneonpublicidad.webp", altText: "Logotipo blanco y negro del centro comercial Jockey Plaza con letra J" },
+   
   ];
 
   return (
     <>
-      <div className="bg-[--azul_oscuro] overflow-hidden">
+      <div className="bg-[--azul_oscuro] overflow-hidden ">
       <Slider slides={slidesData} />
 
         <div className="px-4 lg:px-8 mt-20 mb-24">
           <NuestrosProductos />
           <div className="mt-8">
-            <FilaProductos productos={fila1} />
+            <FilaProductosModificado productos={fila1} />
             
           </div>
         </div>
