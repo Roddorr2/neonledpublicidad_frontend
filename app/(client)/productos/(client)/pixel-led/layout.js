@@ -2,7 +2,8 @@ export const metadata = {
   title: "Pixel LED en Lima | Iluminación Digital para Eventos y Publicidad",
   description:
     "Descubre los mejores productos de iluminación Pixel LED en Lima, Perú. Tecnología innovadora ideal para publicidad, decoración y exhibiciones impactantes.",
-  openGraph: {
+   keywords:[],
+    openGraph: {
     title: "Pixel LED en Lima | Iluminación Digital para Eventos y Publicidad",
     description:
       "Descubre los mejores productos de iluminación Pixel LED en Lima, Perú. Tecnología innovadora ideal para publicidad, decoración y exhibiciones impactantes.",

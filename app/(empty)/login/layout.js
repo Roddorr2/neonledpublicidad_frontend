@@ -1,11 +1,11 @@
 export const metadata = {
-  title: "Neon Led Publicidad _ Iniciar sesión",
+  title: "Acceder a mi cuenta | Accede a tus pedidos y seguimiento en Neón Led Publicidad",
   description:
-    "Accede a tu cuenta de Neón LED Publicidad para gestionar tus pedidos, revisar tus productos favoritos y mantenerte al día con nuestras novedades.",
+    "Ingresa para revisar tus pedidos, guardar tus productos favoritos y mantenerte al tanto de nuestras promociones y novedades en letreros LED y decoración visual.",
   openGraph: {
-    title: "Neon Led Publicidad _ Iniciar sesión",
+    title: "Acceder a mi cuenta | Accede a tus pedidos y seguimiento en Neón Led Publicidad",
     description:
-      "Accede a tu cuenta de Neón LED Publicidad para gestionar tus pedidos, revisar tus productos favoritos y mantenerte al día con nuestras novedades.",
+      "Ingresa para revisar tus pedidos, guardar tus productos favoritos y mantenerte al tanto de nuestras promociones y novedades en letreros LED y decoración visual.",
     url: "https://ledneonpublicidad.com/login",
     siteName: "Neon Led Publicidad",
     images: [], // se puede agregar más adelante una imagen para vista previa en redes

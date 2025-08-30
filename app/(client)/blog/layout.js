@@ -1,11 +1,11 @@
 export const metadata = {
-  title: "Neón Led Publicidad _ Blog",
+  title: "Diseños publicitario personalizados creativos en Perú Lima | Inspírate con Tendencias Visuales",
   description:
-    "Bienvenido al blog de Neón LED Publicidad, aquí encontrarás ideas, consejos y las últimas tendencias en iluminación, diseño y tecnología publicitaria para transformar tu marca.",
+    "Inspira tu marca con ideas creativas en diseño publicitario. Ilumina tus espacios, rompe lo convencional y marca tendencia con soluciones visuales.",
   openGraph: {
-    title: "Neón Led Publicidad _ Blog",
+    title: "Diseños publicitario personalizados creativos en Perú Lima | Inspírate con Tendencias Visuales",
     description:
-      "Bienvenido al blog de Neón LED Publicidad, aquí encontrarás ideas, consejos y las últimas tendencias en iluminación, diseño y tecnología publicitaria para transformar tu marca.",
+      "Inspira tu marca con ideas creativas en diseño publicitario. Ilumina tus espacios, rompe lo convencional y marca tendencia con soluciones visuales.",
     url: "https://ledneonpublicidad.com/blog",
     siteName: "Neón Led Publicidad",
     images: [], // se mantiene vacío por tu preferencia
