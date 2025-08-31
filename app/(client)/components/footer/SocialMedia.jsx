@@ -36,13 +36,13 @@ export const SocialMedia = () => {
                         key={index}
                         href={href}
                         className="hover:opacity-75 transition-opacity">
-                        <div className="rounded-full p-3">
+                        <div className="rounded-full p-2">
                             <Image
                                 src={src}
                                 alt={alt}
                                 width={44}
                                 height={44}
-                                className="text-white"
+                                className="text-white w-11 h-11"
                             />
                         </div>
                     </a>

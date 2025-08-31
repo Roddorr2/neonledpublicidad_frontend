@@ -8,12 +8,12 @@ const AboutStatic = () => (
   <section className="flex flex-col justify-center items-center text-center bg-gradient-to-r from-[--azul_brillante] to-[--azul_cobalto] text-white p-4 md:p-8 w-4/5 max-w-4xl mx-auto rounded-2xl shadow-lg mb-12">
     <h1 className="text-sm md:text-4xl font-bold mb-3">NOSOTROS</h1>
     <span className="w-16 border-2 border-white mb-3"></span>
-    <p className="text-sm font-medium md:text-lg leading-relaxed max-w-full text-center sm:text-center whitespace-normal break-words px-10 ">
-        Nosotros somos Neón led publicidad una empresa formal que <br /> se dedica a la creación de espacios personalizados que <br /> transforman tu negocio con estilo y personalidad
+    <p className="text-sm font-medium md:text-lg leading-relaxed max-w-full text-left md:text-center whitespace-normal px-10">
+      Nosotros somos Neón led publicidad, una empresa formal que se dedica a la creación de espacios personalizados que transforman tu negocio con estilo y personalidad.
     </p>
   </section>
 );
- 
+
 export default function Home() {
   const fila1 = [
     {

@@ -22,7 +22,7 @@ const Nosotros = () => {
     {
       title: "Somos",
       value: "EQUIPO",
-      bgColor: "bg-blue-400",
+      bgColor: "bg-blue-700",
       icon: (
         <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -35,7 +35,7 @@ const Nosotros = () => {
     {
       title: "Compromiso con",
       value: "EL CLIENTE",
-      bgColor: "bg-blue-600",
+      bgColor: "bg-blue-700",
       icon: (
         <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />

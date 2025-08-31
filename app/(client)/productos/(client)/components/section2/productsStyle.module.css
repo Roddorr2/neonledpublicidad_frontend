@@ -184,14 +184,16 @@
 
 @media (max-width: 697px) {
   .info-rectangle {
-    padding: 5rem 1.8rem 5rem 5rem;
+    padding: 4rem 1.8rem 4rem 5rem;
   }
   .info-description {
-    font-size: 0.65rem;
+    font-size: 0.9rem; /*antes estaba en 0.65rem */
+    line-height: 1.2;   /*esto ayuda a que no se amontone */
   }
   .intermediate-image {
-    width: auto;
-    height: 230px;
+    width: 24rem;
+    height:22rem;
+    padding-top: 2rem;
   }
 }
 

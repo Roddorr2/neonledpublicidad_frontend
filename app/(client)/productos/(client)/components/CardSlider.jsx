@@ -51,7 +51,7 @@ function CardSlider({cards}) {
               <div className={`text-center ${card.bgColor || ""}`}>
                 <h2 className={`${card.glow || ""}`}>{card.title}</h2>
                 <div className="w-20 h-1 bg-blue-400 mx-auto mt-[-2px] mb-2"></div>
-                    <p className={`${card.textStyle || ""}`}>{card.description}</p>
+                    <p className={`${card.textStyle || ""} max-w-md mx-auto leading-relaxed`}>{card.description}</p>
              </div>
             )}
           </div>

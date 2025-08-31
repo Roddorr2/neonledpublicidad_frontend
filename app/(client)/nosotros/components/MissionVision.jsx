@@ -4,7 +4,7 @@ export const MissionVision = () => {
       {/* Mission */}
        <div className="bg-gray-900/80 p-5 backdrop-blur-sm w-full md:w-[320px] min-h-[220px]">
         <div className="flex items-center justify-center mb-4">
-          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+          <div className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center mr-3">
             <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <circle cx="12" cy="12" r="10" />
               <circle cx="12" cy="12" r="6" />
@@ -22,7 +22,7 @@ export const MissionVision = () => {
       {/* Vision */}
       <div className="bg-gray-900/80 p-5 backdrop-blur-sm w-full md:w-[320px] min-h-[220px]">
         <div className="flex items-center justify-center mb-4">
-          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+          <div className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center mr-3">
             <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
               <circle cx="12" cy="12" r="3" />

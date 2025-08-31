@@ -78,19 +78,20 @@ export default function Header() {
         <>
             <div className={`${styles.containerF} ${menuActive ? styles["full-height"] : ""}`}>
                 <header
-                    className={`${styles["header-container"]} h-[100px] bg-[--azul_oscuro] flex items-center justify-center gap-6 px-5 ${menuActive ? styles["menu-active"] : ""}`}
+                    className={`${styles["header-container"]} h-[100px] bg-[--azul_oscuro] flex items-center justify-center gap-8 px-5 ${menuActive ? styles["menu-active"] : ""}`}
                 >
                     <LinkNav text={"Inicio"} link={"/"} />
                     <LinkNav text={"Nosotros"} link={"/nosotros"} />
                     <LinkNav text={"Productos"} link={"/productos"} />
                     
-
+                
                     {currentMenu === "main" ? (
                         <div className={`w-[90px] text-white mx-7 text-center ${styles.logo}`}>
-                            <img src="/header_footer/logo_azul_letraBlanco_ledneonpublicidad2.webp" alt="Logotipo de Neon LED Publicidad con letras blancas y fondo negro" />
+                            <img src="/header_footer/logo_azul_letraBlanco_ledneonpublicidad2.webp" alt="Logotipo de Neon LED Publicidad con letras blancas y fondo negro"
+                            />
                         </div>
                     ) : (
-                        <div className={`h-[50px] w-auto  text-white mx-7 text-center ${styles.logo} flex items-center justify-center`}>
+                         <div className={`h-[50px] w-auto  text-white mx-7 text-center ${styles.logo} flex items-center justify-center`}>
                             <a
                                 href="#"
                                 onClick={() => {
@@ -99,8 +100,10 @@ export default function Header() {
                                 className="text-white font-bold cursor-pointer"
                             >
                                 &lt; Volver
-                            </a></div>
+                            </a>
+                        </div>
                     )}
+
 
                     <LinkNav text={"Contacto"} link={"/contacto"} />
                     <LinkNav text={"Blog"} link={"/blog"} />
