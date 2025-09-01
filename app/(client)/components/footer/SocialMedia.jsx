@@ -28,7 +28,7 @@ export const SocialMedia = () => {
             href: "https://www.instagram.com/neonledpublicidad.oficial/",
             src: "/header_footer/instagram_ledneonpublicidad.webp",
             alt: "Icono colorido de la red social Instagram con diseño moderno",
-            title:""
+            title:"Instagram logo oficial"
         },
     ]
 
