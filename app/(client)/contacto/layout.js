@@ -1,11 +1,11 @@
 export const metadata = {
-  title: "Neon Led Publicidad _ Contacto",
+  title: "Contacto de la marca Neon Led | Asesoría en Letreros LED y Publicidad Visual",
   description:
-    "Déjenos sus dudas y sugerencias en la sección de Contacto. También, puede llamarnos al 994 078 320 para mayor asesoramiento en nuestros productos y servicios",
+    "¿Tienes dudas o necesitas una cotización? Escríbenos o llámanos al 994 078 320. Te ayudamos a elegir el producto ideal para tu negocio con asesoría personalizada.",
   openGraph: {
-    title: "Neon Led Publicidad _ Contacto",
+    title: "Contacto de la marca Neon Led | Asesoría en Letreros LED y Publicidad Visual",
     description:
-      "Déjenos sus dudas y sugerencias en la sección de Contacto. También, puede llamarnos al 994 078 320 para mayor asesoramiento en nuestros productos y servicios",
+      "¿Tienes dudas o necesitas una cotización? Escríbenos o llámanos al 994 078 320. Te ayudamos a elegir el producto ideal para tu negocio con asesoría personalizada.",
     url: "https://ledneonpublicidad.com/contacto",
     siteName: "Neon Led Publicidad",
     images: [], // se mantiene vacío por estándar

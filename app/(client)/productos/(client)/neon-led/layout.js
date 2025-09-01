@@ -2,7 +2,31 @@ export const metadata = {
   title: "Neón LED Personalizado",
   description:
     "Descubre nuestros Neones LED personalizados: diseños atractivos, alta visibilidad y bajo consumo. Ideales para negocios, eventos y decoración.",
-  openGraph: {
+  keywords:[
+    "Decoraciones",
+    "Neonlights",
+    "Neonled",
+    "Led",
+    "Neon",
+    "Neon Led",
+    "Led decorativas",
+    "Diseño neón",
+    "Neón flexible",
+    "Tubos neón",
+    "Letras de neón LED",
+    "Letras neón LED personalizadas",
+    "Letras neón LED luminosas",
+    "Letras de neón LED para interiores",
+    "Letras de neón LED para negocios",
+    "Letras neón retro",
+    "Letras neón modernas",
+    "Letras decorativas led",
+    "Letras luminosas para pared",
+    "Neon led para eventos",
+    "Letras led para bares y discotecas",
+    "Letreros neón led decorativos",
+  ],
+    openGraph: {
     title: "Neón LED Personalizado",
     description:
       "Descubre nuestros Neones LED personalizados: diseños atractivos, alta visibilidad y bajo consumo. Ideales para negocios, eventos y decoración.",
