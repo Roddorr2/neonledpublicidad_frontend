@@ -20,7 +20,11 @@ export const metadata = {
     "Letras de neón LED para negocios",
     "Letras neón retro",
     "Letras neón modernas",
-
+    "Letras decorativas led",
+    "Letras luminosas para pared",
+    "Neon led para eventos",
+    "Letras led para bares y discotecas",
+    "Letreros neón led decorativos",
   ],
     openGraph: {
     title: "Neón LED Personalizado",
