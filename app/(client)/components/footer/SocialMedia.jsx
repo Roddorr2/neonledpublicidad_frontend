@@ -13,7 +13,7 @@ export const SocialMedia = () => {
             title: "TikTok logo oficial"
         },
         {
-            href: "https://www.youtube.com/@neonledpublicidad_2025",
+            href: "https://www.youtube.com/@neonledpublicidadpe",
             src: "/header_footer/youtube_ledneonpublicidad.webp",
             alt: "Icono de la red social YouTube en formato simplificado",
             title:"YouTube logo oficial"
