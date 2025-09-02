@@ -6,14 +6,12 @@ export default function Footer() {
     return (
         <>
            <footer className="bg-[#0a0e27] text-white py-16 px-8">
-  {/* Contenedor centrado */}
+ 
   <div className="max-w-7xl mx-auto relative">
     
-    {/* Línea cian estática respecto al contenedor centrado */}
+
     <div className="absolute left-[10px] top-0 h-[355px] w-1 bg-cyan-400 pointer-events-none hidden md:block"></div>
-    {/*           ↑ ajusta este 120px si quieres moverla un poco */}
-    {/* TIP: si la quieres que recorra TODO el alto del footer, usa: top-0 bottom-0 en vez de h-[370px] */}
-    {/* <div className="absolute left-[120px] top-0 bottom-0 w-1 bg-cyan-400 pointer-events-none hidden md:block"></div> */}
+
 
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 pl-8">
       <div className="lg:col-span-1">
