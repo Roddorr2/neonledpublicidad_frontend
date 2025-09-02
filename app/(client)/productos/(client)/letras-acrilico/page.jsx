@@ -18,13 +18,13 @@ export default function Home() {
       title: "Cafetería", 
       description: "Espacio exterior", 
       image: "/productos/letras_de_acrílico_para_negocio_ledneonpublicidad.webp",
-      alt: "Letrero de cafetería con letras de acrílico"
+      alt: "Letras corporeas doradas en dos tipos de tipografía, acompañado de una figura visual dorada en forma de una taza de café en fondo negro ",
     },
     { 
       title: "Tienda de ropa", 
       description: "Espacio interior", 
       image: "/productos/letreros_volumétricos_con_luces_LED_ledneonpublicidad.webp",
-      alt: "Letrero con letras de acrílico en una tienda de ropa"
+      alt: "Letras acrilicas blancas con iluminación led que destaca el blanco y dorado entre sí, con un fondo de fachada marrón claro.",
     },
     { 
       title: "Cafetería", 
@@ -38,7 +38,7 @@ export default function Home() {
       <Banner
         titulo="LETRAS DE ACRÍLICO"
         imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad.webp"
-        alt="Letrero de tienda kawasaki con letras de acrílico color rojo"
+        alt="Letras corporeas rojas con la marca Kawasaki acompañado por debajo con un eslogan de letras pequeñas en color blanco."
       />
       <Section2 idProducto={idProducto} />
       <Datos idProducto={idProducto}/>

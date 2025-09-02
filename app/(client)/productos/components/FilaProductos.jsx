@@ -11,6 +11,7 @@ function FilaProductos({ productos }) {
           imgSrcMobile={producto.imgSrcMobile}
           imgSrc={producto.imgSrc}
           altText={producto.altText}
+          title={producto.title}
           description={producto.description}
           route={producto.route}
         />

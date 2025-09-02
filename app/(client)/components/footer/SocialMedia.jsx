@@ -6,37 +6,32 @@ import React from 'react'
 export const SocialMedia = () => {
 
     const socialMedia = [
-         {
-            href: "https://wa.me/+51994078320?text=Hola,%20quisiera%20más%20información%20de%20sus%20productos",
-            src: "/header_footer/Whatsapp.Neon.Led.Publicidad.webp",
-            alt: "Logotipo oficial de la red social whatsapp como icono en linea"
+        {
+            href: "https://www.tiktok.com/@neonled.publicidad",
+            src: "/header_footer/tiktok_ledneonpublicidad.webp",
+            alt: "Logotipo oficial de la red social TikTok con diseño minimalista"
         },
-          {
-            href: "https://www.instagram.com/neonledpublicidad.oficial/",
-            src: "/header_footer/instagram.Neon.Led.Publicidad.webp",
-            alt: "Icono colorido de la red social Instagram con diseño moderno"
+        {
+            href: "https://www.youtube.com/@neonledpublicidad_2025",
+            src: "/header_footer/youtube_ledneonpublicidad.webp",
+            alt: "Icono de la red social YouTube en formato simplificado"
         },
          {
             href: "https://www.facebook.com/ledneonpublicidad",
-            src: "/header_footer/facebook.Neon.Led.Publicidad.webp",
+            src: "/header_footer/facebook_ledneonpublicidad.webp",
             alt: "Logotipo de Facebook representado como icono social en línea"
         },
-         {
-            href: "https://www.linkedln.com/@neonledpublicidad_2025",
-            src: "/header_footer/Linkedin.Neon.Led.Publicidad.webp",
-            alt: "Icono de la red social YouTube en formato simplificado"
-        },
         {
-            href: "https://www.tiktok.com/@neonled.publicidad",
-            src: "/header_footer/tiktok.Neon.Led.Publicidad.webp",
-            alt: "Logotipo oficial de la red social TikTok con diseño minimalista"
+            href: "https://www.instagram.com/neonledpublicidad.oficial/",
+            src: "/header_footer/instagram_ledneonpublicidad.webp",
+            alt: "Icono colorido de la red social Instagram con diseño moderno"
         },
     ]
 
     return (
         <>
             {
-                socialMedia.map(({ href, src, alt }, index) => (
+                socialMedia.map(({ href, src, alt, title }, index) => (
                     <a
                         key={index}
                         href={href}
@@ -45,8 +40,8 @@ export const SocialMedia = () => {
                             <Image
                                 src={src}
                                 alt={alt}
-                                width={128}
-                                height={128}
+                                width={44}
+                                height={44}
                                 className="text-white"
                             />
                         </div>

@@ -13,6 +13,7 @@ export const SlideItem = ({ slides, current }) => {
         <Image
           src={slide.imgSrc}
           alt={slide.altText}
+          title={slide.title}
           fill
           priority
           fetchPriority="high"

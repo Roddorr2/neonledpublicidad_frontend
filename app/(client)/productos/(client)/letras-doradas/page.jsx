@@ -16,7 +16,7 @@ export default function Home() {
       title: "Salon de belleza", 
       description: "Espacio exterior", 
       image: "/productos/letras_doradas_ledneonpublicidad.webp",
-      alt: "Cartel de letras doradas"
+      alt: "Letras acrilicas doradas en diversos tamaños, resaltando sus iniciales en la parte central y estas acompañadas de finas líneas",
     },
     { 
       title: "Negocio personal", 
