@@ -35,7 +35,7 @@ export const SocialMedia = () => {
     return (
         <>
             {
-                socialMedia.map(({ href, src, alt }, index) => (
+                socialMedia.map(({ href, src, alt, title }, index) => (
                     <a
                         key={index}
                         href={href}
@@ -44,6 +44,7 @@ export const SocialMedia = () => {
                             <Image
                                 src={src}
                                 alt={alt}
+                                title={title}
                                 width={44}
                                 height={44}
                                 className="text-white"

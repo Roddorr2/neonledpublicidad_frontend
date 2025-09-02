@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./productoStyles.module.css";
 
-function Producto({ imgSrc, altText, description, route, imgSrcMobile }) {
+function Producto({ imgSrc, altText,title, description, route, imgSrcMobile }) {
   return (
     <a href={route} className={styles["producto-link"]}>
       <div className={styles.producto}>
         <img
           src={imgSrcMobile}
           alt={altText}
+          title={title}
           className={styles["producto-img"]}
           srcSet={`${imgSrcMobile} 200w, ${imgSrcMobile} 800w`}
           sizes="(max-width: 768px) 200px, 800px"
