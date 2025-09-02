@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 
+
 export const MissionVision = () => {
   const [showMission, setShowMission] = useState(false)
   const [showVision, setShowVision] = useState(false)
@@ -18,14 +19,15 @@ export const MissionVision = () => {
        
         <div className="flex justify-center mb-6">
           <svg className="w-20 h-20 md:w-24 md:h-24 text-blue-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="3">
-            <circle cx="50" cy="50" r="35" />
+         
             <path d="M50 20 C35 20, 25 30, 25 45 C25 55, 30 60, 35 65 L65 65 C70 60, 75 55, 75 45 C75 30, 65 20, 50 20 Z" />
             <path d="M35 65 L65 65" />
             <path d="M37 70 L63 70" />
             <path d="M39 75 L61 75" />
-            <path d="M50 30 L50 45" />
             <path d="M50 45 L42 38" />
             <path d="M50 45 L58 38" />
+
+            <path d="M49 65 L50 42"/>
           </svg>
         </div>
 
