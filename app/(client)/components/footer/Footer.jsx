@@ -53,14 +53,9 @@ export default function Footer() {
                         <div className="flex flex-col items-center lg:items-start mb-20">
                             <h2 className="text-[--azul_brillante] text-lg lg:text-xl">Reclamaciones</h2>
                             <span className="w-[30px] mx-auto lg:mx-0 h-[6px] border-t-2 border-solid border-t-[--azul_brillante]"></span>
-                            <Link className="w-full max-w-[250px] m-1" href={"/reclamaciones"}>
-                            
-                            <p className="text-center">Libro de reclamaciones</p>
-                            <img
-                                className="w-full h-auto object-contain"
-                                src="/reclamaciones/librodereclamaciones_ledneonpublicidad.webp"
-                                alt="Ilustración de un libro de reclamaciones abierto con páginas blancas"
-                            />
+                            <Link className="w-[200px] m-1" href={"/reclamaciones"}>
+                                <p className="text-center">Libro de reclamaciones</p>
+                                <img className="w-full" src="/reclamaciones/librodereclamaciones_ledneonpublicidad.webp" alt="Ilustración de un libro de reclamaciones abierto con páginas blancas" title="Libro de reclamaciones Perú" />
                             </Link>
 
                         </div>

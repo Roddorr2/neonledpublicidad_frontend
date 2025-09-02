@@ -112,7 +112,6 @@ export default function RootLayout({ children }) {
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto py-4 px-3">
               <ul className="space-y-1">
-                {!auth_service.hasRole("cliente") && (
                   <NavLink
                     href="/dashboard/main"
                     title="Sección Principal"
@@ -120,8 +119,6 @@ export default function RootLayout({ children }) {
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname === "/dashboard/main"}
                   />
-                )}
-
                 {auth_service.hasPermission("ver-empleados") && (
                   <NavLink
                     href="/dashboard/empleados"

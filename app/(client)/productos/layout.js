@@ -1,9 +1,9 @@
 export const metadata = {
-  title: "Neon Led Publicidad _ Productos LED publicitarios",
+  title: "Marca de letreros neón led y publicidad visual en Perú  | Personaliza tu Marca",
   description:
     "Descubre productos LED publicitarios en Lima: pantallas LED a medida, neón LED flexible, impresión en vinil decorativo, letreros y sillas luminosas. Personaliza tu marca con estilo.",
   openGraph: {
-    title: "Neon Led Publicidad _ Productos LED publicitarios",
+    title: "Marca de letreros neón led y publicidad visual en Perú  | Personaliza tu Marca",
     description:
       "Descubre productos LED publicitarios en Lima: pantallas LED a medida, neón LED flexible, impresión en vinil decorativo, letreros y sillas luminosas. Personaliza tu marca con estilo.",
     url: "https://www.ledneonpublicidad.com/productos",

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Camera, Video, ChevronDown, X } from "lucide-react";
+import { Camera, Video, Search, X } from "lucide-react";
 import { proposalApi,customerApi } from "../Services/PropuestasConexion";
 
 export default function CrearPropuesta() {
@@ -17,6 +17,9 @@ export default function CrearPropuesta() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customers, setCustomers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const volverAGestion = () => {
     router.push("/dashboard/propuestas");
@@ -31,15 +34,40 @@ export default function CrearPropuesta() {
               id: c.id_cliente || c.id,
               nombre: c.nombre || "",
               apellido: c.apellido || "",
+              email: c.email || "",
             }))
           : [];
         setCustomers(clientesTransformados);
+        setFilteredCustomers(clientesTransformados);
       } catch (error) {
         console.error("Error al cargar clientes:", error);
       }
     };
     cargarClientes();
   }, []);
+
+  useEffect(() => {
+    if (searchTerm) {
+      const filtered = customers.filter((cliente) =>
+        `${cliente.nombre} ${cliente.apellido} ${cliente.email}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
+      setFilteredCustomers(filtered);
+    } else {
+      setFilteredCustomers(customers);
+    }
+  }, [searchTerm, customers]);
+
+  const handleClientSelect = (cliente) => {
+    setFormData((prev) => ({ ...prev, id_cliente: cliente.id }));
+    setSearchTerm(`${cliente.nombre} ${cliente.apellido}`);
+    setShowDropdown(false);
+
+    if (errors.id_cliente) {
+      setErrors((prev) => ({ ...prev, id_cliente: undefined }));
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,7 +84,16 @@ export default function CrearPropuesta() {
   };
 
   const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files).slice(0, 10);
+    const files = Array.from(e.target.files);
+
+    if (formData.images.length + files.length > 10) {
+      setErrors((prev) => ({
+        ...prev,
+        images: "El máximo de imágenes permitido es de 10",
+      }));
+      return;
+    }
+
     if (files.some((file) => file.size > 5 * 1024 * 1024)) {
       setErrors((prev) => ({
         ...prev,
@@ -64,14 +101,27 @@ export default function CrearPropuesta() {
       }));
       return;
     }
+
     setFormData((prev) => ({
       ...prev,
       images: [...prev.images, ...files].slice(0, 10),
     }));
+
+    if (errors.images) {
+      setErrors((prev) => ({ ...prev, images: undefined }));
+    }
   };
 
   const handleVideoUpload = async (e) => {
-    const files = Array.from(e.target.files).slice(0, 5);
+    const files = Array.from(e.target.files);
+
+    if (formData.videos.length + files.length > 5) {
+      setErrors((prev) => ({
+        ...prev,
+        videos: "El máximo de videos permitido es de 5",
+      }));
+      return;
+    }
 
     if (files.some((file) => file.size > 50 * 1024 * 1024)) {
       setErrors((prev) => ({
@@ -81,7 +131,6 @@ export default function CrearPropuesta() {
       return;
     }
 
-    // Generar miniaturas
     const thumbnails = await Promise.all(
       files.map((file) => generateVideoThumbnail(file))
     );
@@ -92,8 +141,11 @@ export default function CrearPropuesta() {
       ...prev,
       videos: [...prev.videos, ...files].slice(0, 5),
     }));
-  };
 
+    if (errors.videos) {
+      setErrors((prev) => ({ ...prev, videos: undefined }));
+    }
+  };
   const removeImage = (index) => {
     URL.revokeObjectURL(formData.images[index]);
 
@@ -248,40 +300,55 @@ export default function CrearPropuesta() {
             </div>
 
             <div className="space-y-4">
-              {/* Selección de Clientes */}
+              {/* Búsqueda de Cliente */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Cliente <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <select
-                    name="id_cliente"
-                    value={formData.id_cliente}
-                    onChange={handleChange}
-                    className={`w-full bg-blue-50 dark:bg-gray-700 border rounded-lg px-4 py-3 text-gray-700 dark:text-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.id_cliente
-                        ? "border-red-500"
-                        : "border-blue-200 dark:border-gray-600"
-                    }`}
-                    disabled={isSubmitting}
-                  >
-                    <option value="" className="dark:bg-gray-700">
-                      Seleccionar cliente
-                    </option>
-                    {customers.map((cliente) => (
-                      <option
-                        key={cliente.id}
-                        value={cliente.id}
-                        className="dark:bg-gray-700"
-                      >
-                        {cliente.nombre} {cliente.apellido}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
-                    size={20}
-                  />
+                  <div className="relative">
+                    <Search
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
+                      size={20}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Buscar cliente por nombre o email"
+                      value={searchTerm}
+                      onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setShowDropdown(true);
+                      }}
+                      onFocus={() => setShowDropdown(true)}
+                      onBlur={() =>
+                        setTimeout(() => setShowDropdown(false), 200)
+                      }
+                      className={`w-full pl-10 px-4 py-3 bg-blue-50 dark:bg-gray-700 border rounded-lg text-gray-700 dark:text-gray-300 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                        errors.id_cliente
+                          ? "border-red-500"
+                          : "border-blue-200 dark:border-gray-600"
+                      }`}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  {showDropdown && filteredCustomers.length > 0 && (
+                    <ul className="absolute z-10 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto mt-1">
+                      {filteredCustomers.map((cliente) => (
+                        <li
+                          key={cliente.id}
+                          onMouseDown={() => handleClientSelect(cliente)}
+                          className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer dark:text-white"
+                        >
+                          <div className="font-medium">
+                            {cliente.nombre} {cliente.apellido}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-300">
+                            {cliente.email}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
                 {errors.id_cliente && (
                   <p className="text-red-500 text-sm mt-1">
@@ -421,7 +488,7 @@ export default function CrearPropuesta() {
                       Agregar más imágenes
                     </label>
                     <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                      {formData.images.length}/10 seleccionadas
+                      {formData.images.length}/10 imagen(es) seleccionada(s)
                     </span>
                   </div>
                 )}
@@ -442,7 +509,6 @@ export default function CrearPropuesta() {
               </h2>
             </div>
 
-            {/* Dropzone */}
             {formData.videos.length === 0 && (
               <div className="relative">
                 <input
@@ -472,16 +538,9 @@ export default function CrearPropuesta() {
               </div>
             )}
 
-            {errors.videos && (
-              <p className="text-red-500 text-sm mt-2">{errors.videos}</p>
-            )}
-
             {/* Miniaturas de videos */}
             {formData.videos.length > 0 && (
               <div className="mt-4">
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-                  {formData.videos.length}/5 video(s) seleccionado(s)
-                </p>
                 <div className="flex flex-wrap gap-4">
                   {formData.videos.map((file, index) => (
                     <div
@@ -531,9 +590,16 @@ export default function CrearPropuesta() {
                     >
                       Agregar más videos
                     </label>
+                    <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                      {formData.videos.length}/5 video(s) seleccionado(s)
+                    </span>
                   </div>
                 )}
               </div>
+            )}
+
+            {errors.videos && (
+              <p className="text-red-500 text-sm mt-2">{errors.videos}</p>
             )}
           </div>
 

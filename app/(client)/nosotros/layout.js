@@ -1,11 +1,11 @@
 export const metadata = {
-  title: "Neon Led Publicidad _ Nosotros",
+  title: "Especialistas en publicidad viisual y Letreros led en Perú",
   description:
-    "Nos especializamos en la fabricación e importación de productos LED publicitarios de alta calidad. Descubre cómo convertimos tus ideas en realidad, ofreciendo durabilidad, impacto visual y un servicio profesional.",
+    "Fabricamos e importamos letreros LED publicitarios de alta calidad. Hacemos realidad tus ideas con impacto visual, durabilidad y servicio profesional.",
   openGraph: {
-    title: "Neon Led Publicidad _ Nosotros",
+    title: "Especialistas en publicidad viisual y Letreros led en Perú",
     description:
-      "Nos especializamos en la fabricación e importación de productos LED publicitarios de alta calidad. Descubre cómo convertimos tus ideas en realidad, ofreciendo durabilidad, impacto visual y un servicio profesional.",
+      "Fabricamos e importamos letreros LED publicitarios de alta calidad. Hacemos realidad tus ideas con impacto visual, durabilidad y servicio profesional.",
     url: "https://ledneonpublicidad.com/nosotros",
     siteName: "Neon Led Publicidad",
     images: [],

@@ -21,12 +21,15 @@ export default function DetallePropuestaPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [error, setError] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const [uploadingVideos, setUploadingVideos] = useState(false);
   const imageInputRef = useRef(null);
   const videoInputRef = useRef(null);
   const [notification, setNotification] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [mediaToDelete, setMediaToDelete] = useState(null); 
+  const [mediaToDelete, setMediaToDelete] = useState(null);
+  const [imageValidationError, setImageValidationError] = useState(null);
+  const [videoValidationError, setVideoValidationError] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -56,6 +59,39 @@ export default function DetallePropuestaPage() {
     if (id) loadData();
   }, [id]);
 
+  const validateImages = (filesArray) => {
+    if (!proposalData || !proposalData.images)
+      return "Error al validar imágenes";
+
+    const currentImagesCount = proposalData.images.length || 0;
+
+    if (currentImagesCount + filesArray.length > 10) {
+      return "El máximo de imágenes permitido es de 10";
+    }
+
+    if (filesArray.some((file) => file.size > 5 * 1024 * 1024)) {
+      return "El tamaño máximo por imagen es 5MB";
+    }
+
+    return null;
+  };
+
+  const validateVideos = (filesArray) => {
+    if (!proposalData || !proposalData.videos) return "Error al validar videos";
+
+    const currentVideosCount = proposalData.videos.length || 0;
+
+    if (currentVideosCount + filesArray.length > 5) {
+      return "El máximo de videos permitido es de 5";
+    }
+
+    if (filesArray.some((file) => file.size > 50 * 1024 * 1024)) {
+      return "El tamaño máximo por video es 50MB";
+    }
+
+    return null;
+  };
+
   const handleImageUploadClick = () => {
     imageInputRef.current.click();
   };
@@ -68,11 +104,22 @@ export default function DetallePropuestaPage() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
+    const filesArray = Array.from(files);
+
+    const validationError = validateImages(filesArray);
+    if (validationError) {
+      setImageValidationError(validationError);
+      setTimeout(() => setImageValidationError(null), 5000);
+      e.target.value = "";
+      return;
+    }
+
     try {
-      setUploading(true);
+      setUploadingImages(true);
+      setImageValidationError(null);
       const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-        formData.append("files[]", files[i]);
+      for (let i = 0; i < filesArray.length; i++) {
+        formData.append("files[]", filesArray[i]);
       }
 
       const response = await proposalApi.uploadImage(id, formData);
@@ -93,7 +140,7 @@ export default function DetallePropuestaPage() {
       console.error("Error uploading images:", error);
       setError(`Error al subir imágenes: ${error.message}`);
     } finally {
-      setUploading(false);
+      setUploadingImages(false);
       e.target.value = "";
     }
   };
@@ -102,11 +149,23 @@ export default function DetallePropuestaPage() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
+
+    const filesArray = Array.from(files);
+
+    const validationError = validateVideos(filesArray);
+    if (validationError) {
+      setVideoValidationError(validationError);
+      setTimeout(() => setVideoValidationError(null), 5000);
+      e.target.value = "";
+      return;
+    }
+
     try {
-      setUploading(true);
+      setUploadingVideos(true);
+      setVideoValidationError(null);
       const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-        formData.append("videos[]", files[i]);
+      for (let i = 0; i < filesArray.length; i++) {
+        formData.append("videos[]", filesArray[i]);
       }
 
       const response = await proposalApi.uploadVideo(id, formData);
@@ -127,7 +186,7 @@ export default function DetallePropuestaPage() {
       console.error("Error uploading video:", error);
       setError(`Error al subir video: ${error.message}`);
     } finally {
-      setUploading(false);
+      setUploadingVideos(false);
       e.target.value = "";
     }
   };
@@ -181,18 +240,24 @@ export default function DetallePropuestaPage() {
     if (!mediaToDelete || !proposalData) return;
 
     try {
-      const extractFilename = (url) => {
+      const extractFileInfo = (url) => {
         const urlParts = url.split("/");
-        return urlParts[urlParts.length - 1].split(".")[0]; // Remover extensión
+        const fullFilename = urlParts[urlParts.length - 1];
+        const lastDotIndex = fullFilename.lastIndexOf(".");
+
+        return {
+          filename: fullFilename.substring(0, lastDotIndex),
+          extension: fullFilename.substring(lastDotIndex + 1),
+        };
       };
 
-      const filename = extractFilename(mediaToDelete.url);
+      const fileInfo = extractFileInfo(mediaToDelete.url);
       const id_cliente = proposalData.id_cliente || proposalData.cliente?.id;
 
       if (mediaToDelete.type === "image") {
         await proposalApi.deleteImage(id, {
           id_cliente: id_cliente.toString(),
-          filename: filename,
+          filename: fileInfo.filename,
         });
 
         const updatedImages = [...proposalData.images];
@@ -213,7 +278,8 @@ export default function DetallePropuestaPage() {
       } else if (mediaToDelete.type === "video") {
         await proposalApi.deleteVideo(id, {
           id_cliente: id_cliente.toString(),
-          filename: filename,
+          filename: fileInfo.filename,
+          extension: fileInfo.extension,
         });
 
         const updatedVideos = [...proposalData.videos];
@@ -408,11 +474,11 @@ export default function DetallePropuestaPage() {
             </span>
           </div>
           <button
-            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors dark:hover:bg-gray-600"
             onClick={handleImageUploadClick}
-            disabled={uploading}
+            disabled={uploadingImages}
           >
-            {uploading ? (
+            {uploadingImages ? (
               "Subiendo..."
             ) : (
               <>
@@ -422,7 +488,13 @@ export default function DetallePropuestaPage() {
             )}
           </button>
         </div>
-
+        {imageValidationError && (
+          <div className="mb-4">
+            <p className="text-red-500 text-sm bg-red-50 dark:bg-red-900/20 p-2 rounded-md">
+              {imageValidationError}
+            </p>
+          </div>
+        )}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {proposalData.images?.length > 0 ? (
             proposalData.images.map((img, index) => (
@@ -445,9 +517,11 @@ export default function DetallePropuestaPage() {
               </div>
             ))
           ) : (
-            <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200">
-              <Camera size={32} className="text-gray-500" />
-              <span className="ml-2 text-gray-600">No hay imágenes</span>
+            <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200 dark:bg-gray-700">
+              <Camera size={32} className="text-gray-500 dark:text-gray-300" />
+              <span className="ml-2 text-gray-600 dark:text-gray-300">
+                No hay imágenes
+              </span>
             </div>
           )}
         </div>
@@ -552,11 +626,11 @@ export default function DetallePropuestaPage() {
             </span>
           </div>
           <button
-            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors dark:hover:bg-gray-600"
             onClick={handleVideoUploadClick}
-            disabled={uploading}
+            disabled={uploadingVideos}
           >
-            {uploading ? (
+            {uploadingVideos ? (
               "Subiendo..."
             ) : (
               <>
@@ -566,7 +640,13 @@ export default function DetallePropuestaPage() {
             )}
           </button>
         </div>
-
+        {videoValidationError && (
+          <div className="mb-4">
+            <p className="text-red-500 text-sm bg-red-50 dark:bg-red-900/20 p-2 rounded-md">
+              {videoValidationError}
+            </p>
+          </div>
+        )}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {proposalData.videos?.length > 0 ? (
             proposalData.videos.map((video, index) => (
@@ -587,9 +667,11 @@ export default function DetallePropuestaPage() {
               </div>
             ))
           ) : (
-            <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200">
-              <Video size={32} className="text-gray-500" />
-              <span className="ml-2 text-gray-600">No hay videos</span>
+            <div className="aspect-square bg-blue-100 rounded-lg flex items-center justify-center border-2 border-blue-200 dark:bg-gray-700">
+              <Video size={32} className="text-gray-500 dark:text-gray-300" />
+              <span className="ml-2 text-gray-600 dark:text-gray-300">
+                No hay videos
+              </span>
             </div>
           )}
         </div>
@@ -701,7 +783,9 @@ export default function DetallePropuestaPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="dark:text-white">Cancelar</AlertDialogCancel>
+            <AlertDialogCancel className="dark:text-white">
+              Cancelar
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDeleteMedia}
               className="bg-red-600 hover:bg-red-700"

@@ -15,10 +15,12 @@ export const SlideThumbnails = ({ slides, current, setCurrent }) => {
               ? "ring-4 rounded-xl ring-[--azul_brillante] scale-110 brightness-100"
               : "opacity-70 hover:opacity-90 hover:scale-105 brightness-75"
           }`}
+          title={slide.title}
         >
           <Image
             src={slide.imgSrcIcon}
             alt={slide.altText}
+            title={slide.title}
             fill
             className="object-cover rounded-xl shadow-2xl"
           />
