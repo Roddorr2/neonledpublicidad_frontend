@@ -7,25 +7,33 @@ export const SocialMedia = () => {
 
     const socialMedia = [
         {
-            href: "https://www.tiktok.com/@neonled.publicidad",
-            src: "/header_footer/tiktok_ledneonpublicidad.webp",
+            href: "https://api.whatsapp.com/send/?phone=%2B51994078320&text=Hola%2C+quisiera+m%C3%A1s+informaci%C3%B3n+de+sus+productos&type=phone_number&app_absent=0",
+            src: "/header_footer/Whatsapp.Neon.Led.Publicidad.webp",
             alt: "Logotipo oficial de la red social TikTok con diseño minimalista"
         },
-        {
-            href: "https://www.youtube.com/@neonledpublicidad_2025",
-            src: "/header_footer/youtube_ledneonpublicidad.webp",
-            alt: "Icono de la red social YouTube en formato simplificado"
-        },
+       
          {
+            href: "https://www.instagram.com/neonledpublicidad.oficial/",
+            src: "/header_footer/instagram.Neon.Led.Publicidad.webp",
+            alt: "Icono colorido de la red social Instagram con diseño moderno"
+        },
+        {
             href: "https://www.facebook.com/ledneonpublicidad",
-            src: "/header_footer/facebook_ledneonpublicidad.webp",
+            src: "/header_footer/facebook.Neon.Led.Publicidad.webp",
             alt: "Logotipo de Facebook representado como icono social en línea"
         },
         {
-            href: "https://www.instagram.com/neonledpublicidad.oficial/",
-            src: "/header_footer/instagram_ledneonpublicidad.webp",
-            alt: "Icono colorido de la red social Instagram con diseño moderno"
+            href: "https://www.linkedin.com/company/neonhouseled/about/",
+            src: "/header_footer/Linkedin.Neon.Led.Publicidad.webp",
+            alt: "Icono de la red social YouTube en formato simplificado"
         },
+         {
+            href: "https://www.tiktok.com/@neonled.publicidad",
+            src: "/header_footer/tiktok.Neon.Led.Publicidad.webp",
+            alt: "Logotipo oficial de la red social TikTok con diseño minimalista"
+        },
+         
+       
     ]
 
     return (
