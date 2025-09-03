@@ -24,25 +24,24 @@ const Nosotros = () => {
   return (
     <div className="relative min-h-screen flex flex-col justify-between bg-black text-white overflow-hidden">
 
-      {/* Fondo principal */}
+      
       <SectionBackground />
 
-      {/* Contenido principal */}
+      
       <section className="relative min-h-screen flex items-start pt-16 md:pt-24 z-10">
         <div className="w-full max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-          {/* Columna izquierda */}
+      
           <div className="flex flex-col space-y-8">
-            {/* Texto "Nosotros" */}
+         
             <AboutStatic />
 
-            {/* Valores (abajo en la izquierda) */}
+        
             <div className="mt-8">
               <CompanyValues />
             </div>
           </div>
 
-          {/* Columna derecha */}
           <div className="flex flex-col justify-start">
             <MissionVision />
           </div>
@@ -51,7 +50,7 @@ const Nosotros = () => {
 
      
 
-      {/* Social Media */}
+      
       <section className="relative z-10">
         <SocialMedia />
       </section>

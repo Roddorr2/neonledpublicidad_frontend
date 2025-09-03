@@ -9,7 +9,7 @@ export const SliderContent = () => {
    
 
 
-        <div className="absolute left-0 top-0 w-1 h-[300] bg-blue-500"></div>
+        <div className="absolute left-0 top-0 w-1 h-[350] bg-blue-500"></div>
         
 
 
