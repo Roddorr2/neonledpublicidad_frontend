@@ -18,19 +18,25 @@ export const MissionVision = () => {
 
        
         <div className="flex justify-center mb-6">
-          <svg className="w-20 h-20 md:w-24 md:h-24 text-blue-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="3">
-         
-            <path d="M50 20 C35 20, 25 30, 25 45 C25 55, 30 60, 35 65 L65 65 C70 60, 75 55, 75 45 C75 30, 65 20, 50 20 Z" />
-            <path d="M35 65 L65 65" />
-            <path d="M37 70 L63 70" />
-            <path d="M39 75 L61 75" />
-            <path d="M50 45 L42 38" />
-            <path d="M50 45 L58 38" />
-
-            <path d="M49 65 L50 42"/>
-          </svg>
+          <svg className="w-32 h-32 text-blue-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2">
+       
+        <circle cx="50" cy="35" r="20" />
+        
+ 
+        <path d="M50 35 L44 26" strokeWidth="2"/>
+        <path d="M50 35 L56 26" strokeWidth="2"/>
+        <path d="M50 35 L50 55" strokeWidth="2"/>
+        
+      
+        <path d="M35 55 L65 55" strokeWidth="2"/>
+        <path d="M35 59 L65 59" strokeWidth="2"/>
+        <path d="M35 63 L65 63" strokeWidth="2"/>
+        <path d="M35 67 L65 67" strokeWidth="2"/>
+        
+      
+        <path d="M40 71 L60 71" strokeWidth="2"/>
+      </svg>
         </div>
-
 
 
 
@@ -74,7 +80,6 @@ export const MissionVision = () => {
             <path d="M75 25 L70 20" strokeWidth="4"/>
           </svg>
         </div>
-
 
 
 

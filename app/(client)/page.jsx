@@ -56,19 +56,19 @@ export default function Home() {
     },
   ];
 
-  const slidesData = [
-    { imgSrc: "/home/logo_mlg_letras_doradas_con_iluminacion.webp", imgSrcMobile:"/home/logo_mlg_letras_doradas_con_iluminacion_mobile.webp", imgSrcIcon:"/home/logo_mlg_letras_doradas_con_iluminacion_icon.webp", altText: "Letras grandes corpóreas doradas con iluminación y fondo blanco", title:"Letras corporeas doradas con iluminación" },
-    { imgSrc: "/home/letreros_negocio_2.webp", imgSrcMobile:"/home/letreros_negocio_2_mobile.webp", imgSrcIcon:"/home/letreros_negocio_2_icon.webp", altText: "Letras corporeas con gran iluminación de la marca Bembos", title:"Letras Bembos con iluminación led" },
-    { imgSrc: "/home/letrero_neon_tienda_tatuajes_tattoo.webp", imgSrcMobile:"/home/letrero_neon_tienda_tatuajes_tattoo_mobile.webp", imgSrcIcon:"/home/letrero_neon_tienda_tatuajes_tattoo_icon.webp", altText: "Letrero led amarillo con la palabra tatto y maquina de tatuar led de color rojo en fachada de estudio de tatuaje", title:"Letrero led tattoo para estudio de tatuaje" },
-    { imgSrc: "/home/letrero_tambo_colores_amarillo_y_magenta.webp", imgSrcMobile:"/home/letrero_tambo_colores_amarillo_y_magenta_mobile.webp", imgSrcIcon:"/home/letrero_tambo_colores_amarillo_y_magenta_icon.webp", altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta", title:"Letrero luminoso de la marca Tambo Perú" },
-  ];
-
-    const clientLogos = [
+  const clientLogos = [
     { imgSrc: "/home/Jockeyplaza_Logo_ledneonpublicidad.webp", altText: "Logotipo blanco y negro del centro comercial Jockey Plaza con letra J" },
     { imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad2.webp", altText: "Logotipo de Mall del Sur con pétalos de colores sobre fondo azul" },
     { imgSrc: "/home/logo_lk_constructora_e_inversiones.webp", altText: "Logotipo de L&K Constructora e Inversiones con diseño de edificio en tonos azules y verdes" },
     { imgSrc: "/home/Crisol_Logo_ledneopublicidad2.webp", altText: "Logotipo de Crisol con fondo amarillo y texto azul Libros y Más" }, 
     { imgSrc: "/home/BancodelaNación_ledneonpublicidad2.webp", altText: "Logotipo del Banco de la Nación Perú con texto negro y símbolo rojo" }, 
+  ];
+
+  const slidesData = [
+    { imgSrc: "/home/logo_mlg_letras_doradas_con_iluminacion.webp", imgSrcMobile:"/home/logo_mlg_letras_doradas_con_iluminacion_mobile.webp", imgSrcIcon:"/home/logo_mlg_letras_doradas_con_iluminacion_icon.webp", altText: "Letras grandes corpóreas doradas con iluminación y fondo blanco", title:"Letras corporeas doradas con iluminación" },
+    { imgSrc: "/home/letreros_negocio_2.webp", imgSrcMobile:"/home/letreros_negocio_2_mobile.webp", imgSrcIcon:"/home/letreros_negocio_2_icon.webp", altText: "Letras corporeas con gran iluminación de la marca Bembos", title:"Letras Bembos con iluminación led" },
+    { imgSrc: "/home/letrero_neon_tienda_tatuajes_tattoo.webp", imgSrcMobile:"/home/letrero_neon_tienda_tatuajes_tattoo_mobile.webp", imgSrcIcon:"/home/letrero_neon_tienda_tatuajes_tattoo_icon.webp", altText: "Letrero led amarillo con la palabra tatto y maquina de tatuar led de color rojo en fachada de estudio de tatuaje", title:"Letrero led tattoo para estudio de tatuaje" },
+    { imgSrc: "/home/letrero_tambo_colores_amarillo_y_magenta.webp", imgSrcMobile:"/home/letrero_tambo_colores_amarillo_y_magenta_mobile.webp", imgSrcIcon:"/home/letrero_tambo_colores_amarillo_y_magenta_icon.webp", altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta", title:"Letrero luminoso de la marca Tambo Perú" },
   ];
 
   return (
@@ -79,7 +79,7 @@ export default function Home() {
         <div className="px-4 lg:px-8 mt-20 mb-24">
           <NuestrosProductos />
           <div className="mt-8">
-            <FilaProductosModificado productos={fila1} />
+            <FilaProductos productos={fila1} />
             
           </div>
         </div>
