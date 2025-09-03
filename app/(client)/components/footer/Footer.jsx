@@ -58,7 +58,7 @@ export default function Footer() {
       <div>
         <h2 className="text-cyan-400 text-xl font-bold mb-4">RECLAMACIONES</h2>
         <div className="text-center">
-          <p className="font-semibold mb-4">LIBRO DE RECLAMACIONESs</p>
+          <p className="font-semibold mb-4">LIBRO DE RECLAMACIONES</p>
           <Link href="/reclamaciones">
             <div className="inline-block">
               <img
