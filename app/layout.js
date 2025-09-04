@@ -20,13 +20,14 @@ export default function RootLayout({ children }) {
         <meta name="google-site-verification" content="GmKy-G0PSdvQqMQB1OXQMRRR-MImNAtg1dkxxtvCUug" />
   
       </head>
+<body
+  className={`${montserrat.variable} antialiased bg-[#05070D] min-h-screen m-0 p-0`}
+>
 
-      <body
-        className={`${montserrat.variable} antialiased`}
-      >
         {children}
          <WhatsAppButton />
       </body>
     </html>
   );
 }
+ 

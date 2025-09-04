@@ -8,30 +8,9 @@ export const CompanyValues = () => {
     <div className="text-center">
       <h2 className="text-xl md:text-2xl font-bold text-yellow-400 mb-6">VALORES</h2>
       
-      {/* Star Icon */}
+      
       <div className="flex justify-center mb-6">
-       <svg className="w-32 h-32 text-blue-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="3">
-  {/* Estrella de 5 puntas con bordes muy redondeados */}
-  <path 
-    d="M 50 15 
-       C 52 15, 54 17, 58 35
-       C 58 37, 60 37, 80 35
-       C 82 35, 82 37, 64 50
-       C 64 52, 66 54, 72 70
-       C 72 72, 70 72, 50 58
-       C 48 58, 48 58, 28 70
-       C 26 70, 26 68, 36 50
-       C 36 48, 34 46, 20 35
-       C 18 35, 18 33, 42 35
-       C 44 35, 46 33, 50 15
-       Z" 
-    strokeLinejoin="round" 
-    strokeLinecap="round"
-  />
-  
-  {/* Centro */}
-  
-</svg>
+      <img src="/nosotros/icono.valores.Neon.Led.Publicidad.webp" alt="Icono valores Neon Led Publicidad" />
       </div>
 
 

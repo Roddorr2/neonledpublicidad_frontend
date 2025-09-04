@@ -23,7 +23,7 @@ const Banner = () => {
             {/* 4 líneas según la imagen */}
             
             <div className="absolute top-[50px] right-[100px] w-[2px] h-[350px] bg-blue-400"></div>
-           <div className="absolute top-[120px] left-[995px] w-[400px] h-[2px] bg-yellow-400"></div>
+           <div className="absolute top-[120px] left-[995px] w-[550px] h-[2px] bg-yellow-400"></div>
             <div className="absolute top-[180px] left-[80px] w-[2px] h-[380px] bg-blue-400"></div>
             <div className="absolute bottom-[120px] left-[100px] w-[350px] h-[2px] bg-yellow-400"></div>
 

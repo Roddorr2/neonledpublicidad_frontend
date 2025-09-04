@@ -145,18 +145,18 @@ const Blogs = () => {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-2">
       <h1 className="text-3xl font-bold mb-8 text-center lg:text-center mt-8 lg:mt-0">Nuestros Blogs</h1>
 
-      {/* Barra de búsqueda */}
+      
       <div className="mb-8 w-full sm:w-full lg:w-1/2 sm:mx-auto flex items-center">
         <input
           type="text"
-          placeholder="Buscar blogs..."
+          placeholder="ESCRIBE ALGO"
           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
           value={searchTerm}
           onChange={(e) => {
-            setSearchTerm(e.target.value); // Solo actualiza el estado, no la URL mientras escribe
+            setSearchTerm(e.target.value); 
           }}
         />
-        {/* Botón de búsqueda */}
+       
         <button
           onClick={handleSearch}
           className="ml-2 px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
@@ -188,11 +188,12 @@ const Blogs = () => {
                 <CardFooter className="px-0 pt-4">
                   <Link href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`} className="w-full">
                     <Button className="w-full bg-gradient-to-r from-[--azul_cobalto] to-[--azul_cobalto] hover:opacity-90 transition-all duration-300 transform hover:scale-[1.02]">
-                      Leer más
+                      SABER MÁS
                     </Button>
                   </Link>
                 </CardFooter>
               </CardContent>
+              
             </div>
           </Card>
         ))}

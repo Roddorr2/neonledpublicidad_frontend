@@ -4,30 +4,49 @@ import React from "react";
 
 export const ImageGallery = () => {
   return (
-    <div className="relative flex flex-col md:flex-row items-stretch pl-8 py-5 pr-8 max-[1119px]:pr-1 bg-[#0F1721] rounded-br-lg rounded-tr-lg shadow-lg overflow-hidden">
-      <div className="md:w-[10%]"></div>
-      <div className="ml-auto flex flex-col md:flex-row">
-        <div className="md:w-[90%] relative z-10">
-          <img
-            src="/blog/description/cafecrepe_letras_neonled_ledneonpublicidad.webp"
-            alt="Imagen izquierda"
-            className="max-h-[40rem] min-w-[40rem] max-[1400px]:min-w-[30rem] max-[1200px]:min-w-[20rem] max-[900px]:min-w-[10rem] object-cover"
-          />
-        </div>
-        <div className="md:w-[40%] flex flex-col justify-between items-center py-[3.5rem] pl-6 max-[1119px]:pl-2 text-white z-10">
-          <p className="text-[22px] max-[1261px]:text-[18px] max-[997px]:text-[14.2px] max-[812px]:text-[13px] italic text-center font-montserrat  font-extrabold">
-            "Del diseño a la instalación, así damos vida a nuestros productos
-            destacables."
-          </p>
-        </div>
-        <div className="absolute bottom-6 right-0 md:w-[50%]  z-20">
-          <div className="border-[10px] border-[#0F1721] rounded-[20px] shadow-lg overflow-hidden">
-            <img
-              src="/blog/description/luces_neonled_ledneopublicidad.webp"
-              alt="Imagen derecha"
-              className="max-h-[23rem] min-w-full object-cover rounded-lg"
-            />
-          </div>
+    
+   <div className="relative mx-auto w-full max-w-3xl p-6 rounded-3xl overflow-hidden mb-4 min-h-[615px] flex flex-col justify-between">
+
+      {/* Borde gradiente */}
+      <div className="absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-r from-orange-500 via-blue-600 to-purple-700">
+        <div className="w-full h-full rounded-3xl bg-[#05070D]"></div>
+      </div>
+
+      {/* Contenido */}
+      <div className="relative z-10 flex flex-col lg:flex-row gap-6 items-center">
+        {/* Imagen principal izquierda */}
+     <div className="lg:w-1/2">
+  <img
+    src="/blog/description/cafecrepe_letras_neonled_ledneonpublicidad.webp"
+    alt="Cafe Crepe con letras de neón LED"
+    className="w-full h-[519px] rounded-2xl shadow-xl object-cover"
+  />
+</div>
+
+
+        {/* Contenido derecho */}
+        <div className="lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
+          {/* Texto */}
+       <div className="mb-6">
+        <p className="text-white text-xl md:text-2xl lg:text-xl font-light leading-relaxed tracking-wide">
+       "Del diseño a la instalación,<br />
+        así damos vida a nuestros<br />
+        productos destacables."
+       </p>
+       <br></br>
+       <br></br>
+       </div>
+
+
+          {/* Imagen secundaria */}
+         <div className="w-full max-w-sm">
+  <img
+    src="/blog/description/luces_neonled_ledneopublicidad.webp"
+    alt="Luces neón LED"
+    className="w-full h-auto min-h-[350px] rounded-2xl shadow-xl object-cover"
+  />
+</div>
+
         </div>
       </div>
     </div>
