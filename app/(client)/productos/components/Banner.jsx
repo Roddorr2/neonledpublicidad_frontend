@@ -34,7 +34,7 @@ export default function Banner() {
         <br />
 
         <button className={styles.boton} onClick={()=> router.push("/contacto")}>
-          Pide Ya!
+          ¡Pide Ya!
           <div className={styles["arrow-wrapper"]}>
             <div className={styles.arrow}></div>
           </div>
