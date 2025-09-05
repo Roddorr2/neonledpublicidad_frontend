@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect,Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import fetch from "../../services/fetch";
 import { Loader2, BookOpen, AlertCircle } from "lucide-react";
@@ -11,9 +11,9 @@ import axios from "axios";
 
 const ITEMS_PER_PAGE = 6;
 
-// Función para normalizar el texto (eliminar puntuación, convertir todo a minúsculas)
+
 const normalizeText = (text) => {
-  return text.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, "").trim(); // Eliminar caracteres no alfanuméricos
+  return text.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, "").trim();
 };
 
 const Page = () => {
@@ -25,31 +25,46 @@ const Page = () => {
 }
 
 const Blogs = () => {
-  // const router = useRouter();
-  // const searchParams = useSearchParams();
-  // const currentPage = Number(searchParams.get("page") || 1);
-  // const searchQuery = searchParams.get("search") || "";
-
   const [data, setDataResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); // Inicializar con el término de búsqueda de la URL
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
+
+
+  const defaultData = [
+    {
+      id_card: 'default-1',
+      titulo: 'TU BAR, EN LA MIRA',
+      descripcion: 'HAZ QUE EL NOMBRE DE TU BAR DESTAQUE CON LETRAS NEÓN LED. CREA UN AMBIENTE ÚNICO QUE ATRAIGA MIRADAS Y CLIENTES. ¡ILUMINA TU IDENTIDAD! 🍸 ✨',
+      public_image: 'Bar_letras_neonled.webp', 
+      id_plantilla: '1',
+      blog: { link: 'ejemplo1' }
+    },
+   {
+      id_card: 'default-1',
+      titulo: 'TU BAR, EN LA MIRA',
+      descripcion: 'HAZ QUE EL NOMBRE DE TU BAR DESTAQUE CON LETRAS NEÓN LED. CREA UN AMBIENTE ÚNICO QUE ATRAIGA MIRADAS Y CLIENTES. ¡ILUMINA TU IDENTIDAD! 🍸 ✨',
+      public_image: 'Bar_letras_neonled.webp', 
+      id_plantilla: '1',
+      blog: { link: 'ejemplo1' }
+    },
+  ];
+
   async function fetchData() {
     try {
       setIsLoading(true);
       setError(null);
       const response = await fetch.fetchCards();
       
-      // Cuando el servidor no response correctamente el componente se rompe 
-      // Esta validación muestra el error en caso el helper fetchCards responde con un error de axios
-      // Evita la propagación de la instancia de error (AxiosError) en filteredData
-      console.log(JSON.stringify(response))
-      if(axios.isAxiosError(response) || response instanceof Error)
-        setError("Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente.")
-      else setDataResponse(response);
+      console.log(JSON.stringify(response));
+      if (axios.isAxiosError(response) || response instanceof Error) {
+        setError("Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente.");
+      } else {
+        setDataResponse(response);
+      }
     } catch (error) {
       console.error("Error fetching blogs:", error);
       setError("Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente.");
@@ -62,47 +77,91 @@ const Blogs = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    // Aquí no filtramos nada, solo preparamos los datos
-    setFilteredData(data);
-    setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
-  }, [data]);
+
 
   const getCurrentPageItems = () => {
-    console.log(`getCurrentPageItems | ${filteredData}`)
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    return filteredData.slice(startIndex, endIndex);
+    const items = filteredData.slice(startIndex, endIndex);
+    
+
+    if (items.length < 2 && defaultData.length >= 2) {
+      const remainingNeeded = 2 - items.length;
+      const additionalItems = defaultData.slice(items.length, items.length + remainingNeeded);
+      return [...items, ...additionalItems];
+    }
+    
+    return items;
   };
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
-    setCurrentPage(page)
+    setCurrentPage(page);
   };
 
-  // Maneja la búsqueda al presionar el botón
   const handleSearch = () => {
-    // Filtramos los datos solo cuando se presiona el botón
     const normalizedSearchTerm = normalizeText(searchTerm);
-    const filtered = data.filter(
+    const allData = data && data.length > 0 ? [...data, ...defaultData] : defaultData;
+    
+    const filtered = allData.filter(
       (card) =>
         normalizeText(card.titulo).includes(normalizedSearchTerm) ||
         normalizeText(card.descripcion).includes(normalizedSearchTerm)
     );
+    
     setFilteredData(filtered);
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
-
-    setCurrentPage(1)
-    // Actualizamos la URL solo cuando se presiona el botón
-    //router.push(`?search=${searchTerm}&page=1`, { scroll : false});
+    setCurrentPage(1);
   };
+
+
+  const BlogCard = ({ dato }) => (
+    <Card className="relative overflow-hidden border-0 shadow-2xl bg-black backdrop-blur-sm rounded-2xl group hover:scale-105 transition-all duration-500">
+      <div className="relative h-80 flex">
+
+        <div className="relative z-10 flex-1 p-8 flex flex-col justify-center bg-black">
+          <div className="text-left space-y-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+              {dato.titulo}
+            </h2>
+            <p className="text-gray-200 text-sm leading-relaxed max-w-md">
+              {dato.descripcion}
+            </p>
+            
+            <Link href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`}>
+              <Button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                SABER MÁS
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+ 
+        <div className="relative flex-1">
+          <img
+            src={dato.public_image}
+            alt={dato.titulo}
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+       
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/30 pointer-events-none"></div>
+
+     
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
+      </div>
+    </Card>
+  );
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-          <Loader2 className="h-12 w-12 animate-spin text-[--azul_cobalto]" />
-          <p className="text-gray-500 animate-pulse">Cargando blogs...</p>
+      <div className="min-h-screen" style={{backgroundColor: '#1a1e2e'}}>
+        <div className="container mx-auto px-4 py-12">
+          <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
+            <Loader2 className="h-12 w-12 animate-spin text-blue-400" />
+            <p className="text-gray-300 animate-pulse">Cargando blogs...</p>
+          </div>
         </div>
       </div>
     );
@@ -110,133 +169,102 @@ const Blogs = () => {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-12">
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-        <div className="mt-4 flex justify-center">
-          <Button onClick={fetchData} variant="outline">
-            Intentar nuevamente
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!data || data.length === 0) {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-6 text-center">
-          <div className="bg-gray-100 p-6 rounded-full">
-            <BookOpen className="h-12 w-12 text-gray-400" />
+      <div className="min-h-screen" style={{backgroundColor: '#1a1e2e'}}>
+        <div className="container mx-auto px-4 py-12">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+          <div className="mt-4 flex justify-center">
+            <Button onClick={fetchData} variant="outline">
+              Intentar nuevamente
+            </Button>
           </div>
-          <h2 className="text-2xl font-bold">No hay blogs disponibles</h2>
-          <p className="text-gray-500 max-w-md">
-            Actualmente no hay blogs publicados. Vuelve a revisar más tarde para nuevos contenidos.
-          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-2">
-      <h1 className="text-3xl font-bold mb-8 text-center lg:text-center mt-8 lg:mt-0">Nuestros Blogs</h1>
+    <div className="min-h-screen" style={{backgroundColor: '#0d111fff'}}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-16">
+        {/* Título principal */}
+        <h1 className="text-5xl md:text-6xl font-bold mb-16 text-center text-white tracking-wider">
+          NUESTROS BLOGS
+        </h1>
 
-      
-      <div className="mb-8 w-full sm:w-full lg:w-1/2 sm:mx-auto flex items-center">
-        <input
-          type="text"
-          placeholder="ESCRIBE ALGO"
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value); 
-          }}
-        />
-       
-        <button
-          onClick={handleSearch}
-          className="ml-2 px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
-        >
-          Buscar
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {getCurrentPageItems().map((dato, index) => (
-          <Card
-            key={`${dato.id_card}-Card`}
-            className="overflow-hidden border-0 shadow-lg transition-all duration-300 hover:shadow-xl bg-[#0e1721] text-white"
-          >
-            <div className="flex flex-col lg:flex-row lg:h-72">
-              <div className="relative h-56 lg:h-full lg:w-2/5">
-                <img
-                  src={dato.public_image || "/placeholder.svg"}
-                  alt={dato.titulo || "Imagen del blog"}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                />
-                <div className="hidden lg:block absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-r from-transparent to-[#0e1721]"></div>
-              </div>
-              <CardContent className="w-full lg:w-3/5 p-6 flex flex-col justify-between">
-                <div className="space-y-4">
-                  <h2 className="text-xl md:text-2xl font-bold line-clamp-2">{dato.titulo}</h2>
-                  <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">{dato.descripcion}</p>
-                </div>
-                <CardFooter className="px-0 pt-4">
-                  <Link href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`} className="w-full">
-                    <Button className="w-full bg-gradient-to-r from-[--azul_cobalto] to-[--azul_cobalto] hover:opacity-90 transition-all duration-300 transform hover:scale-[1.02]">
-                      SABER MÁS
-                    </Button>
-                  </Link>
-                </CardFooter>
-              </CardContent>
-              
-            </div>
-          </Card>
-        ))}
-      </div>
-
-      {/* Paginación */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center space-x-2 mt-8">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage <= 1}
-            className={`p-2 rounded-full ${currentPage <= 1 ? "bg-gray-100 text-gray-400 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600 transition-all"}`}
-            aria-label="Página anterior"
-          >
-            <span className="text-2xl">{'<'}</span>
-          </button>
-
-          {/* Páginas */}
-          <div className="flex space-x-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`w-10 h-10 flex items-center justify-center rounded-full text-lg font-semibold transition-all duration-300 
-                  ${currentPage === page ? "bg-blue-600 text-white" : "bg-white text-blue-600 hover:bg-blue-50"}`}
-                aria-label={`Página ${page}`}
-                aria-current={currentPage === page ? "page" : undefined}
-              >
-                {page}
-              </button>
-            ))}
+        {/* Barra de búsqueda */}
+        <div className="mb-16 max-w-3xl mx-auto flex items-center gap-4">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder="ESCRIBE ALGO"
+              className="w-full px-8 py-4 rounded-full bg-transparent border-2 border-white text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-
           <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage >= totalPages}
-            className={`p-2 rounded-full ${currentPage >= totalPages ? "bg-gray-100 text-gray-400 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600 transition-all"}`}
-            aria-label="Página siguiente"
+            onClick={handleSearch}
+            className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-lg"
           >
-            <span className="text-2xl">{'>'}</span>
+            BUSCAR
           </button>
         </div>
-      )}
+
+        {/* Grid de tarjetas */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          {getCurrentPageItems().map((dato, index) => (
+            <BlogCard key={`${dato.id_card}-${index}`} dato={dato} />
+          ))}
+        </div>
+
+        {/* Paginación */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center space-x-4 mt-16">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage <= 1}
+              className={`p-3 rounded-full transition-all duration-300 ${
+                currentPage <= 1 
+                  ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
+                  : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
+              }`}
+            >
+              <span className="text-xl font-bold">{'<'}</span>
+            </button>
+
+            <div className="flex space-x-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`w-12 h-12 rounded-full font-semibold text-lg transition-all duration-300 ${
+                    currentPage === page 
+                      ? "bg-blue-600 text-white scale-110 shadow-lg" 
+                      : "bg-slate-700 text-gray-300 hover:bg-slate-600 hover:scale-105"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage >= totalPages}
+              className={`p-3 rounded-full transition-all duration-300 ${
+                currentPage >= totalPages 
+                  ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
+                  : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
+              }`}
+            >
+              <span className="text-xl font-bold">{'>'}</span>
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

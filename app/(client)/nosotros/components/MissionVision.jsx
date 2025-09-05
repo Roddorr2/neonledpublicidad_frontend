@@ -18,7 +18,7 @@ export const MissionVision = () => {
 
        
         <div className="flex justify-center mb-6">
-        <img src="/nosotros/icono.misián.Neon.Led.Publicidad.webp" alt="Icono Misión Neon Led Publicidad" />
+        <img src="/nosotros/icono.misián.Neon.Led.Publicidad.webp" width="100px" alt="Icono Misión Neon Led Publicidad" />
         </div>
 
 
@@ -26,9 +26,9 @@ export const MissionVision = () => {
 
         <button 
           onClick={() => setShowMission(!showMission)}
-          className="bg-white border border-white text-black px-6 py-2 rounded-full text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
+          className="bg-white h-[35px] border-white ml-4 text-black px-3 py-2 rounded-[10px] text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
         >
-          SABER MÁSS
+          SABER MÁS
           <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <polyline points="6 9 12 15 18 9" />
           </svg>
@@ -52,7 +52,7 @@ export const MissionVision = () => {
         <h2 className="text-xl md:text-2xl font-bold text-yellow-400 mb-6">VISIÓN</h2>
         
         <div className="flex justify-center mb-6">
-         <img src="/nosotros/icono.visión.Neon.Led.Publicidad.webp" alt="Icono de Vison Neon Led Publicidad"/>
+         <img src="/nosotros/icono.visión.Neon.Led.Publicidad.webp" width="130px" alt="Icono de Vison Neon Led Publicidad"/>
         </div>
 
 
@@ -60,7 +60,8 @@ export const MissionVision = () => {
   <br></br>
         <button 
           onClick={() => setShowVision(!showVision)}
-          className="bg-white border border-white text-black px-6 py-2 rounded-full text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
+          
+          className="bg-white h-[35px] border-white ml-4 text-black px-3 py-2 rounded-[10px] text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
         >
           SABER MÁS
           <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

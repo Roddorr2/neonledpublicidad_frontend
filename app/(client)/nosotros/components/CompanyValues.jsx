@@ -10,14 +10,15 @@ export const CompanyValues = () => {
       
       
       <div className="flex justify-center mb-6">
-      <img src="/nosotros/icono.valores.Neon.Led.Publicidad.webp" alt="Icono valores Neon Led Publicidad" />
+      <img src="/nosotros/icono.valores.Neon.Led.Publicidad.webp" width="150px" alt="Icono valores Neon Led Publicidad" />
       </div>
 
 
 
       <button 
         onClick={() => setShowValues(!showValues)}
-        className="bg-white border border-white text-black px-6 py-2 rounded-full text-sm mb-6 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
+
+        className="bg-white h-[35px] border-white ml-48 text-black px-3 py-2 rounded-[10px] text-sm mb-6 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
       >
         SABER MÁS
         <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
