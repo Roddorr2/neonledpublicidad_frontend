@@ -12,6 +12,12 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
+export const metadata = {
+  verification: {
+    google: "P1NTc2OJ31NE64GqClSYHEu7vi53wbTxv8zAjbgXlpE",
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
