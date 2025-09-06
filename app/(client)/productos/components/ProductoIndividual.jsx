@@ -1,28 +1,29 @@
 import React from "react";
 import styles from "./productoStyles.module.css";
 
-function Producto({ imgSrc, altText,title, description, route, imgSrcMobile }) {
+function Producto({ imgSrc, altText, title, description, route, imgSrcMobile }) {
   return (
     <a href={route} className={styles["producto-link"]}>
       <div className={styles.producto}>
-        <img
-          src={imgSrcMobile}
-          alt={altText}
-          title={title}
-          className={styles["producto-img"]}
-          srcSet={`${imgSrcMobile} 200w, ${imgSrcMobile} 800w`}
-          sizes="(max-width: 768px) 200px, 800px"
-          style={{
-          border: "3px solid white",
-          borderRadius: "10px"
-          }} 
-        />
-        <div className={styles["producto-description"]}>
-          <h3
-            className={`${styles["producto-description__text"]} text-xs md:text-base`}
-          >
-            {description}
-          </h3>
+        <div className={styles["producto-card"]}>
+          {/* Imagen del producto */}
+          <div className={styles["producto-img-container"]}>
+            <img
+              src={imgSrcMobile || imgSrc}
+              alt={altText}
+              title={title}
+              className={styles["producto-img"]}
+              srcSet={`${imgSrcMobile || imgSrc} 200w, ${imgSrc || imgSrcMobile} 800w`}
+              sizes="(max-width: 768px) 200px, 800px"
+            />
+          </div>
+          
+          {/* Descripción superpuesta en la parte inferior */}
+          <div className={styles["producto-overlay"]}>
+            <h3 className={styles["producto-title"]}>
+              {description}
+            </h3>
+          </div>
         </div>
       </div>
     </a>

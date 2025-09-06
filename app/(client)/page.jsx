@@ -24,7 +24,7 @@ const FilaProductosModificado = ({ productos }) => (
             <h3 className="text-white font-bold text-sm md:text-base text-center leading-tight">
               {producto.description}
             </h3>
-          </div>
+          </div> 
         </div>
       </div>
     ))}
