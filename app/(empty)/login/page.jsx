@@ -117,7 +117,7 @@ export default function LoginPage() {
           <div className="w-64 lg:w-80 h-auto mx-auto relative">
             <div className="absolute inset-0 bg-blue-400/20 blur-xl rounded-full"></div>
             <img
-              src="/login/sesion.png"
+              src="/login/sesion.png" 
               alt="Inicio de sesión"
               className="relative z-10 w-[320px] h-[400px] mx-auto animate-float"
             />
