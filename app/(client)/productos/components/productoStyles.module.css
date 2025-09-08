@@ -27,7 +27,7 @@
   text-shadow: 0 0 1px #c5e8f9, 0 0 2px #c5e8f9, 0 0 10px #c5e8f9;
 }
 
-/*Esta es una animación de respiración para el neon */
+
 @keyframes neonv2 {
   0% {
     text-shadow: 0 0 5px #03c4ff, 0 0 10px #03c4ff, 0 0 20px #03c4ff,
@@ -61,6 +61,12 @@
       0 0 40px #ff4d4d, 0 0 80px #ff4d4d, 0 0 90px #ff4d4d, 0 0 100px #ff4d4d;
   }
 }
+
+
+
+
+
+
 
 .neon-textov4 {
   animation: neonv4 1.5s ease-in-out infinite alternate;
@@ -181,7 +187,7 @@
   text-overflow: ellipsis;
 }
 
-/* Efectos de hover adicionales */
+
 .producto::before {
   content: "";
   position: absolute;
@@ -248,7 +254,7 @@
 
 
 .boton {
-  --primary-color: #a64dafd4;
+  --primary-color: #2c1e8a83;
   --secondary-color: #fff;
   --hover-color: #1a7af5;
   --arrow-width: 10px;
@@ -265,12 +271,15 @@
   gap: 0.6em;
   font-weight: bold;
   margin: 0 auto;
+
+
 }
 
 .boton .arrow-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 
 .boton .arrow {

@@ -11,7 +11,6 @@ import axios from "axios";
 
 const ITEMS_PER_PAGE = 6;
 
-
 const normalizeText = (text) => {
   return text.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, "").trim();
 };
@@ -32,26 +31,6 @@ const Blogs = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-
-
-  const defaultData = [
-    {
-      id_card: 'default-1',
-      titulo: 'TU BAR, EN LA MIRA',
-      descripcion: 'HAZ QUE EL NOMBRE DE TU BAR DESTAQUE CON LETRAS NEÓN LED. CREA UN AMBIENTE ÚNICO QUE ATRAIGA MIRADAS Y CLIENTES. ¡ILUMINA TU IDENTIDAD! 🍸 ✨',
-      public_image: 'Bar_letras_neonled.webp', 
-      id_plantilla: '1',
-      blog: { link: 'ejemplo1' }
-    },
-   {
-      id_card: 'default-1',
-      titulo: 'TU BAR, EN LA MIRA',
-      descripcion: 'HAZ QUE EL NOMBRE DE TU BAR DESTAQUE CON LETRAS NEÓN LED. CREA UN AMBIENTE ÚNICO QUE ATRAIGA MIRADAS Y CLIENTES. ¡ILUMINA TU IDENTIDAD! 🍸 ✨',
-      public_image: 'Bar_letras_neonled.webp', 
-      id_plantilla: '1',
-      blog: { link: 'ejemplo1' }
-    },
-  ];
 
   async function fetchData() {
     try {
@@ -77,21 +56,17 @@ const Blogs = () => {
     fetchData();
   }, []);
 
-
+  useEffect(() => {
+    // Inicializar filteredData cuando data cambie, igual que en el código que funciona
+    setFilteredData(data);
+    setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
+  }, [data]);
 
   const getCurrentPageItems = () => {
+    console.log(`getCurrentPageItems | ${filteredData}`);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const items = filteredData.slice(startIndex, endIndex);
-    
-
-    if (items.length < 2 && defaultData.length >= 2) {
-      const remainingNeeded = 2 - items.length;
-      const additionalItems = defaultData.slice(items.length, items.length + remainingNeeded);
-      return [...items, ...additionalItems];
-    }
-    
-    return items;
+    return filteredData.slice(startIndex, endIndex);
   };
 
   const handlePageChange = (page) => {
@@ -100,25 +75,21 @@ const Blogs = () => {
   };
 
   const handleSearch = () => {
+    // Usar la misma lógica del código que funciona
     const normalizedSearchTerm = normalizeText(searchTerm);
-    const allData = data && data.length > 0 ? [...data, ...defaultData] : defaultData;
-    
-    const filtered = allData.filter(
+    const filtered = data.filter(
       (card) =>
         normalizeText(card.titulo).includes(normalizedSearchTerm) ||
         normalizeText(card.descripcion).includes(normalizedSearchTerm)
     );
-    
     setFilteredData(filtered);
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
     setCurrentPage(1);
   };
 
-
   const BlogCard = ({ dato }) => (
     <Card className="relative overflow-hidden border-0 shadow-2xl bg-black backdrop-blur-sm rounded-2xl group hover:scale-105 transition-all duration-500">
       <div className="relative h-80 flex">
-
         <div className="relative z-10 flex-1 p-8 flex flex-col justify-center bg-black">
           <div className="text-left space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
@@ -136,7 +107,6 @@ const Blogs = () => {
           </div>
         </div>
 
- 
         <div className="relative flex-1">
           <img
             src={dato.public_image}
@@ -145,10 +115,7 @@ const Blogs = () => {
           />
         </div>
 
-       
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/30 pointer-events-none"></div>
-
-     
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
       </div>
     </Card>
@@ -186,11 +153,29 @@ const Blogs = () => {
     );
   }
 
+  if (!data || data.length === 0) {
+    return (
+      <div className="min-h-screen" style={{backgroundColor: '#1a1e2e'}}>
+        <div className="container mx-auto px-4 py-12">
+          <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-6 text-center">
+            <div className="bg-gray-100 p-6 rounded-full">
+              <BookOpen className="h-12 w-12 text-gray-400" />
+            </div>
+            <h2 className="text-2xl font-bold text-white">No hay blogs disponibles</h2>
+            <p className="text-gray-300 max-w-md">
+              Actualmente no hay blogs publicados. Vuelve a revisar más tarde para nuevos contenidos.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen" style={{backgroundColor: '#0d111fff'}}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-16">
+    <div className="min-h-screen" style={{backgroundColor: '#0d111fff'} }>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-0">
         {/* Título principal */}
-        <h1 className="text-5xl md:text-6xl font-bold mb-16 text-center text-white tracking-wider">
+        <h1 className="text-5xl md:text-6xl font-bold mb-16 text-center text-white tracking-wider -mt-2">
           NUESTROS BLOGS
         </h1>
 

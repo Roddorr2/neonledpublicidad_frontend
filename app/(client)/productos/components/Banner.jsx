@@ -11,7 +11,7 @@ export default function Banner() {
 
   return (
     <div className={`${styles["bg-black"]} bg-black w-full h-[600px] flex items-center justify-center`}>
-      {/* Contenedor de la imagen del aro */}
+    
       <motion.div
         ref={circleRef}
         className={`${styles["circle-container"]}`}
@@ -20,23 +20,24 @@ export default function Banner() {
         transition={{ duration: 20, ease: "linear" }}
       />
 
-      {/* Texto principal */}
+     
       <motion.div
         className="text-center space-y-1 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 4, ease: "easeOut" }}
       >
-        <p className={`text-lg ${styles["text-color"]}`}>¿Quieres</p>
-        <h1 className={`text-6xl ${styles["neon-text"]}`}>ILUMINAR</h1>
-        <p className={`text-6xl ${styles["neon-text"]}`}>TU VIDA?</p>
+       
+        <h1 className={`text-6xl ${styles["neon-text"]}`}>DESCUBRE EL LETRERO</h1>
+        <p className={`text-6xl ${styles["neon-text"]}`}>PERFECTO PARA TU</p>
+         <p className={`text-6xl ${styles["neon-text"]}`}>NEGOCIO</p>
 
         <br />
 
         <button className={styles.boton} onClick={()=> router.push("/contacto")}>
-          ¡Pide Ya!
+          PIDE YA
           <div className={styles["arrow-wrapper"]}>
-            <div className={styles.arrow}></div>
+          
           </div>
         </button>
       </motion.div>
