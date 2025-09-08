@@ -12,6 +12,7 @@ export default function WhatsAppButton() {
   return (
     <a
       href="https://wa.me/+51994078320?text=Hola,%20quisiera%20más%20información%20de%20sus%20productos"
+      aria-label="Abrir chat de WhatsApp"
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 lg:top-6 right-4 w-16 h-16 z-50 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition-colors flex items-center justify-center"
