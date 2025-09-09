@@ -29,8 +29,7 @@ export const metadata = {
     "Letras doradas y plateadas decorativas",
     "Letras doradas en acrílico",
     "Letras plateadas 3D",
-
-    ],
+  ],
   openGraph: {
     title: "Letras Doradas y Plateadas _ Lima Perú",
     description:
@@ -40,9 +39,9 @@ export const metadata = {
     images: [],
     locale: "es_PE",
     type: "website",
-    alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/letras-doradas/",
   },
+  alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/letras-doradas/",
   },
 };
 
