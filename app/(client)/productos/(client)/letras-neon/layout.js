@@ -40,7 +40,8 @@ export const metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/letras-neon-tubo-vidrio/",
+    // El enlace no existe
+    // canonical: "https://ledneonpublicidad.com/productos/letras-neon-tubo-vidrio/",
   },
 };
 
