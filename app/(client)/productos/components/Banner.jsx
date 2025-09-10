@@ -6,8 +6,8 @@ import styles from "./productoStyles.module.css";
 
 export default function Banner() {
  const videoRef = useRef(null);
-  const isInView = useInView(videoRef, { triggerOnce: true, threshold: 0.5 });
-  const router = useRouter();
+ const isInView = useInView(videoRef, { triggerOnce: true, threshold: 0.5 });
+ const router = useRouter();
 
   return (
     
