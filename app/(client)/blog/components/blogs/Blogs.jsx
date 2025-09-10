@@ -141,7 +141,25 @@ const Blogs = () => {
     );
   }
 
-  return (
+const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "url": "https://ledneonpublicidad.com/blog/",
+    "name": "Blog de LedNeonPublicidad",
+    "description": "Inspira tu marca con ideas creativas en diseño publicitario. Ilumina tus espacios, rompe lo convencional y marca tendencia con soluciones visuales.",
+    "blogPost": data.map((blog) => ({
+      "@type": "BlogPosting",
+      "name": blog.titulo,
+      "url": `https://ledneonpublicidad.com/blog/plantilla/${blog.id_plantilla}?blog=${blog.blog.link}`, // mejor slug que query param
+      "image": `https://ledneonpublicidad.com/${blog.url_image}`,
+      "datePublished": blog.blog.fecha,
+      "author": {
+        "@type": "Organization",
+        "name": "LedNeonPublicidad"
+      }
+    }))
+  };
+  return (<>
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-2">
       <h1 className="text-3xl font-bold mb-8 text-center lg:text-center mt-8 lg:mt-0">Nuestros Blogs</h1>
 
@@ -237,6 +255,13 @@ const Blogs = () => {
         </div>
       )}
     </div>
+
+       <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
+  </>
+
   );
 };
 
