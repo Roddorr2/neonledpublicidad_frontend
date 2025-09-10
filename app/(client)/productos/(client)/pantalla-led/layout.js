@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export const metadata = {
   title: "Pantallas LED Perú",
   description:
@@ -42,5 +44,30 @@ export const metadata = {
 };
 
 export default function PantallaLedLayout({ children }) {
-  return <>{children}</>;
+  const productPantallasLed={
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Pantallas Leds",
+    "image": [
+      "https://ledneonpublicidad.com/productosIndividuales/pantallas-publicitarias-digitales-exterior-de-todito.webp",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/pantalla-led.webp",
+      "https://ledneonpublicidad.com/productos/pantalla-led-programa-kelly-clarkson-show.webp",
+      "https://ledneonpublicidad.com/productos/pantalla-led-publicitaria-tienda-zapatos-mujer.webp",
+      "https://ledneonpublicidad.com/productos/pantalla-led-gigante-publicidad-20th-century-fox.webp"
+    ],
+    "description": "Las pantallas LED son una muy buena herramienta visual para mostrar diseños, destacar con dinamismo y transmitir videos, promociones y mensajes en alta resolución, captando la atención del público de forma inmediata.",
+    "brand": {
+      "@type": "Brand",
+      "name": "LedNeonPublicidad"
+    },
+    "url": "https://ledneonpublicidad.com/productos/pantalla-led/"
+}
+
+  return <>
+   <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productPantallasLed) }}
+      />
+  {children}
+  </>;
 }

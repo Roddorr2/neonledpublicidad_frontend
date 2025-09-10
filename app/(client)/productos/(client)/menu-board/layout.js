@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export const metadata = {
   title: "Menú Boards para negocios",
   description:
@@ -44,5 +46,30 @@ export const metadata = {
 };
 
 export default function MenuBoardLayout({ children }) {
-  return <>{children}</>;
+  const productMenuBoard={
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Los Menús Boards",
+    "image": [
+      "https://ledneonpublicidad.com/productosIndividuales/menu-digital-burgers-whopper-triple-pantalla.webp",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/menu-board.webp",
+      "https://ledneonpublicidad.com/productos/menu-digital-cafeteria-gloria-jeans-con-bebidas.webp",
+      "https://ledneonpublicidad.com/productos/menu-digital-fast-food-colleccion-del-rey.webp",
+      "https://ledneonpublicidad.com/productos/pantallas-menu-digital-con-desayuno-y-hamburguesas.webp"
+    ],
+    "description": "Los Menú Boards son pantallas o paneles visuales en establecimientos de comida que muestran productos, precios e imágenes. Su objetivo es que los clientes elijan fácilmente qué ordenar, ofreciendo toda la información de un vistazo. Pueden ser estáticos (impresos) o digitales, y son clave para una comunicación clara.",
+    "brand": {
+      "@type": "Brand",
+      "name": "LedNeonPublicidad"
+    },
+    "url": "https://ledneonpublicidad.com/productos/menu-board/"
+}
+
+  return <>
+   <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productMenuBoard) }}
+      />
+  {children}
+  </>;
 }

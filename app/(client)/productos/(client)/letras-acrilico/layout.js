@@ -1,5 +1,6 @@
 import { Keyboard } from "lucide-react";
 import { globalKeywords } from "../components/section2/keywordsConfig";
+import Script from "next/script";
 
 export const metadata = {
   title: "Letras Acrílico _ Lima Perú",
@@ -49,5 +50,30 @@ export const metadata = {
 };
 
 export default function LetrasAcrilicoLayout({ children }) {
-  return <>{children}</>;
+ const productAcrilico={
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Letreros de Acrílico",
+  "image": [
+    "https://ledneonpublicidad.com/productosIndividuales/letras_acr%C3%ADlico_ledneonpublicidad.webp",
+    "https://ledneonpublicidad.com/productosIndividuales/banner/letras_corp%C3%B3reas_ledneonpublicidad.webp",
+    "https://ledneonpublicidad.com/productos/letras_de_acr%C3%ADlico_para_negocio_ledneonpublicidad.webp",
+    "https://ledneonpublicidad.com/productos/letreros_volum%C3%A9tricos_con_luces_LED_ledneonpublicidad.webp",
+    "https://ledneonpublicidad.com/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp"
+  ],
+  "description": "Dale estilo a tu marca con letras de acrílico: resistentes, modernas y perfectas para destacar en interiores o exteriores.",
+  "brand": {
+    "@type": "Brand",
+    "name": "LedNeonPublicidad"
+  },
+  "url": "https://ledneonpublicidad.com/productos/letras-acrilico"
+}
+
+  return     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productAcrilico) }}
+      />
+      {children}
+    </>
 }

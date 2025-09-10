@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export const metadata = {
   title: "Letras de MDF Personalizadas | Dale vida a tu marca",
   description:
@@ -44,5 +46,30 @@ export const metadata = {
 };
 
 export default function LetrasPintadasLayout({ children }) {
-  return <>{children}</>;
+  const productLetrasPintadas={
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Las letras Pintadas en MDF",
+    "image": [
+      "https://ledneonpublicidad.com/productosIndividuales/letrero-mdf-burnout-con-forma-de-camion.webp",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/letras-pintadas.webp",
+      "https://ledneonpublicidad.com/productos/MDF1.jpg",
+      "https://ledneonpublicidad.com/productos/MDF2.jpg",
+      "https://ledneonpublicidad.com/productos/letras-mdf-retroiluminadas-marks-and-spencer.webp"
+    ],
+    "description": "Letras en MDF pintadas a medida para negocios que quieren destacar su identidad visual sin gastar de más. Ideales para decorar paredes, stands y vitrinas. 👉 Resuelve el dolor de “mi local se ve simple o sin estilo” y responde al insight: “quiero algo personalizado, bonito y accesible que represente mi marca.",
+    "brand": {
+      "@type": "Brand",
+      "name": "LedNeonPublicidad"
+    },
+    "url": "https://ledneonpublicidad.com/productos/letras-pintadas/"
+}
+
+  return <>
+   <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLetrasPintadas) }}
+      />
+  {children}
+  </>;
 }
