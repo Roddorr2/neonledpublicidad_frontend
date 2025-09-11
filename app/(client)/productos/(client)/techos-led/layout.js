@@ -4,7 +4,7 @@ export const metadata = {
   title: "Techos Led en Lima | Ilumina tu Negocio desde lo Alto",
   description:
     "Su diseño moderno y opciones de personalización, se convierten en una herramienta eficaz para realzar la identidad de marca y captar la atención. Una solución ideal para negocios que buscan destacar con elegancia, tecnología y alto impacto estético.",
-   keywords:[
+  keywords: [
     "Techo led",
     "Hexagonal led",
     "Cielo rraso",
@@ -20,8 +20,8 @@ export const metadata = {
     "Techos LED RGB",
     "Techo hexagonal led",
     "Luces de techo led",
-   ],
-    openGraph: {
+  ],
+  openGraph: {
     title: "Techos Led en Lima | Ilumina tu Negocio desde lo Alto",
     description:
       "Su diseño moderno y opciones de personalización, se convierten en una herramienta eficaz para realzar la identidad de marca y captar la atención. Una solución ideal para negocios que buscan destacar con elegancia, tecnología y alto impacto estético.",
@@ -30,6 +30,10 @@ export const metadata = {
     images: [],
     locale: "es_PE",
     type: "website",
+  },
+  alternates: {
+    canonical:
+      "https://ledneonpublicidad.com/productos/techos-led/",
   },
 };
 

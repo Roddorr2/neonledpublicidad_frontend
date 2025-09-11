@@ -12,6 +12,7 @@ function Producto({ imgSrc, altText,title, description, route, imgSrcMobile }) {
           className={styles["producto-img"]}
           srcSet={`${imgSrcMobile} 200w, ${imgSrcMobile} 800w`}
           sizes="(max-width: 768px) 200px, 800px"
+          loading="lazy"
         />
         <div className={styles["producto-description"]}>
           <h3

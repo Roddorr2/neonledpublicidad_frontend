@@ -9,6 +9,7 @@ const productosInfo = [
     description: "{{Letras de acrílico}} son elementos decorativos y funcionales ideales para una amplia variedad de aplicaciones. Contamos con {{letras de acrílico para negocio}}, y empresas en versiones iluminadas para exteriores. {{Letras de acrílico con luz}} y {{letras de acrílico 3D}} que se adaptan a tus necesidades.", 
     image: "letras_acrílico_ledneonpublicidad.webp",
     alt: "Letrero con letras de acrílico en un fondo de pantalla",
+    // Funciona pero hace la redireccion hacia la misma página
     keywords: {
       "Letras de acrílico": { type: "external", url: "/productos/letras-acrilico" },
       "letras de acrílico para negocio": { type: "external", url: "/productos/letras-acrilico#negocios" },
@@ -76,6 +77,7 @@ const productosInfo = [
     description: "Las imágenes en alta definición que usa los {{menú boards personalizados}}, el colorido y la variedad de los contenidos atrapan a todo el tipo de público a ver los {{menú boards fast food}}. Elaborado con materiales resistentes, los restaurantes {{menú boards}} asegura durabilidad al descate y condiciones adversas.", 
     image: "menu-digital-burgers-whopper-triple-pantalla.webp",
     alt: "Pantalla digital con menú de hamburguesas Whopper y promociones de triple combo",
+    // Funciona pero hace la redireccion hacia la misma página
     keywords: {
       "menú boards personalizados": { type: "external", url: "/productos/menu-board" },
       "menú boards fast food": { type: "external", url: "/productos/menu-board" },
@@ -87,11 +89,11 @@ const productosInfo = [
     description: "{{Letras en MDF}} ofrecen una solución ideal para decoración y señalización gracias a su alta personalización, permitiendo elegir formas, tamaños y colores. Con acabados premium, estas {{letras MDF personalizadas}} logran una apariencia impecable y elegante, destacando en cualquier entorno el {{pintado 3D}}.", 
     image: "letrero-mdf-burnout-con-forma-de-camion.webp",
     alt: "Letrero pintado en MDF con diseño de camión y texto Burnout en color amarillo sobre muro gris",
-     keywords: {
-      "Letras en MDF": { type: "external", url: "/productos/letras-en-mdf" },
-      "letras MDF personalizadas": { type: "external", url: "/productos/letras-en-mdf" },
-      "pintado 3D": { type: "external", url: "/productos/letras-en-mdf" }
-    }
+    //  keywords: {
+    //   "Letras en MDF": { type: "external", url: "/productos/letras-en-mdf" },
+    //   "letras MDF personalizadas": { type: "external", url: "/productos/letras-en-mdf" },
+    //   "pintado 3D": { type: "external", url: "/productos/letras-en-mdf" }
+    // }
   },
   { id: 9, 
     title: "MONITORES DE PUBLICIDAD DIGITAL", 
@@ -107,11 +109,11 @@ const productosInfo = [
     title: "PANTALLAS LED", 
     description: "{{Pantallas led para publicidad}} incluye opciones personalizadas como {{Pantallas LED}} a medida, perfectas para campañas publicitarias. Lo que genera que sean una herramienta efectiva para captar la atención y transmitir mensajes de manera clara y atractiva. Siendo ideales para convertirse en una opción más sostenible y económica a largo plazo.", 
     image: "pantallas-publicitarias-digitales-exterior-de-todito.webp",
-    alt: "Pantallas publicitarias digitales exteriores mostrando promociones de productos De Todito",
-    keywords: {
-      "Pantallas led para publicidad": { type: "external", url: "productos/pantalla-led" },
-      "Pantallas LED": { type: "external", url: "productos/pantalla-led" },
-    }
+    alt: "Pantallas publicitarias digitales exteriores mostrando promociones de productos De Todito",  
+    // keywords: {
+    //   "Pantallas led para publicidad": { type: "external", url: "productos/pantalla-led" },
+    //   "Pantallas LED": { type: "external", url: "productos/pantalla-led" },
+    // }
   },
   { id: 11, 
     title: "HOLOGRÁFICOS", 
