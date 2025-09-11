@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export const metadata = {
   title: "Letras Doradas y Plateadas _ Lima Perú",
   description:
@@ -47,5 +49,29 @@ export const metadata = {
 };
 
 export default function LetrasDoradasLayout({ children }) {
-  return <>{children}</>;
+   const productDoradas={
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Letreros Doradas y Plateadas",
+    "image": [
+      "https://ledneonpublicidad.com/productosIndividuales/LetrasDoradoLaptop.webp",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/letras-doradas.png",
+      "https://ledneonpublicidad.com/productos/letras_doradas_ledneonpublicidad.webp",
+      "https://ledneonpublicidad.com/productos/letras_doradas_ledneonpublicidad2.webp",
+      "https://ledneonpublicidad.com/productos/letras_doradas_ledneonpublicidad3.webp"
+    ],
+    "description": "Dale elegancia a tu espacio con letras doradas o plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
+    "brand": {
+      "@type": "Brand",
+      "name": "LedNeonPublicidad"
+    },
+    "url": "https://ledneonpublicidad.com/productos/letras-doradas"
+}
+  return <>
+   <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productDoradas) }}
+      />
+  {children}
+  </>;
 }

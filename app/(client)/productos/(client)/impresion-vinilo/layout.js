@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export const metadata = {
   title: "Vinilos Decorativos para negocio _ Lima Perú",
   description:
@@ -43,5 +45,30 @@ export const metadata = {
 };
 
 export default function ImpresionViniloLayout({ children }) {
-  return <>{children}</>;
+  const productImpresionVinilo={
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Impresión en Vinil Decorativo",
+    "image": [
+      "https://ledneonpublicidad.com/productosIndividuales/vinilo-decorativo-menu-para-restaurante.webp",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/impresion-vinilo.webp",
+      "https://ledneonpublicidad.com/productos/vinilo-tipografico-keep-burger-calm.webp",
+      "https://ledneonpublicidad.com/productos/vinilo-piri-piri-chicken-restaurante-rojo.webp",
+      "https://ledneonpublicidad.com/productos/vinilo-japones-no1-beef-bowl-pared.webp"
+    ],
+    "description": "Los vinilos son la mejor opción para mostrar tu mensaje, logotipo o marca. Tenemos gran variedad de diseños y estilos disponibles para el gusto del cliente.",
+    "brand": {
+      "@type": "Brand",
+      "name": "LedNeonPublicidad"
+    },
+    "url": "https://ledneonpublicidad.com/productos/impresion-vinilo"
+}
+
+  return <>
+   <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productImpresionVinilo) }}
+      />
+  {children}
+  </>;
 }
