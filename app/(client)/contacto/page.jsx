@@ -90,13 +90,13 @@ const Contacto = () => {
     ]
 
     return (
-      <div className="w-full bg-gradient-to-r  via-blue-900 to-blue-600 py-8">
-        <div className="container mx-auto px-4">
+      <div className="w-full bg-gradient-to-r via-blue-900 to-blue-600 py-8">
+        <div className="container mx-auto px-4 ">
           <div className="text-center">
             <h2 className="text-3xl font-[900] mb-6 text-white uppercase tracking-wide">
               Síguenos en nuestras redes
             </h2>
-            <div className="flex justify-center items-center space-x-6">
+            <div className="flex justify-center items-center space-x-6 ">
               {socialMediaLinks.map((social, index) => (
                 <a
                   key={index}
@@ -105,7 +105,7 @@ const Contacto = () => {
                   rel="noopener noreferrer"
                   className="group transition-all duration-300 hover:scale-110"
                 >
-                  <div className="w-14 h-14  rounded-full flex items-center justify-center  group-hover: transition-all duration-300">
+                  <div className="w-10 h-14 rounded-full flex items-center justify-center group-hover: transition-all duration-300">
                     <Image
                       src={social.src}
                       alt={social.alt}
@@ -126,16 +126,35 @@ const Contacto = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white font-['Anton']">
-     <section className="relative min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-black overflow-hidden">
+      
+      <section className="relative min-h-screen overflow-hidden">
+       
+        <div 
+          className="absolute top-0 left-0 w-full h-1/2 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('/contacto/fondo contacto2.png')"
+          }}
+        ></div>
 
-        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-black/70 via-blanck-900/50 to-black/80"></div>
+      
+        <div 
+          className="absolute bottom-0 left-0 w-full h-1/2 bg-cover bg-center bg-no-repeat mb-16"
+          style={{
+            backgroundImage: "url('/contacto/fondo contacto.jpg')"
+          }}
+        ></div>
 
-        <div className="container mx-auto px-4 py-12 relative z-10">
+        
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-black/80 via-black/70 to-black/85">
+          
+          <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-32 bg-gradient-to-b from-transparent via-black/30 to-transparent"></div>
+        </div>
+
+        <div className="container mx-auto px-4 py-12 relative z-10 -mt-16">
           <div className="flex flex-col lg:flex-row items-start justify-center gap-8 pt-8">
             
-            
-            <div className="w-full lg:w-1/3 space-y-8 text-center">
         
+            <div className="w-full lg:w-1/3 space-y-8 text-center mt-24">
               <div>
                 <a href="https://maps.app.goo.gl/jWD3Y4GgzaNj1WtY7" target="_blank">
                   <img src="/contacto/Mapa.png" className="w-14 mx-auto mb-4 hover:scale-110 transition-transform"/>
@@ -146,11 +165,6 @@ const Contacto = () => {
                 <p className="text-gray-300 text-sm">Santa Marta, Ate Vitarte, Perú</p>
               </div>
 
-               
-
-            
-
-          
               <div>
                 <a href="https://wa.me/+51994078320?text=Hola,%20quisiera%20más%20información%20de%20sus%20productos" target="_blank">
                   <img src="/header_footer/Whatsapp.Neon.Led.Publicidad.webp" className="w-12 mx-auto mb-4 hover:scale-110 transition-transform"/>
@@ -160,7 +174,7 @@ const Contacto = () => {
               </div>
             </div>
 
-       
+           
             <div className="w-full lg:w-1/3">
               <h2 className="text-center text-lg font-medium text-white">Conoce nuestros medios de</h2>
               <h1 className="text-center text-2xl font-[900] text-white mb-6">CONTACTO</h1>
@@ -188,7 +202,7 @@ const Contacto = () => {
                     <option value="sugerencia">Sugerencia</option>
                   </select>
 
-                  <textarea name="mensaje" value={formData.mensaje} onChange={handleChange} required placeholder="Escribe aquí tu mensaje detallando tus consultas o requerimientos..." rows={4} className="w-full p-3 bg-transparent border border-blue-400 rounded-md text-white placeholder:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"></textarea>
+                  <textarea name="mensaje" value={formData.mensaje} onChange={handleChange} required placeholder="Escribe aquí tu mensaje detallando tus consultas o requerimientos..." rows={4} className="w-full p-3 bg-transparent border border-blue-400 rounded-md text-white placeholder:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none h-[180px]"></textarea>
 
                   <div className="text-center pt-2">
                     <button type="submit" className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-[900] px-8 py-3 rounded-md transition-all duration-300 shadow-lg hover:shadow-xl">
