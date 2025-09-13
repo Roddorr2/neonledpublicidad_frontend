@@ -20,15 +20,4 @@ export const AnimatedArrow = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  return (
-    <motion.img
-      id="animatedArrow"
-      src="/blog/description/flechaabajo_ledneonpublicidad.webp"
-      alt="Flecha hacia abajo"
-      className="mx-auto"
-      initial={{ y: 0 }}
-      animate={isVisible ? { y: [0, -10, 0] } : {}}
-      transition={{ repeat: 5, duration: 0.5, ease: "easeInOut" }}
-    />
-  );
 };
