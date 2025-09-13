@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export const metadata = {
   title: "Monitores de Publicidad _ Lima Perú",
   description:
@@ -22,5 +24,30 @@ export const metadata = {
 };
 
 export default function DisplaysLayout({ children }) {
-  return <>{children}</>;
+  const productMonitores={
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Monitores de Publicidad Digital",
+    "image": [
+      "https://ledneonpublicidad.com/productosIndividuales/monitores-publicidad-digital-autoservicio-fast-food.webp",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/monitores_tactiles4.jpg",
+      "https://ledneonpublicidad.com/productos/monitor-publicitario-interactivo-tienda-ropa.webp",
+      "https://ledneonpublicidad.com/productos/monitores-publicidad-drive-thru-menu-digital.webp",
+      "https://ledneonpublicidad.com/productos/pantalla-publicitaria-digital-tienda-zapatillas.webp"
+    ],
+    "description": "Destaca tu marca con monitores de publicidad digital modernos, sostenibles y versátiles. Comunica con impacto. ¡Cotiza hoy y transforma tu espacio!",
+    "brand": {
+      "@type": "Brand",
+      "name": "LedNeonPublicidad"
+    },
+    "url": "https://ledneonpublicidad.com/productos/displays/"
+}
+
+  return <>
+   <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productMonitores) }}
+      />
+  {children}
+  </>;
 }

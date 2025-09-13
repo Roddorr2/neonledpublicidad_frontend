@@ -9,8 +9,9 @@ export const SlideIndicators = ({ slides, current, setCurrent }) => {
         <button
           key={index}
           onClick={() => setCurrent(index)}
-          className={`w-2 h-2 rounded-full transition-all ${
-            index === current ? "bg-white w-4" : "bg-white/50"
+          aria-label={`Ir a la diapositiva ${index + 1}`}
+          className={`w-6 h-6 rounded-full transition-all ${
+            index === current ? "bg-white w-8" : "bg-white/50"
           }`}
         />
       ))}

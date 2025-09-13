@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export const metadata = {
   title: "Techos Led en Lima | Ilumina tu Negocio desde lo Alto",
   description:
@@ -16,8 +18,37 @@ export const metadata = {
     locale: "es_PE",
     type: "website",
   },
+  alternates: {
+    canonical:
+      "https://ledneonpublicidad.com/productos/techos-led/",
+  },
 };
 
 export default function TechosLedLayout({ children }) {
-  return <>{children}</>;
+  const productTechosLed={
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Los Techos Led",
+    "image": [
+      "https://ledneonpublicidad.com/productosIndividuales/taller-autos-iluminacion-led.webp",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/techos-led.png",
+      "https://ledneonpublicidad.com/productos/centro-detallado-autos-iluminacion-led.webp",
+      "https://ledneonpublicidad.com/productos/casino-techo-luces-led-rgb.webp",
+      "https://ledneonpublicidad.com/productos/tienda-comercial-techo-led-moderno.webp"
+    ],
+    "description": "Su diseño moderno y opciones de personalización, se convierten en una herramienta eficaz para realzar la identidad de marca y captar la atención. Una solución ideal para negocios que buscan destacar con elegancia, tecnología y alto impacto estético.",
+    "brand": {
+      "@type": "Brand",
+      "name": "LedNeonPublicidad"
+    },
+    "url": "https://ledneonpublicidad.com/productos/techos-led/"
+}
+
+  return <>
+   <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productTechosLed) }}
+      />
+  {children}
+  </>;
 }

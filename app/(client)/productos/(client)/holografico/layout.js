@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export const metadata = {
   title: "Productos Holográficos en Lima | Tecnología Visual Impactante",
   description:
@@ -22,5 +24,30 @@ export const metadata = {
 };
 
 export default function HolograficoLayout({ children }) {
-  return <>{children}</>;
+  const productHolograficos={
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Holograficos",
+    "image": [
+      "https://ledneonpublicidad.com/productosIndividuales/pantalla-led-gigante-publicidad-20th-century-fox.webp",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/holografico.webp",
+      "https://ledneonpublicidad.com/productos/holograma-zapatilla-rotativa-publicidad.webp",
+      "https://ledneonpublicidad.com/productos/holograma-navidad-arbol-publicitario.webp",
+      "https://ledneonpublicidad.com/productos/presentacion-holografica-persona-3d-escenario.webp"
+    ],
+    "description": "Descubre los mejores productos holográficos en Lima, Perú. Tecnología innovadora para publicidad, decoración y exhibiciones que capturan la atención al instante.",
+    "brand": {
+      "@type": "Brand",
+      "name": "LedNeonPublicidad"
+    },
+    "url": "https://ledneonpublicidad.com/productos/holografico/"
+}
+
+  return <>
+   <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productHolograficos) }}
+      />
+  {children}
+  </>;
 }

@@ -263,9 +263,10 @@ export default function Header() {
                             }} />
                         </>
                     )}
-
-                    <div className="red-bg">
-                        <div className="absolute w-[110px] h-[110px] left-1/2 bottom-0 translate-x-[-50%] translate-y-[40%] z-30 rounded-full bg-white flex items-center justify-center">
+                    {/* Para evitar la sobreposición de la imagen sobre el menu desplegado, 
+                    es mejor manejar todo con flex en lugar de absolute*/}
+                    <div className="red-bg flex justify-center items-center py-4">
+                        <div className="w-[110px] h-[110px] rounded-full bg-white flex items-center justify-center">
                             <img
                                 className="w-[75px] h-[75px] object-contain"
                                 src="/header_footer/logo_azul_letraNegra_ledneonpublicidad2.webp"

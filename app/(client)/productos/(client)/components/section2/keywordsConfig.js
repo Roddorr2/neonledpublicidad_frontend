@@ -105,19 +105,19 @@ export const globalKeywords = {
     url: "/productos/menu-board" 
   },
 
-  // Letras Pintadas en MDF
-  "Letras en MDF": {
-    type: "external",
-    url: "/productos/letras-en-mdf"
-  },
-  "letras MDF personalizadas": {
-    type: "external",
-    url: "/productos/letras-en-mdf"
-  },
-  "pintado 3D": {
-    type: "external",
-    url: "/productos/letras-en-mdf"
-  },
+  // // Letras Pintadas en MDF
+  // "Letras en MDF": {
+  //   type: "external",
+  //   url: "/productos/letras-en-mdf"
+  // },
+  // "letras MDF personalizadas": {
+  //   type: "external",
+  //   url: "/productos/letras-en-mdf"
+  // },
+  // "pintado 3D": {
+  //   type: "external",
+  //   url: "/productos/letras-en-mdf"
+  // },
 
   // Monitores de Publicidad Digital
   "Publicidad digital": { 
