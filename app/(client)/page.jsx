@@ -6,14 +6,14 @@ import Slider2 from "./components/slider2/Slider2";
 
 
 const FilaProductosModificado = ({ productos }) => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 justify-items-center">
     {productos.map((producto, index) => (
       <div 
         key={index}
-        className="bg-white rounded-3xl p-1 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+        className="bg-white rounded-3xl p-1 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer w-60 md:w-70 lg:w-80"
       >
         <div className="rounded-2xl overflow-hidden">
-          <div className="h-48 md:h-52 lg:h-56 overflow-hidden">
+          <div className="h-48 md:h-52 lg:h-60 overflow-hidden">
             <img 
               src={producto.imgSrc} 
               alt={producto.altText}
