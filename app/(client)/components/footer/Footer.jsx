@@ -57,23 +57,18 @@ export default function Footer() {
                 <p className="text-sm">8:00 A.M - 7:00 P.M</p>
               </div>
             </div>
-
-            <div>
-              <h2 className="text-cyan-400 text-xl font-bold mb-4">
-                RECLAMACIONES
-              </h2>
-              <div className="text-center">
-                <p className="font-semibold mb-4">LIBRO DE RECLAMACIONES</p>
-                <Link href="/reclamaciones">
-                  <div className="inline-block">
-                    <img
-                      className="w-200 h-240 mx-auto"
-                      src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
-                      alt="Ilustración de un libro de reclamaciones abierto con páginas blancas"
-                    />
-                  </div>
-                </Link>
-              </div>
+      <div>
+        <h2 className="text-cyan-400 text-xl font-bold mb-4">RECLAMACIONES</h2>
+        <div className="text-center">
+          <p className="font-semibold mb-4">LIBRO DE RECLAMACIONES</p>
+          <Link href="/reclamaciones">
+            <div className="inline-block">
+              <img
+                className="w-200 h-240 mx-auto"
+                src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
+                alt="Ilustración de un libro de reclamaciones abierto con páginas blancas"
+                title="Libro de reclamaciones Perú"
+              />
             </div>
           </div>
         </div>

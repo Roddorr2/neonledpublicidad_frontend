@@ -85,7 +85,7 @@ const Contacto = () => {
     const socialMediaLinks = [
       { href: "https://www.facebook.com/ledneonpublicidad", src: "/contacto/Facebook.png", alt: "Facebook" },
       { href: "https://www.tiktok.com/@neonled.publicidad", src: "/contacto/Tiktok.png", alt: "TikTok" },
-      { href: "https://www.instagram.com/neonledpublicidad.oficial/", src: "/contacto/ig.png", alt: "Instagram" },
+      { href: "https://www.instagram.com/neonledpublicidad.peru?igsh=a3RseGpuYXM5ZnZo", src: "/contacto/ig.png", alt: "Instagram" },
       { href: "https://www.youtube.com/@neonledpublicidadpe", src: "/contacto/yootube.png", alt: "YouTube" }
     ]
 

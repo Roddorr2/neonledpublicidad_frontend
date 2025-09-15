@@ -180,7 +180,7 @@ const blogSchema = {
     "blogPost": data.map((blog) => ({
       "@type": "BlogPosting",
       "name": blog.titulo,
-      "url": `https://ledneonpublicidad.com/blog/plantilla/${blog.id_plantilla}?blog=${blog.blog.link}`, // mejor slug que query param
+      "url": `https://ledneonpublicidad.com/blog/plantilla/${blog.id_plantilla}?blog=${blog.blog.link}`,
       "image": `https://ledneonpublicidad.com/${blog.url_image}`,
       "datePublished": blog.blog.fecha,
       "author": {
@@ -197,85 +197,84 @@ const blogSchema = {
           NUESTROS BLOGS
         </h1>
 
-        {/* Barra de búsqueda */}
-        <div className="mb-16 max-w-3xl mx-auto flex items-center gap-4">
-          <div className="relative flex-1">
-            <input
-              type="text"
-              placeholder="ESCRIBE ALGO"
-              className="w-full px-8 py-4 rounded-full bg-transparent border-2 border-white text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <button
-            onClick={handleSearch}
-            className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-lg"
-          >
-            BUSCAR
-          </button>
-        </div>
-
-        {/* Grid de tarjetas */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
-          {getCurrentPageItems().map((dato, index) => (
-            <BlogCard key={`${dato.id_card}-${index}`} dato={dato} />
-          ))}
-        </div>
-
-        {/* Paginación */}
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center space-x-4 mt-16">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage <= 1}
-              className={`p-3 rounded-full transition-all duration-300 ${
-                currentPage <= 1 
-                  ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
-                  : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
-              }`}
-            >
-              <span className="text-xl font-bold">{'<'}</span>
-            </button>
-
-            <div className="flex space-x-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`w-12 h-12 rounded-full font-semibold text-lg transition-all duration-300 ${
-                    currentPage === page 
-                      ? "bg-blue-600 text-white scale-110 shadow-lg" 
-                      : "bg-slate-700 text-gray-300 hover:bg-slate-600 hover:scale-105"
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
+          {/* Barra de búsqueda */}
+          <div className="mb-16 max-w-3xl mx-auto flex items-center gap-4">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                placeholder="ESCRIBE ALGO"
+                className="w-full px-8 py-4 rounded-full bg-transparent border-2 border-white text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-
             <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage >= totalPages}
-              className={`p-3 rounded-full transition-all duration-300 ${
-                currentPage >= totalPages 
-                  ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
-                  : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
-              }`}
+              onClick={handleSearch}
+              className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-lg"
             >
-              <span className="text-xl font-bold">{'>'}</span>
+              BUSCAR
             </button>
           </div>
-        )}
+
+          {/* Grid de tarjetas */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+            {getCurrentPageItems().map((dato, index) => (
+              <BlogCard key={`${dato.id_card}-${index}`} dato={dato} />
+            ))}
+          </div>
+
+          {/* Paginación */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center space-x-4 mt-16">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage <= 1}
+                className={`p-3 rounded-full transition-all duration-300 ${
+                  currentPage <= 1 
+                    ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
+                    : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
+                }`}
+              >
+                <span className="text-xl font-bold">{'<'}</span>
+              </button>
+
+              <div className="flex space-x-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`w-12 h-12 rounded-full font-semibold text-lg transition-all duration-300 ${
+                      currentPage === page 
+                        ? "bg-blue-600 text-white scale-110 shadow-lg" 
+                        : "bg-slate-700 text-gray-300 hover:bg-slate-600 hover:scale-105"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage >= totalPages}
+                className={`p-3 rounded-full transition-all duration-300 ${
+                  currentPage >= totalPages 
+                    ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
+                    : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
+                }`}
+              >
+                <span className="text-xl font-bold">{'>'}</span>
+              </button>
+            </div>
+          )}
+        </div>
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+        />
       </div>
-    </div>
-
-       <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
-      />
-  </>
-
+    </>
   );
 };
 
