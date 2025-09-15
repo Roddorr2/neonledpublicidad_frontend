@@ -65,6 +65,7 @@ export default function Footer() {
                 className="w-200 h-240 mx-auto"
                 src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
                 alt="Ilustración de un libro de reclamaciones abierto con páginas blancas"
+                title="Libro de reclamaciones Perú"
               />
             </div>
           </Link>
