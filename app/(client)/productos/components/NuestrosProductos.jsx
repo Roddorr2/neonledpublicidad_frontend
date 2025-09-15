@@ -70,7 +70,7 @@ export default function NuestrosProductos() {
 
         
           <motion.p
-            className="text-xl lg:text-2xl text-blue-500 max-w-2xl leading-relaxed"
+            className="text-xl lg:text-2xl text-white max-w-2xl leading-relaxed"
             initial={{ x: 100, opacity: 0 }}
             animate={hasAnimated ? { x: 0, opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}

@@ -1,4 +1,4 @@
-import { Montserrat } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import "./globals.css";
 import { WhatsAppButton } from "./(client)/components/index";
 import "swiper/css";
@@ -6,10 +6,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Script from 'next/script';
 
-const montserrat = Montserrat({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "700"], 
-  variable: "--font-montserrat", 
+  weight: ["400", "500", "600", "700"], 
+  variable: "--font-inter", 
   display: "swap",
 });
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
         {/* End Google Tag Manager */}
       </head>
       <body
-        className={`${montserrat.variable} antialiased bg-[#05070D] min-h-screen m-0 p-0`}
+        className={`${inter.variable} antialiased bg-[#05070D] min-h-screen m-0 p-0`}
       >
         <noscript>
           <iframe
