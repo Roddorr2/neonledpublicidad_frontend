@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import DropdownLink from "./components/DropdownLink";
 import LinkNav from "./components/LinkNav";
 import styles from "./header.module.css";
+import { usePathname } from "next/navigation";
+
 
 export default function Header() {
     const [menuActive, setMenuActive] = useState(false);
@@ -10,6 +12,7 @@ export default function Header() {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [menuInitialized, setMenuInitialized] = useState(false);
     const [currentMenu, setCurrentMenu] = useState("main");
+    const pathname = usePathname(); 
 
     useEffect(() => {
         const savedMenuState = localStorage.getItem("menuActive");
@@ -73,13 +76,23 @@ export default function Header() {
         setCurrentMenu("main");
     };
 
+
+
+
+ 
+    const isActiveLink = (href) => {
+        if (href === "/" && pathname === "/") return true;
+        if (href !== "/" && pathname.startsWith(href)) return true;
+        return false;
+    };
+
     return (
         <>
             <div className={`${styles.containerF} ${menuActive ? styles["full-height"] : ""}`}>
                 <header
                   className={`${styles["header-container"]} h-[100px] bg-[--azul_oscuro] flex items-center justify-between pl-0 pr-5 ${menuActive ? styles["menu-active"] : ""}`}
                 >
-                    {/* Logo a la izquierda */}
+                   
                     {currentMenu === "main" ? (
                        <div className={`w-[130px] text-white absolute left-24 ${styles.logo}`}>
                             <img src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp" alt="Logotipo de Neon Led Publicidad con letras celestes " title = "Neon Led Publicidad especialistas en letreros led " />
@@ -101,15 +114,54 @@ export default function Header() {
                     )}
 
                     <nav className="flex items-center gap-20">
-                    <a href="/" className="text-blue-400 hover:text-blue-300 transition-colors">INICIO</a>
-                    <a href="/nosotros" className="text-white hover:text-gray-300 transition-colors">NOSOTROS</a>
-                    <a href="/blog" className="text-white hover:text-gray-300 transition-colors">BLOG</a>
-                    <a href="/productos" className="text-white hover:text-gray-300 transition-colors">PRODUCTOS</a>
-                    <a href="/login" className="text-white hover:text-gray-300 transition-colors">LOGIN</a>
-                    <a href="/contacto" className="text-white hover:text-gray-300 transition-colors">CONTACTO</a>
-                    </nav>
+                   <a 
+               href="/" 
+               className={`transition-colors ${isActiveLink("/") ? "text-blue-400" : "text-white hover:text-gray-300" }`}
+                   >
+                 INICIO
+                  </a>
 
-                    {/* Menú móvil */}
+                  <a 
+              href="/nosotros" 
+              className={`transition-colors ${isActiveLink("/nosotros") ? "text-blue-400"  : "text-white hover:text-gray-300"}`}
+                  >
+                 NOSOTROS
+                  </a>
+
+                    <a 
+              href="/productos" 
+             className={`transition-colors ${isActiveLink("/productos") ? "text-blue-400" : "text-white hover:text-gray-300" }`}
+                >
+                PRODUCTOS
+              </a>
+
+              <a 
+            href="/contacto" 
+            className={`transition-colors ${isActiveLink("/contacto")    ? "text-blue-400"   : "text-white hover:text-gray-300"}`}
+            >
+             CONTACTO
+          </a>
+
+                  <a 
+              href="/blog" 
+              className={`transition-colors ${isActiveLink("/blog")  ? "text-blue-400"   : "text-white hover:text-gray-300" }`}
+                 >
+                BLOG
+                 </a>
+
+             
+
+              <a 
+             href="/login" 
+            className={`transition-colors ${ isActiveLink("/login")  ? "text-blue-400"   : "text-white hover:text-gray-300"  }`}
+              >
+               LOGIN
+              </a>
+
+             
+     </nav>
+
+                
                     {isSmallScreen && (
                         <div className={styles["menu-icon"]} onClick={toggleMenu}>
                             <span className={`${styles["menu-icon-text"]} ${menuActive ? styles["text-small"] : styles["text-large"]}`}>

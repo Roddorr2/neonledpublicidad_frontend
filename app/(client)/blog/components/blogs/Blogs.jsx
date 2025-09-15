@@ -171,7 +171,7 @@ const Blogs = () => {
     );
   }
 
-  const blogSchema = {
+const blogSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
     "url": "https://ledneonpublicidad.com/blog/",
@@ -189,15 +189,13 @@ const Blogs = () => {
       }
     }))
   };
-
-  return (
-    <>
-      <div className="min-h-screen" style={{backgroundColor: '#0d111fff'}}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-0">
-          {/* Título principal */}
-          <h1 className="text-5xl md:text-6xl font-bold mb-16 text-center text-white tracking-wider -mt-2">
-            NUESTROS BLOGS
-          </h1>
+  return (<>
+    <div className="min-h-screen" style={{backgroundColor: '#0d111fff'} }>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-0">
+        {/* Título principal */}
+        <h1 className="text-5xl md:text-6xl font-bold mb-16 text-center text-white tracking-wider -mt-2">
+          NUESTROS BLOGS
+        </h1>
 
           {/* Barra de búsqueda */}
           <div className="mb-16 max-w-3xl mx-auto flex items-center gap-4">

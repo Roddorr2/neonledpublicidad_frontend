@@ -60,11 +60,11 @@ const Banner = () => {
                     
                 </h1>
                
-                <p1
+                <p
                     className={"text-[16px] sm:text-[24px] text-center max-w-[300px] sm:max-w-[500px] md:max-w-[700px] lg:max-w-2xl mt-[-30px]"}
                 >
                     Mira cómo trabajamos cada uno de nuestros productos.
-                </p1>
+                </p>
                  
                  
             </div>

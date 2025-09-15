@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
         {/* End Google Tag Manager */}
       </head>
       <body
-        className={`${montserrat.variable} antialiased`}
+        className={`${montserrat.variable} antialiased bg-[#05070D] min-h-screen m-0 p-0`}
       >
         <noscript>
           <iframe
