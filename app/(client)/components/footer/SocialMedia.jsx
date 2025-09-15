@@ -13,7 +13,7 @@ export const SocialMedia = () => {
         },
        
          {
-            href: "https://www.instagram.com/neonledpublicidad.oficial/",
+            href: "https://www.instagram.com/neonledpublicidad.peru?igsh=a3RseGpuYXM5ZnZo",
             src: "/header_footer/instagram.Neon.Led.Publicidad.webp",
             alt: "Icono colorido de la red social Instagram con diseño moderno"
         },
