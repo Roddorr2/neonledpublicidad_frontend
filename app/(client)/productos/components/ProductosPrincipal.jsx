@@ -8,7 +8,7 @@ import LineaHorizontal from "./LineaHorizontal";
 import styles from "./productoStyles.module.css";
 
 export default function Productos() {
-  // Definimos los productos por fila como un arreglo de objetos
+
   const filas = [
     [ 
       {
@@ -31,8 +31,8 @@ export default function Productos() {
         altText: "Fachada de Farmacia Lda. Maria Pacheco con cruz verde luminosa",
         description: "LETREROS LUMINOSOS",
         route: "/productos/letreros-luminosos",
-      },
-      {
+      }, 
+      { 
         imgSrc: "/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar.webp",
          imgSrcMobile:"/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar_mobile.webp",
         altText: "Letrero neón de Wok's Cerveza Artesanal en colores verde y ámbar de noche",
@@ -166,7 +166,7 @@ export default function Productos() {
           >
             <FilaProductos productos={fila} />
           </motion.div>
-          {index < filas.length - 1 && <LineaHorizontal />}
+          {index < filas.length - 1 && <LineaHorizontal index={index} />}
         </div>
       ))}
     </div>

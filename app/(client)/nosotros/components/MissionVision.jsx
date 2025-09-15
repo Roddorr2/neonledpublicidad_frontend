@@ -1,39 +1,81 @@
+"use client"
+import { useState } from "react"
+
+
 export const MissionVision = () => {
+  const [showMission, setShowMission] = useState(false)
+  const [showVision, setShowVision] = useState(false)
+
   return (
-    <div className="flex flex-col md:flex-row items-start">
-      {/* Mission */}
-       <div className="bg-gray-900/80 p-5 backdrop-blur-sm w-full md:w-[320px] min-h-[220px]">
-        <div className="flex items-center justify-center mb-4">
-          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
-            <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="12" cy="12" r="10" />
-              <circle cx="12" cy="12" r="6" />
-              <circle cx="12" cy="12" r="2" />
-            </svg>
-          </div>
-          <h2 className="text-xl font-bold">MISIÓN</h2>
+    <div className="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-12">
+   
+      <div className="text-center flex-1">
+        <h2 className="text-xl md:text-2xl font-bold text-yellow-400 mb-6">MISIÓN</h2>
+        
+       
+
+
+
+       
+        <div className="flex justify-center mb-6">
+        <img src="/nosotros/icono.misián.Neon.Led.Publicidad.webp" width="100px" alt="Icono Misión Neon Led Publicidad" />
         </div>
-        <p className="text-xs md:text-sm text-gray-300 text-center">
-          Somos una empresa importadora, fabricante de productos publicitarios, buscando hacer realidad las ideas de
-          nuestros clientes, satisfaciendo sus necesidades al menor tiempo y al menor costo.
-        </p>
+
+
+
+
+        <button 
+          onClick={() => setShowMission(!showMission)}
+          className="bg-white h-[35px] border-white ml-4 text-black px-3 py-2 rounded-[10px] text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
+        >
+          SABER MÁS
+          <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+
+        {showMission && (
+          <div className="bg-gray-800 bg-opacity-90 border-2 border-white rounded-lg p-4 max-w-xs mx-auto">
+            <p className="text-xs md:text-sm text-white leading-relaxed font-medium">
+              SOMOS UNA EMPRESA IMPORTADORA, FABRICANTE DE PRODUCTOS PUBLICITARIOS, BUSCANDO HACER REALIDAD LAS IDEAS DE NUESTROS CLIENTES, SATISFACIENDO SUS NECESIDADES AL MENOR TIEMPO Y AL MENOR COSTO.
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Vision */}
-      <div className="bg-gray-900/80 p-5 backdrop-blur-sm w-full md:w-[320px] min-h-[220px]">
-        <div className="flex items-center justify-center mb-4">
-          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
-            <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-          </div>
-          <h2 className="text-xl font-bold">VISIÓN</h2>
+  
+
+
+
+
+      <div className="text-center flex-1">
+        <h2 className="text-xl md:text-2xl font-bold text-yellow-400 mb-6">VISIÓN</h2>
+        
+        <div className="flex justify-center mb-6">
+         <img src="/nosotros/icono.visión.Neon.Led.Publicidad.webp" width="130px" alt="Icono de Vison Neon Led Publicidad"/>
         </div>
-        <p className="text-xs md:text-sm text-gray-300 text-center">
-          Ser la empresa que exprese innovación y creatividad en el mundo de la publicidad, buscando evolucionar en
-          nuestros procesos, implementando la tecnología más eficiente.
-        </p>
+
+
+
+  <br></br>
+        <button 
+          onClick={() => setShowVision(!showVision)}
+          
+          className="bg-white h-[35px] border-white ml-4 text-black px-3 py-2 rounded-[10px] text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
+        >
+          SABER MÁS
+          <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+
+        {showVision && (
+          <div className="bg-gray-800 bg-opacity-90 border-2 border-white rounded-lg p-4 max-w-xs mx-auto">
+            <p className="text-xs md:text-sm text-white leading-relaxed font-medium">
+              SER LA EMPRESA QUE EXPRESE INNOVACIÓN Y CREATIVIDAD EN EL MUNDO DE LA PUBLICIDAD, BUSCANDO EVOLUCIONAR EN NUESTROS PROCESOS, IMPLEMENTANDO LA TECNOLOGÍA MÁS EFICIENTE.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )

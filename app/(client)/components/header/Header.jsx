@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import DropdownLink from "./components/DropdownLink";
 import LinkNav from "./components/LinkNav";
 import styles from "./header.module.css";
+import { usePathname } from "next/navigation";
+
 
 export default function Header() {
     const [menuActive, setMenuActive] = useState(false);
@@ -10,6 +12,7 @@ export default function Header() {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [menuInitialized, setMenuInitialized] = useState(false);
     const [currentMenu, setCurrentMenu] = useState("main");
+    const pathname = usePathname(); 
 
     useEffect(() => {
         const savedMenuState = localStorage.getItem("menuActive");
@@ -65,7 +68,6 @@ export default function Header() {
         setMenuActive(!menuActive);
     };
 
-
     const goToSubMenu = (menu) => {
         setCurrentMenu(menu);
     };
@@ -74,23 +76,31 @@ export default function Header() {
         setCurrentMenu("main");
     };
 
+
+
+
+ 
+    const isActiveLink = (href) => {
+        if (href === "/" && pathname === "/") return true;
+        if (href !== "/" && pathname.startsWith(href)) return true;
+        return false;
+    };
+
     return (
         <>
             <div className={`${styles.containerF} ${menuActive ? styles["full-height"] : ""}`}>
                 <header
-                    className={`${styles["header-container"]} h-[100px] bg-[--azul_oscuro] flex items-center justify-center gap-6 px-5 ${menuActive ? styles["menu-active"] : ""}`}
+                  className={`${styles["header-container"]} h-[100px] bg-[--azul_oscuro] flex items-center justify-between pl-0 pr-5 ${menuActive ? styles["menu-active"] : ""}`}
                 >
-                    <LinkNav text={"Inicio"} link={"/"} />
-                    <LinkNav text={"Nosotros"} link={"/nosotros"} />
-                    <LinkNav text={"Productos"} link={"/productos"} />
-                    
-
+                   
                     {currentMenu === "main" ? (
-                        <div className={`w-[90px] text-white mx-7 text-center ${styles.logo}`}>
-                            <img src="/header_footer/logo_azul_letraBlanco_ledneonpublicidad2.webp" alt="Logotipo de Neon LED Publicidad con letras blancas y fondo negro" />
+                       <div className={`w-[130px] text-white absolute left-24 ${styles.logo}`}>
+                            <img src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp" alt="Logotipo de Neon Led Publicidad con letras celestes " title = "Neon Led Publicidad especialistas en letreros led " />
+                          
+
                         </div>
                     ) : (
-                        <div className={`h-[50px] w-auto  text-white mx-7 text-center ${styles.logo} flex items-center justify-center`}>
+                       <div className={`h-[50px] w-auto text-white absolute left-2 ${styles.logo} flex items-center`}>
                             <a
                                 href="#"
                                 onClick={() => {
@@ -99,13 +109,59 @@ export default function Header() {
                                 className="text-white font-bold cursor-pointer"
                             >
                                 &lt; Volver
-                            </a></div>
+                            </a>
+                        </div>
                     )}
 
-                    <LinkNav text={"Contacto"} link={"/contacto"} />
-                    <LinkNav text={"Blog"} link={"/blog"} />
-                    <LinkNav text={"Login"} link={"/login"} />
+                    <nav className="flex items-center gap-20">
+                   <a 
+               href="/" 
+               className={`transition-colors ${isActiveLink("/") ? "text-blue-400" : "text-white hover:text-gray-300" }`}
+                   >
+                 INICIO
+                  </a>
 
+                  <a 
+              href="/nosotros" 
+              className={`transition-colors ${isActiveLink("/nosotros") ? "text-blue-400"  : "text-white hover:text-gray-300"}`}
+                  >
+                 NOSOTROS
+                  </a>
+
+                    <a 
+              href="/productos" 
+             className={`transition-colors ${isActiveLink("/productos") ? "text-blue-400" : "text-white hover:text-gray-300" }`}
+                >
+                PRODUCTOS
+              </a>
+
+              <a 
+            href="/contacto" 
+            className={`transition-colors ${isActiveLink("/contacto")    ? "text-blue-400"   : "text-white hover:text-gray-300"}`}
+            >
+             CONTACTO
+          </a>
+
+                  <a 
+              href="/blog" 
+              className={`transition-colors ${isActiveLink("/blog")  ? "text-blue-400"   : "text-white hover:text-gray-300" }`}
+                 >
+                BLOG
+                 </a>
+
+             
+
+              <a 
+             href="/login" 
+            className={`transition-colors ${ isActiveLink("/login")  ? "text-blue-400"   : "text-white hover:text-gray-300"  }`}
+              >
+               LOGIN
+              </a>
+
+             
+     </nav>
+
+                
                     {isSmallScreen && (
                         <div className={styles["menu-icon"]} onClick={toggleMenu}>
                             <span className={`${styles["menu-icon-text"]} ${menuActive ? styles["text-small"] : styles["text-large"]}`}>
@@ -122,10 +178,8 @@ export default function Header() {
                         </div>
                     )}
                 </header>
-                {/* {menuActive && (
-                    <div className="dropdown-menu bg-gradient-to-r from-[--azul_brillante] to-[--azul_intenso]"> */}
+                
                 <div className={`${styles["dropdown-menu"]} bg-gradient-to-r from-[--azul_brillante] to-[--azul_intenso] ${menuActive ? styles.show : ""}`}>
-
                     {currentMenu === "main" && (
                         <>
                             <DropdownLink
@@ -143,7 +197,7 @@ export default function Header() {
                                 link={"/nosotros"}
                                 isInicio={false}
                                 final={false}
-                                 closeMenu={() => {
+                                closeMenu={() => {
                                     setMenuActive(false);
                                     setContainerFullHeight(false);
                                 }}
@@ -154,7 +208,6 @@ export default function Header() {
                                 isInicio={false}
                                 final={false}
                                 onClick={() => goToSubMenu("productos")}
-
                             />
                             <DropdownLink
                                 text={"Contacto"}
@@ -187,7 +240,6 @@ export default function Header() {
                                 }}
                             />
                         </>
-
                     )}
                     {currentMenu === "productos" && (
                         <>
@@ -274,9 +326,7 @@ export default function Header() {
                             />
                         </div>
                     </div>
-
                 </div>
-                {/* )} */}
             </div>
         </>
     );
