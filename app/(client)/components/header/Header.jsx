@@ -128,6 +128,20 @@ export default function Header() {
                  NOSOTROS
                   </a>
 
+                    <a 
+              href="/productos" 
+             className={`transition-colors ${isActiveLink("/productos") ? "text-blue-400" : "text-white hover:text-gray-300" }`}
+                >
+                PRODUCTOS
+              </a>
+
+              <a 
+            href="/contacto" 
+            className={`transition-colors ${isActiveLink("/contacto")    ? "text-blue-400"   : "text-white hover:text-gray-300"}`}
+            >
+             CONTACTO
+          </a>
+
                   <a 
               href="/blog" 
               className={`transition-colors ${isActiveLink("/blog")  ? "text-blue-400"   : "text-white hover:text-gray-300" }`}
@@ -135,12 +149,7 @@ export default function Header() {
                 BLOG
                  </a>
 
-               <a 
-              href="/productos" 
-             className={`transition-colors ${isActiveLink("/productos") ? "text-blue-400" : "text-white hover:text-gray-300" }`}
-                >
-                PRODUCTOS
-              </a>
+             
 
               <a 
              href="/login" 
@@ -149,12 +158,7 @@ export default function Header() {
                LOGIN
               </a>
 
-             <a 
-            href="/contacto" 
-            className={`transition-colors ${isActiveLink("/contacto")    ? "text-blue-400"   : "text-white hover:text-gray-300"}`}
-            >
-             CONTACTO
-          </a>
+             
      </nav>
 
                 
