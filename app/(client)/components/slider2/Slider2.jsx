@@ -51,6 +51,7 @@ const Slider2 = ({ slides }) => {
             <img
               src={slide.imgSrc}
               alt={slide.altText}
+              title={slide.title}
               className="object-contain w-full h-full mx-auto"
             />
           </div>
