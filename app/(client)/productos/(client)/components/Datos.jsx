@@ -145,7 +145,7 @@ export default function Datos({ idProducto }) {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#02101d] mb-20">
+    <div className="relative min-h-screen overflow-hidden bg-[#02101d]">
       <NeonBackground className="absolute inset-0 z-0" />
 
       <div className="relative min-h-screen z-10 text-white flex flex-col items-center justify-center p-6">
