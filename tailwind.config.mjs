@@ -63,6 +63,11 @@ export default {
   			title: [
   				'League Gothic',
   				'ui-serif'
+  			],
+  			sans: [
+  				'var(--font-inter)',
+  				'ui-sans-serif',
+  				'system-ui'
   			]
   		},
   		borderRadius: {
