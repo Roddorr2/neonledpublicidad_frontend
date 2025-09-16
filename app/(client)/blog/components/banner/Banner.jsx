@@ -23,9 +23,9 @@ const Banner = () => {
             {/* 4 líneas según la imagen */}
             
             <div className="absolute top-[50px] right-[100px] w-[2px] h-[350px] bg-blue-400"></div>
-           <div className="absolute top-[120px] left-[1011px] w-[400px] h-[2px] bg-yellow-400"></div>
+           <div className="absolute top-[120px] left-[995px] w-[550px] h-[2px] bg-yellow-400"></div>
             <div className="absolute top-[180px] left-[80px] w-[2px] h-[380px] bg-blue-400"></div>
-            <div className="absolute bottom-[120px] left-[80px] w-[350px] h-[2px] bg-yellow-400"></div>
+            <div className="absolute bottom-[120px] left-[100px] w-[350px] h-[2px] bg-yellow-400"></div>
 
             <div className="absolute top-0 right-0 w-[150px] h-[150px] bg-blue-400/30 blur-2xl"></div>
 <div className="absolute top-0 right-0 w-[500px] h-[200px] bg-blue-500/15 blur-3xl"></div>
@@ -60,11 +60,11 @@ const Banner = () => {
                     
                 </h1>
                
-                <p1
+                <p
                     className={"text-[16px] sm:text-[24px] text-center max-w-[300px] sm:max-w-[500px] md:max-w-[700px] lg:max-w-2xl mt-[-30px]"}
                 >
                     Mira cómo trabajamos cada uno de nuestros productos.
-                </p1>
+                </p>
                  
                  
             </div>

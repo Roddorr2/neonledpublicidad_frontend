@@ -5,9 +5,10 @@ import { LeftSection, RightSection } from "./components";
 
 export const DesktopVersion = () => {
   return (
-    <div className="hidden md:flex relative flex-col md:flex-row items-center justify-center  py-16 gap-8">
+   <div className="hidden md:flex relative flex-row items-stretch justify-center gap-8 min-h-screen bg-[#0d111fff] px-4 py-16">
+
       <LeftSection />
       <RightSection />
     </div>
-  );
+  ); 
 };

@@ -18,24 +18,7 @@ export const MissionVision = () => {
 
        
         <div className="flex justify-center mb-6">
-          <svg className="w-32 h-32 text-blue-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2">
-       
-        <circle cx="50" cy="35" r="20" />
-        
- 
-        <path d="M50 35 L44 26" strokeWidth="2"/>
-        <path d="M50 35 L56 26" strokeWidth="2"/>
-        <path d="M50 35 L50 55" strokeWidth="2"/>
-        
-      
-        <path d="M35 55 L65 55" strokeWidth="2"/>
-        <path d="M35 59 L65 59" strokeWidth="2"/>
-        <path d="M35 63 L65 63" strokeWidth="2"/>
-        <path d="M35 67 L65 67" strokeWidth="2"/>
-        
-      
-        <path d="M40 71 L60 71" strokeWidth="2"/>
-      </svg>
+        <img src="/nosotros/icono.misián.Neon.Led.Publicidad.webp" width="100px" alt="Icono Misión Neon Led Publicidad" />
         </div>
 
 
@@ -43,9 +26,9 @@ export const MissionVision = () => {
 
         <button 
           onClick={() => setShowMission(!showMission)}
-          className="bg-white border border-white text-black px-6 py-2 rounded-full text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
+          className="bg-white h-[35px] border-white ml-4 text-black px-3 py-2 rounded-[10px] text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
         >
-          SABER MÁSS
+          SABER MÁS
           <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <polyline points="6 9 12 15 18 9" />
           </svg>
@@ -69,24 +52,16 @@ export const MissionVision = () => {
         <h2 className="text-xl md:text-2xl font-bold text-yellow-400 mb-6">VISIÓN</h2>
         
         <div className="flex justify-center mb-6">
-          <svg className="w-20 h-20 md:w-24 md:h-24 text-blue-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="3">
-            <circle cx="50" cy="50" r="35" />
-            <circle cx="50" cy="50" r="28" />
-            <circle cx="50" cy="50" r="21" />
-            <circle cx="50" cy="50" r="14" />
-            <circle cx="50" cy="50" r="7" />
-            <path d="M65 35 L75 25" strokeWidth="4"/>
-            <path d="M75 25 L70 30" strokeWidth="4"/>
-            <path d="M75 25 L70 20" strokeWidth="4"/>
-          </svg>
+         <img src="/nosotros/icono.visión.Neon.Led.Publicidad.webp" width="130px" alt="Icono de Vison Neon Led Publicidad"/>
         </div>
 
 
 
-
+  <br></br>
         <button 
           onClick={() => setShowVision(!showVision)}
-          className="bg-white border border-white text-black px-6 py-2 rounded-full text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
+          
+          className="bg-white h-[35px] border-white ml-4 text-black px-3 py-2 rounded-[10px] text-sm mb-4 hover:bg-white hover:text-black transition-all flex items-center mx-auto"
         >
           SABER MÁS
           <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
