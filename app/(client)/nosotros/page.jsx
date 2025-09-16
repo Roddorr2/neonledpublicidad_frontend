@@ -8,21 +8,21 @@ const aboutCardsData = [
     imageSrc: "/nosotros/icono.misián.Neon.Led.Publicidad.webp",
     imageAlt: "Icono Misión Neon Led Publicidad",
     description:
-      "SOMOS UNA EMPRESA IMPORTADORA, FABRICANTE DE PRODUCTOS PUBLICITARIOS, BUSCANDO HACER REALIDAD LAS IDEAS DE NUESTROS CLIENTES, SATISFACIENDO SUS NECESIDADES AL MENOR TIEMPO Y AL MENOR COSTO.",
+      "Somos una empresa importadora y fabricante de productos publicitarios, buscando hacer realidad las ideas de nuestros clientes, satisfaciendo sus necesidades en el menor tiempo y al menor costo.",
   },
   {
     title: "VISIÓN",
     imageSrc: "/nosotros/icono.visión.Neon.Led.Publicidad.webp",
-    imageAlt: "Icono de Vison Neon Led Publicidad",
+    imageAlt: "Icono de Visión Neon Led Publicidad",
     description:
-      "SER LA EMPRESA QUE EXPRESE INNOVACIÓN Y CREATIVIDAD EN EL MUNDO DE LA PUBLICIDAD, BUSCANDO EVOLUCIONAR EN NUESTROS PROCESOS, IMPLEMENTANDO LA TECNOLOGÍA MÁS EFICIENTE.",
+      "Ser la empresa que exprese innovación y creatividad en el mundo de la publicidad, buscando evolucionar en nuestros procesos e implementando la tecnología más eficiente.",
   },
   {
     title: "VALORES",
     imageSrc: "/nosotros/icono.valores.Neon.Led.Publicidad.webp",
     imageAlt: "Icono valores Neon Led Publicidad",
     description:
-      "TRABAJAMOS COMO UN EQUIPO COMPROMETIDO CON NUESTROS CLIENTES, OFRECIENDO SOLUCIONES PROFESIONALES, RESPETUOSAS Y DE ALTA CALIDAD. NOS ENFOCAMOS EN CUMPLIR CON CADA ENTREGA DE FORMA PUNTUAL, CUIDANDO LOS DETALLES Y MANTENIENDO SIEMPRE UNA ACTITUD COLABORATIVA Y ÉTICA.",
+      "Trabajamos como un equipo comprometido con nuestros clientes, ofreciendo soluciones profesionales, respetuosas y de alta calidad. Nos enfocamos en cumplir con cada entrega de forma puntual, cuidando los detalles y manteniendo siempre una actitud colaborativa y ética.",
   },
 ];
 
