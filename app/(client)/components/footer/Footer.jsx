@@ -20,7 +20,9 @@ export default function Footer() {
         </div>
 
         <p className="text-sm leading-relaxed mb-8 max-w-xs">
-          NOSOTROS SOMOS NEÓN LED PUBLICIDAD UNA EMPRESA FORMAL QUE SE DEDICA A LA CREACIÓN DE ESPACIOS PERSONALIZADOS QUE TRANSFORMAN TU NEGOCIO CON ESTILO Y PERSONALIDAD
+          Nosotros somos Neón Led Publicidad, una empresa formal que se
+          dedica a la creación de espacios personalizados que transforman 
+          tu negocio con estilo y personalidad.
         </p>
 
         <div className="flex gap-4 mb-4">
