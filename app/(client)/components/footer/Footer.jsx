@@ -5,8 +5,8 @@ import { SocialMedia } from "./SocialMedia";
 export default function Footer() {   
     return (
         <>
-           <footer className="bg-[#0a0e27] text-white py-16 px-8">
- 
+          <footer className="bg-[#000017] text-white py-16 px-8">
+
   <div className="max-w-7xl mx-auto relative">
     
 
@@ -23,7 +23,7 @@ export default function Footer() {
           NOSOTROS SOMOS NEÓN LED PUBLICIDAD UNA EMPRESA FORMAL QUE SE DEDICA A LA CREACIÓN DE ESPACIOS PERSONALIZADOS QUE TRANSFORMAN TU NEGOCIO CON ESTILO Y PERSONALIDAD
         </p>
 
-        <div className="flex gap-4 mb-4">
+        <div className="flex gap-4 mb-4 justify-start items-center">
           <SocialMedia />
         </div>
 

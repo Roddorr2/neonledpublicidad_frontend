@@ -90,7 +90,7 @@ export default function Header() {
         <>
             <div className={`${styles.containerF} ${menuActive ? styles["full-height"] : ""}`}>
                 <header
-                  className={`${styles["header-container"]} h-[100px] bg-[--azul_oscuro] flex items-center justify-between pl-0 pr-5 ${menuActive ? styles["menu-active"] : ""}`}
+                  className={`${styles["header-container"]} h-[100px] flex items-center justify-between pl-0 pr-5 ${menuActive ? styles["menu-active"] : ""}`}
                 >
                    
                     {currentMenu === "main" ? (
