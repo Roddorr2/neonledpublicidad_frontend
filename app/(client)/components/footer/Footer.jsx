@@ -5,19 +5,23 @@ import { SocialMedia } from "./SocialMedia";
 export default function Footer() {   
     return (
         <>
-           <footer className="bg-[#0a0e27] text-white py-16 px-8">
- 
-  <div className="max-w-7xl mx-auto relative">
-    
+          <footer className="bg-[#000017] text-white py-12 px-6">
 
-    <div className="absolute left-[10px] top-0 h-[355px] w-1 bg-cyan-400 pointer-events-none hidden md:block"></div>
+  <div className=" mx-auto relative">
+
+    <div className="absolute left-[10px] top-0 lg:h-full h-[300px] w-1 bg-[#48A8FF] pointer-events-none hidden md:block"></div>
 
 
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 pl-8">
-      <div className="lg:col-span-1">
-        <div className="flex items-center mb-6">
-          <img width="150px" src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp" />
-        </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pl-6 md:pl-10">
+                <div className="flex flex-col justify-between">
+            <div>
+              <div className="flex items-center mb-6">
+                <img
+                  width="150"
+                  src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
+                  alt="Logo Neon Led Publicidad"
+                />
+              </div>
 
         <p className="text-sm leading-relaxed mb-8 max-w-xs">
           Nosotros somos Neón Led Publicidad, una empresa formal que se
@@ -25,15 +29,18 @@ export default function Footer() {
           tu negocio con estilo y personalidad.
         </p>
 
-        <div className="flex gap-4 mb-4">
-          <SocialMedia />
-        </div>
+              {/* Redes sociales */}
+              <div className="flex gap-5 mb-6 items-center">
+                <SocialMedia />
+              </div>
+            </div>
 
-        <div className="w-full h-1 bg-yellow-400"></div>
-      </div>
+            {/* Línea amarilla debajo */}
+            <div className="w-full h-[2px] bg-yellow-400"></div>
+          </div>
 
       <div>
-        <h2 className="text-cyan-400 text-xl font-bold mb-4">CONTÁCTANOS</h2>
+        <h2 className="text-[#48A8FF] text-xl font-bold mb-4">CONTÁCTANOS</h2>
         <div className="mb-6">
           <p className="font-semibold mb-2">DIRECCIONES:</p>
           <p className="text-sm mb-1">JR. PARURO 1404. S130, LIMA,</p>
@@ -49,7 +56,7 @@ export default function Footer() {
       </div>
 
       <div>
-        <h2 className="text-cyan-400 text-xl font-bold mb-4">HORARIO</h2>
+        <h2 className="text-[#48A8FF] text-xl font-bold mb-4">HORARIO</h2>
         <div>
           <p className="font-semibold mb-2">DISPONIBILIDAD:</p>
           <p className="text-sm mb-1">LUNES A VIERNES</p>
@@ -58,9 +65,9 @@ export default function Footer() {
       </div>
 
       <div>
-        <h2 className="text-cyan-400 text-xl font-bold mb-4">RECLAMACIONES</h2>
-        <div className="text-center">
-          <p className="font-semibold mb-4">LIBRO DE RECLAMACIONES</p>
+        <h2 className="text-[#48A8FF] text-xl font-bold mb-4">RECLAMACIONES</h2>
+        <div className="text-left">
+          <p className="mb-4">LIBRO DE RECLAMACIONES</p>
           <Link href="/reclamaciones">
             <div className="inline-block">
               <img
