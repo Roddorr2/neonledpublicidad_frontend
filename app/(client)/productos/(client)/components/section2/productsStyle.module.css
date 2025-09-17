@@ -2,7 +2,7 @@
   position: relative;
   height: 50vh;
   width: 100%;
- margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .overlay-cards {
@@ -90,7 +90,6 @@
   width: 30%;
   height: auto;
   flex-shrink: 0;
-  /* border: 1px solid red; */
 }
 
 .info-rectangle {
@@ -139,71 +138,82 @@
   z-index: 2;
 }
 
-@media (max-width: 768px) {  
+@media (max-width: 768px) {
   .home-container {
-    height: 70vh;
+    height: auto; /* Permite que se ajuste al contenido */
+    margin-bottom: 0;
   }
+
   .gradient-banner {
-    min-height: 60vh;
-    margin-top: 0;
+    min-height: auto; /* Se ajusta al contenido */
+    margin-bottom: 2rem; /* Espacio para el componente */
   }
+
   .square-info-container {
-    height: auto;
-    bottom: 45%;
-    /* flex-direction: column; */
+    position: static; /* Cambia de absolute a static */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 2rem;
-    justify-content: right;
+    padding: 2rem 1rem;
+    bottom: auto;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
   }
-  .intermediate-image {
-    transform: translateX(-10%) translateY(65%);
-  }
+
   .custom-square {
-    display: none;
+    display: none; /* Oculta el cuadrado en móvil */
   }
+
   .info-rectangle {
-    padding: 5rem 1.8rem 5rem 5rem;
-    width: 90%;
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem 1.5rem;
+    border-radius: 12px; /* Borde completo en móvil */
+    text-align: center; /* Centrar texto en móvil */
+    margin: 0 auto;
   }
-  .card {
-    max-height: 180px;
-    width: 25%;
+
+  .info-title {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
   }
-  .card-description {
-    font-size: 0.75rem;
+
+  .info-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
-  .card-title {
-    font-size: 1rem;
+
+  .intermediate-image {
+    position: static; /* Cambia de absolute a static */
+    transform: none;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  .white-line {
+    flex: 1;
+  }
+
+  .gradient-line {
+    flex: 3;
   }
 }
 
 @media (max-width: 517px) {
   .info-description {
-    font-size: 0.65rem;
+    font-size: 0.8rem;
   }
-}
 
-@media (max-width: 697px) {
   .info-rectangle {
-    padding: 5rem 1.8rem 5rem 5rem;
+    padding: 1.5rem 1rem;
   }
-  .info-description {
-    font-size: 0.65rem;
-  }
-  .intermediate-image {
-    width: auto;
-    height: 230px;
-  }
-}
 
-@media (max-width: 768px) {
-  .gradient-banner {
-    min-height: 80vh;
-  }
-  .white-line {
-    flex: 1;
-  }
-  .gradient-line {
-    flex: 3;
+  .info-title {
+    font-size: 1rem;
   }
 }
 
@@ -211,8 +221,14 @@
   .white-line {
     flex: 1;
   }
+
   .gradient-line {
     flex: 4;
+  }
+
+  .square-info-container {
+    padding: 1.5rem 0.5rem;
+    gap: 1.5rem;
   }
 }
 

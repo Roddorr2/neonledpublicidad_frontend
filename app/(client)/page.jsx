@@ -34,14 +34,14 @@ const FilaProductosModificado = ({ productos }) => (
 const AboutStatic = () => (
   <section className="bg-gradient-to-r from-purple-600 via-blue-500 to-orange-300 text-white p-6 md:p-8 w-4/5 max-w-4xl mx-auto rounded-[2.5rem] shadow-xl mb-12">
     <div className="text-left">
-      <h1 className="text-4xl md:text-6xl font-bold mb-4 ml-4">NOSOTROS</h1>
-      <div className="w-96 h-1 bg-orange-400 mb-8 ml-4"></div>
+      <h1 className="text-4xl md:text-6xl font-bold mb-4 ml-4">Nosotros</h1>
+      <div className="w- full md:w-96 h-1 bg-orange-400 mb-8 ml-4"></div>
     </div>
     <div className="text-left px-4">
       <p className="text-lg md:text-xl leading-relaxed font-medium">
-        NOSOTROS SOMOS NEÓN LED PUBLICIDAD UNA EMPRESA FORMAL QUE SE
-        DEDICA A LA CREACIÓN DE ESPACIOS PERSONALIZADOS QUE TRANSFORMAN 
-        TU NEGOCIO CON ESTILO Y PERSONALIDAD
+        Nosotros somos Neón Led Publicidad, una empresa formal que se
+        dedica a la creación de espacios personalizados que transforman 
+        tu negocio con estilo y personalidad.
       </p>
     </div>
   </section>
