@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="LETRAS DE NEÓN EN TUBOS DE VIDRIO"
+        titulo={`LETRAS DE NEÓN EN\nTUBOS DE VIDRIO`}
         imagen="/productosIndividuales/banner/letras-neon2.png"
       />
       <Section2 idProducto={idProducto} />

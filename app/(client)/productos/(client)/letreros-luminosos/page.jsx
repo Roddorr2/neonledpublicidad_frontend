@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="LOS LETREROS LUMINOSOS"
+        titulo={`LETREROS\nLUMINOSOS`}
         imagen="/productosIndividuales/banner/letreros-luminosos2.png"
       />
       <Section2 idProducto={idProducto} />
