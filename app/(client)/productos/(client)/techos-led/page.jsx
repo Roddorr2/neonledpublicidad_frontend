@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="LOS TECHOS LED"
+        titulo={`TECHOS\nLED`}
         imagen="/productosIndividuales/banner/techos-led.png"
       />
       <Section2 idProducto={idProducto} />

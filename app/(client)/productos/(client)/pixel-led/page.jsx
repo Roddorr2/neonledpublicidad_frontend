@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="PIXEL LED"
+        titulo={`PIXEL\nLED`}
         imagen="/productosIndividuales/banner/pixel-led.webp"
       />
       <Section2 idProducto={idProducto} />

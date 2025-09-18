@@ -4,6 +4,13 @@ import { useState } from "react"
 import Image from "next/image"
 import Swal from "sweetalert2"
 import API_URL from "@/api/url"
+import { Inter } from 'next/font/google'
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+})
 
 const Contacto = () => {
   const [formData, setFormData] = useState({
@@ -83,10 +90,10 @@ const Contacto = () => {
   
   const SocialMediaSection = () => {
     const socialMediaLinks = [
-      { href: "https://www.facebook.com/ledneonpublicidad", src: "/contacto/Facebook.png", alt: "Facebook" },
-      { href: "https://www.tiktok.com/@neonled.publicidad", src: "/contacto/Tiktok.png", alt: "TikTok" },
-      { href: "https://www.instagram.com/neonledpublicidad.peru?igsh=a3RseGpuYXM5ZnZo", src: "/contacto/ig.png", alt: "Instagram" },
-      { href: "https://www.youtube.com/@neonledpublicidadpe", src: "/contacto/yootube.png", alt: "YouTube" }
+      { href: "https://www.facebook.com/ledneonpublicidad", src: "/contacto/Facebook.png", alt: "Enlace a Facebook" },
+      { href: "https://www.tiktok.com/@neonled.publicidad", src: "/contacto/Tiktok.png", alt: "Enlace a TikTok" },
+      { href: "https://www.instagram.com/neonledpublicidad.peru?igsh=a3RseGpuYXM5ZnZo", src: "/contacto/ig.png", alt: "Enlace a Instagram" },
+      { href: "https://www.youtube.com/@neonledpublicidadpe", src: "/contacto/yootube.png", alt: "Enlace a YouTube" }
     ]
 
     return (
@@ -125,7 +132,7 @@ const Contacto = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white font-['Anton']">
+    <div className={`min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white ${inter.className}`}>
       
       <section className="relative min-h-screen overflow-hidden">
        
@@ -170,7 +177,7 @@ const Contacto = () => {
                   <img src="/header_footer/Whatsapp.Neon.Led.Publicidad.webp" className="w-12 mx-auto mb-4 hover:scale-110 transition-transform"/>
                 </a>
                 <h3 className="text-xl font-[900] text-white">WhatsApp</h3>
-                <p className="text-gray-300 text-lg">994 078 320</p>
+                <p className="text-gray-300 text-sm">994 078 320</p>
               </div>
             </div>
 

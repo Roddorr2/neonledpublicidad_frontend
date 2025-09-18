@@ -61,8 +61,14 @@ export default {
   		},
   		fontFamily: {
   			title: [
+  				'var(--font-league-gothic)',
   				'League Gothic',
   				'ui-serif'
+  			],
+  			sans: [
+  				'var(--font-inter)',
+  				'ui-sans-serif',
+  				'system-ui'
   			]
   		},
   		borderRadius: {

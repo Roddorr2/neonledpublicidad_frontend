@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="IMPRESIÓN EN VINIL DECORATIVO"
+        titulo={`IMPRESIÓN\nEN VINILO`}
         imagen="/productosIndividuales/banner/impresion-vinilo.webp"
       />
       <Section2 idProducto={idProducto} />
