@@ -346,7 +346,7 @@ export default function Header() {
                 }}
               />
               <DropdownLink
-                text={"Impresión en viniles decorativos"}
+                text={"Impresión en vinilo"}
                 link={"/productos/impresion-vinilo"}
                 isInicio={false}
                 final={false}

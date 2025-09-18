@@ -50,7 +50,7 @@ const data = [
   },
   {
     id: 6,
-    producto: "IMPRESIÓN EN VINILES DECORATIVOS",
+    producto: "IMPRESIONES EN VINILO",
     caracteristica: "Imprimir en vinilo es una opción económica que posibilita a negocios y hogares decorar sin que esto represente un alto costo.",
     ventaja: "Gracias a la gran variedad de diseños y estilos existentes, los clientes pueden personalizar sus espacios a su gusto y con las especificaciones que lo requieran.",
     consumo_energetico: "La impresión en vinilos decorativos no consume energía eléctrica.",
@@ -160,14 +160,14 @@ export default function Datos({ idProducto }) {
             disabled={activeIndex === 0}
             className="absolute  left-2 top-1/2 -translate-y-1/2 z-10 p-2 flex justify-center text-9xl  text-[--azul_brillante] bg-transparent hover:bg-transparent disabled:opacity-50"
           >
-           <img src="/productos/vector-left.png" alt="" className='h-20' />
+           <img src="/productos/vector-left.png" alt="" className='h-15' />
           </button>
           <button
             onClick={goNext}
             disabled={activeIndex === totalCards - 1}
             className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 flex justify-center  text-9xl   text-[--azul_brillante] bg-transparent hover:bg-transparent disabled:opacity-50"
           >
-          <img src="/productos/vector-right.png" alt="" className=' h-20'/>
+          <img src="/productos/vector-right.png" alt="" className=' h-15'/>
           </button>
 
           <div 

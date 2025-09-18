@@ -4,7 +4,7 @@ const Card = ({ numero, title, descripcion }) => {
   return (
     <div
       className="bg-[--azul_oscuro] md:bg-gray-800/90 backdrop-blur-sm p-6 rounded-xl shadow-xl text-center 
-                flex flex-col content-center justify-between hover:shadow-2xl transform hover:scale-[1.02] 
+                flex flex-col justify-start hover:shadow-2xl transform hover:scale-[1.02] 
                 transition-all duration-300 max-w-xs w-44 mx-4 md:w-full flex-grow-0"
     >
       <div className="flex items-center justify-center mb-4">
@@ -13,7 +13,11 @@ const Card = ({ numero, title, descripcion }) => {
           {numero}
         </div>
       </div>
-      <h2 className="text-lg font-semibold mb-2">{title}</h2>
+
+      <div className="min-h-[56px] flex items-center justify-center mb-2">
+        <h2 className="text-lg font-semibold text-center">{title}</h2>
+      </div>
+
       <p className="text-gray-300 text-xs leading-relaxed">{descripcion}</p>
     </div>
   );
