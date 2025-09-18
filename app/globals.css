@@ -200,3 +200,13 @@
 .border-azul-cobalto {
   border-color: var(--azul_cobalto);
 }
+
+/* Personalización de bullets Swiper */
+.swiper-pagination-bullet {
+  background-color: #6b7280 !important; /* gris (tailwind gray-500) */
+  opacity: 1 !important; /* que siempre sean visibles */
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #3b82f6 !important; /* azul (tailwind blue-500) */
+}
