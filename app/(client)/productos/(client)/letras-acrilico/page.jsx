@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="LETRAS DE ACRÍLICO"
+        titulo={`LETRAS DE\nACRÍLICO`}
         imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad.webp"
         alt="Letras corporeas rojas con la marca Kawasaki acompañado por debajo con un eslogan de letras pequeñas en color blanco."
       />

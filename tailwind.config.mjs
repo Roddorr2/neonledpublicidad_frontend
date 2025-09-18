@@ -61,6 +61,7 @@ export default {
   		},
   		fontFamily: {
   			title: [
+  				'var(--font-league-gothic)',
   				'League Gothic',
   				'ui-serif'
   			],

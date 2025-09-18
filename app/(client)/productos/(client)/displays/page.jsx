@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="MONITORES DE PUBLICIDAD DIGITAL"
+        titulo={`MONITORES DE\nPUBLICIDAD DIGITAL`}
         imagen="/productosIndividuales/banner/monitores_tactiles4.jpg"
       />
       <Section2 idProducto={idProducto} />

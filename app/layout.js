@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google';
+import { League_Gothic } from 'next/font/google'; // ⭐ Agregar esta línea
 import "./globals.css";
 import { WhatsAppButton } from "./(client)/components/index";
 import "swiper/css";
@@ -11,6 +12,14 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"], 
   variable: "--font-inter", 
   display: "swap",
+});
+
+// ⭐ Agregar configuración de League Gothic
+const leagueGothic = League_Gothic({
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+  variable: "--font-league-gothic"
 });
 
 export const metadata = {
@@ -36,7 +45,7 @@ export default function RootLayout({ children }) {
         {/* End Google Tag Manager */}
       </head>
       <body
-        className={`${inter.variable} antialiased bg-[#05070D] min-h-screen m-0 p-0`}
+        className={`${inter.variable} ${leagueGothic.variable} font-sans antialiased bg-[#05070D] min-h-screen m-0 p-0`}
       >
         <noscript>
           <iframe
@@ -52,4 +61,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
- 

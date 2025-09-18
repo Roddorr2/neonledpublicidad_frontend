@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="LAS LETRAS PINTADAS EN MDF"
+        titulo={`LETRAS PINTADAS\nEN MDF`}
         imagen="/productosIndividuales/banner/letras-pintadas.webp"
       />
       <Section2 idProducto={idProducto} />
