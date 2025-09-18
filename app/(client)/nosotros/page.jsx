@@ -53,18 +53,21 @@ const Nosotros = () => {
       <SectionBackground />
 
       <section className="relative py-24 z-10">
-        <div className="w-full max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <AboutStatic />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-            {aboutCardsData.map((card, index) => (
-              <Card
-                key={index}
-                title={card.title}
-                imageSrc={card.imageSrc}
-                imageAlt={card.imageAlt}
-                description={card.description}
-              />
-            ))}
+        <div className="w-full max-w-[1500px] mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] mb-16">
+            <AboutStatic />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              {aboutCardsData.slice(0, 2).map((card, index) => (
+                <Card key={index} {...card} />
+              ))}
+            </div>
+          </div>
+          
+          <div className="flex lg:justify-start justify-center">
+            <div className="max-w-md ml-0 lg:ml-4">
+              <Card {...aboutCardsData[2]} />
+            </div>
           </div>
         </div>
       </section>

@@ -8,9 +8,9 @@ export const Card = ({ title, imageSrc, imageAlt, description }) => {
       <div className="flex justify-center">
         <img
           src={imageSrc}
-          width="80"
+          width="120"
           alt={imageAlt}
-          className="h-[80px] object-contain"
+          className="h-[120px] object-contain"
         />
       </div>
 
