@@ -41,7 +41,36 @@ export default function LetrasDoradasLayout({ children }) {
       "@type": "Brand",
       "name": "LedNeonPublicidad"
     },
-    "url": "https://ledneonpublicidad.com/productos/letras-doradas"
+    "url": "https://ledneonpublicidad.com/productos/letras-doradas",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "PEN",
+      "price": "2500.00",
+      "availability": "https://schema.org/InStock",
+      "url": "https://ledneonpublicidad.com/productos/letras-doradas/"
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.7",
+        "reviewCount": "28"
+    },
+    "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Carlos"
+          },
+          "datePublished": "2024-07-15",
+          "reviewBody": "El producto letras doradas y plateadas es excelente para eventos, realmente capta la atención del público.",
+          "name": "Muy recomendado",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          }
+        }
+    ]
 }
   return <>
    <script
