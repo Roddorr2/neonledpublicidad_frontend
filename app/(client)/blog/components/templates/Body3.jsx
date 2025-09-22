@@ -71,6 +71,16 @@ export default function Body3({ id_blog_body, fecha }) {
         fetchBlogData()
     }, [id_blog_body])
 
+    const getImageUrl = (previewImageUrl, fallback) => {
+        if (!previewImageUrl) return fallback;
+
+        if (previewImageUrl.startsWith("blob:")) {
+        return previewImageUrl; 
+        }
+
+        return `${previewImageUrl}?v=${Date.now()}`; 
+    };
+
     if (isLoading) {
         return (
             <div className="relative lg:mx-48 p-6 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.15)] animate-pulse">
@@ -174,8 +184,11 @@ export default function Body3({ id_blog_body, fecha }) {
                             <div className="absolute -inset-1 bg-gradient-to-r from-[--azul_intenso] to-[--azul_brillante] rounded-3xl blur"></div>
                             <div className="relative">
                                 <img
-                                    src={data.public_image1}
-                                    alt={data.titulo || "Imagen principal"}
+                                    // src={data.public_image1}
+                                    // alt={data.titulo || "Imagen principal"}
+                                    src={getImageUrl(data.public_image1, "/blog/blog-4.jpg")}
+                                    alt={data.alt_image1 || data.titulo}
+                                    title={data.title_image1}
                                     className="w-[22rem] h-[22rem] rounded-2xl shadow-lg object-cover relative z-10"
                                 />
                             </div>
@@ -199,15 +212,30 @@ export default function Body3({ id_blog_body, fecha }) {
                     {/* Modal component */}
                     <Modal isActive={isModalOpen} closeFunction={closeModal} imgSrc={ModalImgSrc}></Modal>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {[data.public_image2 || "/blog/blog-10.jpg", data.public_image3 || "/blog/blog-1.jpg"].map((src, index) => (
+                        {[
+                            // data.public_image2 || "/blog/blog-10.jpg", data.public_image3 || "/blog/blog-1.jpg"
+                            { 
+                                src: getImageUrl(data.public_image2, "/blog/blog-10.webp"), 
+                                alt: data.alt_image2 || data.titulo, 
+                                title: data.title_image2 || "" 
+                            },
+                            { 
+                                src: getImageUrl(data.public_image3, "/blog/blog-1.webp"), 
+                                alt: data.alt_image3 || data.titulo, 
+                                title: data.title_image3 || "" 
+                            },
+                        
+                        ].map((image, index) => (
                             <div 
                             onClick={() => openModal(src)} // Here the modal is opened, to close only click anywhere of the screen
                             key={index} 
                             className="group relative overflow-hidden rounded-xl shadow-lg">
                                 <div className="absolute inset-0 bg-gradient-to-t from-[--azul_oscuro]/80 via-[--azul_oscuro]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <img
-                                    src={src}
-                                    alt={`Imagen ${index + 1} del artículo`}
+                                    src={image.src}
+                                    // alt={`Imagen ${index + 1} del artículo`}
+                                    alt={image.alt}
+                                    title={image.title}                                 
                                     className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:cursor-pointer">
