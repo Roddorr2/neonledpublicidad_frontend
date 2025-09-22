@@ -57,6 +57,16 @@ export default function Body1({ id_blog_body, fecha }) {
         fetchBlogData()
     }, [id_blog_body])
 
+    const getImageUrl = (previewImageUrl, fallback) => {
+        if (!previewImageUrl) return fallback;
+
+        if (previewImageUrl.startsWith("blob:")) {
+        return previewImageUrl; 
+        }
+
+        return `${previewImageUrl}?v=${Date.now()}`; 
+    };
+
     if (isLoading) {
         return (
             <div className="relative lg:mx-48 p-6 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.15)] animate-pulse">
@@ -125,14 +135,17 @@ export default function Body1({ id_blog_body, fecha }) {
             <div className="relative h-[400px] overflow-hidden">
                 <div className="absolute inset-0 z-10"></div>
                 <img
-                    src={
-                        data.public_image1
-                            ? data.public_image1.startsWith("http")
-                                ? data.public_image1
-                                : `${data.public_image1}`
-                            : "/blog/blog-4.jpg"
-                    }
-                    alt={data.titulo || "Imagen principal"}
+                    // src={
+                    //     data.public_image1
+                    //         ? data.public_image1.startsWith("http")
+                    //             ? data.public_image1
+                    //             : `${data.public_image1}`
+                    //         : "/blog/blog-4.jpg"
+                    // }
+                    // alt={data.titulo || "Imagen principal"}
+                    src={getImageUrl(data.public_image1, "/blog/blog-4.webp")}
+                    alt={data.alt_image1 || data.titulo}
+                    title={data.title_image1}
                     className="absolute inset-0 w-full h-full object-cover"
                 />
             </div>
@@ -212,12 +225,28 @@ export default function Body1({ id_blog_body, fecha }) {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-3 mt-8">
-                    {[data.public_image2 || "/blog/blog-10.jpg", data.public_image3 || "/blog/blog-1.jpg"].map((src, index) => (
+                    {[
+                        // data.public_image2 || "/blog/blog-10.jpg", data.public_image3 || "/blog/blog-1.jpg"
+                        { 
+                            src: getImageUrl(data.public_image2, "/blog/blog-10.jpg"), 
+                            alt: data.alt_image2 || data.titulo, 
+                            title: data.title_image2 || "" 
+                        },
+                        { 
+                            src: getImageUrl(data.public_image3, "/blog/blog-1.jpg"), 
+                            alt: data.alt_image3 || data.titulo, 
+                            title: data.title_image3 || "" 
+                        },
+
+
+                    ].map((image, index) => (
                         <div key={index} className="group relative overflow-hidden rounded-xl shadow-xl">
                             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                             <img
-                                src={src}
-                                alt={`Imagen ${index + 1} del artículo`}
+                                src={image.src}
+                                // alt={`Imagen ${index + 1} del artículo`}
+                                alt={image.alt}
+                                title={image.title}
                                 className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                             />
                             <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
