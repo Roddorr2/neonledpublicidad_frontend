@@ -121,8 +121,10 @@ const Blogs = () => {
 
         <div className="relative flex-1 min-h-[200px] md:min-h-[320px]">
           <img
-            src={dato.public_image}
-            alt={dato.titulo}
+             src={`${dato.public_image}?v=${Date.now()}`} 
+            // alt={dato.titulo}
+            alt={dato.blog.head.alt || dato.titulo}
+            title={dato.blog.head.title || dato.titulo}
             className="w-full h-full object-cover"
           />
         </div>
