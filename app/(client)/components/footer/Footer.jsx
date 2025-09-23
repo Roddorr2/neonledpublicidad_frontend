@@ -66,6 +66,7 @@ export default function Footer() {
                 src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
                 alt="Ilustración de un libro de reclamaciones abierto con páginas blancas"
                 title="Libro de reclamaciones Perú"
+                loading= "lazy"
               />
             </div>
           </Link>

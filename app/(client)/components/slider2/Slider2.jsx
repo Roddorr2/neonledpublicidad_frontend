@@ -53,6 +53,7 @@ const Slider2 = ({ slides }) => {
               alt={slide.altText}
               title={slide.title}
               className="object-contain w-full h-full mx-auto"
+              loading="lazy"
             />
           </div>
         ))}
