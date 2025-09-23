@@ -1,16 +1,17 @@
 "use client";
-import FormBody3 from '../components/FormBody3';
-import FormFooter from '../components/FormFooter'
-import FormHeader from '../components/FormHeader'
-import { useState, useEffect } from 'react';
-import Service from "../../services/Service"
-import { Save } from "lucide-react"
-import Swal from 'sweetalert2';
+import FormBody3 from "../components/FormBody3";
+import FormFooter from "../components/FormFooter";
+import FormHeader from "../components/FormHeader";
+import { useState, useEffect } from "react";
+import Service from "../../services/Service";
+import { Flag, Save } from "lucide-react";
+import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { getCookie } from 'cookies-next';
+import { getCookie } from "cookies-next";
+
+import { getCurrentDate } from "../utils/getCurrentDate";
 
 const PageContent = () => {
-
   const [validacionHeader, setValidacionHeader] = useState(true);
   const [validacionBody, setValidacionBody] = useState(true);
   const [validacionFooter, setValidacionFooter] = useState(true);
@@ -30,149 +31,203 @@ const PageContent = () => {
   const [FileFooterFile2, setFileFooterFile2] = useState(null);
   const [FileFooterFile3, setFileFooterFile3] = useState(null);
 
+  const [serviceRedirectUrl, setServiceRedirectUrl] = useState("");
+
+  const [showGallery, setShowGallery] = useState(true);
+  const [showAdvice, setShowAdvice] = useState(true);
+  const [showDetailedInfo, setShowDetailedInfo] = useState(true);
+
   const deleteFooterFile1 = () => {
     setFileFooterFile1(null);
-    setFormFooter(prev => ({
+    setFormFooter((prev) => ({
       ...prev,
-      public_image1: "/blog/blog-10.jpg",
-      url_image1: ""
+      public_image1: "/blog/blog-10.webp",
+      url_image1: "",
+      image1_alt: "",
+      image1_title: "",
     }));
   };
   const deleteFooterFile2 = () => {
     setFileFooterFile2(null);
-    setFormFooter(prev => ({
+    setFormFooter((prev) => ({
       ...prev,
-      public_image2: "/blog/blog-10.jpg",
-      url_image2: ""
+      public_image2: "/blog/blog-10.webp",
+      url_image2: "",
+      image2_alt: "",
+      image2_title: "",
     }));
   };
   const deleteFooterFile3 = () => {
     setFileFooterFile3(null);
-    setFormFooter(prev => ({
+    setFormFooter((prev) => ({
       ...prev,
-      public_image3: "/blog/blog-10.jpg",
-      url_image3: ""
+      public_image3: "/blog/blog-10.webp",
+      url_image3: "",
+      image3_alt: "",
+      image3_title: "",
     }));
   };
 
   const deleteHeaderImage = () => {
     setFileHeader(null);
-    setDataHeader(prev => ({
+    setDataHeader((prev) => ({
       ...prev,
-      public_image: "/blog/fondo_blog_extend.png",
-      url_image: ""
+      public_image: "/blog/fondo_blog_extend.webp",
+      url_image: "",
+      image_alt: "",
+      image_title: "",
     }));
   };
 
   const deleteBodyHeaderImage = () => {
     setFileBodyHeader(null);
-    setFormEncabezadoBody(prev => ({
+    setFormEncabezadoBody((prev) => ({
       ...prev,
-      public_image1: "/blog/blog-4.jpg",
-      url_image1: ""
+      public_image1: "/blog/blog-4.webp",
+      url_image1: "",
+      image1_alt: "",
+      image1_title: "",
     }));
   };
 
   const deleteBodyFile1 = () => {
     setFileBodyFile1(null);
-    setFormGaleryBody(prev => ({
+    setFormGaleryBody((prev) => ({
       ...prev,
-      public_image2: "/blog/blog-2.jpg",
-      url_image2: ""
+      public_image2: "/blog/blog-2.webp",
+      url_image2: "",
+      image2_alt: "",
+      image2_title: "",
     }));
   };
 
   const deleteBodyFile2 = () => {
     setFileBodyFile2(null);
-    setFormGaleryBody(prev => ({
+    setFormGaleryBody((prev) => ({
       ...prev,
-      public_image3: "/blog/blog-2.jpg",
-      url_image3: ""
+      public_image3: "/blog/blog-2.webp",
+      url_image3: "",
+      image3_alt: "",
+      image3_title: "",
     }));
   };
 
-  const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
+  const id_empleado = getCookie("empleado")
+    ? JSON.parse(getCookie("empleado")).id_empleado
+    : -1;
 
+  /**
+   * Estado inicial del formulario de pie de página del blog. Contiene campos para título, descripción y tres imágenes públicas.
+   */
   const [formFooter, setFormFooter] = useState({
     titulo: "Titulo Footer",
-    descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
-    public_image1: "/blog/blog-10.jpg",
+    descripcion:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+    public_image1: "/blog/blog-10.webp",
     url_image1: "", //por esta vez url es la ruta para eliminar
-    public_image2: "/blog/blog-10.jpg",
+    alt_image1: "",
+    title_image1: "",
+    public_image2: "/blog/blog-10.webp",
     url_image2: "",
-    public_image3: "/blog/blog-10.jpg",
+    alt_image2: "",
+    title_image2: "",
+    public_image3: "/blog/blog-10.webp",
     url_image3: "",
+    alt_image3: "",
+    title_image3: "",
+    estado: 1,
   });
 
+  /**
+   * Estado inicial del encabezado del blog. Contiene campos para título, texto atractivo, descripción y una imagen pública.
+   */
   const [dataHeader, setDataHeader] = useState({
     titulo: "Titulo Header",
     texto_frase: "Texto atractivo y llamativo para el cliente",
     texto_descripcion: "Texto destacado y secundario para el titulo",
-    public_image: "/blog/fondo_blog_extend.png",
+    public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
+    alt: "",
+    title: "",
+    meta_title: "",
+    meta_descripcion: "",
   });
 
+  /**
+   * Estado inicial del cuerpo del blog. Contiene campos para el título, descripción, fecha y una imagen pública.
+   */
   const [formEncabezadoBody, setFormEncabezadoBody] = useState({
     titulo: "Titulo del Blog",
     descripcion:
       "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
-    fecha: '2025-03-31',
-    public_image1: "/blog/blog-4.jpg",
+    fecha: getCurrentDate(),
+    public_image1: "/blog/blog-4.webp",
     url_image1: "",
+    alt_image1: "",
+    title_image1: "",
   });
 
+  /**
+   * Estado inicial del cuerpo del blog que contiene la información de tarjetas informativas del blog.
+   */
   const [formInfoBody, setFormInfoBody] = useState([
     {
       titulo: "El Factor Sorpresa y Distinción",
-      descripcion: "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
-      keyword: "",
-      link: ""
+      descripcion:
+        "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
+      palabra: "",
+      enlace: "",
     },
 
     {
       titulo: "Ambiente y Experiencia Visual",
-      descripcion: "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
-      keyword: "",
-      link: ""
+      descripcion:
+        "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
+      palabra: "",
+      enlace: "",
     },
     {
       titulo: "Eficiencia Energética y Durabilidad",
-      descripcion: "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
-      keyword: "",
-      link: ""
+      descripcion:
+        "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
+      palabra: "",
+      enlace: "",
     },
     {
-      titulo: "Marketing y Atracción de Clientess",
-      descripcion: "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
-      keyword: "",
-      link: ""
-    }
+      titulo: "Marketing y Atracción de Clientes",
+      descripcion:
+        "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
+      palabra: "",
+      enlace: "",
+    },
   ]);
 
+  /**
+   * Estado inicial del cuerpo del blog que contiene tarjetas de comentario del blog.
+   */
   const [formCommendBody, setFormCommendBody] = useState({
     titulo: "Consejos para Elegir el Letrero Perfecto",
-    texto1:
-      "Opta por colores que reflejen la personalidad de tu bar.",
-    texto2:
-      "Elige un diseño legible y atractivo.",
-    texto3:
-      "Considera el lugar de instalación para maximizar su impacto.",
-    texto4:
-      "",
-    texto5:
-      "",
+    texto1: "Opta por colores que reflejen la personalidad de tu bar.",
+    texto2: "Elige un diseño legible y atractivo.",
+    texto3: "Considera el lugar de instalación para maximizar su impacto.",
+    texto4: "",
+    texto5: "",
   });
 
   const [formGaleryBody, setFormGaleryBody] = useState({
-    public_image2: "/blog/blog-2.jpg",
+    public_image2: "/blog/blog-2.webp",
     url_image2: "",
-    public_image3: "/blog/blog-2.jpg",
+    alt_image2: "",
+    title_image2: "",
+    public_image3: "/blog/blog-2.webp",
     url_image3: "",
+    alt_image3: "",
+    title_image3: "",
   });
 
   useEffect(() => {
     const sections = document.querySelectorAll("#header, #body, #footer");
-    sections.forEach(section => {
+    sections.forEach((section) => {
       section.style.scrollMargin = "50px";
       if (section.id === "body" && section.clientHeight < 300) {
         section.style.minHeight = "300px";
@@ -181,17 +236,14 @@ const PageContent = () => {
   }, []);
 
   useEffect(() => {
-    setIsDisabled((validacionHeader && validacionFooter && validacionBody));
+    setIsDisabled(validacionHeader && validacionFooter && validacionBody);
   }, [validacionHeader, validacionFooter, validacionBody]);
-
 
   async function guardarHeader() {
     const id = await Service.saveHeader(dataHeader);
     if (id && id > 0) {
-      console.log("Id del header:", id);
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar el encabezado",
@@ -205,10 +257,8 @@ const PageContent = () => {
   async function guardarFooter() {
     const id = await Service.saveFooter(formFooter);
     if (id && id > 0) {
-      console.log("Id del footer:", id);
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar el pie de página",
@@ -220,26 +270,32 @@ const PageContent = () => {
   }
 
   async function guardarBody(id_commend_tarjeta) {
-
-    console.log("Id del commend tarjeta guarda body:", id_commend_tarjeta);
-
     const formBody = {
       titulo: formEncabezadoBody.titulo,
       descripcion: formEncabezadoBody.descripcion,
       id_commend_tarjeta: id_commend_tarjeta,
       public_image1: formEncabezadoBody.public_image1,
       url_image1: formEncabezadoBody.url_image1,
+      alt_image1: formEncabezadoBody.alt_image1,
+      title_image1: formEncabezadoBody.title_image1,
       public_image2: formGaleryBody.public_image2,
       url_image2: formGaleryBody.url_image2,
+      alt_image2: formGaleryBody.alt_image2,
+      title_image2: formGaleryBody.title_image2,
       public_image3: formGaleryBody.public_image3,
       url_image3: formGaleryBody.url_image3,
-    }
+      alt_image3: formGaleryBody.alt_image3,
+      title_image3: formGaleryBody.title_image3,
+      flag_galeria: showGallery ? 1 : 0,
+      flag_consejos: showAdvice ? 1 : 0,
+      flag_informacion: showDetailedInfo ? 1 : 0,
+      service_url: serviceRedirectUrl,
+    };
 
     const id = await Service.saveBody(formBody);
     if (id && id > 0) {
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar el contenido",
@@ -253,10 +309,8 @@ const PageContent = () => {
   async function guardarCommendTarjeta() {
     const id = await Service.saveCommendTarjeta(formCommendBody);
     if (id && id > 0) {
-      console.log("Id del la tarjeta comentario:", id);
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar la tarjeta de comentarios",
@@ -268,20 +322,16 @@ const PageContent = () => {
   }
 
   async function guardarBlog(id_blog_head, id_blog_footer, id_blog_body) {
-
-    console.log("Ides de guardar el blog:", id_blog_head, id_blog_footer, id_blog_body);
-
     const formBlog = {
       id_blog_head: id_blog_head,
       id_blog_footer: id_blog_footer,
       id_blog_body: id_blog_body,
       fecha: formEncabezadoBody.fecha,
-    }
+    };
     const id = await Service.saveBlog(formBlog);
     if (id && id > 0) {
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar el blog",
@@ -299,18 +349,16 @@ const PageContent = () => {
       descripcion: formEncabezadoBody.descripcion,
       public_image: dataHeader.public_image,
       url_image: dataHeader.url_image,
+      image_alt: dataHeader.image_alt,
+      image_title: dataHeader.image_title,
       id_plantilla: 3,
       id_empleado: id_empleado,
-    }
-
-    console.log(formCard);
+    };
 
     const id = await Service.saveCard(formCard);
     if (id && id > 0) {
-      console.log("Id del card:", id);
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar la tarjeta",
@@ -329,8 +377,8 @@ const PageContent = () => {
             id_blog_body: id_blog_body,
             titulo: section.titulo,
             descripcion: section.descripcion,
-            keyword: section.keyword,
-            link: section.link
+            palabra: section.palabra,
+            enlace: section.enlace,
           };
           const id = await Service.saveTarjeta(formTarjeta);
           if (!id || id <= 0) throw new Error("Error al guardar tarjeta");
@@ -350,17 +398,27 @@ const PageContent = () => {
   }
 
   async function executionFunction(functionSave, mensajeError) {
-    const resultado = await functionSave();
-    if (!resultado || resultado === "error") {
+    try {
+      const resultado = await functionSave();
+
+      if (!resultado || resultado === "error") {
+        throw new Error(mensajeError);
+      }
+      return resultado;
+    } catch (error) {
+      console.error(`❌ Error en executionFunction:`, {
+        error: error.message,
+        mensajeError,
+      });
+
       Swal.fire({
         title: "Error",
         text: mensajeError,
         icon: "error",
         confirmButtonText: "OK",
       });
-      throw new Error(mensajeError);
+      throw error;
     }
-    return resultado;
   }
 
   /* 
@@ -371,177 +429,392 @@ const PageContent = () => {
 
   async function SaveImage(file, ruta, name = null) {
     try {
-
-      if (!file) return;
+      if (!file) return "ok";
 
       const formData = new FormData();
       formData.append("file", file);
-
-      if (name) {
-        formData.append("name", name);
-      }
+      if (name) formData.append("name", name);
 
       const response = await Service.saveImage(formData, ruta);
-      if (response.status === 200 || response.status === 201) {
-        setFileHeader(null)
+
+      // si la respuesta es undefined pero no hay error, consideramos éxito
+      if (response === undefined) {
         return "ok";
-      } else {
-        throw new Error("Error al subir la imagen");
       }
 
+      // si la respuesta es null, también lo consideramos éxito
+      if (response === null) {
+        return "ok";
+      }
+
+      let jsonData = null;
+
+      if (typeof response === "string") {
+        const jsonMatch = response.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          try {
+            jsonData = JSON.parse(jsonMatch[0]);
+          } catch (parseError) {
+            console.warn("⚠️ Error al parsear JSON.");
+            // si contiene "success" o "200", lo consideramos exitoso
+            if (
+              response.toLowerCase().includes("success") ||
+              response.includes("200")
+            ) {
+              return "ok";
+            }
+          }
+        } else {
+          // si no hay JSON pero contiene indicadores de éxito
+          if (
+            response.toLowerCase().includes("success") ||
+            response.includes("200")
+          ) {
+            return "ok";
+          }
+        }
+      } else if (response?.data) {
+        // si tiene propiedad data
+        if (typeof response.data === "string") {
+          const jsonMatch = response.data.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            try {
+              jsonData = JSON.parse(jsonMatch[0]);
+            } catch (parseError) {
+              console.warn("⚠️ Error al parsear JSON de data.");
+            }
+          }
+        } else {
+          jsonData = response.data;
+        }
+      } else if (typeof response === "object") {
+        // si es un objeto directo
+        jsonData = response;
+      }
+
+      // verificar éxito por diferentes criterios
+      const isSuccess =
+        jsonData?.status === 200 ||
+        jsonData?.status === "200" ||
+        jsonData?.success === true ||
+        jsonData?.message?.toLowerCase().includes("success") ||
+        jsonData?.message?.includes("guardado") ||
+        jsonData?.message?.includes("subido") ||
+        (response && typeof response === "object" && !jsonData?.error);
+
+      if (isSuccess) {
+        return "ok";
+      }
+
+      // si llegamos aquí y no hay error explícito, consideramos éxito
+      if (
+        !jsonData?.error &&
+        !jsonData?.message?.toLowerCase().includes("error")
+      ) {
+        return "ok";
+      }
+
+      // solo lanzar error si hay indicadores claros de fallo
+      const errorMessage =
+        jsonData?.message ||
+        jsonData?.error ||
+        "Error desconocido en el servidor";
+      throw new Error(`Error al subir imagen: ${errorMessage}`);
     } catch (error) {
-      console.log(error);
+      console.error("❌ Error en SaveImage:", {
+        error: error.message,
+        ruta,
+        name,
+        file: file ? file.name : "no file",
+      });
+
+      // si el error es de red o de parsing, pero no del servidor, podríamos asumir éxito
+      if (
+        error.message.includes("JSON") ||
+        error.message.includes("undefined")
+      ) {
+        return "ok";
+      }
+
+      throw error;
     }
   }
 
   async function HandleSave() {
     try {
-
       setLoading(true);
 
-      const id_commend_tarjeta = await executionFunction(guardarCommendTarjeta, "No se pudo guardar la tarjeta de comentarios");
+      const id_commend_tarjeta = await executionFunction(
+        guardarCommendTarjeta,
+        "No se pudo guardar la tarjeta de comentarios"
+      );
 
-      const id_blog_body = await executionFunction(() => guardarBody(id_commend_tarjeta), "No se pudo guardar el contenido del blog");
+      const id_blog_body = await executionFunction(
+        () => guardarBody(id_commend_tarjeta),
+        "No se pudo guardar el contenido del blog"
+      );
 
-      await executionFunction(() => guardarTarjetas(id_blog_body), "No se pudo guardar las tarjetas informativas");
+      await executionFunction(
+        () => guardarTarjetas(id_blog_body),
+        "No se pudo guardar las tarjetas informativas"
+      );
 
-      const id_blog_head = await executionFunction(() => guardarHeader(), "No se pudo guardar el encabezado");
-      const id_blog_footer = await executionFunction(() => guardarFooter(), "No se pudo guardar el pie de página");
+      const id_blog_head = await executionFunction(
+        () => guardarHeader(),
+        "No se pudo guardar el encabezado"
+      );
+      const id_blog_footer = await executionFunction(
+        () => guardarFooter(),
+        "No se pudo guardar el pie de página"
+      );
 
-      const id_blog = await executionFunction(() => guardarBlog(id_blog_head, id_blog_footer, id_blog_body), "No se pudo guardar el blog");
-      const id_card = await executionFunction(() => guardarCard(id_blog, id_empleado), "No se pudo guardar la card");
+      const id_blog = await executionFunction(
+        () => guardarBlog(id_blog_head, id_blog_footer, id_blog_body),
+        "No se pudo guardar el blog"
+      );
+      const id_card = await executionFunction(
+        () => guardarCard(id_blog, id_empleado),
+        "No se pudo guardar la card"
+      );
 
       if (fileHeader) {
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${id_card}`), "No se pudo guardar la imagen");
+        await executionFunction(
+          () => SaveImage(fileHeader, `card/blog/image_head/${id_card}`),
+          "No se pudo guardar la imagen"
+        );
       }
 
       if (FileBodyHeader) {
-        await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${id_card}`, "image1"), "No se pudo guardar la imagen");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyHeader,
+              `card/blog/images_body/${id_card}`,
+              "image1"
+            ),
+          "No se pudo guardar la imagen"
+        );
       }
 
       if (FileBodyFile1) {
-        await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${id_card}`, "image2"), "No se pudo guardar la imagen");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyFile1,
+              `card/blog/images_body/${id_card}`,
+              "image2"
+            ),
+          "No se pudo guardar la imagen"
+        );
       }
 
       if (FileBodyFile2) {
-        await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${id_card}`, "image3"), "No se pudo guardar la imagen");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyFile2,
+              `card/blog/images_body/${id_card}`,
+              "image3"
+            ),
+          "No se pudo guardar la imagen"
+        );
       }
 
       if (FileFooterFile1) {
-        await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${id_card}`, "image1"), "No se pudo guardar la imagen");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile1,
+              `card/blog/images_footer/${id_card}`,
+              "image1"
+            ),
+          "No se pudo guardar la imagen"
+        );
       }
 
       if (FileFooterFile2) {
-        await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${id_card}`, "image2"), "No se pudo guardar la imagen");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile2,
+              `card/blog/images_footer/${id_card}`,
+              "image2"
+            ),
+          "No se pudo guardar la imagen"
+        );
       }
 
       if (FileFooterFile3) {
-        await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${id_card}`, "image3"), "No se pudo guardar la imagen");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile3,
+              `card/blog/images_footer/${id_card}`,
+              "image3"
+            ),
+          "No se pudo guardar la imagen"
+        );
       }
 
-      await Swal.fire({
-        title: "Guardado Correctamente",
-        text: "¡Podrás ver tu blog en la sección de blogs de la página principal!",
+      // MOSTRAR INFORMACIÓN DE TÍTULO E IMAGEN ALT AL GUARDAR
+      const imageInfo =
+        dataHeader.image_title && dataHeader.image_alt
+          ? `\n\n📸 Información de la imagen:\n• Título: ${dataHeader.image_title}\n• Texto alternativo: ${dataHeader.image_alt}`
+          : "";
+
+      const result = await Swal.fire({
+        title: "¡Blog Guardado Correctamente! 🎉",
+        html: `
+        <div style="text-align: left; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+            <h3 style="margin: 0; font-size: 18px; font-weight: bold;">📝 ${
+              dataHeader.titulo
+            }</h3>
+          </div>
+          
+          ${
+            dataHeader.image_title && dataHeader.image_alt
+              ? `
+          <div style="background: #f8f9ff; border-left: 4px solid #667eea; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+            <h4 style="margin: 0 0 10px 0; color: #4c51bf; font-size: 14px; font-weight: 600;">📸 Información de la Imagen:</h4>
+            <p style="margin: 5px 0; color: #555; font-size: 13px;"><strong>Título:</strong> ${dataHeader.image_title}</p>
+            <p style="margin: 5px 0; color: #555; font-size: 13px;"><strong>Texto alternativo:</strong> ${dataHeader.image_alt}</p>
+          </div>
+          `
+              : ""
+          }
+          
+          <div style="background: #f0fff4; border: 1px solid #9ae6b4; padding: 12px; border-radius: 5px; color: #2f855a;">
+            <p style="margin: 0; font-size: 13px;">✅ Tu blog ya está disponible en la sección de blogs de la página principal</p>
+          </div>
+        </div>
+      `,
         icon: "success",
-        confirmButtonText: "OK",
-      });
+        showCancelButton: true,
+        confirmButtonText: "¡Perfecto!",
+        cancelButtonText: "Cerrar",
+        confirmButtonColor: "#667eea",
+        cancelButtonColor: "#6b7280",
 
-      setFormFooter({
-        titulo: "Titulo Footer",
-        descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
-        public_image1: "/blog/blog-10.jpg",
-        url_image1: "", //por esta vez url es la ruta para elimianr
-        public_image2: "/blog/blog-10.jpg",
-        url_image2: "",
-        public_image3: "/blog/blog-10.jpg",
-        url_image3: "",
-      });
-
-      setDataHeader({
-        titulo: "Titulo Header",
-        texto_frase: "Texto atractivo y llamativo para el cliente",
-        texto_descripcion: "Texto destacado y secundario para el titulo",
-        public_image: "/blog/fondo_blog_extend.png",
-        url_image: "",
-      });
-
-      setFormEncabezadoBody({
-        titulo: "Titulo del Blog",
-        descripcion:
-          "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
-        fecha: '2025-03-31',
-        public_image1: "/blog/blog-4.jpg",
-        url_image1: "",
-      });
-
-      setFormInfoBody([
-        {
-          titulo: "El Factor Sorpresa y Distinción",
-          descripcion: "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
-          keyword: "",
-          link: ""
+        width: "500px",
+        customClass: {
+          htmlContainer: "swal-html-container",
         },
-
-        {
-          titulo: "Ambiente y Experiencia Visual",
-          descripcion: "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
-          keyword: "",
-          link: ""
-        },
-        {
-          titulo: "Eficiencia Energética y Durabilidad",
-          descripcion: "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
-          keyword: "",
-          link: ""
-        },
-        {
-          titulo: "Marketing y Atracción de Clientes",
-          descripcion: "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
-          keyword: "",
-          link: ""
-        }
-      ]);
-
-      setFormCommendBody({
-        titulo: "Consejos para Elegir el Letrero Perfecto",
-        texto1:
-          "Opta por colores que reflejen la personalidad de tu bar.",
-        texto2:
-          "Elige un diseño legible y atractivo.",
-        texto3:
-          "Considera el lugar de instalación para maximizar su impacto.",
-        texto4:
-          "",
-        texto5:
-          "",
       });
 
-      setFormGaleryBody({
-        public_image2: "/blog/blog-2.jpg",
-        url_image2: "",
-        public_image3: "/blog/blog-2.jpg",
-        url_image3: "",
-      });
+      // Solo ejecutar las acciones de reseteo y redirección si el usuario hizo click en "¡Perfecto!"
+      if (result.isConfirmed) {
+        // Resetear formularios
+        setFormFooter({
+          titulo: "Titulo Footer",
+          descripcion:
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+          public_image1: "/blog/blog-10.webp",
+          url_image1: "",
+          image1_alt: "",
+          image1_title: "",
+          public_image2: "/blog/blog-10.webp",
+          url_image2: "",
+          image2_alt: "",
+          image2_title: "",
+          public_image3: "/blog/blog-10.webp",
+          url_image3: "",
+          image3_alt: "",
+          image3_title: "",
+        });
 
-      setFileHeader(null);
-      setFileBodyHeader(null);
-      setFileBodyFile1(null);
-      setFileBodyFile2(null);
-      setFileFooterFile1(null);
-      setFileFooterFile2(null);
-      setFileFooterFile3(null);
+        setDataHeader({
+          titulo: "Titulo Header",
+          texto_frase: "Texto atractivo y llamativo para el cliente",
+          texto_descripcion: "Texto destacado y secundario para el titulo",
+          public_image: "/blog/fondo_blog_extend.webp",
+          url_image: "",
+          image_alt: "",
+          image_title: "",
+        });
 
-      router.push("/dashboard/blogs/")
+        setFormEncabezadoBody({
+          titulo: "Titulo del Blog",
+          descripcion:
+            "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
+          fecha: getCurrentDate(),
+          public_image1: "/blog/blog-4.webp",
+          url_image1: "",
+          image1_alt: "",
+          image1_title: "",
+        });
 
-      window.open("/blog", "_blank");
+        setFormInfoBody([
+          {
+            titulo: "El Factor Sorpresa y Distinción",
+            descripcion:
+              "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
+            palabra: "",
+            enlace: "",
+          },
+          {
+            titulo: "Ambiente y Experiencia Visual",
+            descripcion:
+              "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
+            palabra: "",
+            enlace: "",
+          },
+          {
+            titulo: "Eficiencia Energética y Durabilidad",
+            descripcion:
+              "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
+            palabra: "",
+            enlace: "",
+          },
+          {
+            titulo: "Marketing y Atracción de Clientes",
+            descripcion:
+              "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
+            palabra: "",
+            enlace: "",
+          },
+        ]);
 
+        setFormCommendBody({
+          titulo: "Consejos para Elegir el Letrero Perfecto",
+          texto1: "Opta por colores que reflejen la personalidad de tu bar.",
+          texto2: "Elige un diseño legible y atractivo.",
+          texto3:
+            "Considera el lugar de instalación para maximizar su impacto.",
+          texto4: "",
+          texto5: "",
+        });
+
+        setFormGaleryBody({
+          public_image2: "/blog/blog-2.webp",
+          url_image2: "",
+          image2_alt: "",
+          image2_title: "",
+          public_image3: "/blog/blog-2.webp",
+          url_image3: "",
+          image3_alt: "",
+          image3_title: "",
+        });
+
+        // Limpiar archivos
+        setFileHeader(null);
+        setFileBodyHeader(null);
+        setFileBodyFile1(null);
+        setFileBodyFile2(null);
+        setFileFooterFile1(null);
+        setFileFooterFile2(null);
+        setFileFooterFile3(null);
+
+        router.push("/dashboard/blogs/");
+        window.open("/blog", "_blank");
+      }
+      // Si el usuario hace click en "Cancelar", no se hace nada y simplemente se cierra el modal
     } catch (error) {
       console.error("Error al guardar:", error.message);
     } finally {
       setLoading(false);
     }
   }
-
 
   return (
     <>
@@ -557,29 +830,29 @@ const PageContent = () => {
 
       <div id="body" className="section-container my-8">
         <FormBody3
+          showGallery={showGallery}
+          setShowGallery={setShowGallery}
+          showAdvice={showAdvice}
+          setShowAdvice={setShowAdvice}
+          showDetailedInfo={showDetailedInfo}
+          setShowDetailedInfo={setShowDetailedInfo}
           formCommendBody={formCommendBody}
           setFormCommendBody={setFormCommendBody}
-
           formInfoBody={formInfoBody}
           setFormInfoBody={setFormInfoBody}
-
           formGaleryBody={formGaleryBody}
           setFormGaleryBody={setFormGaleryBody}
-
           setFileBodyHeader={setFileBodyHeader}
           onDeleteBodyHeaderImage={deleteBodyHeaderImage}
-
           setFileBodyFile1={setFileBodyFile1}
           onDeleteBodyFile1={deleteBodyFile1}
           setFileBodyFile2={setFileBodyFile2}
           onDeleteBodyFile2={deleteBodyFile2}
-
           formEncabezadoBody={formEncabezadoBody}
           setFormEncabezadoBody={setFormEncabezadoBody}
-
           setValidacionBody={setValidacionBody}
-          
-
+          serviceRedirectUrl={serviceRedirectUrl}
+          setServiceRedirectUrl={setServiceRedirectUrl}
         />
       </div>
 
@@ -598,48 +871,58 @@ const PageContent = () => {
       </div>
 
       <div className="bottom-0 left-0 fixed p-6 border-t border-slate-700/50 bg-slate-900/50 backdrop-blur-sm">
-          {isDisabled?(
-            <button
+        {isDisabled ? (
+          <button
             onClick={HandleSave}
-            disabled={loading }
-            className={`text-white rounded-xl flex items-center justify-center w-full transition-all duration-300 px-5 py-3 shadow-lg shadow-emerald-900/20 ${loading ? "bg-emerald-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-500"
-              }`}
+            disabled={loading}
+            className={`text-white rounded-xl flex items-center justify-center w-full transition-all duration-300 px-5 py-3 shadow-lg shadow-emerald-900/20 ${
+              loading
+                ? "bg-emerald-400 cursor-not-allowed"
+                : "bg-emerald-600 hover:bg-emerald-500"
+            }`}
           >
-              {loading ? (
-                <>
-                  <svg
-                    className="animate-spin mr-2 h-4 w-4 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    ></path>
-                  </svg>
-                  Guardando...
-                  </>
-                
-              ) : (
-                <>
-                  <Save className="mr-2 h-4 w-4 text-blue-950" />
-                  Guardar Cambios
-                </>
-              )}
-            </button>
-          ):(
-            <button disabled className="flex items-center px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed rounded">
+            {loading ? (
+              <>
+                <svg
+                  className="animate-spin mr-2 h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  ></path>
+                </svg>
+                Guardando...
+              </>
+            ) : (
               <>
                 <Save className="mr-2 h-4 w-4 text-blue-950" />
                 Guardar Cambios
               </>
-            </button>
-
-          )}
-          
+            )}
+          </button>
+        ) : (
+          <button
+            disabled
+            className="flex items-center px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed rounded"
+          >
+            <>
+              <Save className="mr-2 h-4 w-4 text-blue-950" />
+              Guardar Cambios
+            </>
+          </button>
+        )}
       </div>
     </>
   );

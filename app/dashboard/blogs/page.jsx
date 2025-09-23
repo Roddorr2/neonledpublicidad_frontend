@@ -57,6 +57,7 @@ export default function Page() {
 
         if (!searchQuery.trim()) {
             setFilteredBlogs(sourceData)
+            setCurrentPage(1)
             return
         }
 
@@ -74,12 +75,12 @@ export default function Page() {
     }
 
     const totalPages = useMemo(() => {
-        return Math.ceil(filteredBlogs.length / blogsPerPage)
+        return Math.max(1, Math.ceil(filteredBlogs.length / blogsPerPage))
     }, [filteredBlogs])
 
     const handleFilterChange = (filter) => {
         setActiveFilter(filter)
-        setCurrentPage(1) 
+        setCurrentPage(1)
     }
 
     const handleSearch = (e) => {
@@ -111,6 +112,7 @@ export default function Page() {
                 setAllBlogs(responseTodos.data)
                 setMyBlogs(responseMe.data)
                 setFilteredBlogs(activeFilter === "all" ? responseTodos.data : responseMe.data)
+                setCurrentPage(1)
             } else {
                 showError("Ocurrió un error al cargar los blogs.")
             }
@@ -196,8 +198,72 @@ export default function Page() {
         </div>
     )
 
+    // Componente para la vista de tarjetas (móvil)
+    const BlogCard = ({ blog }) => (
+        <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
+            <div className="flex items-start justify-between">
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded">
+                            ID: {blog.id_card}
+                        </span>
+                    </div>
+                    <h3 className="font-medium text-slate-900 mb-1 line-clamp-2">{blog.titulo}</h3>
+                    <p className="text-sm text-slate-600 line-clamp-2 mb-2">{blog.descripcion}</p>
+                </div>
+                <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 ml-3 flex-shrink-0">
+                    <img
+                        src={blog.public_image || "/placeholder.svg"}
+                        alt={blog.titulo}
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+            </div>
+            
+            <div className="pt-2 border-t border-slate-100">
+                <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm text-slate-600">
+                        <span className="font-medium">Autor:</span> {blog.empleado?.nombre || "Desconocido"}
+                    </span>
+                </div>
+                
+                <div className="flex gap-2">
+                    <Link
+                        href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100 transition-colors text-sm"
+                        title="Ver blog"
+                    >
+                        <Eye className="w-4 h-4" />
+                        Ver
+                    </Link>
+                    <Link
+                        href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors text-sm"
+                        title="Editar blog"
+                    >
+                        <Pencil className="w-4 h-4" />
+                        Editar
+                    </Link>
+                    {auth_service.hasRole("administrador") && (
+                        <button
+                            onClick={() => confirmDelete(blog.id_blog)}
+                            className="flex items-center justify-center p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
+                            title="Eliminar blog"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </button>
+                    )}
+                </div>
+            </div>
+        </div>
+    )
+
+
     return (
-        <main className="p-6 flex flex-col w-full min-h-screen bg-slate-50">
+        <main className="p-4 sm:p-6 flex flex-col w-full min-h-screen bg-slate-50 overflow-y-auto overflow-x-hidden">
+
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
                 <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <div>
@@ -214,7 +280,7 @@ export default function Page() {
                                 onChange={handleSearch}
                                 className="w-full sm:w-64 pl-10 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                             />
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                            <Search className="absolute left-3 top-1/3 -translate-y-1/2 w-4 h-4 text-slate-400" />
                             {searchQuery && (
                                 <button
                                     onClick={clearSearch}
@@ -225,7 +291,8 @@ export default function Page() {
                             )}
                         </div>
 
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-wrap sm:justify-end">
+
                             <button
                                 onClick={() => handleFilterChange("all")}
                                 className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "all"
@@ -294,27 +361,28 @@ export default function Page() {
                 </div>
             ) : (
                 <>
-                    <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+                    <div className="bg-white rounded-xl shadow-sm overflow-y-auto mb-6">
                         <div className="overflow-x-auto">
-                            <table className="w-full border border-blue-600">
+
+                            <table className="w-full">
                                 <thead>
-                                    <tr className="bg-blue-600 border-b border-blue-600 text-center ">
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                    <tr className="bg-slate-50 border-b border-slate-100 text-center">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                             ID
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                             Título
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                             Descripción
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                             Imagen
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                             Autor
                                         </th>
-                                        <th className="px-6 py-3 text-right text-xs font-semibold text-white uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                             Acciones
                                         </th>
                                     </tr>
@@ -322,13 +390,18 @@ export default function Page() {
                                 <tbody>
                                     {displayedBlogs.map((blog, index) => (
                                         <tr
-                                            key={`blog-${blog.id_card}`}
+                                            key={`blog-${blog.id_card}-${index}`}
                                             className={`hover:bg-slate-50 transition-colors ${index !== displayedBlogs.length - 1 ? "border-b border-slate-100" : ""
                                                 }`}
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-700">{blog.id_card}</td>
-                                            <td className="px-6 py-4 text-sm text-slate-700 max-w-[200px] truncate">{blog.titulo}</td>
-                                            <td className="px-6 py-4 text-sm text-slate-700 max-w-[300px] truncate">{blog.descripcion}</td>
+                                            <td className="px-6 py-4 text-sm text-slate-700">
+                                                <div className="max-w-xs truncate" title={blog.titulo}>{blog.titulo}</div>
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-slate-700">
+                                                <div className="max-w-md truncate" title={blog.descripcion}>{blog.descripcion}</div>
+                                            </td>
+
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
                                                 <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100">
                                                     <img
@@ -339,10 +412,12 @@ export default function Page() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
-                                                {blog.empleado.nombre || "Desconocido"}
+                                                {blog.empleado?.nombre || "Desconocido"}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+
                                                 <div className="flex justify-end gap-2">
+
                                                     <Link
                                                         href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
                                                         target="_blank"
@@ -352,7 +427,6 @@ export default function Page() {
                                                     >
                                                         <Eye className="w-4 h-4" />
                                                     </Link>
-
                                                     <Link
                                                         href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
                                                         className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
@@ -379,11 +453,11 @@ export default function Page() {
                         </div>
                     </div>
 
+                   
                     {totalPages > 1 && (
-                        <div className="flex justify-between items-center bg-white rounded-xl shadow-sm p-4">
+                        <div className="hidden lg:flex items-center justify-between bg-white rounded-xl shadow-sm p-4 mb-6">
                             <div className="text-sm text-slate-500">
-                                Mostrando <span className="font-medium">{displayedBlogs.length}</span> de{" "}
-                                <span className="font-medium">{filteredBlogs.length}</span> blogs
+                                Mostrando <span className="font-medium">{displayedBlogs.length}</span> de <span className="font-medium">{filteredBlogs.length}</span> blogs
                             </div>
 
                             <div className="flex gap-2">
@@ -400,7 +474,7 @@ export default function Page() {
 
                                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                                     <button
-                                        key={`page-${page}`}
+                                        key={`page-desktop-${page}`}
                                         onClick={() => setCurrentPage(page)}
                                         className={`w-9 h-9 rounded-lg border ${currentPage === page
                                                 ? "bg-sky-50 text-sky-600 border-sky-200"
@@ -424,6 +498,60 @@ export default function Page() {
                             </div>
                         </div>
                     )}
+
+                    {/* Vista de tarjetas para pantallas pequeñas y medianas */}
+                    <div className="lg:hidden space-y-4 mb-6">
+                        {displayedBlogs.map((blog) => (
+                            <BlogCard key={`blog-card-${blog.id_card}`} blog={blog} />
+                        ))}
+
+                        {/* Paginación (móvil) */}
+                        {totalPages > 1 && (
+                            <div className="flex flex-col sm:flex-row justify-between items-center bg-white rounded-xl shadow-sm p-4 gap-4">
+                                <div className="text-sm text-slate-500 text-center sm:text-left">
+                                    Mostrando <span className="font-medium">{displayedBlogs.length}</span> de <span className="font-medium">{filteredBlogs.length}</span> blogs
+                                </div>
+
+                                <div className="flex gap-2 justify-center">
+                                    <button
+                                        onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                                        disabled={currentPage === 1}
+                                        className={`p-2 rounded-lg border ${currentPage === 1
+                                                ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                            }`}
+                                    >
+                                        <ChevronLeft className="w-4 h-4" />
+                                    </button>
+
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                        <button
+                                            key={`page-mobile-${page}`}
+                                            onClick={() => setCurrentPage(page)}
+                                            className={`w-9 h-9 rounded-lg border ${currentPage === page
+                                                    ? "bg-sky-50 text-sky-600 border-sky-200"
+                                                    : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                                }`}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
+
+                                    <button
+                                        onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className={`p-2 rounded-lg border ${currentPage === totalPages
+                                                ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                            }`}
+                                    >
+                                        <ChevronRight className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
                 </>
             )}
         </main>
