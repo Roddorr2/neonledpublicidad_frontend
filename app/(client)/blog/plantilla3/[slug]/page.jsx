@@ -1,15 +1,18 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { Suspense, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import Header from "../components/templates/Header";
-import Body1 from "../components/templates/Body1";
-import Footer from "../components/templates/Footer";
-import Fetch from "../services/fetch";
+import Head from "next/head";
 import { Loader2 } from "lucide-react";
+import Fetch from "../services/fetch";
+import Header from "../components/templates/Header";
+import Body3 from "../components/templates/Body3";
+import Footer from "../components/templates/Footer";
 
-const Page = () => {
+const Page = ({ params }) => {
+  const { slug } = React.use(params);
+
   return (
     <Suspense
       fallback={
@@ -18,37 +21,40 @@ const Page = () => {
         </div>
       }
     >
-      <PageContent />
+      <PageContent slug={slug} />
     </Suspense>
   );
 };
 
-const PageContent = () => {
-  const [data, setDataResponse] = useState(null);
+const PageContent = ({ slug }) => {
+  //   const searchParams = useSearchParams();
+  //   const link = searchParams.get("blog");
+
+  const router = useRouter();
+
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const searchParams = useSearchParams();
-  const blogLink = searchParams.get("blog");
 
   useEffect(() => {
-    const fetchBlogData = async () => {
-      if (!blogLink || blogLink === "null") {
-        setError("Link de blog no proporcionado");
-        setIsLoading(false);
-        return;
-      }
-
+    const fetchBlog = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await Fetch.fetchBlogByLink(blogLink);
-        setDataResponse(response);
-      } catch (error) {
-        console.error("Error fetching blog data:", error);
-        setError("No se pudo cargar el contenido del blog");
+
+        const response = await Fetch.fetchBlogByLink(slug);
+
+        if (response) {
+          setData(response);
+        } else {
+          setError("Blog no encontrado");
+        }
+      } catch (e) {
+        console.error("Error al obtener blog:", e);
+        setError("Error inesperado");
         Swal.fire({
           title: "Error",
-          text: "Ocurrió un error inesperado.",
+          text: "No se pudo cargar el blog.",
           icon: "error",
           confirmButtonText: "OK",
         });
@@ -57,8 +63,8 @@ const PageContent = () => {
       }
     };
 
-    fetchBlogData();
-  }, [blogLink]);
+    if (slug) fetchBlog();
+  }, [slug]);
 
   if (error) {
     return (
@@ -71,8 +77,8 @@ const PageContent = () => {
             nuevamente.
           </p>
           <button
-            onClick={() => window.location.reload()}
-            className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+            onClick={() => router.refresh()}
+            className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
           >
             Reintentar
           </button>
@@ -113,15 +119,40 @@ const PageContent = () => {
   }
 
   return (
-    <div>
-      <Header id_blog_head={data.id_blog_head} />
+    <>
+      <Head>
+        <title>{data.titulo} | Mi Blog</title>
+        <meta name="description" content={data.descripcion} />
+        <link
+          rel="canonical"
+          href={`https://ledneonpublicidad.com/blog/${data.link}`}
+        />
+      </Head>
+      <div>
+        <Header id_blog_head={data.id_blog_head} />
 
-      <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
-        <Body1 id_blog_body={data.id_blog_body} fecha={data.fecha} />
+        <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
+          <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
 
-        <Footer id_blog_footer={data.id_blog_footer} />
+          <Body3 id_blog_body={data.id_blog_body} fecha={data.fecha} />
+
+          {data.body?.service_url && (
+            <div className="flex justify-center my-8">
+              <a
+                href={data.body.service_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-lg"
+              >
+                Conoce nuestro servicio
+              </a>
+            </div>
+          )}
+
+          <Footer id_blog_footer={data.id_blog_footer} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
