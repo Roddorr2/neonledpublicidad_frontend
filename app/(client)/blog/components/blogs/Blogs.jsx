@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import styles from '../blog.module.css';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -89,25 +90,36 @@ const Blogs = () => {
 
   const BlogCard = ({ dato }) => (
     <Card className="relative overflow-hidden border-0 shadow-2xl bg-black backdrop-blur-sm rounded-2xl group hover:scale-105 transition-all duration-500">
-      <div className="relative h-80 flex">
-        <div className="relative z-10 flex-1 p-8 flex flex-col justify-center bg-black">
-          <div className="text-left space-y-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-              {dato.titulo}
-            </h2>
-            <p className="text-gray-200 text-sm leading-relaxed max-w-md">
-              {dato.descripcion}
-            </p>
-            
-            <Link href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`}>
-              <Button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-                SABER MÁS
-              </Button>
-            </Link>
+      <div className="relative flex flex-col md:flex-row">
+        <div className="relative z-10 flex-1 p-6 md:p-8 flex flex-col bg-black min-h-[280px] md:min-h-[320px]">
+          <div className="flex flex-col justify-between h-full">
+            <div className="flex-1">
+              <h2
+                className={`text-xl md:text-2xl font-bold text-white leading-tight mb-3 md:mb-4 ${styles.lineClamp2} md:${styles.tituloDesktop}`}
+              >
+                {dato.titulo}
+              </h2>
+
+              <p
+                className={`text-gray-200 text-sm leading-relaxed ${styles.lineClamp5} ${styles.descripcionDesktop}`}
+              >
+                {dato.descripcion}
+              </p>
+            </div>
+
+            <div className="pt-4 mt-auto">
+              <Link
+                href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`}
+              >
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 md:py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  SABER MÁS
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
 
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-h-[200px] md:min-h-[320px]">
           <img
             src={dato.public_image}
             alt={dato.titulo}

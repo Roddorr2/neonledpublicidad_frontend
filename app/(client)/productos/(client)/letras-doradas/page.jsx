@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="LETRAS DORADAS Y PLATEADAS"
+        titulo={`LETRAS DORADAS Y\nPLATEADAS`}
         imagen="/productosIndividuales/banner/letras-doradas.png"
       />
       <Section2 idProducto={idProducto} />

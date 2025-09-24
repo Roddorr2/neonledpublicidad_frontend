@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo="LAS SILLAS LUMINOSAS"
+        titulo={`SILLAS\nLUMINOSAS`}
         imagen="/productosIndividuales/banner/sillas-luminosas.png"
       />
       <Section2 idProducto={idProducto} />

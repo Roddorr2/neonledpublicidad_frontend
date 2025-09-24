@@ -63,7 +63,7 @@ const productSchema = {
         "@type": "Product",
         "name": "Letreros de Acrílico",
         "url": "https://ledneonpublicidad.com/productos/letras-acrilico",
-        "image": "https://ledneonpublicidad.com/productosPrincipal/letrero_crocs_verde_con_letras_blancas_mobile.webp",
+        "image": "https://ledneonpublicidad.com/productosPrincipal/Letrero-Crocs-Acrilico-Mobile.webp",
         "description": "Dale estilo a tu marca con letras de acrílico: resistentes, modernas y perfectas para destacar en interiores o exteriores",
         "brand": {
           "@type": "Brand",
@@ -78,7 +78,7 @@ const productSchema = {
         "@type": "Product",
         "name": "Letreros Doradas y Plateadas",
         "url": "https://ledneonpublicidad.com/productos/letras-doradas",
-        "image": "https://ledneonpublicidad.com/productosPrincipal/logo_lux_nails_studio_iluminado_en_dorado_mobile.webp",
+        "image": "https://ledneonpublicidad.com/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad-Mobile.webp",
         "description": "Dale elegancia a tu espacio con letras doradas o plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
         "brand": {
           "@type": "Brand",
@@ -93,7 +93,7 @@ const productSchema = {
         "@type": "Product",
         "name": "Letreros Luminosos",
         "url": "https://ledneonpublicidad.com/productos/letreros-luminosos",
-        "image": "https://ledneonpublicidad.com/productosPrincipal/fachada_farmacia_maria_pacheco_con_cruz_verde_mobile.webp",
+        "image": "https://ledneonpublicidad.com/productosPrincipal/Letras-Acrilicas-Farmacia-Mobile.webp",
         "description": "Letreros luminosos personalizados en Lima, Perú. Ideal para destacar marcas con iluminación impactante, moderna y de alta durabilidad.",
         "brand": {
           "@type": "Brand",
@@ -108,7 +108,7 @@ const productSchema = {
         "@type": "Product",
         "name": "Letreros de Neon en Tubos de Vidrio",
         "url": "https://ledneonpublicidad.com/productos/letras-neon",
-        "image": "https://ledneonpublicidad.com/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar_mobile.webp",
+        "image": "https://ledneonpublicidad.com/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad-Mobile.webp",
         "description": "Las letras neón en tubos de vidrio, son fáciles para poder llamar la atención y cautivar al público, permite destacar tu marca, ideal para eventos y decoraciones especiales.",
         "brand": {
           "@type": "Brand",

@@ -61,7 +61,36 @@ export default function ImpresionViniloLayout({ children }) {
       "@type": "Brand",
       "name": "LedNeonPublicidad"
     },
-    "url": "https://ledneonpublicidad.com/productos/impresion-vinilo"
+    "url": "https://ledneonpublicidad.com/productos/impresion-vinilo",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "PEN",
+      "price": "2500.00",
+      "availability": "https://schema.org/InStock",
+      "url": "https://ledneonpublicidad.com/productos/impresion-vinilo/"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.7",
+      "reviewCount": "28"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Carlos"
+        },
+        "datePublished": "2024-07-15",
+        "reviewBody": "El producto impresión vinilo es excelente para eventos, realmente capta la atención del público.",
+        "name": "Muy recomendado",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        }
+      }
+    ]
 }
 
   return <>

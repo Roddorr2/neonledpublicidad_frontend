@@ -14,11 +14,15 @@ const FilaProductosModificado = ({ productos }) => (
       >
         <div className="rounded-2xl overflow-hidden">
           <div className="h-48 md:h-52 lg:h-60 overflow-hidden">
-            <img 
-              src={producto.imgSrc} 
-              alt={producto.altText}
-              className="w-full h-full object-cover"
-            />
+            <picture>
+              <source media="(max-width: 768px)" srcSet={producto.imgSrcMobile} />
+              <img 
+                src={producto.imgSrc} 
+                alt={producto.altText}
+                title={producto.title}
+                className="w-full h-full object-cover"
+              />
+            </picture>
           </div>
           <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
             <h3 className="text-white font-bold text-sm md:text-base text-center leading-tight">
@@ -34,14 +38,14 @@ const FilaProductosModificado = ({ productos }) => (
 const AboutStatic = () => (
   <section className="bg-gradient-to-r from-purple-600 via-blue-500 to-orange-300 text-white p-6 md:p-8 w-4/5 max-w-4xl mx-auto rounded-[2.5rem] shadow-xl mb-12">
     <div className="text-left">
-      <h1 className="text-4xl md:text-6xl font-bold mb-4 ml-4">NOSOTROS</h1>
-      <div className="w-96 h-1 bg-orange-400 mb-8 ml-4"></div>
+      <h1 className="text-4xl md:text-6xl font-bold mb-4 ml-4">Nosotros</h1>
+      <div className="w- full md:w-96 h-1 bg-orange-400 mb-8 ml-4"></div>
     </div>
     <div className="text-left px-4">
       <p className="text-lg md:text-xl leading-relaxed font-medium">
-        NOSOTROS SOMOS NEÓN LED PUBLICIDAD UNA EMPRESA FORMAL QUE SE
-        DEDICA A LA CREACIÓN DE ESPACIOS PERSONALIZADOS QUE TRANSFORMAN 
-        TU NEGOCIO CON ESTILO Y PERSONALIDAD
+        Nosotros somos Neón Led Publicidad, una empresa formal que se
+        dedica a la creación de espacios personalizados que transforman 
+        tu negocio con estilo y personalidad.
       </p>
     </div>
   </section>
@@ -51,32 +55,32 @@ const AboutStatic = () => (
 export default function Home() {
   const fila1 = [
     {
-      imgSrc: "/productosPrincipal/letrero_crocs_verde_con_letras_blancas.webp",
-      imgSrcMobile:"/productosPrincipal/letrero_crocs_verde_con_letras_blancas_mobile.webp",
+      imgSrc: "/productosPrincipal/Letrero-Crocs-Acrilico.webp",
+      imgSrcMobile:"/productosPrincipal/Letrero-Crocs-Acrilico-Mobile.webp",
       altText: "Letras acrilicas verdes y negras con bordes blancas de la marca Crocs",
       title:"Letrero de Crocs",
       description: "LETRAS DE ACRÍLICO",
       route: "/productos/letras-acrilico"
     },
     {
-      imgSrc: "/productosPrincipal/logo_lux_nails_studio_iluminado_en_dorado.webp",
-      imgSrcMobile:"/productosPrincipal/logo_lux_nails_studio_iluminado_en_dorado_mobile.webp",
+      imgSrc: "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
+      imgSrcMobile:"/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad-Mobile.webp",
       altText: " Letras corporeas doradas con iluminación led elegante sobre un fondo oscuro",
       title:"Letras corporeas doradas con iluminación para estudios estéticos",
       description: "LETRAS DORADAS Y PLATEADAS",
       route: "/productos/letras-doradas"
     },
     {
-      imgSrc: "/productosPrincipal/fachada_farmacia_maria_pacheco_con_cruz_verde.webp",
-      imgSrcMobile:"/productosPrincipal/fachada_farmacia_maria_pacheco_con_cruz_verde_mobile.webp",
+      imgSrc: "/productosPrincipal/Letras-Acrilicas-Farmacia.webp",
+      imgSrcMobile:"/productosPrincipal/Letras-Acrilicas-Farmacia-Mobile.webp",
       altText: "Letrero color verde con letras acrílicas blancas con el nombre de FARMACIA en mayúsculas y el nombre de Lda. Maria Pacheco en minúsculas, con un letrero en forma de cruz con colores amarillo y marrón. Debajo en mayúsculas dice FARMACIA.",
       title:"Letras acrílicas color blanco para variedad de tiendas y marcas",
       description: "LETREROS LUMINOSOS",
       route: "/productos/letreros-luminosos"
     },
     {
-      imgSrc: "/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar.webp",
-      imgSrcMobile:"/productosPrincipal/letrero_woks_cerveza_artesanal_neon_verde_y_ambar_mobile.webp",
+      imgSrc: "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
+      imgSrcMobile:"/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad-Mobile.webp",
       altText: "Letrero led verde con la palabra woks y cerveza artesanal en letras finas, diseñado para negocio de bebidas",
       title:"Letrero led en diversas tipografías para licorerías",
       description: "LETRAS DE NEÓN",
