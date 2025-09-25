@@ -120,9 +120,9 @@ const PageContent = () => {
    * Estado inicial del formulario de pie de página del blog. Contiene campos para título, descripción y tres imágenes públicas.
    */
   const [formFooter, setFormFooter] = useState({
-    titulo: "Titulo Footer",
+    titulo: "",
     descripcion:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+      "",
     public_image1: "/blog/blog-10.webp",
     url_image1: "", //por esta vez url es la ruta para eliminar
     alt_image1: "",
@@ -142,9 +142,9 @@ const PageContent = () => {
    * Estado inicial del encabezado del blog. Contiene campos para título, texto atractivo, descripción y una imagen pública.
    */
   const [dataHeader, setDataHeader] = useState({
-    titulo: "Titulo Header",
-    texto_frase: "Texto atractivo y llamativo para el cliente",
-    texto_descripcion: "Texto destacado y secundario para el titulo",
+    titulo: "",
+    texto_frase: "",
+    texto_descripcion: "",
     public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
     alt: "",
@@ -706,9 +706,9 @@ const PageContent = () => {
       if (result.isConfirmed) {
         // Resetear formularios
         setFormFooter({
-          titulo: "Titulo Footer",
+          titulo: "",
           descripcion:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+            "",
           public_image1: "/blog/blog-10.webp",
           url_image1: "",
           image1_alt: "",
@@ -724,9 +724,9 @@ const PageContent = () => {
         });
 
         setDataHeader({
-          titulo: "Titulo Header",
-          texto_frase: "Texto atractivo y llamativo para el cliente",
-          texto_descripcion: "Texto destacado y secundario para el titulo",
+          titulo: "",
+          texto_frase: "",
+          texto_descripcion: "",
           public_image: "/blog/fondo_blog_extend.webp",
           url_image: "",
           image_alt: "",

@@ -62,9 +62,9 @@ const PageContent = () => {
 
   // Estados de formularios (igual que en creación)
   const [formFooter, setFormFooter] = useState({
-    titulo: "Titulo Footer",
+    titulo: "",
     descripcion:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+      "",
     public_image1: "/blog/blog-10.webp",
     url_image1: "",
     alt_image1: "",
@@ -81,9 +81,9 @@ const PageContent = () => {
   });
 
   const [dataHeader, setDataHeader] = useState({
-    titulo: "Titulo Header",
-    texto_frase: " y llamativo para el cliente",
-    texto_descripcion: "Texto destacado y secundario para el titulo",
+    titulo: "",
+    texto_frase: "",
+    texto_descripcion: "",
     public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
     alt: "",
@@ -297,10 +297,10 @@ const PageContent = () => {
 
       setFormFooter({
         ...responseFooter,
-        titulo: responseFooter.titulo || "Titulo Footer",
+        titulo: responseFooter.titulo || "",
         descripcion:
           responseFooter.descripcion ||
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+          "",
         public_image1: responseFooter.public_image1 || "/blog/blog-10.webp",
         url_image1: responseFooter.url_image1 || "",
         alt_image1: responseFooter.alt_image1 || "",
