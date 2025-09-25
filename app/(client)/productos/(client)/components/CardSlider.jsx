@@ -18,7 +18,8 @@ function CardSlider({ cards }) {
   }, []);
 
   const DesktopSlider = () => (
-    <div className="relative w-full flex justify-center items-center overflow-hidden bg-white py-20">
+    <div className="relative w-full flex justify-center items-center overflow-hidden bg-white py-10">
+
       <motion.div
         className="flex gap-6"
         animate={{ x: ["15%", "-15%"] }}
@@ -70,7 +71,7 @@ function CardSlider({ cards }) {
   );
 
   const MobileExpandableStack = () => (
-    <div className="w-full bg-white py-10 px-4">
+    <div className="w-full bg-white py-20 px-4">
       <div className="max-w-sm mx-auto">
         <div className="relative">
           {cards.map((card, i) => (
@@ -141,7 +142,7 @@ function CardSlider({ cards }) {
 
           {/* Indicador dentro de la primera card */}
           {!isExpanded && (
-            <div className="absolute top-[220px] left-1/2 transform -translate-x-1/2">
+            <div className="absolute top-[260px] left-1/2 transform -translate-x-1/2">
               <motion.div
                 animate={{ y: [0, 6, 0] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}

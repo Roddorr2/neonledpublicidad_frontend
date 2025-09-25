@@ -4,31 +4,11 @@ export const metadata = {
   title: "Vinilos Decorativos para negocio _ Lima Perú",
   description:
     "Los vinilos son la mejor opción para mostrar tu mensaje, logotipo o marca. Tenemos gran variedad de diseños y estilos disponibles para el gusto del cliente.",
-  keywords:[
-    "Vinilos",
-    "Decoración",
-    "Decoraciones",
-    "vinilos decorativos",
-    "Decoración Perú",
-    "Viniles impresos",
-    "Vinil personalizado",
-    "Vinil autoadhesivo",
-    "Vinil impreso",
-    "vinilos decorativos para pared",
-    "viniles impresos personalizados",
-    "impresión en vinilo adhesivo lima",
-    "impresión en vinil peru",
-    "vinilos decorativos perú",
-    "Viniles para pared",
-    "Viniles personalizados",
-    "Vinilos infantiles Perú",
-    "Vinilos decorativos frases",
-    "Vinilos 3D decorativos",
-    "Vinilos decorativos para sala",
-    "Tienda de vinilos decorativos Perú",
-    "viniles decorativos de ventanas",
-    "viniles decorativos lima",
-  ],
+    other: {
+      keywords:
+        "Vinilos, Decoración, Decoraciones, vinilos decorativos, Decoración Perú, Viniles impresos, Vinil personalizado, Vinil autoadhesivo, Vinil impreso, vinilos decorativos para pared, viniles impresos personalizados, impresión en vinilo adhesivo lima, impresión en vinil peru, vinilos decorativos perú, Viniles para pared, Viniles personalizados, Vinilos infantiles Perú, Vinilos decorativos frases, Vinilos 3D decorativos, Vinilos decorativos para sala, Tienda de vinilos decorativos Perú, viniles decorativos de ventanas, viniles decorativos lima",
+    },
+
     openGraph: {
     title: "Vinilos Decorativos para negocio _ Lima Perú",
     description:

@@ -122,8 +122,10 @@ const Blogs = () => {
         <div className="relative flex-1 min-h-[200px] md:min-h-[320px]">
           <img
             src={dato.public_image}
-            alt={dato.titulo}
+            alt={dato.image_alt || dato.titulo || "Imagen del artículo"}
+            title={dato.image_title || dato.titulo || ""}
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         </div>
 

@@ -6,34 +6,10 @@ export const metadata = {
   title: "Letras Acrílico _ Lima Perú",
   description:
     "Dale estilo a tu marca con letras de acrílico: resistentes, modernas y perfectas para destacar en interiores o exteriores.",
-  keywords:[
-    "Acrílicos",
-    "Personalizados",
-    "Letrero",
-    "Acrílico",
-    "Emprendimiento",
-    "Producto",
-    "Letras 3D",
-    "Letras Led",
-    "Marca personal",
-    "Letras acrílicas",
-    "Logo corporativo",
-    "Rótulos Publicitarios",
-    "Letras acrílicas iluminadas",
-    "Letras acrílicas para decoración",
-    "Letras de acrílico vinyl",
-    "Letras acrílicas personalizadas",
-    "Letreros en acrílico",
-    "Letras de acrílico 3D",
-    "Letras acrílicas con luz led",
-    "Letras acrílicas para negocio",
-    "Letras acrílicas para interiores",
-    "Letras acrílicas publicitarias",
-    "Letras de acrílico en Lima",
-    "Fabricación de letras acrílicas",
-    "Letras acrílicas para pared",
-    "Letras acrílicas precio Perú"
-  ],
+   other: {
+    keywords:
+      "Acrílicos, Personalizados, Letrero, Acrílico, Emprendimiento, Producto, Letras 3D, Letras Led, Marca personal, Letras acrílicas, Logo corporativo, Rótulos Publicitarios, Letras acrílicas iluminadas, Letras acrílicas para decoración, Letras de acrílico vinyl, Letras acrílicas personalizadas, Letreros en acrílico, Letras de acrílico 3D, Letras acrílicas con luz led, Letras acrílicas para negocio, Letras acrílicas para interiores, Letras acrílicas publicitarias, Letras de acrílico en Lima, Fabricación de letras acrílicas, Letras acrílicas para pared, Letras acrílicas precio Perú",
+  },
   openGraph: {
     title: "Letras Acrílico _ Lima Perú",
     description:

@@ -1,5 +1,6 @@
 "use client";
-import { Type, AlignLeft, Quote, Image, Trash2, Clock1, Clock } from "lucide-react";
+import { Type, AlignLeft, Quote, Image, Trash2, Clock1, Clock,  FileText,
+  Tag, } from "lucide-react";
 import { Loader2, CheckCircle, ArrowRight, Image as IconImage } from "lucide-react"
 import { useState } from "react";
 import { ProductosLink } from "../../plantillas/utils";
@@ -23,11 +24,25 @@ export default function FormBody1(props) {
         setValidacionBody,
     } = props;
 
-    const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
-    const [isValidDescripcion, setIsValidDescripcion] = useState(true);
+      // Configuracion de emcabezado
+  const [isValidTitulo, setIsValidTitulo] = useState(true);
+  const [isValidDescripcion, setIsValidDescripcion] = useState(true);
+  const [isValidAlt_image1, setIsValidAlt_image1] = useState(true);
+  const [isValidTitle_image1, setIsValidTitle_image1] = useState(true);
+
+  // Sección consejos
+  // Se reutiliza el titulo del encabezado
     const [isValidTexto1, setIsValidTexto1] = useState(true);
     const [isValidTexto2, setIsValidTexto2] = useState(true);
     const [isValidTexto3, setIsValidTexto3] = useState(true);
+
+      // Galeria de Imagemes
+  const [isValidAlt_image2, setIsValidAlt_image2] = useState(true);
+  const [isValidAlt_image3, setIsValidAlt_image3] = useState(true);
+  const [isValidTitle_image2, setIsValidTitle_image2] = useState(true);
+  const [isValidTitle_image3, setIsValidTitle_image3] = useState(true);
+
+  // Seccion de información
 
     const [isValidInfoTitulo1, setIsValidInfoTitulo1] = useState(true);
     const [isValidInfoDescripcion1, setIsValidInfoDescripcion1] = useState(true);
@@ -42,12 +57,39 @@ export default function FormBody1(props) {
     const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
     const [errors, setErrors] = useState({
+         // Encabezado
+
+          descripcion: {
+            message: "Debe tener entre 10 y 400 caracteres",
+            isValid: null,
+            },
         titulo: { message: 'Debe tener entre 10 y 50 caracteres', isValid: null },
         texto1: { message: 'Debe tener entre 10 y 150 caracteres', isValid: null },
         texto2: { message: 'Debe tener entre 10 y 150 caracteres', isValid: null },
         texto3: { message: 'Debe tener entre 10 y 150 caracteres', isValid: null },
-        descripcion: { message: 'Debe tener entre 10 y 400 caracteres', isValid: null },
-    });
+         alt_image1: {
+            message: "Debe tener entre 3 y 50 caracteres",
+            isValid: null,
+            },
+            title_image1: {
+            message: "Debe tener entre 3 y 50 caracteres",
+            isValid: null,
+            },
+            alt_image2: {
+            message: "Debe tener entre 3 y 50 caracteres",
+            isValid: null,
+            },
+            title_image2: {
+            message: "Debe tener entre 3 y 50 caracteres",
+            isValid: null,
+            },
+            alt_image3: {
+            message: "Debe tener entre 3 y 50 caracteres",
+            isValid: null,
+            },
+            title_image3: {
+            message: "Debe tener entre 3 y 50 caracteres", isValid: null },
+            });
 
     const [uploading, setUploading] = useState(false);
 
@@ -58,7 +100,7 @@ export default function FormBody1(props) {
         switch (name) {
             case 'titulo':
                 isValid = value.trim().length >= 10 && value.length <= 50;
-                setIsValidTituloPrincipal(isValid);
+                  setIsValidTitulo(isValid);
                 setErrors(prev => ({
                     ...prev,
                     [name]: {
@@ -78,6 +120,81 @@ export default function FormBody1(props) {
                     }
                 }));
                 break;
+             // CORREGIDO: Unificar validaciones para alt y title
+        case "alt_image1":
+            isValid = value.trim().length >= 3 && value.length <= 50;
+            setIsValidAlt_image1(isValid);
+            setErrors((prev) => ({
+            ...prev,
+            [name]: {
+                ...prev[name],
+                isValid: isValid,
+            },
+            }));
+            break;
+
+        case "title_image1":
+            isValid = value.trim().length >= 3 && value.length <= 50;
+            setIsValidTitle_image1(isValid);
+            setErrors((prev) => ({
+            ...prev,
+            [name]: {
+                ...prev[name],
+                isValid: isValid,
+            },
+            }));
+            break;
+
+        // Galería de imágenes - CORREGIDO
+        case "alt_image2":
+            isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+            setIsValidAlt_image2(isValid);
+            setErrors((prev) => ({
+            ...prev,
+            [name]: {
+                ...prev[name],
+                isValid: isValid,
+            },
+            }));
+            break;
+
+        case "title_image2":
+            isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+            setIsValidTitle_image2(isValid);
+            setErrors((prev) => ({
+            ...prev,
+            [name]: {
+                ...prev[name],
+                isValid: isValid,
+            },
+            }));
+            break;
+
+        case "alt_image3":
+            isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+            setIsValidAlt_image3(isValid);
+            setErrors((prev) => ({
+            ...prev,
+            [name]: {
+                ...prev[name],
+                isValid: isValid,
+            },
+            }));
+            break;
+
+        case "title_image3":
+            isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+            setIsValidTitle_image3(isValid);
+            setErrors((prev) => ({
+            ...prev,
+            [name]: {
+                ...prev[name],
+                isValid: isValid,
+            },
+            }));
+            break;
+
+            // Consejos
             case 'texto1':
                 isValid = value.trim().length >= 10 && value.length <= 150;
                 setIsValidTexto1(isValid);
@@ -115,7 +232,7 @@ export default function FormBody1(props) {
                 break;
         }
 
-        if (isValidTituloPrincipal && isValidDescripcion && isValidTexto1 && isValidTexto2 && isValidTexto3
+        if (isValidTitulo  && isValidDescripcion && isValidTexto1 && isValidTexto2 && isValidTexto3
             && isValidInfoTitulo1 && isValidInfoDescripcion1 && isValidInfoTitulo2 && isValidInfoDescripcion2 && isValidInfoTitulo3 && isValidInfoDescripcion3 && isValidInfoTitulo4 && isValidInfoDescripcion4
         ) {
             setValidacionBody(true)
@@ -204,18 +321,26 @@ export default function FormBody1(props) {
                 break;
         }
 
-        if (isValidTituloPrincipal && isValidDescripcion && isValidTexto1 && isValidTexto2 && isValidTexto3
-            && isValidInfoTitulo1 && isValidInfoDescripcion1 && isValidInfoTitulo2 && isValidInfoDescripcion2 && isValidInfoTitulo3 && isValidInfoDescripcion3 && isValidInfoTitulo4 && isValidInfoDescripcion4) {
+        if (isValidTitulo && isValidDescripcion && isValidAlt_image1 &&
+            isValidTitle_image1 && isValidTexto1 && isValidTexto2 && isValidTexto3 &&
+             isValidAlt_image2 &&
+            isValidTitle_image2 &&
+            isValidAlt_image3 &&
+            isValidTitle_image3 &&
+             isValidInfoTitulo1 && isValidInfoDescripcion1 && isValidInfoTitulo2 && isValidInfoDescripcion2 && isValidInfoTitulo3 && isValidInfoDescripcion3 && isValidInfoTitulo4 && isValidInfoDescripcion4) {
             setValidacionBody(true)
         } else {
             setValidacionBody(false)
         }
 
-        setFormInfoBody(prev => {
-            const updated = [...prev];
-            updated[index] = { ...updated[index], [field]: value };
-            return updated;
-        });
+        setter((prev) => {
+            const newState = {
+                ...prev,
+                [name]: value,
+            };
+            return newState;
+            });
+        
 
         setErrorsInfoBody(prev => {
             const updatedErrors = [...prev];
