@@ -37,7 +37,9 @@ export default function Page() {
     const [currentPage, setCurrentPage] = useState(1)
     const blogsPerPage = 5
 
-    const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
+    const id_empleado = getCookie("empleado")
+        ? JSON.parse(getCookie("empleado")).id_empleado
+        : -1
 
     useEffect(() => {
         fetchData()
@@ -60,7 +62,9 @@ export default function Page() {
         }
 
         const query = searchQuery.toLowerCase().trim()
-        const filtered = sourceData.filter((blog) => blog.titulo.toLowerCase().includes(query))
+        const filtered = sourceData.filter((blog) =>
+            blog.titulo.toLowerCase().includes(query)
+        )
 
         setFilteredBlogs(filtered)
         setCurrentPage(1)
@@ -78,7 +82,7 @@ export default function Page() {
 
     const handleFilterChange = (filter) => {
         setActiveFilter(filter)
-        setCurrentPage(1) 
+        setCurrentPage(1)
     }
 
     const handleSearch = (e) => {
@@ -109,7 +113,9 @@ export default function Page() {
             if (responseTodos.status === 200 && responseMe.status === 200) {
                 setAllBlogs(responseTodos.data)
                 setMyBlogs(responseMe.data)
-                setFilteredBlogs(activeFilter === "all" ? responseTodos.data : responseMe.data)
+                setFilteredBlogs(
+                    activeFilter === "all" ? responseTodos.data : responseMe.data
+                )
             } else {
                 showError("Ocurrió un error al cargar los blogs.")
             }
@@ -132,11 +138,6 @@ export default function Page() {
             cancelButtonColor: "#64748b",
             confirmButtonText: "Sí, eliminar",
             cancelButtonText: "Cancelar",
-            buttonsStyling: true,
-            customClass: {
-                confirmButton: "!px-6",
-                cancelButton: "!px-6",
-            },
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteBlog(id)
