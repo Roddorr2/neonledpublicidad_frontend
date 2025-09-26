@@ -65,15 +65,15 @@ const PageContent = () => {
     titulo: "",
     descripcion:
       "",
-    public_image1: "/blog/blog-10.webp",
+    public_image1: "/blog/blog-10.jpg",
     url_image1: "",
     alt_image1: "",
     title_image1: "",
-    public_image2: "/blog/blog-10.webp",
+    public_image2: "/blog/blog-10.jpg",
     url_image2: "",
     alt_image2: "",
     title_image2: "",
-    public_image3: "/blog/blog-10.webp",
+    public_image3: "/blog/blog-10.jpg",
     url_image3: "",
     alt_image3: "",
     title_image3: "",
@@ -84,7 +84,7 @@ const PageContent = () => {
     titulo: "",
     texto_frase: "",
     texto_descripcion: "",
-    public_image: "/blog/fondo_blog_extend.webp",
+    public_image: "/blog/fondo_blog_extend.png",
     url_image: "",
     alt: "",
     title: "",
@@ -97,7 +97,7 @@ const PageContent = () => {
     descripcion:
       "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
     fecha: new Date().toISOString().split("T")[0],
-    public_image1: "/blog/blog-4.webp",
+    public_image1: "/blog/blog-4.jpg",
     url_image1: "",
     alt_image1: "",
     title_image1: "",
@@ -144,11 +144,11 @@ const PageContent = () => {
   });
 
   const [formGaleryBody, setFormGaleryBody] = useState({
-    public_image2: "/blog/blog-2.webp",
+    public_image2: "/blog/blog-2.jpg",
     url_image2: "",
     alt_image2: "",
     title_image2: "",
-    public_image3: "/blog/blog-2.webp",
+    public_image3: "/blog/blog-2.jpg",
     url_image3: "",
     alt_image3: "",
     title_image3: "",
@@ -159,7 +159,7 @@ const PageContent = () => {
     setFileFooterFile1(null);
     setFormFooter((prev) => ({
       ...prev,
-      public_image1: originalData.footer?.public_image1 || "/blog/blog-10.webp",
+      public_image1: originalData.footer?.public_image1 || "/blog/blog-10.jpg",
       url_image1: "",
     }));
   };
@@ -168,7 +168,7 @@ const PageContent = () => {
     setFileFooterFile2(null);
     setFormFooter((prev) => ({
       ...prev,
-      public_image2: originalData.footer?.public_image2 || "/blog/blog-10.webp",
+      public_image2: originalData.footer?.public_image2 || "/blog/blog-10.jpg",
       url_image2: "",
     }));
   };
@@ -177,7 +177,7 @@ const PageContent = () => {
     setFileFooterFile3(null);
     setFormFooter((prev) => ({
       ...prev,
-      public_image3: originalData.footer?.public_image3 || "/blog/blog-10.webp",
+      public_image3: originalData.footer?.public_image3 || "/blog/blog-10.jpg",
       url_image3: "",
     }));
   };
@@ -187,7 +187,7 @@ const PageContent = () => {
     setDataHeader((prev) => ({
       ...prev,
       public_image:
-        originalData.header?.public_image || "/blog/fondo_blog_extend.webp",
+        originalData.header?.public_image || "/blog/fondo_blog_extend.png",
       url_image: "",
     }));
   };
@@ -196,7 +196,7 @@ const PageContent = () => {
     setFileBodyHeader(null);
     setFormEncabezadoBody((prev) => ({
       ...prev,
-      public_image1: originalData.body?.public_image1 || "/blog/blog-4.webp",
+      public_image1: originalData.body?.public_image1 || "/blog/blog-4.jpg",
       url_image1: "",
     }));
   };
@@ -205,7 +205,7 @@ const PageContent = () => {
     setFileBodyFile1(null);
     setFormGaleryBody((prev) => ({
       ...prev,
-      public_image2: originalData.body?.public_image2 || "/blog/blog-2.webp",
+      public_image2: originalData.body?.public_image2 || "/blog/blog-2.jpg",
       url_image2: "",
     }));
   };
@@ -214,7 +214,7 @@ const PageContent = () => {
     setFileBodyFile2(null);
     setFormGaleryBody((prev) => ({
       ...prev,
-      public_image3: originalData.body?.public_image3 || "/blog/blog-2.webp",
+      public_image3: originalData.body?.public_image3 || "/blog/blog-2.jpg",
       url_image3: "",
     }));
   };
@@ -287,7 +287,7 @@ const PageContent = () => {
         texto_frase: responseHeader.texto_frase || "",
         texto_descripcion: responseHeader.texto_descripcion || "",
         public_image:
-          responseHeader.public_image || "/blog/fondo_blog_extend.webp",
+          responseHeader.public_image || "/blog/fondo_blog_extend.png",
         url_image: responseHeader.url_image || "",
         alt: responseHeader.alt || "",
         title: responseHeader.title || "",
@@ -301,15 +301,15 @@ const PageContent = () => {
         descripcion:
           responseFooter.descripcion ||
           "",
-        public_image1: responseFooter.public_image1 || "/blog/blog-10.webp",
+        public_image1: responseFooter.public_image1 || "/blog/blog-10.jpg",
         url_image1: responseFooter.url_image1 || "",
         alt_image1: responseFooter.alt_image1 || "",
         title_image1: responseFooter.title_image1 || "",
-        public_image2: responseFooter.public_image2 || "/blog/blog-10.webp",
+        public_image2: responseFooter.public_image2 || "/blog/blog-10.jpg",
         url_image2: responseFooter.url_image2 || "",
         alt_image2: responseFooter.alt_image2 || "",
         title_image2: responseFooter.title_image2 || "",
-        public_image3: responseFooter.public_image3 || "/blog/blog-10.webp",
+        public_image3: responseFooter.public_image3 || "/blog/blog-10.jpg",
         url_image3: responseFooter.url_image3 || "",
         alt_image3: responseFooter.alt_image3 || "",
         title_image3: responseFooter.title_image3 || "",
@@ -325,16 +325,16 @@ const PageContent = () => {
         titulo: responseBody.titulo || "Titulo del Blog",
         descripcion: responseBody.descripcion || "",
         fecha: fechaFormateada,
-        public_image1: responseBody.public_image1 || "/blog/blog-4.webp",
+        public_image1: responseBody.public_image1 || "/blog/blog-4.jpg",
         url_image1: responseBody.url_image1 || "",
         alt_image1: responseBody.alt_image1 || "",
         title_image1: responseBody.title_image1 || "",
       });
 
       setFormGaleryBody({
-        public_image2: responseBody.public_image2 || "/blog/blog-2.webp",
+        public_image2: responseBody.public_image2 || "/blog/blog-2.jpg",
         url_image2: responseBody.url_image2 || "",
-        public_image3: responseBody.public_image3 || "/blog/blog-2.webp",
+        public_image3: responseBody.public_image3 || "/blog/blog-2.jpg",
         url_image3: responseBody.url_image3 || "",
         alt_image2: responseBody.alt_image2 || "",
         title_image2: responseBody.title_image2 || "",
