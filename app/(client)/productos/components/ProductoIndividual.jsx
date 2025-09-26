@@ -8,15 +8,18 @@ function Producto({ imgSrc, altText, title, description, route, imgSrcMobile }) 
         <div className={styles["producto-card"]}>
           {/* Imagen del producto */}
           <div className={styles["producto-img-container"]}>
-            <img
-              src={imgSrcMobile || imgSrc}
-              alt={altText}
-              title={title}
-              className={styles["producto-img"]}
-              srcSet={`${imgSrcMobile || imgSrc} 200w, ${imgSrc || imgSrcMobile} 800w`}
-              sizes="(max-width: 768px) 200px, 800px"
-              loading="lazy"
-            />
+            <picture>
+              {imgSrcMobile && (
+                <source media="(max-width: 768px)" srcSet={imgSrcMobile} />
+              )}
+              <img
+                src={imgSrc || imgSrcMobile}
+                alt={altText}
+                title={title}
+                className={styles["producto-img"]}
+                loading="lazy"
+              />
+            </picture>
           </div>
           
           {/* Descripción superpuesta en la parte inferior */}
