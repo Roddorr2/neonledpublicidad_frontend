@@ -56,7 +56,7 @@ export default function Home() {
   const fila1 = [
     {
       imgSrc: "/productosPrincipal/Letrero-Crocs-Acrilico.webp",
-      imgSrcMobile:"/productosPrincipal/Letrero-Crocs-Acrilico-Mobile.webp",
+      imgSrcMobile:"/productosPrincipal/Letrero-Crocs-Acrilico-Mobile2.webp",
       altText: "Letras acrilicas verdes y negras con bordes blancas de la marca Crocs",
       title:"Letrero de Crocs",
       description: "LETRAS DE ACRÍLICO",
@@ -64,7 +64,7 @@ export default function Home() {
     },
     {
       imgSrc: "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
-      imgSrcMobile:"/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad-Mobile.webp",
+      imgSrcMobile:"/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad-Mobile2.webp",
       altText: " Letras corporeas doradas con iluminación led elegante sobre un fondo oscuro",
       title:"Letras corporeas doradas con iluminación para estudios estéticos",
       description: "LETRAS DORADAS Y PLATEADAS",
@@ -72,7 +72,7 @@ export default function Home() {
     },
     {
       imgSrc: "/productosPrincipal/Letras-Acrilicas-Farmacia.webp",
-      imgSrcMobile:"/productosPrincipal/Letras-Acrilicas-Farmacia-Mobile.webp",
+      imgSrcMobile:"/productosPrincipal/Letras-Acrilicas-Farmacia-Mobile2.webp",
       altText: "Letrero color verde con letras acrílicas blancas con el nombre de FARMACIA en mayúsculas y el nombre de Lda. Maria Pacheco en minúsculas, con un letrero en forma de cruz con colores amarillo y marrón. Debajo en mayúsculas dice FARMACIA.",
       title:"Letras acrílicas color blanco para variedad de tiendas y marcas",
       description: "LETREROS LUMINOSOS",
@@ -80,7 +80,7 @@ export default function Home() {
     },
     {
       imgSrc: "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
-      imgSrcMobile:"/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad-Mobile.webp",
+      imgSrcMobile:"/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad-Mobile2.webp",
       altText: "Letrero led verde con la palabra woks y cerveza artesanal en letras finas, diseñado para negocio de bebidas",
       title:"Letrero led en diversas tipografías para licorerías",
       description: "LETRAS DE NEÓN",
