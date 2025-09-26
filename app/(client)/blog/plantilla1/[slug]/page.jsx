@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState, Suspense } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Head from "next/head";
 import { Loader2 } from "lucide-react";
-import Fetch from "../services/fetch";
-import Header from "../components/templates/Header";
-import Body1 from "../components/templates/Body1";
-import Footer from "../components/templates/Footer";
+import Fetch from "../../services/fetch";
+import Header from "../../components/templates/Header";
+import Body1 from "../../components/templates/Body1"
+import Footer from "../../components/templates/Footer";
 
 const Page = ({ params }) => {
   const { slug } = React.use(params);

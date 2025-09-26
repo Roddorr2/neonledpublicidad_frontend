@@ -4,6 +4,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   try {
     const data = await Fetch.fetchBlogByLink(slug);
+    console.log(data);
     if (!data) {
       return {
         title: "Blog no encontrado | Mi Blog",

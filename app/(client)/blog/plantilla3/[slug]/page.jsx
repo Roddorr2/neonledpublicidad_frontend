@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Head from "next/head";
 import { Loader2 } from "lucide-react";

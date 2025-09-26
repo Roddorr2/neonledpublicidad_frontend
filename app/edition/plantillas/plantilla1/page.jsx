@@ -204,6 +204,10 @@ const PageContent = () => {
     url_image3: "",
     alt_image3: "",
     title_image3: "",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    service_url: serviceRedirectUrl,
   });
 
   useEffect(() => {
@@ -270,7 +274,7 @@ const PageContent = () => {
       flag_galeria: 1,
       flag_consejos: 1,
       flag_informacion: 1,
-      service_url: serviceRedirectUrl,
+      service_url: formGaleryBody.service_url,
     };
     console.log("Datos a enviar en body:", formBody);
 
