@@ -37,7 +37,7 @@ const PageContent = () => {
     setFileFooterFile1(null);
     setFormFooter((prev) => ({
       ...prev,
-      public_image1: "/blog/blog-10.webp",
+      public_image1: "/blog/blog-10.jpg",
       url_image1: "",
     }));
   };
@@ -45,7 +45,7 @@ const PageContent = () => {
     setFileFooterFile2(null);
     setFormFooter((prev) => ({
       ...prev,
-      public_image2: "/blog/blog-10.webp",
+      public_image2: "/blog/blog-10.jpg",
       url_image2: "",
     }));
   };
@@ -53,7 +53,7 @@ const PageContent = () => {
     setFileFooterFile3(null);
     setFormFooter((prev) => ({
       ...prev,
-      public_image3: "/blog/blog-10.webp",
+      public_image3: "/blog/blog-10.jpg",
       url_image3: "",
     }));
   };
@@ -62,7 +62,7 @@ const PageContent = () => {
     setFileHeader(null);
     setDataHeader((prev) => ({
       ...prev,
-      public_image: "/blog/fondo_blog_extend.webp",
+      public_image: "/blog/fondo_blog_extend.png",
       url_image: "",
     }));
   };
@@ -71,7 +71,7 @@ const PageContent = () => {
     setFileBodyHeader(null);
     setFormEncabezadoBody((prev) => ({
       ...prev,
-      public_image1: "/blog/blog-4.webp",
+      public_image1: "/blog/blog-4.jpg",
       url_image1: "",
     }));
   };
@@ -80,7 +80,7 @@ const PageContent = () => {
     setFileBodyFile1(null);
     setFormGaleryBody((prev) => ({
       ...prev,
-      public_image2: "/blog/blog-2.webp",
+      public_image2: "/blog/blog-2.jpg",
       url_image2: "",
     }));
   };
@@ -89,7 +89,7 @@ const PageContent = () => {
     setFileBodyFile2(null);
     setFormGaleryBody((prev) => ({
       ...prev,
-      public_image3: "/blog/blog-2.webp",
+      public_image3: "/blog/blog-2.jpg",
       url_image3: "",
     }));
   };
@@ -105,15 +105,15 @@ const PageContent = () => {
     titulo: "",
     descripcion:
       "",
-    public_image1: "/blog/blog-10.webp",
+    public_image1: "/blog/blog-10.jpg",
     url_image1: "", //por esta vez url es la ruta para eliminar
     alt_image1: "",
     title_image1: "",
-    public_image2: "/blog/blog-10.webp",
+    public_image2: "/blog/blog-10.jpg",
     url_image2: "",
     alt_image2: "",
     title_image2: "",
-    public_image3: "/blog/blog-10.webp",
+    public_image3: "/blog/blog-10.jpg",
     url_image3: "",
     alt_image3: "",
     title_image3: "",
@@ -127,7 +127,7 @@ const PageContent = () => {
     titulo: "",
     texto_frase: "",
     texto_descripcion: "",
-    public_image: "/blog/fondo_blog_extend.webp",
+    public_image: "/blog/fondo_blog_extend.png",
     url_image: "",
     alt: "",
     title: "",
@@ -143,7 +143,7 @@ const PageContent = () => {
     descripcion:
       "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
     fecha: getCurrentDate(),
-    public_image1: "/blog/blog-4.webp",
+    public_image1: "/blog/blog-4.jpg",
     url_image1: "",
     alt_image1: "",
     title_image1: "",
@@ -196,11 +196,11 @@ const PageContent = () => {
   });
 
   const [formGaleryBody, setFormGaleryBody] = useState({
-    public_image2: "/blog/blog-2.webp",
+    public_image2: "/blog/blog-2.jpg",
     url_image2: "",
     alt_image2: "",
     title_image2: "",
-    public_image3: "/blog/blog-2.webp",
+    public_image3: "/blog/blog-2.jpg",
     url_image3: "",
     alt_image3: "",
     title_image3: "",
@@ -403,8 +403,8 @@ const PageContent = () => {
 
   /* 
     storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/head/image.jpeg
-    storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/body/image.webp
-    storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/footer/image.webp
+    storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/body/image.png
+    storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/footer/image.png
   */
 
   async function SaveImage(file, ruta, name = null) {
@@ -647,11 +647,11 @@ const PageContent = () => {
         titulo: "",
         descripcion:
           "",
-        public_image1: "/blog/blog-10.webp",
+        public_image1: "/blog/blog-10.jpg",
         url_image1: "", //por esta vez url es la ruta para elimianr
-        public_image2: "/blog/blog-10.webp",
+        public_image2: "/blog/blog-10.jpg",
         url_image2: "",
-        public_image3: "/blog/blog-10.webp",
+        public_image3: "/blog/blog-10.jpg",
         url_image3: "",
       });
 
@@ -659,7 +659,7 @@ const PageContent = () => {
         titulo: "",
         texto_frase: "",
         texto_descripcion: "",
-        public_image: "/blog/fondo_blog_extend.webp",
+        public_image: "/blog/fondo_blog_extend.png",
         url_image: "",
       });
 
@@ -668,7 +668,7 @@ const PageContent = () => {
         descripcion:
           "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
         fecha: getCurrentDate(),
-        public_image1: "/blog/blog-4.webp",
+        public_image1: "/blog/blog-4.jpg",
         url_image1: "",
       });
 
@@ -714,9 +714,9 @@ const PageContent = () => {
       });
 
       setFormGaleryBody({
-        public_image2: "/blog/blog-2.webp",
+        public_image2: "/blog/blog-2.jpg",
         url_image2: "",
-        public_image3: "/blog/blog-2.webp",
+        public_image3: "/blog/blog-2.jpg",
         url_image3: "",
       });
 

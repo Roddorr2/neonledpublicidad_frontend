@@ -271,7 +271,7 @@ export default function FormFooter({
                       ) : (
                         <>
                           {formFooter[`public_image${num}`] !==
-                          "/blog/blog-10.webp" ? (
+                          "/blog/blog-10.jpg" ? (
                             <>
                               <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                               <span className="text-sm">Cambiar imagen</span>

@@ -735,7 +735,7 @@ export default function FormBody2(props) {
                       ) : (
                         <>
                           {formEncabezadoBody.public_image1 !==
-                          "/blog/blog-4.webp" ? (
+                          "/blog/blog-4.jpg" ? (
                             <>
                               <Image className="w-5 h-5 mr-2 text-purple-400" />
                               <span className="text-sm">Cambiar imagen</span>
@@ -1078,12 +1078,12 @@ export default function FormBody2(props) {
                 {[
                   {
                     id: 2,
-                    url: formGaleryBody.public_image2 || "/blog/blog-10.webp",
+                    url: formGaleryBody.public_image2 || "/blog/blog-10.jpg",
                     title: "Imagen destacada 1",
                   },
                   {
                     id: 3,
-                    url: formGaleryBody.public_image3 || "/blog/blog-1.webp",
+                    url: formGaleryBody.public_image3 || "/blog/blog-1.jpg",
                     title: "Imagen destacada 2",
                   },
                 ].map((image, index) => (
@@ -1138,7 +1138,7 @@ export default function FormBody2(props) {
                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                           ) : (
                             <>
-                              {image.url !== "/blog/blog-4.webp" ? (
+                              {image.url !== "/blog/blog-4.jpg" ? (
                                 <>
                                   <Image className="w-5 h-5 mr-2 text-purple-400" />
                                   <span className="text-sm">

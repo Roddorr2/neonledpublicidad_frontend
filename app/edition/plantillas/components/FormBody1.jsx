@@ -629,7 +629,7 @@ export default function FormBody1(props) {
                   ) : (
                     <>
                       {formEncabezadoBody.public_image1 !==
-                      "/blog/blog-4.webp" ? (
+                      "/blog/blog-4.jpg" ? (
                         <>
                           <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                           <span className="text-sm">
@@ -812,12 +812,12 @@ export default function FormBody1(props) {
         <div className="grid grid-cols-1 sm:grid-cols-1 gap-6">
           {[
             {
-              src: formGaleryBody.public_image2 || "/blog/blog-10.webp",
+              src: formGaleryBody.public_image2 || "/blog/blog-10.jpg",
               alt: formGaleryBody.alt_image2 || "Imagen 2 del artículo",
               title: formGaleryBody.title_image2 || "Imagen 2 del artículo",
             },
             {
-              src: formGaleryBody.public_image3 || "/blog/blog-1.webp",
+              src: formGaleryBody.public_image3 || "/blog/blog-1.jpg",
               alt: formGaleryBody.alt_image3 || "Imagen 3 del artículo",
               title: formGaleryBody.title_image3 || "Imagen 3 del artículo",
             },
@@ -872,7 +872,7 @@ export default function FormBody1(props) {
                     ) : (
                       <>
                         {formGaleryBody.public_image2 !==
-                        "/blog/blog-2.webp" ? (
+                        "/blog/blog-2.jpg" ? (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen 2</span>
@@ -963,7 +963,7 @@ export default function FormBody1(props) {
                     ) : (
                       <>
                         {formGaleryBody.public_image3 !==
-                        "/blog/blog-2.webp" ? (
+                        "/blog/blog-2.jpg" ? (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen 3</span>

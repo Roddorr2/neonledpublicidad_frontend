@@ -117,7 +117,7 @@ export default function FormHeader({
       const seoFieldsValid = isValid_meta_titulo && isValid_meta_descripcion;
       const hasImage =
         dataHeader?.public_image &&
-        dataHeader.public_image !== "/blog/fondo_blog_extend.webp";
+        dataHeader.public_image !== "/blog/fondo_blog_extend.png";
       const imageFieldsValid = hasImage ? isValid_alt && isValid_title : true;
 
       if (
@@ -285,7 +285,7 @@ export default function FormHeader({
   const handleDeleteImage = () => {
     setFormData((prev) => ({
       ...prev,
-      public_image: "/blog/fondo_blog_extend.webp",
+      public_image: "/blog/fondo_blog_extend.png",
       image_alt: "",
       image_title: "",
     }));
@@ -310,7 +310,7 @@ export default function FormHeader({
 
   const hasCustomImage =
     dataHeader?.public_image &&
-    dataHeader.public_image !== "/blog/fondo_blog_extend.webp";
+    dataHeader.public_image !== "/blog/fondo_blog_extend.png";
 
   useEffect(() => {
     updateValidation();
@@ -353,7 +353,7 @@ export default function FormHeader({
       id="file-name"
       style={{
         backgroundImage: `url(${
-          dataHeader?.public_image || "/blog/fondo_blog_extend.webp"
+          dataHeader?.public_image || "/blog/fondo_blog_extend.png"
         })`,
         backgroundSize: "cover",
       }}

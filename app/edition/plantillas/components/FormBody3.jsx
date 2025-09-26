@@ -567,7 +567,7 @@ export default function FormBody3(props) {
                 <div className="relative">
                   <img
                     src={
-                      formEncabezadoBody.public_image1 || "/blog/blog-4.webp"
+                      formEncabezadoBody.public_image1 || "/blog/blog-4.jpg"
                     }
                     alt={
                       formEncabezadoBody.alt_image1 ||
@@ -600,8 +600,8 @@ export default function FormBody3(props) {
 
               <div className="flex flex-col gap-6">
                 {[
-                  formGaleryBody.public_image2 || "/blog/blog-10.webp",
-                  formGaleryBody.public_image3 || "/blog/blog-1.webp",
+                  formGaleryBody.public_image2 || "/blog/blog-10.jpg",
+                  formGaleryBody.public_image3 || "/blog/blog-1.jpg",
                 ].map((src, index) => (
                   <div
                     key={index}
@@ -894,7 +894,7 @@ export default function FormBody3(props) {
                 ) : (
                   <>
                     {formEncabezadoBody?.public_image1 !==
-                    "/blog/blog-4.webp" ? (
+                    "/blog/blog-4.jpg" ? (
                       <>
                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                         <span className="text-sm">Cambiar imagen</span>
@@ -1012,7 +1012,7 @@ export default function FormBody3(props) {
                     ) : (
                       <>
                         {formGaleryBody?.public_image2 !==
-                        "/blog/blog-2.webp" ? (
+                        "/blog/blog-2.jpg" ? (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen</span>
@@ -1101,7 +1101,7 @@ export default function FormBody3(props) {
                     ) : (
                       <>
                         {formGaleryBody?.public_image3 !==
-                        "/blog/blog-2.webp" ? (
+                        "/blog/blog-2.jpg" ? (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen</span>

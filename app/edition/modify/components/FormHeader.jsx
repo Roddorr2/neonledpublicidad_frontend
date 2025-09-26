@@ -285,7 +285,7 @@ export default function FormHeader({
   const handleDeleteImage = () => {
     setFormData((prev) => ({
       ...prev,
-      public_image: "/blog/fondo_blog_extend.webp",
+      public_image: "/blog/fondo_blog_extend.png",
       image_alt: "",
       image_title: "",
     }));
