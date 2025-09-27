@@ -150,7 +150,7 @@ export default function Datos({ idProducto }) {
 
       <div className="relative min-h-screen z-10 text-white flex flex-col items-center justify-center p-6">
         <div className='mb-16'>
-        <h1 className="text-4xl font-bold mb-8 text-center">Datos sobre: </h1>
+        <h2 className="text-4xl font-bold mb-8 text-center">Datos sobre: </h2>
         <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">{item.producto}</h1></div>
 
         {/* Versión móvil - Carrusel */}
