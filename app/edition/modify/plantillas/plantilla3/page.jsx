@@ -392,7 +392,7 @@ const PageContent = () => {
     const form = {
       id_blog: dataBlog.id_blog,
       titulo: dataHeader.titulo,
-      descripcion: dataHeader.texto_descripcion,
+      descripcion: formEncabezadoBody.descripcion,
       public_image: dataHeader.public_image,
       url_image: dataHeader.url_image,
       id_plantilla: 3,
