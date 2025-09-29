@@ -120,9 +120,8 @@ const PageContent = () => {
    * Estado inicial del formulario de pie de página del blog. Contiene campos para título, descripción y tres imágenes públicas.
    */
   const [formFooter, setFormFooter] = useState({
-    titulo: "",
-    descripcion:
-      "",
+    titulo: "Titulo del Footer",
+    descripcion: "Descripción del Footer",
     public_image1: "/blog/blog-10.jpg",
     url_image1: "", //por esta vez url es la ruta para eliminar
     alt_image1: "",
@@ -142,9 +141,9 @@ const PageContent = () => {
    * Estado inicial del encabezado del blog. Contiene campos para título, texto atractivo, descripción y una imagen pública.
    */
   const [dataHeader, setDataHeader] = useState({
-    titulo: "",
-    texto_frase: "",
-    texto_descripcion: "",
+    titulo: "Título del Encabezado",
+    texto_frase: "Frase Atractiva",
+    texto_descripcion: "Descripción del Encabezado",
     public_image: "/blog/fondo_blog_extend.png",
     url_image: "",
     alt: "",
@@ -223,6 +222,10 @@ const PageContent = () => {
     url_image3: "",
     alt_image3: "",
     title_image3: "",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    service_url: "",
   });
 
   useEffect(() => {
@@ -729,8 +732,10 @@ const PageContent = () => {
           texto_descripcion: "",
           public_image: "/blog/fondo_blog_extend.png",
           url_image: "",
-          image_alt: "",
-          image_title: "",
+          alt: "",
+          title: "",
+          meta_title: "",
+          meta_descripcion: "",
         });
 
         setFormEncabezadoBody({
@@ -740,8 +745,8 @@ const PageContent = () => {
           fecha: getCurrentDate(),
           public_image1: "/blog/blog-4.jpg",
           url_image1: "",
-          image1_alt: "",
-          image1_title: "",
+          alt_image1: "",
+          title_image1: "",
         });
 
         setFormInfoBody([
@@ -788,12 +793,16 @@ const PageContent = () => {
         setFormGaleryBody({
           public_image2: "/blog/blog-2.jpg",
           url_image2: "",
-          image2_alt: "",
-          image2_title: "",
+          alt_image2: "",
+          title_image2: "",
           public_image3: "/blog/blog-2.jpg",
           url_image3: "",
-          image3_alt: "",
-          image3_title: "",
+          alt_image3: "",
+          title_image3: "",
+          flag_galeria: 1,
+          flag_consejos: 1,
+          flag_informacion: 1,
+          service_url: "",
         });
 
         // Limpiar archivos

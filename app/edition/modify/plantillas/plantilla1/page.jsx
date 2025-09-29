@@ -152,6 +152,10 @@ const PageContent = () => {
     url_image3: "",
     alt_image3: "",
     title_image3: "",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    service_url: "",
   });
 
   // Funciones de eliminación de imágenes
@@ -340,6 +344,10 @@ const PageContent = () => {
         title_image2: responseBody.title_image2 || "",
         alt_image3: responseBody.alt_image3 || "",
         title_image3: responseBody.title_image3 || "",
+        flag_galeria: responseBody.flag_galeria || 1,
+        flag_consejos: responseBody.flag_consejos || 1,
+        flag_informacion: responseBody.flag_informacion || 1,
+        service_url: responseBody.service_url || "",
       });
 
       // Cargar tarjetas de información

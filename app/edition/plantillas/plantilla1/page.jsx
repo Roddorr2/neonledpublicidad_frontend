@@ -102,9 +102,9 @@ const PageContent = () => {
    * Estado inicial del formulario de pie de página del blog. Contiene campos para título, descripción y tres imágenes públicas.
    */
   const [formFooter, setFormFooter] = useState({
-    titulo: "",
+    titulo: "Titulo del Footer",
     descripcion:
-      "",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     public_image1: "/blog/blog-10.jpg",
     url_image1: "", //por esta vez url es la ruta para eliminar
     alt_image1: "",
@@ -124,9 +124,9 @@ const PageContent = () => {
    * Estado inicial del encabezado del blog. Contiene campos para título, texto atractivo, descripción y una imagen pública.
    */
   const [dataHeader, setDataHeader] = useState({
-    titulo: "",
-    texto_frase: "",
-    texto_descripcion: "",
+    titulo: "Titulo del Encabezado",
+    texto_frase: "Texto atractivo del encabezado",
+    texto_descripcion: "Descripción del encabezado",
     public_image: "/blog/fondo_blog_extend.png",
     url_image: "",
     alt: "",
@@ -204,6 +204,10 @@ const PageContent = () => {
     url_image3: "",
     alt_image3: "",
     title_image3: "",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    service_url: "",
   });
 
   useEffect(() => {
@@ -644,23 +648,33 @@ const PageContent = () => {
       });
 
       setFormFooter({
-        titulo: "",
-        descripcion:
-          "",
+        titulo: "Titulo del Footer",
+        descripcion: "Descripción del Footer",
         public_image1: "/blog/blog-10.jpg",
         url_image1: "", //por esta vez url es la ruta para elimianr
+        alt_image1: "",
+        title_image1: "",
         public_image2: "/blog/blog-10.jpg",
         url_image2: "",
+        alt_image2: "",
+        title_image2: "",
         public_image3: "/blog/blog-10.jpg",
         url_image3: "",
+        alt_image3: "",
+        title_image3: "",
+        estado: 1,
       });
 
       setDataHeader({
-        titulo: "",
-        texto_frase: "",
-        texto_descripcion: "",
+        titulo: "Titulo del Encabezado",
+        texto_frase: "Texto atractivo del encabezado",
+        texto_descripcion: "Descripción del encabezado",
         public_image: "/blog/fondo_blog_extend.png",
         url_image: "",
+        alt: "",
+        title: "",
+        meta_title: "",
+        meta_descripcion: "",
       });
 
       setFormEncabezadoBody({
@@ -670,6 +684,8 @@ const PageContent = () => {
         fecha: getCurrentDate(),
         public_image1: "/blog/blog-4.jpg",
         url_image1: "",
+        alt_image1: "",
+        title_image1: "",
       });
 
       setFormInfoBody([
@@ -716,8 +732,16 @@ const PageContent = () => {
       setFormGaleryBody({
         public_image2: "/blog/blog-2.jpg",
         url_image2: "",
+        alt_image2: "",
+        title_image2: "",
         public_image3: "/blog/blog-2.jpg",
         url_image3: "",
+        alt_image3: "",
+        title_image3: "",
+        flag_galeria: 1,
+        flag_consejos: 1,
+        flag_informacion: 1,
+        service_url: "",
       });
 
       setFileHeader(null);

@@ -99,6 +99,8 @@ const PageContent = () => {
     fecha: "2025-03-31",
     public_image1: "/blog/blog-4.jpg",
     url_image1: "",
+    alt_image1: "",
+    title_image1: "",
   });
 
   const [formInfoBody, setFormInfoBody] = useState([
@@ -144,8 +146,16 @@ const PageContent = () => {
   const [formGaleryBody, setFormGaleryBody] = useState({
     public_image2: "/blog/blog-2.jpg",
     url_image2: "",
+    alt_image2: "",
+    title_image2: "",
     public_image3: "/blog/blog-2.jpg",
     url_image3: "",
+    alt_image3: "",
+    title_image3: "",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    service_url: "",
   });
 
   // Funciones de eliminación de imágenes
@@ -337,6 +347,10 @@ const PageContent = () => {
         url_image3: responseBody.url_image3 || "",
         alt_image3: responseBody.alt_image3 || "",
         title_image3: responseBody.title_image3 || "",
+        flag_galeria: responseBody.flag_galeria || 1,
+        flag_consejos: responseBody.flag_consejos || 1,
+        flag_informacion: responseBody.flag_informacion || 1,
+        service_url: responseBody.service_url || "",
       });
 
       // Cargar tarjetas de información
@@ -441,10 +455,16 @@ const PageContent = () => {
       id_commend_tarjeta: id_commend_tarjeta,
       public_image1: formEncabezadoBody.public_image1,
       url_image1: formEncabezadoBody.url_image1,
+      alt_image1: formEncabezadoBody.alt_image1,
+      title_image1: formEncabezadoBody.title_image1,
       public_image2: formGaleryBody.public_image2,
       url_image2: formGaleryBody.url_image2,
+      alt_image2: formGaleryBody.alt_image2,
+      title_image2: formGaleryBody.title_image2,
       public_image3: formGaleryBody.public_image3,
       url_image3: formGaleryBody.url_image3,
+      alt_image3: formGaleryBody.alt_image3,
+      title_image3: formGaleryBody.title_image3,
       service_url: serviceRedirectUrl,
     };
 

@@ -217,7 +217,7 @@ export default function FormHeader({
 
       case "meta_descripcion":
         isValid =
-          value.trim() !== "" && value.length <= 160 && value.length >= 120;
+          value.trim() !== "" && value.length <= 160 && value.length >= 10;
         setIsValid_meta_descripcion(isValid);
         setErrors((prev) => ({
           ...prev,

@@ -755,6 +755,46 @@ export default function FormBody2(props) {
                       <Trash2 className="w-5 h-5 text-red-500" />
                     </button>
                   </div>
+                  {/* Texto Alternativo (Alt) */}
+                  <div className="mt-4">
+                    <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                      <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Texto
+                      Alternativo (Alt)
+                    </label>
+                    <input
+                      type="text"
+                      name="alt_image1"
+                      maxLength={125}
+                      value={formEncabezadoBody.alt_image1 || ""}
+                      onChange={handleChange(setFormEncabezadoBody)}
+                      className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="Imagen principal: Título del Blog"
+                    />
+                    <p className="text-gray-400 text-xs mt-1">
+                      Máximo 125 caracteres - Describe qué se ve en la imagen
+                    </p>
+                  </div>
+
+                  {/* Título de Imagen */}
+                  <div>
+                    <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                      <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Título
+                      de Imagen
+                    </label>
+                    <input
+                      type="text"
+                      name="title_image1"
+                      maxLength={100}
+                      value={formEncabezadoBody.title_image1 || ""}
+                      onChange={handleChange(setFormEncabezadoBody)}
+                      className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="Ver imagen: Título del Blog"
+                    />
+                    <p className="text-gray-400 text-xs mt-1">
+                      Máximo 100 caracteres - Información adicional sobre la
+                      imagen
+                    </p>
+                  </div>
                 </div>
               </form>
             </div>
@@ -1089,6 +1129,40 @@ export default function FormBody2(props) {
                           <Trash2 className="w-5 h-5 text-red-500" />
                         </button>
                       </div>
+                      {/* Inputs ALT y TITLE */}
+                      <label className="flex items-center text-gray-600 text-sm font-semibold mb-2 mt-3">
+                        <Type className="w-4 h-4 mr-1.5 text-blue-400" />
+                        Texto Alternativo (Alt)
+                      </label>
+                      <input
+                        type="text"
+                        name={`alt_image${image.id}`}
+                        value={formGaleryBody[`alt_image${image.id}`]}
+                        onChange={handleChange(setFormGaleryBody)}
+                        placeholder="Descripción de la imagen para lectores de pantalla"
+                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                        title="Texto alternativo (accesibilidad)"
+                      />
+                      <p className="text-gray-800 text-xs mt-1">
+                        Máximo 125 caracteres - Describe qué se ve en la imagen
+                      </p>
+                      <label className="flex items-center text-gray-600 text-sm font-semibold mb-2 mt-2">
+                        <Type className="w-4 h-4 mr-1.5 text-blue-400" />
+                        Titulo de la Imagen
+                      </label>
+                      <input
+                        type="text"
+                        name={`title_image${image.id}`}
+                        value={formGaleryBody[`title_image${image.id}`]}
+                        onChange={handleChange(setFormGaleryBody)}
+                        placeholder="Título que aparece al pasar el mouse sobre la imagen"
+                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                        title="Título de la imagen (tooltip al hacer hover)"
+                      />
+                      <p className="text-gray-800 text-xs mt-1">
+                        Máximo 100 caracteres - Información adicional sobre la
+                        imagen
+                      </p>
                     </div>
                   </div>
                 ))}

@@ -535,7 +535,7 @@ export default function FormBody3(props) {
   return (
     <div className="relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] flex flex-row my-5 justify-center">
       <div className="w-[700px]">
-        <div className="bg-gradient-to-r from-indigo-900 to-purple-900 py-3 px-6 flex justify-between items-center mt-[335px]">
+        <div className="bg-gradient-to-r from-indigo-900 to-purple-900 py-3 px-6 flex justify-between items-center">
           <div className="flex items-center text-white">
             <Calendar className="w-4 h-4 mr-2" />
             <span className="text-sm font-medium">
@@ -566,9 +566,7 @@ export default function FormBody3(props) {
                 <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur"></div>
                 <div className="relative">
                   <img
-                    src={
-                      formEncabezadoBody.public_image1 || "/blog/blog-4.jpg"
-                    }
+                    src={formEncabezadoBody.public_image1 || "/blog/blog-4.jpg"}
                     alt={
                       formEncabezadoBody.alt_image1 ||
                       formEncabezadoBody.titulo ||
@@ -752,7 +750,7 @@ export default function FormBody3(props) {
       {/* PANEL DE CONTROL */}
       <div className="w-[420px] flex flex-col justify-center gap-5 p-5">
         {/* CONTROLES DE SECCIONES */}
-        <div className="max-w-sm mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-6 shadow-lg h-15">
+        {/* <div className="max-w-sm mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-6 shadow-lg h-15">
           <h3 className="text-white text-lg font-semibold mb-4">
             Configurar Secciones
           </h3>
@@ -836,7 +834,7 @@ export default function FormBody3(props) {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* FORMULARIO PRINCIPAL */}
         <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto">
