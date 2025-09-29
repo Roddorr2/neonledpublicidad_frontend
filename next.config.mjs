@@ -6,7 +6,6 @@
         experimental: {
             optimizeCss: true,
         },
-        optimizeFonts: true,
     };
 
     export default nextConfig;
