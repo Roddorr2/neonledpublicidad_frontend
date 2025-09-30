@@ -3,6 +3,9 @@
         output: "export",
         images: { unoptimized: true },
         trailingSlash : true,
+        experimental: {
+            optimizeCss: true,
+        },
     };
 
     export default nextConfig;

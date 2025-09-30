@@ -36,7 +36,7 @@ export default function Home() {
     <>
       <Banner
         titulo={`IMPRESIÓN\nEN VINILO`}
-        imagen="/productosIndividuales/banner/impresion-vinilo.webp"
+        imagen="/productosIndividuales/banner/vinilosparapared.webp"
       />
       <Section2 idProducto={idProducto} />
       <Datos idProducto={idProducto}/>
