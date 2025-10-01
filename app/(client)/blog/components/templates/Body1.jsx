@@ -139,7 +139,7 @@ export default function Body1({ id_blog_body, fecha }) {
             
             <div>
                 <div className="relative z-20 h-full flex flex-col justify-end items-center p-8 text-center">
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-black mb-4 bg-opacity-60 inline w-fit">{data.titulo}</h2>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 bg-opacity-60 inline w-fit">{data.titulo}</h2>
                     <p className="text-black mb-2 bg-opacity-60 inline w-fit">{fecha}</p>
                     <p className="text-lg py-5 px-5 rounded-lg leading-relaxed bg-[--azul_cobalto] w-fit text-white">{data.descripcion}</p>
                     

@@ -31,9 +31,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-        <head>
-        {/* Google Tag Manager */}
-        <Script id="gtm-script" strategy="afterInteractive">
+        {/* <head>
+        Google Tag Manager
+        <Script id="gtm-script" strategy="lazyOnload">
           {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -42,21 +42,21 @@ export default function RootLayout({ children }) {
           })(window,document,'script','dataLayer','GTM-TX8GKPRZ');
           `}
         </Script>
-        {/* End Google Tag Manager */}
-      </head>
+        End Google Tag Manager
+      </head> */}
       <body
         className={`${inter.variable} ${leagueGothic.variable} font-sans antialiased bg-[#05070D] min-h-screen m-0 p-0`}
       >
-        <noscript>
+        {/* <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MR2MC9SB"
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
-        </noscript>
+        </noscript> */}
         {children}
-         <WhatsAppButton />
+        <WhatsAppButton />
       </body>
     </html>
   );
