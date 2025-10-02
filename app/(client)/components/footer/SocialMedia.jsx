@@ -60,7 +60,7 @@ export const SocialMedia = () => {
                                 title={title}
                                 width={44}
                                 height={44}
-                                className="text-white"
+                                className="text-white w-11 h-11"
                             />
                         </div>
                     </a>
