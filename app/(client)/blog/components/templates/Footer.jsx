@@ -34,6 +34,16 @@ export default function Footer({ id_blog_footer }) {
         fetchFooterData()
     }, [id_blog_footer])
 
+    const getImageUrl = (previewImageUrl, fallback) => {
+        if (!previewImageUrl) return fallback;
+
+        if (previewImageUrl.startsWith("blob:")) {
+        return previewImageUrl; 
+        }
+
+        return `${previewImageUrl}?v=${Date.now()}`; 
+    };
+
     if (isLoading) {
         return (
             <div className="mt-12 max-w-[1000px] mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg shadow-[0px_8px_20px_rgba(0,0,0,0.3)] overflow-hidden">
@@ -158,9 +168,15 @@ export default function Footer({ id_blog_footer }) {
 
                     {(data.public_image1 || data.public_image2 || data.public_image3) && (
                         <div className="flex flex-wrap justify-center gap-3 mt-6">
-                            {[data.public_image1, data.public_image2, data.public_image3].map((image, index) => {
-                                const imageUrl = image
-
+                            {[
+                                // data.public_image1, data.public_image2, data.public_image3
+                                { src: data.public_image1, alt: data.alt_image1, title: data.title_image1 },
+                                { src: data.public_image2, alt: data.alt_image2, title: data.title_image2 },
+                                { src: data.public_image3, alt: data.alt_image3, title: data.title_image3 },
+                            ]
+                            .map((image, index) => {
+                                // const imageUrl = image
+                                const imageUrl = getImageUrl(image.src);
                                 return (
                                     <div key={index} className="relative group">
                                         <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-blue-500/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -169,7 +185,9 @@ export default function Footer({ id_blog_footer }) {
 
                                         <img
                                             src={imageUrl || "/placeholder.svg"}
-                                            alt={`Imagen ${index + 1}`}
+                                            // alt={`Imagen ${index + 1}`}
+                                            alt={image.alt || `Imagen ${index + 1}`}
+                                            title={image.title || ""}
                                             className="w-48 h-36 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10"
                                             loading="lazy"
                                         />

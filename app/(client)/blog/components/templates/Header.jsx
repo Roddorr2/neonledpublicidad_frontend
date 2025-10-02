@@ -95,8 +95,14 @@ export default function Header({ id_blog_head }) {
     return (
         <div
             className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${data.public_image})`}}
+            style={{ backgroundImage: `url(${data.public_image}?v=${Date.now()})`}}
         >
+             <img 
+                src={`${data.public_image}?v=${Date.now()}`} 
+                alt={data.alt || "Imagen de fondo"} 
+                title={data.title || ""} 
+                className="hidden" 
+            />
             <div className="absolute inset-0 bg-black/60"></div>
 
             <div className="relative z-10 max-w-2xl text-white">
