@@ -781,10 +781,7 @@ export default function FormBody2(props) {
                       type="text"
                       name="alt_image1"
                       maxLength={125}
-                      value={
-                        formEncabezadoBody.alt_image1 ||
-                        generateAltText(formEncabezadoBody.titulo, "principal")
-                      }
+                      value={formEncabezadoBody.alt_image1 || ""}
                       onChange={handleChange(setFormEncabezadoBody)}
                       className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                       placeholder="Descripción de la imagen para lectores de pantalla"
@@ -804,10 +801,7 @@ export default function FormBody2(props) {
                       type="text"
                       name="title_image1"
                       maxLength={100}
-                      value={
-                        formEncabezadoBody.title_image1 ||
-                        generateTitle(formEncabezadoBody.titulo, "principal")
-                      }
+                      value={formEncabezadoBody.title_image1 || ""}
                       onChange={handleChange(setFormEncabezadoBody)}
                       className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                       placeholder="Título que aparece al pasar el mouse sobre la imagen"
