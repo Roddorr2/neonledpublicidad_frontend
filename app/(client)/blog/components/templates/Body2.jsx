@@ -58,6 +58,16 @@ export default function Body2({ id_blog_body, fecha }) {
         fetchBlogData()
     }, [id_blog_body])
 
+    const getImageUrl = (previewImageUrl, fallback) => {
+        if (!previewImageUrl) return fallback;
+
+        if (previewImageUrl.startsWith("blob:")) {
+        return previewImageUrl; 
+        }
+
+        return `${previewImageUrl}?v=${Date.now()}`; 
+    };
+
     if (isLoading) {
         return (
             <div className="relative lg:mx-48 p-6 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.15)] animate-pulse">
@@ -139,8 +149,11 @@ export default function Body2({ id_blog_body, fecha }) {
 
             <div className="relative h-[300px] md:h-[400px] overflow-hidden">
                 <img
-                    src={data.public_image1}
-                    alt={data.titulo || "Imagen principal"}
+                    // src={data.public_image1}
+                    // alt={data.titulo || "Imagen principal"}
+                    src={getImageUrl(data.public_image1, "/blog/blog-4.jpg")}
+                    alt={data.alt_image1 || data.titulo}
+                    title={data.title_image1}
                     className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -230,11 +243,26 @@ export default function Body2({ id_blog_body, fecha }) {
 
                     {activeTab === "gallery" && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {[data.public_image2 || "/blog/blog-10.jpg", data.public_image3 || "/blog/blog-1.jpg"].map((src, index) => (
+                            {[
+                                
+                                // data.public_image2 || "/blog/blog-10.jpg", data.public_image3 || "/blog/blog-1.jpg"
+                                { 
+                                    src: getImageUrl(data.public_image2, "/blog/blog-10.jpg"), 
+                                    alt: data.alt_image2 || data.titulo, 
+                                    title: data.title_image2 || "" 
+                                },
+                                { 
+                                    src: getImageUrl(data.public_image3, "/blog/blog-1.jpg"), 
+                                    alt: data.alt_image3 || data.titulo, 
+                                    title: data.title_image3 || "" 
+                                },
+                            ].map((image, index) => (
                                 <div key={index} className="group relative rounded-xl overflow-hidden shadow-md">
                                     <img
-                                        src={src}
-                                        alt={`Imagen ${index + 1} del artículo`}
+                                        src={image.src}
+                                        // alt={`Imagen ${index + 1} del artículo`}
+                                        alt={image.alt}
+                                        title={image.title}
                                         className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
                                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

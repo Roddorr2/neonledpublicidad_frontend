@@ -49,7 +49,7 @@ const Banner = () => {
             "text-[30px] sm:text-[40px] md:text-[50px] lg:text-[60px] font-bold mb-6 text-center font-bold neon-textov2 mt-[-20px]"
           }
         >
-          <span style={{ color: "#3abed2ff" }}>¿Quieres conocer más?</span>
+          <span style={{ color: "#48A8FF" }}>¿Quieres conocer más?</span>
         </h1>
 
         <p
