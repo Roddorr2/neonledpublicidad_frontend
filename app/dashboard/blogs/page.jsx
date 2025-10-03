@@ -361,7 +361,7 @@ export default function Page() {
                 </div>
             ) : (
                 <>
-                    <div className="bg-white rounded-xl shadow-sm overflow-y-auto mb-6">
+                    <div className="hidden md:block bg-white rounded-xl shadow-sm overflow-y-auto mb-6">
                         <div className="overflow-x-auto">
 
                             <table className="w-full">
@@ -500,7 +500,7 @@ export default function Page() {
                     )}
 
                     {/* Vista de tarjetas para pantallas pequeñas y medianas */}
-                    <div className="lg:hidden space-y-4 mb-6">
+                    <div className="block md:hidden space-y-4 mb-6">
                         {displayedBlogs.map((blog) => (
                             <BlogCard key={`blog-card-${blog.id_card}`} blog={blog} />
                         ))}
