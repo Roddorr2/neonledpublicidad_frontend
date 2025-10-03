@@ -40,12 +40,12 @@ const Slider = ({ slides }) => {
       <div className="relative w-full h-full">
         <SlideItem slides={slides} current={current} />
 
-        {/* Panel de previsualización - Responsive y oculto en móviles */}
+        {/* Panel de previsualización - Responsive y oculto en móviles
         <SlideThumbnails
           slides={slides}
           current={current}
           setCurrent={setCurrent}
-        />
+        /> */}
 
         {/* Indicadores de slide para móviles */}
         <SlideIndicators
