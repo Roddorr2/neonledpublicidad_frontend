@@ -188,7 +188,7 @@
 }
 
 
-.producto::before {
+.producto-card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -206,7 +206,7 @@
   border-radius: 12px;
 }
 
-.producto:hover::before {
+.producto-card:hover::before {
   animation: shine 0.75s ease forwards;
 }
 
@@ -355,7 +355,7 @@
   justify-content: center;
 }
 
-.producto::before {
+.producto-card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -378,7 +378,7 @@
   transform: skewX(-25deg);
 }
 
-.producto:hover::before {
+.producto-card:hover::before {
   -webkit-animation: shine 0.75s ease forwards;
   animation: shine 0.75s ease forwards;
 }
