@@ -1,7 +1,7 @@
 export const metadata = {
  
   openGraph: {
-    url: "https://ledneonpublicidad.com/reclamaciones",
+    url: "https://ledneonpublicidad.com/reclamaciones/",
     siteName: "Neon Led Publicidad",
     images: [],
     locale: "es_PE",
@@ -9,7 +9,7 @@ export const metadata = {
   },
 
   alternates: {
-    canonical: "https://ledneonpublicidad.com/reclamaciones",
+    canonical: "https://ledneonpublicidad.com/reclamaciones/",
   },
 
   keywords: [

@@ -38,14 +38,14 @@ export const metadata = {
     title: "Letras Acrílico _ Lima Perú",
     description:
       "Dale estilo a tu marca con letras de acrílico: resistentes, modernas y perfectas para destacar en interiores o exteriores.",
-    url: "https://ledneonpublicidad.com/productos/letras-acrilico",
+    url: "https://ledneonpublicidad.com/productos/letras-acrilico/",
     siteName: "Neon Led Publicidad",
     images: [],
     locale: "es_PE",
     type: "website",
   },
   alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/letras-acrilico",
+    canonical: "https://ledneonpublicidad.com/productos/letras-acrilico/",
   },
 };
 
@@ -66,7 +66,7 @@ export default function LetrasAcrilicoLayout({ children }) {
     "@type": "Brand",
     "name": "LedNeonPublicidad"
   },
-  "url": "https://ledneonpublicidad.com/productos/letras-acrilico",
+  "url": "https://ledneonpublicidad.com/productos/letras-acrilico/",
   "offers": {
       "@type": "Offer",
       "priceCurrency": "PEN",

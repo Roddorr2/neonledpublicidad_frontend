@@ -33,14 +33,14 @@ export const metadata = {
     title: "Pixel LED en Lima | Iluminación Digital para Eventos y Publicidad",
     description:
       "Descubre los mejores productos de iluminación Pixel LED en Lima, Perú. Tecnología innovadora ideal para publicidad, decoración y exhibiciones impactantes.",
-    url: "https://ledneonpublicidad.com/productos/pixel-led",
+    url: "https://ledneonpublicidad.com/productos/pixel-led/",
     siteName: "Neon Led Publicidad",
     images: [],
     locale: "es_PE",
     type: "website",
   },
   alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/pixel-led",
+    canonical: "https://ledneonpublicidad.com/productos/pixel-led/",
   },
 };
 
