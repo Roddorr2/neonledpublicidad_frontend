@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo={`MENÚS\nBOARDS`}
+        titulo={`MENÚ BOARDS`}
         imagen="/productosIndividuales/banner/menu-board.webp"
       />
       <Section2 idProducto={idProducto} />

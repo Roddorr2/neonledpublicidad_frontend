@@ -3,8 +3,8 @@ import { League_Gothic } from 'next/font/google'; // ⭐ Agregar esta línea
 import "./globals.css";
 import { WhatsAppButton } from "./(client)/components/index";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+//import "swiper/css/navigation";
+//import "swiper/css/pagination";
 import Script from 'next/script';
 
 const inter = Inter({
