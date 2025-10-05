@@ -24,7 +24,6 @@ import {
 import auth_service from "../users/services/auth.service"
 
 export default function Page() {
-
     const [allBlogs, setAllBlogs] = useState([])
     const [myBlogs, setMyBlogs] = useState([])
     const [displayedBlogs, setDisplayedBlogs] = useState([])
@@ -38,7 +37,9 @@ export default function Page() {
     const [currentPage, setCurrentPage] = useState(1)
     const blogsPerPage = 5
 
-    const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
+    const id_empleado = getCookie("empleado")
+        ? JSON.parse(getCookie("empleado")).id_empleado
+        : -1
 
     useEffect(() => {
         fetchData()
@@ -62,7 +63,9 @@ export default function Page() {
         }
 
         const query = searchQuery.toLowerCase().trim()
-        const filtered = sourceData.filter((blog) => blog.titulo.toLowerCase().includes(query))
+        const filtered = sourceData.filter((blog) =>
+            blog.titulo.toLowerCase().includes(query)
+        )
 
         setFilteredBlogs(filtered)
         setCurrentPage(1)
@@ -135,11 +138,6 @@ export default function Page() {
             cancelButtonColor: "#64748b",
             confirmButtonText: "Sí, eliminar",
             cancelButtonText: "Cancelar",
-            buttonsStyling: true,
-            customClass: {
-                confirmButton: "!px-6",
-                cancelButton: "!px-6",
-            },
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteBlog(id)
@@ -320,9 +318,12 @@ export default function Page() {
                                 disabled={isRefreshing}
                                 className={`flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""
                                     }`}
-                                title="Actualizar datos"
                             >
-                                {isRefreshing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+                                {isRefreshing ? (
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                    <RefreshCw className="w-4 h-4" />
+                                )}
                             </button>
 
                             <Link
@@ -337,6 +338,7 @@ export default function Page() {
                 </div>
             </div>
 
+            {/* Contenido */}
             {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl shadow-sm">
                     <Loader2 className="h-10 w-10 text-sky-600 dark:text-sky-400 animate-spin mb-4" />
@@ -485,7 +487,9 @@ export default function Page() {
                                 ))}
 
                                 <button
-                                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                                    onClick={() =>
+                                        setCurrentPage(Math.min(totalPages, currentPage + 1))
+                                    }
                                     disabled={currentPage === totalPages}
                                     className={`p-2 rounded-lg border ${currentPage === totalPages
                                             ? "bg-slate-50 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 cursor-not-allowed"
