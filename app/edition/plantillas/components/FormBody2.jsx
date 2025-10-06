@@ -15,9 +15,128 @@ import {
   BookType,
 } from "lucide-react";
 import { useState } from "react";
-import AddLinkButton from "./AddLinkButton";
+import { ProductosLink } from "../utils";
+import { createPortal } from "react-dom";
+// import AddLinkButton from "./AddLinkButton";
+
+const AddLinkButton = ({ item, index, servicios, handleChange }) => {
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [textToLink, setTextToLink] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
+
+  const addLink = () => {
+    if (textToLink.trim() && linkUrl.trim()) {
+      // Guardar URL
+      handleChange({ target: { value: linkUrl } }, index, "link");
+
+      // Guardar texto ancla
+      handleChange({ target: { value: textToLink.trim() } }, index, "keyword");
+
+      // Resetear modal
+      setShowLinkModal(false);
+      setTextToLink("");
+      setLinkUrl("");
+    }
+  };
+
+  const modal = (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+        <h3 className="text-lg font-bold mb-4 text-black">Añadir Link</h3>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-black mb-2">
+            Texto o frase a enlazar:
+          </label>
+          <textarea
+            value={textToLink}
+            onChange={(e) => setTextToLink(e.target.value)}
+            className="w-full p-2 border rounded text-black resize-none"
+            rows="2"
+            placeholder="Ej: 'nuestros servicios de marketing digital'"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-black mb-2">
+            URL del enlace:
+          </label>
+          <select
+            value={linkUrl}
+            onChange={(e) => setLinkUrl(e.target.value)}
+            className="w-full p-2 border rounded text-black"
+          >
+            <option value="">Seleccionar servicio</option>
+            {servicios.map((serv) => (
+              <option key={serv.url} value={serv.url}>
+                {serv.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="url"
+            value={linkUrl}
+            onChange={(e) => setLinkUrl(e.target.value)}
+            className="w-full p-2 border rounded mt-2 text-black"
+            placeholder="O escribir URL personalizada"
+          />
+        </div>
+
+        <div className="flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={() => setShowLinkModal(false)}
+            className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            onClick={addLink}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Añadir
+          </button>
+        </div>
+
+        {item && item.keyword && item.link && (
+          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
+            <p className="text-sm text-green-800">
+              <strong>Link actual:</strong> "{item.keyword}" → {item.link}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                handleChange({ target: { value: "" } }, index, "keyword");
+                handleChange({ target: { value: "" } }, index, "link");
+              }}
+              className="text-red-600 text-xs underline mt-1"
+            >
+              Eliminar link
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setShowLinkModal(true)}
+        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+      >
+        + Añadir Link
+      </button>
+
+      {showLinkModal && createPortal(modal, document.body)}
+    </div>
+  );
+};
 
 export default function FormBody2(props) {
+  const productos = ProductosLink
   const [activeTab, setActiveTab] = useState("info");
   const [uploading, setUploading] = useState(false);
 
@@ -82,15 +201,6 @@ export default function FormBody2(props) {
     }))
   );
 
-  const servicios = [
-    { label: "Diseño y Desarrollo Web", url: "/servicios/desing-desarrollo/" },
-    { label: "Gestión de Redes Sociales", url: "/servicios/gestion-redes/" },
-    {
-      label: "Marketing de Gestión Digital",
-      url: "/servicios/marketing-gestion/",
-    },
-    { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
-  ];
 
   // Función para generar alt text automático
   const generateAltText = (titulo, tipo = "principal") => {
@@ -139,30 +249,34 @@ export default function FormBody2(props) {
     return `Ver imagen: ${tituloLimpio}`;
   };
 
-  function renderDescripcion(texto, palabraClave, enlace) {
-    if (!palabraClave || !enlace) {
-      return texto;
-    }
-    return texto.split(" ").map((palabra, i) => {
-      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
-      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
 
-      return isMatch ? (
-        <a
-          key={i}
-          href={enlace}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-400 font-bold underline hover:text-blue-200"
-          title={`Enlace externo: ${palabraClave}`}
-        >
-          {palabraClave}
-        </a>
-      ) : (
-        <span key={i}>{" " + palabra + " "}</span>
-      );
-    });
+  function renderDescripcion(texto, palabraClave, enlace) {
+  if (!palabraClave || !enlace) {
+    return texto;
   }
+
+  const escapedKeyword = palabraClave.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const regex = new RegExp(`\\b(${escapedKeyword})\\b`, "gi");
+
+  const partes = texto.split(regex);
+
+  return partes.map((parte, i) =>
+    parte.toLowerCase() === palabraClave.toLowerCase() ? (
+      <a
+        key={i}
+        href={enlace}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-400 font-bold underline hover:text-blue-200"
+      >
+        {parte}
+      </a>
+    ) : (
+      <span key={i}>{parte}</span>
+    )
+  );
+}
 
   const handleServiceChange = (e) => {
     const url = e.target.value;
@@ -873,8 +987,8 @@ export default function FormBody2(props) {
                         <p className="text-gray-700 leading-relaxed">
                           {renderDescripcion(
                             section.descripcion,
-                            section.palabra,
-                            section.enlace
+                            section.keyword,
+                            section.link
                           )}
                         </p>
                       </div>
@@ -945,7 +1059,7 @@ export default function FormBody2(props) {
                             // texto={section.descripcion}
                             item={section}
                             index={index}
-                            servicios={servicios}
+                            servicios={productos}
                             handleChange={handleChangeMap}
                           />
                         </div>
@@ -1215,7 +1329,7 @@ export default function FormBody2(props) {
             </div>
           )}
         </div>
-        <div className="flex flex-row justify-between">
+        {/* <div className="flex flex-row justify-between">
           <div className="display flex justify-center items-center my-8">
             {serviceRedirectUrl && (
               <a
@@ -1230,7 +1344,6 @@ export default function FormBody2(props) {
               </a>
             )}
           </div>
-          {/* NUEVO SELECT para elegir servicio */}
           <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-[400px] max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
             <label className="block mb-2 font-semibold text-white">
               Selecciona servicio para el botón
@@ -1249,7 +1362,7 @@ export default function FormBody2(props) {
               ))}
             </select>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-6 text-center">

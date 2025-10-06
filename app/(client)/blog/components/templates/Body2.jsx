@@ -13,25 +13,30 @@ export default function Body2({ id_blog_body, fecha }) {
     
     function renderDescripcion(texto, palabraClave, enlace) {
         if (!palabraClave || !enlace) {
-        return texto;
+            return texto;
         }
-        return texto.split(" ").map((palabra, i) => {
-        const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
-        const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
 
-        return isMatch ? (
+        const escapedKeyword = palabraClave.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+        const regex = new RegExp(`\\b(${escapedKeyword})\\b`, "gi");
+
+        const partes = texto.split(regex);
+
+        return partes.map((parte, i) =>
+            parte.toLowerCase() === palabraClave.toLowerCase() ? (
             <a
-            key={i}
-            href={enlace}
-            target="_blank"
-            className="text-blue-400 font-bold underline hover:text-blue-200"
+                key={i}
+                href={enlace}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 font-bold underline hover:text-blue-200"
             >
-            {palabraClave}
+                {parte}
             </a>
-        ) : (
-            <span key={i}>{" " + palabra + " "}</span>
+            ) : (
+            <span key={i}>{parte}</span>
+            )
         );
-        });
     }
 
     useEffect(() => {
