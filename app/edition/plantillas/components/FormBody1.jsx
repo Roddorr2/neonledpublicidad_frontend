@@ -18,9 +18,128 @@ import {
 } from "lucide-react";
 
 import { useState } from "react";
-import AddLinkButton from "./AddLinkButton";
+import { createPortal } from "react-dom";
+import { ProductosLink } from "../utils";
+// import AddLinkButton from "./AddLinkButton";
+
+const AddLinkButton = ({ item, index, servicios, handleChange }) => {
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [textToLink, setTextToLink] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
+
+  const addLink = () => {
+    if (textToLink.trim() && linkUrl.trim()) {
+      // Guardar URL
+      handleChange({ target: { value: linkUrl } }, index, "link");
+
+      // Guardar texto ancla
+      handleChange({ target: { value: textToLink.trim() } }, index, "keyword");
+
+      // Resetear modal
+      setShowLinkModal(false);
+      setTextToLink("");
+      setLinkUrl("");
+    }
+  };
+
+  const modal = (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+        <h3 className="text-lg font-bold mb-4 text-black">Añadir Link</h3>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-black mb-2">
+            Texto o frase a enlazar:
+          </label>
+          <textarea
+            value={textToLink}
+            onChange={(e) => setTextToLink(e.target.value)}
+            className="w-full p-2 border rounded text-black resize-none"
+            rows="2"
+            placeholder="Ej: 'nuestros servicios de marketing digital'"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-black mb-2">
+            URL del enlace:
+          </label>
+          <select
+            value={linkUrl}
+            onChange={(e) => setLinkUrl(e.target.value)}
+            className="w-full p-2 border rounded text-black"
+          >
+            <option value="">Seleccionar servicio</option>
+            {servicios.map((serv) => (
+              <option key={serv.url} value={serv.url}>
+                {serv.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="url"
+            value={linkUrl}
+            onChange={(e) => setLinkUrl(e.target.value)}
+            className="w-full p-2 border rounded mt-2 text-black"
+            placeholder="O escribir URL personalizada"
+          />
+        </div>
+
+        <div className="flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={() => setShowLinkModal(false)}
+            className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            onClick={addLink}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Añadir
+          </button>
+        </div>
+
+        {item && item.keyword && item.link && (
+          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
+            <p className="text-sm text-green-800">
+              <strong>Link actual:</strong> "{item.keyword}" → {item.link}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                handleChange({ target: { value: "" } }, index, "keyword");
+                handleChange({ target: { value: "" } }, index, "link");
+              }}
+              className="text-red-600 text-xs underline mt-1"
+            >
+              Eliminar link
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setShowLinkModal(true)}
+        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+      >
+        + Añadir Link
+      </button>
+
+      {showLinkModal && createPortal(modal, document.body)}
+    </div>
+  );
+};
 
 export default function FormBody1(props) {
+  const productos = ProductosLink
   const {
     formCommendBody,
     setFormCommendBody,
@@ -108,38 +227,37 @@ export default function FormBody1(props) {
 
   const [uploading, setUploading] = useState(false);
 
-  const servicios = [
-    { label: "Diseño y Desarrollo Web", url: "/servicios/desing-desarrollo/" },
-    { label: "Gestión de Redes Sociales", url: "/servicios/gestion-redes/" },
-    {
-      label: "Marketing de Gestión Digital",
-      url: "/servicios/marketing-gestion/",
-    },
-    { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
-  ];
 
   function renderDescripcion(texto, palabraClave, enlace) {
-    if (!palabraClave || !enlace) {
-      return texto;
-    }
-    return texto.split(" ").map((palabra, i) => {
-      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
-      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
-
-      return isMatch ? (
-        <a
-          key={i}
-          href={enlace}
-          target="_blank"
-          className="text-blue-400 font-bold underline hover:text-blue-200"
-        >
-          {palabraClave}
-        </a>
-      ) : (
-        <span key={i}>{" " + palabra + " "}</span>
-      );
-    });
+  if (!palabraClave || !enlace) {
+    return texto;
   }
+
+  // Usamos expresión regular para buscar la frase completa
+  const escapedKeyword = palabraClave.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const regex = new RegExp(`\\b(${escapedKeyword})\\b`, "gi");
+
+  // Dividimos el texto respetando la frase clave
+  const partes = texto.split(regex);
+
+  return partes.map((parte, i) =>
+    parte.toLowerCase() === palabraClave.toLowerCase() ? (
+      <a
+        key={i}
+        href={enlace}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-400 font-bold underline hover:text-blue-200"
+      >
+        {parte}
+      </a>
+    ) : (
+      <span key={i}>{parte}</span>
+    )
+  );
+}
+
 
   // Manejar cambio del select
   const handleServiceChange = (e) => {
@@ -1066,8 +1184,8 @@ export default function FormBody1(props) {
                   <p className="text-gray-100">
                     {renderDescripcion(
                       section.descripcion,
-                      section.palabra,
-                      section.enlace
+                      section.keyword,
+                      section.link
                     )}
                   </p>
                 </div>
@@ -1142,14 +1260,14 @@ export default function FormBody1(props) {
                     />
                   </div>
 
-                  <div className="w-full flex justify-end">
-                    <AddLinkButton
-                      item={item}
-                      index={index}
-                      servicios={servicios}
-                      handleChange={handleChangeMap}
-                    />
-                  </div>
+                    <div className="w-full flex justify-end mt-3">
+                      <AddLinkButton
+                        item={item || {}}
+                        index={index}
+                        servicios={productos}
+                        handleChange={handleChangeMap}
+                      />
+                    </div>
                 </div>
               </div>
             ))}
@@ -1158,8 +1276,7 @@ export default function FormBody1(props) {
       </div>
 
       {/* SECCIÓN 5: BOTÓN DE SERVICIO */}
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-center">
-        {/* Contenido del Botón */}
+      {/* <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-center">
         <div className="flex justify-center items-center">
           {serviceRedirectUrl && (
             <a
@@ -1173,8 +1290,7 @@ export default function FormBody1(props) {
           )}
         </div>
 
-        {/* Formulario de Configuración de Servicio */}
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">  
           <h3 className="text-lg font-bold text-red-400 mb-4 border-b border-gray-700 pb-2">
             🔗 Configuración de Botón de Servicio
           </h3>
@@ -1200,7 +1316,7 @@ export default function FormBody1(props) {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

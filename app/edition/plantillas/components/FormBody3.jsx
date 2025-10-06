@@ -10,6 +10,8 @@ import {
   Edit3,
 } from "lucide-react";
 import { useState } from "react";
+import { ProductosLink } from "../utils";
+
 import {
   Loader2,
   CheckCircle,
@@ -29,12 +31,12 @@ const AddLinkButton = ({ item, index, servicios, handleChange }) => {
       const fakeEvent = {
         target: { value: linkUrl },
       };
-      handleChange(fakeEvent, index, "enlace");
+      handleChange(fakeEvent, index, "link");
 
       const fakeEventText = {
         target: { value: textToLink.trim() },
       };
-      handleChange(fakeEventText, index, "palabra");
+      handleChange(fakeEventText, index, "keyword");
 
       setShowLinkModal(false);
       setTextToLink("");
@@ -112,16 +114,16 @@ const AddLinkButton = ({ item, index, servicios, handleChange }) => {
               </button>
             </div>
 
-            {item && item.palabra && item.enlace && (
+            {item && item.keyword && item.link && (
               <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
                 <p className="text-sm text-green-800">
-                  <strong>Link actual:</strong> "{item.palabra}" → {item.enlace}
+                  <strong>Link actual:</strong> "{item.keyword}" → {item.link}
                 </p>
                 <button
                   type="button"
                   onClick={() => {
-                    handleChange({ target: { value: "" } }, index, "palabra");
-                    handleChange({ target: { value: "" } }, index, "enlace");
+                    handleChange({ target: { value: "" } }, index, "keyword");
+                    handleChange({ target: { value: "" } }, index, "link");
                   }}
                   className="text-red-600 text-xs underline mt-1"
                 >
@@ -137,6 +139,7 @@ const AddLinkButton = ({ item, index, servicios, handleChange }) => {
 };
 
 export default function FormBody3(props) {
+  const productos = ProductosLink
   const {
     formCommendBody = {},
     setFormCommendBody,
@@ -717,8 +720,8 @@ export default function FormBody3(props) {
                             <p className="text-gray-700 text-lg leading-relaxed">
                               {renderDescripcion(
                                 section.descripcion || "",
-                                section.palabra || "",
-                                section.enlace || ""
+                                section.keyword || "",
+                                section.link || ""
                               )}
                             </p>
                           </div>
@@ -1315,7 +1318,7 @@ export default function FormBody3(props) {
                       <AddLinkButton
                         item={item || {}}
                         index={index}
-                        servicios={servicios}
+                        servicios={productos}
                         handleChange={handleChangeMap}
                       />
                     </div>
@@ -1331,7 +1334,7 @@ export default function FormBody3(props) {
         )}
 
         {/* SELECT PARA SERVICIO */}
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto">
+        {/* <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto">
           <h3 className="text-lg font-semibold text-white mb-4">
             Botón de Servicio
           </h3>
@@ -1350,7 +1353,7 @@ export default function FormBody3(props) {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
       </div>
     </div>
   );

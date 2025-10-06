@@ -120,13 +120,13 @@ const Blogs = () => {
         </div>
 
         <div className="relative flex-1 min-h-[200px] md:min-h-[320px]">
-          <img
-            src={dato.public_image}
-            alt={dato.image_alt || dato.titulo || "Imagen del artículo"}
-            title={dato.image_title || dato.titulo || ""}
+        <img
+             src={`${dato.public_image}?v=${Date.now()}`} 
+            // alt={dato.titulo}
+            alt={dato.blog.head.alt || dato.titulo}
+            title={dato.blog.head.title || dato.titulo}
             className="w-full h-full object-cover"
-            loading="lazy"
-          />
+        />
         </div>
 
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/30 pointer-events-none"></div>
