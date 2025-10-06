@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Banner({ titulo, imagen, alt }) {
   return (
-    <main className="h-[calc(100vh-100px)] relative overflow-hidden">
+    <main className="h-[calc(80vh-100px)] relative overflow-hidden">
       {/* Imagen de fondo */}
       <div className="absolute inset-0 w-full h-full">
         <Image
