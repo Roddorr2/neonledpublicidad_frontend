@@ -41,8 +41,8 @@ export default function Home() {
         alt="Letras corporeas rojas con la marca Kawasaki acompañado por debajo con un eslogan de letras pequeñas en color blanco."
       />
       <Section2 idProducto={idProducto} />
-      <Datos idProducto={idProducto}/>
       <CardSlider cards={cards}/>
+      <Datos idProducto={idProducto}/>
     </>
   );
 }

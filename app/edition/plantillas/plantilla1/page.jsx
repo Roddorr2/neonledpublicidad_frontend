@@ -157,29 +157,29 @@ const PageContent = () => {
       titulo: "El Factor Sorpresa y Distinción",
       descripcion:
         "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
-      palabra: "",
-      enlace: "",
+      keyword: "",
+      link: "",
     },
     {
       titulo: "Ambiente y Experiencia Visual",
       descripcion:
         "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
-      palabra: "",
-      enlace: "",
+      keyword: "",
+      link: "",
     },
     {
       titulo: "Eficiencia Energética y Durabilidad",
       descripcion:
         "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
-      palabra: "",
-      enlace: "",
+      keyword: "",
+      link: "",
     },
     {
       titulo: "Marketing y Atracción de Clientes",
       descripcion:
         "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
-      palabra: "",
-      enlace: "",
+      keyword: "",
+      link: "",
     },
   ]);
 
@@ -361,8 +361,8 @@ const PageContent = () => {
             id_blog_body: id_blog_body,
             titulo: section.titulo,
             descripcion: section.descripcion,
-            palabra: section.palabra,
-            enlace: section.enlace,
+            keyword: section.keyword,
+            link: section.link,
           };
           const id = await Service.saveTarjeta(formTarjeta);
           if (!id || id <= 0) throw new Error("Error al guardar tarjeta");
@@ -693,30 +693,30 @@ const PageContent = () => {
           titulo: "El Factor Sorpresa y Distinción",
           descripcion:
             "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
-          palabra: "",
-          enlace: "",
+          keyword: "",
+          link: "",
         },
 
         {
           titulo: "Ambiente y Experiencia Visual",
           descripcion:
             "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
-          palabra: "",
-          enlace: "",
+          keyword: "",
+          link: "",
         },
         {
           titulo: "Eficiencia Energética y Durabilidad",
           descripcion:
             "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
-          palabra: "",
-          enlace: "",
+          keyword: "",
+          link: "",
         },
         {
           titulo: "Marketing y Atracción de Clientes",
           descripcion:
             "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
-          palabra: "",
-          enlace: "",
+          keyword: "",
+          link: "",
         },
       ]);
 
