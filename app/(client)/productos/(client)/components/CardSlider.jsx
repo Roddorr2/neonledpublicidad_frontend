@@ -19,49 +19,45 @@ function CardSlider({ cards }) {
 
   const DesktopSlider = () => (
     <div className="relative w-full flex justify-center items-center overflow-hidden bg-white py-20 gap-10">
-       {/* <motion.div
-        className="flex gap-10"
-        animate={{ x: ["15%", "-15%"] }}
-        transition={{
-          duration: 5,
-          ease: "easeInOut",
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-      >  */}
-        {cards.slice(1).map((card, i) => (
-          <div
-            key={i}
-            className="relative flex-shrink-0 rounded-lg shadow-lg overflow-hidden w-[220px] h-[400px] md:w-[400px] md:h-[600px] gap-20"
-          >
-            {card.image ? (
-              <div className="relative w-full h-full group ">
-                <img
-                  src={card.image}
-                  alt={card.alt ? card.alt : card.title}
-                  className="w-full h-full object-cover rounded-lg filter brightness-75 group-hover:brightness-100 transition duration-300 "
-                />
-                <div className="absolute h-full inset-0 flex flex-col justify-end text-white ">
-                  <div className="bg-black/30 rounded-xl p-4">
-                    <h2 className="text-xl font-bold">{card.title}</h2>
-                    <p className="font-bold drop-shadow-lg  opacity-80  ">
-                      {card.description}
-                    </p>
-                  </div>
+      {cards.slice(1).map((card, i) => (
+        <div
+          key={i}
+          className="relative flex-shrink-0 rounded-lg shadow-lg overflow-hidden w-[25vw] h-[60vh] max-w-[400px] max-h-[600px] gap-20 group"
+        >
+          {card.image ? (
+            <div className="relative w-full h-full overflow-hidden group">
+
+              <img
+                src={card.image}
+                alt={card.alt ? card.alt : card.title}
+                className="absolute top-0 left-0 w-[120%] h-[120%] object-cover rounded-lg filter brightness-75 transition-all duration-500 ease-in-out
+                          group-hover:w-full group-hover:h-full group-hover:brightness-100"
+                style={{ transformOrigin: "center center" }}
+              />
+
+              <div className="absolute inset-0 flex flex-col justify-end text-white z-10">
+                <div className="bg-black/30 rounded-xl p-4">
+                  <h2 className="text-xl font-bold">{card.title}</h2>
+                  <p className="font-bold drop-shadow-lg opacity-80">
+                    {card.description}
+                  </p>
                 </div>
               </div>
-            ) : (
-              <div className={`text-center ${card.bgColor || ""}`}>
-                <h2 className={`${card.glow || ""}`}>{card.title}</h2>
-                <div className="w-20 h-1 bg-blue-400 mx-auto mt-[-2px] mb-2"></div>
-                <p className={`${card.textStyle || ""}`}>{card.description}</p>
-              </div>
-            )}
-          </div>
-        ))}
-      {/* </motion.div> */}
+            </div>
+          ) : (
+            <div className={`text-center ${card.bgColor || ""}`}>
+              <h2 className={`${card.glow || ""}`}>{card.title}</h2>
+              <div className="w-20 h-1 bg-blue-400 mx-auto mt-[-2px] mb-2"></div>
+              <p className={`${card.textStyle || ""}`}>{card.description}</p>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
+
+
+
 
   const MobileExpandableStack = () => (
     <div className="w-full bg-white py-10 px-4">
