@@ -92,8 +92,8 @@ export default function FormHeader({
   const [isValid_texto_frase, setIsValid_texto_frase] = useState(true);
   const [isValid_texto_descripcion, setIsValid_texto_descripcion] =
     useState(true);
-  const [isValid_image_alt, setIsValid_image_alt] = useState(true);
-  const [isValid_image_title, setIsValid_image_title] = useState(true);
+  const [isValid_alt, setIsValid_alt] = useState(true);
+  const [isValid_title, setIsValid_title] = useState(true);
   const [isValid_meta_titulo, setIsValid_meta_titulo] = useState(true);
   const [isValid_meta_descripcion, setIsValid_meta_descripcion] =
     useState(true);
@@ -103,8 +103,8 @@ export default function FormHeader({
     titulo: { message: "Entre 10-80 caracteres", isValid: null },
     texto_frase: { message: "Entre 10-50 caracteres", isValid: null },
     texto_descripcion: { message: "Entre 10-80 caracteres", isValid: null },
-    image_alt: { message: "Entre 5-100 caracteres", isValid: null },
-    image_title: { message: "Entre 5-100 caracteres", isValid: null },
+    alt: { message: "Entre 5-100 caracteres", isValid: null },
+    title: { message: "Entre 5-100 caracteres", isValid: null },
     meta_titulo: { message: "Entre 30-60 caracteres", isValid: null },
     meta_descripcion: { message: "Entre 120-160 caracteres", isValid: null },
   });
@@ -117,10 +117,8 @@ export default function FormHeader({
       const seoFieldsValid = isValid_meta_titulo && isValid_meta_descripcion;
       const hasImage =
         dataHeader?.public_image &&
-        dataHeader.public_image !== "/blog/fondo_blog_extend.webp";
-      const imageFieldsValid = hasImage
-        ? isValid_image_alt && isValid_image_title
-        : true;
+        dataHeader.public_image !== "/blog/fondo_blog_extend.png";
+      const imageFieldsValid = hasImage ? isValid_alt && isValid_title : true;
 
       if (
         basicFieldsValid &&
@@ -178,10 +176,10 @@ export default function FormHeader({
         }));
         break;
 
-      case "image_alt":
+      case "alt":
         isValid =
           value.trim() !== "" && value.length <= 100 && value.length >= 5;
-        setIsValid_image_alt(isValid);
+        setIsValid_alt(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: {
@@ -191,10 +189,10 @@ export default function FormHeader({
         }));
         break;
 
-      case "image_title":
+      case "title":
         isValid =
           value.trim() !== "" && value.length <= 100 && value.length >= 5;
-        setIsValid_image_title(isValid);
+        setIsValid_title(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: {
@@ -219,7 +217,7 @@ export default function FormHeader({
 
       case "meta_descripcion":
         isValid =
-          value.trim() !== "" && value.length <= 160 && value.length >= 120;
+          value.trim() !== "" && value.length <= 160 && value.length >= 10;
         setIsValid_meta_descripcion(isValid);
         setErrors((prev) => ({
           ...prev,
@@ -287,7 +285,7 @@ export default function FormHeader({
   const handleDeleteImage = () => {
     setFormData((prev) => ({
       ...prev,
-      public_image: "/blog/fondo_blog_extend.webp",
+      public_image: "/blog/fondo_blog_extend.png",
       image_alt: "",
       image_title: "",
     }));
@@ -303,8 +301,8 @@ export default function FormHeader({
       image_title: { ...prev.image_title, isValid: null },
     }));
 
-    setIsValid_image_alt(true);
-    setIsValid_image_title(true);
+    setIsValid_alt(true);
+    setIsValid_title(true);
     setTimeout(() => {
       updateValidation();
     }, 100);
@@ -312,7 +310,7 @@ export default function FormHeader({
 
   const hasCustomImage =
     dataHeader?.public_image &&
-    dataHeader.public_image !== "/blog/fondo_blog_extend.webp";
+    dataHeader.public_image !== "/blog/fondo_blog_extend.png";
 
   useEffect(() => {
     updateValidation();
@@ -320,8 +318,8 @@ export default function FormHeader({
     isValid_titulo,
     isValid_texto_frase,
     isValid_texto_descripcion,
-    isValid_image_alt,
-    isValid_image_title,
+    isValid_alt,
+    isValid_title,
     isValid_meta_titulo,
     isValid_meta_descripcion,
     dataHeader?.public_image,
@@ -332,7 +330,7 @@ export default function FormHeader({
       isValid_titulo && isValid_texto_frase && isValid_texto_descripcion;
     const seoFieldsValid = isValid_meta_titulo && isValid_meta_descripcion;
     const imageFieldsValid = hasCustomImage
-      ? isValid_image_alt && isValid_image_title
+      ? isValid_alt && isValid_title
       : true;
     const allValid = textFieldsValid && seoFieldsValid && imageFieldsValid;
 
@@ -341,8 +339,8 @@ export default function FormHeader({
     isValid_titulo,
     isValid_texto_frase,
     isValid_texto_descripcion,
-    isValid_image_alt,
-    isValid_image_title,
+    isValid_alt,
+    isValid_title,
     isValid_meta_titulo,
     isValid_meta_descripcion,
     hasCustomImage,
@@ -355,14 +353,14 @@ export default function FormHeader({
       id="file-name"
       style={{
         backgroundImage: `url(${
-          dataHeader?.public_image || "/blog/fondo_blog_extend.webp"
+          dataHeader?.public_image || "/blog/fondo_blog_extend.png"
         })`,
         backgroundSize: "cover",
       }}
     >
       <div className="absolute inset-0 bg-black/60"></div>
 
-      <div className="relative max-w-7xl text-white flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="relative w-full text-white flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-center max-w-xl">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">
             {dataHeader?.titulo || "Título del Blog"}
@@ -375,8 +373,8 @@ export default function FormHeader({
           </p>
         </div>
 
-        <div className="w-full md:w-auto flex justify-center md:justify-end">
-          <div className="bg-black/5 backdrop-blur-md ml-8 rounded-2xl p-8 shadow-lg w-[450px] max-w-lg overflow-auto max-h-[80vh]">
+        <div className="w-full flex justify-end">
+          <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-[450px] max-w-lg overflow-auto max-h-[80vh]">
             <form className="space-y-6">
               <h3 className="text-lg font-semibold text-white mb-4">
                 Editar Encabezado
@@ -430,46 +428,48 @@ export default function FormHeader({
               </div>
 
               {/* Campos de SEO */}
-              {/* <div className="space-y-4 p-4 bg-green-900/20 rounded-lg border border-green-500/30">
-                <h4 className="text-sm font-semibold text-green-300 mb-2"> SEO Meta Tags</h4>
-                
-          <FormInput
-             icon={Search}
-             label="Meta Título"
-             name="meta_titulo"
-             value={dataHeader?.meta_titulo}
-             onChange={handleChange}
-             onInput={(e) => {
-             e.target.value = sanitizeInput(e.target.value);
-           }}
-            error={errors.meta_titulo}
-            maxLength={60}
-            minLength={30}
-            placeholder="Título optimizado para SEO"
-            helpText="Aparece en los resultados de búsqueda y pestañas del navegador"
-            required
-           />
+              <div className="space-y-4 p-4 bg-green-900/20 rounded-lg border border-green-500/30">
+                <h4 className="text-sm font-semibold text-green-300 mb-2">
+                  {" "}
+                  SEO Meta Tags
+                </h4>
 
-           <FormInput
-          icon={FileText}
-          label="Meta Descripción"
-          name="meta_descripcion"
-          value={dataHeader?.meta_descripcion}
-          onChange={handleChange}
-          onInput={(e) => {
-          e.target.value = sanitizeInput(e.target.value);
-         }}
-          error={errors.meta_descripcion}
-          maxLength={160}
-          minLength={120}
-          placeholder="Descripción que aparecerá en los resultados de búsqueda"
-          helpText="Resumen atractivo que invite a hacer clic desde Google"
-          as="textarea"
-          rows={3}
-          requireds
-           />
+                <FormInput
+                  icon={Search}
+                  label="Meta Título"
+                  name="meta_title"
+                  value={dataHeader?.meta_title}
+                  onChange={handleChange}
+                  onInput={(e) => {
+                    e.target.value = sanitizeInput(e.target.value);
+                  }}
+                  error={errors.title}
+                  maxLength={60}
+                  minLength={30}
+                  placeholder="Título optimizado para SEO"
+                  helpText="Aparece en los resultados de búsqueda y pestañas del navegador"
+                  required
+                />
 
-              </div> */}
+                <FormInput
+                  icon={FileText}
+                  label="Meta Descripción"
+                  name="meta_descripcion"
+                  value={dataHeader?.meta_descripcion}
+                  onChange={handleChange}
+                  onInput={(e) => {
+                    e.target.value = sanitizeInput(e.target.value);
+                  }}
+                  error={errors.meta_descripcion}
+                  maxLength={160}
+                  minLength={120}
+                  placeholder="Descripción que aparecerá en los resultados de búsqueda"
+                  helpText="Resumen atractivo que invite a hacer clic desde Google"
+                  as="textarea"
+                  rows={3}
+                  required
+                />
+              </div>
 
               {/* Campo de imagen */}
               <div>
@@ -553,10 +553,10 @@ export default function FormHeader({
 
                     <FormInput
                       label="Texto Alternativo (Alt)"
-                      name="image_alt"
-                      value={dataHeader?.image_alt}
+                      name="alt"
+                      value={dataHeader?.alt}
                       onChange={handleChange}
-                      error={errors.image_alt}
+                      error={errors.alt}
                       maxLength={100}
                       minLength={5}
                       placeholder="Descripción de la imagen para accesibilidad"
@@ -566,10 +566,10 @@ export default function FormHeader({
 
                     <FormInput
                       label="Título de la Imagen"
-                      name="image_title"
-                      value={dataHeader?.image_title}
+                      name="title"
+                      value={dataHeader?.title}
                       onChange={handleChange}
-                      error={errors.image_title}
+                      error={errors.title}
                       maxLength={100}
                       minLength={5}
                       placeholder="Título que aparece al pasar el mouse"
@@ -580,21 +580,19 @@ export default function FormHeader({
                 )}
 
                 {/* Mostrar información actual cuando están completos los campos */}
-                {hasCustomImage &&
-                  dataHeader?.image_alt &&
-                  dataHeader?.image_title && (
-                    <div className="mt-3 p-3 bg-green-900/20 rounded-lg border border-green-500/30">
-                      <h5 className="text-xs font-semibold text-green-300 mb-2">
-                        ✅ Información guardada:
-                      </h5>
-                      <p className="text-xs text-green-200">
-                        <strong>Alt:</strong> {dataHeader.image_alt}
-                      </p>
-                      <p className="text-xs text-green-200">
-                        <strong>Título:</strong> {dataHeader.image_title}
-                      </p>
-                    </div>
-                  )}
+                {hasCustomImage && dataHeader?.alt && dataHeader?.title && (
+                  <div className="mt-3 p-3 bg-green-900/20 rounded-lg border border-green-500/30">
+                    <h5 className="text-xs font-semibold text-green-300 mb-2">
+                      ✅ Información guardada:
+                    </h5>
+                    <p className="text-xs text-green-200">
+                      <strong>Alt:</strong> {dataHeader.alt}
+                    </p>
+                    <p className="text-xs text-green-200">
+                      <strong>Título:</strong> {dataHeader.title}
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Resumen de validación */}
@@ -620,18 +618,25 @@ export default function FormHeader({
                       ? ""
                       : ""}
                   </p>
-
                   <p
                     className={
-                      !hasCustomImage ||
-                      (isValid_image_alt && isValid_image_title)
+                      isValid_meta_titulo && isValid_meta_descripcion
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }
+                  >
+                    • SEO Meta Tags.{" "}
+                    {isValid_meta_titulo && isValid_meta_descripcion ? "" : ""}
+                  </p>
+                  <p
+                    className={
+                      !hasCustomImage || (isValid_alt && isValid_title)
                         ? "text-green-400"
                         : "text-red-400"
                     }
                   >
                     • Información de imagen.{" "}
-                    {!hasCustomImage ||
-                    (isValid_image_alt && isValid_image_title)
+                    {!hasCustomImage || (isValid_alt && isValid_title)
                       ? ""
                       : ""}
                   </p>

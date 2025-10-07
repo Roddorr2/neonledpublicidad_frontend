@@ -4,10 +4,12 @@ import FormFooter from "../components/FormFooter";
 import FormHeader from "../components/FormHeader";
 import { useState, useEffect } from "react";
 import Service from "../../services/Service";
-import { Save } from "lucide-react";
+import { Flag, Save } from "lucide-react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
+
+import { getCurrentDate } from "../utils/getCurrentDate";
 
 const PageContent = () => {
   const [validacionHeader, setValidacionHeader] = useState(true);
@@ -31,12 +33,18 @@ const PageContent = () => {
 
   const [serviceRedirectUrl, setServiceRedirectUrl] = useState("");
 
+  const [showGallery, setShowGallery] = useState(true);
+  const [showAdvice, setShowAdvice] = useState(true);
+  const [showDetailedInfo, setShowDetailedInfo] = useState(true);
+
   const deleteFooterFile1 = () => {
     setFileFooterFile1(null);
     setFormFooter((prev) => ({
       ...prev,
       public_image1: "/blog/blog-10.jpg",
       url_image1: "",
+      image1_alt: "",
+      image1_title: "",
     }));
   };
   const deleteFooterFile2 = () => {
@@ -45,6 +53,8 @@ const PageContent = () => {
       ...prev,
       public_image2: "/blog/blog-10.jpg",
       url_image2: "",
+      image2_alt: "",
+      image2_title: "",
     }));
   };
   const deleteFooterFile3 = () => {
@@ -53,6 +63,8 @@ const PageContent = () => {
       ...prev,
       public_image3: "/blog/blog-10.jpg",
       url_image3: "",
+      image3_alt: "",
+      image3_title: "",
     }));
   };
 
@@ -62,6 +74,8 @@ const PageContent = () => {
       ...prev,
       public_image: "/blog/fondo_blog_extend.png",
       url_image: "",
+      image_alt: "",
+      image_title: "",
     }));
   };
 
@@ -71,6 +85,8 @@ const PageContent = () => {
       ...prev,
       public_image1: "/blog/blog-4.jpg",
       url_image1: "",
+      image1_alt: "",
+      image1_title: "",
     }));
   };
 
@@ -80,6 +96,8 @@ const PageContent = () => {
       ...prev,
       public_image2: "/blog/blog-2.jpg",
       url_image2: "",
+      image2_alt: "",
+      image2_title: "",
     }));
   };
 
@@ -89,6 +107,8 @@ const PageContent = () => {
       ...prev,
       public_image3: "/blog/blog-2.jpg",
       url_image3: "",
+      image3_alt: "",
+      image3_title: "",
     }));
   };
 
@@ -96,35 +116,59 @@ const PageContent = () => {
     ? JSON.parse(getCookie("empleado")).id_empleado
     : -1;
 
+  /**
+   * Estado inicial del formulario de pie de página del blog. Contiene campos para título, descripción y tres imágenes públicas.
+   */
   const [formFooter, setFormFooter] = useState({
-    titulo: "Titulo Footer",
-    descripcion:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+    titulo: "Titulo del Footer",
+    descripcion: "Descripción del Footer",
     public_image1: "/blog/blog-10.jpg",
-    url_image1: "",
+    url_image1: "", //por esta vez url es la ruta para eliminar
+    alt_image1: "",
+    title_image1: "",
     public_image2: "/blog/blog-10.jpg",
     url_image2: "",
+    alt_image2: "",
+    title_image2: "",
     public_image3: "/blog/blog-10.jpg",
     url_image3: "",
+    alt_image3: "",
+    title_image3: "",
+    estado: 1,
   });
 
+  /**
+   * Estado inicial del encabezado del blog. Contiene campos para título, texto atractivo, descripción y una imagen pública.
+   */
   const [dataHeader, setDataHeader] = useState({
-    titulo: "Titulo Header",
-    texto_frase: "Texto atractivo y llamativo para el cliente",
-    texto_descripcion: "Texto destacado y secundario para el titulo",
+    titulo: "Título del Encabezado",
+    texto_frase: "Frase Atractiva",
+    texto_descripcion: "Descripción del Encabezado",
     public_image: "/blog/fondo_blog_extend.png",
     url_image: "",
+    alt: "",
+    title: "",
+    meta_title: "",
+    meta_descripcion: "",
   });
 
+  /**
+   * Estado inicial del cuerpo del blog. Contiene campos para el título, descripción, fecha y una imagen pública.
+   */
   const [formEncabezadoBody, setFormEncabezadoBody] = useState({
     titulo: "Titulo del Blog",
     descripcion:
-      "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio.",
-    fecha: "2025-03-31",
+      "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
+    fecha: getCurrentDate(),
     public_image1: "/blog/blog-4.jpg",
     url_image1: "",
+    alt_image1: "",
+    title_image1: "",
   });
 
+  /**
+   * Estado inicial del cuerpo del blog que contiene la información de tarjetas informativas del blog.
+   */
   const [formInfoBody, setFormInfoBody] = useState([
     {
       titulo: "El Factor Sorpresa y Distinción",
@@ -149,7 +193,7 @@ const PageContent = () => {
       link: "",
     },
     {
-      titulo: "Marketing y Atracción de Clientess",
+      titulo: "Marketing y Atracción de Clientes",
       descripcion:
         "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
       keyword: "",
@@ -157,6 +201,9 @@ const PageContent = () => {
     },
   ]);
 
+  /**
+   * Estado inicial del cuerpo del blog que contiene tarjetas de comentario del blog.
+   */
   const [formCommendBody, setFormCommendBody] = useState({
     titulo: "Consejos para Elegir el Letrero Perfecto",
     texto1: "Opta por colores que reflejen la personalidad de tu bar.",
@@ -169,8 +216,16 @@ const PageContent = () => {
   const [formGaleryBody, setFormGaleryBody] = useState({
     public_image2: "/blog/blog-2.jpg",
     url_image2: "",
+    alt_image2: "",
+    title_image2: "",
     public_image3: "/blog/blog-2.jpg",
     url_image3: "",
+    alt_image3: "",
+    title_image3: "",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    service_url: "",
   });
 
   useEffect(() => {
@@ -224,16 +279,19 @@ const PageContent = () => {
       id_commend_tarjeta: id_commend_tarjeta,
       public_image1: formEncabezadoBody.public_image1,
       url_image1: formEncabezadoBody.url_image1,
-      image1_alt: formEncabezadoBody.image1_alt,
-      image1_title: formEncabezadoBody.image1_title,
+      alt_image1: formEncabezadoBody.alt_image1,
+      title_image1: formEncabezadoBody.title_image1,
       public_image2: formGaleryBody.public_image2,
       url_image2: formGaleryBody.url_image2,
-      image2_alt: formGaleryBody.image2_alt,
-      image2_title: formGaleryBody.image2_title,
+      alt_image2: formGaleryBody.alt_image2,
+      title_image2: formGaleryBody.title_image2,
       public_image3: formGaleryBody.public_image3,
       url_image3: formGaleryBody.url_image3,
-      image3_alt: formGaleryBody.image3_alt,
-      image3_title: formGaleryBody.image3_title,
+      alt_image3: formGaleryBody.alt_image3,
+      title_image3: formGaleryBody.title_image3,
+      flag_galeria: showGallery ? 1 : 0,
+      flag_consejos: showAdvice ? 1 : 0,
+      flag_informacion: showDetailedInfo ? 1 : 0,
       service_url: serviceRedirectUrl,
     };
 
@@ -322,8 +380,8 @@ const PageContent = () => {
             id_blog_body: id_blog_body,
             titulo: section.titulo,
             descripcion: section.descripcion,
-            palabra: section.palabra,
-            enlace: section.enlace,
+            keyword: section.keyword,
+            link: section.link,
           };
           const id = await Service.saveTarjeta(formTarjeta);
           if (!id || id <= 0) throw new Error("Error al guardar tarjeta");
@@ -401,7 +459,7 @@ const PageContent = () => {
             jsonData = JSON.parse(jsonMatch[0]);
           } catch (parseError) {
             console.warn("⚠️ Error al parsear JSON.");
-
+            // si contiene "success" o "200", lo consideramos exitoso
             if (
               response.toLowerCase().includes("success") ||
               response.includes("200")
@@ -410,6 +468,7 @@ const PageContent = () => {
             }
           }
         } else {
+          // si no hay JSON pero contiene indicadores de éxito
           if (
             response.toLowerCase().includes("success") ||
             response.includes("200")
@@ -418,6 +477,7 @@ const PageContent = () => {
           }
         }
       } else if (response?.data) {
+        // si tiene propiedad data
         if (typeof response.data === "string") {
           const jsonMatch = response.data.match(/\{[\s\S]*\}/);
           if (jsonMatch) {
@@ -431,9 +491,11 @@ const PageContent = () => {
           jsonData = response.data;
         }
       } else if (typeof response === "object") {
+        // si es un objeto directo
         jsonData = response;
       }
 
+      // verificar éxito por diferentes criterios
       const isSuccess =
         jsonData?.status === 200 ||
         jsonData?.status === "200" ||
@@ -447,6 +509,7 @@ const PageContent = () => {
         return "ok";
       }
 
+      // si llegamos aquí y no hay error explícito, consideramos éxito
       if (
         !jsonData?.error &&
         !jsonData?.message?.toLowerCase().includes("error")
@@ -454,6 +517,7 @@ const PageContent = () => {
         return "ok";
       }
 
+      // solo lanzar error si hay indicadores claros de fallo
       const errorMessage =
         jsonData?.message ||
         jsonData?.error ||
@@ -467,6 +531,7 @@ const PageContent = () => {
         file: file ? file.name : "no file",
       });
 
+      // si el error es de red o de parsing, pero no del servidor, podríamos asumir éxito
       if (
         error.message.includes("JSON") ||
         error.message.includes("undefined")
@@ -476,14 +541,6 @@ const PageContent = () => {
 
       throw error;
     }
-  }
-
-  function getCurrentDate() {
-    const d = new Date();
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
   }
 
   async function HandleSave() {
@@ -602,6 +659,7 @@ const PageContent = () => {
         );
       }
 
+      // MOSTRAR INFORMACIÓN DE TÍTULO E IMAGEN ALT AL GUARDAR
       const imageInfo =
         dataHeader.image_title && dataHeader.image_alt
           ? `\n\n📸 Información de la imagen:\n• Título: ${dataHeader.image_title}\n• Texto alternativo: ${dataHeader.image_alt}`
@@ -636,7 +694,7 @@ const PageContent = () => {
       `,
         icon: "success",
         showCancelButton: true,
-        confirmButtonText: "¡Ver Blog!",
+        confirmButtonText: "¡Perfecto!",
         cancelButtonText: "Cerrar",
         confirmButtonColor: "#667eea",
         cancelButtonColor: "#6b7280",
@@ -647,44 +705,48 @@ const PageContent = () => {
         },
       });
 
+      // Solo ejecutar las acciones de reseteo y redirección si el usuario hizo click en "¡Perfecto!"
       if (result.isConfirmed) {
+        // Resetear formularios
         setFormFooter({
-          titulo: "Titulo Footer",
+          titulo: "",
           descripcion:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
-          public_image1: "/blog/blog-10.webp",
+            "",
+          public_image1: "/blog/blog-10.jpg",
           url_image1: "",
           image1_alt: "",
           image1_title: "",
-          public_image2: "/blog/blog-10.webp",
+          public_image2: "/blog/blog-10.jpg",
           url_image2: "",
           image2_alt: "",
           image2_title: "",
-          public_image3: "/blog/blog-10.webp",
+          public_image3: "/blog/blog-10.jpg",
           url_image3: "",
           image3_alt: "",
           image3_title: "",
         });
 
         setDataHeader({
-          titulo: "Titulo Header",
-          texto_frase: "Texto atractivo y llamativo para el cliente",
-          texto_descripcion: "Texto destacado y secundario para el titulo",
-          public_image: "/blog/fondo_blog_extend.webp",
+          titulo: "",
+          texto_frase: "",
+          texto_descripcion: "",
+          public_image: "/blog/fondo_blog_extend.png",
           url_image: "",
-          image_alt: "",
-          image_title: "",
+          alt: "",
+          title: "",
+          meta_title: "",
+          meta_descripcion: "",
         });
 
         setFormEncabezadoBody({
           titulo: "Titulo del Blog",
           descripcion:
-            "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio.",
+            "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
           fecha: getCurrentDate(),
-          public_image1: "/blog/blog-4.webp",
+          public_image1: "/blog/blog-4.jpg",
           url_image1: "",
-          image1_alt: "",
-          image1_title: "",
+          alt_image1: "",
+          title_image1: "",
         });
 
         setFormInfoBody([
@@ -692,29 +754,29 @@ const PageContent = () => {
             titulo: "El Factor Sorpresa y Distinción",
             descripcion:
               "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
-            palabra: "",
-            enlace: "",
+            keyword: "",
+            link: "",
           },
           {
             titulo: "Ambiente y Experiencia Visual",
             descripcion:
               "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
-            palabra: "",
-            enlace: "",
+            keyword: "",
+            link: "",
           },
           {
             titulo: "Eficiencia Energética y Durabilidad",
             descripcion:
               "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
-            palabra: "",
-            enlace: "",
+            keyword: "",
+            link: "",
           },
           {
             titulo: "Marketing y Atracción de Clientes",
             descripcion:
               "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
-            palabra: "",
-            enlace: "",
+            keyword: "",
+            link: "",
           },
         ]);
 
@@ -729,16 +791,21 @@ const PageContent = () => {
         });
 
         setFormGaleryBody({
-          public_image2: "/blog/blog-2.webp",
+          public_image2: "/blog/blog-2.jpg",
           url_image2: "",
-          image2_alt: "",
-          image2_title: "",
-          public_image3: "/blog/blog-2.webp",
+          alt_image2: "",
+          title_image2: "",
+          public_image3: "/blog/blog-2.jpg",
           url_image3: "",
-          image3_alt: "",
-          image3_title: "",
+          alt_image3: "",
+          title_image3: "",
+          flag_galeria: 1,
+          flag_consejos: 1,
+          flag_informacion: 1,
+          service_url: "",
         });
 
+        // Limpiar archivos
         setFileHeader(null);
         setFileBodyHeader(null);
         setFileBodyFile1(null);
@@ -748,7 +815,9 @@ const PageContent = () => {
         setFileFooterFile3(null);
 
         router.push("/dashboard/blogs/");
+        window.open("/blog", "_blank");
       }
+      // Si el usuario hace click en "Cancelar", no se hace nada y simplemente se cierra el modal
     } catch (error) {
       console.error("Error al guardar:", error.message);
     } finally {
@@ -770,6 +839,12 @@ const PageContent = () => {
 
       <div id="body" className="section-container my-8">
         <FormBody3
+          showGallery={showGallery}
+          setShowGallery={setShowGallery}
+          showAdvice={showAdvice}
+          setShowAdvice={setShowAdvice}
+          showDetailedInfo={showDetailedInfo}
+          setShowDetailedInfo={setShowDetailedInfo}
           formCommendBody={formCommendBody}
           setFormCommendBody={setFormCommendBody}
           formInfoBody={formInfoBody}

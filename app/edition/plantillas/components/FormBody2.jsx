@@ -15,25 +15,140 @@ import {
   BookType,
 } from "lucide-react";
 import { useState } from "react";
-
 import { ProductosLink } from "../utils";
-import AddLinkButton from "./AddLinkButton";
+import { createPortal } from "react-dom";
+// import AddLinkButton from "./AddLinkButton";
+
+const AddLinkButton = ({ item, index, servicios, handleChange }) => {
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [textToLink, setTextToLink] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
+
+  const addLink = () => {
+    if (textToLink.trim() && linkUrl.trim()) {
+      // Guardar URL
+      handleChange({ target: { value: linkUrl } }, index, "link");
+
+      // Guardar texto ancla
+      handleChange({ target: { value: textToLink.trim() } }, index, "keyword");
+
+      // Resetear modal
+      setShowLinkModal(false);
+      setTextToLink("");
+      setLinkUrl("");
+    }
+  };
+
+  const modal = (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+        <h3 className="text-lg font-bold mb-4 text-black">Añadir Link</h3>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-black mb-2">
+            Texto o frase a enlazar:
+          </label>
+          <textarea
+            value={textToLink}
+            onChange={(e) => setTextToLink(e.target.value)}
+            className="w-full p-2 border rounded text-black resize-none"
+            rows="2"
+            placeholder="Ej: 'nuestros servicios de marketing digital'"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-black mb-2">
+            URL del enlace:
+          </label>
+          <select
+            value={linkUrl}
+            onChange={(e) => setLinkUrl(e.target.value)}
+            className="w-full p-2 border rounded text-black"
+          >
+            <option value="">Seleccionar servicio</option>
+            {servicios.map((serv) => (
+              <option key={serv.url} value={serv.url}>
+                {serv.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="url"
+            value={linkUrl}
+            onChange={(e) => setLinkUrl(e.target.value)}
+            className="w-full p-2 border rounded mt-2 text-black"
+            placeholder="O escribir URL personalizada"
+          />
+        </div>
+
+        <div className="flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={() => setShowLinkModal(false)}
+            className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            onClick={addLink}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Añadir
+          </button>
+        </div>
+
+        {item && item.keyword && item.link && (
+          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
+            <p className="text-sm text-green-800">
+              <strong>Link actual:</strong> "{item.keyword}" → {item.link}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                handleChange({ target: { value: "" } }, index, "keyword");
+                handleChange({ target: { value: "" } }, index, "link");
+              }}
+              className="text-red-600 text-xs underline mt-1"
+            >
+              Eliminar link
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setShowLinkModal(true)}
+        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+      >
+        + Añadir Link
+      </button>
+
+      {showLinkModal && createPortal(modal, document.body)}
+    </div>
+  );
+};
 
 export default function FormBody2(props) {
-  const productos = ProductosLink;
-
+  const productos = ProductosLink
   const [activeTab, setActiveTab] = useState("info");
   const [uploading, setUploading] = useState(false);
 
-  const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
+  // Seccion Informacion
+  const [isValidTitulo, setIsValidTitulo] = useState(true);
   const [isValidDescripcion, setIsValidDescripcion] = useState(true);
-  const [isValidTexto1, setIsValidTexto1] = useState(true);
-  const [isValidTexto2, setIsValidTexto2] = useState(true);
-  const [isValidTexto3, setIsValidTexto3] = useState(true);
-  const [isValidTexto4, setIsValidTexto4] = useState(true);
-  const [isValidTexto5, setIsValidTexto5] = useState(true);
+  const [isValidAlt_Image1, setIsValidAlt_Image1] = useState(true);
+  const [isValidTitle_Image1, setIsValidTitle_Image1] = useState(true);
 
+  // Seccion de Informacion
   const [isValidInfoTitulo1, setIsValidInfoTitulo1] = useState(true);
+
   const [isValidInfoDescripcion1, setIsValidInfoDescripcion1] = useState(true);
 
   const [isValidInfoTitulo2, setIsValidInfoTitulo2] = useState(true);
@@ -44,6 +159,13 @@ export default function FormBody2(props) {
 
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
+
+  // Seccion de Consejos
+  const [isValidTexto1, setIsValidTexto1] = useState(true);
+  const [isValidTexto2, setIsValidTexto2] = useState(true);
+  const [isValidTexto3, setIsValidTexto3] = useState(true);
+  const [isValidTexto4, setIsValidTexto4] = useState(true);
+  const [isValidTexto5, setIsValidTexto5] = useState(true);
 
   const {
     formCommendBody,
@@ -58,6 +180,8 @@ export default function FormBody2(props) {
     setFileBodyFile1,
     setFileBodyFile2,
     setValidacionBody,
+    serviceRedirectUrl,
+    setServiceRedirectUrl,
   } = props;
 
   const [commendErrors, setCommendErrors] = useState({
@@ -72,9 +196,92 @@ export default function FormBody2(props) {
         message: "Debe tener entre 10 y 400 caracteres",
         isValid: null,
       },
+      alt_image1: { message: "Máximo 100 caracteres", isValid: null },
+      title_image1: { message: "Máximo 100 caracteres", isValid: null },
     }))
   );
 
+
+  // Función para generar alt text automático
+  const generateAltText = (titulo, tipo = "principal") => {
+    if (!titulo || titulo.trim() === "") {
+      switch (tipo) {
+        case "principal":
+          return "Imagen principal del artículo";
+        case "galeria1":
+          return "Primera imagen de la galería del artículo";
+        case "galeria2":
+          return "Segunda imagen de la galería del artículo";
+        default:
+          return "Imagen relacionada con el contenido";
+      }
+    }
+
+    const tituloLimpio = titulo.trim();
+    switch (tipo) {
+      case "principal":
+        return `Imagen principal: ${tituloLimpio}`;
+      case "galeria1":
+        return `Galería - Primera imagen: ${tituloLimpio}`;
+      case "galeria2":
+        return `Galería - Segunda imagen: ${tituloLimpio}`;
+      default:
+        return `Imagen: ${tituloLimpio}`;
+    }
+  };
+
+  // Función para generar title automático
+  const generateTitle = (titulo, tipo = "principal") => {
+    if (!titulo || titulo.trim() === "") {
+      switch (tipo) {
+        case "principal":
+          return "Ver imagen principal en tamaño completo";
+        case "galeria1":
+          return "Ver primera imagen de la galería en tamaño completo";
+        case "galeria2":
+          return "Ver segunda imagen de la galería en tamaño completo";
+        default:
+          return "Ver imagen en tamaño completo";
+      }
+    }
+
+    const tituloLimpio = titulo.trim();
+    return `Ver imagen: ${tituloLimpio}`;
+  };
+
+
+  function renderDescripcion(texto, palabraClave, enlace) {
+  if (!palabraClave || !enlace) {
+    return texto;
+  }
+
+  const escapedKeyword = palabraClave.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const regex = new RegExp(`\\b(${escapedKeyword})\\b`, "gi");
+
+  const partes = texto.split(regex);
+
+  return partes.map((parte, i) =>
+    parte.toLowerCase() === palabraClave.toLowerCase() ? (
+      <a
+        key={i}
+        href={enlace}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-400 font-bold underline hover:text-blue-200"
+      >
+        {parte}
+      </a>
+    ) : (
+      <span key={i}>{parte}</span>
+    )
+  );
+}
+
+  const handleServiceChange = (e) => {
+    const url = e.target.value;
+    setServiceRedirectUrl(url);
+  };
   const handleChange = (setter) => (e) => {
     const { name, value } = e.target;
     let isValid = true;
@@ -82,7 +289,7 @@ export default function FormBody2(props) {
     switch (name) {
       case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
-        setIsValidTituloPrincipal(isValid);
+        setIsValidTitulo(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: {
@@ -102,6 +309,31 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
+      case "alt_image1":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
       case "texto1":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto1(isValid);
@@ -113,6 +345,7 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
       case "texto2":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto2(isValid);
@@ -124,6 +357,7 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
       case "texto3":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto3(isValid);
@@ -164,8 +398,10 @@ export default function FormBody2(props) {
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_Image1 &&
+      isValidTitle_Image1 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
@@ -229,13 +465,16 @@ export default function FormBody2(props) {
         }
 
         break;
+
       default:
         break;
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_Image1 &&
+      isValidTitle_Image1 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
@@ -428,30 +667,9 @@ export default function FormBody2(props) {
     titulo: { message: "Máximo 30 caracteres", isValid: null },
     descripcion: { message: "Máximo 310 caracteres", isValid: null },
     fecha: { message: "Fecha", isValid: null },
+    image_alt: { message: "Máximo 125 caracteres", isValid: null },
+    image_title: { message: "Máximo 100 caracteres", isValid: null },
   });
-
-  function renderDescripcion(texto, palabraClave, enlace) {
-    if (!palabraClave || !enlace) {
-      return texto;
-    }
-    return texto.split(" ").map((palabra, i) => {
-      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
-      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
-
-      return isMatch ? (
-        <a
-          key={i}
-          href={enlace}
-          target="_blank"
-          className="text-blue-400 font-bold underline hover:text-blue-200"
-        >
-          {palabraClave}
-        </a>
-      ) : (
-        <span key={i}>{" " + palabra + " "}</span>
-      );
-    });
-  }
 
   const ValidationMessage = ({ error }) => (
     <h1
@@ -509,26 +727,35 @@ export default function FormBody2(props) {
   return (
     <div className="relative bg-white text-black rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden">
       <div className="flex gap-4">
-        <div>
+        <div className="w-[600px]">
           <div className="top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-2 text-gray-500 text-sm">
               <Clock className="w-4 h-4" />
               <span>{formEncabezadoBody.fecha}</span>
             </div>
             <div className="flex space-x-3">
-              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                <Bookmark className="w-5 h-5 text-yellow-500" />
+              <button
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                title="Guardar artículo"
+                aria-label="Guardar artículo en favoritos"
+              >
+                <Bookmark className="w-5 h-5 text-teal-600" />
               </button>
-              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                <Share2 className="w-5 h-5 text-yellow-500" />
+              <button
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                title="Compartir artículo"
+                aria-label="Compartir este artículo"
+              >
+                <Share2 className="w-5 h-5 text-teal-600" />
               </button>
             </div>
           </div>
 
-          <div className="relative w-[850px] h-[300px] md:h-[400px] overflow-hidden">
+          <div className="relative w-[600px] h-[300px] md:h-[400px] overflow-hidden">
             <img
               src={formEncabezadoBody.public_image1}
-              alt={formEncabezadoBody.titulo}
+              alt={generateAltText(formEncabezadoBody.titulo, "principal")}
+              title={generateTitle(formEncabezadoBody.titulo, "principal")}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -536,7 +763,7 @@ export default function FormBody2(props) {
               <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">
                 {formEncabezadoBody.titulo}
               </h1>
-              <div className="w-16 h-1 bg-yellow-500 mb-4"></div>
+              <div className="w-16 h-1 bg-teal-500 mb-4"></div>
             </div>
           </div>
 
@@ -544,7 +771,7 @@ export default function FormBody2(props) {
             {formEncabezadoBody.descripcion}
           </div>
         </div>
-        <div className="relative mt-28 w-full p-6">
+        <div className="relative mt-14 w-full p-6">
           <div className="">
             <div className="bg-black/90 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg">
               <form className="grid gap-5">
@@ -562,6 +789,7 @@ export default function FormBody2(props) {
                     onChange={handleChange(setFormEncabezadoBody)}
                     className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                     placeholder="Título del pie de página"
+                    title="Ingresa el título principal del artículo"
                   />
                 </div>
                 <div className="mb-3">
@@ -579,6 +807,7 @@ export default function FormBody2(props) {
                     rows={3}
                     className="w-full h-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
                     placeholder="Descripción corta"
+                    title="Ingresa una descripción breve del artículo"
                   ></textarea>
                 </div>
                 <div className="mb-3 mt-3">
@@ -593,6 +822,7 @@ export default function FormBody2(props) {
                     onChange={handleEncabezadoBodyChange}
                     className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                     placeholder="Fecha de Creación página"
+                    title="Selecciona la fecha de publicación del artículo"
                   />
                 </div>
                 <div className="">
@@ -601,13 +831,18 @@ export default function FormBody2(props) {
                     Fondo
                     <h1 className="ml-3 mt-1 text-xs">980x450 píxeles</h1>
                   </label>
-                  <div className="relative flex flex-column justify-center">
+                  <div className="relative flex flex-column justify-center mb-3">
                     <label
                       className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
                         uploading
                           ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
                           : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
                       }`}
+                      title={
+                        uploading
+                          ? "Subiendo imagen..."
+                          : "Seleccionar imagen principal del artículo"
+                      }
                     >
                       {uploading ? (
                         <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
@@ -636,6 +871,7 @@ export default function FormBody2(props) {
                         className="hidden"
                         onChange={handleImageHeader}
                         disabled={uploading}
+                        title="Seleccionar archivo de imagen"
                       />
                     </label>
                     <button
@@ -643,9 +879,52 @@ export default function FormBody2(props) {
                       onClick={props.onDeleteBodyHeaderImage}
                       className="ml-2 p-2 rounded-full hover:bg-red-100"
                       title="Eliminar imagen principal"
+                      aria-label="Eliminar imagen principal del artículo"
                     >
                       <Trash2 className="w-5 h-5 text-red-500" />
                     </button>
+                  </div>
+
+                  {/* Campos para texto alternativo y título de imagen principal */}
+                  <div className="mb-3">
+                    <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
+                      <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Texto
+                      Alternativo (Alt)
+                    </label>
+                    <input
+                      type="text"
+                      name="alt_image1"
+                      maxLength={125}
+                      value={formEncabezadoBody.alt_image1 || ""}
+                      onChange={handleChange(setFormEncabezadoBody)}
+                      className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="Descripción de la imagen para lectores de pantalla"
+                      title="Texto alternativo que describe la imagen para accesibilidad"
+                    />
+                    <small className="text-gray-500 text-xs">
+                      Máximo 125 caracteres - Describe qué se ve en la imagen
+                    </small>
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
+                      <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Título
+                      de Imagen
+                    </label>
+                    <input
+                      type="text"
+                      name="title_image1"
+                      maxLength={100}
+                      value={formEncabezadoBody.title_image1 || ""}
+                      onChange={handleChange(setFormEncabezadoBody)}
+                      className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="Título que aparece al pasar el mouse sobre la imagen"
+                      title="Título que se muestra como tooltip al hacer hover sobre la imagen"
+                    />
+                    <small className="text-gray-500 text-xs">
+                      Máximo 100 caracteres - Información adicional sobre la
+                      imagen
+                    </small>
                   </div>
                 </div>
               </form>
@@ -659,30 +938,36 @@ export default function FormBody2(props) {
           <button
             className={`px-4 py-2 font-medium text-sm ${
               activeTab === "info"
-                ? "text-[--azul_intenso] border-b-2 border-[--azul_intenso]"
+                ? "text-teal-600 border-b-2 border-teal-600"
                 : "text-gray-500 hover:text-gray-700"
             }`}
             onClick={() => setActiveTab("info")}
+            title="Ver sección de información"
+            aria-label="Mostrar pestaña de información"
           >
             Información
           </button>
           <button
             className={`px-4 py-2 font-medium text-sm ${
               activeTab === "tips"
-                ? "text-[--azul_intenso] border-b-2 border-[--azul_intenso]"
+                ? "text-teal-600 border-b-2 border-teal-600"
                 : "text-gray-500 hover:text-gray-700"
             }`}
             onClick={() => setActiveTab("tips")}
+            title="Ver sección de consejos"
+            aria-label="Mostrar pestaña de consejos"
           >
             Consejos
           </button>
           <button
             className={`px-4 py-2 font-medium text-sm ${
               activeTab === "gallery"
-                ? "text-[--azul_intenso] border-b-2 border-[--azul_intenso]"
+                ? "text-teal-600 border-b-2 border-teal-600"
                 : "text-gray-500 hover:text-gray-700"
             }`}
             onClick={() => setActiveTab("gallery")}
+            title="Ver galería de imágenes"
+            aria-label="Mostrar pestaña de galería"
           >
             Galería
           </button>
@@ -694,12 +979,12 @@ export default function FormBody2(props) {
                 formInfoBody.map((section, index) => (
                   <div className="flex gap-5" key={`tarjeta-${index}`}>
                     <div className="bg-gradient-to-r w-full  from-teal-50 to-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                      <div className="p-1 bg-gradient-to-r from-[--azul_intenso] to-[--azul_oscuro]"></div>
+                      <div className="p-1 bg-gradient-to-r from-teal-400 to-teal-600"></div>
                       <div className="p-6">
-                        <h3 className="text-xl font-bold mb-3 text-[--azul_intenso]">
+                        <h3 className="text-xl font-bold mb-3 text-teal-700">
                           {section.titulo}
                         </h3>
-                        <p className="text-gray-700">
+                        <p className="text-gray-700 leading-relaxed">
                           {renderDescripcion(
                             section.descripcion,
                             section.keyword,
@@ -734,6 +1019,9 @@ export default function FormBody2(props) {
                             }
                             className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                             placeholder="Título del pie de página"
+                            title={`Título de la información relevante ${
+                              index + 1
+                            }`}
                           />
                         </div>
                         <div className="mb-3">
@@ -760,15 +1048,20 @@ export default function FormBody2(props) {
                             rows={3}
                             className="w-full h-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
                             placeholder="Descripción corta"
+                            title={`Descripción de la información relevante ${
+                              index + 1
+                            }`}
                           ></textarea>
                         </div>
                         <div className="w-full flex justify-end">
+                          {" "}
                           <AddLinkButton
+                            // texto={section.descripcion}
                             item={section}
                             index={index}
                             servicios={productos}
                             handleChange={handleChangeMap}
-                          ></AddLinkButton>
+                          />
                         </div>
                       </form>
                     </div>
@@ -779,7 +1072,7 @@ export default function FormBody2(props) {
 
           {activeTab === "tips" && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              <div className="bg-yellow-300/60 rounded-xl shadow-sm p-8 border border-slate-100 ">
+              <div className="bg-green-400/60 rounded-xl shadow-sm p-8 border border-slate-100 ">
                 <h3 className="text-2xl font-semibold mb-8 text-slate-800 text-center">
                   {formCommendBody.titulo || "Consejos"}
                 </h3>
@@ -800,7 +1093,7 @@ export default function FormBody2(props) {
                           className="flex items-start group transition-all duration-300 hover:translate-x-1 bg-white rounded-xl p-2"
                         >
                           <div className="bg-emerald-50 p-2 rounded-full mr-4 group-hover:bg-emerald-100 transition-colors duration-300">
-                            <CheckCircle className="w-5 h-5 text-yellow-600" />
+                            <CheckCircle className="w-5 h-5 text-emerald-600" />
                           </div>
                           <div className="pt-1.5">
                             <p className="text-slate-700 leading-relaxed">
@@ -845,6 +1138,7 @@ export default function FormBody2(props) {
                         onChange={handleChange(setFormCommendBody)}
                         className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 text-sm transition-all duration-200 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white"
                         placeholder="Ej: Consejos útiles"
+                        title="Título de la sección de consejos"
                       />
 
                       <BookType className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -866,6 +1160,7 @@ export default function FormBody2(props) {
                           onChange={handleChange(setFormCommendBody)}
                           className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 text-sm transition-all duration-200 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white"
                           placeholder={`Consejo #${num}`}
+                          title={`Consejo número ${num}`}
                         />
                         <ValidationMessage
                           error={commendErrors.textos[index]}
@@ -907,11 +1202,22 @@ export default function FormBody2(props) {
                     <div className="relative h-64 bg-slate-100">
                       <img
                         src={image.url}
-                        alt={`${image.title}`}
+                        alt={generateAltText(
+                          formEncabezadoBody.titulo,
+                          image.id === 2 ? "galeria1" : "galeria2"
+                        )}
+                        title={generateTitle(
+                          formEncabezadoBody.titulo,
+                          image.id === 2 ? "galeria1" : "galeria2"
+                        )}
                         className="w-full h-64 object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-3">
-                        <button className="bg-white/90 p-2 rounded-full shadow-lg">
+                        <button
+                          className="bg-white/90 p-2 rounded-full shadow-lg"
+                          title={`Ver ${image.title.toLowerCase()} en tamaño completo`}
+                          aria-label={`Ver ${image.title.toLowerCase()} ampliada`}
+                        >
                           <Eye className="w-4 h-4 text-slate-700" />
                         </button>
                       </div>
@@ -930,6 +1236,11 @@ export default function FormBody2(props) {
                               ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
                               : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
                           }`}
+                          title={
+                            uploading
+                              ? "Subiendo imagen..."
+                              : `Seleccionar ${image.title.toLowerCase()}`
+                          }
                         >
                           {uploading ? (
                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
@@ -959,6 +1270,7 @@ export default function FormBody2(props) {
                             className="hidden"
                             onChange={handleImageBody}
                             disabled={uploading}
+                            title={`Seleccionar archivo para ${image.title.toLowerCase()}`}
                           />
                         </label>
                         <button
@@ -969,11 +1281,47 @@ export default function FormBody2(props) {
                               : props.onDeleteBodyFile2
                           }
                           className="ml-2 p-2 rounded-full hover:bg-red-100"
-                          title={image.title}
+                          title={`Eliminar ${image.title.toLowerCase()}`}
+                          aria-label={`Eliminar ${image.title.toLowerCase()}`}
                         >
                           <Trash2 className="w-5 h-5 text-red-500" />
                         </button>
                       </div>
+
+                      {/* Inputs ALT y TITLE */}
+                      <label className="flex items-center text-gray-600 text-sm font-semibold mb-2 mt-2">
+                        <Type className="w-4 h-4 mr-1.5 text-blue-400" />
+                        Texto Alternativo (Alt)
+                      </label>
+                      <input
+                        type="text"
+                        name={`alt_image${image.id}`}
+                        value={formGaleryBody[`alt_image${image.id}`]}
+                        onChange={handleChange(setFormGaleryBody)}
+                        placeholder="Descripción de la imagen para lectores de pantalla"
+                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                        title="Texto alternativo (accesibilidad)"
+                      />
+                      <p className="text-gray-800 text-xs mt-1">
+                        Máximo 125 caracteres - Describe qué se ve en la imagen
+                      </p>
+                      <label className="flex items-center text-gray-600 text-sm font-semibold mb-2 mt-2">
+                        <Type className="w-4 h-4 mr-1.5 text-blue-400" />
+                        Titulo de la Imagen
+                      </label>
+                      <input
+                        type="text"
+                        name={`title_image${image.id}`}
+                        value={formGaleryBody[`title_image${image.id}`]}
+                        onChange={handleChange(setFormGaleryBody)}
+                        placeholder="Título que aparece al pasar el mouse sobre la imagen"
+                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                        title="Título de la imagen (tooltip al hacer hover)"
+                      />
+                      <p className="text-gray-800 text-xs mt-1">
+                        Máximo 100 caracteres - Información adicional sobre la
+                        imagen
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -981,8 +1329,43 @@ export default function FormBody2(props) {
             </div>
           )}
         </div>
+        {/* <div className="flex flex-row justify-between">
+          <div className="display flex justify-center items-center my-8">
+            {serviceRedirectUrl && (
+              <a
+                href={serviceRedirectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:from-blue-600 hover:to-blue-800 hover:shadow-xl"
+                title="Conocer más sobre nuestro servicio"
+                aria-label="Enlace para conocer más sobre nuestros servicios"
+              >
+                Conoce nuestro servicio
+              </a>
+            )}
+          </div>
+          <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-[400px] max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+            <label className="block mb-2 font-semibold text-white">
+              Selecciona servicio para el botón
+            </label>
+            <select
+              className="w-full p-3 rounded text-white bg-gray-900 border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              value={serviceRedirectUrl}
+              onChange={handleServiceChange}
+              title="Seleccionar servicio para el botón de redirección"
+            >
+              <option value="">-- Ninguno --</option>
+              {servicios.map((serv) => (
+                <option key={serv.url} value={serv.url}>
+                  {serv.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div> */}
       </div>
-      <div className="bg-gradient-to-r from-slate-600 to-slate-900 text-white p-6 text-center">
+
+      <div className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-6 text-center">
         <p className="text-sm">
           © {new Date().getFullYear()} - Todos los derechos reservados
         </p>

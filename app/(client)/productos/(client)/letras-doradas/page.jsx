@@ -39,8 +39,8 @@ export default function Home() {
         imagen="/productosIndividuales/banner/letras-doradas.png"
       />
       <Section2 idProducto={idProducto} />
+      <CardSlider cards={cards}/>
       <Datos idProducto={idProducto}/>
-      <CardSlider cards={cards} />
     </>
   );
 }

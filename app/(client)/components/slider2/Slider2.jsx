@@ -40,7 +40,7 @@ const Slider2 = ({ slides }) => {
 
     <div>
     <div className='"flex justify-center items-center text-center  text-white p-4 md:p-8 w-full max-w-4xl mx-auto rounded-2xl shadow-lg mb-12"'>
-        <h1 className="text-sm md:text-4xl font-bold mb-3">NUESTROS CLIENTES</h1>
+        <h2 className="text-sm md:text-4xl font-bold mb-3">NUESTROS CLIENTES</h2>
     </div>
 
     <div className="p-1 rounded-[2.5rem] bg-gradient-to-r from-orange-500 via-blue-500 to-fuchsia-500 mx-auto max-w-6xl">
@@ -53,6 +53,7 @@ const Slider2 = ({ slides }) => {
               alt={slide.altText}
               title={slide.title}
               className="object-contain w-full h-full mx-auto"
+              loading="lazy"
             />
           </div>
         ))}

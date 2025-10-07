@@ -38,6 +38,44 @@ export default function FormFooter({
         setValidacionFooter(isValid);
         break;
 
+      // Imagen 1
+      case "alt_image1":
+        isValid =
+          value.trim() !== "" && value.length <= 300 && value.length >= 10;
+        setValidacionFooter(isValid);
+        break;
+
+      case "title_image1":
+        isValid =
+          value.trim() !== "" && value.length <= 300 && value.length >= 10;
+        setValidacionFooter(isValid);
+        break;
+
+      // Imagen 2
+      case "alt_image2":
+        isValid =
+          value.trim() !== "" && value.length <= 300 && value.length >= 10;
+        setValidacionFooter(isValid);
+        break;
+
+      case "title_image2":
+        isValid =
+          value.trim() !== "" && value.length <= 300 && value.length >= 10;
+        setValidacionFooter(isValid);
+        break;
+
+      // Imagen 3
+      case "alt_image3":
+        isValid =
+          value.trim() !== "" && value.length <= 300 && value.length >= 10;
+        setValidacionFooter(isValid);
+        break;
+
+      case "title_image3":
+        isValid =
+          value.trim() !== "" && value.length <= 300 && value.length >= 10;
+        setValidacionFooter(isValid);
+        break;
       default:
         break;
     }
@@ -72,6 +110,12 @@ export default function FormFooter({
   const [errors, setErrors] = useState({
     titulo: { message: "Máximo 30 caracteres", isValid: null },
     descripcion: { message: "Máximo 300 caracteres", isValid: null },
+    alt_image1: { message: "Máximo 20 caracteres", isValid: null },
+    alt_image2: { message: "Máximo 20 caracteres", isValid: null },
+    alt_image3: { message: "Máximo 20 caracteres", isValid: null },
+    title_image1: { message: "Máximo 20 caracteres", isValid: null },
+    title_image2: { message: "Máximo 20 caracteres", isValid: null },
+    title_image3: { message: "Máximo 20 caracteres", isValid: null },
   });
 
   const [uploading, setUploading] = useState(false);
@@ -134,16 +178,16 @@ export default function FormFooter({
               const imageUrl = image;
               const altText =
                 index === 0
-                  ? formFooter.image1_alt
+                  ? formFooter.alt_image1
                   : index === 1
-                  ? formFooter.image2_alt
-                  : formFooter.image3_alt;
+                  ? formFooter.alt_image2
+                  : formFooter.alt_image3;
               const titleText =
                 index === 0
-                  ? formFooter.image1_title
+                  ? formFooter.title_image1
                   : index === 1
-                  ? formFooter.image2_title
-                  : formFooter.image3_title;
+                  ? formFooter.title_image2
+                  : formFooter.title_image3;
 
               return (
                 <div key={index} className="relative group mb-16">
@@ -227,7 +271,7 @@ export default function FormFooter({
                       ) : (
                         <>
                           {formFooter[`public_image${num}`] !==
-                          "/blog/blog-10.webp" ? (
+                          "/blog/blog-10.jpg" ? (
                             <>
                               <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                               <span className="text-sm">Cambiar imagen</span>
@@ -277,8 +321,8 @@ export default function FormFooter({
                       </label>
                       <input
                         type="text"
-                        name={`image${num}_alt`}
-                        value={formFooter[`image${num}_alt`] || ""}
+                        name={`alt_image${num}`}
+                        value={formFooter[`alt_image${num}`] || ""}
                         onChange={handleChange}
                         maxLength={100}
                         autoComplete="off"
@@ -293,8 +337,8 @@ export default function FormFooter({
                       </label>
                       <input
                         type="text"
-                        name={`image${num}_title`}
-                        value={formFooter[`image${num}_title`] || ""}
+                        name={`title_image${num}`}
+                        value={formFooter[`title_image${num}`] || ""}
                         onChange={handleChange}
                         maxLength={100}
                         autoComplete="off"

@@ -10,6 +10,8 @@ import {
   Edit3,
 } from "lucide-react";
 import { useState } from "react";
+import { ProductosLink } from "../utils";
+
 import {
   Loader2,
   CheckCircle,
@@ -17,10 +19,9 @@ import {
   ExternalLink,
   Image as IconImage,
 } from "lucide-react";
-import { ProductosLink } from "../utils";
-import AddLinkButton from "./AddLinkButton";
 
-const BotonAñadirLink = ({ item, index, servicios, handleChange }) => {
+// Componente mejorado para añadir links
+const AddLinkButton = ({ item, index, servicios, handleChange }) => {
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [textToLink, setTextToLink] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
@@ -30,12 +31,12 @@ const BotonAñadirLink = ({ item, index, servicios, handleChange }) => {
       const fakeEvent = {
         target: { value: linkUrl },
       };
-      handleChange(fakeEvent, index, "enlace");
+      handleChange(fakeEvent, index, "link");
 
       const fakeEventText = {
         target: { value: textToLink.trim() },
       };
-      handleChange(fakeEventText, index, "palabra");
+      handleChange(fakeEventText, index, "keyword");
 
       setShowLinkModal(false);
       setTextToLink("");
@@ -66,8 +67,8 @@ const BotonAñadirLink = ({ item, index, servicios, handleChange }) => {
                 value={textToLink}
                 onChange={(e) => setTextToLink(e.target.value)}
                 className="w-full p-2 border rounded text-black resize-none"
-                rows="3"
-                placeholder="Ej: 'nuestros servicios de marketing digital y desarrollo web que ofrecemos a empresas'"
+                rows="2"
+                placeholder="Ej: 'nuestros servicios de marketing digital'"
               />
             </div>
 
@@ -113,22 +114,16 @@ const BotonAñadirLink = ({ item, index, servicios, handleChange }) => {
               </button>
             </div>
 
-            {item && item.palabra && item.enlace && (
+            {item && item.keyword && item.link && (
               <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
                 <p className="text-sm text-green-800">
-                  <strong>Link actual:</strong> "{item.palabra}" →
-                  <span
-                    className="text-blue-600 underline cursor-pointer ml-1"
-                    onClick={() => window.open(item.enlace, "_blank")}
-                  >
-                    {item.enlace}
-                  </span>
+                  <strong>Link actual:</strong> "{item.keyword}" → {item.link}
                 </p>
                 <button
                   type="button"
                   onClick={() => {
-                    handleChange({ target: { value: "" } }, index, "palabra");
-                    handleChange({ target: { value: "" } }, index, "enlace");
+                    handleChange({ target: { value: "" } }, index, "keyword");
+                    handleChange({ target: { value: "" } }, index, "link");
                   }}
                   className="text-red-600 text-xs underline mt-1"
                 >
@@ -144,6 +139,7 @@ const BotonAñadirLink = ({ item, index, servicios, handleChange }) => {
 };
 
 export default function FormBody3(props) {
+  const productos = ProductosLink
   const {
     formCommendBody = {},
     setFormCommendBody,
@@ -159,24 +155,39 @@ export default function FormBody3(props) {
     setValidacionBody,
     serviceRedirectUrl = "",
     setServiceRedirectUrl,
+    showGallery,
+    setShowGallery,
+    showAdvice,
+    setShowAdvice,
+    showDetailedInfo,
+    setShowDetailedInfo,
   } = props;
 
-  const [showGallery, setShowGallery] = useState(true);
-  const [showAdvice, setShowAdvice] = useState(true);
-  const [showDetailedInfo, setShowDetailedInfo] = useState(true);
-
+  // Estados para títulos editables
   const [galleryTitle, setGalleryTitle] = useState("Galería");
   const [adviceTitle, setAdviceTitle] = useState("Consejos");
   const [detailedInfoTitle, setDetailedInfoTitle] = useState(
     "Información Detallada"
   );
 
-  const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
+  // Contenido Principal
+  const [isValidTitulo, setIsValidTitulo] = useState(true);
+  const [isValidAlt_image1, setIsValidAlt_image1] = useState(true);
+  const [isValidTitle_image1, setIsValidTitle_image1] = useState(true);
   const [isValidDescripcion, setIsValidDescripcion] = useState(true);
+
+  // Galeria de Imagenes
+  const [isValidAlt_image2, setIsValidAlt_image2] = useState(true);
+  const [isValidTitle_image2, setIsValidTitle_image2] = useState(true);
+  const [isValidAlt_image3, setIsValidAlt_image3] = useState(true);
+  const [isValidTitle_image3, setIsValidTitle_image3] = useState(true);
+
+  // Consejos
   const [isValidTexto1, setIsValidTexto1] = useState(true);
   const [isValidTexto2, setIsValidTexto2] = useState(true);
   const [isValidTexto3, setIsValidTexto3] = useState(true);
 
+  // Información Detallada
   const [isValidInfoTitulo1, setIsValidInfoTitulo1] = useState(true);
   const [isValidInfoDescripcion1, setIsValidInfoDescripcion1] = useState(true);
   const [isValidInfoTitulo2, setIsValidInfoTitulo2] = useState(true);
@@ -186,11 +197,13 @@ export default function FormBody3(props) {
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
+  // Función mejorada para renderizar descripción con links de frases completas
   function renderDescripcion(texto, fraseEnlace, enlace) {
     if (!fraseEnlace || !enlace || !texto) {
       return texto;
     }
 
+    // Buscar la frase completa en el texto (case insensitive)
     const regex = new RegExp(
       `(${fraseEnlace.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
       "gi"
@@ -204,11 +217,7 @@ export default function FormBody3(props) {
             href={enlace}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-500 font-bold underline hover:text-blue-700 transition-colors duration-200"
-            style={{
-              borderBottom: "2px solid #93C5FD",
-              paddingBottom: "1px",
-            }}
+            className="text-blue-400 font-bold underline hover:text-blue-200"
           >
             {part}
           </a>
@@ -219,11 +228,35 @@ export default function FormBody3(props) {
   }
 
   const [errors, setErrors] = useState({
-    titulo: { message: "Debe tener entre 10 y 80 caracteres", isValid: null },
+    titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
     texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     texto2: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     texto3: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     descripcion: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    alt_image1: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    alt_image2: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    alt_image3: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    title_image1: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    title_image2: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    title_image3: {
       message: "Debe tener entre 10 y 400 caracteres",
       isValid: null,
     },
@@ -252,13 +285,14 @@ export default function FormBody3(props) {
 
     switch (name) {
       case "titulo":
-        isValid = value.trim().length >= 10 && value.length <= 80;
-        setIsValidTituloPrincipal(isValid);
+        isValid = value.trim().length >= 10 && value.length <= 50;
+        setIsValidTitulo(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: { ...prev[name], isValid: isValid },
         }));
         break;
+
       case "descripcion":
         isValid = value.trim().length >= 10 && value.length <= 400;
         setIsValidDescripcion(isValid);
@@ -267,37 +301,74 @@ export default function FormBody3(props) {
           [name]: { ...prev[name], isValid: isValid },
         }));
         break;
-      case "texto1":
-        isValid = value.trim().length >= 10 && value.length <= 150;
-        setIsValidTexto1(isValid);
+
+      case "alt_image1":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_image1(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: { ...prev[name], isValid: isValid },
         }));
         break;
-      case "texto2":
-        isValid = value.trim().length >= 10 && value.length <= 150;
-        setIsValidTexto2(isValid);
+
+      case "alt_image2":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_image2(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: { ...prev[name], isValid: isValid },
         }));
         break;
-      case "texto3":
-        isValid = value.trim().length >= 10 && value.length <= 150;
-        setIsValidTexto3(isValid);
+
+      case "alt_image3":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_image3(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: { ...prev[name], isValid: isValid },
         }));
         break;
+
+      case "title_image1":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
       default:
         break;
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidAlt_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image1 &&
+      isValidTitle_image2 &&
+      isValidTitle_image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
@@ -340,7 +411,7 @@ export default function FormBody3(props) {
     formInfoBody && formInfoBody.length > 0
       ? formInfoBody.map(() => ({
           titulo: {
-            message: "Debe tener entre 10 y 80 caracteres",
+            message: "Debe tener entre 10 y 50 caracteres",
             isValid: null,
           },
           descripcion: {
@@ -358,7 +429,7 @@ export default function FormBody3(props) {
 
     switch (name) {
       case "titulo":
-        isValid = value.trim().length >= 10 && value.length <= 80;
+        isValid = value.trim().length >= 10 && value.length <= 50;
         if (index === 0) setIsValidInfoTitulo1(isValid);
         else if (index === 1) setIsValidInfoTitulo2(isValid);
         else if (index === 2) setIsValidInfoTitulo3(isValid);
@@ -376,8 +447,14 @@ export default function FormBody3(props) {
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidAlt_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image1 &&
+      isValidTitle_image2 &&
+      isValidTitle_image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
@@ -461,7 +538,7 @@ export default function FormBody3(props) {
   return (
     <div className="relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] flex flex-row my-5 justify-center">
       <div className="w-[700px]">
-        <div className="bg-gradient-to-r from-indigo-900 to-purple-900 py-3 px-6 flex justify-between items-center mt-[335px]">
+        <div className="bg-gradient-to-r from-indigo-900 to-purple-900 py-3 px-6 flex justify-between items-center">
           <div className="flex items-center text-white">
             <Calendar className="w-4 h-4 mr-2" />
             <span className="text-sm font-medium">
@@ -492,16 +569,14 @@ export default function FormBody3(props) {
                 <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur"></div>
                 <div className="relative">
                   <img
-                    src={
-                      formEncabezadoBody.public_image1 || "/blog/blog-4.webp"
-                    }
+                    src={formEncabezadoBody.public_image1 || "/blog/blog-4.jpg"}
                     alt={
-                      formEncabezadoBody.image1_alt ||
+                      formEncabezadoBody.alt_image1 ||
                       formEncabezadoBody.titulo ||
                       "Imagen principal"
                     }
-                    title={formEncabezadoBody.image1_title || ""}
-                    className="w-[22rem] h-[22rem] rounded-2xl shadow-lg object-cover relative"
+                    title={formEncabezadoBody.title_image1 || ""}
+                    className="w-[22rem] h-[22rem] rounded-2xl shadow-lg object-cover relative "
                   />
                 </div>
                 <div className="absolute -top-3 -left-3 w-16 h-16 bg-purple-100 rounded-full z-0"></div>
@@ -511,10 +586,11 @@ export default function FormBody3(props) {
         </div>
 
         <div className="p-8 md:p-12 bg-gradient-to-b from-white to-indigo-50 mt-[120px]">
+          {/* SECCIÓN GALERÍA */}
           {showGallery && (
             <div className="mb-16 mt-16">
               <div className="flex items-center mb-8">
-                <div className="w-8 h-8 rounded-full bg-indigo-900 flex items-center justify-center text-white font-bold mr-3">
+                <div className="w-8 h-8 rounded-full bg-indigo-900 flex items-center justify-center text-white font-bold mr-3 ">
                   G
                 </div>
                 <h2 className="text-2xl font-bold text-indigo-900">
@@ -525,8 +601,8 @@ export default function FormBody3(props) {
 
               <div className="flex flex-col gap-6">
                 {[
-                  formGaleryBody.public_image2 || "/blog/blog-10.webp",
-                  formGaleryBody.public_image3 || "/blog/blog-1.webp",
+                  formGaleryBody.public_image2 || "/blog/blog-10.jpg",
+                  formGaleryBody.public_image3 || "/blog/blog-1.jpg",
                 ].map((src, index) => (
                   <div
                     key={index}
@@ -537,15 +613,15 @@ export default function FormBody3(props) {
                       src={src.startsWith("http") ? src : `${src}`}
                       alt={
                         index === 0
-                          ? formGaleryBody.image2_alt ||
+                          ? formGaleryBody.alt_image2 ||
                             `Imagen ${index + 1} del artículo`
-                          : formGaleryBody.image3_alt ||
+                          : formGaleryBody.alt_image3 ||
                             `Imagen ${index + 1} del artículo`
                       }
                       title={
                         index === 0
-                          ? formGaleryBody.image2_title || ""
-                          : formGaleryBody.image3_title || ""
+                          ? formGaleryBody.title_image2 || ""
+                          : formGaleryBody.title_image3 || ""
                       }
                       className="w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-110"
                     />
@@ -560,6 +636,7 @@ export default function FormBody3(props) {
             </div>
           )}
 
+          {/* SECCIÓN CONSEJOS */}
           {showAdvice && (
             <div className="mb-16">
               <div className="flex items-center mb-8">
@@ -597,6 +674,7 @@ export default function FormBody3(props) {
             </div>
           )}
 
+          {/* SECCIÓN INFORMACIÓN DETALLADA */}
           {showDetailedInfo && (
             <div>
               <div className="flex items-center mb-8">
@@ -639,13 +717,13 @@ export default function FormBody3(props) {
                           </div>
 
                           <div className="md:w-2/3 p-8">
-                            <div className="text-gray-700 text-lg leading-relaxed">
+                            <p className="text-gray-700 text-lg leading-relaxed">
                               {renderDescripcion(
                                 section.descripcion || "",
-                                section.palabra || "",
-                                section.enlace || ""
+                                section.keyword || "",
+                                section.link || ""
                               )}
-                            </div>
+                            </p>
                           </div>
                         </div>
                       );
@@ -672,8 +750,10 @@ export default function FormBody3(props) {
         <div className="h-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
       </div>
 
+      {/* PANEL DE CONTROL */}
       <div className="w-[420px] flex flex-col justify-center gap-5 p-5">
-        <div className="max-w-sm mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-6 shadow-lg">
+        {/* CONTROLES DE SECCIONES */}
+        {/* <div className="max-w-sm mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-6 shadow-lg h-15">
           <h3 className="text-white text-lg font-semibold mb-4">
             Configurar Secciones
           </h3>
@@ -757,8 +837,9 @@ export default function FormBody3(props) {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
 
+        {/* FORMULARIO PRINCIPAL */}
         <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto">
           <form className="space-y-6">
             <h3 className="text-lg font-semibold text-white mb-4">
@@ -770,11 +851,11 @@ export default function FormBody3(props) {
                 <Type className="w-5 h-5 mr-2 text-purple-400" />
                 Título
               </label>
-              <p className="text-xs text-gray-400 mb-2">Máximo 80 caracteres</p>
+              <p className="text-xs text-gray-400 mb-2">Máximo 50 caracteres</p>
               <input
                 type="text"
                 name="titulo"
-                maxLength={80}
+                maxLength={50}
                 value={formEncabezadoBody?.titulo || ""}
                 onChange={handleChange(setFormEncabezadoBody)}
                 className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
@@ -814,7 +895,7 @@ export default function FormBody3(props) {
                 ) : (
                   <>
                     {formEncabezadoBody?.public_image1 !==
-                    "/blog/blog-4.webp" ? (
+                    "/blog/blog-4.jpg" ? (
                       <>
                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                         <span className="text-sm">Cambiar imagen</span>
@@ -855,8 +936,8 @@ export default function FormBody3(props) {
                 </label>
                 <input
                   type="text"
-                  name="image1_alt"
-                  value={formEncabezadoBody?.image1_alt || ""}
+                  name="alt_image1"
+                  value={formEncabezadoBody?.alt_image1 || ""}
                   onChange={handleChange(setFormEncabezadoBody)}
                   maxLength={100}
                   autoComplete="off"
@@ -871,8 +952,8 @@ export default function FormBody3(props) {
                 </label>
                 <input
                   type="text"
-                  name="image1_title"
-                  value={formEncabezadoBody?.image1_title || ""}
+                  name="title_image1"
+                  value={formEncabezadoBody?.title_image1 || ""}
                   onChange={handleChange(setFormEncabezadoBody)}
                   maxLength={100}
                   autoComplete="off"
@@ -904,6 +985,7 @@ export default function FormBody3(props) {
           </form>
         </div>
 
+        {/* FORMULARIO DE IMÁGENES */}
         {showGallery && (
           <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto">
             <form className="space-y-6">
@@ -931,7 +1013,7 @@ export default function FormBody3(props) {
                     ) : (
                       <>
                         {formGaleryBody?.public_image2 !==
-                        "/blog/blog-2.webp" ? (
+                        "/blog/blog-2.jpg" ? (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen</span>
@@ -972,8 +1054,8 @@ export default function FormBody3(props) {
                     </label>
                     <input
                       type="text"
-                      name="image2_alt"
-                      value={formGaleryBody?.image2_alt || ""}
+                      name="alt_image2"
+                      value={formGaleryBody?.alt_image2 || ""}
                       onChange={handleChange(setFormGaleryBody)}
                       maxLength={100}
                       autoComplete="off"
@@ -988,8 +1070,8 @@ export default function FormBody3(props) {
                     </label>
                     <input
                       type="text"
-                      name="image2_title"
-                      value={formGaleryBody?.image2_title || ""}
+                      name="title_image2"
+                      value={formGaleryBody?.title_image2 || ""}
                       onChange={handleChange(setFormGaleryBody)}
                       maxLength={100}
                       autoComplete="off"
@@ -1020,7 +1102,7 @@ export default function FormBody3(props) {
                     ) : (
                       <>
                         {formGaleryBody?.public_image3 !==
-                        "/blog/blog-2.webp" ? (
+                        "/blog/blog-2.jpg" ? (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen</span>
@@ -1061,8 +1143,8 @@ export default function FormBody3(props) {
                     </label>
                     <input
                       type="text"
-                      name="image3_alt"
-                      value={formGaleryBody?.image3_alt || ""}
+                      name="alt_image3"
+                      value={formGaleryBody?.alt_image3 || ""}
                       onChange={handleChange(setFormGaleryBody)}
                       maxLength={100}
                       autoComplete="off"
@@ -1077,8 +1159,8 @@ export default function FormBody3(props) {
                     </label>
                     <input
                       type="text"
-                      name="image3_title"
-                      value={formGaleryBody?.image3_title || ""}
+                      name="title_image3"
+                      value={formGaleryBody?.title_image3 || ""}
                       onChange={handleChange(setFormGaleryBody)}
                       maxLength={100}
                       autoComplete="off"
@@ -1092,6 +1174,7 @@ export default function FormBody3(props) {
           </div>
         )}
 
+        {/* FORMULARIO DE CONSEJOS */}
         {showAdvice && (
           <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto">
             <form className="space-y-6">
@@ -1162,6 +1245,7 @@ export default function FormBody3(props) {
           </div>
         )}
 
+        {/* FORMULARIO DE INFORMACIÓN DETALLADA */}
         {showDetailedInfo && (
           <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto">
             <form className="space-y-6">
@@ -1181,12 +1265,12 @@ export default function FormBody3(props) {
                         Título {index + 1}
                       </label>
                       <p className="text-xs text-gray-400 mb-2">
-                        Máximo 80 caracteres
+                        Máximo 50 caracteres
                       </p>
                       <input
                         type="text"
                         name="titulo"
-                        maxLength={80}
+                        maxLength={50}
                         value={item?.titulo || ""}
                         onChange={(e) => handleChangeMap(e, index, "titulo")}
                         className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
@@ -1231,10 +1315,10 @@ export default function FormBody3(props) {
                     </div>
 
                     <div className="w-full flex justify-end mt-3">
-                      <BotonAñadirLink
+                      <AddLinkButton
                         item={item || {}}
                         index={index}
-                        servicios={servicios}
+                        servicios={productos}
                         handleChange={handleChangeMap}
                       />
                     </div>
@@ -1249,7 +1333,8 @@ export default function FormBody3(props) {
           </div>
         )}
 
-        <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto">
+        {/* SELECT PARA SERVICIO */}
+        {/* <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto">
           <h3 className="text-lg font-semibold text-white mb-4">
             Botón de Servicio
           </h3>
@@ -1268,7 +1353,7 @@ export default function FormBody3(props) {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -18,9 +18,9 @@ function CardSlider({ cards }) {
   }, []);
 
   const DesktopSlider = () => (
-    <div className="relative w-full flex justify-center items-center overflow-hidden bg-white py-20">
-      <motion.div
-        className="flex gap-6"
+    <div className="relative w-full flex justify-center items-center overflow-hidden bg-white py-20 gap-10">
+       {/* <motion.div
+        className="flex gap-10"
         animate={{ x: ["15%", "-15%"] }}
         transition={{
           duration: 5,
@@ -28,22 +28,16 @@ function CardSlider({ cards }) {
           repeat: Infinity,
           repeatType: "reverse",
         }}
-      >
-        {cards.map((card, i) => (
+      >  */}
+        {cards.slice(1).map((card, i) => (
           <div
             key={i}
-            className={`relative flex-shrink-0 left-60 md:left-auto rounded-lg shadow-lg overflow-hidden ${
-              i === 0
-                ? "w-[350px] h-[300px] md:w-[500px] md:h-[375px] bg-gray-900 text-white flex flex-col justify-center items-center px-6 py-4"
-                : "w-[300px] h-[300px] md:w-[400px] md:h-[375px]"
-            }`}
+            className="relative flex-shrink-0 rounded-lg shadow-lg overflow-hidden w-[220px] h-[400px] md:w-[400px] md:h-[600px] gap-20"
           >
             {card.image ? (
               <div className="relative w-full h-full group ">
                 <img
                   src={card.image}
-                  // Se añadió un atributo alt a los objetos card
-                  // alt={card.title}
                   alt={card.alt ? card.alt : card.title}
                   className="w-full h-full object-cover rounded-lg filter brightness-75 group-hover:brightness-100 transition duration-300 "
                 />
@@ -65,7 +59,7 @@ function CardSlider({ cards }) {
             )}
           </div>
         ))}
-      </motion.div>
+      {/* </motion.div> */}
     </div>
   );
 
