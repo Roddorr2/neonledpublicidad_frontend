@@ -780,16 +780,7 @@ const PageContent = () => {
         }
       });
     } catch (error) {
-      console.error("=== ERROR EN EL PROCESO DE GUARDADO ===");
-      console.error("Error completo:", error);
-      console.error("Stack trace:", error.stack);
-      
-      await Swal.fire({
-        title: "Error al Guardar",
-        text: `Ocurrió un error: ${error.message}. Por favor, revisa la consola para más detalles.`,
-        icon: "error",
-        confirmButtonText: "Entendido"
-      });
+      console.error("Error al guardar:", error.message);
     } finally {
       setLoading(false);
     }
@@ -875,7 +866,6 @@ const PageContent = () => {
           setValidacionFooter={setValidacionFooter}
         />
       </div>
-      
       <div className="bottom-0 left-0 fixed p-6 border-t border-slate-700/50 bg-slate-900/50 backdrop-blur-sm">
         <button
           onClick={HandleSave}

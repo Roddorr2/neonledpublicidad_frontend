@@ -644,13 +644,7 @@ const PageContent = () => {
         title: "Guardado Correctamente",
         text: "¡Podrás ver tu blog en la sección de blogs de la página principal!",
         icon: "success",
-        showCancelButton: true,
         confirmButtonText: "OK",
-        cancelButtonText: "Cerrar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          router.push("/dashboard/blogs/");
-        }
       });
 
       setFormFooter({

@@ -75,7 +75,7 @@ export default function FormFooter({
 
             setFormData(prev => ({
                 ...prev,
-                [name]: tempUrl
+                [name]: tempUrl,
             }));
 
             if (name === "public_image1") setFileFooterFile1(file);
@@ -234,9 +234,9 @@ export default function FormFooter({
                                                 onClick={
                                                     num === "1"
                                                         ? onDeleteFooterFile1
-                                                        : (num === "2"
+                                                        : num === "2"
                                                             ? onDeleteFooterFile2
-                                                            : onDeleteFooterFile3)
+                                                            : onDeleteFooterFile3
                                                 }
                                                 className="ml-2 p-2 rounded-full hover:bg-red-100"
                                                 title={`Eliminar imagen ${num}`}
