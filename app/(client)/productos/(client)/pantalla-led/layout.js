@@ -39,11 +39,35 @@ export const metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/pantalla-led",
+    canonical: "https://ledneonpublicidad.com/productos/pantalla-led/",
   },
 };
 
 export default function PantallaLedLayout({ children }) {
+      const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ledneonpublicidad.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Productos", 
+        "item": "https://ledneonpublicidad.com/productos/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Nombre del Producto",
+        "item": "https://ledneonpublicidad.com/productos/pantalla-led/"
+      }
+    ]
+  };
   const productPantallasLed={
     "@context": "https://schema.org",
     "@type": "Product",
@@ -92,11 +116,18 @@ export default function PantallaLedLayout({ children }) {
     ]
 }
 
-  return <>
-   <script
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productPantallasLed) }}
       />
-  {children}
-  </>;
+      
+      {children}
+    </>
+  );
 }

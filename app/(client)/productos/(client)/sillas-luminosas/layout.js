@@ -34,7 +34,7 @@ export const metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/sillas-luminosas",
+    canonical: "https://ledneonpublicidad.com/productos/sillas-luminosas/",
   },
 };
 

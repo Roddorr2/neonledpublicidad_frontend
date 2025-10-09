@@ -1,24 +1,6 @@
-import Script from "next/script";
-
 export const metadata = {
-  title:
-    "Marca de letreros neón led y publicidad visual en Perú  | Personaliza tu Marca",
-  description:
-    "Descubre productos LED publicitarios en Lima: pantallas LED a medida, neón LED flexible, impresión en vinil decorativo, letreros y sillas luminosas. Personaliza tu marca con estilo.",
-  openGraph: {
-    title:
-      "Marca de letreros neón led y publicidad visual en Perú  | Personaliza tu Marca",
-    description:
-      "Descubre productos LED publicitarios en Lima: pantallas LED a medida, neón LED flexible, impresión en vinil decorativo, letreros y sillas luminosas. Personaliza tu marca con estilo.",
-    url: "https://www.ledneonpublicidad.com/productos",
-    siteName: "Neon Led Publicidad",
-    images: [], // puedes agregar una imagen destacada más adelante
-    locale: "es_PE",
-    type: "website",
-  },
-  alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/",
-  },
+  title: "Marca de letreros neón led y publicidad visual en Perú | Personaliza tu Marca",
+  description: "Descubre productos LED publicitarios en Lima: pantallas LED a medida, neón LED flexible, impresión en vinil decorativo, letreros y sillas luminosas. Personaliza tu marca con estilo.",
 
   keywords: [
     "neón LED",
@@ -47,14 +29,47 @@ export const metadata = {
     "decoración estética",
     "decoración para bodas",
   ],
+
+    alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/",
+  },
+
+  openGraph: {
+    title: "Marca de letreros neón led y publicidad visual en Perú | Personaliza tu Marca",
+    description: "Descubre productos LED publicitarios en Lima: pantallas LED a medida, neón LED flexible, impresión en vinil decorativo, letreros y sillas luminosas. Personaliza tu marca con estilo.",
+    url: "https://www.ledneonpublicidad.com/productos",
+    siteName: "LedNeonPublicidad",
+    images: [],
+    locale: "es_PE",
+    type: "website",
+  },
 };
 
 export default function ProductosLayout({ children }) {
-const productSchema = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "Productos LedNeonPublicidad",
-  "url": "https://ledneonpublicidad.com/productos",
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ledneonpublicidad.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Productos",
+        "item": "https://ledneonpublicidad.com/productos/"
+      }
+    ]
+  };
+
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Productos LedNeonPublicidad",
+    "url": "https://ledneonpublicidad.com/productos",
   "itemListElement": [
     {
       "@type": "ListItem",
@@ -267,17 +282,20 @@ const productSchema = {
       }
     }
   ]
-};
+  };
 
-
-   return (
+  return (
     <>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-        />
-        {children}
-    
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      
+      {children}
     </>
   );
 }
