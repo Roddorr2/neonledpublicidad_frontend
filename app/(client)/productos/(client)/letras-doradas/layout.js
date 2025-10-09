@@ -32,22 +32,46 @@ export const metadata = {
     "Letras doradas en acrílico",
     "Letras plateadas 3D",
   ],
+  alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/letras-doradas/",
+  },
   openGraph: {
     title: "Letras Doradas y Plateadas _ Lima Perú",
     description:
       "Dale elegancia a tu espacio con letras doradas o plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
-    url: "https://ledneonpublicidad.com/productos/letras-doradas",
+    url: "https://ledneonpublicidad.com/productos/letras-doradas/",
     siteName: "Neon Led Publicidad",
     images: [],
     locale: "es_PE",
     type: "website",
   },
-  alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/letras-doradas/",
-  },
 };
 
 export default function LetrasDoradasLayout({ children }) {
+    const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ledneonpublicidad.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Productos", 
+        "item": "https://ledneonpublicidad.com/productos/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Nombre del Producto",
+        "item": "https://ledneonpublicidad.com/productos/letras-doradas/"
+      }
+    ]
+  };
    const productDoradas={
     "@context": "https://schema.org",
     "@type": "Product",
@@ -95,11 +119,18 @@ export default function LetrasDoradasLayout({ children }) {
         }
     ]
 }
-  return <>
-   <script
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productDoradas) }}
       />
-  {children}
-  </>;
+      
+      {children}
+    </>
+  );
 }

@@ -39,11 +39,35 @@ export const metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/neon-led",
+    canonical: "https://ledneonpublicidad.com/productos/neon-led/",
   },
 };
 
 export default function NeonLedLayout({ children }) {
+      const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ledneonpublicidad.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Productos", 
+        "item": "https://ledneonpublicidad.com/productos/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Nombre del Producto",
+        "item": "https://ledneonpublicidad.com/productos/neon-led/"
+      }
+    ]
+  };
   const productNeonLed={
     "@context": "https://schema.org",
     "@type": "Product",
@@ -92,11 +116,18 @@ export default function NeonLedLayout({ children }) {
     ]
 }
 
-  return <>
-   <script
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productNeonLed) }}
       />
-  {children}
-  </>;
+      
+      {children}
+    </>
+  );
 }
