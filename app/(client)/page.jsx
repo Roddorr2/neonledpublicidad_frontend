@@ -4,7 +4,6 @@ import FilaProductos from "./productos/components/FilaProductos";
 import Slider from "./components/slider/Slider";
 import Slider2 from "./components/slider2/Slider2";
 
-
 const FilaProductosModificado = ({ productos }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 justify-items-center">
     {productos.map((producto, index) => (
@@ -21,6 +20,7 @@ const FilaProductosModificado = ({ productos }) => (
                 alt={producto.altText}
                 title={producto.title}
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
             </picture>
           </div>
@@ -38,7 +38,7 @@ const FilaProductosModificado = ({ productos }) => (
 const AboutStatic = () => (
   <section className="bg-gradient-to-r from-purple-600 via-blue-500 to-orange-300 text-white p-6 md:p-8 w-4/5 max-w-4xl mx-auto rounded-[2.5rem] shadow-xl mb-12">
     <div className="text-left">
-      <h1 className="text-4xl md:text-6xl font-bold mb-4 ml-4">Nosotros</h1>
+      <h2 className="text-4xl md:text-6xl font-bold mb-4 ml-4">Nosotros</h2>
       <div className="w-full md:w-96 h-1 bg-orange-400 mb-8 ml-4"></div>
     </div>
     <div className="text-left px-4">
@@ -51,7 +51,6 @@ const AboutStatic = () => (
   </section>
 );
 
- 
 export default function Home() {
   const fila1 = [
     {
@@ -64,7 +63,7 @@ export default function Home() {
     },
     {
       imgSrc: "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
-      imgSrcMobile:"/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad-mobile.webp",
+      imgSrcMobile:"/productosPrincipal/letras-acrilicas-lux-nails-neon-led-publicidad-mobile.webp",
       altText: " Letras corporeas doradas con iluminación led elegante sobre un fondo oscuro",
       title:"Letras corporeas doradas con iluminación para estudios estéticos",
       description: "LETRAS DORADAS Y PLATEADAS",
@@ -80,7 +79,7 @@ export default function Home() {
     },
     {
       imgSrc: "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
-      imgSrcMobile:"/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad-mobile.webp",
+      imgSrcMobile:"/productosPrincipal/letrero-works-licoreria-led-neo-led-publicidad-mobile.webp",
       altText: "Letrero led verde con la palabra woks y cerveza artesanal en letras finas, diseñado para negocio de bebidas",
       title:"Letrero led en diversas tipografías para licorerías",
       description: "LETRAS DE NEÓN",
@@ -108,22 +107,18 @@ export default function Home() {
       <div className="bg-[--azul_oscuro] overflow-hidden">
       <Slider slides={slidesData} />
 
-        <div className="px-4 lg:px-8 mt-20 mb-24">
+        <section className="px-4 lg:px-8 mt-20 mb-24" aria-labelledby="productos-heading">
           <NuestrosProductos />
           <div className="mt-8">
             <FilaProductosModificado productos={fila1} />
-            
           </div>
-        </div>
+        </section>
 
         <AboutStatic />
 
-
-        <div className="flex justify-center mt-20 mb-24">
-        <Slider2 slides={clientLogos} />
-        </div>
-
-
+        <section className="flex justify-center mt-20 mb-24" aria-label="Nuestros clientes">
+          <Slider2 slides={clientLogos} />
+        </section>
       </div>
     </>
   );
