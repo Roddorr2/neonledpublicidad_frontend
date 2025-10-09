@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 function CardSlider({ cards }) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [expandedImageCard, setExpandedImageCard] = useState(null);
@@ -71,7 +70,7 @@ function CardSlider({ cards }) {
                   className="absolute inset-0 flex flex-col justify-end text-white"
                   whileHover={{ opacity: 0.9 }}
                 >
-                  <div className="bg-black/50 rounded-xl p-4 m-2">
+                  <div className="bg-black/50 p-4">
                     <h2 className="text-xl font-bold">{card.title}</h2>
                     <p className="font-bold drop-shadow-lg opacity-80">
                       {card.description}
@@ -96,104 +95,53 @@ function CardSlider({ cards }) {
 
   const MobileExpandableStack = () => (
     <div className="w-full bg-white py-10 px-4">
-      <div className="max-w-sm mx-auto">
-        <div className="relative">
-          {cards.map((card, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-full"
-              style={{ zIndex: cards.length - i }}
-              animate={{
-                y: isExpanded ? i * 240 : i * 12,
-                scale: isExpanded ? 1 : 1 - i * 0.04,
-                rotateZ: isExpanded ? 0 : i * 1.5,
-                opacity: isExpanded ? 1 : i === 0 ? 1 : 0.9 - i * 0.1,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 220,
-                damping: 25,
-                delay: i * 0.05,
-              }}
-              onClick={() => {
-                if (!isExpanded && i === 0) setIsExpanded(true);
-                else if (isExpanded) setIsExpanded(false);
-              }}
-            >
-              <motion.div 
-                className="rounded-xl shadow-xl overflow-hidden bg-white border border-gray-200"
-                whileTap={{ scale: 0.98 }}
-                onTap={() => {
-                  if (isExpanded && card.image) {
-                    setExpandedImageCard(card);
-                  }
-                }}
-              >
-                {card.image ? (
-                  <div className="relative h-56">
-                    <img
-                      src={card.image}
-                      alt={card.alt ? card.alt : card.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 flex flex-col justify-end text-white p-4 bg-gradient-to-t from-black/50">
-                      <h2 className="text-lg font-bold">{card.title}</h2>
-                      <p className="text-sm opacity-90">{card.description}</p>
-                      {isExpanded && (
-                        <motion.p 
-                          className="text-xs mt-2 opacity-70"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 0.2 }}
-                        >
-                          Toca para ver imagen completa
-                        </motion.p>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div
-                    className={`h-56 flex flex-col justify-center items-center text-center p-4 ${
-                      card.bgColor || "bg-gray-900"
-                    }`}
-                  >
-                    <h2
-                      className={`text-xl font-bold mb-2 ${
-                        card.glow || "text-white"
-                      }`}
-                    >
-                      {card.title}
-                    </h2>
-                    <div className="w-12 h-1 bg-blue-400 mb-2"></div>
-                    <p className={`text-sm ${card.textStyle || "text-white"}`}>
-                      {card.description}
-                    </p>
-                  </div>
-                )}
-              </motion.div>
-            </motion.div>
-          ))}
-
-          {/* Spacer dinámico */}
+      <div className="max-w-sm mx-auto space-y-6">
+        {cards.slice(1).map((card, i) => (
           <div
-            style={{
-              height: isExpanded ? `${cards.length * 240}px` : "268px",
+            key={i}
+            className="rounded-xl shadow-lg overflow-hidden bg-white border border-gray-200 cursor-pointer"
+            onClick={() => {
+              if (card.image) {
+                setExpandedImageCard(card);
+              }
             }}
-          ></div>
-
-          {/* Indicador dentro de la primera card */}
-          {!isExpanded && (
-            <div className="absolute top-[220px] left-1/2 transform -translate-x-1/2">
-              <motion.div
-                animate={{ y: [0, 6, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-                className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center shadow-md"
+          >
+            {card.image ? (
+              <div className="relative h-56">
+                <img
+                  src={card.image}
+                  alt={card.alt ? card.alt : card.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 flex flex-col justify-end text-white p-4 bg-gradient-to-t from-black/50">
+                  <h2 className="text-lg font-bold">{card.title}</h2>
+                  <p className="text-sm opacity-90">{card.description}</p>
+                  <p className="text-xs mt-2 opacity-70">
+                    Toca para ver imagen completa
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div
+                className={`h-56 flex flex-col justify-center items-center text-center p-4 ${
+                  card.bgColor || "bg-gray-900"
+                }`}
               >
-                <span className="text-gray-600 text-xl">⌄</span>
-              </motion.div>
-            </div>
-          )}
-        </div>
+                <h2
+                  className={`text-xl font-bold mb-2 ${
+                    card.glow || "text-white"
+                  }`}
+                >
+                  {card.title}
+                </h2>
+                <div className="w-12 h-1 bg-blue-400 mb-2"></div>
+                <p className={`text-sm ${card.textStyle || "text-white"}`}>
+                  {card.description}
+                </p>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
