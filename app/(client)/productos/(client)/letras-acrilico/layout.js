@@ -34,22 +34,46 @@ export const metadata = {
     "Letras acrílicas para pared",
     "Letras acrílicas precio Perú"
   ],
+  alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/letras-acrilico/",
+  },
   openGraph: {
     title: "Letras Acrílico _ Lima Perú",
     description:
       "Dale estilo a tu marca con letras de acrílico: resistentes, modernas y perfectas para destacar en interiores o exteriores.",
-    url: "https://ledneonpublicidad.com/productos/letras-acrilico",
+    url: "https://ledneonpublicidad.com/productos/letras-acrilico/",
     siteName: "Neon Led Publicidad",
     images: [],
     locale: "es_PE",
     type: "website",
   },
-  alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/letras-acrilico",
-  },
 };
 
 export default function LetrasAcrilicoLayout({ children }) {
+    const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ledneonpublicidad.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Productos", 
+        "item": "https://ledneonpublicidad.com/productos/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Nombre del Producto",
+        "item": "https://ledneonpublicidad.com/productos/letras-acrilico/"
+      }
+    ]
+  };
  const productAcrilico={
   "@context": "https://schema.org",
   "@type": "Product",
@@ -98,11 +122,18 @@ export default function LetrasAcrilicoLayout({ children }) {
   ]
 }
 
-  return     <>
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productAcrilico) }}
       />
+      
       {children}
     </>
+  );
 }

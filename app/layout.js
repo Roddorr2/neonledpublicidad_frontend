@@ -1,10 +1,7 @@
-import { Inter } from 'next/font/google';
-import { League_Gothic } from 'next/font/google'; // ⭐ Agregar esta línea
+import { Inter, League_Gothic } from 'next/font/google';
 import "./globals.css";
 import { WhatsAppButton } from "./(client)/components/index";
 import "swiper/css";
-//import "swiper/css/navigation";
-//import "swiper/css/pagination";
 import Script from 'next/script';
 
 const inter = Inter({
@@ -14,7 +11,6 @@ const inter = Inter({
   display: "swap",
 });
 
-// ⭐ Agregar configuración de League Gothic
 const leagueGothic = League_Gothic({
   subsets: ["latin"],
   weight: ["400"],
@@ -23,17 +19,48 @@ const leagueGothic = League_Gothic({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://ledneonpublicidad.com'),
+  
+    viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  
   verification: {
-    google: "P1NTc2OJ31NE64GqClSYHEu7vi53wbTxv8zAjbgXlpE",
+    google: "GmKy-G0PSdvQqMQB1OXQMRRR-MImNAtg1dkxxtvCUug",
+  },
+  
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  
+  applicationName: 'LedNeonPublicidad',
+  authors: [{ name: 'LedNeonPublicidad' }],
+  creator: 'LedNeonPublicidad',
+  publisher: 'LedNeonPublicidad',
+  
+  formatDetection: { 
+    email: false,
+    address: false,
+    telephone: false,
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-        {/* <head>
-        Google Tag Manager
-        <Script id="gtm-script" strategy="lazyOnload">
+    <html lang="es-PE">
+      <head>
+        {/* Google Tag Manager */}
+        <Script id="gtm-script" strategy="afterInteractive">
           {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -42,19 +69,22 @@ export default function RootLayout({ children }) {
           })(window,document,'script','dataLayer','GTM-TX8GKPRZ');
           `}
         </Script>
-        End Google Tag Manager
-      </head> */}
+        {/* End Google Tag Manager */}
+      </head>
+      
       <body
         className={`${inter.variable} ${leagueGothic.variable} font-sans antialiased bg-[#05070D] min-h-screen m-0 p-0`}
       >
-        {/* <noscript>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MR2MC9SB"
+            src="https://www.googletagmanager.com/ns.html?id=GTM-TX8GKPRZ"
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
-        </noscript> */}
+        </noscript>
+        
         {children}
         <WhatsAppButton />
       </body>
