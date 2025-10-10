@@ -171,15 +171,6 @@ export default function SquareRectangle({ idProducto }) {
 
   return (
     <div className={styles["square-info-container"]}>
-      {/* Cuadrado sin contenido */}
-      {/* <div className={styles["custom-square"]}></div> */}
-
-      {/* Imagen entre el cuadrado y el rectángulo */}
-      {/* <img
-        src={`/productosIndividuales/${producto.image}`}
-        alt={producto.alt ? producto.alt : producto.title}
-        className={`${styles["intermediate-image"]} overflow-hidden`}
-      /> */}
 
       {/* Rectángulo con título y descripción */}
       <div className={styles["info-rectangle"]}>
