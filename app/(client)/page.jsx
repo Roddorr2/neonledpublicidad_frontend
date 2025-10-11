@@ -35,22 +35,6 @@ const FilaProductosModificado = ({ productos }) => (
   </div>
 );
 
-const AboutStatic = () => (
-  <section className="bg-gradient-to-r from-purple-600 via-blue-500 to-orange-300 text-white p-6 md:p-8 w-4/5 max-w-4xl mx-auto rounded-[2.5rem] shadow-xl mb-12">
-    <div className="text-left">
-      <h2 className="text-4xl md:text-6xl font-bold mb-4 ml-4">Nosotros</h2>
-      <div className="w-full md:w-96 h-1 bg-orange-400 mb-8 ml-4"></div>
-    </div>
-    <div className="text-left px-4">
-      <p className="text-lg md:text-xl leading-relaxed font-medium">
-        Nosotros somos Neón Led Publicidad, una empresa formal que se
-        dedica a la creación de espacios personalizados que transforman 
-        tu negocio con estilo y personalidad.
-      </p>
-    </div>
-  </section>
-);
-
 export default function Home() {
   const fila1 = [
     {
@@ -94,18 +78,18 @@ export default function Home() {
     { imgSrc: "/home/imagen_deltaco.webp", imgSrcMobile:"/home/imagen_deltaco.webp", imgSrcIcon:"/home/imagen_deltaco.webp", altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta", title:"Letrero luminoso de la marca Tambo Perú" },
   ];
 
-    const clientLogos = [
-    { imgSrc: "/home/Jockeyplaza_Logo_ledneonpublicidad.webp", altText: "Logotipo con el nombre JOCKEY PLAZA en letras mayúsculas de color blanco y el fondo negro. Una J de color negra y un círculo detrás de color blanco", title:"Logo oficial del Jockey plaza" },
-    { imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad2.webp", altText: "Logotipo del Mall del Sur, con fondo azul y letras blancas, junto a un ícono compuesto por figura en forma de pétalos, en colores verde, azul, rojo, naranja y amarillo" , title:"Logo oficial del centro comercial Mall del Sur" },
-    { imgSrc: "/home/logo_lk_constructora_e_inversiones.webp", altText: "Logo tipo de L&K CONSTRUCTORA E INVERSIONES en mayúsculas con una tonalidad azul y el logo con linear verticales en tonos amarillos, verdes y azul.",title:"Logotipo oficial de la constructora L&K constructora e inversiones." },
-    { imgSrc: "/home/Crisol_Logo_ledneopublicidad2.webp", altText: "Logotipo de la marca Crisol con un fondo color ambar, letras azules, principalmente prevalece la palabra Crisol en minúscula y posteriormente “libros y más” en mayúsculas", title:"Logotipo de la marca Crisol" }, 
-    { imgSrc: "/home/BancodelaNación_ledneonpublicidad2.webp", altText: "Logotipo del Banco de la Nación en fondo blanco con letra sencilla negra y un isotipo de color rojo", title:"Logo oficial Banco de la Nación" }, 
+  const clientLogos = [
+    { imgSrc: "/home/Jockeyplaza_Logo_ledneonpublicidad.webp", altText: "Logo Jockey Plaza", title:"Logo Jockey Plaza" },
+    { imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad2.webp", altText: "Logo Mall del Sur", title:"Logo Mall del Sur" },
+    { imgSrc: "/home/logo_lk_constructora_e_inversiones.webp", altText: "Logo L&K", title:"Logo L&K" },
+    { imgSrc: "/home/Crisol_Logo_ledneopublicidad2.webp", altText: "Logo Crisol", title:"Logo Crisol" }, 
+    { imgSrc: "/home/BancodelaNación_ledneonpublicidad2.webp", altText: "Logo Banco de la Nación", title:"Logo Banco de la Nación" }, 
   ];
 
   return (
     <>
       <div className="bg-[--azul_oscuro] overflow-hidden">
-      <Slider slides={slidesData} />
+        <Slider slides={slidesData} />
 
         <section className="px-4 lg:px-8 mt-20 mb-24" aria-labelledby="productos-heading">
           <NuestrosProductos />
@@ -114,7 +98,15 @@ export default function Home() {
           </div>
         </section>
 
-        <AboutStatic />
+        {/* Botón de Contacto*/}
+        <section className="flex justify-center items-center mb-24">
+          <a
+            href="/contacto"
+            className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold text-3xl md:text-4xl py-10 px-20 rounded-full shadow-lg hover:scale-105 transition-transform"
+          >
+            ¡CONTÁCTANOS!
+          </a>
+        </section>
 
         <section className="flex justify-center mt-20 mb-24" aria-label="Nuestros clientes">
           <Slider2 slides={clientLogos} />
