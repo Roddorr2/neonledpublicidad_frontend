@@ -18,7 +18,7 @@ export default function WhatsAppButton() {
       className="fixed bottom-6 lg:top-6 right-4 w-16 h-16 z-50 bg-white-500 text-white p-3 rounded-full shadow-lg hover:bg-blak-600 transition-colors flex items-center justify-center"
     >
         <div className="bg-black-500 rounded-full flex items-center justify-center mb-1">
-            <img src="/header_footer/Whatsapp.Neon.Led.Publicidad.webp" alt="Mi ícono" className="w-8 h-8" />
+            <img src="/header_footer/Whatsapp.Neon.Led.Publicidad.webp" alt="Mi ícono" className="w-11 h-10" />
         </div>
     </a>
   );
