@@ -4,38 +4,25 @@ import React from "react";
 
 export const SliderContent = () => {
   return (
-    <div className="absolute inset-0 flex flex-col justify-center text-left z-10 px-4 sm:px-8 md:px-12 lg:px-16">
+    <div className="absolute inset-0 flex flex-col justify-center text-left z-10 px-4 sm:px-8 md:px-12 lg:px-16 translate-y-16 sm:translate-y-24">
       <div className="text-white relative">
-   
+        {/* Línea celeste vertical*/}
+        <div className="absolute left-0 top-2 w-1.5 h-44 bg-gradient-to-b from-sky-400 to-blue-600 rounded-full shadow-md"></div>
 
-
-        <div className="absolute left-0 top-0 w-1 h-[350] bg-blue-500"></div>
-        
-
-
-        <div className="pl-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-2 md:mb-4">
+        <div className="pl-10">
+          {/* Subtítulo */}
+          <h1 className="text-2xl sm:text-3xl font-medium tracking-wide mb-2">
             Letreros para tu negocio
           </h1>
-          <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4 md:mb-6 whitespace-normal break-words">
+
+          <h2 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-tight mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
             HAZ BRILLAR
             <br className="hidden sm:block" />
-            <span className="sm:hidden"> </span>
             TU MARCA
           </h2>
-          
-          <div className="relative">
-            <p className="text-white text-lg sm:text-xl lg:text-2xl max-w-2xl mb-4">
-              Resalta tu negocio a tu gusto con
-              <br className="hidden sm:block" />
-              nuestros diversos letreros.
-            </p>
-            
-          
 
-
-            <div className="w-96 md:w-202 h-1 bg-orange-400 mt-4"></div>
-          </div>
+          {/* Línea naranja horizontal */}
+          <div className="w-64 sm:w-80 h-1.5 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full shadow-lg mt-5"></div>
         </div>
       </div>
     </div>

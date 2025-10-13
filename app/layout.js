@@ -6,8 +6,8 @@ import Script from 'next/script';
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], 
-  variable: "--font-inter", 
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -18,19 +18,19 @@ const leagueGothic = League_Gothic({
   variable: "--font-league-gothic"
 });
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata = {
   metadataBase: new URL('https://ledneonpublicidad.com'),
-  
-    viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
-  
+
   verification: {
     google: "GmKy-G0PSdvQqMQB1OXQMRRR-MImNAtg1dkxxtvCUug",
   },
-  
+
   robots: {
     index: true,
     follow: true,
@@ -42,13 +42,13 @@ export const metadata = {
       'max-snippet': -1,
     },
   },
-  
+
   applicationName: 'LedNeonPublicidad',
   authors: [{ name: 'LedNeonPublicidad' }],
   creator: 'LedNeonPublicidad',
   publisher: 'LedNeonPublicidad',
-  
-  formatDetection: { 
+
+  formatDetection: {
     email: false,
     address: false,
     telephone: false,
@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
         </Script>
         {/* End Google Tag Manager */}
       </head>
-      
+
       <body
         className={`${inter.variable} ${leagueGothic.variable} font-sans antialiased bg-[#05070D] min-h-screen m-0 p-0`}
       >
@@ -84,7 +84,7 @@ export default function RootLayout({ children }) {
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        
+
         {children}
         <WhatsAppButton />
       </body>
