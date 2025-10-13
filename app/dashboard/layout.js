@@ -9,6 +9,7 @@ import { DisplayNameContext } from "./components/DisplayNameContext"
 
 import {
   User,
+  Codesandbox,
   LogOut,
   Sun,
   Moon,
@@ -126,6 +127,15 @@ export default function RootLayout({ children }) {
                     icon={<Users className="h-5 w-5" />}
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname.includes("/dashboard/empleados")}
+                  />
+                )}
+                {auth_service.hasPermission("ver-empleados") && (
+                  <NavLink
+                    href="/dashboard/productos-home"
+                    title="Productos"
+                    icon={<Codesandbox className="h-5 w-5" />}
+                    isCollapsed={!isSidebarOpen}
+                    isActive={pathname.includes("/dashboard/productos-home")}
                   />
                 )}
                 {auth_service.hasPermission("ver-cliente") && (
