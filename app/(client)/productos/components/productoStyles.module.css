@@ -1,21 +1,6 @@
-/*body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-  }*/
-
 .bg-black {
   overflow: hidden;
   position: relative;
-}
-
-.circle-container {
-  position: absolute;
-  width: 70rem;
-  height: 70rem;
-  background-image: url("/productosPrincipal/arosluzbanner.svg");
-  background-size: cover;
-  background-position: center;
-  border-radius: 50%;
-  z-index: 5;
 }
 
 .text-color {
@@ -62,21 +47,15 @@
   }
 }
 
-
-
-
-
-
-
 .neon-textov4 {
   animation: neonv4 1.5s ease-in-out infinite alternate;
 }
-
 
 .productos-container {
   padding: 3% 10%;
   max-width: 100vw;
   overflow-x: hidden;
+  margin: 0 auto;
 }
 
 .producto-row {
@@ -87,7 +66,6 @@
   align-items: stretch;
   margin-bottom: 3rem;
 }
-
 
 .producto-link {
   text-decoration: none;
@@ -102,15 +80,14 @@
   transform: translateY(-5px);
 }
 
-
 .producto {
   position: relative;
-  width: 100%;
+  max-width: 250px;
   height: 250px;
+  overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
+  margin: 0 auto;
 }
-
 
 .producto-card {
   position: relative;
@@ -129,14 +106,11 @@
   border-color: #00d4ff;
 }
 
-
 .producto-img-container {
-  position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
-
 
 .producto-img {
   width: 100%;
@@ -149,7 +123,6 @@
 .producto-card:hover .producto-img {
   transform: scale(1.05);
 }
-
 
 .producto-overlay {
   position: absolute;
@@ -168,7 +141,6 @@
   min-height: 59px;
 }
 
-
 .producto-title {
   color: #ffffff;
   font-size: 14px;
@@ -186,7 +158,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 .producto-card::before {
   content: "";
@@ -219,40 +190,6 @@
   }
 }
 
-
-@media (max-width: 810px) {
-  .producto-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4rem;  
-  justify-items: center;
-  align-items: stretch;
-  margin-bottom: 3rem;
-}
-  .producto {
-    height: 200px;
-  }
-  
-  .producto-title {
-    font-size: 12px;
-  }
-  
-  .producto-overlay {
-    padding: 15px 10px 10px;
-    min-height: 60px;
-  }
-  .productos-container {
-    padding: 3% 5%;
-  }
-}
-
-
-
-
-
-
-
-
 .boton {
   --primary-color: #2c1e8a83;
   --secondary-color: #fff;
@@ -271,8 +208,6 @@
   gap: 0.6em;
   font-weight: bold;
   margin: 0 auto;
-
-
 }
 
 .boton .arrow-wrapper {
@@ -345,16 +280,6 @@
   margin-bottom: 3rem;
 }
 
-.producto {
-  position: relative;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .producto-card::before {
   content: "";
   position: absolute;
@@ -390,22 +315,6 @@
   100% {
     left: 150%;
   }
-}
-
-/*.producto:hover {
-  box-shadow: 0 0 0 2px rgb(255, 255, 255); 
-}*/
-
-.producto-img {
- 
-  display: block;
-  /* border-radius: 8px; */
-  border-radius: 0.5rem;
-
-  width: 262px;
-  height: 200px;
-  object-fit: cover;
-  object-position: center;
 }
 
 .producto-description {
@@ -446,16 +355,50 @@
 .fila-productos {
   will-change: transform;
 }
-@media (max-width: 810px) {
+
+@media (max-width: 1024px) {
   .producto-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .producto {
+    height: 200px;
+    width: 200px;
+  }
+  .producto-title {
+    font-size: 13px;
   }
 }
 
+@media (max-width: 768px) {
+  .productos-container {
+    padding: 3% 5%;
+  }
+  .producto-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .producto {
+    height: 150px;
+    width: 150px;
+  }
+  .producto-title {
+    font-size: 12px;
+  }
+  .producto-overlay {
+    padding: 12px 8px;
+  }
+}
 
-@media (min-width: 768px) {
-  .producto-img {
-    max-width: 300px;
+@media (max-width: 480px) {
+  .producto-row {
+    grid-template-columns: 1fr;
+  }
+  .producto {
+    height: 130px;
+    width: 130px;
+  }
+  .producto-title {
+    font-size: 11px;
   }
 }
