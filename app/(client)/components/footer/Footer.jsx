@@ -11,7 +11,7 @@ export default function Footer() {
           {/* Columna 1: Logo + presentación + redes sociales */}
           <div className="relative flex flex-col justify-between">
             <div className="hidden lg:block absolute left-0 top-0 h-full w-[3px] bg-[#48A8FF]"/>
-            <div className="lg:pl-4 pb-6">
+            <div className="lg:pl-6 pb-6">
               <div className="flex items-center mb-6">
                 <img
                   width="150"
@@ -30,7 +30,7 @@ export default function Footer() {
                 <SocialMedia />
               </div>
             </div>
-            <div className="absolute bottom-0 lg:left-[10px] mb-4 w-full lg:w-[calc(100%-10px)] h-[3px] bg-yellow-400"/>
+            <div className="absolute bottom-0 lg:left-[30px] mb-4 w-full lg:w-[calc(100%-40px)] h-[3px] bg-yellow-400"/>
           </div>
 
           {/* Columna 2: CONTÁCTANOS */}
