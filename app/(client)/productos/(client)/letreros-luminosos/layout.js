@@ -29,6 +29,9 @@ export const metadata = {
       "Letreros para exteriores",
       "letreros publicitarios luminosos",
     ],
+  alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/letreros-luminosos/",
+  },
   openGraph: {
     title: "Letreros Luminosos _ Lima Perú",
     description:
@@ -39,12 +42,33 @@ export const metadata = {
     locale: "es_PE",
     type: "website",
   },
-  alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/letreros-luminosos",
-  },
 };
 
 export default function LetrerosLuminososLayout({ children }) {
+      const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ledneonpublicidad.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Productos", 
+        "item": "https://ledneonpublicidad.com/productos/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Nombre del Producto",
+        "item": "https://ledneonpublicidad.com/productos/letreros-luminosos/"
+      }
+    ]
+  };
   const productLuminosos={
     "@context": "https://schema.org",
     "@type": "Product",
@@ -92,11 +116,18 @@ export default function LetrerosLuminososLayout({ children }) {
         }
     ]
 }
-  return <>
-   <script
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productLuminosos) }}
       />
-  {children}
-  </>;
+      
+      {children}
+    </>
+  );
 }

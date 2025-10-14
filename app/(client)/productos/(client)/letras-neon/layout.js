@@ -31,6 +31,9 @@ export const metadata = {
     "Decoración con letras de neón",
     "Letreros personalizados",
   ],
+  alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/letras-neon/",
+  },
   openGraph: {
     title: "Letras de Neón en tubos de vidrio. Lima, Perú.",
     description:
@@ -41,13 +44,33 @@ export const metadata = {
     locale: "es_PE",
     type: "website",
   },
-  alternates: {
-    // El enlace no existe
-    canonical: "https://ledneonpublicidad.com/productos/letras-neon/",
-  },
 };
 
 export default function LetrasNeonLayout({ children }) {
+      const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ledneonpublicidad.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Productos", 
+        "item": "https://ledneonpublicidad.com/productos/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Nombre del Producto",
+        "item": "https://ledneonpublicidad.com/productos/letras-neon/"
+      }
+    ]
+  };
   const productNeon={
     "@context": "https://schema.org",
     "@type": "Product",
@@ -96,11 +119,18 @@ export default function LetrasNeonLayout({ children }) {
     ]
 }
 
-  return <>
-   <script
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productNeon) }}
       />
-  {children}
-  </>;
+      
+      {children}
+    </>
+  );
 }

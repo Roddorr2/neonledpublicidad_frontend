@@ -30,6 +30,9 @@ export const metadata = {
     "display holográfico 3D",
     "hologramas 3D precios Perú",
   ],
+  alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/holografico/",
+  },
     openGraph: {
     title: "Productos Holográficos en Lima | Tecnología Visual Impactante",
     description:
@@ -40,12 +43,33 @@ export const metadata = {
     locale: "es_PE",
     type: "website",
   },
-  alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/holografico/",
-  },
 };
 
 export default function HolograficoLayout({ children }) {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ledneonpublicidad.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Productos", 
+        "item": "https://ledneonpublicidad.com/productos/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Nombre del Producto",
+        "item": "https://ledneonpublicidad.com/productos/holografico/"
+      }
+    ]
+  };
   const productHolograficos={
     "@context": "https://schema.org",
     "@type": "Product",
@@ -63,7 +87,7 @@ export default function HolograficoLayout({ children }) {
       "name": "LedNeonPublicidad"
     },
     "url": "https://ledneonpublicidad.com/productos/holografico/",
-     "offers": {
+    "offers": {
       "@type": "Offer",
       "priceCurrency": "PEN",
       "price": "2500.00",
@@ -94,11 +118,18 @@ export default function HolograficoLayout({ children }) {
     ]
 }
 
-  return <>
-   <script
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productHolograficos) }}
       />
-  {children}
-  </>;
+      
+      {children}
+    </>
+  );
 }

@@ -26,24 +26,47 @@ export const metadata = {
     "Monitores LCD publicitarios",
     "Pantallas digitales para tiendas",
     "Monitores para publicidad en exteriores",
-
   ],
+  alternates: {
+    canonical: "https://ledneonpublicidad.com/productos/displays/",
+  },
     openGraph: {
     title: "Monitores de Publicidad _ Lima Perú",
     description:
       "Destaca tu marca con monitores de publicidad digital modernos, sostenibles y versátiles. Comunica con impacto. ¡Cotiza hoy y transforma tu espacio!",
     url: "https://ledneonpublicidad.com/productos/displays/",
-    siteName: "Neon Led Publicidad",
+    siteName: "LedNeonPublicidad",
     images: [],
     locale: "es_PE",
     type: "website",
   },
-  alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/displays/",
-  },
 };
 
 export default function DisplaysLayout({ children }) {
+    const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ledneonpublicidad.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Productos", 
+        "item": "https://ledneonpublicidad.com/productos/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Nombre del Producto",
+        "item": "https://ledneonpublicidad.com/productos/displays/"
+      }
+    ]
+  };
   const productMonitores={
     "@context": "https://schema.org",
     "@type": "Product",
@@ -92,11 +115,18 @@ export default function DisplaysLayout({ children }) {
     ]
 }
 
-  return <>
-   <script
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productMonitores) }}
       />
-  {children}
-  </>;
+      
+      {children}
+    </>
+  );
 }

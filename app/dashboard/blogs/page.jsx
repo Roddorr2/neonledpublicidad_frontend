@@ -340,7 +340,7 @@ export default function Page() {
 
             {/* Contenido */}
             {isLoading ? (
-                <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl shadow-sm">
+                <div className="flex flex-col items-center justify-center py-16 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
                     <Loader2 className="h-10 w-10 text-sky-600 dark:text-sky-400 animate-spin mb-4" />
                     <p className="text-slate-500 dark:text-slate-400 font-medium">Cargando blogs...</p>
                 </div>

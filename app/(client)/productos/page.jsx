@@ -1,5 +1,4 @@
 import Banner from "./components/Banner";
-import NeonBackground from "./components/Luz";
 import NuestrosProductos from "./components/NuestrosProductos";
 import Productos from "./components/ProductosPrincipal";
 

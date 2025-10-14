@@ -73,15 +73,6 @@
   color: white;
 }
 
-
-.custom-square {
-  background-color: #020F1D;
-  border-radius: 0 8px 8px 0;
-  width: 30%;
-  height: auto;
-  flex-shrink: 0;
-}
-
 .square-info-container {
   display: flex;
   align-items: center;
@@ -154,7 +145,7 @@
     margin-bottom: 2rem; /* Espacio para el componente */
   }
 
- .square-info-container {
+.square-info-container {
     padding: 1rem;
     height: auto;
     min-height: 50vh;
@@ -171,10 +162,6 @@
 
   .info-description {
     font-size: 1.5rem;
-  }
-
-  .custom-square {
-    display: none; /* Oculta el cuadrado en móvil */
   }
 
   .intermediate-image {

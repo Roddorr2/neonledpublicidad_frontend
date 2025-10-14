@@ -16,6 +16,7 @@ Disallow: /admin/
 Disallow: /node_modules/
 Disallow: /src/
 Disallow: /.next/
+Disallow: /_next/
 Disallow: /.git/
 Disallow: /data/
 Disallow: /edition/
