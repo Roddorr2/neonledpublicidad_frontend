@@ -56,7 +56,14 @@ export default {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			},
-			azulPrincipal: '#1157D3',
+			azul: {
+				claro: '#a5dffd',
+				oscuro: '#0e1721',
+				intenso: '#4450f8',
+				brillante: '#03c4ff',
+				cobalto: '#1056d2',
+				principal: '#1157D3',
+        },
 			
   		},
   		fontFamily: {
