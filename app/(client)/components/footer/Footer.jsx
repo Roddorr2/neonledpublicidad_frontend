@@ -3,10 +3,10 @@ import { SocialMedia } from "./SocialMedia";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#000017] text-white py-12 px-6">
+    <footer className="bg-[#000017] text-white py-12 px-10">
       <div className="mx-auto relative">
         {/* Grid principal */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-6 xl:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_0.8fr_0.8fr] gap-6 xl:gap-10">
 
           {/* Columna 1: Logo + presentación + redes sociales */}
           <div className="relative flex flex-col justify-between">
