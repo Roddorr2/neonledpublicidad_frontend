@@ -70,7 +70,7 @@
     }
 
     .containerF {
-        background-color: var(--azul_oscuro);
+        background-color: #000017;
         position: relative;
         overflow: hidden;
 
@@ -92,7 +92,7 @@
         left: 0;
         right: 0;
         z-index: 10;
-        background-color: var(--azul_oscuro);
+        background-color: #000017;
     }
 
     .menu-active.header-container {
@@ -101,7 +101,7 @@
         left: 0;
         right: 0;
         z-index: 9999;
-        background-color: var(--azul_oscuro);
+        background-color: #000017;
     }
 
     .header-container:not(.menu-active) {
