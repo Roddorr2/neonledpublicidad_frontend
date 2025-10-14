@@ -43,7 +43,7 @@ export const SocialMedia = () => {
     ];
 
     return (
-        <div className="flex flex-wrap gap-3 sm:gap-4 justify-start items-center">
+        <div className="flex flex-nowrap gap-4 xl:gap-6 justify-center items-center">
             {socialMedia.map(({ href, src, alt, title }, index) => (
                 <a
                     key={index}
@@ -52,13 +52,13 @@ export const SocialMedia = () => {
                     rel="noopener noreferrer"
                     className="hover:opacity-80 transition-all"
                 >
-                    <div className="w-[28px] h-[28px] sm:w-[32px] sm:h-[32px] flex items-center justify-center">
+                    <div className="w-35px h-35px flex items-center justify-center">
                         <Image
                             src={src}
                             alt={alt}
                             title={title}
-                            width={28}
-                            height={28}
+                            width={35}
+                            height={35}
                             className="object-contain"
                         />
                     </div>

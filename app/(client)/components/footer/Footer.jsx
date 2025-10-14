@@ -3,10 +3,10 @@ import { SocialMedia } from "./SocialMedia";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#000520] text-white py-12 px-6">
+    <footer className="bg-[#000017] text-white py-12 px-6">
       <div className="mx-auto relative">
         {/* Grid principal */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pl-6 md:pl-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-10">
 
           {/* Columna 1: Logo + presentación + redes sociales */}
           <div className="flex flex-col justify-between">
@@ -19,13 +19,13 @@ export default function Footer() {
                 />
               </div>
 
-              <p className="text-sm leading-relaxed mb-8 max-w-xs">
+              <p className="text-sm leading-relaxed mb-8 text-justify 2xl:pr-10">
                 Nosotros somos Neón Led Publicidad, una empresa formal que se dedica a la creación de 
                 espacios personalizados que transforman tu negocio con estilo y personalidad.
               </p>
 
               {/* Redes sociales */}
-              <div className="flex flex-wrap gap-4 sm:gap-5 items-center">
+              <div className="justify-center items-center 2xl:pr-10">
                 <SocialMedia />
               </div>
             </div>
@@ -59,7 +59,7 @@ export default function Footer() {
 
           {/* Columna 4: RECLAMACIONES */}
           <div>
-            <h2 className="text-[#48A8FF] text-xl font-bold mb-4">LIBRO DE RECLAMACIONES</h2>
+            <h2 className="text-[#48A8FF] text-xl font-bold mb-4">RECLAMACIONES</h2>
             <div className="text-left">
               <p className="mb-4">Libro de Reclamaciones</p>
               <Link href="/reclamaciones">
