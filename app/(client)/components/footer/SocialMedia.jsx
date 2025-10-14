@@ -1,71 +1,69 @@
 "use client";
 
-import Image from 'next/image';
-import React from 'react'
+import Image from "next/image";
 
 export const SocialMedia = () => {
-
     const socialMedia = [
         {
-            href: "https://api.whatsapp.com/send/?phone=%2B51994078320&text=Hola%2C+quisiera+m%C3%A1s+informaci%C3%B3n+de+sus+productos&type=phone_number&app_absent=0",
+            href: "https://api.whatsapp.com/send/?phone=%2B51994078320",
             src: "/header_footer/WhatsApp_icon.webp",
-            alt: "Logotipo oficial de la red social WhatsApp con diseño minimalista",
-            title: "Logo oficial de WhatsApp"
+            alt: "WhatsApp",
+            title: "WhatsApp",
         },
-       
-         {
-            href: "https://www.instagram.com/neonledpublicidad.peru?igsh=a3RseGpuYXM5ZnZo",
+        {
+            href: "https://www.instagram.com/neonledpublicidad.peru",
             src: "/header_footer/Instagram_icon.webp",
-            alt: "Icono colorido de la red social Instagram con diseño moderno",
-            title: "Logo oficial de Instagram"
+            alt: "Instagram",
+            title: "Instagram",
         },
         {
             href: "https://www.facebook.com/ledneonpublicidad",
             src: "/header_footer/Facebook_icon.webp",
-            alt: "Logotipo de Facebook representado como icono social en línea",
-            title: "Logo oficial de Facebook"
+            alt: "Facebook",
+            title: "Facebook",
         },
         {
             href: "https://www.linkedin.com/company/neonhouseled/about/",
             src: "/header_footer/LinkedIn_icon.webp",
-            alt: "Icono de LinkedIn con diseño minimalista",
-            title: "Logo oficial de LinkedIn"
+            alt: "LinkedIn",
+            title: "LinkedIn",
         },
-         {
+        {
             href: "https://www.tiktok.com/@neonled.publicidad",
-            src: "/header_footer/tiktok_icon.webp",
-            alt: "Logotipo oficial de la red social TikTok con diseño minimalista",
-            title: "Logo oficial de TikTok"
+            src: "/header_footer/icono-tiktok.webp",
+            alt: "TikTok",
+            title: "TikTok",
         },
         {
             href: "https://www.youtube.com/@neonledpublicidadpe",
             src: "/header_footer/youtube_icon.webp",
-            alt: "Logotipo oficial de la red social YouTube con diseño minimalista",
-            title: "Logo oficial de YouTube"
+            alt: "YouTube",
+            title: "YouTube",
         },
-    ]
+    ];
 
     return (
-        <>
-            {
-                socialMedia.map(({ href, src, alt, title }, index) => (
-                    <a
-                        key={index}
-                        href={href}
-                        className="hover:opacity-75 transition-opacity">
-                        <div className="rounded-full p-2 flex items-center justify-center">
-                            <Image
-                                src={src}
-                                alt={alt}
-                                title={title}
-                                width={44}
-                                height={44}
-                                className="text-white"
-                            />
-                        </div>
-                    </a>
-                ))
-            }
-        </>
-    )
-}
+        <div className="flex flex-nowrap gap-4 2xl:gap-10 justify-center items-center">
+            {socialMedia.map(({ href, src, alt, title }, index) => (
+                <a
+                    key={index}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:opacity-80 transition-all"
+                >
+                    <div className="w-35px h-35px flex items-center justify-center">
+                        <Image
+                            src={src}
+                            alt={alt}
+                            title={title}
+                            width={35}
+                            height={35}
+                            className="object-contain"
+                        />
+                    </div>
+                </a>
+            ))}
+        </div>
+    );
+};

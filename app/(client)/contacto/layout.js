@@ -1,13 +1,7 @@
 export const metadata = {
   title: "Contacto - Cotiza tu Letrero Neón LED | LedNeonPublicidad",
   description: "¿Tienes dudas o necesitas una cotización? Escríbenos o llámanos al 994 078 320. Te ayudamos a elegir el producto ideal para tu negocio con asesoría personalizada.",
-  
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  
+
   keywords: [
     "contacto letreros LED",
     "cotizar neón LED Lima",

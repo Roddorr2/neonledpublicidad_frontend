@@ -1,12 +1,6 @@
 export const metadata = {
   title: "Nosotros - Especialistas en publicidad visual y Letreros LED en Perú | LedNeonPublicidad",
   description: "Fabricamos e importamos letreros LED publicitarios de alta calidad. Hacemos realidad tus ideas con impacto visual, durabilidad y servicio profesional en Lima, Perú.",
-  
-    viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
 
   keywords: [
     "empresa letreros LED Lima",
