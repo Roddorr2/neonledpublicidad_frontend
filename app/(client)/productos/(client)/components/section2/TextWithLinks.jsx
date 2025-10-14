@@ -78,8 +78,8 @@ const TextWithLinks = ({ text, keywords = {}, className = "" }) => {
         return <span className="font-semibold">{content}</span>;
       }
 
-      // Estilos para los enlaces - usar clases CSS personalizadas
-      const linkStyles = "description-link";
+      // Estilos para los enlaces - azul celeste permanente para identificación en móviles
+      const linkStyles = "description-link text-cyan-400 font-semibold underline decoration-cyan-400";
 
       if (config.type === 'internal') {
         return (

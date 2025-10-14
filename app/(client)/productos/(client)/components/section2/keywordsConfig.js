@@ -5,105 +5,44 @@
 
 export const globalKeywords = {
   // Letras de Acrílico 
-  "Letras de acrílico": { 
-    type: "internal", 
-    url: "/productos/letras-acrilico",
-  },
-  "letras de acrílico para negocio": { 
-    type: "internal", 
-    url: "/productos/letras-acrilico#negocios",
-  },
-
-  "Letras de acrílico con luz": { 
-    type: "external", 
-    url: "/productos/letras-acrilico#iluminadas" 
-  },
+ 
   "letras de acrílico 3D": { 
     type: "external", 
-    url: "/productos/letras-acrilico#3d" 
+    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=letras-acrilicas-3d-moda" 
   },
 
 
-  // Letras Doradas
-  "Letras doradas y plateadas": { 
-    type: "external", 
-    url: "https://www.tiktok.com/@neonled.publicidad/video/7485514244406906118?_d=secCgYIASAHKAESPgo8wzf0vPe0lAR45RRxMR3IPM2NXrsByKP2oTlqhHEcVB%2Bwo4Np%2F0jZYIaJoRVQCFQDSCyeAJ6hOOepEwLtGgA%3D&_r=1&share_app_id=1233&share_item_id=7485514244406906118&timestamp=1742857119&u_code=dmbhh0g8335e9g&utm_campaign=client_share&utm_source=short_fallback" 
-  },
-  "Letreros luminosos": { 
-    type: "external", 
-    url: "https://www.tiktok.com/@neonled.publicidad/video/7485514244406906118?_d=secCgYIASAHKAESPgo8wzf0vPe0lAR45RRxMR3IPM2NXrsByKP2oTlqhHEcVB%2Bwo4Np%2F0jZYIaJoRVQCFQDSCyeAJ6hOOepEwLtGgA%3D&_r=1&share_app_id=1233&share_item_id=7485514244406906118&timestamp=1742857119&u_code=dmbhh0g8335e9g&utm_campaign=client_share&utm_source=short_fallback" 
-  },
+  // Letras Doradas  
   "Letras corpóreas retroiluminadas": { 
     type: "external", 
-    url: "https://www.tiktok.com/@neonled.publicidad/video/7485514244406906118?_d=secCgYIASAHKAESPgo8wzf0vPe0lAR45RRxMR3IPM2NXrsByKP2oTlqhHEcVB%2Bwo4Np%2F0jZYIaJoRVQCFQDSCyeAJ6hOOepEwLtGgA%3D&_r=1&share_app_id=1233&share_item_id=7485514244406906118&timestamp=1742857119&u_code=dmbhh0g8335e9g&utm_campaign=client_share&utm_source=short_fallback" 
+    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=letras-dyp-con-elegancia" 
   },
 
   // Letreros Luminosos
-  "Letreros luminosos para negocios": { 
-    type: "external", 
-    url: "https://www.youtube.com/watch?v=czpLh7XW21E" 
-  },
-  "letreros luminosos": {
-    type: "external",
-    url: "https://www.youtube.com/watch?v=czpLh7XW21E"
-  },
-
-  "letreros luminosos led para negocio": { 
-    type: "external", 
-    url: "https://www.youtube.com/watch?v=czpLh7XW21E" 
+  "letreros luminosos 3D": {     
+    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=discotecas-que-brillan" 
   },
 
   // Letras Neón en Tubos de Vidrio
-  "Tubos de vidrio": { 
-    type: "internal", 
-    url: "https://www.youtube.com/shorts/EIO79BjNCqY" 
-  },
-  "letras de neón": { 
-    type: "external", 
-    url: "https://www.youtube.com/shorts/EIO79BjNCqY" 
-  },
-  "letreros neón": { 
-    type: "external", 
-    url: "https://www.youtube.com/shorts/EIO79BjNCqY" 
-  },
+  
 
   // Letras de Neón LED
-  "Tubos con led": { 
-    type: "external", 
-    url: "https://www.youtube.com/watch?v=lt7BVc6ENHQ" 
-  },
   "letras de neón": { 
     type: "external", 
     url: "https://www.youtube.com/watch?v=lt7BVc6ENHQ" 
-  },
-  "letreros neón": { 
-    type: "external", 
-    url: "https://www.youtube.com/watch?v=lt7BVc6ENHQ" 
-  },
+  },  
 
-  // Impresión en Vinilo
-  "Vinilos para pared": { 
-    type: "external", 
-    url: "https://www.youtube.com/shorts/dwzdjUjt0ys" 
-  },
+  // Impresión en Vinilo  
   "vinilos decorativos": { 
     type: "external", 
-    url: "https://www.youtube.com/shorts/dwzdjUjt0ys" 
+    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=neon-led-para-bares-modernos" 
   },
 
   // Menu Board
   "menú boards personalizados": { 
     type: "external", 
-    url: "/productos/menu-board" 
-  },
-  "menú boards fast food": { 
-    type: "external", 
-    url: "/productos/menu-board" 
-  },
-  "menú boards": { 
-    type: "external", 
-    url: "/productos/menu-board" 
-  },
+    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=cafeterias-con-estilo" 
+  },  
 
   // // Letras Pintadas en MDF
   // "Letras en MDF": {
@@ -119,69 +58,33 @@ export const globalKeywords = {
   //   url: "/productos/letras-en-mdf"
   // },
 
-  // Monitores de Publicidad Digital
-  "Publicidad digital": { 
-    type: "external", 
-    url: "https://www.youtube.com/shorts/UoyMgkSAyXE" 
-  },
-  "Monitores táctiles": {
-    type: "external", 
-    url: "https://www.youtube.com/shorts/UoyMgkSAyXE" 
-  },
+  // Monitores de Publicidad Digital  
 
   // Pantallas LED
   "Pantallas led para publicidad": { 
     type: "external", 
-    url: "/productos/pantalla-led" 
-  },
-  "Pantallas LED": {
-    type: "external", 
-    url: "/productos/pantalla-led" 
+    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=pantallas-led-para-locales" 
   },
 
   // Holográficos
-  "ventilador holográfico": { 
+  
+  // Pixel LED
+  "Pixel LED": { 
     type: "external", 
-    url: "https://www.youtube.com/shorts/KIFvX2q0rC8" 
+    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=led-pixel-para-discotecas" 
   },
-  "proyectores 3D holográfico": {
-    type: "external", 
-    url: "https://www.youtube.com/shorts/KIFvX2q0rC8" 
-  },
-  "holograma 3D": {
-    type: "external", 
-    url: "https://www.youtube.com/shorts/KIFvX2q0rC8" 
-  },
-
-  //Sillas Luminosas
-  "Sillas led": { 
-    type: "external", 
-    url: "https://www.youtube.com/watch?v=C6YtUCgjW-I" 
-  },
-  "mobiliario LED": {
-    type: "external", 
-    url: "https://www.youtube.com/watch?v=C6YtUCgjW-I" 
-  },
+  
+  //Sillas Luminosas  
   "sillas con luces LED": {
     type: "external", 
-    url: "https://www.youtube.com/watch?v=C6YtUCgjW-I" 
+    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=sillas-luminosas-para-eventos" 
   },
 
-  // Techos LED
-  "Techos LED": { 
-    type: "external", 
-    url: "https://www.youtube.com/shorts/zNNT7lo7P7E" 
-  },
-  "luces led en techo": {
-    type: "external", 
-    url: "https://www.youtube.com/shorts/zNNT7lo7P7E" 
-  },
+  // Techos LED  
   "techos decorados con led": {
-    type: "external", 
-    url: "https://www.youtube.com/shorts/zNNT7lo7P7E" 
+    type: "external",
+    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=techos-led-para-gimnasios"
   },
-
-
 
   "menú digital": { 
     type: "internal", 
