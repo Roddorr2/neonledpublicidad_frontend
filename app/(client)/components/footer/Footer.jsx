@@ -6,11 +6,12 @@ export default function Footer() {
     <footer className="bg-[#000017] text-white py-12 px-6">
       <div className="mx-auto relative">
         {/* Grid principal */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-6 xl:gap-10">
 
           {/* Columna 1: Logo + presentación + redes sociales */}
-          <div className="flex flex-col justify-between">
-            <div>
+          <div className="relative flex flex-col justify-between">
+            <div className="hidden lg:block absolute left-0 top-0 h-full w-[3px] bg-[#48A8FF]"/>
+            <div className="lg:pl-4 pb-6">
               <div className="flex items-center mb-6">
                 <img
                   width="150"
@@ -25,10 +26,11 @@ export default function Footer() {
               </p>
 
               {/* Redes sociales */}
-              <div className="justify-center items-center 2xl:pr-10">
+              <div className="justify-center items-center 2xl:pr-10 mb-4">
                 <SocialMedia />
               </div>
             </div>
+            <div className="absolute bottom-0 lg:left-[10px] mb-4 w-full lg:w-[calc(100%-10px)] h-[3px] bg-yellow-400"/>
           </div>
 
           {/* Columna 2: CONTÁCTANOS */}

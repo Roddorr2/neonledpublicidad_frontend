@@ -43,7 +43,7 @@ export const SocialMedia = () => {
     ];
 
     return (
-        <div className="flex flex-nowrap gap-4 xl:gap-6 justify-center items-center">
+        <div className="flex flex-nowrap gap-4 2xl:gap-10 justify-center items-center">
             {socialMedia.map(({ href, src, alt, title }, index) => (
                 <a
                     key={index}
