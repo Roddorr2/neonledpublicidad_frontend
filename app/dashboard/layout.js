@@ -133,7 +133,7 @@ export default function RootLayout({ children }) {
                   <NavLink
                     href="/dashboard/productos-home"
                     title="Productos"
-                    icon={<Codesandbox className="h-5 w-5" />}
+                    icon={<Codesandbox className="h-5 w-5" />}//icon de prueba no encontre el del figma jeje
                     isCollapsed={!isSidebarOpen}
                     isActive={pathname.includes("/dashboard/productos-home")}
                   />

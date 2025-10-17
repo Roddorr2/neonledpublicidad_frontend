@@ -17,7 +17,7 @@ export default function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 5;//cantidad para paginacion
   const currentPage = Number.parseInt(searchParams.get("page") || "1", 10);
 
  const [data] = useState([//test de personas
@@ -31,8 +31,9 @@ export default function Page() {
 
 
   const filteredData = data.filter((item) =>
-    item.Autor.toLowerCase().includes(searchTerm.toLowerCase())
+    item.Titulo_Producto.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
@@ -134,9 +135,9 @@ export default function Page() {
                   ),
 
               }))}
-              onShow={(item) => console.log("Ver producto:", item)} 
-              onUpdate={(item) => console.log("Editar producto:", item)} 
-              onDelete={(item) => console.log("Eliminar producto:", item)}
+              onShow={(item) => alert(`Ver producto`)}
+        onUpdate={(item) => alert(`Editar producto`)}
+        onDelete={(item) => alert(`Eliminar producto`)}
             />
           </div>
           {filteredData.length > itemsPerPage && (
