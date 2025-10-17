@@ -1,0 +1,81 @@
+import {
+  Home,
+  Users,
+  UserRoundPen,
+  BookText,
+  Mail,
+  AlertCircle,
+  MessageSquare,
+  FileText,
+  Settings,
+} from "lucide-react";
+
+export const dashboardLinks = [
+  {
+    href: "/dashboard/main",
+    title: "Sección Principal",
+    icon: Home,
+    role: "administrador",
+  },
+  {
+    href: "/dashboard/user-client/main",
+    title: "Sección Principal",
+    icon: Home,
+    role: "cliente",
+  },
+  {
+    href: "/dashboard/empleados",
+    title: "Empleados",
+    icon: Users,
+    permission: "ver-empleados",
+  },
+  {
+    href: "/dashboard/clientes",
+    title: "Clientes",
+    icon: UserRoundPen,
+    permission: "ver-cliente",
+  },
+  {
+    href: "/dashboard/propuestas",
+    title: "Propuestas",
+    icon: BookText,
+    permission: "ver-propuetas",
+  },
+  {
+    href: "/dashboard/contactos",
+    title: "Contactanos",
+    icon: Mail,
+    permission: "ver-contactos",
+  },
+  {
+    href: "/dashboard/modales",
+    title: "Modales",
+    icon: AlertCircle,
+    permission: "ver-modales",
+  },
+  {
+    href: "/dashboard/reclamaciones",
+    title: "Reclamaciones",
+    icon: MessageSquare,
+    permission: "ver-reclamaciones",
+  },
+  {
+    href: "/dashboard/blogs",
+    title: "Blogs",
+    icon: FileText,
+    permission: "crear-blogs",
+  },
+  {
+    href: "/dashboard/role-permission",
+    title: "Roles y Permisos",
+    icon: Settings,
+    role: "administrador",
+    requiresVerifiedAccount: true,
+  },
+  {
+    href: "/dashboard/user-client/propuesta",
+    title: "Mis Propuestas",
+    icon: FileText,
+    role: "cliente",
+  },
+];
