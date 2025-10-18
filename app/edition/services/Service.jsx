@@ -69,7 +69,7 @@ const Servicios = {
         console.warn(
           "El backend respondió con un estado inesperado:",
           response.status
-        );
+        ); 
         return null;
       }
     } catch (error) {
