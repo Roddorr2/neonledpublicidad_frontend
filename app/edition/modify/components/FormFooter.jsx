@@ -16,15 +16,16 @@ export default function FormFooter({
 }) {
 
     const [errors, setErrors] = useState({
-        titulo: { message: 'Máximo 30 caracteres', isValid: null },
-        descripcion: { message: 'Máximo 300 caracteres', isValid: null },
-        alt_image1: { message: 'Máximo 300 caracteres', isValid: null },
-        alt_image2: { message: 'Máximo 300 caracteres', isValid: null },
-        alt_image3: { message: 'Máximo 300 caracteres', isValid: null },
-        title_image1: { message: 'Máximo 300 caracteres', isValid: null },
-        title_image2: { message: 'Máximo 300 caracteres', isValid: null },
-        title_image3: { message: 'Máximo 300 caracteres', isValid: null },
-    });
+    titulo: { message: 'Máximo 191 caracteres', isValid: null },
+    descripcion: { message: 'Mínimo 10 caracteres', isValid: null },
+    alt_image1: { message: 'Entre 60 y 120 caracteres', isValid: null },
+    alt_image2: { message: 'Entre 60 y 120 caracteres', isValid: null },
+    alt_image3: { message: 'Entre 60 y 120 caracteres', isValid: null },
+    title_image1: { message: 'Entre 50 y 70 caracteres', isValid: null },
+    title_image2: { message: 'Entre 50 y 70 caracteres', isValid: null },
+    title_image3: { message: 'Entre 50 y 70 caracteres', isValid: null },
+});
+
 
     const [uploading, setUploading] = useState(false);
 
@@ -33,26 +34,30 @@ export default function FormFooter({
         let isValid = true;
 
         switch (name) {
-            case 'titulo':
-                isValid = value.trim() !== '' && value.length <= 30 && value.length >= 10;
-                setValidacionFooter(isValid);
-                break;
-            case 'descripcion':
-                isValid = value.trim() !== '' && value.length <= 300 && value.length >= 10;
-                setValidacionFooter(isValid);
-                break;
-            case 'alt_image1':
-            case 'alt_image2':
-            case 'alt_image3':
-            case 'title_image1':
-            case 'title_image2':
-            case 'title_image3':
-                isValid = value.trim() !== '' && value.length <= 300 && value.length >= 10;
-                setValidacionFooter(isValid);
-                break;
-            default:
-                break;
-        }
+    case 'titulo':
+        isValid = value.trim() !== '' && value.length <= 191;
+        break;
+
+    case 'descripcion':
+        isValid = value.trim() !== '' && value.length >= 10;
+        break;
+
+    case 'alt_image1':
+    case 'alt_image2':
+    case 'alt_image3':
+        isValid = value.trim() !== '' && value.length >= 60 && value.length <= 120;
+        break;
+
+    case 'title_image1':
+    case 'title_image2':
+    case 'title_image3':
+        isValid = value.trim() !== '' && value.length >= 50 && value.length <= 70;
+        break;
+
+    default:
+        break;
+}
+
 
         setErrors(prev => ({
             ...prev,
