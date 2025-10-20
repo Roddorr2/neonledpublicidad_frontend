@@ -118,6 +118,8 @@ const PageContent = () => {
     alt_image3: "",
     title_image3: "",
     estado: 1,
+    keyword: "",
+    link: "",
   });
 
   /**
@@ -663,6 +665,8 @@ const PageContent = () => {
         alt_image3: "",
         title_image3: "",
         estado: 1,
+        keyword: "",
+        link: "",
       });
 
       setDataHeader({

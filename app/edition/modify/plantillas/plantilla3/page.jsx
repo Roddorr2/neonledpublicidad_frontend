@@ -63,8 +63,7 @@ const PageContent = () => {
   // Estados de formularios (igual que en creación)
   const [formFooter, setFormFooter] = useState({
     titulo: "",
-    descripcion:
-      "",
+    descripcion: "",
     public_image1: "/blog/blog-10.jpg",
     url_image1: "",
     alt_image1: "",
@@ -78,8 +77,8 @@ const PageContent = () => {
     alt_image3: "",
     title_image3: "",
     estado: 1,
-    keyword: "",  
-    link: "",    
+    keyword: "",
+    link: "",
   });
 
   const [dataHeader, setDataHeader] = useState({
@@ -307,9 +306,7 @@ const PageContent = () => {
       setFormFooter({
         ...responseFooter,
         titulo: responseFooter.titulo || "",
-        descripcion:
-          responseFooter.descripcion ||
-          "",
+        descripcion: responseFooter.descripcion || "",
         public_image1: responseFooter.public_image1 || "/blog/blog-10.jpg",
         url_image1: responseFooter.url_image1 || "",
         alt_image1: responseFooter.alt_image1 || "",
@@ -435,7 +432,7 @@ const PageContent = () => {
   }
 
   async function guardarFooter() {
-     console.log(" Datos del footer que se envían:", formFooter);
+    console.log(" Datos del footer que se envían:", formFooter);
     const id = await Fetch.updateFooter(
       originalData.footer.id_blog_footer,
       formFooter

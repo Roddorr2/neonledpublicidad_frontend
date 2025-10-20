@@ -135,9 +135,8 @@ const PageContent = () => {
     alt_image3: "",
     title_image3: "",
     estado: 1,
-    keyword: "",  
-    link: "", 
-
+    keyword: "",
+    link: "",
   });
 
   /**
@@ -261,7 +260,7 @@ const PageContent = () => {
   }
 
   async function guardarFooter() {
-     console.log(" Datos del footer que se envían:", formFooter);
+    console.log(" Datos del footer que se envían:", formFooter);
     const id = await Service.saveFooter(formFooter);
     if (id && id > 0) {
       return id;
@@ -714,8 +713,7 @@ const PageContent = () => {
         // Resetear formularios
         setFormFooter({
           titulo: "",
-          descripcion:
-            "",
+          descripcion: "",
           public_image1: "/blog/blog-10.jpg",
           url_image1: "",
           image1_alt: "",
@@ -728,6 +726,7 @@ const PageContent = () => {
           url_image3: "",
           image3_alt: "",
           image3_title: "",
+          estado: 1,
           keyword: "",
           link: "",
         });
