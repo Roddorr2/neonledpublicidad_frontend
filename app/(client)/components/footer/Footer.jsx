@@ -30,7 +30,7 @@ export default function Footer() {
                 <SocialMedia />
               </div>
             </div>
-            <div className="absolute bottom-0 lg:left-[30px] mb-4 w-full lg:w-[calc(100%-40px)] h-[3px] bg-yellow-400"/>
+            <div className="absolute bottom-0 lg:left-[30px] mb-10 w-full lg:w-[calc(100%-40px)] h-[3px] bg-yellow-400"/>
           </div>
 
           {/* Columna 2: CONTÁCTANOS */}
@@ -38,10 +38,10 @@ export default function Footer() {
             <h2 className="text-[#48A8FF] text-xl font-bold mb-4">CONTÁCTANOS</h2>
             <div className="mb-6">
               <p className="font-semibold mb-2">Direcciones:</p>
-              <p className="text-sm mb-1">Jr. Paruro 1404. S130, Lima,</p>
-              <p className="text-sm mb-3">Perú – Urb. Alameda La Rivera</p>
-              <p className="text-sm mb-1">Mz. F Lt. 30 Santa Marta,</p>
-              <p className="text-sm mb-1">Ate Vitarte, Perú</p>
+              <p className="text-sm mb-9">Jr. Paruro 1401. S130. Lima - Perú</p>
+              <p className="text-sm mb-1">Urb. Alameda La Rivera</p>
+              <p className="text-sm mb-1">Mz F Lot 30</p>
+              <p className="text-sm mb-1">Santa Martha. Ate</p>
             </div>
             <div>
               <p className="font-semibold mb-2">Celular:</p>
