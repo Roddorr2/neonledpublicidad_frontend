@@ -78,6 +78,8 @@ const PageContent = () => {
     alt_image3: "",
     title_image3: "",
     estado: 1,
+    keyword: "",  
+    link: "",    
   });
 
   const [dataHeader, setDataHeader] = useState({
@@ -321,6 +323,8 @@ const PageContent = () => {
         alt_image3: responseFooter.alt_image3 || "",
         title_image3: responseFooter.title_image3 || "",
         estado: responseFooter.estado || 1,
+        keyword: responseFooter.keyword || "",
+        link: responseFooter.link || "",
       });
 
       // Formatear fecha correctamente
@@ -431,6 +435,7 @@ const PageContent = () => {
   }
 
   async function guardarFooter() {
+     console.log(" Datos del footer que se envían:", formFooter);
     const id = await Fetch.updateFooter(
       originalData.footer.id_blog_footer,
       formFooter

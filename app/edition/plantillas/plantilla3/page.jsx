@@ -135,6 +135,9 @@ const PageContent = () => {
     alt_image3: "",
     title_image3: "",
     estado: 1,
+    keyword: "",  
+    link: "", 
+
   });
 
   /**
@@ -258,6 +261,7 @@ const PageContent = () => {
   }
 
   async function guardarFooter() {
+     console.log(" Datos del footer que se envían:", formFooter);
     const id = await Service.saveFooter(formFooter);
     if (id && id > 0) {
       return id;
@@ -724,6 +728,8 @@ const PageContent = () => {
           url_image3: "",
           image3_alt: "",
           image3_title: "",
+          keyword: "",
+          link: "",
         });
 
         setDataHeader({
