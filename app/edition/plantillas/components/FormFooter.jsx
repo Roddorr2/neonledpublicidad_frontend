@@ -8,6 +8,124 @@ import {
   Trash2,
 } from "lucide-react";
 import { useState } from "react";
+import { ProductosLink } from "../utils";
+
+
+const AddLinkButton = ({ formData, setFormData, productos }) => {
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [textToLink, setTextToLink] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
+
+  const addLink = () => {
+    if (textToLink.trim() && linkUrl.trim()) {
+      setFormData((prev) => ({
+        ...prev,
+        keyword: textToLink.trim(),
+        link: linkUrl,
+      }));
+
+      setShowLinkModal(false);
+      setTextToLink("");
+      setLinkUrl("");
+    }
+  };
+
+  return (
+    <div className="mt-3">
+      <button
+        type="button"
+        onClick={() => setShowLinkModal(true)}
+        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+      >
+        + Añadir Link
+      </button>
+
+      {showLinkModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-96">
+            <h3 className="text-lg font-bold mb-4 text-black">Añadir Link</h3>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-black mb-2">
+                Texto o frase a enlazar:
+              </label>
+              <textarea
+                value={textToLink}
+                onChange={(e) => setTextToLink(e.target.value)}
+                className="w-full p-2 border rounded text-black resize-none"
+                rows="2"
+                placeholder="Ej: 'nuestros servicios de marketing digital'"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-black mb-2">
+                URL del enlace:
+              </label>
+              <select
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                className="w-full p-2 border rounded text-black"
+              >
+                <option value="">Seleccionar producto</option>
+                {productos.map((prod) => (
+                  <option key={prod.url} value={prod.url}>
+                    {prod.label}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="url"
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                className="w-full p-2 border rounded mt-2 text-black"
+                placeholder="O escribir URL personalizada"
+              />
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowLinkModal(false)}
+                className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={addLink}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Añadir
+              </button>
+            </div>
+
+            {formData && formData.keyword && formData.link && (
+              <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
+                <p className="text-sm text-green-800">
+                  <strong>Link actual:</strong> "{formData.keyword}" → {formData.link}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      keyword: "",
+                      link: "",
+                    }));
+                  }}
+                  className="text-red-600 text-xs underline mt-1"
+                >
+                  Eliminar link
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default function FormFooter({
   formFooter,
@@ -20,11 +138,12 @@ export default function FormFooter({
   onDeleteFooterFile3,
   setValidacionFooter,
 }) {
+ const productos = ProductosLink || [];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     let isValid = true;
-
     switch (name) {
       case "titulo":
         isValid =
@@ -154,17 +273,48 @@ export default function FormFooter({
     } finally {
       setUploading(false);
     }
-  };
+  }
+// Función para renderizar descripción con links
+function renderDescripcion(texto, fraseEnlace, enlace) {
+  if (!fraseEnlace || !enlace || !texto) {
+    return texto;
+  }
 
+  const regex = new RegExp(
+    `(${fraseEnlace.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+    "gi"
+  );
+
+  return texto.split(regex).map((part, index) => {
+    if (part.toLowerCase() === fraseEnlace.toLowerCase()) {
+      return (
+        <a          
+          key={index}
+          href={enlace}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 font-bold underline hover:text-blue-200"
+        >
+          {part}
+        </a>
+      );
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
   return (
     <div className="relative mt-12 flex flex-col md:flex-row justify-center items-stretch max-w-5xl mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg shadow-lg overflow-hidden p-6 gap-6">
       <div className="relative flex-1 p-6 md:p-8 min-w-0">
         <h3 className="text-3xl text-center font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">
           {formFooter.titulo}
         </h3>
-        <p className="text-gray-100 text-base leading-relaxed max-w-full md:max-w-md mx-auto mb-6 text-center break-words overflow-hidden whitespace-normal">
-          {formFooter.descripcion}
-        </p>
+       <p className="text-gray-100 text-base leading-relaxed max-w-full md:max-w-md mx-auto mb-6 text-center break-words overflow-hidden whitespace-normal">
+  {renderDescripcion(
+    formFooter.descripcion,
+    formFooter.keyword || "",
+    formFooter.link || ""
+  )}
+</p>
 
         {(formFooter.public_image1 ||
           formFooter.public_image2 ||
@@ -250,6 +400,16 @@ export default function FormFooter({
                 placeholder="Descripción corta"
                 required
               ></textarea>
+              <div className="mb-3">
+
+         
+             <AddLinkButton
+              formData={formFooter}
+              setFormData={setFormData}
+              productos={productos}
+             />
+            </div>
+              
             </div>
             <div className="mb-3">
               <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
@@ -356,3 +516,4 @@ export default function FormFooter({
     </div>
   );
 }
+
