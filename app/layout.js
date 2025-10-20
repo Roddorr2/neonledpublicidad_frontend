@@ -1,8 +1,9 @@
-import { Inter, League_Gothic } from 'next/font/google';
+import { Inter, League_Gothic } from "next/font/google";
 import "./globals.css";
 import { WhatsAppButton } from "./(client)/components/index";
 import "swiper/css";
-import Script from 'next/script';
+import Script from "next/script";
+import { AuthProvider } from "./context/AutContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,17 +16,17 @@ const leagueGothic = League_Gothic({
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
-  variable: "--font-league-gothic"
+  variable: "--font-league-gothic",
 });
 
 export const viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 1,
 };
 
 export const metadata = {
-  metadataBase: new URL('https://ledneonpublicidad.com'),
+  metadataBase: new URL("https://ledneonpublicidad.com"),
 
   verification: {
     google: "GmKy-G0PSdvQqMQB1OXQMRRR-MImNAtg1dkxxtvCUug",
@@ -37,16 +38,16 @@ export const metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 
-  applicationName: 'LedNeonPublicidad',
-  authors: [{ name: 'LedNeonPublicidad' }],
-  creator: 'LedNeonPublicidad',
-  publisher: 'LedNeonPublicidad',
+  applicationName: "LedNeonPublicidad",
+  authors: [{ name: "LedNeonPublicidad" }],
+  creator: "LedNeonPublicidad",
+  publisher: "LedNeonPublicidad",
 
   formatDetection: {
     email: false,
@@ -75,6 +76,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} ${leagueGothic.variable} font-sans antialiased bg-[#05070D] min-h-screen m-0 p-0`}
       >
+        <AuthProvider>{children}</AuthProvider>
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
@@ -84,8 +86,6 @@ export default function RootLayout({ children }) {
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-
-        {children}
         <WhatsAppButton />
       </body>
     </html>

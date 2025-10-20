@@ -1,11 +1,11 @@
-"use client"
-import Link from "next/link"
-import AuthGuard from "./components/AuthGuard"
-import auth_service from "./users/services/auth.service"
-import { usePathname, useRouter } from "next/navigation"
-import { getCookie } from "cookies-next"
-import { useState, useEffect } from "react"
-import { DisplayNameContext } from "./components/DisplayNameContext"
+"use client";
+import Link from "next/link";
+import AuthGuard from "./components/AuthGuard";
+import auth_service from "./users/services/auth.service";
+import { usePathname, useRouter } from "next/navigation";
+import { getCookie } from "cookies-next";
+import { useState, useEffect } from "react";
+import { DisplayNameContext } from "./components/DisplayNameContext";
 
 import {
   User,
@@ -22,80 +22,97 @@ import {
   Mail,
   UserRoundPen,
   BookText,
-} from "lucide-react"
+} from "lucide-react";
+import { dashboardLinks } from "./dashboardLinks/dashboardLinks";
 
 export default function RootLayout({ children }) {
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Info usuario y rol
-  const userRole = getCookie("rol") || "Usuario"
-  const userData = getCookie("user") ? JSON.parse(getCookie("user")) : { name: "Usuario" }
-  const empleadoData = getCookie("empleado") ? JSON.parse(getCookie("empleado")) : null
+  const userRole = getCookie("rol") || "Usuario";
+  const userData = getCookie("user")
+    ? JSON.parse(getCookie("user"))
+    : { name: "Usuario" };
+  const empleadoData = getCookie("empleado")
+    ? JSON.parse(getCookie("empleado"))
+    : null;
 
-  const [displayName, setDisplayName] = useState(empleadoData?.nombre || userData?.name || "Usuario")
-  const [isLoggingOut, setIsLoggingOut] = useState(false)
-  const [isSidebarOpen, setSidebarOpen] = useState(true)
+  const [displayName, setDisplayName] = useState(
+    empleadoData?.nombre || userData?.name || "Usuario"
+  );
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   // Estado simplificado para el Dark Mode
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(false);
 
   // Efecto simplificado para el tema
   useEffect(() => {
     // Recuperar preferencia guardada
-    const savedMode = localStorage.getItem("darkMode") === "true"
-    setDarkMode(savedMode)
-    
+    const savedMode = localStorage.getItem("darkMode") === "true";
+    setDarkMode(savedMode);
+
     // Aplicar tema inmediatamente
-    document.documentElement.classList.toggle("dark", savedMode)
-  }, [])
+    document.documentElement.classList.toggle("dark", savedMode);
+  }, []);
 
   // Manejar cambios de tema
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode)
-    localStorage.setItem("darkMode", darkMode.toString())
-  }, [darkMode])
+    document.documentElement.classList.toggle("dark", darkMode);
+    localStorage.setItem("darkMode", darkMode.toString());
+  }, [darkMode]);
 
   const toggleDarkMode = () => {
-    setDarkMode(prev => !prev)
-  }
+    setDarkMode((prev) => !prev);
+  };
 
   const handleLogout = async () => {
-    setIsLoggingOut(true)
+    setIsLoggingOut(true);
     try {
-      await auth_service.logout()
-      setTimeout(() => auth_service.logoutClient(router), 350)
+      await auth_service.logout();
+      setTimeout(() => auth_service.logoutClient(router), 350);
     } catch (error) {
-      console.error("Error al cerrar sesión:", error)
-      setTimeout(() => auth_service.logoutClient(router), 1000)
+      console.error("Error al cerrar sesión:", error);
+      setTimeout(() => auth_service.logoutClient(router), 1000);
     }
-  }
+  };
 
   // Get current section name
   const getSectionName = () => {
-    if (pathname === "/dashboard/main") return "Panel Principal"
-    const section = pathname.slice(pathname.indexOf("/", 1) + 1)
-    return section.charAt(0).toUpperCase() + section.slice(1).replace(/-/g, " ")
-  }
+    if (pathname === "/dashboard/main") return "Panel Principal";
+    const section = pathname.slice(pathname.indexOf("/", 1) + 1);
+    return (
+      section.charAt(0).toUpperCase() + section.slice(1).replace(/-/g, " ")
+    );
+  };
 
   return (
-    <DisplayNameContext.Provider value={{ displayName, updateDisplayName: setDisplayName }}>
+    <DisplayNameContext.Provider
+      value={{ displayName, updateDisplayName: setDisplayName }}
+    >
       <AuthGuard>
         <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
           {/* Sidebar */}
           <aside
-            className={`${isSidebarOpen ? "w-64" : "w-20"} transition-all duration-300 fixed inset-y-0 left-0 z-50 flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-lg`}
+            className={`${
+              isSidebarOpen ? "w-64" : "w-20"
+            } transition-all duration-300 fixed inset-y-0 left-0 z-50 flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-lg`}
           >
             {/* Logo and brand */}
             <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center">
                 {isSidebarOpen && (
-                <>
-                <img src="/dashboard/main-icon.svg" alt="Logo" className="h-8 w-8" />
-                  <span className="ml-2 text-lg font-semibold text-blue-primary dark:text-white">
-                    Neon Led Publicidad
-                  </span>
-                </>
+                  <>
+                    <img
+                      src="/dashboard/main-icon.svg"
+                      alt="Logo"
+                      className="h-8 w-8"
+                    />
+                    <span className="ml-2 text-lg font-semibold text-blue-primary dark:text-white">
+                      Neon Led Publicidad
+                    </span>
+                  </>
                 )}
               </div>
               <button
@@ -104,7 +121,9 @@ export default function RootLayout({ children }) {
                 type="button"
               >
                 <ChevronRight
-                  className={`h-5 w-5 transition-transform duration-300 ${isSidebarOpen ? "rotate-180" : ""}`}
+                  className={`h-5 w-5 transition-transform duration-300 ${
+                    isSidebarOpen ? "rotate-180" : ""
+                  }`}
                 />
               </button>
             </div>
@@ -112,113 +131,34 @@ export default function RootLayout({ children }) {
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto py-4 px-3">
               <ul className="space-y-1">
-                  <NavLink
-                    href="/dashboard/main"
-                    title="Sección Principal"
-                    icon={<Home className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname === "/dashboard/main"}
-                  />
-                {auth_service.hasPermission("ver-empleados") && (
-                  <NavLink
-                    href="/dashboard/empleados"
-                    title="Empleados"
-                    icon={<Users className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname.includes("/dashboard/empleados")}
-                  />
-                )}
-                {auth_service.hasPermission("ver-cliente") && (
-                  <NavLink
-                    href="/dashboard/clientes"
-                    title="Clientes"
-                    icon={<UserRoundPen className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname.includes("/dashboard/clientes")}
-                  />
-                )}
+                {dashboardLinks.map((link) => {
+                  if (
+                    link.permission &&
+                    !auth_service.hasPermission(link.permission)
+                  )
+                    return null;
+                  if (link.role && !auth_service.hasRole(link.role))
+                    return null;
 
-                {auth_service.hasPermission("ver-propuestas") && (
-                  <NavLink
-                    href="/dashboard/propuestas"
-                    title="Propuestas"
-                    icon={<BookText className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname.includes("/dashboard/propuestas")}
-                  />
-                )}
+                  if (
+                    link.requiresVerifiedAccount &&
+                    !auth_service.isVerifiedAccount()
+                  )
+                    return null;
 
-                {auth_service.hasPermission("ver-contactos") && (
-                  <NavLink
-                    href="/dashboard/contactos"
-                    title="Contactanos"
-                    icon={<Mail className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname.includes("/dashboard/contactos")}
-                  />
-                )}
+                  const Icon = link.icon;
 
-                {auth_service.hasPermission("ver-modales") && (
-                  <NavLink
-                    href="/dashboard/modales"
-                    title="Modales"
-                    icon={<AlertCircle className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname.includes("/dashboard/modales")}
-                  />
-                )}
-                
-
-                {auth_service.hasPermission("ver-reclamaciones") && (
-                  <NavLink
-                    href="/dashboard/reclamaciones"
-                    title="Reclamaciones"
-                    icon={<MessageSquare className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname.includes("/dashboard/reclamaciones")}
-                  />
-                )}
-
-                {auth_service.hasPermission("crear-blogs") && (
-                  <NavLink
-                    href="/dashboard/blogs"
-                    title="Blogs"
-                    icon={<FileText className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname.includes("/dashboard/blogs")}
-                  />
-                )}
-                
-                {auth_service.hasRole("cliente") && (
-                  <NavLink
-                    href="/dashboard/user-client/main"
-                    title="Dashboard"
-                    icon={<Home className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname === "/dashboard/user-client/main"}
-                  />
-                )}
-                {auth_service.hasRole("cliente") && (
-                  <NavLink
-                    href="/dashboard/user-client/propuesta"
-                    title="Mis Propuestas"
-                    icon={<FileText className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname.includes(
-                      "/dashboard/user-client/propuesta"
-                    )}
-                  />
-                )}
-
-                {auth_service.hasRole("administrador") && auth_service.isVerifiedAccount() && (
-                  <NavLink
-                    href="/dashboard/role-permission"
-                    title="Roles y Permisos"
-                    icon={<Settings className="h-5 w-5" />}
-                    isCollapsed={!isSidebarOpen}
-                    isActive={pathname.includes("/dashboard/role-permission")}
-                  />
-                )}
+                  return (
+                    <NavLink
+                      key={link.href}
+                      href={link.href}
+                      title={link.title}
+                      icon={<Icon className="h-5 w-5" />}
+                      isCollapsed={!isSidebarOpen}
+                      isActive={pathname.includes(link.href)}
+                    />
+                  );
+                })}
               </ul>
             </nav>
 
@@ -233,8 +173,12 @@ export default function RootLayout({ children }) {
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{displayName}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{userRole}</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                        {displayName}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                        {userRole}
+                      </p>
                     </div>
                   </div>
 
@@ -244,7 +188,11 @@ export default function RootLayout({ children }) {
                       className="btn-ghost-safe p-2 rounded-md"
                       type="button"
                     >
-                      {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                      {darkMode ? (
+                        <Sun className="h-5 w-5" />
+                      ) : (
+                        <Moon className="h-5 w-5" />
+                      )}
                     </button>
 
                     <button
@@ -291,15 +239,19 @@ export default function RootLayout({ children }) {
                   <div className="h-10 w-10 rounded-full bg-blue-primary flex items-center justify-center text-white">
                     <User className="h-5 w-5" />
                   </div>
-                  
+
                   <button
                     onClick={toggleDarkMode}
                     className="btn-ghost-safe p-2 rounded-md"
                     type="button"
                   >
-                    {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                    {darkMode ? (
+                      <Sun className="h-5 w-5" />
+                    ) : (
+                      <Moon className="h-5 w-5" />
+                    )}
                   </button>
-                  
+
                   <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
@@ -337,19 +289,27 @@ export default function RootLayout({ children }) {
           </aside>
 
           {/* Main content */}
-          <div className={`flex-1 flex flex-col ${isSidebarOpen ? "ml-64" : "ml-20"} transition-all duration-300`}>
+          <div
+            className={`flex-1 flex flex-col ${
+              isSidebarOpen ? "ml-64" : "ml-20"
+            } transition-all duration-300`}
+          >
             {/* Header */}
             <header className="z-10 h-16 flex items-center justify-between px-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
-              <h1 className="text-xl font-semibold text-gray-800 dark:text-white">{getSectionName()}</h1>
+              <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
+                {getSectionName()}
+              </h1>
             </header>
 
             {/* Page content */}
-            <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 p-0">{children}</main>
+            <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 p-0">
+              {children}
+            </main>
           </div>
         </div>
       </AuthGuard>
     </DisplayNameContext.Provider>
-  )
+  );
 }
 
 // Navigation link component simplificado
@@ -358,17 +318,23 @@ function NavLink({ href, title, icon, isActive, isCollapsed }) {
     <li>
       <Link
         href={href}
-        className={`btn-safe flex items-center ${isCollapsed ? "justify-center" : "justify-start"} p-2 rounded-lg transition-colors ${
+        className={`btn-safe flex items-center ${
+          isCollapsed ? "justify-center" : "justify-start"
+        } p-2 rounded-lg transition-colors ${
           isActive
             ? "bg-blue-primary text-white"
             : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
-        <span className={`${isActive ? "text-white" : "text-blue-primary dark:text-gray-300"}`}>
+        <span
+          className={`${
+            isActive ? "text-white" : "text-blue-primary dark:text-gray-300"
+          }`}
+        >
           {icon}
         </span>
         {!isCollapsed && <span className="ml-3">{title}</span>}
       </Link>
     </li>
-  )
+  );
 }

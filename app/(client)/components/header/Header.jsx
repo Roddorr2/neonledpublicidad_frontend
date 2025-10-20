@@ -1,9 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import DropdownLink from "./components/DropdownLink";
-import LinkNav from "./components/LinkNav";
 import styles from "./header.module.css";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/app/context/AutContext";
+import auth_service from "@/app/dashboard/users/services/auth.service";
+import { dashboardLinks } from "@/app/dashboard/dashboardLinks/dashboardLinks";
+import { ChevronDown } from "lucide-react";
+import { getCookie } from "cookies-next";
 
 export default function Header() {
   const [menuActive, setMenuActive] = useState(false);
@@ -12,6 +16,23 @@ export default function Header() {
   const [menuInitialized, setMenuInitialized] = useState(false);
   const [currentMenu, setCurrentMenu] = useState("main");
   const pathname = usePathname();
+  const { isAuthenticated, logout } = useAuth();
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [hastToken, setHastToken] = useState(false);
+
+  // Para validar el token y el cambio de estado al iniciar sesion o cerrar sesion
+  useEffect(() => {
+    const token = getCookie("token");
+    setHastToken(!!token);
+  }, [pathname]);
+
+  // Filtrado de los links segun permisos y roles del usuario
+  const filterLinks = dashboardLinks.filter((item) => {
+    const hasPermission =
+      !item.permission || auth_service.hasPermission(item.permission);
+    const hasRole = !item.role || auth_service.hasRole(item.role);
+    return hasPermission && hasRole;
+  });
 
   useEffect(() => {
     const savedMenuState = localStorage.getItem("menuActive");
@@ -181,17 +202,65 @@ export default function Header() {
             >
               BLOG
             </a>
-
-            <a
-              href="/login"
-              className={`transition-colors ${
-                isActiveLink("/login")
+            {/*----- Panel options -----*/}
+            <li
+              className={`relative cursor-pointer ${
+                isActiveLink("/login") || isActiveLink("/dashboard/main")
                   ? "text-blue-400"
                   : "text-white hover:text-gray-300"
               }`}
+              onClick={() => setIsPanelOpen(!isPanelOpen)}
             >
-              LOGIN
-            </a>
+              {isAuthenticated ? (
+                <>
+                  <p className="flex items-center gap-1">
+                    Panel{" "}
+                    <ChevronDown
+                      className="w-4 h-4"
+                      style={{
+                        display: "inline-block",
+                        verticalAlign: "middle",
+                      }}
+                    />
+                  </p>
+
+                  {isPanelOpen && (
+                    <ul className="absolute right-0 mt-2 bg-[#000017] rounded-lg shadow-lg text-white w-56 z-50">
+                      {filterLinks.map((link) => (
+                        <li
+                          key={link.href}
+                          className="px-4 py-2 hover:bg-blue-600"
+                          onClick={() => setIsPanelOpen(false)}
+                        >
+                          <a href={link.href}>{link.title}</a>
+                        </li>
+                      ))}
+
+                      <li
+                        className="px-4 py-2 text-red-400 hover:bg-red-600 hover:text-white"
+                        onClick={() => {
+                          logout();
+                          setIsPanelOpen(false);
+                        }}
+                      >
+                        <a href="#">Cerrar sesión</a>
+                      </li>
+                    </ul>
+                  )}
+                </>
+              ) : (
+                <a
+                  href="/login"
+                  className={`transition-colors ${
+                    isActiveLink("/login")
+                      ? "text-blue-400"
+                      : "text-white hover:text-gray-300"
+                  }`}
+                >
+                  Ingresar
+                </a>
+              )}
+            </li>
           </nav>
 
           {isSmallScreen && (

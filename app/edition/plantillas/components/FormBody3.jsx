@@ -51,7 +51,7 @@ const AddLinkButton = ({ item, index, servicios, handleChange }) => {
         onClick={() => setShowLinkModal(true)}
         className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
       >
-        + Añadir Link 
+        + Añadir Link
       </button>
 
       {showLinkModal && (

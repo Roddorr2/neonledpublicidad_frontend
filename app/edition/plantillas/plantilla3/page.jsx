@@ -728,8 +728,8 @@ const PageContent = () => {
           url_image3: "",
           image3_alt: "",
           image3_title: "",
-          keyword: responseFooter.keyword || "",
-          link: responseFooter.link || "",
+          keyword: "",
+          link: "",
         });
 
         setDataHeader({

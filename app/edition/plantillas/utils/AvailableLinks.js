@@ -11,7 +11,7 @@ const productos = [
         label: "LETREROS LUMINOSOS",
         url: "/productos/letreros-luminosos/"
     },
-    { 
+    {
         label: "LETRAS DE NEON EN TUBOS DE VIDRIO",
         url: "/productos/letras-neon/"
     },
