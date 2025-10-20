@@ -265,7 +265,11 @@ export default function FormFooter({
                     {formFooter.titulo}
                 </h3>
                 <p className="text-gray-100 text-base leading-relaxed max-w-full md:max-w-md mx-auto mb-6 text-center break-words overflow-hidden whitespace-normal">
-                    {formFooter.descripcion}
+                    {renderDescripcion(
+                        formFooter.descripcion,
+                        formFooter.keyword || "",
+                        formFooter.link || "",
+                    )}
                 </p>
 
                 {(formFooter.public_image1 || formFooter.public_image2 || formFooter.public_image3) && (
