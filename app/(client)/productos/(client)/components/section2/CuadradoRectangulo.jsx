@@ -104,11 +104,6 @@ const productosInfo = [
       "Letras en MDF ofrecen una solución ideal para decoración y señalización gracias a su alta personalización, permitiendo elegir formas, tamaños y colores. Con acabados premium, estas letras MDF personalizadas logran una apariencia impecable y elegante, destacando en cualquier entorno el pintado 3D.",
     image: "letrero-mdf-burnout-con-forma-de-camion.webp",
     alt: "Letrero pintado en MDF con diseño de camión y texto Burnout en color amarillo sobre muro gris",
-    //  keywords: {
-    //   "Letras en MDF": { type: "external", url: "/productos/letras-en-mdf" },
-    //   "letras MDF personalizadas": { type: "external", url: "/productos/letras-en-mdf" },
-    //   "pintado 3D": { type: "external", url: "/productos/letras-en-mdf" }
-    // }
   },
   {
     id: 9,
