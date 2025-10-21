@@ -16,8 +16,8 @@ export default function DropdownLink({ text, link, isInicio, closeMenu, onClick,
                 }
                 if (closeMenu) closeMenu(); 
             }}
-            className={`flex items-center justify-between gap-2 py-4 px-4 text-white font-bold
-                ${isActive ? "bg-[--azul_intenso]" : "bg-[--azul_oscuro]"} 
+            className={`flex items-center justify-between gap-2 py-6 px-6 text-white font-bold text-lg
+                ${isActive ? "bg-[#48A8FF]" : "bg-[--azul_oscuro]"} 
                 ${final ? "border-b-2 border-b-[--azul_brillante]" : ""} 
                 border-t-2 border-t-[--celeste] hover:bg-[--azul_intenso] transition-colors duration-200`}
         >

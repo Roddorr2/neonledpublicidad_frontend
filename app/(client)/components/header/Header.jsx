@@ -476,7 +476,7 @@ export default function Header() {
                 }}
               />
               <DropdownLink
-                text={"Holográfico"}
+                text={"Hológrafico"}
                 link={"/productos/holografico"}
                 isInicio={false}
                 final={false}
@@ -521,8 +521,9 @@ export default function Header() {
               />
             </>
           )}
-          <div className="bg-[--azul_oscuro] flex justify-center items-center h-full min-h-[200px] border-b-[100px] border-b-[--azul_oscuro] border-b-solid border-l-[100px] border-l-transparent border-r-[100px] border-r-transparent">
-            <div className="w-28 h-28 rounded-full bg-white flex items-center justify-center -mt-12">
+          {/* Sección del logo con fondo gradiente celeste a azul */}
+          <div className="flex-1 bg-gradient-to-b from-blue-500 to-blue-800 flex justify-center items-center min-h-[400px] pt-16 pb-16">
+            <div className="w-32 h-32 rounded-full bg-white flex items-center justify-center shadow-lg">
               <img
                 className="w-20 h-20 object-contain"
                 src="/header_footer/logo_azul_letraNegra_ledneonpublicidad2.webp"
