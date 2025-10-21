@@ -24,6 +24,7 @@ import {
   BookText,
 } from "lucide-react";
 import { dashboardLinks } from "./dashboardLinks/dashboardLinks";
+import Image from "next/image";
 
 export default function RootLayout({ children }) {
   const router = useRouter();
@@ -104,14 +105,19 @@ export default function RootLayout({ children }) {
               <div className="flex items-center">
                 {isSidebarOpen && (
                   <>
-                    <img
-                      src="/dashboard/main-icon.svg"
-                      alt="Logo"
-                      className="h-8 w-8"
-                    />
-                    <span className="ml-2 text-lg font-semibold text-blue-primary dark:text-white">
-                      Neon Led Publicidad
-                    </span>
+                    <Link href="/" className="flex items-center">
+                      <Image
+                        src="/dashboard/main-icon.svg"
+                        alt="Logo"
+                        className="h-8 w-8"
+                        width={200}
+                        height={300}
+                      />
+
+                      <span className="ml-2 text-lg font-semibold text-blue-primary dark:text-white">
+                        Neon Led Publicidad
+                      </span>
+                    </Link>
                   </>
                 )}
               </div>

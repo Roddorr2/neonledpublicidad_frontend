@@ -162,9 +162,9 @@ export default function FormHeader({
     setIsValid_title(isValid);
     break;
 
-  case "meta_title":
+  case "meta_titulo":
     isValid = value.trim() !== "" && value.length >= 3 && value.length <= 60;
-    setIsValid_meta_title(isValid);
+    setIsValid_meta_titulo(isValid);
     break;
 
   case "meta_descripcion":
