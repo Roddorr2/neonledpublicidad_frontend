@@ -19,14 +19,41 @@ export const AuthProvider = ({ children }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const token = getCookie("token");
-    setIsAuthenticated(!!token);
+    const verifyToken = async () => {
+      const token = getCookie("token");
 
-    // En caso de estar logeado y esta en /login -> redirigir a /dashboard/main
-    if (token && pathname === "/login/") {
-      router.replace("/dashboard/main");
-    }
-  }, [pathname]);
+      // Si no hay token, usuario no autenticado
+      if (!token) {
+        setIsAuthenticated(false);
+        return;
+      }
+
+      try {
+        // Llama a tu endpoint protegido para verificar el token
+        const res = await auth_service.me();
+
+        if (res && res.user) {
+          setIsAuthenticated(true);
+
+          // Si está en /login y ya está autenticado, redirigir
+          if (pathname === "/login/") {
+            router.replace("/dashboard/main");
+          }
+        } else {
+          // Token inválido o expirado
+          setIsAuthenticated(false);
+          deleteCookie("token");
+        }
+      } catch (err) {
+        // Si el backend devuelve un error, considerar el token inválido
+        console.error("Token inválido o expirado:", err);
+        setIsAuthenticated(false);
+        deleteCookie("token");
+      }
+    };
+
+    verifyToken();
+  }, []);
 
   const login = async (formData) => {
     try {
@@ -39,7 +66,7 @@ export const AuthProvider = ({ children }) => {
 
       // Guardar token
       setCookie("token", data.token, {
-        maxAge: 30 * 24 * 60 * 60,
+        maxAge: 300 * 60, // 300 minutos
         path: "/",
       });
 
@@ -52,14 +79,14 @@ export const AuthProvider = ({ children }) => {
 
       // Guardar datos del usuario
       setCookie("user", JSON.stringify(userData.user), {
-        maxAge: 30 * 24 * 60 * 60,
+        maxAge: 300 * 60, // 300 minutos
         path: "/",
       });
 
       // Guardar rol si existe
       if (userData.rol) {
         setCookie("rol", userData.rol, {
-          maxAge: 30 * 24 * 60 * 60,
+          maxAge: 300 * 60, // 300 minutos
           path: "/",
         });
       }
@@ -92,7 +119,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout}}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

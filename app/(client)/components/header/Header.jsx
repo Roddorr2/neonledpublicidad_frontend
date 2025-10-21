@@ -18,13 +18,6 @@ export default function Header() {
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [hastToken, setHastToken] = useState(false);
-
-  // Para validar el token y el cambio de estado al iniciar sesion o cerrar sesion
-  useEffect(() => {
-    const token = getCookie("token");
-    setHastToken(!!token);
-  }, [pathname]);
 
   // Filtrado de los links segun permisos y roles del usuario
   const filterLinks = dashboardLinks.filter((item) => {
