@@ -103,7 +103,7 @@ export default function Header({ id_blog_head }) {
                 title={data.title || ""} 
                 className="hidden" 
             />
-            <div className="absolute inset-0 bg-black/60"></div>
+            <div className="absolute inset-0 bg-black/30"></div>
 
             <div className="relative z-10 max-w-2xl text-white">
                 <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">{data.titulo}</h1>
