@@ -19,17 +19,11 @@ const leagueGothic = League_Gothic({
   variable: "--font-league-gothic",
 });
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-};
-
 export const metadata = {
   metadataBase: new URL("https://ledneonpublicidad.com"),
 
   verification: {
-    google: "GmKy-G0PSdvQqMQB1OXQMRRR-MImNAtg1dkxxtvCUug",
+    google: "6nbQkURJZqNBu5CjxpBeuU3UjZkieRQ16dB5saKbMgQ",
   },
 
   robots: {
@@ -60,6 +54,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es-PE">
       <head>
+        <meta 
+        name="google-site-verification" 
+        content="6nbQkURJZqNBu5CjxpBeuU3UjZkieRQ16dB5saKbMgQ" 
+        />
         {/* Google Tag Manager */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`
