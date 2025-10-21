@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import DropdownLink from "./components/DropdownLink";
-import styles from "./header.module.css";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/app/context/AutContext";
 import auth_service from "@/app/dashboard/users/services/auth.service";
@@ -18,13 +17,6 @@ export default function Header() {
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [hastToken, setHastToken] = useState(false);
-
-  // Para validar el token y el cambio de estado al iniciar sesion o cerrar sesion
-  useEffect(() => {
-    const token = getCookie("token");
-    setHastToken(!!token);
-  }, [pathname]);
 
   // Filtrado de los links segun permisos y roles del usuario
   const filterLinks = dashboardLinks.filter((item) => {
@@ -41,7 +33,9 @@ export default function Header() {
     }
 
     const handleResize = () => {
-      if (window.innerWidth <= 850) {
+      const width = window.innerWidth;
+      
+      if (width <= 850) {
         setIsSmallScreen(true);
         if (!menuInitialized) {
           setMenuInitialized(true);
@@ -105,49 +99,53 @@ export default function Header() {
   return (
     <>
       <div
-        className={`${styles.containerF} ${
-          menuActive ? styles["full-height"] : ""
+        className={`bg-[#000017] relative overflow-hidden ${
+          menuActive ? "h-screen" : "h-auto"
         }`}
       >
         <header
-          className={`${
-            styles["header-container"]
-          } h-[100px] bg-[#000017] flex items-center justify-between pl-0 pr-5 ${
-            menuActive ? styles["menu-active"] : ""
+          className={`h-[100px] bg-[#000017] flex items-center relative ${
+            menuActive ? "fixed top-0 left-0 right-0 z-[9999]" : "static"
+          } ${
+            isSmallScreen 
+              ? "justify-between px-4" 
+              : "justify-center px-8 lg:px-16 xl:px-32"
           }`}
         >
           {currentMenu === "main" ? (
-            <div
-              className={`w-[130px] text-white ${styles.logo} 
-      ${
-        isSmallScreen && menuActive
-          ? "absolute left-1/2 transform -translate-x-1/2"
-          : "absolute left-28"
-      }`}
-            >
+            <div className={`
+              transition-all duration-300
+              ${isSmallScreen 
+                ? "absolute left-1/2 transform -translate-x-1/2 w-32"  
+                : "absolute left-8 md:left-2 lg:left-10 xl:left-32 w-32 lg:w-36"
+              }
+            `}>
               <img
                 src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
-                alt="Logotipo de Neon Led Publicidad con letras celestes "
-                title="Neon Led Publicidad especialistas en letreros led "
+                alt="Logotipo de Neon Led Publicidad con letras celestes"
+                title="Neon Led Publicidad especialistas en letreros led"
+                className="w-full h-auto"
               />
             </div>
           ) : (
-            <div
-              className={`h-[50px] w-auto text-white absolute left-2 ${styles.logo} flex items-center`}
-            >
+            <div className={`
+              flex items-center absolute left-2 lg:left-8
+              ${isSmallScreen ? "w-20" : "w-32"}
+            `}>
               <a
                 href="#"
-                onClick={() => {
-                  goBack();
-                }}
-                className="text-white font-bold cursor-pointer"
+                onClick={goBack}
+                className="text-white font-bold cursor-pointer text-sm lg:text-base"
               >
                 &lt; Volver
               </a>
             </div>
           )}
 
-          <nav className="flex items-center gap-20">
+          <nav className={`
+            items-center transition-all
+            ${isSmallScreen ? "hidden" : "flex gap-8 lg:gap-10 xl:gap-16"}
+          `}>
             <a
               href="/"
               className={`transition-colors ${
@@ -204,7 +202,7 @@ export default function Header() {
             </a>
             {/*----- Panel options -----*/}
             <li
-              className={`relative cursor-pointer ${
+              className={`relative cursor-pointer list-none ${
                 isActiveLink("/login") || isActiveLink("/dashboard/main")
                   ? "text-blue-400"
                   : "text-white hover:text-gray-300"
@@ -264,13 +262,15 @@ export default function Header() {
           </nav>
 
           {isSmallScreen && (
-            <div className={styles["menu-icon"]} onClick={toggleMenu}>
+            <div 
+              className="flex items-center cursor-pointer"
+              onClick={toggleMenu}
+            >
               <span
-                className={`${styles["menu-icon-text"]} ${
-                  menuActive ? styles["text-small"] : styles["text-large"]
+                className={`text-white mr-2 ${
+                  menuActive ? "text-base" : "text-2xl"
                 }`}
               >
-                {/* Solo muestra "Cerrar" si estás en el menú principal */}
                 {menuActive && currentMenu === "main"
                   ? "Cerrar"
                   : !menuActive
@@ -278,10 +278,10 @@ export default function Header() {
                   : ""}
               </span>
               {menuActive && currentMenu === "main" && (
-                <div className={styles["icon-box"]}>
-                  <div className={styles["inner-box"]}>
-                    <div className={`${styles.bar} ${styles.bar1}`}></div>
-                    <div className={`${styles.bar} ${styles.bar2}`}></div>
+                <div className="w-10 h-10 bg-gradient-to-r from-[--azul_brillante] to-[--azul_intenso] flex items-center justify-center relative">
+                  <div className="relative w-8 h-8 bg-[--azul_oscuro]">
+                    <div className="absolute w-4/5 h-0.5 bg-white top-1/2 left-1 transform -translate-y-1/2 rotate-45"></div>
+                    <div className="absolute w-4/5 h-0.5 bg-white top-1/2 left-1 transform -translate-y-1/2 -rotate-45"></div>
                   </div>
                 </div>
               )}
@@ -290,11 +290,17 @@ export default function Header() {
         </header>
 
         <div
-          className={`${
-            styles["dropdown-menu"]
-          } bg-gradient-to-r from-[--azul_brillante] to-[--azul_intenso] ${
-            menuActive ? styles.show : ""
-          }`}
+          className={`
+            fixed top-[100px] left-0 right-0 h-[calc(100vh-100px)] 
+            bg-gradient-to-r from-[--azul_brillante] to-[--azul_intenso]
+            flex flex-col overflow-y-auto z-[9998] scrollbar-hidden
+            transition-all duration-300 ease-in-out
+            ${menuActive 
+              ? "opacity-100 translate-y-0 pointer-events-auto" 
+              : "opacity-0 -translate-y-2 pointer-events-none"
+            }
+            ${!isSmallScreen ? "hidden" : ""}
+          `}
         >
           {currentMenu === "main" && (
             <>
@@ -515,12 +521,10 @@ export default function Header() {
               />
             </>
           )}
-          {/* Para evitar la sobreposición de la imagen sobre el menu desplegado, 
-                    es mejor manejar todo con flex en lugar de absolute*/}
-          <div className="red-bg flex justify-center items-center h-full min-h-[200px]">
-            <div className="w-[110px] h-[110px] rounded-full bg-white flex items-center justify-center">
+          <div className="bg-[--azul_oscuro] flex justify-center items-center h-full min-h-[200px] border-b-[100px] border-b-[--azul_oscuro] border-b-solid border-l-[100px] border-l-transparent border-r-[100px] border-r-transparent">
+            <div className="w-28 h-28 rounded-full bg-white flex items-center justify-center -mt-12">
               <img
-                className="w-[75px] h-[75px] object-contain"
+                className="w-20 h-20 object-contain"
                 src="/header_footer/logo_azul_letraNegra_ledneonpublicidad2.webp"
                 alt="Logotipo de Neon LED Publicidad con letras negras"
               />
