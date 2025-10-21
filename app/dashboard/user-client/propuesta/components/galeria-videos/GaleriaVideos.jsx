@@ -37,7 +37,7 @@ const GaleriaVideos = ({ videos, setModalVideo, cantidad_videos }) => {
   return (
     <div className="bg-[#CECECE4D] dark:bg-[#1E293B4D] rounded-lg shadow-md p-6 mb-6 overflow-hidden w-full">
       <div className="flex items-center justify-between mb-4  gap-2">
-        <h3 className="border-l-4 border-azulPrincipal pl-2 text-lg lg:text-xl  font-semibold text-azulPrincipal">
+        <h3 className="border-l-4 border-azul-principal pl-2 text-lg lg:text-xl  font-semibold text-azul-principal">
           Galería de videos
           <span className="ml-3 font-medium text-xs text-black opacity-50 dark:text-white">
             {cantidad_videos} videos

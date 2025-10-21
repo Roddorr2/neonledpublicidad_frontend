@@ -39,7 +39,7 @@ export default function Page() {
     <div className="min-h-screen p-6 grid grid-cols-5 gap-4">
       <div className="col-span-5 md:col-span-3">
         <div className="bg-[#CECECE4D] dark:bg-[#1E293B4D] rounded-lg p-6 mb-6">
-          <h2 className="text-lg lg:text-xl font-black text-azulPrincipal mb-4 ">
+          <h2 className="text-lg lg:text-xl font-black text-azul-principal mb-4 ">
             {propuesta.message.nombre}
           </h2>
           <p className="text-xs mb-4 dark:text-white">
@@ -47,7 +47,7 @@ export default function Page() {
           </p>
           <div className="rounded-xl border-2 border-[#1157D34D]">
             <div className="bg-[#1157D31A] p-4">
-              <p className="text-azulPrincipal text-base md:text-lg font-semibold">
+              <p className="text-azul-principal text-base md:text-lg font-semibold">
                 Descripción de la propuesta
               </p>
               <p className="text-xs md:text-sm dark:text-white">
@@ -78,7 +78,7 @@ export default function Page() {
           <div className="w-full flex flex-col gap-2">
             <button
               // onClick={() => visualizar(p.id)}
-              className="flex w-full font-bold justify-center items-center px-3 py-2 text-xs md:text-sm bg-azulPrincipal text-white border-2 rounded-md hover:bg-blue-700 transition"
+              className="flex w-full font-bold justify-center items-center px-3 py-2 text-xs md:text-sm bg-azul-principal text-white border-2 rounded-md hover:bg-blue-700 transition"
             >
               Solicitar cotización
             </button>

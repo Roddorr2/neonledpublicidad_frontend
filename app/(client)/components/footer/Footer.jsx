@@ -3,14 +3,15 @@ import { SocialMedia } from "./SocialMedia";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#000520] text-white py-12 px-6">
+    <footer className="bg-[#000017] text-white py-12 px-10">
       <div className="mx-auto relative">
         {/* Grid principal */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pl-6 md:pl-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_0.8fr_0.8fr] gap-6 xl:gap-10">
 
           {/* Columna 1: Logo + presentación + redes sociales */}
-          <div className="flex flex-col justify-between">
-            <div>
+          <div className="relative flex flex-col justify-between">
+            <div className="hidden lg:block absolute left-0 top-0 h-full w-[3px] bg-[#48A8FF]"/>
+            <div className="lg:pl-6 pb-6">
               <div className="flex items-center mb-6">
                 <img
                   width="150"
@@ -19,16 +20,17 @@ export default function Footer() {
                 />
               </div>
 
-              <p className="text-sm leading-relaxed mb-8 max-w-xs">
+              <p className="text-sm leading-relaxed mb-8 text-justify 2xl:pr-10">
                 Nosotros somos Neón Led Publicidad, una empresa formal que se dedica a la creación de 
                 espacios personalizados que transforman tu negocio con estilo y personalidad.
               </p>
 
               {/* Redes sociales */}
-              <div className="flex flex-wrap gap-4 sm:gap-5 items-center">
+              <div className="justify-center items-center 2xl:pr-10 mb-4">
                 <SocialMedia />
               </div>
             </div>
+            <div className="absolute bottom-0 lg:left-[30px] mb-4 w-full lg:w-[calc(100%-40px)] h-[3px] bg-yellow-400"/>
           </div>
 
           {/* Columna 2: CONTÁCTANOS */}
@@ -59,7 +61,7 @@ export default function Footer() {
 
           {/* Columna 4: RECLAMACIONES */}
           <div>
-            <h2 className="text-[#48A8FF] text-xl font-bold mb-4">LIBRO DE RECLAMACIONES</h2>
+            <h2 className="text-[#48A8FF] text-xl font-bold mb-4">RECLAMACIONES</h2>
             <div className="text-left">
               <p className="mb-4">Libro de Reclamaciones</p>
               <Link href="/reclamaciones">

@@ -91,7 +91,7 @@ export default function Header() {
         <header
           className={`${
             styles["header-container"]
-          } h-[100px] bg-[--azul_oscuro] flex items-center justify-between pl-0 pr-5 ${
+          } h-[100px] bg-[#000017] flex items-center justify-between pl-0 pr-5 ${
             menuActive ? styles["menu-active"] : ""
           }`}
         >

@@ -37,8 +37,8 @@ export default function Page() {
   return (
     <div className=" min-h-screen py-10 px-6 overflow-hidden w-full">
       {/* Header */}
-      <div className="bg-[#CECECE4D] dark:bg-[#1E293B4D] rounded-3xl p-8 text-center max-w-xl mx-auto border-azulPrincipal border-2">
-        <h2 className="text-2xl lg:text-4xl font-bold text-azulPrincipal">
+      <div className="bg-[#CECECE4D] dark:bg-[#1E293B4D] rounded-3xl p-8 text-center max-w-xl mx-auto border-azul-principal border-2">
+        <h2 className="text-2xl lg:text-4xl font-bold text-azul-principal">
           Bienvenido, Cliente
         </h2>
         <p className="mt-2 text-xs md:text-sm dark:text-white">
@@ -47,7 +47,7 @@ export default function Page() {
         </p>
       </div>
 
-      <h3 className="text-xl lg:text-3xl tracking-widest font-semibold text-center text-azulPrincipal my-8">
+      <h3 className="text-xl lg:text-3xl tracking-widest font-semibold text-center text-azul-principal my-8">
         Tus Propuestas de Decoración
       </h3>
 
@@ -73,12 +73,12 @@ export default function Page() {
           >
             {propuestas.map((p) => (
               <SwiperSlide key={p.id}>
-                <div className="border-azulPrincipal border-2 w-full bg-[#1157D31A] rounded-2xl p-5 shadow-[5px_5px_5px_0px_#00000040] select-none">
+                <div className="border-azul-principal border-2 w-full bg-[#1157D31A] rounded-2xl p-5 shadow-[5px_5px_5px_0px_#00000040] select-none">
                   <Slider slides={p.images} />
 
                   <div className="my-2 md:my-4">
                     <div className="flex justify-between text-sm items-center">
-                      <div className="font-semibold text-base lg:text-lg mb-1 text-azulPrincipal">
+                      <div className="font-semibold text-base lg:text-lg mb-1 text-azul-principal">
                         {p.nombre}
                       </div>
                       <span className="text-xs opacity-50 dark:text-white">
