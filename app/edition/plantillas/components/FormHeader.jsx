@@ -358,7 +358,7 @@ export default function FormHeader({
         backgroundSize: "cover",
       }}
     >
-      <div className="absolute inset-0 bg-black/60"></div>
+      <div className="absolute inset-0 bg-black/30"></div>
 
       <div className="relative w-full text-white flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-center max-w-xl">

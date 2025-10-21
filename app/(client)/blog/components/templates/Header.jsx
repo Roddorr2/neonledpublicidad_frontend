@@ -59,7 +59,7 @@ export default function Header({ id_blog_head }) {
     if (error) {
         return (
             <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
-                <div className="absolute inset-0 bg-black/60"></div>
+                <div className="absolute inset-0 bg-black/30"></div>
                 <div className="relative z-10 max-w-2xl text-white">
                     <div className="text-red-400 text-6xl mb-4">⚠️</div>
                     <h1 className="text-3xl md:text-4xl font-bold mb-4">No se pudo cargar el encabezado</h1>
@@ -80,7 +80,7 @@ export default function Header({ id_blog_head }) {
     if (!data) {
         return (
             <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
-                <div className="absolute inset-0 bg-black/60"></div>
+                <div className="absolute inset-0 bg-black/30"></div>
                 <div className="relative z-10 max-w-2xl text-white">
                     <h1 className="text-3xl md:text-4xl font-bold mb-4">Contenido no disponible</h1>
                     <p className="text-lg text-gray-300 font-light">
@@ -103,7 +103,7 @@ export default function Header({ id_blog_head }) {
                 title={data.title || ""} 
                 className="hidden" 
             />
-            <div className="absolute inset-0 bg-black/60"></div>
+            <div className="absolute inset-0 bg-black/30"></div>
 
             <div className="relative z-10 max-w-2xl text-white">
                 <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">{data.titulo}</h1>

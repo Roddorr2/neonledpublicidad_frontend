@@ -18,7 +18,7 @@ export default function Banner({ titulo, imagen, alt }) {
           draggable={false}
         />
         {/* Overlay oscuro */}
-        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 bg-black/30"></div>
       </div>
 
       {/* Contenido centrado */}
