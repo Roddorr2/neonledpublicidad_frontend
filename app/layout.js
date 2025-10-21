@@ -22,10 +22,6 @@ const leagueGothic = League_Gothic({
 export const metadata = {
   metadataBase: new URL("https://ledneonpublicidad.com"),
 
-  verification: {
-    google: "6nbQkURJZqNBu5CjxpBeuU3UjZkieRQ16dB5saKbMgQ",
-  },
-
   robots: {
     index: true,
     follow: true,
