@@ -7,7 +7,7 @@ export default function Header({
   descripcion = "Haz que tu bar sea tu mejor amigo en la mira de tus clientes",
 
   //NO referenciables
-  backgroundOverlay = "bg-black/60",
+  backgroundOverlay = "bg-black/30",
   tituloClase = "text-5xl md:text-8xl font-extrabold mb-4 neon-textov4",
   subtituloClase = "text-2xl md:text-4xl font-bold mb-4",
   descripcionClase = "text-lg md:text-2xl text-gray-300 font-light",

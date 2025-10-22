@@ -39,11 +39,6 @@ export const metadata = {
     description: "Presenta tus reclamos o sugerencias sobre nuestros servicios.",
     images: ["/reclamaciones/hero-background.png"],
   },
-  
-  robots: {
-    index: false,
-    follow: true,
-  },
 };
 
 export default function ReclamacionesLayout({ children }) {

@@ -67,7 +67,7 @@ export default function Footer() {
               <Link href="/reclamaciones">
                 <div className="inline-block">
                   <img
-                    className="w-[220px] h-auto mx-auto hover:scale-105 transition-transform duration-300"
+                    className="w-[180px] h-auto mx-auto hover:scale-105 transition-transform duration-300"
                     src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
                     alt="Ilustración del libro de reclamaciones"
                     title="Libro de Reclamaciones Perú"

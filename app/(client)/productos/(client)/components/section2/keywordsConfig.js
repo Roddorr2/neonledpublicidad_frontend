@@ -44,20 +44,6 @@ export const globalKeywords = {
     url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=cafeterias-con-estilo" 
   },  
 
-  // // Letras Pintadas en MDF
-  // "Letras en MDF": {
-  //   type: "external",
-  //   url: "/productos/letras-en-mdf"
-  // },
-  // "letras MDF personalizadas": {
-  //   type: "external",
-  //   url: "/productos/letras-en-mdf"
-  // },
-  // "pintado 3D": {
-  //   type: "external",
-  //   url: "/productos/letras-en-mdf"
-  // },
-
   // Monitores de Publicidad Digital  
 
   // Pantallas LED
