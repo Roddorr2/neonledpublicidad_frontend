@@ -100,13 +100,13 @@ export default function FormHeader({
   const [showImagePreview, setShowImagePreview] = useState(false);
 
   const [errors, setErrors] = useState({
-    titulo: { message: "Entre 10-80 caracteres", isValid: null },
-    texto_frase: { message: "Entre 10-50 caracteres", isValid: null },
-    texto_descripcion: { message: "Entre 10-80 caracteres", isValid: null },
-    alt: { message: "Entre 5-100 caracteres", isValid: null },
-    title: { message: "Entre 5-100 caracteres", isValid: null },
-    meta_titulo: { message: "Entre 30-60 caracteres", isValid: null },
-    meta_descripcion: { message: "Entre 120-160 caracteres", isValid: null },
+    titulo: { message: "Entre 5–50 caracteres", isValid: null },
+    texto_frase: { message: "Entre 5–70 caracteres", isValid: null },
+    texto_descripcion: { message: "Entre 5–120 caracteres", isValid: null },
+    alt: { message: "Entre 3–120 caracteres", isValid: null },
+    title: { message: "Entre 3–70 caracteres", isValid: null },
+    meta_titulo: { message: "Entre 3–60 caracteres", isValid: null },
+    meta_descripcion: { message: "Entre 50–160 caracteres", isValid: null },
   });
 
   // Función para actualizar la validación general
@@ -137,100 +137,45 @@ export default function FormHeader({
     let isValid = true;
 
     switch (name) {
-      case "titulo":
-        isValid =
-          value.trim() !== "" && value.length <= 80 && value.length >= 10;
-        setIsValid_titulo(isValid);
-        setErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            isValid: isValid,
-          },
-        }));
-        break;
+  case "titulo":
+    isValid = value.trim() !== "" && value.length >= 5 && value.length <= 50;
+    setIsValid_titulo(isValid);
+    break;
 
-      case "texto_frase":
-        isValid =
-          value.trim() !== "" && value.length <= 50 && value.length >= 10;
-        setIsValid_texto_frase(isValid);
-        setErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            isValid: isValid,
-          },
-        }));
-        break;
+  case "texto_frase":
+    isValid = value.trim() !== "" && value.length >= 5 && value.length <= 70;
+    setIsValid_texto_frase(isValid);
+    break;
 
-      case "texto_descripcion":
-        isValid =
-          value.trim() !== "" && value.length <= 80 && value.length >= 10;
-        setIsValid_texto_descripcion(isValid);
-        setErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            isValid: isValid,
-          },
-        }));
-        break;
+  case "texto_descripcion":
+    isValid = value.trim() !== "" && value.length >= 5 && value.length <= 120;
+    setIsValid_texto_descripcion(isValid);
+    break;
 
-      case "alt":
-        isValid =
-          value.trim() !== "" && value.length <= 100 && value.length >= 5;
-        setIsValid_alt(isValid);
-        setErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            isValid: isValid,
-          },
-        }));
-        break;
+  case "alt":
+    isValid = value.trim() !== "" && value.length >= 3 && value.length <= 120;
+    setIsValid_alt(isValid);
+    break;
 
-      case "title":
-        isValid =
-          value.trim() !== "" && value.length <= 100 && value.length >= 5;
-        setIsValid_title(isValid);
-        setErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            isValid: isValid,
-          },
-        }));
-        break;
+  case "title":
+    isValid = value.trim() !== "" && value.length >= 3 && value.length <= 70;
+    setIsValid_title(isValid);
+    break;
 
-      case "meta_titulo":
-        isValid =
-          value.trim() !== "" && value.length <= 60 && value.length >= 30;
-        setIsValid_meta_titulo(isValid);
-        setErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            isValid: isValid,
-          },
-        }));
-        break;
+  case "meta_titulo":
+    isValid = value.trim() !== "" && value.length >= 3 && value.length <= 60;
+    setIsValid_meta_titulo(isValid);
+    break;
 
-      case "meta_descripcion":
-        isValid =
-          value.trim() !== "" && value.length <= 160 && value.length >= 120;
-        setIsValid_meta_descripcion(isValid);
-        setErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            isValid: isValid,
-          },
-        }));
-        break;
+  case "meta_descripcion":
+    isValid = value.trim() !== "" && value.length >= 50 && value.length <= 160;
+    setIsValid_meta_descripcion(isValid);
+    break;
 
-      default:
-        break;
-    }
+  default:
+    break;
+}
+
 
     // Actualizar el estado de validación general
     setTimeout(() => {
@@ -363,7 +308,7 @@ export default function FormHeader({
       <div className="relative w-full text-white flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-center max-w-xl">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">
-            {dataHeader?.titulo || "Título del Blog"}
+            {dataHeader?.titulo && dataHeader.titulo}
           </h1>
           <h2 className="text-2xl md:text-xl font-bold mb-4">
             {dataHeader?.texto_frase || "Frase destacada"}

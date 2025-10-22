@@ -2,6 +2,124 @@
 import { Image, Type, AlignLeft, Image as IconImage, Loader2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { ProductosLink } from "../../plantillas/utils";
+
+
+const AddLinkButton = ({ formData, setFormData, productos }) => {
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [textToLink, setTextToLink] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
+
+  const addLink = () => {
+    if (textToLink.trim() && linkUrl.trim()) {
+      setFormData((prev) => ({
+        ...prev,
+        keyword: textToLink.trim(),
+        link: linkUrl,
+      }));
+
+      setShowLinkModal(false);
+      setTextToLink("");
+      setLinkUrl("");
+    }
+  };
+
+  return (
+    <div className="mt-3">
+      <button
+        type="button"
+        onClick={() => setShowLinkModal(true)}
+        className=" px-3 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+      >
+        + Añadir Link
+      </button>
+
+      {showLinkModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-96">
+            <h3 className="text-lg font-bold mb-4 text-black">Añadir Link</h3>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-black mb-2">
+                Texto o frase a enlazar:
+              </label>
+              <textarea
+                value={textToLink}
+                onChange={(e) => setTextToLink(e.target.value)}
+                className="w-full p-2 border rounded text-black resize-none"
+                rows="2"
+                placeholder="Ej: 'nuestros servicios de marketing digital'"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-black mb-2">
+                URL del enlace:
+              </label>
+              <select
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                className="w-full p-2 border rounded text-black"
+              >
+                <option value="">Seleccionar producto</option>
+                {productos.map((prod) => (
+                  <option key={prod.url} value={prod.url}>
+                    {prod.label}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="url"
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                className="w-full p-2 border rounded mt-2 text-black"
+                placeholder="O escribir URL personalizada"
+              />
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowLinkModal(false)}
+                className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={addLink}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Añadir
+              </button>
+            </div>
+
+            {formData && formData.keyword && formData.link && (
+              <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
+                <p className="text-sm text-green-800">
+                  <strong>Link actual:</strong> "{formData.keyword}" → {formData.link}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      keyword: "",
+                      link: "",
+                    }));
+                  }}
+                  className="text-red-600 text-xs underline mt-1"
+                >
+                  Eliminar link
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default function FormFooter({
     formFooter,
@@ -14,17 +132,18 @@ export default function FormFooter({
     onDeleteFooterFile3,
     setValidacionFooter
 }) {
-
+     const productos = ProductosLink || [];
     const [errors, setErrors] = useState({
-        titulo: { message: 'Máximo 30 caracteres', isValid: null },
-        descripcion: { message: 'Máximo 300 caracteres', isValid: null },
-        alt_image1: { message: 'Máximo 300 caracteres', isValid: null },
-        alt_image2: { message: 'Máximo 300 caracteres', isValid: null },
-        alt_image3: { message: 'Máximo 300 caracteres', isValid: null },
-        title_image1: { message: 'Máximo 300 caracteres', isValid: null },
-        title_image2: { message: 'Máximo 300 caracteres', isValid: null },
-        title_image3: { message: 'Máximo 300 caracteres', isValid: null },
-    });
+    titulo: { message: 'Máximo 191 caracteres', isValid: null },
+    descripcion: { message: 'Mínimo 10 caracteres', isValid: null },
+    alt_image1: { message: 'Entre 60 y 120 caracteres', isValid: null },
+    alt_image2: { message: 'Entre 60 y 120 caracteres', isValid: null },
+    alt_image3: { message: 'Entre 60 y 120 caracteres', isValid: null },
+    title_image1: { message: 'Entre 50 y 70 caracteres', isValid: null },
+    title_image2: { message: 'Entre 50 y 70 caracteres', isValid: null },
+    title_image3: { message: 'Entre 50 y 70 caracteres', isValid: null },
+});
+
 
     const [uploading, setUploading] = useState(false);
 
@@ -33,26 +152,30 @@ export default function FormFooter({
         let isValid = true;
 
         switch (name) {
-            case 'titulo':
-                isValid = value.trim() !== '' && value.length <= 30 && value.length >= 10;
-                setValidacionFooter(isValid);
-                break;
-            case 'descripcion':
-                isValid = value.trim() !== '' && value.length <= 300 && value.length >= 10;
-                setValidacionFooter(isValid);
-                break;
-            case 'alt_image1':
-            case 'alt_image2':
-            case 'alt_image3':
-            case 'title_image1':
-            case 'title_image2':
-            case 'title_image3':
-                isValid = value.trim() !== '' && value.length <= 300 && value.length >= 10;
-                setValidacionFooter(isValid);
-                break;
-            default:
-                break;
-        }
+    case 'titulo':
+        isValid = value.trim() !== '' && value.length <= 191;
+        break;
+
+    case 'descripcion':
+        isValid = value.trim() !== '' && value.length >= 10;
+        break;
+
+    case 'alt_image1':
+    case 'alt_image2':
+    case 'alt_image3':
+        isValid = value.trim() !== '' && value.length >= 60 && value.length <= 120;
+        break;
+
+    case 'title_image1':
+    case 'title_image2':
+    case 'title_image3':
+        isValid = value.trim() !== '' && value.length >= 50 && value.length <= 70;
+        break;
+
+    default:
+        break;
+}
+
 
         setErrors(prev => ({
             ...prev,
@@ -94,6 +217,35 @@ export default function FormFooter({
             setUploading(false);
         }
     };
+ 
+    
+       function renderDescripcion(texto, fraseEnlace, enlace) {
+        if (!fraseEnlace || !enlace || !texto) {
+            return texto;
+        }
+
+        const regex = new RegExp(
+            `(${fraseEnlace.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+            "gi"
+        );
+
+        return texto.split(regex).map((part, index) => {
+            if (part.toLowerCase() === fraseEnlace.toLowerCase()) {
+                return (
+                    <a
+                        key={index}
+                        href={enlace}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-400 font-bold underline hover:text-blue-200"
+                    >
+                        {part}
+                    </a>
+                );
+            }
+            return <span key={index}>{part}</span>;
+        });
+    }
 
     const ValidationMessage = ({ error }) => (
         <h1 className={`text-xs mt-1 ml-3 ${error.isValid === null ? 'text-gray-500' :
@@ -118,7 +270,11 @@ export default function FormFooter({
                     {formFooter.titulo}
                 </h3>
                 <p className="text-gray-100 text-base leading-relaxed max-w-full md:max-w-md mx-auto mb-6 text-center break-words overflow-hidden whitespace-normal">
-                    {formFooter.descripcion}
+                    {renderDescripcion(
+                        formFooter.descripcion,
+                        formFooter.keyword || "",
+                        formFooter.link || "",
+                    )}
                 </p>
 
                 {(formFooter.public_image1 || formFooter.public_image2 || formFooter.public_image3) && (
@@ -146,7 +302,7 @@ export default function FormFooter({
                 )}
             </div>
 
-            <div className="relative w-full md:w-[500px] h-auto p-6">
+          <div className="relative w-full md:w-[500px] h-auto p-6">
                 <div className="bg-black/75 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg">
                     <h1 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 mb-4">
                         Editar Pie de Página
@@ -185,6 +341,13 @@ export default function FormFooter({
                                 placeholder="Descripción corta"
                                 required
                             ></textarea>
+                        
+                    
+                            <AddLinkButton
+                                formData={formFooter}
+                                setFormData={setFormData}
+                                productos={productos}
+                            />
                         </div>
 
                         {/* Imágenes con campos Alt y Title */}

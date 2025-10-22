@@ -10,6 +10,32 @@ export default function Footer({ id_blog_footer }) {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
 
+        function renderDescripcion(texto, palabraClave, enlace) {
+        if (!palabraClave || !enlace) {
+            return texto;
+        }
+
+        const escapedKeyword = palabraClave.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(`\\b(${escapedKeyword})\\b`, "gi");
+        const partes = texto.split(regex);
+
+        return partes.map((parte, i) =>
+            parte.toLowerCase() === palabraClave.toLowerCase() ? (
+                <a
+                    key={i}
+                    href={enlace}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold underline hover:text-blue-300 transition-colors"
+                >
+                    {parte}
+                </a>
+            ) : (
+                <span key={i}>{parte}</span>
+            )
+        );
+    }
+
     useEffect(() => {
         const fetchFooterData = async () => {
             try {
@@ -163,7 +189,11 @@ export default function Footer({ id_blog_footer }) {
                     </h3>
 
                     <p className="text-gray-100 text-base leading-relaxed max-w-3xl mx-auto mb-6 text-center">
-                        {data.descripcion}
+                        {renderDescripcion(
+                            data.descripcion,
+                            data.keyword,
+                            data.link
+                        )}
                     </p>
 
                     {(data.public_image1 || data.public_image2 || data.public_image3) && (
