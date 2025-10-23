@@ -83,6 +83,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/letras-acrilico/"
         }
       }
     },
@@ -98,6 +105,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -113,6 +127,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -128,6 +149,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -143,6 +171,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -158,6 +193,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -173,6 +215,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -188,6 +237,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -203,6 +259,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -218,6 +281,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -233,6 +303,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -248,6 +325,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -263,6 +347,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     },
@@ -278,6 +369,13 @@ export default function ProductosLayout({ children }) {
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
         }
       }
     }
