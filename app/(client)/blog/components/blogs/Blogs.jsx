@@ -205,7 +205,8 @@ const blogSchema = {
   };
   return (<>
     <div className="min-h-screen" style={{backgroundColor: '#0d111fff'} }>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-0">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-10 md:pt-20">
+
         {/* Título principal */}
         <h1 className="text-5xl md:text-6xl font-bold mb-16 text-center text-white tracking-wider -mt-2">
           NUESTROS BLOGS
