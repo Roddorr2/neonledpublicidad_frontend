@@ -140,16 +140,23 @@ export default function Page() {
             cancelButtonText: "Cancelar",
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteBlog(id)
+                const formCard = {
+                    id_empleado: id_empleado,
+                };
+
+                deleteBlog(id, formCard)
             }
         })
     }
 
-    async function deleteBlog(id) {
+    async function deleteBlog(id, formData) {
         try {
             const response = await axios.delete(`${url}/api/blogs/${id}`, {
+                data: formData,
                 headers: {
                     Authorization: `Bearer ${getCookie("token")}`,
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
                 },
             })
 
