@@ -129,7 +129,12 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to right, #3B82F6, #2563EB);
+  background: linear-gradient(
+    to top,
+    rgba(72, 168, 255, 0.95) 0%,
+    rgba(72, 168, 255, 0.8) 70%,
+    transparent 100%
+  );
   padding: 20px 15px 15px;
   display: flex;
   align-items: end;

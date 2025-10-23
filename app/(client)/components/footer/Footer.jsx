@@ -38,10 +38,10 @@ export default function Footer() {
             <h2 className="text-[#48A8FF] text-xl font-bold mb-4">CONTÁCTANOS</h2>
             <div className="mb-6">
               <p className="font-semibold mb-2">Direcciones:</p>
-              <p className="text-sm mb-1">Jr. Paruro 1404. S130, Lima,</p>
-              <p className="text-sm mb-3">Perú – Urb. Alameda La Rivera</p>
-              <p className="text-sm mb-1">Mz. F Lt. 30 Santa Marta,</p>
-              <p className="text-sm mb-1">Ate Vitarte, Perú</p>
+              <p className="text-sm mb-9">Jr. Paruro 1401. S130. Lima - Perú</p>
+              <p className="text-sm mb-1">Urb. Alameda La Rivera</p>
+              <p className="text-sm mb-1">Mz F Lot 30</p>
+              <p className="text-sm mb-1">Santa Martha. Ate</p>
             </div>
             <div>
               <p className="font-semibold mb-2">Celular:</p>
@@ -67,7 +67,7 @@ export default function Footer() {
               <Link href="/reclamaciones">
                 <div className="inline-block">
                   <img
-                    className="w-[220px] h-auto mx-auto hover:scale-105 transition-transform duration-300"
+                    className="w-[180px] h-auto mx-auto hover:scale-105 transition-transform duration-300"
                     src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
                     alt="Ilustración del libro de reclamaciones"
                     title="Libro de Reclamaciones Perú"
