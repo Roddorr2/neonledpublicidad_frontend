@@ -30,7 +30,7 @@ export default function Footer() {
                 <SocialMedia />
               </div>
             </div>
-            <div className="absolute bottom-0 lg:left-[30px] mb-4 w-full lg:w-[calc(100%-40px)] h-[3px] bg-yellow-400"/>
+            <div className="absolute bottom-0 lg:left-[30px] mb-10 w-full lg:w-[calc(100%-40px)] h-[3px] bg-yellow-400"/>
           </div>
 
           {/* Columna 2: CONTÁCTANOS */}
