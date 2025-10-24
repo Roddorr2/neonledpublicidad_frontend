@@ -138,8 +138,9 @@
   padding: 20px 15px 15px;
   display: flex;
   align-items: end;
-  min-height: 59px;
+  min-height: 50px;
 }
+
 
 .producto-title {
   color: #ffffff;
