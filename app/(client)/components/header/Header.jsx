@@ -34,7 +34,7 @@ export default function Header() {
 
     const handleResize = () => {
       const width = window.innerWidth;
-      
+
       if (width <= 850) {
         setIsSmallScreen(true);
         if (!menuInitialized) {
@@ -99,27 +99,30 @@ export default function Header() {
   return (
     <>
       <div
-        className={`bg-[#000017] relative overflow-hidden ${
-          menuActive ? "h-screen" : "h-auto"
+        className={`bg-[#000017] relative ${
+          menuActive ? "h-screen overflow-hidden" : "h-auto overflow-visible"
         }`}
       >
         <header
-          className={`h-[100px] bg-[#000017] flex items-center relative ${
-            menuActive ? "fixed top-0 left-0 right-0 z-[9999]" : "static"
+          className={`h-[100px] bg-[#000017] flex items-center relative z-[1000] ${
+            menuActive ? "fixed top-0 left-0 right-0" : "static"
           } ${
-            isSmallScreen 
-              ? "justify-between px-4" 
+            isSmallScreen
+              ? "justify-between px-4"
               : "justify-center px-8 lg:px-16 xl:px-32"
           }`}
         >
           {currentMenu === "main" ? (
-            <div className={`
+            <div
+              className={`
               transition-all duration-300
-              ${isSmallScreen 
-                ? "absolute left-1/2 transform -translate-x-1/2 w-32"  
-                : "absolute left-8 md:left-2 lg:left-10 xl:left-32 w-32 lg:w-36"
+              ${
+                isSmallScreen
+                  ? "absolute left-1/2 transform -translate-x-1/2 w-32"
+                  : "absolute left-8 md:left-2 lg:left-10 xl:left-32 w-32 lg:w-36"
               }
-            `}>
+            `}
+            >
               <img
                 src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
                 alt="Logotipo de Neon Led Publicidad con letras celestes"
@@ -128,10 +131,12 @@ export default function Header() {
               />
             </div>
           ) : (
-            <div className={`
+            <div
+              className={`
               flex items-center absolute left-2 lg:left-8
               ${isSmallScreen ? "w-20" : "w-32"}
-            `}>
+            `}
+            >
               <a
                 href="#"
                 onClick={goBack}
@@ -142,10 +147,12 @@ export default function Header() {
             </div>
           )}
 
-          <nav className={`
+          <nav
+            className={`
             items-center transition-all
             ${isSmallScreen ? "hidden" : "flex gap-8 lg:gap-10 xl:gap-16"}
-          `}>
+          `}
+          >
             <a
               href="/"
               className={`transition-colors ${
@@ -223,7 +230,7 @@ export default function Header() {
                   </p>
 
                   {isPanelOpen && (
-                    <ul className="absolute right-0 mt-2 bg-[#000017] rounded-lg shadow-lg text-white w-56 z-50">
+                    <ul className="absolute right-0 mt-2 bg-[#000017] rounded-lg shadow-lg text-white w-56 z-[99999]">
                       {filterLinks.map((link) => (
                         <li
                           key={link.href}
@@ -262,7 +269,7 @@ export default function Header() {
           </nav>
 
           {isSmallScreen && (
-            <div 
+            <div
               className="flex items-center cursor-pointer"
               onClick={toggleMenu}
             >
@@ -293,11 +300,12 @@ export default function Header() {
           className={`
             fixed top-[100px] left-0 right-0 h-[calc(100vh-100px)] 
             bg-gradient-to-r from-[--azul_brillante] to-[--azul_intenso]
-            flex flex-col overflow-y-auto z-[9998] scrollbar-hidden
+            flex flex-col overflow-y-auto z-[9999] scrollbar-hidden
             transition-all duration-300 ease-in-out
-            ${menuActive 
-              ? "opacity-100 translate-y-0 pointer-events-auto" 
-              : "opacity-0 -translate-y-2 pointer-events-none"
+            ${
+              menuActive
+                ? "opacity-100 translate-y-0 pointer-events-auto"
+                : "opacity-0 -translate-y-2 pointer-events-none"
             }
             ${!isSmallScreen ? "hidden" : ""}
           `}

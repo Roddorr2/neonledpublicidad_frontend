@@ -7,7 +7,7 @@ export const SlideItem = ({ slides, current }) => {
   const slide = slides[current];
 
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 z-0">
       <picture>
         <source media="(max-width: 767px)" srcSet={slide.imgSrcMobile} />
         <Image
@@ -18,7 +18,7 @@ export const SlideItem = ({ slides, current }) => {
           priority
           fetchPriority="high"
           decoding="async"
-          className="object-cover object-center"
+          className="object-cover object-center -z-10"
           sizes="(max-width: 767px) 100vw, (max-width: 1023px) 80vw, 60vw"
         />
       </picture>
