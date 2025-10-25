@@ -90,7 +90,7 @@ const Blogs = () => {
 
   const BlogCard = ({ dato }) => (
     <Card className="relative overflow-hidden border-0 shadow-2xl bg-black backdrop-blur-sm rounded-2xl group hover:scale-105 transition-all duration-500">
-      <div className="relative flex flex-col md:flex-row">
+      <div className="relative flex flex-col md:flex-row h-full md:h-[320px]">
         <div className="relative z-10 flex-1 p-6 md:p-8 flex flex-col bg-black min-h-[280px] md:min-h-[320px]">
           <div className="flex flex-col justify-between h-full">
             <div className="flex-1">
