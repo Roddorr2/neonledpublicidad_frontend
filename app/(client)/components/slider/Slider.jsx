@@ -57,7 +57,7 @@ const Slider = ({ slides }) => {
 
   return (
     <div
-      className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] touch-pan-y select-none"
+      className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] touch-pan-y select-none z-0"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
