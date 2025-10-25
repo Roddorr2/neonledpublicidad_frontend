@@ -140,64 +140,38 @@ export default function FormFooter({
 }) {
  const productos = ProductosLink || [];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+ const handleChange = (e) => {
+  const { name, value } = e.target;
 
-    let isValid = true;
-    switch (name) {
-      case "titulo":
-        isValid =
-          value.trim() !== "" && value.length <= 30 && value.length >= 10;
-        setValidacionFooter(isValid);
-        break;
+  let isValid = true;
+  switch (name) {
+    case "titulo":
+      isValid = value.trim() !== "" && value.length <= 30 && value.length >= 10;
+      setValidacionFooter(isValid);
+      break;
 
-      case "descripcion":
-        isValid =
-          value.trim() !== "" && value.length <= 300 && value.length >= 10;
-        setValidacionFooter(isValid);
-        break;
+    case "descripcion":
+      isValid = value.trim() !== "" && value.length <= 400 && value.length >= 10;
+      setValidacionFooter(isValid);
+      break;
 
-      // Imagen 1
-      case "alt_image1":
-        isValid =
-          value.trim() !== "" && value.length <= 300 && value.length >= 10;
-        setValidacionFooter(isValid);
-        break;
+    case "alt_image1":
+    case "alt_image2":
+    case "alt_image3":
+      isValid = value.trim() !== "" && value.length <= 120 && value.length >= 60;
+      setValidacionFooter(isValid);
+      break;
 
-      case "title_image1":
-        isValid =
-          value.trim() !== "" && value.length <= 300 && value.length >= 10;
-        setValidacionFooter(isValid);
-        break;
-
-      // Imagen 2
-      case "alt_image2":
-        isValid =
-          value.trim() !== "" && value.length <= 300 && value.length >= 10;
-        setValidacionFooter(isValid);
-        break;
-
-      case "title_image2":
-        isValid =
-          value.trim() !== "" && value.length <= 300 && value.length >= 10;
-        setValidacionFooter(isValid);
-        break;
-
-      // Imagen 3
-      case "alt_image3":
-        isValid =
-          value.trim() !== "" && value.length <= 300 && value.length >= 10;
-        setValidacionFooter(isValid);
-        break;
-
-      case "title_image3":
-        isValid =
-          value.trim() !== "" && value.length <= 300 && value.length >= 10;
-        setValidacionFooter(isValid);
-        break;
-      default:
-        break;
-    }
+    case "title_image1":
+    case "title_image2":
+    case "title_image3":
+      isValid = value.trim() !== "" && value.length <= 70 && value.length >= 50;
+      setValidacionFooter(isValid);
+      break;
+      
+    default:
+      break;
+  }
     setErrors((prev) => ({
       ...prev,
       [name]: {
@@ -227,14 +201,14 @@ export default function FormFooter({
   );
 
   const [errors, setErrors] = useState({
-    titulo: { message: "Máximo 30 caracteres", isValid: null },
-    descripcion: { message: "Máximo 300 caracteres", isValid: null },
-    alt_image1: { message: "Máximo 20 caracteres", isValid: null },
-    alt_image2: { message: "Máximo 20 caracteres", isValid: null },
-    alt_image3: { message: "Máximo 20 caracteres", isValid: null },
-    title_image1: { message: "Máximo 20 caracteres", isValid: null },
-    title_image2: { message: "Máximo 20 caracteres", isValid: null },
-    title_image3: { message: "Máximo 20 caracteres", isValid: null },
+    titulo: { message: "Entre 10 y 30 caracteres", isValid: null },
+    descripcion: { message: "Entre 10 y 400 caracteres", isValid: null },
+    alt_image1: { message: 'Entre 60 y 120 caracteres', isValid: null },
+    alt_image2: { message: 'Entre 60 y 120 caracteres', isValid: null },
+    alt_image3: { message: 'Entre 60 y 120 caracteres', isValid: null },
+    title_image1: { message: 'Entre 50 y 70 caracteres', isValid: null },
+    title_image2: { message: 'Entre 50 y 70 caracteres', isValid: null },
+    title_image3: { message: 'Entre 50 y 70 caracteres', isValid: null },
   });
 
   const [uploading, setUploading] = useState(false);
@@ -393,7 +367,7 @@ function renderDescripcion(texto, fraseEnlace, enlace) {
                 name="descripcion"
                 value={formFooter.descripcion}
                 onChange={handleChange}
-                maxLength={300}
+                maxLength={400}
                 autoComplete="off"
                 rows={3}
                 className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
@@ -484,11 +458,12 @@ function renderDescripcion(texto, fraseEnlace, enlace) {
                         name={`alt_image${num}`}
                         value={formFooter[`alt_image${num}`] || ""}
                         onChange={handleChange}
-                        maxLength={100}
+                        maxLength={120}
                         autoComplete="off"
                         className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                         placeholder="Descripción para accesibilidad"
                       />
+                      <ValidationMessage error={errors[`alt_image${num}`]} /> 
                     </div>
 
                     <div>
@@ -500,11 +475,12 @@ function renderDescripcion(texto, fraseEnlace, enlace) {
                         name={`title_image${num}`}
                         value={formFooter[`title_image${num}`] || ""}
                         onChange={handleChange}
-                        maxLength={100}
+                        maxLength={70}
                         autoComplete="off"
                         className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                         placeholder="Título al pasar el mouse"
                       />
+                      <ValidationMessage error={errors[`title_image${num}`]} />
                     </div>
                   </div>
                 </div>

@@ -134,8 +134,8 @@ export default function FormFooter({
 }) {
      const productos = ProductosLink || [];
     const [errors, setErrors] = useState({
-    titulo: { message: 'Máximo 191 caracteres', isValid: null },
-    descripcion: { message: 'Mínimo 10 caracteres', isValid: null },
+    titulo: { message: 'Entre 10 y 30 caracteres', isValid: null },
+    descripcion: { message: 'Entre 10 y 400 caracteres', isValid: null },
     alt_image1: { message: 'Entre 60 y 120 caracteres', isValid: null },
     alt_image2: { message: 'Entre 60 y 120 caracteres', isValid: null },
     alt_image3: { message: 'Entre 60 y 120 caracteres', isValid: null },
@@ -334,7 +334,7 @@ export default function FormFooter({
                                 name="descripcion"
                                 value={formFooter.descripcion}
                                 onChange={handleChange}
-                                maxLength={300}
+                                maxLength={400}
                                 autoComplete="off"
                                 rows={3}
                                 className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
@@ -420,7 +420,7 @@ export default function FormFooter({
                                                 name={`alt_image${num}`}
                                                 value={formFooter[`alt_image${num}`] || ""}
                                                 onChange={handleChange}
-                                                maxLength={300}
+                                                maxLength={120}
                                                 autoComplete="off"
                                                 className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                                                 placeholder="Descripción para accesibilidad"
@@ -437,7 +437,7 @@ export default function FormFooter({
                                                 name={`title_image${num}`}
                                                 value={formFooter[`title_image${num}`] || ""}
                                                 onChange={handleChange}
-                                                maxLength={300}
+                                                maxLength={70}
                                                 autoComplete="off"
                                                 className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                                                 placeholder="Título al pasar el mouse"
