@@ -479,12 +479,40 @@ export default function FormHeader({
 
                 {/* Vista previa de la imagen */}
                 {showImagePreview && hasCustomImage && (
-                  <div className="mt-3 p-2 bg-gray-800 rounded-lg">
-                    <img
-                      src={dataHeader.public_image}
-                      alt="Vista previa"
-                      className="w-full h-24 object-cover rounded"
-                    />
+                  <div className="mt-4">
+                    <h5 className="text-xs text-gray-300 mb-3 font-semibold uppercase tracking-wide">
+                      Vista previa de la imagen
+                    </h5>
+
+                    <div className="flex flex-row flex-wrap items-center justify-center gap-4 bg-gray-900/70 p-3 rounded-xl border border-gray-700/50 shadow-inner max-w-full overflow-hidden">
+                      {/* Vista previa Escritorio */}
+                      <div className="flex flex-col items-center w-[55%] min-w-[150px]">
+                        <div className="relative w-full aspect-[16/9] bg-gray-800 rounded-lg overflow-hidden border border-gray-700 shadow-md">
+                          <img
+                            src={dataHeader.public_image}
+                            alt="Vista escritorio"
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-[1.05]"
+                          />
+                          <div className="absolute bottom-0 left-0 right-0 bg-black/40 text-[10px] text-gray-300 py-1 text-center">
+                            Vista escritorio
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Vista previa Móvil*/}
+                      <div className="flex flex-col items-center w-[28%] min-w-[90px]">
+                        <div className="relative w-full aspect-[9/18] bg-gray-800 rounded-md overflow-hidden border border-gray-700 shadow-md">
+                          <img
+                            src={dataHeader.public_image}
+                            alt="Vista móvil"
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-[1.05]"
+                          />
+                          <div className="absolute bottom-0 left-0 right-0 bg-black/40 text-[10px] text-gray-300 py-1 text-center">
+                            Vista móvil
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
 

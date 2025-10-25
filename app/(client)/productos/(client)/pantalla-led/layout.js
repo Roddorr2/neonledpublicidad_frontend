@@ -20,7 +20,7 @@ export const metadata = {
     title: "Pantallas LED Perú",
     description:
       "Las pantallas LED son una muy buena herramienta visual para mostrar diseños, destacar con dinamismo y transmitir videos, promociones y mensajes en alta resolución, captando la atención del público de forma inmediata.",
-    url: "https://ledneonpublicidad.com/productos/pantalla-led",
+    url: "https://ledneonpublicidad.com/productos/pantalla-led/",
     siteName: "Neon Led Publicidad",
     images: [],
     locale: "es_PE",
