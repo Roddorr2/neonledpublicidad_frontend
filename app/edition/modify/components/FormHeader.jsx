@@ -94,19 +94,19 @@ export default function FormHeader({
     useState(true);
   const [isValid_alt, setIsValid_alt] = useState(true);
   const [isValid_title, setIsValid_title] = useState(true);
-  const [isValid_meta_titulo, setIsValid_meta_titulo] = useState(true);
+  const [isValid_meta_title, setIsValid_meta_title] = useState(true);
   const [isValid_meta_descripcion, setIsValid_meta_descripcion] =
     useState(true);
   const [showImagePreview, setShowImagePreview] = useState(false);
 
   const [errors, setErrors] = useState({
-    titulo: { message: "Entre 5–50 caracteres", isValid: null },
-    texto_frase: { message: "Entre 5–70 caracteres", isValid: null },
-    texto_descripcion: { message: "Entre 5–120 caracteres", isValid: null },
-    alt: { message: "Entre 3–120 caracteres", isValid: null },
-    title: { message: "Entre 3–70 caracteres", isValid: null },
-    meta_titulo: { message: "Entre 3–60 caracteres", isValid: null },
-    meta_descripcion: { message: "Entre 50–160 caracteres", isValid: null },
+    titulo: { message: "Entre 10-80 caracteres", isValid: null },
+    texto_frase: { message: "Entre 10-70 caracteres", isValid: null },
+    texto_descripcion: { message: "Entre 10-80 caracteres", isValid: null },
+    alt: { message: "Entre 3-120 caracteres", isValid: null },
+    title: { message: "Entre 3-70 caracteres", isValid: null },
+    meta_title: { message: "Entre 50-60 caracteres", isValid: null },
+    meta_descripcion: { message: "Entre 150-160 caracteres", isValid: null },
   });
 
   // Función para actualizar la validación general
@@ -114,7 +114,7 @@ export default function FormHeader({
     setTimeout(() => {
       const basicFieldsValid =
         isValid_titulo && isValid_texto_frase && isValid_texto_descripcion;
-      const seoFieldsValid = isValid_meta_titulo && isValid_meta_descripcion;
+      const seoFieldsValid = isValid_meta_title && isValid_meta_descripcion;
       const hasImage =
         dataHeader?.public_image &&
         dataHeader.public_image !== "/blog/fondo_blog_extend.webp";
@@ -137,45 +137,93 @@ export default function FormHeader({
     let isValid = true;
 
     switch (name) {
-  case "titulo":
-    isValid = value.trim() !== "" && value.length >= 5 && value.length <= 50;
-    setIsValid_titulo(isValid);
-    break;
+      case "titulo":
+        isValid = value.trim() !== "" && value.length >= 10 && value.length <= 80;
+        setIsValid_titulo(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
 
-  case "texto_frase":
-    isValid = value.trim() !== "" && value.length >= 5 && value.length <= 70;
-    setIsValid_texto_frase(isValid);
-    break;
+      case "texto_frase":
+        isValid = value.trim() !== "" && value.length >= 10 && value.length <= 70;
+        setIsValid_texto_frase(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
 
-  case "texto_descripcion":
-    isValid = value.trim() !== "" && value.length >= 5 && value.length <= 120;
-    setIsValid_texto_descripcion(isValid);
-    break;
+      case "texto_descripcion":
+        isValid = value.trim() !== "" && value.length >= 10 && value.length <= 80;
+        setIsValid_texto_descripcion(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
 
-  case "alt":
-    isValid = value.trim() !== "" && value.length >= 3 && value.length <= 120;
-    setIsValid_alt(isValid);
-    break;
+      case "alt":
+        isValid = value.trim() !== "" && value.length >= 3 && value.length <= 120;
+        setIsValid_alt(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
 
-  case "title":
-    isValid = value.trim() !== "" && value.length >= 3 && value.length <= 70;
-    setIsValid_title(isValid);
-    break;
+      case "title":
+        isValid = value.trim() !== "" && value.length >= 3 && value.length <= 70;
+        setIsValid_title(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
 
-  case "meta_titulo":
-    isValid = value.trim() !== "" && value.length >= 3 && value.length <= 60;
-    setIsValid_meta_titulo(isValid);
-    break;
+      case "meta_title":
+        isValid = value.trim() !== "" && value.length >= 50 && value.length <= 60;
+        setIsValid_meta_title(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
 
-  case "meta_descripcion":
-    isValid = value.trim() !== "" && value.length >= 50 && value.length <= 160;
-    setIsValid_meta_descripcion(isValid);
-    break;
+      case "meta_descripcion":
+        isValid = value.trim() !== "" && value.length >= 150 && value.length <= 160;
+        setIsValid_meta_descripcion(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
 
-  default:
-    break;
-}
-
+      default:
+        break;
+    }
 
     // Actualizar el estado de validación general
     setTimeout(() => {
@@ -265,7 +313,7 @@ export default function FormHeader({
     isValid_texto_descripcion,
     isValid_alt,
     isValid_title,
-    isValid_meta_titulo,
+    isValid_meta_title,
     isValid_meta_descripcion,
     dataHeader?.public_image,
   ]);
@@ -273,7 +321,7 @@ export default function FormHeader({
   useEffect(() => {
     const textFieldsValid =
       isValid_titulo && isValid_texto_frase && isValid_texto_descripcion;
-    const seoFieldsValid = isValid_meta_titulo && isValid_meta_descripcion;
+    const seoFieldsValid = isValid_meta_title && isValid_meta_descripcion;
     const imageFieldsValid = hasCustomImage
       ? isValid_alt && isValid_title
       : true;
@@ -286,7 +334,7 @@ export default function FormHeader({
     isValid_texto_descripcion,
     isValid_alt,
     isValid_title,
-    isValid_meta_titulo,
+    isValid_meta_title,
     isValid_meta_descripcion,
     hasCustomImage,
     setIsDisabled,
@@ -352,7 +400,7 @@ export default function FormHeader({
                   value={dataHeader?.texto_frase}
                   onChange={handleChange}
                   error={errors.texto_frase}
-                  maxLength={50}
+                  maxLength={70}
                   minLength={10}
                   placeholder="Frase destacada"
                   required
@@ -388,9 +436,9 @@ export default function FormHeader({
                   onInput={(e) => {
                     e.target.value = sanitizeInput(e.target.value);
                   }}
-                  error={errors.title}
+                  error={errors.meta_title}
                   maxLength={60}
-                  minLength={30}
+                  minLength={50}
                   placeholder="Título optimizado para SEO"
                   helpText="Aparece en los resultados de búsqueda y pestañas del navegador"
                   required
@@ -407,7 +455,7 @@ export default function FormHeader({
                   }}
                   error={errors.meta_descripcion}
                   maxLength={160}
-                  minLength={120}
+                  minLength={150}
                   placeholder="Descripción que aparecerá en los resultados de búsqueda"
                   helpText="Resumen atractivo que invite a hacer clic desde Google"
                   as="textarea"
@@ -530,8 +578,8 @@ export default function FormHeader({
                       value={dataHeader?.alt}
                       onChange={handleChange}
                       error={errors.alt}
-                      maxLength={100}
-                      minLength={5}
+                      maxLength={120}
+                      minLength={3}
                       placeholder="Descripción de la imagen para accesibilidad"
                       helpText="Describe brevemente qué se ve en la imagen"
                       required
@@ -543,8 +591,8 @@ export default function FormHeader({
                       value={dataHeader?.title}
                       onChange={handleChange}
                       error={errors.title}
-                      maxLength={100}
-                      minLength={5}
+                      maxLength={70}
+                      minLength={3}
                       placeholder="Título que aparece al pasar el mouse"
                       helpText="Información adicional que se muestra al hacer hover"
                       required
@@ -593,13 +641,13 @@ export default function FormHeader({
                   </p>
                   <p
                     className={
-                      isValid_meta_titulo && isValid_meta_descripcion
+                      isValid_meta_title && isValid_meta_descripcion
                         ? "text-green-400"
                         : "text-red-400"
                     }
                   >
                     • SEO Meta Tags.{" "}
-                    {isValid_meta_titulo && isValid_meta_descripcion ? "" : ""}
+                    {isValid_meta_title && isValid_meta_descripcion ? "" : ""}
                   </p>
                   <p
                     className={
