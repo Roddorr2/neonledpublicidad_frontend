@@ -17,6 +17,7 @@ export default function Header() {
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [logoSrc, setLogoSrc] = useState("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
 
   // Filtrado de los links segun permisos y roles del usuario
   const filterLinks = dashboardLinks.filter((item) => {
@@ -72,6 +73,24 @@ export default function Header() {
     };
   }, [menuActive]);
 
+  useEffect(() => {
+  const handleResize = () => {
+    const width = window.innerWidth;
+
+    if (width >= 1281) {
+      setLogoSrc("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
+    } else if (width >= 769 && width <= 1280) {
+      setLogoSrc("/header_footer/Logo_corto_nlp_header.webp");
+    } else {
+      setLogoSrc("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
+    }
+  };
+
+  handleResize();
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
   const toggleMenu = () => {
     if (menuActive) {
       setCurrentMenu("main");
@@ -118,18 +137,31 @@ export default function Header() {
               transition-all duration-300
               ${
                 isSmallScreen
-                  ? "absolute left-1/2 transform -translate-x-1/2 w-32"
-                  : "absolute left-8 md:left-2 lg:left-10 xl:left-32 w-32 lg:w-36"
+                  ? "absolute left-1/2 transform -translate-x-1/2 w-28"
+                  : "absolute left-8 md:left-15 lg:left-20 xl:left-30"
               }
             `}
-            >
+          >
+            {!isSmallScreen && (
+              <img
+                src={logoSrc}
+                alt="Logotipo de Neon Led Publicidad"
+                title="Neon Led Publicidad especialistas en letreros led"
+                className={`
+                  h-auto transition-all duration-300
+                  ${logoSrc.includes("Logo_corto_nlp_header") ? "w-12 mt-2" : "w-36"} 
+                `}
+              />
+            )}
+
+            {isSmallScreen && (
               <img
                 src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
-                alt="Logotipo de Neon Led Publicidad con letras celestes"
-                title="Neon Led Publicidad especialistas en letreros led"
-                className="w-full h-auto"
+                alt="Logotipo móvil Neon Led Publicidad"
+                className="w-36 h-auto"
               />
-            </div>
+            )}
+          </div>
           ) : (
             <div
               className={`
