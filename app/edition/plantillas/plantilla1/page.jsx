@@ -309,12 +309,13 @@ const PageContent = () => {
     }
   }
 
-  async function guardarBlog(id_blog_head, id_blog_footer, id_blog_body) {
+  async function guardarBlog(id_blog_head, id_blog_footer, id_blog_body,id_empleado) {
     const formBlog = {
       id_blog_head: id_blog_head,
       id_blog_footer: id_blog_footer,
       id_blog_body: id_blog_body,
       fecha: formEncabezadoBody.fecha,
+      id_empleado: id_empleado,
     };
     const id = await Service.saveBlog(formBlog);
     if (id && id > 0) {
@@ -555,7 +556,7 @@ const PageContent = () => {
       );
 
       const id_blog = await executionFunction(
-        () => guardarBlog(id_blog_head, id_blog_footer, id_blog_body),
+        () => guardarBlog(id_blog_head, id_blog_footer, id_blog_body, id_empleado),
         "No se pudo guardar el blog"
       );
       const id_card = await executionFunction(
