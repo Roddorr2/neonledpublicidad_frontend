@@ -235,21 +235,31 @@ export default function Header() {
                         <li
                           key={link.href}
                           className="px-4 py-2 hover:bg-blue-600"
-                          onClick={() => setIsPanelOpen(false)}
+                          // onClick={() => setIsPanelOpen(false)}
                         >
-                          <a href={link.href}>{link.title}</a>
+                          <a href={link.href}
+                             className="block"
+                             onClick={() => setIsPanelOpen(false)}
+                          >
+                            {link.title}
+                            </a>
                         </li>
                       ))}
 
                       <li
-                        className="px-4 py-2 text-red-400 hover:bg-red-600 hover:text-white"
-                        onClick={() => {
-                          logout();
-                          setIsPanelOpen(false);
+                        className="px-4 py-2 text-red-400 hover:bg-red-600 hover:text-white">
+                        <a
+                         href="#"
+                           className="block"
+                           onClick={() => {
+                           logout();
+                           setIsPanelOpen(false);
                         }}
                       >
-                        <a href="#">Cerrar sesión</a>
+                        Cerrar sesión
+                        </a>
                       </li>
+
                     </ul>
                   )}
                 </>
