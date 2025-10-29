@@ -17,7 +17,9 @@ export default function Header() {
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [logoSrc, setLogoSrc] = useState("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
+  const [logoSrc, setLogoSrc] = useState(
+    "/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
+  );
 
   // Filtrado de los links segun permisos y roles del usuario
   const filterLinks = dashboardLinks.filter((item) => {
@@ -74,22 +76,22 @@ export default function Header() {
   }, [menuActive]);
 
   useEffect(() => {
-  const handleResize = () => {
-    const width = window.innerWidth;
+    const handleResize = () => {
+      const width = window.innerWidth;
 
-    if (width >= 1281) {
-      setLogoSrc("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
-    } else if (width >= 769 && width <= 1280) {
-      setLogoSrc("/header_footer/Logo_corto_nlp_header.webp");
-    } else {
-      setLogoSrc("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
-    }
-  };
+      if (width >= 1281) {
+        setLogoSrc("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
+      } else if (width >= 769 && width <= 1280) {
+        setLogoSrc("/header_footer/Logo_corto_nlp_header.webp");
+      } else {
+        setLogoSrc("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
+      }
+    };
 
-  handleResize();
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const toggleMenu = () => {
     if (menuActive) {
@@ -141,27 +143,31 @@ export default function Header() {
                   : "absolute left-8 md:left-15 lg:left-20 xl:left-30"
               }
             `}
-          >
-            {!isSmallScreen && (
-              <img
-                src={logoSrc}
-                alt="Logotipo de Neon Led Publicidad"
-                title="Neon Led Publicidad especialistas en letreros led"
-                className={`
+            >
+              {!isSmallScreen && (
+                <img
+                  src={logoSrc}
+                  alt="Logotipo de Neon Led Publicidad"
+                  title="Neon Led Publicidad especialistas en letreros led"
+                  className={`
                   h-auto transition-all duration-300
-                  ${logoSrc.includes("Logo_corto_nlp_header") ? "w-12 mt-2" : "w-36"} 
+                  ${
+                    logoSrc.includes("Logo_corto_nlp_header")
+                      ? "w-12 mt-2"
+                      : "w-36"
+                  } 
                 `}
-              />
-            )}
+                />
+              )}
 
-            {isSmallScreen && (
-              <img
-                src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
-                alt="Logotipo móvil Neon Led Publicidad"
-                className="w-36 h-auto"
-              />
-            )}
-          </div>
+              {isSmallScreen && (
+                <img
+                  src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
+                  alt="Logotipo móvil Neon Led Publicidad"
+                  className="w-36 h-auto"
+                />
+              )}
+            </div>
           ) : (
             <div
               className={`
@@ -269,29 +275,28 @@ export default function Header() {
                           className="px-4 py-2 hover:bg-blue-600"
                           // onClick={() => setIsPanelOpen(false)}
                         >
-                          <a href={link.href}
-                             className="block"
-                             onClick={() => setIsPanelOpen(false)}
+                          <a
+                            href={link.href}
+                            className="block"
+                            onClick={() => setIsPanelOpen(false)}
                           >
                             {link.title}
-                            </a>
+                          </a>
                         </li>
                       ))}
 
-                      <li
-                        className="px-4 py-2 text-red-400 hover:bg-red-600 hover:text-white">
+                      <li className="px-4 py-2 text-red-400 hover:bg-red-600 hover:text-white">
                         <a
-                         href="#"
-                           className="block"
-                           onClick={() => {
-                           logout();
-                           setIsPanelOpen(false);
-                        }}
-                      >
-                        Cerrar sesión
+                          href="#"
+                          className="block"
+                          onClick={() => {
+                            logout();
+                            setIsPanelOpen(false);
+                          }}
+                        >
+                          Cerrar sesión
                         </a>
                       </li>
-
                     </ul>
                   )}
                 </>
