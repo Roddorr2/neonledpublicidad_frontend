@@ -41,18 +41,7 @@ export default function Page() {
                             Selecciona una de nuestras plantillas para crear tu blog
                         </p>
                     </div>
-                </div>
-
-                {/* Botón regresar a la derecha */}
-                <div className="flex justify-end px-10 -mt-4 mb-4">
-                    <button
-                        onClick={() => router.back()}
-                        className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-900 transition"
-                    >
-                        <ArrowLeft className="w-5 h-5" />
-                        Regresar
-                    </button>
-                </div>
+                </div>                                
 
                 {/* Contenido */}
                 <div className="p-10">

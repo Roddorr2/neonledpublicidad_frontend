@@ -244,7 +244,7 @@ export default function Page() {
                         Ver
                     </Link>
                     <Link
-                        href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                        href={`/edition?mode=edit&id=${blog.id_blog}`}
                         className="flex-1 flex items-center justify-center gap-2 p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors text-sm"
                         title="Editar blog"
                     >
@@ -334,7 +334,7 @@ export default function Page() {
                             </button>
 
                             <Link
-                                href="/dashboard/blogs/create"
+                                href="/edition"
                                 className="flex items-center gap-2 px-3 py-2 bg-sky-600 dark:bg-sky-700 text-white rounded-lg hover:bg-sky-700 dark:hover:bg-sky-600 transition-colors"
                             >
                                 <PlusCircleIcon className="w-4 h-4" />
@@ -431,13 +431,13 @@ export default function Page() {
                                                         href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="p-2 bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-900/30 transition-colors"
+                                                        className="p-2 bg-sky-50 dark:bg-sky-900 text-sky-600 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-800 transition-colors"
                                                         title="Ver blog"
                                                     >
                                                         <Eye className="w-4 h-4" />
                                                     </Link>
                                                     <Link
-                                                        href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                                                        href={`/edition?mode=edit&id=${blog.id_blog}`}
                                                         className="p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors"
                                                         title="Editar blog"
                                                     >
