@@ -94,10 +94,17 @@ export default function FormHeader({
 
       const trimmedValue = value?.toString().trim() || "";
 
+      // Si el campo NO es requerido y está vacío, es válido
+      if (!config.required && !trimmedValue) {
+        return { isValid: true, message: "Opcional" };
+      }
+
+      // Si el campo es requerido y está vacío, es inválido
       if (config.required && !trimmedValue) {
         return { isValid: false, message: "Este campo es requerido" };
       }
 
+      // Si tiene contenido, validar min/max
       if (config.min && trimmedValue.length < config.min) {
         return { isValid: false, message: `Mínimo ${config.min} caracteres` };
       }
@@ -207,7 +214,6 @@ export default function FormHeader({
       "titulo",
       "texto_frase",
       "texto_descripcion",
-      "url_image",
       "alt",
       "title",
       "meta_title",
@@ -284,11 +290,6 @@ export default function FormHeader({
   ];
 
   const seoImageFields = [
-    {
-      name: "url_image",
-      label: "URL Externa de Imagen (opcional)",
-      placeholder: "https://ejemplo.com/imagen.jpg",
-    },
     {
       name: "alt",
       label: "Texto Alternativo (Alt)",

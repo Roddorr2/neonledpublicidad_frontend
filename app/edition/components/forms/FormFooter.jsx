@@ -10,7 +10,7 @@ import {
   Link2,
   Eye,
 } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -146,7 +146,12 @@ export default function FormFooter({
 
       const trimmedValue = value?.toString().trim() || "";
 
-      // Si el footer está habilitado, aplicar validación condicional
+      // Si el campo NO es requerido y está vacío, es válido
+      if (!config.required && !trimmedValue) {
+        return { isValid: true, message: "Opcional" };
+      }
+
+      // Si el footer está habilitado y el campo es requerido pero está vacío
       if (
         footerEnabled &&
         config.required &&
@@ -159,6 +164,7 @@ export default function FormFooter({
         };
       }
 
+      // Si tiene contenido, validar min/max
       if (config.min && trimmedValue.length < config.min) {
         return { isValid: false, message: `Mínimo ${config.min} caracteres` };
       }
@@ -318,6 +324,9 @@ export default function FormFooter({
   useEffect(() => {
     if (!data || !validationConfig) return;
 
+    if (!footerEnabled) {
+    return;
+  }
     const initialValidations = {};
     const fieldsToValidate = [
       "titulo",
@@ -337,7 +346,19 @@ export default function FormFooter({
     });
 
     setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
-  }, [data, validateField, validationConfig]);
+  }, [    
+    data?.titulo,
+    data?.descripcion,
+    data?.alt_image1,
+    data?.alt_image2,
+    data?.alt_image3,
+    data?.title_image1,
+    data?.title_image2,
+    data?.title_image3,
+    footerEnabled,
+    validationConfig,
+    validateField,
+  ]);
 
   // Limpiar blob URLs al desmontar el componente
   useEffect(() => {

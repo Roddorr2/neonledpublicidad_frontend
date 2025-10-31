@@ -15,6 +15,7 @@ import {
   Link2,
   ExternalLink as ExternalLinkIcon,
   FileText,
+  Loader2,
 } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -158,14 +159,21 @@ export default function FormBody({
         finalValidationConfig[fieldName];
 
       if (!config)
-        return { isValid: true, message: `Campo ${fieldName} no configurado` };
+        return { isValid: true, message: "" };
 
       const trimmedValue = value?.toString().trim() || "";
 
+      // Si el campo NO es requerido y está vacío, es válido
+      if (!config.required && !trimmedValue) {
+        return { isValid: true, message: "Opcional" };
+      }
+
+      // Si el campo es requerido y está vacío, es inválido
       if (config.required && !trimmedValue) {
         return { isValid: false, message: "Este campo es requerido" };
       }
 
+      // Si tiene contenido, validar min/max
       if (config.min && trimmedValue.length < config.min) {
         return {
           isValid: false,
@@ -916,28 +924,34 @@ export default function FormBody({
                 <IconImage className="w-4 h-4 mr-2 text-purple-400" />
                 Imagen Principal
               </label>
-              <input
-                type="file"
-                name="public_image1"
-                accept="image/*"
-                onChange={handleImageHeader}
-                className={mergedStyles.input}
-              />
-            </div>
-
-            {/* URL externa imagen principal */}
-            <div>
-              <label className={mergedStyles.label}>
-                URL externa imagen principal
+              <label
+                className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                  uploading
+                    ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                    : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                }`}
+              >
+                {uploading ? (
+                  <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
+                ) : (
+                  <>
+                    <IconImage className="w-5 h-5 mr-2 text-purple-400" />
+                    <span className="text-sm">
+                      {data.header.public_image1
+                        ? "Cambiar imagen"
+                        : "Seleccionar imagen"}
+                    </span>
+                  </>
+                )}
+                <input
+                  type="file"
+                  name="public_image1"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageHeader}
+                  disabled={uploading}
+                />
               </label>
-              <input
-                type="url"
-                name="url_image1"
-                value={data.header.url_image1 || ""}
-                onChange={handleChange(setFormEncabezadoBody)}
-                className={mergedStyles.input}
-                placeholder="https://ejemplo.com/imagen.jpg"
-              />
             </div>
 
             {/* Alt text for main image */}
@@ -1032,17 +1046,17 @@ export default function FormBody({
                             <label className={mergedStyles.label}>
                               <Quote className="w-4 h-4 mr-2 text-purple-400" />
                               Consejo {index + 1}
-                              <ValidationMessage fieldName={campo} />
                             </label>
                             <input
                               type="text"
                               name={campo}
                               maxLength={150}
                               value={data.consejos[campo] || ""}
-                              onChange={handleChange(setFormCommendBody)}
+                              onChange={handleChange(setFormCommendBody, "consejos")}
                               className={mergedStyles.input}
                               placeholder={`Consejo ${index + 1}`}
                             />
+                            <ValidationMessage fieldName={campo} context="consejos" />
                             <p className="text-xs text-gray-400 mt-2">
                               Slide {index + 1} de{" "}
                               {mergedSectionsConfig.consejos.maxItems}
@@ -1120,31 +1134,34 @@ export default function FormBody({
                             <IconImage className="w-4 h-4 mr-2 text-purple-400" />
                             Subir imagen
                           </label>
-                          <input
-                            type="file"
-                            name={campo}
-                            accept="image/*"
-                            onChange={handleImageBody}
-                            className={mergedStyles.input}
-                          />
-                        </div>
-
-                        {/* URL externa */}
-                        <div>
-                          <label className={mergedStyles.label}>
-                            <Link2 className="w-4 h-4 mr-2 text-purple-400" />
-                            URL externa (opcional)
+                          <label
+                            className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                              uploading
+                                ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                                : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                            }`}
+                          >
+                            {uploading ? (
+                              <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
+                            ) : (
+                              <>
+                                <IconImage className="w-5 h-5 mr-2 text-purple-400" />
+                                <span className="text-sm">
+                                  {data.galeria[campo]
+                                    ? "Cambiar imagen"
+                                    : "Seleccionar imagen"}
+                                </span>
+                              </>
+                            )}
+                            <input
+                              type="file"
+                              name={campo}
+                              accept="image/*"
+                              className="hidden"
+                              onChange={handleImageBody}
+                              disabled={uploading}
+                            />
                           </label>
-                          <input
-                            type="url"
-                            name={`url_image${index + 2}`}
-                            value={data.galeria[`url_image${index + 2}`] || ""}
-                            onChange={handleChange(setFormGaleryBody)}
-                            className={mergedStyles.input}
-                            placeholder={`https://ejemplo.com/imagen${
-                              index + 2
-                            }.jpg`}
-                          />
                         </div>
 
                         {/* Alt text */}
@@ -1158,12 +1175,13 @@ export default function FormBody({
                             name={`alt_image${index + 2}`}
                             maxLength={125}
                             value={data.galeria[`alt_image${index + 2}`] || ""}
-                            onChange={handleChange(setFormGaleryBody)}
+                            onChange={handleChange(setFormGaleryBody, "galeria")}
                             className={mergedStyles.input}
                             placeholder={`Descripción de la imagen ${
                               index + 2
                             }`}
                           />
+                          <ValidationMessage fieldName={`alt_image${index + 2}`} context="galeria" />
                         </div>
 
                         {/* Title text */}
@@ -1179,10 +1197,11 @@ export default function FormBody({
                             value={
                               data.galeria[`title_image${index + 2}`] || ""
                             }
-                            onChange={handleChange(setFormGaleryBody)}
+                            onChange={handleChange(setFormGaleryBody, "galeria")}
                             className={mergedStyles.input}
                             placeholder={`Título imagen ${index + 2}`}
                           />
+                          <ValidationMessage fieldName={`title_image${index + 2}`} context="galeria" />
                         </div>
 
                         {/* Preview de la imagen si existe */}
@@ -1280,10 +1299,6 @@ export default function FormBody({
                               <label className={mergedStyles.label}>
                                 <Type className="w-4 h-4 mr-2 text-purple-400" />
                                 Título
-                                <ValidationMessage
-                                  fieldName="titulo"
-                                  index={index}
-                                />
                               </label>
                               <input
                                 type="text"
@@ -1298,6 +1313,10 @@ export default function FormBody({
                                   index + 1
                                 }`}
                               />
+                              <ValidationMessage
+                                fieldName="titulo"
+                                index={index}
+                              />
                             </div>
 
                             {/* Descripción de la tarjeta */}
@@ -1305,10 +1324,6 @@ export default function FormBody({
                               <label className={mergedStyles.label}>
                                 <AlignLeft className="w-4 h-4 mr-2 text-purple-400" />
                                 Descripción
-                                <ValidationMessage
-                                  fieldName="descripcion"
-                                  index={index}
-                                />
                               </label>
                               <textarea
                                 name="descripcion"
@@ -1323,6 +1338,10 @@ export default function FormBody({
                                   index + 1
                                 }`}
                               />
+                              <ValidationMessage
+                                fieldName="descripcion"
+                                index={index}
+                              />
                             </div>
 
                             {/* Palabra clave para enlace */}
@@ -1330,10 +1349,6 @@ export default function FormBody({
                               <label className={mergedStyles.label}>
                                 <Link2 className="w-4 h-4 mr-2 text-purple-400" />
                                 Palabra clave (opcional)
-                                <ValidationMessage
-                                  fieldName="palabra"
-                                  index={index}
-                                />
                               </label>
                               <input
                                 type="text"
@@ -1346,6 +1361,10 @@ export default function FormBody({
                                 className={mergedStyles.input}
                                 placeholder="Ej: 'Más información', 'Ver más'"
                               />
+                              <ValidationMessage
+                                fieldName="palabra"
+                                index={index}
+                              />
                             </div>
 
                             {/* Enlace */}
@@ -1353,10 +1372,6 @@ export default function FormBody({
                               <label className={mergedStyles.label}>
                                 <ExternalLinkIcon className="w-4 h-4 mr-2 text-purple-400" />
                                 Enlace (opcional)
-                                <ValidationMessage
-                                  fieldName="enlace"
-                                  index={index}
-                                />
                               </label>
                               <input
                                 type="url"
@@ -1558,19 +1573,145 @@ export default function FormBody({
 
   // Validar datos iniciales (especialmente importante en modo edición)
   useEffect(() => {
-    if (!formEncabezadoBody || !finalValidationConfig) return;
+    if (!finalValidationConfig) return;
 
     const initialValidations = {};
-    const fieldsToValidate = ["titulo", "descripcion"];
 
-    fieldsToValidate.forEach((fieldName) => {
-      const value = formEncabezadoBody[fieldName] || "";
-      const validation = validateField(fieldName, value);
-      initialValidations[fieldName] = validation;
-    });
+    // Función inline para validar (evita dependencia circular)
+    const validateFieldInline = (fieldName, value, section = null) => {
+      const validationKey = section ? `${section}.${fieldName}` : fieldName;
+      const config =
+        finalValidationConfig[validationKey] ||
+        finalValidationConfig[fieldName];
+
+      if (!config) return { isValid: true, message: "" };
+
+      const trimmedValue = value?.toString().trim() || "";
+
+      // Si el campo NO es requerido y está vacío, es válido
+      if (!config.required && !trimmedValue) {
+        return { isValid: true, message: "Opcional" };
+      }
+
+      // Si el campo es requerido y está vacío, es inválido
+      if (config.required && !trimmedValue) {
+        return { isValid: false, message: "Este campo es requerido" };
+      }
+
+      // Si tiene contenido, validar min/max
+      if (config.min && trimmedValue.length < config.min) {
+        return {
+          isValid: false,
+          message: `Debe tener entre ${config.min} y ${config.max} caracteres`,
+        };
+      }
+
+      if (config.max && trimmedValue.length > config.max) {
+        return {
+          isValid: false,
+          message: `Debe tener entre ${config.min || 0} y ${
+            config.max
+          } caracteres`,
+        };
+      }
+
+      return {
+        isValid: true,
+        message: `${trimmedValue.length}/${config.max} caracteres`,
+      };
+    };
+
+    // ===== VALIDAR CAMPOS DE HEADER =====
+    if (formEncabezadoBody) {
+      const headerFields = [
+        "titulo",
+        "descripcion",
+        "alt_image1",
+        "title_image1",
+      ];
+
+      headerFields.forEach((fieldName) => {
+        const value = formEncabezadoBody[fieldName] || "";
+        const validation = validateFieldInline(fieldName, value);
+        initialValidations[fieldName] = validation;
+      });
+    }
+
+    // ===== VALIDAR CAMPOS DE CONSEJOS =====
+    if (formCommendBody && sectionsVisibility.consejos) {
+      // Validar título de consejos (especialmente para plantilla 2)
+      if (plantillaId === 2) {
+        const tituloValidation = validateFieldInline(
+          "titulo",
+          formCommendBody.titulo || "",
+          "consejos"
+        );
+        initialValidations["consejos.titulo"] = tituloValidation;
+      }
+
+      // Validar textos de consejos
+      const consejosFields = ["texto1", "texto2", "texto3", "texto4", "texto5"];
+      consejosFields.forEach((fieldName) => {
+        const value = formCommendBody[fieldName] || "";
+        const validation = validateFieldInline(fieldName, value, "consejos");
+        initialValidations[`consejos.${fieldName}`] = validation;
+      });
+    }
+
+    // ===== VALIDAR CAMPOS DE GALERÍA =====
+    if (formGaleryBody && sectionsVisibility.galeria) {
+      const galeriaFields = [
+        "alt_image2",
+        "title_image2",
+        "alt_image3",
+        "title_image3",
+      ];
+
+      galeriaFields.forEach((fieldName) => {
+        const value = formGaleryBody[fieldName] || "";
+        const validation = validateFieldInline(fieldName, value, "galeria");
+        initialValidations[`galeria.${fieldName}`] = validation;
+      });
+    }
+
+    // ===== VALIDAR CAMPOS DE INFORMACIÓN/TARJETAS =====
+    if (formInfoBody && sectionsVisibility.informacion) {
+      formInfoBody.forEach((tarjeta, index) => {
+        const infoFields = ["titulo", "descripcion", "palabra"];
+
+        infoFields.forEach((fieldName) => {
+          const value = tarjeta[fieldName] || "";
+          const validation = validateFieldInline(fieldName, value, "informacion");
+          initialValidations[`informacion.${index}.${fieldName}`] = validation;
+        });
+      });
+    }
 
     setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
-  }, [formEncabezadoBody, validateField, finalValidationConfig]);
+  }, [
+    // ✅ Solo dependencias primitivas y estables
+    formEncabezadoBody?.titulo,
+    formEncabezadoBody?.descripcion,
+    formEncabezadoBody?.alt_image1,
+    formEncabezadoBody?.title_image1,
+    formCommendBody?.titulo,
+    formCommendBody?.texto1,
+    formCommendBody?.texto2,
+    formCommendBody?.texto3,
+    formCommendBody?.texto4,
+    formCommendBody?.texto5,
+    formGaleryBody?.alt_image2,
+    formGaleryBody?.title_image2,
+    formGaleryBody?.alt_image3,
+    formGaleryBody?.title_image3,
+    formInfoBody,
+    sectionsVisibility.consejos,
+    sectionsVisibility.galeria,
+    sectionsVisibility.informacion,
+    finalValidationConfig,
+    plantillaId,
+    // ❌ NO incluir validateField
+  ]);
 
   // Validación unificada - compatible con setValidacionBody original
   useEffect(() => {
