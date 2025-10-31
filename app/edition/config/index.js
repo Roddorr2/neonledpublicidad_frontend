@@ -120,6 +120,7 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   service_url: { required: false },
 
   // Consejos (formCommendBody) - Hasta 5 consejos
+  "consejos.titulo": { min: 10, max: 100, required: false }, // Especialmente para plantilla 2
   texto1: { min: 10, max: 150, required: true },
   texto2: { min: 10, max: 150, required: true },
   texto3: { min: 10, max: 150, required: false },
@@ -131,6 +132,11 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   title_image2: { min: 50, max: 70, required: false },
   alt_image3: { min: 60, max: 120, required: false },
   title_image3: { min: 50, max: 70, required: false },
+
+  // Información/Tarjetas (formInfoBody) - Se validan usando context "informacion"
+  "informacion.titulo": { min: 10, max: 100, required: false },
+  "informacion.descripcion": { min: 10, max: 300, required: false },
+  "informacion.palabra": { min: 3, max: 50, required: false },
 };
 
 // Export individual de configuraciones
