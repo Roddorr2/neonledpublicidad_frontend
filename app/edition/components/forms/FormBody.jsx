@@ -244,14 +244,15 @@ export default function FormBody({
       if (!enabled) {
         switch (section) {
           case "consejos":
-            setFormCommendBody?.({
+            setFormCommendBody?.((prev) => ({
+              id: prev?.id, // ✅ PRESERVAR ID
               titulo: "",
               texto1: "",
               texto2: "",
               texto3: "",
               texto4: "",
               texto5: "",
-            });
+            }));
             break;
           case "galeria":
             setFormGaleryBody?.({
@@ -264,12 +265,16 @@ export default function FormBody({
             });
             break;
           case "informacion":
-            setFormInfoBody?.([
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-            ]);
+            setFormInfoBody?.((prev) =>
+              // ✅ PRESERVAR IDs de tarjetas existentes
+              prev.map((tarjeta) => ({
+                id: tarjeta?.id,
+                titulo: "",
+                descripcion: "",
+                palabra: "",
+                enlace: "",
+              }))
+            );
             break;
         }
       }
@@ -471,28 +476,36 @@ export default function FormBody({
 
   // Función para renderizar descripción con enlaces - compatible con servicios
   const renderDescripcion = useCallback((texto, palabraClave, enlace) => {
-    if (!palabraClave || !enlace) return texto;
+  if (!palabraClave || !enlace) return texto;
 
-    return texto.split(" ").map((palabra, i) => {
-      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
-      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+  // Divide por espacios conservando las palabras y signos
+  return texto.split(" ").map((palabra, i) => {
+    // Extrae signos al final de la palabra (.,;!?)
+    const match = palabra.match(/^(.+?)([.,;!?]*)$/);
+    const base = match ? match[1] : palabra;
+    const signos = match ? match[2] : "";
 
-      return isMatch ? (
+    const isMatch = base.toLowerCase() === palabraClave.toLowerCase();
+
+    return isMatch ? (
+      <React.Fragment key={i}>
         <a
-          key={i}
           href={enlace}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-400 font-bold underline hover:text-blue-200"
           title={`Enlace externo: ${palabraClave}`}
         >
-          {palabra}
+          {base}
         </a>
-      ) : (
-        <span key={i}>{palabra + " "}</span>
-      );
-    });
-  }, []);
+        {signos}
+        {" "}
+      </React.Fragment>
+    ) : (
+      <span key={i}>{palabra + " "}</span>
+    );
+  });
+}, []);
 
   // Renderizar sección de encabezado
   const renderHeaderSection = () => (
