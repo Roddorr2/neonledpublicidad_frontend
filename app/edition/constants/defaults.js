@@ -79,12 +79,12 @@ export const BODY_FLAGS_DEFAULTS = {
  */
 export const DEFAULT_IMAGES = {
   header: {
-    image1: "/blog/fondo_blog_extend.webp",
+    image1: "/blog/Blog4_header.webp",
   },
   body: {
     image1: "/blog/blog-4.webp",
-    image2: "/blog/blog-10.webp",
-    image3: "/blog/blog-1.webp",
+    image2: "/blog/blog-3.webp",
+    image3: "/blog/blog-5.webp",
   },
   footer: {
     image1: "/blog/blog-10.webp",
@@ -92,6 +92,7 @@ export const DEFAULT_IMAGES = {
     image3: "/blog/blog-2.webp",
   },
 };
+
 
 /**
  * Número máximo de tarjetas de información (igual para todas las plantillas)
