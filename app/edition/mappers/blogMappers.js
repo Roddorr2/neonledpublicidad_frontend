@@ -366,8 +366,8 @@ export function mapTarjetas(formData) {
     .map((tarjeta) => ({
       titulo: tarjeta.titulo || TARJETA_INFO_DEFAULT.titulo,
       descripcion: tarjeta.descripcion || TARJETA_INFO_DEFAULT.descripcion,
-      palabra: tarjeta.palabra || TARJETA_INFO_DEFAULT.palabra,
-      enlace: tarjeta.enlace || TARJETA_INFO_DEFAULT.enlace,
+      keyword: tarjeta.palabra || TARJETA_INFO_DEFAULT.palabra,
+      link: tarjeta.enlace || TARJETA_INFO_DEFAULT.enlace,
     }));
 }
 

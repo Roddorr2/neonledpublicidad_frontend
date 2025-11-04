@@ -79,7 +79,7 @@ export const BODY_FLAGS_DEFAULTS = {
  */
 export const DEFAULT_IMAGES = {
   header: {
-    image1: "/blog/fondo_blog_extend.webp",
+    image1: "/blog/fondo_blog_extend.png",
   },
   body: {
     image1: "/blog/blog-4.webp",

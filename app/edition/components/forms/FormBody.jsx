@@ -29,6 +29,7 @@ import {
   DEFAULT_BODY_VALIDATION_CONFIG,
   DEFAULT_SERVICIOS,
 } from "../../config/index.js";
+import BotonAnadirLink from "./BotonAnadirLink.jsx";
 
 export default function FormBody({
   // Props de datos (estructura original para compatibilidad)
@@ -158,8 +159,7 @@ export default function FormBody({
         finalValidationConfig[validationKey] ||
         finalValidationConfig[fieldName];
 
-      if (!config)
-        return { isValid: true, message: "" };
+      if (!config) return { isValid: true, message: "" };
 
       const trimmedValue = value?.toString().trim() || "";
 
@@ -474,38 +474,34 @@ export default function FormBody({
     );
   };
 
-  // Función para renderizar descripción con enlaces - compatible con servicios
-  const renderDescripcion = useCallback((texto, palabraClave, enlace) => {
-  if (!palabraClave || !enlace) return texto;
+  // Función para renderizar descripción con enlace en palabra clave
+  function renderDescripcion(texto, palabraClave, enlace) {
+    if (!palabraClave || !enlace) {
+      return texto;
+    }
 
-  // Divide por espacios conservando las palabras y signos
-  return texto.split(" ").map((palabra, i) => {
-    // Extrae signos al final de la palabra (.,;!?)
-    const match = palabra.match(/^(.+?)([.,;!?]*)$/);
-    const base = match ? match[1] : palabra;
-    const signos = match ? match[2] : "";
+    // Buscar la frase completa (case insensitive)
+    const regex = new RegExp(`(${palabraClave})`, "gi");
+    const partes = texto.split(regex);
 
-    const isMatch = base.toLowerCase() === palabraClave.toLowerCase();
-
-    return isMatch ? (
-      <React.Fragment key={i}>
-        <a
-          href={enlace}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-400 font-bold underline hover:text-blue-200"
-          title={`Enlace externo: ${palabraClave}`}
-        >
-          {base}
-        </a>
-        {signos}
-        {" "}
-      </React.Fragment>
-    ) : (
-      <span key={i}>{palabra + " "}</span>
-    );
-  });
-}, []);
+    return partes.map((parte, i) => {
+      // Si coincide con la palabra clave (incluso con mayúsculas/minúsculas diferentes)
+      if (parte.toLowerCase() === palabraClave.toLowerCase()) {
+        return (
+          <a
+            key={i}
+            href={enlace}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 font-bold underline hover:text-blue-200"
+          >
+            {parte}
+          </a>
+        );
+      }
+      return <span key={i}>{parte}</span>;
+    });
+  }
 
   // Renderizar sección de encabezado
   const renderHeaderSection = () => (
@@ -1065,11 +1061,17 @@ export default function FormBody({
                               name={campo}
                               maxLength={150}
                               value={data.consejos[campo] || ""}
-                              onChange={handleChange(setFormCommendBody, "consejos")}
+                              onChange={handleChange(
+                                setFormCommendBody,
+                                "consejos"
+                              )}
                               className={mergedStyles.input}
                               placeholder={`Consejo ${index + 1}`}
                             />
-                            <ValidationMessage fieldName={campo} context="consejos" />
+                            <ValidationMessage
+                              fieldName={campo}
+                              context="consejos"
+                            />
                             <p className="text-xs text-gray-400 mt-2">
                               Slide {index + 1} de{" "}
                               {mergedSectionsConfig.consejos.maxItems}
@@ -1188,13 +1190,19 @@ export default function FormBody({
                             name={`alt_image${index + 2}`}
                             maxLength={125}
                             value={data.galeria[`alt_image${index + 2}`] || ""}
-                            onChange={handleChange(setFormGaleryBody, "galeria")}
+                            onChange={handleChange(
+                              setFormGaleryBody,
+                              "galeria"
+                            )}
                             className={mergedStyles.input}
                             placeholder={`Descripción de la imagen ${
                               index + 2
                             }`}
                           />
-                          <ValidationMessage fieldName={`alt_image${index + 2}`} context="galeria" />
+                          <ValidationMessage
+                            fieldName={`alt_image${index + 2}`}
+                            context="galeria"
+                          />
                         </div>
 
                         {/* Title text */}
@@ -1210,11 +1218,17 @@ export default function FormBody({
                             value={
                               data.galeria[`title_image${index + 2}`] || ""
                             }
-                            onChange={handleChange(setFormGaleryBody, "galeria")}
+                            onChange={handleChange(
+                              setFormGaleryBody,
+                              "galeria"
+                            )}
                             className={mergedStyles.input}
                             placeholder={`Título imagen ${index + 2}`}
                           />
-                          <ValidationMessage fieldName={`title_image${index + 2}`} context="galeria" />
+                          <ValidationMessage
+                            fieldName={`title_image${index + 2}`}
+                            context="galeria"
+                          />
                         </div>
 
                         {/* Preview de la imagen si existe */}
@@ -1357,44 +1371,25 @@ export default function FormBody({
                               />
                             </div>
 
-                            {/* Palabra clave para enlace */}
+                            {/* Palabra clave */}
                             <div className="mb-3">
                               <label className={mergedStyles.label}>
                                 <Link2 className="w-4 h-4 mr-2 text-purple-400" />
-                                Palabra clave (opcional)
+                                Enlace asociado (opcional)
                               </label>
-                              <input
-                                type="text"
-                                name="palabra"
-                                maxLength={50}
-                                value={infoItem.palabra || ""}
-                                onChange={(e) =>
-                                  handleChangeMap(e, index, "palabra")
-                                }
-                                className={mergedStyles.input}
-                                placeholder="Ej: 'Más información', 'Ver más'"
+                              <BotonAnadirLink
+                                servicios={servicios}
+                                item={infoItem}
+                                index={index}
+                                handleChange={handleChangeMap}
                               />
                               <ValidationMessage
                                 fieldName="palabra"
                                 index={index}
                               />
-                            </div>
-
-                            {/* Enlace */}
-                            <div className="mb-3">
-                              <label className={mergedStyles.label}>
-                                <ExternalLinkIcon className="w-4 h-4 mr-2 text-purple-400" />
-                                Enlace (opcional)
-                              </label>
-                              <input
-                                type="url"
-                                name="enlace"
-                                value={infoItem.enlace || ""}
-                                onChange={(e) =>
-                                  handleChangeMap(e, index, "enlace")
-                                }
-                                className={mergedStyles.input}
-                                placeholder="https://ejemplo.com o /ruta/interna"
+                              <ValidationMessage
+                                fieldName="enlace"
+                                index={index}
                               />
                             </div>
 
@@ -1694,7 +1689,11 @@ export default function FormBody({
 
         infoFields.forEach((fieldName) => {
           const value = tarjeta[fieldName] || "";
-          const validation = validateFieldInline(fieldName, value, "informacion");
+          const validation = validateFieldInline(
+            fieldName,
+            value,
+            "informacion"
+          );
           initialValidations[`informacion.${index}.${fieldName}`] = validation;
         });
       });

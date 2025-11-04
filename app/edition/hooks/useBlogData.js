@@ -276,8 +276,8 @@ export default function useBlogData(
               id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
               titulo: tarjeta.titulo || "",
               descripcion: tarjeta.descripcion || "",
-              palabra: tarjeta.palabra || "",
-              enlace: tarjeta.enlace || "",
+              keyword: tarjeta.palabra || "",
+              link: tarjeta.enlace || "",
             }));
             setFormInfoBody(tarjetasMapped);
           } else {
@@ -293,8 +293,8 @@ export default function useBlogData(
                   id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
                   titulo: tarjeta.titulo || "",
                   descripcion: tarjeta.descripcion || "",
-                  palabra: tarjeta.palabra || "",
-                  enlace: tarjeta.enlace || "",
+                  keyword: tarjeta.palabra || "",
+                  link: tarjeta.enlace || "",
                 }));
                 setFormInfoBody(tarjetasMapped);
               } else {
@@ -567,14 +567,14 @@ export default function useBlogData(
           try {
             // Filtrar tarjetas válidas (que tengan al menos un campo con contenido)
             const validTarjetas = formInfoBody.filter(
-              (t) => t.titulo || t.descripcion || t.palabra
+              (t) => t.titulo || t.descripcion || t.keyword
             );
             for (const [index, tarjeta] of validTarjetas.entries()) {
               const tarjetaData = {
                 titulo: tarjeta.titulo || "",
                 descripcion: tarjeta.descripcion || "",
-                palabra: tarjeta.palabra || "",
-                enlace: tarjeta.enlace || "",
+                keyword: tarjeta.palabra || "",
+                link: tarjeta.enlace || "",
                 id_blog_body: bodyId,
               };
 

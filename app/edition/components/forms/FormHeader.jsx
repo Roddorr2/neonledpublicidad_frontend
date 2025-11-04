@@ -53,7 +53,7 @@ const DEFAULT_PLACEHOLDERS = {
 export default function FormHeader({
   // Props de datos
   data = {},
-  defaultImage = "/blog/fondo_blog_extend.webp",
+  defaultImage = "/blog/fondo_blog_extend.png",
 
   // Props de configuración
   validationConfig = DEFAULT_HEADER_VALIDATION_CONFIG,

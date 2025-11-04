@@ -265,7 +265,7 @@ useEffect(() => {
     try {
       setFormImagenHeader((prev) => ({
         ...prev,
-        public_image: "/blog/fondo_blog_extend.webp", // Volver a imagen por defecto
+        public_image: "/blog/fondo_blog_extend.png", // Volver a imagen por defecto
         alt: "",
         title: "",
       }));
