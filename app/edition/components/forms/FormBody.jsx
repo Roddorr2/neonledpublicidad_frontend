@@ -50,9 +50,7 @@ export default function FormBody({
   setFileBodyFile1,
   setFileBodyFile2,
 
-  // Props de servicios
-  serviceRedirectUrl,
-  setServiceRedirectUrl,
+  // Props de servicios (solo para enlaces en tarjetas)
   servicios = DEFAULT_SERVICIOS,
 
   // Props de configuración - Ahora se puede pasar el ID de plantilla
@@ -63,7 +61,6 @@ export default function FormBody({
   onChange,
   onImageChange,
   onValidationChange,
-  onServiceChange,
 
   // Props de estado
   isUploading = false,
@@ -125,18 +122,18 @@ export default function FormBody({
   useEffect(() => {
     if (layoutType === "tabs") {
       const currentTabVisible =
-        (activeTab === "info" && sectionsVisibility.informacion) ||
         (activeTab === "tips" && sectionsVisibility.consejos) ||
-        (activeTab === "galeria" && sectionsVisibility.galeria);
+        (activeTab === "info" && sectionsVisibility.informacion) ||      
+        (activeTab === "gallery" && sectionsVisibility.galeria);
 
       if (!currentTabVisible) {
         // Cambiar a la primera tab disponible
-        if (sectionsVisibility.informacion) {
-          setActiveTab("info");
-        } else if (sectionsVisibility.consejos) {
+        if (sectionsVisibility.consejos) {
           setActiveTab("tips");
+        } else if (sectionsVisibility.informacion) {
+          setActiveTab("info");
         } else if (sectionsVisibility.galeria) {
-          setActiveTab("galeria");
+          setActiveTab("gallery");
         }
       }
     }
@@ -331,16 +328,6 @@ export default function FormBody({
       });
     },
     [validateField, setFormInfoBody, onChange]
-  );
-
-  // Manejar cambio de servicio
-  const handleServiceChange = useCallback(
-    (e) => {
-      const url = e.target.value;
-      setServiceRedirectUrl?.(url);
-      onServiceChange?.({ url });
-    },
-    [setServiceRedirectUrl, onServiceChange]
   );
 
   // Manejar carga de imagen - compatible con sistema original
@@ -564,7 +551,7 @@ export default function FormBody({
     }
 
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      <div className="w-full">
         <div className="bg-green-400/60 rounded-xl shadow-sm p-8 border border-slate-100">
           <h3 className="text-2xl font-semibold mb-8 text-slate-800 text-center">
             {data.consejos.titulo || "Consejos"}
@@ -634,11 +621,11 @@ export default function FormBody({
     }
 
     return (
-      <div className="max-w-5xl mx-auto px-4">
+      <div className="w-full">
         <h3 className="text-lg font-medium text-slate-700 mb-6 pb-2 border-b border-slate-200">
           Galería de imágenes
         </h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-6">
           {images.map((image, index) => (
             <div
               key={index}
@@ -1088,9 +1075,7 @@ export default function FormBody({
                 {/* Indicador de ayuda */}
                 <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
                   <Eye className="w-4 h-4 text-purple-400" />
-                  <span>
-                    Usa las flechas o los puntos para navegar entre los consejos
-                  </span>
+                  <span>Usa los puntos o desliza para navegar</span>
                 </div>
               </div>
 
@@ -1139,7 +1124,7 @@ export default function FormBody({
                     <div className="p-4 bg-gray-800/30 rounded-lg border border-blue-500/30">
                       <h5 className="text-sm font-medium text-blue-400 mb-4 flex items-center">
                         <IconImage className="w-5 h-5 mr-2" />
-                        Imagen {index + 2} de la Galería
+                        Imagen {index + 1} de la Galería
                       </h5>
 
                       <div className="space-y-3">
@@ -1261,9 +1246,7 @@ export default function FormBody({
             {/* Indicador de ayuda */}
             <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
               <Eye className="w-4 h-4 text-blue-400" />
-              <span>
-                Navega entre las imágenes de la galería usando los puntos
-              </span>
+              <span>Usa los puntos o desliza para navegar</span>
             </div>
 
             {/* Estilos personalizados para la paginación */}
@@ -1392,16 +1375,13 @@ export default function FormBody({
                                 index={index}
                               />
                             </div>
-
-                            {/* Nota informativa */}
+                            
                             <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 mt-4">
                               <p className="text-xs text-gray-400">
-                                💡 Si defines palabra clave y enlace, aparecerá
-                                un botón clickeable en la tarjeta.
+                                💡 El enlace solo se asocia con texto existente en la descripcion
                               </p>
                             </div>
-
-                            {/* Indicador de slide */}
+                            
                             <p className="text-xs text-gray-400 mt-3 text-center">
                               Tarjeta {index + 1} de{" "}
                               {mergedSectionsConfig.informacion.maxItems}
@@ -1420,7 +1400,7 @@ export default function FormBody({
               {/* Indicador de ayuda */}
               <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
                 <Eye className="w-4 h-4 text-yellow-400" />
-                <span>Navega entre las tarjetas usando los puntos</span>
+                <span>Usa los puntos o desliza para navegar</span>
               </div>
 
               {/* Estilos personalizados para la paginación */}
@@ -1440,25 +1420,6 @@ export default function FormBody({
               `}</style>
             </div>
           )}
-
-        {/* Selector de servicio */}
-        <div className={mergedStyles.formCard}>
-          <label className="block mb-2 font-semibold text-white">
-            Selecciona servicio para el botón
-          </label>
-          <select
-            className={mergedStyles.input}
-            value={serviceRedirectUrl}
-            onChange={handleServiceChange}
-          >
-            <option value="">-- Ninguno --</option>
-            {servicios.map((serv) => (
-              <option key={serv.url} value={serv.url}>
-                {serv.label}
-              </option>
-            ))}
-          </select>
-        </div>
       </div>
     );
   };
@@ -1480,6 +1441,12 @@ export default function FormBody({
           <div className={containerClass}>
             <div className={mergedStyles.previewArea}>
               {renderHeaderSection()}
+              
+              {/* Descripción del header */}
+              <div className="bg-white px-6 py-5 text-base text-gray-700 leading-relaxed border-b border-gray-200">
+                {data.header.descripcion}
+              </div>
+              
               <div className={mergedStyles.previewContent}>
                 {mergedSectionsConfig.consejos.enabled &&
                   sectionsVisibility.consejos &&
@@ -1503,76 +1470,81 @@ export default function FormBody({
         {/* Controles de secciones - por encima de todo */}
         <div className="w-full mb-6">{renderSectionControls()}</div>
 
-        {/* Contenido en dos columnas */}
+        {/* Layout principal: Preview (izquierda) + Forms (derecha) con anchos fijos */}
         <div className={containerClass}>
-          <div className="flex gap-4">
+          <div className="flex gap-6 justify-center">
+            {/* Columna IZQUIERDA: Preview con Header + Tabs */}
             <div className={mergedStyles.previewArea}>
-              {/* Header con controles */}
-              <div className="top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-                <div className="flex items-center space-x-2 text-gray-500 text-sm">
-                  <Clock className="w-4 h-4" />
-                  <span>{data.header.fecha}</span>
+              <div className="sticky top-4">
+                {/* Header con controles */}
+                <div className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center rounded-t-lg">
+                  <div className="flex items-center space-x-2 text-gray-500 text-sm">
+                    <Clock className="w-4 h-4" />
+                    <span>{data.header.fecha}</span>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                      <Bookmark className="w-5 h-5 text-teal-600" />
+                    </button>
+                    <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                      <Share2 className="w-5 h-5 text-teal-600" />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex space-x-3">
-                  <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                    <Bookmark className="w-5 h-5 text-teal-600" />
-                  </button>
-                  <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                    <Share2 className="w-5 h-5 text-teal-600" />
-                  </button>
+
+                {/* Imagen de header */}
+                {renderHeaderSection()}
+
+                {/* Descripción */}
+                <div className="bg-white px-6 py-5 text-base text-gray-700 leading-relaxed">
+                  {data.header.descripcion}
                 </div>
-              </div>
 
-              {renderHeaderSection()}
+                {/* Tabs navigation */}
+                <div className={`${mergedStyles.tabsContainer} bg-white px-6`}>
+                  {["info", "tips", "gallery"]
+                    .filter((tab) => {
+                      if (tab === "tips") return sectionsVisibility.consejos;
+                      if (tab === "info") return sectionsVisibility.informacion;                      
+                      if (tab === "gallery") return sectionsVisibility.galeria;
+                      return true;
+                    })
+                    .map((tab) => (
+                      <button
+                        key={tab}
+                        className={
+                          activeTab === tab
+                            ? mergedStyles.activeTab
+                            : mergedStyles.inactiveTab
+                        }
+                        onClick={() => setActiveTab(tab)}
+                      >
+                        {tab === "tips" && "Consejos"}
+                        {tab === "info" && "Información"}                        
+                        {tab === "gallery" && "Galería"}
+                      </button>
+                    ))}
+                </div>
 
-              {/* Descripción */}
-              <div className="mx-10 my-5 text-lg text-gray-700 leading-relaxed">
-                {data.header.descripcion}
+                {/* Tabs content - sin límite de altura */}
+                <div className="bg-white rounded-b-lg shadow-sm">
+                  <div className="p-6">
+                    {activeTab === "tips" && sectionsVisibility.consejos && (
+                      <div key="tips-content">{renderConsejosSection()}</div>
+                    )}
+                    {activeTab === "info" && sectionsVisibility.informacion && (
+                      <div key="info-content">{renderInformacionSection()}</div>
+                    )}                    
+                    {activeTab === "gallery" && sectionsVisibility.galeria && (
+                      <div key="gallery-content">{renderGaleriaSection()}</div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
+            {/* Columna DERECHA: Formularios de edición */}
             {renderEditForms()}
-          </div>
-
-          {/* Tabs content */}
-          <div className="px-6 md:px-10 pb-8">
-            <div className={mergedStyles.tabsContainer}>
-              {["info", "tips", "gallery"]
-                .filter((tab) => {
-                  // Filtrar tabs según visibilidad de secciones
-                  if (tab === "info") return sectionsVisibility.informacion;
-                  if (tab === "tips") return sectionsVisibility.consejos;
-                  if (tab === "gallery") return sectionsVisibility.galeria;
-                  return true;
-                })
-                .map((tab) => (
-                  <button
-                    key={tab}
-                    className={
-                      activeTab === tab
-                        ? mergedStyles.activeTab
-                        : mergedStyles.inactiveTab
-                    }
-                    onClick={() => setActiveTab(tab)}
-                  >
-                    {tab === "info" && "Información"}
-                    {tab === "tips" && "Consejos"}
-                    {tab === "gallery" && "Galería"}
-                  </button>
-                ))}
-            </div>
-
-            <div className="mb-10">
-              {activeTab === "info" &&
-                sectionsVisibility.informacion &&
-                renderInformacionSection()}
-              {activeTab === "tips" &&
-                sectionsVisibility.consejos &&
-                renderConsejosSection()}
-              {activeTab === "gallery" &&
-                sectionsVisibility.galeria &&
-                renderGaleriaSection()}
-            </div>
           </div>
         </div>
       </div>
@@ -1700,8 +1672,7 @@ export default function FormBody({
     }
 
     setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
-  }, [
-    // ✅ Solo dependencias primitivas y estables
+  }, [    
     formEncabezadoBody?.titulo,
     formEncabezadoBody?.descripcion,
     formEncabezadoBody?.alt_image1,
@@ -1721,8 +1692,7 @@ export default function FormBody({
     sectionsVisibility.galeria,
     sectionsVisibility.informacion,
     finalValidationConfig,
-    plantillaId,
-    // ❌ NO incluir validateField
+    plantillaId,    
   ]);
 
   // Validación unificada - compatible con setValidacionBody original

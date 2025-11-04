@@ -29,7 +29,6 @@ class BlogOrchestrator {
    * @param {Object} params.files - Archivos de imágenes a subir
    * @param {number} params.plantillaId - ID de la plantilla
    * @param {number} params.empleadoId - ID del empleado
-   * @param {string} params.serviceRedirectUrl - URL de redirección del servicio
    * @returns {Promise<Object>} Resultado con IDs creados y mensajes
    */
   async createBlog({
@@ -39,7 +38,6 @@ class BlogOrchestrator {
     files,
     plantillaId,
     empleadoId,
-    serviceRedirectUrl = "",
   }) {
     const result = {
       success: false,
@@ -92,7 +90,6 @@ class BlogOrchestrator {
           );
           commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
         } catch (err) {
-          console.warn("⚠️ Error creando consejos:", err);
           result.errors.push({ step: "consejos", error: err.message });
         }
       }
@@ -131,7 +128,6 @@ class BlogOrchestrator {
 
             await API.default.createTarjeta(tarjetaData);
           } catch (err) {
-            console.warn(`⚠️ Error creando tarjeta ${index + 1}:`, err);
             result.errors.push({
               step: `tarjeta_${index}`,
               error: err.message,
@@ -180,7 +176,6 @@ class BlogOrchestrator {
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
         id_empleado: empleadoId,
-        service_redirect_url: serviceRedirectUrl,
       };
 
       const blogResult = await API.default.createBlog(blogPayload);
@@ -217,7 +212,6 @@ class BlogOrchestrator {
       return result;
     } catch (err) {
       result.errors.push({ step: "main", error: err.message });
-      console.error("❌ Error en creación de blog:", err);
       throw new Error(`Error en creación de blog: ${err.message}`);
     }
   }
@@ -232,7 +226,6 @@ class BlogOrchestrator {
    * @param {Object} params.footerData - Datos del footer
    * @param {Object} params.files - Archivos de imágenes a subir
    * @param {number} params.plantillaId - ID de la plantilla
-   * @param {string} params.serviceRedirectUrl - URL de redirección
    * @param {number|null} params.cardId - ID de la card existente (si hay)
    * @param {Object} params.blogRelations - IDs de relaciones (id_blog_head, id_blog_body, id_blog_footer)
    * @returns {Promise<Object>} Resultado de la actualización
@@ -245,7 +238,6 @@ class BlogOrchestrator {
     files,
     empleadoId,
     plantillaId,
-    serviceRedirectUrl = "",
     cardId = null,
     blogRelations = {},
   }) {
@@ -267,7 +259,6 @@ class BlogOrchestrator {
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
         id_empleado: empleadoId,
-        service_redirect_url: serviceRedirectUrl,        
         ...(blogRelations.id_blog_head && {
           id_blog_head: blogRelations.id_blog_head,
         }),
@@ -293,7 +284,6 @@ class BlogOrchestrator {
       return result;
     } catch (err) {
       result.errors.push({ step: "update", error: err.message });
-      console.error("❌ Error en actualización de blog:", err);
       throw new Error(`Error en actualización de blog: ${err.message}`);
     }
   }
@@ -317,7 +307,6 @@ class BlogOrchestrator {
           headerFormData.append("file", files.fileHeader);
           await Cloud.uploadCardHeaderImage(cardId, headerFormData);
         } catch (err) {
-          console.warn("⚠️ Error subiendo imagen del header:", err);
           uploadErrors.push({ image: "header", error: err.message });
         }
       }
@@ -331,7 +320,6 @@ class BlogOrchestrator {
           formData.append("name", "image1");
           await Cloud.uploadCardBodyImage(cardId, formData);
         } catch (err) {
-          console.warn("⚠️ Error subiendo imagen principal del body:", err);
           uploadErrors.push({ image: "body_image1", error: err.message });
         }
       }
@@ -344,7 +332,6 @@ class BlogOrchestrator {
           formData.append("name", "image2");
           await Cloud.uploadCardBodyImage(cardId, formData);
         } catch (err) {
-          console.warn("⚠️ Error subiendo imagen 2 del body:", err);
           uploadErrors.push({ image: "body_image2", error: err.message });
         }
       }
@@ -357,7 +344,6 @@ class BlogOrchestrator {
           formData.append("name", "image3");
           await Cloud.uploadCardBodyImage(cardId, formData);
         } catch (err) {
-          console.warn("⚠️ Error subiendo imagen 3 del body:", err);
           uploadErrors.push({ image: "body_image3", error: err.message });
         }
       }
@@ -372,7 +358,6 @@ class BlogOrchestrator {
             formData.append("name", "image1");
             await Cloud.uploadCardFooterImage(cardId, formData);
           } catch (err) {
-            console.warn("⚠️ Error subiendo imagen 1 del footer:", err);
             uploadErrors.push({ image: "footer_image1", error: err.message });
           }
         }
@@ -385,7 +370,6 @@ class BlogOrchestrator {
             formData.append("name", "image2");
             await Cloud.uploadCardFooterImage(cardId, formData);
           } catch (err) {
-            console.warn("⚠️ Error subiendo imagen 2 del footer:", err);
             uploadErrors.push({ image: "footer_image2", error: err.message });
           }
         }
@@ -398,7 +382,6 @@ class BlogOrchestrator {
             formData.append("name", "image3");
             await Cloud.uploadCardFooterImage(cardId, formData);
           } catch (err) {
-            console.warn("⚠️ Error subiendo imagen 3 del footer:", err);
             uploadErrors.push({ image: "footer_image3", error: err.message });
           }
         }
@@ -411,7 +394,6 @@ class BlogOrchestrator {
         );
       }
     } catch (err) {
-      console.error("❌ Error general subiendo imágenes:", err);
       throw new Error(`Error subiendo imágenes: ${err.message}`);
     }
   }

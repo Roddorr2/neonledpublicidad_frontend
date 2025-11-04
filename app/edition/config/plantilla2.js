@@ -10,15 +10,15 @@ export const PLANTILLA2_STYLES = {
   tabsLayout:
     "bg-white rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden",
 
-  // Preview area
+  // Preview area - Mismo ancho que plantillas 1 y 3 para consistencia
   previewArea: "w-[600px]",
   previewHeader: "relative h-[400px] overflow-hidden",
   previewContent: "bg-black/5 p-8",
 
-  // Form panel
+  // Form panel - Mismo ancho que plantillas 1 y 3 para consistencia
   formPanel: "w-[420px] flex flex-col justify-center gap-5 p-5",
   formCard:
-    "bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
+    "bg-black/5 backdrop-blur-md rounded-2xl p-6 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
 
   // Tabs específicos
   tabsContainer: "flex border-b border-gray-200 mb-8",

@@ -7,6 +7,7 @@ import {
   FOOTER_DEFAULTS,
   CONSEJOS_DEFAULTS,
   TARJETA_INFO_DEFAULT,
+  TARJETAS_INFO_DEFAULTS,
   BODY_FLAGS_DEFAULTS,
   DEFAULT_IMAGES,
   MAX_INFO_TARJETAS,
@@ -73,9 +74,8 @@ export default function useFormState() {
   });
 
   const [formInfoBody, setFormInfoBody] = useState(
-    Array(MAX_INFO_TARJETAS)
-      .fill(null)
-      .map(() => ({ ...TARJETA_INFO_DEFAULT }))
+    // Usar las tarjetas con contenido por defecto
+    TARJETAS_INFO_DEFAULTS.map(tarjeta => ({ ...tarjeta }))
   );
 
   // Footer (formEncabezadoFooter + formImagenFooter)
@@ -149,9 +149,8 @@ export default function useFormState() {
     });
 
     setFormInfoBody(
-      Array(MAX_INFO_TARJETAS)
-        .fill(null)
-        .map(() => ({ ...TARJETA_INFO_DEFAULT }))
+      // Usar las tarjetas con contenido por defecto
+      TARJETAS_INFO_DEFAULTS.map(tarjeta => ({ ...tarjeta }))
     );
 
     setFormEncabezadoFooter({
