@@ -3,26 +3,33 @@ import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import fetch from "../../services/fetch";
 import { Loader2, BookOpen, AlertCircle } from "lucide-react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
-import styles from '../blog.module.css';
 
 const ITEMS_PER_PAGE = 6;
 
 const normalizeText = (text) => {
-  return text.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, "").trim();
+  return text
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9\s]/g, "")
+    .trim();
 };
 
 const Page = () => {
   return (
-    <Suspense fallback={<div className="flex justify-center items-center h-screen text-gray-700">Cargando...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen text-gray-700">
+          Cargando...
+        </div>
+      }
+    >
       <Blogs />
     </Suspense>
-  )
-}
+  );
+};
 
 const Blogs = () => {
   const [data, setDataResponse] = useState([]);
@@ -38,16 +45,20 @@ const Blogs = () => {
       setIsLoading(true);
       setError(null);
       const response = await fetch.fetchCards();
-      
+
       console.log(JSON.stringify(response));
       if (axios.isAxiosError(response) || response instanceof Error) {
-        setError("Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente.");
+        setError(
+          "Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente."
+        );
       } else {
         setDataResponse(response);
       }
     } catch (error) {
       console.error("Error fetching blogs:", error);
-      setError("Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente.");
+      setError(
+        "Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -90,18 +101,18 @@ const Blogs = () => {
 
   const BlogCard = ({ dato }) => (
     <Card className="relative overflow-hidden border-0 shadow-2xl bg-black backdrop-blur-sm rounded-2xl group hover:scale-105 transition-all duration-500">
-      <div className="relative flex flex-col md:flex-row">
+      <div className="relative flex flex-col md:flex-row h-full md:h-[320px]">
         <div className="relative z-10 flex-1 p-6 md:p-8 flex flex-col bg-black min-h-[280px] md:min-h-[320px]">
           <div className="flex flex-col justify-between h-full">
             <div className="flex-1">
               <h2
-                className={`text-xl md:text-2xl font-bold text-white leading-tight mb-3 md:mb-4 ${styles.lineClamp2} md:${styles.tituloDesktop}`}
+                className={`text-xl md:text-2xl font-bold text-white leading-tight mb-3 md:mb-4 line-clamp-2`}
               >
                 {dato.titulo}
               </h2>
 
               <p
-                className={`text-gray-200 text-sm leading-relaxed ${styles.lineClamp5} ${styles.descripcionDesktop}`}
+                className={`text-gray-200 text-sm leading-relaxed line-clamp-6`}
               >
                 {dato.descripcion}
               </p>
@@ -120,13 +131,13 @@ const Blogs = () => {
         </div>
 
         <div className="relative flex-1 min-h-[200px] md:min-h-[320px]">
-        <img
-             src={`${dato.public_image}?v=${Date.now()}`} 
+          <img
+            src={`${dato.public_image}?v=${Date.now()}`}
             // alt={dato.titulo}
             alt={dato.blog.head.alt || dato.titulo}
             title={dato.blog.head.title || dato.titulo}
             className="w-full h-full object-cover"
-        />
+          />
         </div>
 
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/30 pointer-events-none"></div>
@@ -137,7 +148,7 @@ const Blogs = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen" style={{backgroundColor: '#1a1e2e'}}>
+      <div className="min-h-screen" style={{ backgroundColor: "#1a1e2e" }}>
         <div className="container mx-auto px-4 py-12">
           <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
             <Loader2 className="h-12 w-12 animate-spin text-blue-400" />
@@ -150,7 +161,7 @@ const Blogs = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen" style={{backgroundColor: '#1a1e2e'}}>
+      <div className="min-h-screen" style={{ backgroundColor: "#1a1e2e" }}>
         <div className="container mx-auto px-4 py-12">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
@@ -169,15 +180,18 @@ const Blogs = () => {
 
   if (!data || data.length === 0) {
     return (
-      <div className="min-h-screen" style={{backgroundColor: '#1a1e2e'}}>
+      <div className="min-h-screen" style={{ backgroundColor: "#1a1e2e" }}>
         <div className="container mx-auto px-4 py-12">
           <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-6 text-center">
             <div className="bg-gray-100 p-6 rounded-full">
               <BookOpen className="h-12 w-12 text-gray-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white">No hay blogs disponibles</h2>
+            <h2 className="text-2xl font-bold text-white">
+              No hay blogs disponibles
+            </h2>
             <p className="text-gray-300 max-w-md">
-              Actualmente no hay blogs publicados. Vuelve a revisar más tarde para nuevos contenidos.
+              Actualmente no hay blogs publicados. Vuelve a revisar más tarde
+              para nuevos contenidos.
             </p>
           </div>
         </div>
@@ -185,32 +199,33 @@ const Blogs = () => {
     );
   }
 
-const blogSchema = {
+  const blogSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "url": "https://ledneonpublicidad.com/blog/",
-    "name": "Blog de LedNeonPublicidad",
-    "description": "Inspira tu marca con ideas creativas en diseño publicitario. Ilumina tus espacios, rompe lo convencional y marca tendencia con soluciones visuales.",
-    "blogPost": data.map((blog) => ({
+    url: "https://ledneonpublicidad.com/blog/",
+    name: "Blog de LedNeonPublicidad",
+    description:
+      "Inspira tu marca con ideas creativas en diseño publicitario. Ilumina tus espacios, rompe lo convencional y marca tendencia con soluciones visuales.",
+    blogPost: data.map((blog) => ({
       "@type": "BlogPosting",
-      "name": blog.titulo,
-      "url": `https://ledneonpublicidad.com/blog/plantilla/${blog.id_plantilla}?blog=${blog.blog.link}`,
-      "image": `https://ledneonpublicidad.com/${blog.url_image}`,
-      "datePublished": blog.blog.fecha,
-      "author": {
+      name: blog.titulo,
+      url: `https://ledneonpublicidad.com/blog/plantilla/${blog.id_plantilla}?blog=${blog.blog.link}`,
+      image: `https://ledneonpublicidad.com/${blog.url_image}`,
+      datePublished: blog.blog.fecha,
+      author: {
         "@type": "Organization",
-        "name": "LedNeonPublicidad"
-      }
-    }))
+        name: "LedNeonPublicidad",
+      },
+    })),
   };
-  return (<>
-    <div className="min-h-screen" style={{backgroundColor: '#0d111fff'} }>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-10 md:pt-20">
-
-        {/* Título principal */}
-        <h1 className="text-5xl md:text-6xl font-bold mb-16 text-center text-white tracking-wider -mt-2">
-          NUESTROS BLOGS
-        </h1>
+  return (
+    <>
+      <div className="min-h-screen" style={{ backgroundColor: "#0d111fff" }}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-10 md:pt-20">
+          {/* Título principal */}
+          <h1 className="text-5xl md:text-6xl font-bold mb-16 text-center text-white tracking-wider -mt-2">
+            NUESTROS BLOGS
+          </h1>
 
           {/* Barra de búsqueda */}
           <div className="mb-16 max-w-3xl mx-auto flex items-center gap-4">
@@ -245,40 +260,42 @@ const blogSchema = {
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage <= 1}
                 className={`p-3 rounded-full transition-all duration-300 ${
-                  currentPage <= 1 
-                    ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
+                  currentPage <= 1
+                    ? "bg-gray-700 text-gray-500 cursor-not-allowed"
                     : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
                 }`}
               >
-                <span className="text-xl font-bold">{'<'}</span>
+                <span className="text-xl font-bold">{"<"}</span>
               </button>
 
               <div className="flex space-x-2">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`w-12 h-12 rounded-full font-semibold text-lg transition-all duration-300 ${
-                      currentPage === page 
-                        ? "bg-blue-600 text-white scale-110 shadow-lg" 
-                        : "bg-slate-700 text-gray-300 hover:bg-slate-600 hover:scale-105"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`w-12 h-12 rounded-full font-semibold text-lg transition-all duration-300 ${
+                        currentPage === page
+                          ? "bg-blue-600 text-white scale-110 shadow-lg"
+                          : "bg-slate-700 text-gray-300 hover:bg-slate-600 hover:scale-105"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
               </div>
 
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage >= totalPages}
                 className={`p-3 rounded-full transition-all duration-300 ${
-                  currentPage >= totalPages 
-                    ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
+                  currentPage >= totalPages
+                    ? "bg-gray-700 text-gray-500 cursor-not-allowed"
                     : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
                 }`}
               >
-                <span className="text-xl font-bold">{'>'}</span>
+                <span className="text-xl font-bold">{">"}</span>
               </button>
             </div>
           )}

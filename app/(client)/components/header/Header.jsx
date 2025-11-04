@@ -17,6 +17,9 @@ export default function Header() {
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [logoSrc, setLogoSrc] = useState(
+    "/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
+  );
 
   // Filtrado de los links segun permisos y roles del usuario
   const filterLinks = dashboardLinks.filter((item) => {
@@ -72,6 +75,24 @@ export default function Header() {
     };
   }, [menuActive]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+
+      if (width >= 1281) {
+        setLogoSrc("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
+      } else if (width >= 769 && width <= 1280) {
+        setLogoSrc("/header_footer/Logo_corto_nlp_header.webp");
+      } else {
+        setLogoSrc("/header_footer/Logo.oficial.Neon.Led.Publicidad.webp");
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const toggleMenu = () => {
     if (menuActive) {
       setCurrentMenu("main");
@@ -118,17 +139,34 @@ export default function Header() {
               transition-all duration-300
               ${
                 isSmallScreen
-                  ? "absolute left-1/2 transform -translate-x-1/2 w-32"
-                  : "absolute left-8 md:left-2 lg:left-10 xl:left-32 w-32 lg:w-36"
+                  ? "absolute left-1/2 transform -translate-x-1/2 w-28"
+                  : "absolute left-8 md:left-15 lg:left-20 xl:left-30"
               }
             `}
             >
-              <img
-                src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
-                alt="Logotipo de Neon Led Publicidad con letras celestes"
-                title="Neon Led Publicidad especialistas en letreros led"
-                className="w-full h-auto"
-              />
+              {!isSmallScreen && (
+                <img
+                  src={logoSrc}
+                  alt="Logotipo de Neon Led Publicidad"
+                  title="Neon Led Publicidad especialistas en letreros led"
+                  className={`
+                  h-auto transition-all duration-300
+                  ${
+                    logoSrc.includes("Logo_corto_nlp_header")
+                      ? "w-12 mt-2"
+                      : "w-36"
+                  } 
+                `}
+                />
+              )}
+
+              {isSmallScreen && (
+                <img
+                  src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
+                  alt="Logotipo móvil Neon Led Publicidad"
+                  className="w-36 h-auto"
+                />
+              )}
             </div>
           ) : (
             <div
@@ -235,20 +273,29 @@ export default function Header() {
                         <li
                           key={link.href}
                           className="px-4 py-2 hover:bg-blue-600"
-                          onClick={() => setIsPanelOpen(false)}
+                          // onClick={() => setIsPanelOpen(false)}
                         >
-                          <a href={link.href}>{link.title}</a>
+                          <a
+                            href={link.href}
+                            className="block"
+                            onClick={() => setIsPanelOpen(false)}
+                          >
+                            {link.title}
+                          </a>
                         </li>
                       ))}
 
-                      <li
-                        className="px-4 py-2 text-red-400 hover:bg-red-600 hover:text-white"
-                        onClick={() => {
-                          logout();
-                          setIsPanelOpen(false);
-                        }}
-                      >
-                        <a href="#">Cerrar sesión</a>
+                      <li className="px-4 py-2 text-red-400 hover:bg-red-600 hover:text-white">
+                        <a
+                          href="#"
+                          className="block"
+                          onClick={() => {
+                            logout();
+                            setIsPanelOpen(false);
+                          }}
+                        >
+                          Cerrar sesión
+                        </a>
                       </li>
                     </ul>
                   )}
@@ -385,7 +432,7 @@ export default function Header() {
                 }}
               />
               <DropdownLink
-                text={"Letras doradas y plateadas"}
+                text={"Letras aluminio doradas 3D"}
                 link={"/productos/letras-doradas"}
                 isInicio={false}
                 final={false}
@@ -396,7 +443,18 @@ export default function Header() {
                 }}
               />
               <DropdownLink
-                text={"Letreros limunosos"}
+                text={"Letras aluminio plateadas 3D"}
+                link={"/productos/letras-plateadas"}
+                isInicio={false}
+                final={false}
+                closeMenu={() => {
+                  setMenuActive(false);
+                  setContainerFullHeight(false);
+                  setCurrentMenu("main");
+                }}
+              />
+              <DropdownLink
+                text={"Letreros luminosos"}
                 link={"/productos/letreros-luminosos"}
                 isInicio={false}
                 final={false}

@@ -4,8 +4,12 @@ const productos = [
         url: "/productos/letras-acrilico/"
     },
     {
-        label: "LETRAS DORADAS Y PLATEADAS",
+        label: "LETRAS DE ALUMINIO DORADAS 3D",
         url: "/productos/letras-doradas/"
+    },
+    {
+        label: "LETRAS DE ALUMINIO PLATEADAS 3D",
+        url: "productos/letras-plateadas/"
     },
     {
         label: "LETREROS LUMINOSOS",
