@@ -10,7 +10,6 @@ import {
   mapConsejos,
   mapTarjetas,
 } from "../mappers/blogMappers";
-import { getCurrentDate } from "../utils";
 import {
   getPlantillaConfig,
   PLANTILLA_IDS,
@@ -29,6 +28,7 @@ import {
   FOOTER_DEFAULTS,
   CONSEJOS_DEFAULTS,
   TARJETA_INFO_DEFAULT,
+  TARJETAS_INFO_DEFAULTS,
   BODY_FLAGS_DEFAULTS,
   DEFAULT_IMAGES,
   MAX_INFO_TARJETAS,
@@ -101,9 +101,6 @@ export default function useBlogData(
   const [validacionHeader, setValidacionHeader] = useState(false);
   const [validacionBody, setValidacionBody] = useState(false);
   const [validacionFooter, setValidacionFooter] = useState(false);
-
-  // ========== ESTADOS DE SERVICIOS ==========
-  const [serviceRedirectUrl, setServiceRedirectUrl] = useState("");
 
   // ========== ESTADO PARA CARDID (REQUERIDO PARA SUBIR IMÁGENES) ==========
   const [cardId, setCardId] = useState(null);
@@ -729,7 +726,6 @@ export default function useBlogData(
           },
           plantillaId,
           empleadoId: getEmpleadoId(),
-          serviceRedirectUrl,
         });
 
         // Actualizar cardId en el hook
@@ -787,7 +783,6 @@ export default function useBlogData(
           },
           plantillaId,
           empleadoId: getEmpleadoId(),
-          serviceRedirectUrl,
           cardId,
           blogRelations,
         });
@@ -827,7 +822,6 @@ export default function useBlogData(
     fileFooterFile2,
     fileFooterFile3,
     plantillaId,
-    serviceRedirectUrl,
     isCreateMode,
     blogId,
     saveHeader,
@@ -856,7 +850,6 @@ export default function useBlogData(
     setValidacionBody(false);
     setValidacionFooter(false);
 
-    setServiceRedirectUrl("");
     setIsDirty(false);
     setError(null);
 
@@ -882,7 +875,6 @@ export default function useBlogData(
     formInfoBody,
     formEncabezadoFooter,
     formImagenFooter,
-    serviceRedirectUrl,
     loading,
     hydrating,
   ]);
@@ -955,9 +947,7 @@ export default function useBlogData(
     validacionFooter,
     setValidacionFooter,
 
-    // ===== SERVICIOS =====
-    serviceRedirectUrl,
-    setServiceRedirectUrl,
+    // ===== SERVICIOS (SOLO PARA ENLACES EN TARJETAS) =====
     servicios: DEFAULT_SERVICIOS,
 
     // ===== ACCIONES =====
