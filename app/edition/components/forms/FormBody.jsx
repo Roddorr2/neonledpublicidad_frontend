@@ -244,14 +244,15 @@ export default function FormBody({
       if (!enabled) {
         switch (section) {
           case "consejos":
-            setFormCommendBody?.({
+            setFormCommendBody?.((prev) => ({
+              id: prev?.id, // ✅ PRESERVAR ID
               titulo: "",
               texto1: "",
               texto2: "",
               texto3: "",
               texto4: "",
               texto5: "",
-            });
+            }));
             break;
           case "galeria":
             setFormGaleryBody?.({
@@ -264,12 +265,16 @@ export default function FormBody({
             });
             break;
           case "informacion":
-            setFormInfoBody?.([
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-            ]);
+            setFormInfoBody?.((prev) =>
+              // ✅ PRESERVAR IDs de tarjetas existentes
+              prev.map((tarjeta) => ({
+                id: tarjeta?.id,
+                titulo: "",
+                descripcion: "",
+                palabra: "",
+                enlace: "",
+              }))
+            );
             break;
         }
       }
