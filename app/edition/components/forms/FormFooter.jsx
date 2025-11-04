@@ -6,8 +6,6 @@ import {
   Image as IconImage,
   Loader2,
   Trash2,
-  Plus,
-  Link2,
   Eye,
 } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo } from "react";
