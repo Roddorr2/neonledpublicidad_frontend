@@ -174,8 +174,8 @@ function mapBodyFromServer(data, plantillaId = 1) {
     ? data.informacion.map((tarjeta) => ({
         titulo: tarjeta.titulo || TARJETA_INFO_DEFAULT.titulo,
         descripcion: tarjeta.descripcion || TARJETA_INFO_DEFAULT.descripcion,
-        palabra: tarjeta.palabra || TARJETA_INFO_DEFAULT.palabra,
-        enlace: tarjeta.enlace || TARJETA_INFO_DEFAULT.enlace,
+        keyword: tarjeta.keyword || TARJETA_INFO_DEFAULT.keyword,
+        link: tarjeta.link || TARJETA_INFO_DEFAULT.link,
       }))
     : Array(MAX_INFO_TARJETAS)
         .fill(null)
@@ -366,8 +366,8 @@ export function mapTarjetas(formData) {
     .map((tarjeta) => ({
       titulo: tarjeta.titulo || TARJETA_INFO_DEFAULT.titulo,
       descripcion: tarjeta.descripcion || TARJETA_INFO_DEFAULT.descripcion,
-      keyword: tarjeta.palabra || TARJETA_INFO_DEFAULT.palabra,
-      link: tarjeta.enlace || TARJETA_INFO_DEFAULT.enlace,
+      keyword: tarjeta.keyword || TARJETA_INFO_DEFAULT.keyword,
+      link: tarjeta.link || TARJETA_INFO_DEFAULT.link,
     }));
 }
 

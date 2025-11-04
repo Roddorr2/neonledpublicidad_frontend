@@ -63,20 +63,64 @@ export const PLANTILLA_IDS = {
 // Servicios por defecto (común a todas las plantillas)
 export const DEFAULT_SERVICIOS = [
   {
-    label: "Diseño y Desarrollo Web",
-    url: "/servicios/desing-desarrollo/",
+    label: "LETRAS DE ACRÍLICO",
+    url: "/productos/letras-acrilico/"
   },
   {
-    label: "Gestión de Redes Sociales",
-    url: "/servicios/gestion-redes/",
+    label: "LETRAS DE ALUMINIO DORADAS 3D",
+    url: "/productos/letras-doradas/"
   },
   {
-    label: "Marketing de Gestión Digital",
-    url: "/servicios/marketing-gestion/",
+    label: "LETRAS DE ALUMINIO PLATEADAS 3D",
+    url: "productos/letras-plateadas/"
   },
   {
-    label: "Branding y Diseño",
-    url: "/servicios/branding-desing/",
+    label: "LETREROS LUMINOSOS",
+    url: "/productos/letreros-luminosos/"
+  },
+  {
+    label: "LETRAS DE NEON EN TUBOS DE VIDRIO",
+    url: "/productos/letras-neon/"
+  },
+  {
+    label: "NEON LED",
+    url: "/productos/neon-led/"
+  },
+  {
+    label: "IMPRESIÓN EN VINILO",
+    url: "/productos/impresion-vinilo/"
+  },
+  {
+    label: "MENÚ BOARD",
+    url: "/productos/menu-board/"
+  },
+  {
+    label: "LETRAS EN MDF",
+    url: "/productos/letras-pintadas/"
+  },
+  {
+    label: "MONITORES",
+    url: "/productos/displays/"
+  },
+  {
+    label: "PANTALLAS LED",
+    url: "/productos/pantalla-led/"
+  },
+  {
+    label: "HOLOGRAFICOS",
+    url: "/productos/holografico/"
+  },
+  {
+    label: "PIXEL LED",
+    url: "/productos/pixel-led/"
+  },
+  {
+    label: "SILLAS LUMINOSAS",
+    url: "/productos/sillas-luminosas/"
+  },
+  {
+    label: "TECHOS LED",
+    url: "/productos/techos-led/"
   },
 ];
 
@@ -136,7 +180,7 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   // Información/Tarjetas (formInfoBody) - Se validan usando context "informacion"
   "informacion.titulo": { min: 10, max: 100, required: false },
   "informacion.descripcion": { min: 10, max: 300, required: false },
-  "informacion.palabra": { min: 3, max: 50, required: false },
+  "informacion.keyword": { min: 3, max: 50, required: false },
 };
 
 // Export individual de configuraciones

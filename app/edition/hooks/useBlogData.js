@@ -276,8 +276,8 @@ export default function useBlogData(
               id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
               titulo: tarjeta.titulo || "",
               descripcion: tarjeta.descripcion || "",
-              keyword: tarjeta.palabra || "",
-              link: tarjeta.enlace || "",
+              keyword: tarjeta.keyword || "",
+              link: tarjeta.link || "",
             }));
             setFormInfoBody(tarjetasMapped);
           } else {
@@ -293,8 +293,8 @@ export default function useBlogData(
                   id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
                   titulo: tarjeta.titulo || "",
                   descripcion: tarjeta.descripcion || "",
-                  keyword: tarjeta.palabra || "",
-                  link: tarjeta.enlace || "",
+                  keyword: tarjeta.keyword || "",
+                  link: tarjeta.link || "",
                 }));
                 setFormInfoBody(tarjetasMapped);
               } else {
@@ -573,8 +573,8 @@ export default function useBlogData(
               const tarjetaData = {
                 titulo: tarjeta.titulo || "",
                 descripcion: tarjeta.descripcion || "",
-                keyword: tarjeta.palabra || "",
-                link: tarjeta.enlace || "",
+                keyword: tarjeta.keyword || "",
+                link: tarjeta.link || "",
                 id_blog_body: bodyId,
               };
 

@@ -271,8 +271,8 @@ export default function FormBody({
                 id: tarjeta?.id,
                 titulo: "",
                 descripcion: "",
-                palabra: "",
-                enlace: "",
+                keyword: "",
+                link: "",
               }))
             );
             break;
@@ -315,8 +315,8 @@ export default function FormBody({
           updated.push({
             titulo: "",
             descripcion: "",
-            palabra: "",
-            enlace: "",
+            keyword: "",
+            link: "",
           });
         }
         updated[index] = { ...updated[index], [field]: value };
@@ -475,8 +475,8 @@ export default function FormBody({
   };
 
   // Función para renderizar descripción con enlace en palabra clave
-  function renderDescripcion(texto, palabraClave, enlace) {
-    if (!palabraClave || !enlace) {
+  function renderDescripcion(texto, palabraClave, link) {
+    if (!palabraClave || !link) {
       return texto;
     }
 
@@ -490,7 +490,7 @@ export default function FormBody({
         return (
           <a
             key={i}
-            href={enlace}
+            href={link}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 font-bold underline hover:text-blue-200"
@@ -697,8 +697,8 @@ export default function FormBody({
                 <p className="text-gray-100">
                   {renderDescripcion(
                     section.descripcion,
-                    section.palabra,
-                    section.enlace
+                    section.keyword,
+                    section.link
                   )}
                 </p>
               </div>
@@ -723,8 +723,8 @@ export default function FormBody({
               <p className="text-gray-700 leading-relaxed">
                 {renderDescripcion(
                   section.descripcion,
-                  section.palabra,
-                  section.enlace
+                  section.keyword,
+                  section.link
                 )}
               </p>
             </div>
@@ -1384,11 +1384,11 @@ export default function FormBody({
                                 handleChange={handleChangeMap}
                               />
                               <ValidationMessage
-                                fieldName="palabra"
+                                fieldName="keyword"
                                 index={index}
                               />
                               <ValidationMessage
-                                fieldName="enlace"
+                                fieldName="link"
                                 index={index}
                               />
                             </div>
@@ -1685,7 +1685,7 @@ export default function FormBody({
     // ===== VALIDAR CAMPOS DE INFORMACIÓN/TARJETAS =====
     if (formInfoBody && sectionsVisibility.informacion) {
       formInfoBody.forEach((tarjeta, index) => {
-        const infoFields = ["titulo", "descripcion", "palabra"];
+        const infoFields = ["titulo", "descripcion", "keyword"];
 
         infoFields.forEach((fieldName) => {
           const value = tarjeta[fieldName] || "";

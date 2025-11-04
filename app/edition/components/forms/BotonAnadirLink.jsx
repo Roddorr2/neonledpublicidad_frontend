@@ -6,20 +6,20 @@ import { createPortal } from "react-dom";
 
 const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
   const [showModal, setShowModal] = useState(false);
-  const [texto, setTexto] = useState(item.palabra || "");
-  const [url, setUrl] = useState(item.enlace || "");
+  const [texto, setTexto] = useState(item.keyword || "");
+  const [url, setUrl] = useState(item.link || "");
   const [useCustomUrl, setUseCustomUrl] = useState(false);
 
   const handleGuardar = () => {
-    handleChange({ target: { value: texto.trim() } }, index, "palabra");
-    handleChange({ target: { value: url } }, index, "enlace");
+    handleChange({ target: { value: texto.trim() } }, index, "keyword");
+    handleChange({ target: { value: url } }, index, "link");
     setShowModal(false);
   };
 
   const handleEliminar = () => {
     // Limpiar los campos
-    handleChange({ target: { value: "" } }, index, "palabra");
-    handleChange({ target: { value: "" } }, index, "enlace");
+    handleChange({ target: { value: "" } }, index, "keyword");
+    handleChange({ target: { value: "" } }, index, "link");
     setTexto("");
     setUrl("");
     setShowModal(false);
@@ -108,7 +108,7 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
 
         <div className="flex justify-end gap-3">
           {/* Boton eliminar - visible en caso de existir enlace solamente */}
-          {(item.palabra || item.enlace) && (
+          {(item.keyword || item.link) && (
             <button
               type="button"
               onClick={handleEliminar}

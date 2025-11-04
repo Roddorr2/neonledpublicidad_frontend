@@ -271,10 +271,10 @@ export default function TemplateRenderer({
 
     // Si no hay datos pero se deben mostrar placeholders
     const displayData = infoData.length > 0 ? infoData : [
-      { titulo: "Información 1", descripcion: "Descripción detallada del primer punto importante", palabra: "Más info", enlace: "#" },
-      { titulo: "Información 2", descripcion: "Descripción detallada del segundo punto importante", palabra: "Ver más", enlace: "#" },
-      { titulo: "Información 3", descripcion: "Descripción detallada del tercer punto importante", palabra: "Leer más", enlace: "#" },
-      { titulo: "Información 4", descripcion: "Descripción detallada del cuarto punto importante", palabra: "Descubrir", enlace: "#" }
+      { titulo: "Información 1", descripcion: "Descripción detallada del primer punto importante", keyword: "Más info", link: "#" },
+      { titulo: "Información 2", descripcion: "Descripción detallada del segundo punto importante", keyword: "Ver más", link: "#" },
+      { titulo: "Información 3", descripcion: "Descripción detallada del tercer punto importante", keyword: "Leer más", link: "#" },
+      { titulo: "Información 4", descripcion: "Descripción detallada del cuarto punto importante", keyword: "Descubrir", link: "#" }
     ];
 
     return (
@@ -298,13 +298,13 @@ export default function TemplateRenderer({
                       </p>
                     </div>
                   </div>
-                  {item.enlace && item.palabra && (
+                  {item.link && item.keyword && (
                     <div className="flex justify-end">
                       <a
-                        href={item.enlace}
+                        href={item.link}
                         className="inline-flex items-center text-teal-600 hover:text-teal-700 font-semibold transition-colors"
                       >
-                        {item.palabra}
+                        {item.keyword}
                         <ExternalLink className="w-4 h-4 ml-2" />
                       </a>
                     </div>
@@ -326,12 +326,12 @@ export default function TemplateRenderer({
                     <p className="text-gray-700 text-lg leading-relaxed mb-6">
                       {item.descripcion || "Descripción detallada del contenido importante"}
                     </p>
-                    {item.enlace && item.palabra && (
+                    {item.link && item.keyword && (
                       <a
-                        href={item.enlace}
+                        href={item.link}
                         className="inline-flex items-center bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-yellow-600 hover:to-yellow-700 transition-all"
                       >
-                        {item.palabra}
+                        {item.keyword}
                         <ArrowRight className="w-5 h-5 ml-2" />
                       </a>
                     )}

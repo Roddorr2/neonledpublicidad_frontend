@@ -60,8 +60,8 @@ export const CONSEJOS_DEFAULTS = {
 export const TARJETA_INFO_DEFAULT = {
   titulo: "",
   descripcion: "",
-  palabra: "",
-  enlace: "",
+  keyword: "",
+  link: "",
 };
 
 /**
