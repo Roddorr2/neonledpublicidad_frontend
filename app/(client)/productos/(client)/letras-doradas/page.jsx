@@ -6,8 +6,8 @@ import Section2 from '../components/section2/Section2';
 export default function Home() {
   const cards = [
     { 
-      title: "LETRAS DORADAS Y PLATEADAS", 
-      description: "Te mostramos la implementación de las letras doradas y plateadas en diversos espacios", 
+      title: "LETRAS DE ALUMINIO DORADAS 3D", 
+      description: "Te mostramos la implementación de las letras doradas en diversos espacios", 
       bgColor:"bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
       glow: "text-white-400 text-3xl font-bold tracking-wide mb-4",
      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
@@ -27,7 +27,7 @@ export default function Home() {
     { 
       title: "Cuidado capilar", 
       description: "Espacio exterior", 
-      image: "/productos/letras_doradas_ledneonpublicidad3.webp",
+      image: "/productos/letra_dorada_3.png",
       alt: "Cartel de letras doradas"
     }
   ];
@@ -35,8 +35,8 @@ export default function Home() {
   return (
     <>
       <Banner
-        titulo={`LETRAS DORADAS Y\nPLATEADAS`}
-        imagen="/productosIndividuales/banner/letras-doradas.png"
+        titulo={`LETRAS DE ALUMINIO \n DORADAS 3D`}
+        imagen="/productosIndividuales/banner/letras-doradas-fondo.png"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards}/>

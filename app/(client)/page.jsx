@@ -70,7 +70,7 @@ export default function Home() {
         "Letras corporeas doradas con iluminación led elegante sobre un fondo oscuro",
       title:
         "Letras corporeas doradas con iluminación para estudios estéticos",
-      description: "LETRAS DORADAS Y PLATEADAS",
+      description: "LETRAS DE ALUMINIO DORADAS 3D",
       route: "/productos/letras-doradas",
     },
     {
