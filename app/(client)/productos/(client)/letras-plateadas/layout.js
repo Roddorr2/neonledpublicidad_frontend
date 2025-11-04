@@ -1,29 +1,27 @@
-import Script from "next/script";
-
 export const metadata = {
-  title: "Letras Doradas _ Lima Perú",
+  title: "Letras Plateadas _ Lima Perú",
   description:
-    "Dale elegancia a tu espacio con letras doradas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
+    "Dale elegancia a tu espacio con letras plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
   keywords: [
-    "letras doradas corpóreas Lima",
+    "letras plateadas corpóreas Lima",
     "letras plateadas 3D Perú",
     "letreros elegantes Lima",
-    "letras metálicas doradas Lima",
+    "letras metálicas plateadas Lima",
     "rótulos plateados iluminados Perú",
     "letras exclusivas para negocios Lima",
     "letreros dorados retroiluminados Lima",
     "letras plateadas acrílicas Lima",
-    "decoración letras doradas Perú",
+    "decoración letras plateadas Perú",
     "letreros premium Lima",
   ],
   alternates: {
-    canonical: "https://ledneonpublicidad.com/productos/letras-doradas/",
+    canonical: "https://ledneonpublicidad.com/productos/letras-plateadas/",
   },
   openGraph: {
-    title: "Letras Doradas _ Lima Perú",
+    title: "Letras plateadas _ Lima Perú",
     description:
-      "Dale elegancia a tu espacio con letras doradas o plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
-    url: "https://ledneonpublicidad.com/productos/letras-doradas/",
+      "Dale elegancia a tu espacio con letras plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
+    url: "https://ledneonpublicidad.com/productos/letras-plateadas/",
     siteName: "Neon Led Publicidad",
     images: [],
     locale: "es_PE",
@@ -31,7 +29,7 @@ export const metadata = {
   },
 };
 
-export default function LetrasDoradasLayout({ children }) {
+export default function LetrasplateadasLayout({ children }) {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -52,34 +50,34 @@ export default function LetrasDoradasLayout({ children }) {
         "@type": "ListItem",
         position: 3,
         name: "Nombre del Producto",
-        item: "https://ledneonpublicidad.com/productos/letras-doradas/",
+        item: "https://ledneonpublicidad.com/productos/letras-plateadas/",
       },
     ],
   };
-  const productDoradas = {
+  const productplateadas = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: "Letreros Doradas",
+    name: "Letreros plateadas",
     image: [
       "https://ledneonpublicidad.com/productosIndividuales/LetrasDoradoLaptop.webp",
-      "https://ledneonpublicidad.com/productosIndividuales/banner/letras-doradas.png",
-      "https://ledneonpublicidad.com/productos/letras_doradas_ledneonpublicidad.webp",
-      "https://ledneonpublicidad.com/productos/letras_doradas_ledneonpublicidad2.webp",
-      "https://ledneonpublicidad.com/productos/letras_doradas_ledneonpublicidad3.webp",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/letras-plateadas.png",
+      "https://ledneonpublicidad.com/productos/letra_plateada_1.png",
+      "https://ledneonpublicidad.com/productos/letra_plateada_2.png",
+      "https://ledneonpublicidad.com/productos/letra_plateada_3.png",
     ],
     description:
-      "Dale elegancia a tu espacio con letras doradas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
+      "Dale elegancia a tu espacio con letras plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
     brand: {
       "@type": "Brand",
       name: "LedNeonPublicidad",
     },
-    url: "https://ledneonpublicidad.com/productos/letras-doradas",
+    url: "https://ledneonpublicidad.com/productos/letras-plateadas",
     offers: {
       "@type": "Offer",
       priceCurrency: "PEN",
       price: "2500.00",
       availability: "https://schema.org/InStock",
-      url: "https://ledneonpublicidad.com/productos/letras-doradas/",
+      url: "https://ledneonpublicidad.com/productos/letras-plateadas/",
     },
     aggregateRating: {
       "@type": "AggregateRating",
@@ -95,7 +93,7 @@ export default function LetrasDoradasLayout({ children }) {
         },
         datePublished: "2024-07-15",
         reviewBody:
-          "El producto letras doradas es excelente para eventos, realmente capta la atención del público.",
+          "El producto letras plateadas es excelente para eventos, realmente capta la atención del público.",
         name: "Muy recomendado",
         reviewRating: {
           "@type": "Rating",
@@ -113,7 +111,7 @@ export default function LetrasDoradasLayout({ children }) {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productDoradas) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productplateadas) }}
       />
 
       {children}
