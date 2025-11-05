@@ -15,9 +15,9 @@ export default function Page() {
                 <Body1/>
 
                 <Footer  
-                url_image1={"/blog/blog-5.jpg"} 
-                url_image2={"/blog/blog-8.jpg"} 
-                url_image3={"/blog/blog-2.jpg"}
+                url_image1={"/blog/blog-5.webp"} 
+                url_image2={"/blog/blog-8.webp"} 
+                url_image3={"/blog/blog-2.webp"}
                 descripcion={"El letrero de neón LED es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local. Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local."}/>
             </div>
         </div>
