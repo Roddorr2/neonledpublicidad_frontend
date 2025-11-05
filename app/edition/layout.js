@@ -196,7 +196,7 @@ export default function EditionLayout({ children }) {
             <button
               className="group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
             >
-              <Link href="/dashboard/blogs/create" className="flex items-center">
+              <Link href="/edition/" className="flex items-center">
                 <BookTemplate
                   className="mr-3 h-4 w-4 text-slate-400 group-hover:text-white"
                 />
