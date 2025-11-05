@@ -11,7 +11,7 @@ export const PLANTILLAS = {
 
 // Array de plantillas para iteración
 export const PLANTILLAS_ARRAY = [
-  PLANTILLA1_CONFIG,
+  PLANTILLA1_CONFIG, 
   PLANTILLA2_CONFIG,
   PLANTILLA3_CONFIG,
 ];

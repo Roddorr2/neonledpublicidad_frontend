@@ -7,6 +7,7 @@ import {
   HEADER_DEFAULTS,
   FOOTER_DEFAULTS,
 } from "../constants/defaults";
+import { data } from "autoprefixer";
 
 /**
  * BlogOrchestrator - Orquesta el flujo completo de creación/edición de blogs
@@ -271,6 +272,25 @@ class BlogOrchestrator {
       };
 
       await API.default.updateBlog(blogId, blogPayload);
+
+      if (cardId) {
+        const cardPayload = {
+          id_blog: blogId,
+          titulo:
+            headerData.formEncabezadoHeader.titulo || HEADER_DEFAULTS.titulo,
+          descripcion: bodyData.formEncabezadoBody.descripcion || "",
+          public_image:
+            headerData.formImagenHeader.public_image ||
+            DEFAULT_IMAGES.header.image1,
+          url_image: "",
+          id_plantilla: plantillaId,
+          id_empleado: empleadoId,
+        };
+
+        await API.default.updateCard(cardId, cardPayload);
+      } else {
+        console.warn("⚠️ No hay cardId disponible, no se actualizó la card");
+      }
 
       // Subir imágenes si hay cardId
       if (cardId) {

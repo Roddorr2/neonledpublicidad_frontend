@@ -17,8 +17,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+import BotonAnadirLink from "./BotonAnadirLink"; 
+
 // Configuración centralizada
-import { DEFAULT_FOOTER_VALIDATION_CONFIG } from "../../config/index";
+// import { DEFAULT_FOOTER_VALIDATION_CONFIG } from "../../config/index";
+import { DEFAULT_FOOTER_VALIDATION_CONFIG, DEFAULT_SERVICIOS } from "../../config/index";
 
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
@@ -61,7 +64,7 @@ export default function FormFooter({
   data = {},
   defaultImage = "/blog/blog-10.webp",
   maxImages = 3, // Número máximo de imágenes permitidas para el footer
-
+  servicios = DEFAULT_SERVICIOS,
   // Props de configuración
   validationConfig = DEFAULT_FOOTER_VALIDATION_CONFIG,
   styles = DEFAULT_STYLES,
@@ -560,6 +563,25 @@ export default function FormFooter({
                     placeholder={mergedPlaceholders.descripcion}
                     required={validationConfig.descripcion?.required}
                   />
+             
+                  <BotonAnadirLink
+                  servicios={servicios}
+                  item={{
+                  keyword: data.footer_keyword || "",
+                  link: data.footer_link || ""
+                  }}
+                  index={0}
+                  handleChange={(e, index, field) => {
+                  handleFieldChange({
+                  target: {
+                  name: `footer_${field}`,
+                  value: e.target.value
+                  } 
+                 });
+                 }}
+                 />
+ 
+
                 </div>
 
                 {/* Imágenes con Swiper */}
