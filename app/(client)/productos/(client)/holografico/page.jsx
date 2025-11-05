@@ -31,7 +31,7 @@ export default function Home() {
       alt: "Presentación holográfica de persona en escenario con sillas de audiencia"        
     }
   ];
-  const idProducto = 11;
+  const idProducto = 12;
   return (
     <>
       <Banner

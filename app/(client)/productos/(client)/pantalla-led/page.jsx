@@ -31,7 +31,7 @@ export default function Home() {
       alt: "Pantalla LED gigante en interior transmitiendo animación de 20th Century Fox"       
     }
   ];
-  const idProducto = 10;
+  const idProducto = 11;
   return (
     <>
       <Banner

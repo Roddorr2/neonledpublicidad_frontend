@@ -31,7 +31,7 @@ export default function Home() {
       alt: "Pantallas digitales de menú con desayuno, hamburguesas y acompañamientos en restaurante de comida rápida"  
     }
   ];
-  const idProducto = 7;
+  const idProducto = 8;
   return (
     <>
       <Banner

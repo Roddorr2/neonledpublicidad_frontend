@@ -29,7 +29,7 @@ export default function Home() {
       alt: "Letras pintadas en MDF retroiluminadas del letrero Marks & Spencer en tienda comercial"    
     }
   ];
-  const idProducto = 8;
+  const idProducto = 9;
   return (
     <>
       <Banner

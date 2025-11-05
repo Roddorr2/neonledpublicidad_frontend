@@ -92,7 +92,7 @@ const productosInfo = [
       "vinilos decorativos": {
         type: "external",
         url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=neon-led-para-bares-modernos",
-      },
+      }, 
     },
   },
   {

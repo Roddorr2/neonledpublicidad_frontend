@@ -31,7 +31,7 @@ export default function Home() {
       alt: "Tienda comercial con diseño de techo moderno e iluminación LED cuadrada"       
     }
   ];
-  const idProducto = 14;
+  const idProducto = 15;
   return (
     <>
       <Banner
