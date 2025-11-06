@@ -31,7 +31,7 @@ export default function Home() {
       alt: "Club nocturno con techo de tiras pixel LED verdes y luces láser rojas durante fiesta"  
     },
   ];
-  const idProducto = 12;
+  const idProducto = 13;
   return (
     <>
       <Banner

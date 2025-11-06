@@ -31,7 +31,7 @@ export default function Home() {
       alt: "Sofás y mesas LED luminosas en discoteca con ambiente moderno"        
     }
   ];
-  const idProducto = 13;
+  const idProducto = 14;
   return (
     <>
       <Banner

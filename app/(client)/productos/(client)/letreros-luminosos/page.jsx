@@ -28,7 +28,7 @@ export default function Home() {
       image: "/productos/letrero_luminoso3.jpg" 
     }
   ];
-  const idProducto = 3;
+  const idProducto = 4; 
   return (
     <>
       <Banner

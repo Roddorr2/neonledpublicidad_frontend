@@ -31,7 +31,7 @@ export default function Home() {
       alt: "letrero de un tienda con letras neón en tubo de vidrio"
     }
   ];
-  const idProducto = 4;
+  const idProducto = 6;
   return (
     <>
       <Banner
