@@ -412,6 +412,31 @@ export default function FormFooter({
     );
   };
 
+  // Función para renderizar descripción con enlace en palabra clave
+  const renderDescripcion = useCallback((texto, palabraClave, enlace) => {
+    if (!palabraClave || !enlace || !texto) return texto;
+    
+    const escapedKeyword = palabraClave.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`\\b(${escapedKeyword})\\b`, "gi");
+    const partes = texto.split(regex);
+    
+    return partes.map((parte, i) =>
+      parte.toLowerCase() === palabraClave.toLowerCase() ? (
+        <a
+          key={i}
+          href={enlace}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 font-bold underline hover:text-blue-300 transition-colors"
+        >
+          {parte}
+        </a>
+      ) : (
+        <span key={i}>{parte}</span>
+      )
+    );
+  }, []);
+
   // Loading state
   if (!data && mode === "edit") {
     return (
@@ -431,7 +456,11 @@ export default function FormFooter({
               {data.titulo || "Título del Footer"}
             </h3>
             <p className={mergedStyles.description}>
-              {data.descripcion || "Descripción del footer"}
+              {renderDescripcion(
+                data.descripcion || "Descripción del footer",
+                data.keyword || "",
+                data.link || ""
+              )}
             </p>
 
             {/* Galería de imágenes */}
@@ -565,23 +594,28 @@ export default function FormFooter({
                   />
              
                   <BotonAnadirLink
-                  servicios={servicios}
-                  item={{
-                  keyword: data.footer_keyword || "",
-                  link: data.footer_link || ""
-                  }}
-                  index={0}
-                  handleChange={(e, index, field) => {
-                  handleFieldChange({
-                  target: {
-                  name: `footer_${field}`,
-                  value: e.target.value
-                  } 
-                 });
-                 }}
-                 />
- 
+                    servicios={servicios}
+                    item={{
+                      keyword: data.keyword || "",
+                      link: data.link || ""
+                    }}
+                    index={0}
+                    handleChange={(e, index, field) => {
+                      handleFieldChange({
+                        target: {
+                          name: field,
+                          value: e.target.value
+                        } 
+                      });
+                    }}
+                  />
 
+                  <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 mt-3">
+                    <p className="text-xs text-gray-400">
+                      💡 El enlace solo se asocia con texto existente en la descripción
+                    </p>
+                  </div>
+ 
                 </div>
 
                 {/* Imágenes con Swiper */}
