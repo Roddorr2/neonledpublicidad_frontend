@@ -141,13 +141,9 @@ class BlogOrchestrator {
         footerData.formEncabezadoFooter?.estado ?? FOOTER_DEFAULTS.estado;
 
       const footerPayload = {
-        ...footerData.formEncabezadoFooter,
-        // Convertir nombres internos a nombres del servidor
-        keyword: footerData.formEncabezadoFooter.footer_keyword || FOOTER_DEFAULTS.footer_keyword,
-        link: footerData.formEncabezadoFooter.footer_link || FOOTER_DEFAULTS.footer_link,
-        // Remover campos internos que no existen en el servidor
-        footer_keyword: undefined,
-        footer_link: undefined,
+        ...footerData.formEncabezadoFooter,        
+        keyword: footerData.formEncabezadoFooter.keyword || FOOTER_DEFAULTS.keyword,
+        link: footerData.formEncabezadoFooter.link || FOOTER_DEFAULTS.link,
         // Imágenes por defecto
         public_image1: DEFAULT_IMAGES.footer.image1,
         public_image2: DEFAULT_IMAGES.footer.image2,
