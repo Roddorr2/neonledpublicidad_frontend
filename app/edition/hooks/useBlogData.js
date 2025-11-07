@@ -319,6 +319,8 @@ export default function useBlogData(
             title_image2: mappedFooter.title_image2,
             alt_image3: mappedFooter.alt_image3,
             title_image3: mappedFooter.title_image3,
+            keyword:mappedFooter.keyword,
+            link: mappedFooter.link,
           });
           setFormImagenFooter({
             public_image1: mappedFooter.public_image1,
