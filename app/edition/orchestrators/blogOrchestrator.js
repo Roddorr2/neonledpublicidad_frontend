@@ -7,7 +7,6 @@ import {
   HEADER_DEFAULTS,
   FOOTER_DEFAULTS,
 } from "../constants/defaults";
-import { data } from "autoprefixer";
 
 /**
  * BlogOrchestrator - Orquesta el flujo completo de creación/edición de blogs
@@ -142,7 +141,10 @@ class BlogOrchestrator {
         footerData.formEncabezadoFooter?.estado ?? FOOTER_DEFAULTS.estado;
 
       const footerPayload = {
-        ...footerData.formEncabezadoFooter,
+        ...footerData.formEncabezadoFooter,        
+        keyword: footerData.formEncabezadoFooter.keyword || FOOTER_DEFAULTS.keyword,
+        link: footerData.formEncabezadoFooter.link || FOOTER_DEFAULTS.link,
+        // Imágenes por defecto
         public_image1: DEFAULT_IMAGES.footer.image1,
         public_image2: DEFAULT_IMAGES.footer.image2,
         public_image3: DEFAULT_IMAGES.footer.image3,

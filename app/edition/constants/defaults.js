@@ -35,6 +35,8 @@ export const FOOTER_DEFAULTS = {
   titulo: "Contáctanos Para Más Información", // min: 10, max: 50 (required)
   descripcion: "En Neon House estamos comprometidos con la excelencia en cada proyecto. Nuestro equipo de expertos está listo para ayudarte a crear el letrero perfecto que destaque tu negocio. Ofrecemos asesoría personalizada, diseños únicos y la mejor calidad en materiales.", // min: 10, max: 300 (required)
   estado: true, // required: true (cambio de false a true para cumplir validación)
+  keyword: "", // Palabra clave para enlace en descripción
+  link: "", // URL del enlace
   alt_image1: "",
   title_image1: "",
   alt_image2: "",

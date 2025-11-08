@@ -263,6 +263,8 @@ function mapFooterFromServer(data) {
     titulo: data.titulo || FOOTER_DEFAULTS.titulo,
     descripcion: data.descripcion || FOOTER_DEFAULTS.descripcion,
     estado: data.estado ?? FOOTER_DEFAULTS.estado,
+    keyword: data.keyword || FOOTER_DEFAULTS.keyword,
+    link: data.link || FOOTER_DEFAULTS.link,
 
     // Metadatos de imágenes
     alt_image1: data.alt_image1 || FOOTER_DEFAULTS.alt_image1,
@@ -303,6 +305,8 @@ function mapFooterToServer(
       ? formData.descripcion || FOOTER_DEFAULTS.descripcion
       : FOOTER_DEFAULTS.descripcion,
     estado: formData.estado ?? FOOTER_DEFAULTS.estado,
+    keyword: formData.keyword || FOOTER_DEFAULTS.keyword,
+    link: formData.link || FOOTER_DEFAULTS.link,
 
     alt_image1: formData.alt_image1 || FOOTER_DEFAULTS.alt_image1,
     title_image1: formData.title_image1 || FOOTER_DEFAULTS.title_image1,
