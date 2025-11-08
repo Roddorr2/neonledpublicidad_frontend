@@ -25,6 +25,7 @@ export const BODY_DEFAULTS = {
   title_image2: "",
   alt_image3: "",
   title_image3: "",
+  titulo_seccion: "Información Importante",
 };
 
 /**
@@ -47,7 +48,7 @@ export const FOOTER_DEFAULTS = {
  */
 export const CONSEJOS_DEFAULTS = {
   titulo: "Consejos Importantes Para Elegir Tu Letrero de Neón Perfecto", // min: 10, max: 100 (requerido por backend)
-  texto1: "Considera el espacio disponible y la visibilidad desde diferentes ángulos para maximizar el impacto visual", // min: 10, max: 150 (required)
+  texto1: "Considera el espacio disponible y la v isibilidad desde diferentes ángulos para maximizar el impacto visual", // min: 10, max: 150 (required)
   texto2: "Elige colores que representen tu marca y sean visibles tanto de día como de noche en tu ubicación específica", // min: 10, max: 150 (required)
   texto3: "Consulta con expertos sobre el mantenimiento y la garantía para asegurar la durabilidad de tu inversión", // min: 10, max: 150 (optional pero incluido)
   texto4: "", // Solo para plantilla 2 (optional)
