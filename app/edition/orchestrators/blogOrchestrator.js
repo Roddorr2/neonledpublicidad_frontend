@@ -172,14 +172,18 @@ class BlogOrchestrator {
         ...headerData.formEncabezadoHeader,
         public_image: DEFAULT_IMAGES.header.image1,
         url_image: "",
-        // ✅ IDs de relaciones
+        // IDs de relaciones
         id_blog_head: result.headerId,
         id_blog_body: result.bodyId,
         id_blog_footer: result.footerId,
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
         id_empleado: empleadoId,
+        // Campo link personalizado (opcional)
+        link: headerData.formEncabezadoHeader.titulo_link || "",
       };
+      
+      console.log("🔍 DEBUG createBlog - Enviando link al backend:", headerData.formEncabezadoHeader.titulo_link);
 
       const blogResult = await API.default.createBlog(blogPayload);
       result.blogId = blogResult?.id || blogResult?.data?.id;
@@ -262,6 +266,8 @@ class BlogOrchestrator {
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
         id_empleado: empleadoId,
+        // Campo link personalizado (opcional)
+        link: headerData.formEncabezadoHeader.titulo_link || "",
         ...(blogRelations.id_blog_head && {
           id_blog_head: blogRelations.id_blog_head,
         }),
@@ -272,6 +278,8 @@ class BlogOrchestrator {
           id_blog_footer: blogRelations.id_blog_footer,
         }),
       };
+      
+      console.log("🔍 DEBUG updateBlog - Enviando link al backend:", headerData.formEncabezadoHeader.titulo_link);
 
       await API.default.updateBlog(blogId, blogPayload);
 

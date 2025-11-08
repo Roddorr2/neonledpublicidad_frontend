@@ -129,6 +129,7 @@ export const DEFAULT_HEADER_VALIDATION_CONFIG = {
   titulo: { min: 10, max: 50, required: true },
   texto_frase: { min: 10, max: 70, required: true },
   texto_descripcion: { min: 10, max: 120, required: true },
+  titulo_link: { min: 10, max: 70, required: false }, // Campo opcional para el slug personalizado
   alt: { min: 60, max: 120, required: false },
   title: { min: 50, max: 70, required: false },
   meta_title: { min: 50, max: 60, required: false },
