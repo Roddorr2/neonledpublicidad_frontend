@@ -1,11 +1,14 @@
+"use client";
 import Banner from '../components/Banner';
 import CardSlider from '../components/CardSlider';
 import Datos from '../components/Datos';
-
+import ModalProductoScroll from '../components/section2/ModalProductoScroll';
 import Section2 from '../components/section2/Section2';
 
 export default function Home() {
-  const idProducto = 1;
+  
+
+
   const cards = [
     { 
       title: "LETRAS DE ACRÍLICO", 
@@ -33,8 +36,24 @@ export default function Home() {
       alt: "Letrero de cafetería con letras de acrílico" 
     }
   ];
+const idProducto = 1;
+
+const modales = {
+    modalA: {
+      text: "LETRAS ACRÍLICO",
+      fondo: "/servicios/LETRAS_ACRILICO.webp",
+      title: "¡Solicita una demostración gratuita!",
+      serviceName: "1",
+      width: 256,
+      height: 144,
+    },
+  };
+
+   
+
   return (
     <>
+      <ModalProductoScroll data={modales} time={4} />
       <Banner
         titulo={`LETRAS DE\nACRÍLICO`}
         imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad.webp"

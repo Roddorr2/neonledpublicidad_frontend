@@ -1,0 +1,67 @@
+/* Fondo de la modal (seccionA) aparece sin escala */
+.seccionA {
+  opacity: 0;
+  animation: fadeInBackground 0.5s ease-out forwards;
+}
+
+/* Animación solo de opacidad para el fondo */
+@keyframes fadeInBackground {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+/* Animación de entrada para el modal */
+.modal-content {
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeInModal 0.5s ease-out forwards;
+}
+
+/* Animación de salida para el modal */
+@keyframes fadeInModal {
+  from {
+      opacity: 0;
+      transform: scale(0.8);
+  }
+  to {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
+
+/* Animación de salida para el fondo */
+@keyframes fadeOutBackground {
+  from {
+      opacity: 1;
+  }
+  to {
+      opacity: 0;
+  }
+}
+
+/* Animación de salida para el modal */
+@keyframes fadeOutModal {
+  from {
+      opacity: 1;
+      transform: scale(1);
+  }
+  to {
+      opacity: 0;
+      transform: scale(0.8);
+  }
+}
+
+/* Para ocultar el fondo con opacidad */
+.fade-out-bg {
+  animation: fadeOutBackground 0.5s ease-in forwards;
+}
+
+/* Para ocultar el modal con la escala */
+.fade-out-modal {
+  animation: fadeOutModal 0.5s ease-in forwards;
+}
+

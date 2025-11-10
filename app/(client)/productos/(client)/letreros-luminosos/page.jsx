@@ -1,8 +1,9 @@
+"use client";
 import Banner from '../components/Banner';
 import Datos from '../components/Datos';
 import CardSlider from '../components/CardSlider';
 import Section2 from '../components/section2/Section2';
-
+import ModalProductoScroll from '../components/section2/ModalProductoScroll';
 export default function Home() {
   const cards = [
     { 
@@ -29,8 +30,20 @@ export default function Home() {
     }
   ];
   const idProducto = 4; 
+
+        const modales = {
+    modalA: {
+      text: "LETREROS LUMINOSOS",
+      fondo: "/servicios/LETREROS_LUMINOSOS.png",
+      title: "¡Solicita una demostración gratuita!",
+      serviceName: "4",
+      width: 256,
+      height: 144,
+    },
+  };
   return (
     <>
+    <ModalProductoScroll data={modales} time={4} />
       <Banner
         titulo={`LETREROS\nLUMINOSOS`}
         imagen="/productosIndividuales/banner/letreros-luminosos2.png"

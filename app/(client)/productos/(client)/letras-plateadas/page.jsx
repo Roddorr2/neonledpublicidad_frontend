@@ -1,8 +1,9 @@
+"use client";
 import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-
+import ModalProductoScroll from '../components/section2/ModalProductoScroll';
 export default function Home() {
   const cards = [
     {
@@ -35,8 +36,19 @@ export default function Home() {
     },
   ];
   const idProducto = 3;
+      const modales = {
+    modalA: {
+      text: "LETRAS PLATEADAS",
+      fondo: "/servicios/Letras_PLATEADAS.jpg",
+      title: "¡Solicita una demostración gratuita!",
+      serviceName: "3",
+      width: 256,
+      height: 144,
+    },
+  };
   return (
     <>
+     <ModalProductoScroll data={modales} time={4} />
       <Banner
         titulo={`LETRAS DE ALUMINIO \n PLATEADAS 3D`}
         imagen="/productosIndividuales/banner/fondo-plateado.png"

@@ -1,8 +1,9 @@
+"use client";
 import Banner from '../components/Banner';
 import Datos from '../components/Datos';
 import CardSlider from '../components/CardSlider';
 import Section2 from '../components/section2/Section2';
-
+import ModalProductoScroll from '../components/section2/ModalProductoScroll';
 export default function Home() {
   const cards = [
     { 
@@ -32,8 +33,19 @@ export default function Home() {
     },
   ];
   const idProducto = 13;
+           const modales = {
+    modalA: {
+      text: "PIXEL LED",
+      fondo: "/servicios/PIXEL_LED.webp",
+      title: "¡Solicita una demostración gratuita!",
+      serviceName: "13",
+      width: 256,
+      height: 144,
+    },
+  };
   return (
     <>
+    <ModalProductoScroll data={modales} time={4} />
       <Banner
         titulo={`PIXEL\nLED`}
         imagen="/productosIndividuales/banner/pixel-led.webp"
