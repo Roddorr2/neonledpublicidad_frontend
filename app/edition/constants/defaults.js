@@ -7,6 +7,7 @@ export const HEADER_DEFAULTS = {
   titulo: "Título Principal del Blog de Neon House", // min: 10, max: 50
   texto_frase: "Frase descriptiva que captura la esencia del contenido del blog", // min: 10, max: 70
   texto_descripcion: "Descripción completa que presenta el tema del blog de manera clara y atractiva para los lectores interesados", // min: 10, max: 120
+  titulo_link: "", // Texto personalizado para generar el slug/link del blog (opcional)
   meta_title: "",
   meta_descripcion: "",
   alt: "",
