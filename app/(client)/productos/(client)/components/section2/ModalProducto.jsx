@@ -1,25 +1,34 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
-import url from '@/api/url';
-import url_whasapp from '@/api/url_whasapp';
-import { Loader2, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import styles from './modal.module.css';
-import Image from 'next/image';
+import url from "@/api/url";
+import url_whasapp from "@/api/url_whasapp";
+import { Loader2, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import styles from "./modal.module.css";
+import Image from "next/image";
 
 const URL_API = `${url}/api/modales`;
 const URL_WHASAPP = `${url_whasapp}/api/send-message`;
 
-export default function ModalProducto({ isOpen, onClose, text, fondo, title, serviceName, width, height }) {
+export default function ModalProducto({
+  isOpen,
+  onClose,
+  text,
+  fondo,
+  title,
+  serviceName,
+  width,
+  height,
+}) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    nombre: '',
-    telefono: '',
-    correo: '',
+    nombre: "",
+    telefono: "",
+    correo: "",
     id_servicio: serviceName,
   });
 
@@ -58,13 +67,17 @@ export default function ModalProducto({ isOpen, onClose, text, fondo, title, ser
       const fechaActual = fecha.toISOString().split("T")[0];
       const horaActual = fecha.toTimeString().slice(0, 5);
 
-      await axios.post(URL_API, { ...formData }, {
-        headers: {
-          Authorization: `Bearer ${getCookie("token")}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.post(
+        URL_API,
+        { ...formData },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       await axios.post(URL_WHASAPP, {
         telefono: phoneWithPrefix,
@@ -82,7 +95,12 @@ export default function ModalProducto({ isOpen, onClose, text, fondo, title, ser
       });
 
       handleClose();
-      setFormData({ nombre: '', telefono: '', correo: '', id_servicio: serviceName });
+      setFormData({
+        nombre: "",
+        telefono: "",
+        correo: "",
+        id_servicio: serviceName,
+      });
     } catch (error) {
       Swal.fire({
         title: "Error",
@@ -127,26 +145,63 @@ export default function ModalProducto({ isOpen, onClose, text, fondo, title, ser
             width={width || 200}
             height={height || 100}
           />
-          <p className="absolute bottom-10 right-6 text-2xl font-semibold text-right">
+          {/* Logo centrado en la parte superior */}
+          <div className="absolute top-5 -translate-x-20">
+            <Image
+              src="/pop_ups/logo.webp"
+              alt="Logo"
+              width={40}
+              height={40}
+              className="drop-shadow-lg"
+            />
+          </div>
+          <p className="absolute bottom-5 text-3xl font-semibold text-center">
             {text}
           </p>
         </div>
 
-        <div className="p-8 flex flex-col w-full md:w-96 justify-between gap-8 bg-gradient-to-b from-[#0095ff] to-[#ff037f]">
+        <div className="p-8 flex flex-col w-full md:w-96 justify-between gap-8 bg-gradient-to-b from-[#38B6FF] to-[#AE39F2]">
           <p className="text-3xl text-center font-bold">{title}</p>
 
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-            <Input label="Nombre" name="nombre" value={formData.nombre} onChange={handleChange} required />
-            <Input label="Teléfono" name="telefono" value={formData.telefono} onChange={handleChange} required />
-            <Input label="Correo" name="correo" value={formData.correo} onChange={handleChange} required />
-            <input type="hidden" name="id_servicio" value={formData.id_servicio} readOnly />
+            <Input
+              label="Nombre"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Teléfono"
+              name="telefono"
+              value={formData.telefono}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Correo"
+              name="correo"
+              value={formData.correo}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="hidden"
+              name="id_servicio"
+              value={formData.id_servicio}
+              readOnly
+            />
 
             <button
               disabled={loading}
               type="submit"
-              className="bg-[#0095ff] p-2 text-2xl font-bold rounded-2xl mt-4 disabled:opacity-50 hover:bg-[#0080dd] transition"
+              className="bg-[#FEB549] p-2 text-2xl font-bold rounded-2xl mt-4 disabled:opacity-50 hover:bg-[#F5A623] transition"
             >
-              {loading ? <Loader2 className="animate-spin h-4 w-4 mx-auto" /> : "HAZLO YA"}
+              {loading ? (
+                <Loader2 className="animate-spin h-4 w-4 mx-auto" />
+              ) : (
+                "HAZLO YA"
+              )}
             </button>
           </form>
         </div>
@@ -158,7 +213,9 @@ export default function ModalProducto({ isOpen, onClose, text, fondo, title, ser
 function Input({ label, name, value, onChange, ...props }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="font-semibold" htmlFor={name}>{label}</label>
+      <label className="font-semibold" htmlFor={name}>
+        {label}
+      </label>
       <input
         id={name}
         name={name}

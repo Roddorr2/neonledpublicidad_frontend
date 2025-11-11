@@ -1,43 +1,46 @@
 "use client";
-import Banner from '../components/Banner';
-import Datos from '../components/Datos';
-import CardSlider from '../components/CardSlider';
-import Section2 from '../components/section2/Section2';
-import ModalProductoScroll from '../components/section2/ModalProductoScroll';
+import Banner from "../components/Banner";
+import Datos from "../components/Datos";
+import CardSlider from "../components/CardSlider";
+import Section2 from "../components/section2/Section2";
+import ModalProductoScroll from "../components/section2/ModalProductoScroll";
 export default function Home() {
   const cards = [
-    { 
-      title: "SILLAS LUMINOSAS", 
-      description: "Te mostramos la implementación de las sillas luminosas en diversos espacios", 
-      bgColor:"bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
+    {
+      title: "SILLAS LUMINOSAS",
+      description:
+        "Te mostramos la implementación de las sillas luminosas en diversos espacios",
+      bgColor:
+        "bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
       glow: "text-white-400 text-3xl font-bold tracking-wide mb-4",
-     textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
+      textStyle:
+        "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line",
     },
-    { 
-      title: "Discoteca", 
-      description: "Espacio interior", 
+    {
+      title: "Discoteca",
+      description: "Espacio interior",
       image: "/productos/mobiliario-led-colorido-para-bar-nocturno.webp",
-      alt: "Mobiliario LED de colores vibrantes en bar nocturno con ambiente moderno"  
+      alt: "Mobiliario LED de colores vibrantes en bar nocturno con ambiente moderno",
     },
-    { 
-      title: "Eventos", 
-      description: "Espacio exterior",  
+    {
+      title: "Eventos",
+      description: "Espacio exterior",
       image: "/productos/sillas-led-iluminadas-para-terraza-nocturna.webp",
-      alt: "Sillas LED iluminadas al aire libre sobre césped artificial en terraza nocturna"        
+      alt: "Sillas LED iluminadas al aire libre sobre césped artificial en terraza nocturna",
     },
-    { 
-      title: "Zona VIP", 
-      description: "Espacio interior",  
+    {
+      title: "Zona VIP",
+      description: "Espacio interior",
       image: "/productos/mobiliario-luminoso-para-discotecas-y-bares.webp",
-      alt: "Sofás y mesas LED luminosas en discoteca con ambiente moderno"        
-    }
+      alt: "Sofás y mesas LED luminosas en discoteca con ambiente moderno",
+    },
   ];
   const idProducto = 14;
-             const modales = {
+  const modales = {
     modalA: {
       text: "SILLAS LUMINOSAS",
-      fondo: "/servicios/SILLAS_LUMINOSAS.jpg",
-      title: "¡Solicita una demostración gratuita!",
+      fondo: "/pop_ups/SILLAS_LUMINOSAS.jpg",
+      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "14",
       width: 256,
       height: 144,
@@ -45,14 +48,14 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} time={4} />
+      <ModalProductoScroll data={modales} time={14} />
       <Banner
         titulo={`SILLAS\nLUMINOSAS`}
         imagen="/productosIndividuales/banner/sillas-luminosas.png"
       />
       <Section2 idProducto={idProducto} />
-      <CardSlider cards={cards}/>
-      <Datos idProducto={idProducto}/>
+      <CardSlider cards={cards} />
+      <Datos idProducto={idProducto} />
     </>
   );
 }

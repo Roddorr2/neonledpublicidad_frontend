@@ -9,7 +9,7 @@ import ModalProductoScroll from '../components/section2/ModalProductoScroll';
 export default function Home() {
   const cards = [
     { 
-      title: "HOLOGRÁFICOS", 
+      title: "HOLOGRAMAS LED", 
       description: "Te mostramos la implementación de los holográficos en diversos espacios", 
       bgColor:"bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
       glow: "text-white-400 text-3xl font-bold tracking-wide mb-4",
@@ -39,9 +39,9 @@ export default function Home() {
 
   const modales = {
     modalA: {
-      text: "HOLOGRÁFICOS",
-      fondo: "/servicios/holografico.jpg",
-      title: "¡Solicita una demostración gratuita!",
+      text: cards[0].title,
+      fondo: "/pop_ups/HologramasLed.webp",
+      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "12",
       width: 256,
       height: 144,
@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <>
       {/* Modal que se abre automáticamente después de 4 segundos */}
-      <ModalProductoScroll data={modales} time={4} />
+      <ModalProductoScroll data={modales} time={1} />
 
       <Banner
         titulo="HOLOGRÁFICOS"

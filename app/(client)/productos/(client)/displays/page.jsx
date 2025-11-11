@@ -2,6 +2,7 @@ import Banner from '../components/Banner';
 import Datos from '../components/Datos';
 import CardSlider from '../components/CardSlider';
 import Section2 from '../components/section2/Section2';
+import ModalProductoScroll from '../components/section2/ModalProductoScroll';
 
 export default function Home() {
   const cards = [
@@ -32,8 +33,23 @@ export default function Home() {
     }
   ];
   const idProducto = 9;
+
+  const modales = {
+    modalA: {
+      text: "Displays",
+      fondo: "/pop_ups/MonitoresPublicidad.webp",
+      title: "¡Solicita una demostración gratuita!",
+      serviceName: "9",
+      width: 256,
+      height: 144,
+    }
+  }
+
   return (
     <>
+      {/* Modal que se abre automáticamente después de 4 segundos */}
+      <ModalProductoScroll data={modales} time={14} />
+
       <Banner
         titulo={`MONITORES DE\nPUBLICIDAD DIGITAL`}
         imagen="/productosIndividuales/banner/monitores_tactiles4.jpg"
