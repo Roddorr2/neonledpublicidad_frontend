@@ -103,8 +103,7 @@ export default function FormBody({
     formEncabezadoBody?.flag_informacion,
   ]);
 
-  // ✅ Garantizar que el título de consejos tenga valor por defecto
-  // El backend requiere el campo "titulo" en commend_tarjeta
+ 
   useEffect(() => {
     if (
       plantillaId !== 2 &&
@@ -116,9 +115,10 @@ export default function FormBody({
         titulo: "Consejos Importantes",
       }));
     }
-  }, [plantillaId, formCommendBody, setFormCommendBody]);
+  }, [plantillaId, formCommendBody?.titulo, setFormCommendBody]);
 
-  // Manejar cambio de tab activo cuando se deshabilitan secciones
+
+
   useEffect(() => {
     if (layoutType === "tabs") {
       const currentTabVisible =
@@ -1020,7 +1020,7 @@ export default function FormBody({
                 <div>
                <label className={mergedStyles.label}>
                <Type className="w-4 h-4 mr-2 text-purple-400" />
-                   Título de la sección
+                   Título de la sección 
                <ValidationMessage fieldName="titulo" context="consejos" />
                </label>
                <input
