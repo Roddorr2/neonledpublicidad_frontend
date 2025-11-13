@@ -39,7 +39,7 @@ export default function Home() {
 
   const modales = {
     modalA: {
-      text: "LETRAS DORADAS",
+      text: cards[0].title,
       fondo: "/pop_ups/LetrasDoradas.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "2",
@@ -50,7 +50,7 @@ export default function Home() {
 
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE ALUMINIO \n DORADAS 3D`}
         imagen="/productosIndividuales/banner/letras-doradas-fondo.png"

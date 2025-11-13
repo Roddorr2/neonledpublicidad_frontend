@@ -38,7 +38,7 @@ export default function Home() {
   const idProducto = 13;
   const modales = {
     modalA: {
-      text: "PIXEL LED",
+      text: cards[0].title,
       fondo: "/pop_ups/PixelLed.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "13",
@@ -48,7 +48,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`PIXEL\nLED`}
         imagen="/productosIndividuales/banner/pixel-led.webp"

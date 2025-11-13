@@ -40,7 +40,7 @@ export default function Home() {
 
   const modales = {
     modalA: {
-      text: "IMPRESION VINILO",
+      text: cards[0].title,
       fondo: "/pop_ups/VinilosDecorativos.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "7",
@@ -51,7 +51,7 @@ export default function Home() {
 
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`IMPRESIÓN\nEN VINILO`}
         imagen="/productosIndividuales/banner/vinilosparapared.webp"

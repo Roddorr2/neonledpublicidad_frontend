@@ -38,8 +38,8 @@ export default function Home() {
   const idProducto = 15;
   const modales = {
     modalA: {
-      text: "TECHOS LED",
-      fondo: "/pop_ups/TECHOS_LED.webp",
+      text: cards[0].title,
+      fondo: "/pop_ups/techosLed.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "15",
       width: 256,
@@ -48,7 +48,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`TECHOS\nLED`}
         imagen="/productosIndividuales/banner/techos-led.png"

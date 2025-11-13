@@ -40,8 +40,8 @@ export default function Home() {
 
   const modales = {
     modalA: {
-      text: "LETRAS NEON",
-      fondo: "/pop_ups/LetrasNeon.webp",
+      text: cards[0].title,
+      fondo: "/pop_ups/TubosdeNeon.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "6",
       width: 256,
@@ -51,7 +51,7 @@ export default function Home() {
 
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE NEÓN EN\nTUBOS DE VIDRIO`}
         imagen="/productosIndividuales/banner/letras-neon2.png"

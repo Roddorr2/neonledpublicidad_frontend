@@ -7,7 +7,7 @@ import ModalProductoScroll from "../components/section2/ModalProductoScroll";
 export default function Home() {
   const cards = [
     {
-      title: "NEONES LED",
+      title: "LETRAS DE NEÓN LED",
       description:
         "Te mostramos la implementación de los neones led en diversos espacios",
       bgColor:
@@ -38,7 +38,7 @@ export default function Home() {
   const idProducto = 5;
   const modales = {
     modalA: {
-      text: "LETRAS DE NEON LED",
+      text: cards[0].title,
       fondo: "/pop_ups/LetrasNeon.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "5",
@@ -48,7 +48,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE\nNEÓN LED`}
         imagen="/productosIndividuales/banner/neon-led.png"

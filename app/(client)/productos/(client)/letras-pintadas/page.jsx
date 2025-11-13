@@ -8,7 +8,7 @@ import ModalProductoScroll from "../components/section2/ModalProductoScroll";
 export default function Home() {
   const cards = [
     {
-      title: "LETRAS PINTADAS",
+      title: "LETRAS PINTADAS EN MDF",
       description:
         "Te mostramos la implementación de las letras pintadas en diversos espacios",
       bgColor:
@@ -37,7 +37,7 @@ export default function Home() {
   const idProducto = 9;
   const modales = {
     modalA: {
-      text: "LETRAS PINTADAS",
+      text: cards[0].title,
       fondo: "/pop_ups/LetrasMDF.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "9",
@@ -47,7 +47,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS PINTADAS\nEN MDF`}
         imagen="/productosIndividuales/banner/letras-pintadas.webp"

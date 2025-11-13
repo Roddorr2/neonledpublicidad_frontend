@@ -36,7 +36,7 @@ export default function Home() {
 
   const modales = {
     modalA: {
-      text: "Displays",
+      text: cards[0].title,
       fondo: "/pop_ups/MonitoresPublicidad.webp",
       title: "¡Solicita una demostración gratuita!",
       serviceName: "9",
@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <>
       {/* Modal que se abre automáticamente después de 4 segundos */}
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales}/>
 
       <Banner
         titulo={`MONITORES DE\nPUBLICIDAD DIGITAL`}

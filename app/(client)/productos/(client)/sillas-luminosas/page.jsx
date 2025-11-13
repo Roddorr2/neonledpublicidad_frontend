@@ -38,8 +38,8 @@ export default function Home() {
   const idProducto = 14;
   const modales = {
     modalA: {
-      text: "SILLAS LUMINOSAS",
-      fondo: "/pop_ups/SILLAS_LUMINOSAS.jpg",
+      text: cards[0].title,
+      fondo: "/pop_ups/sillasLuminosas.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "14",
       width: 256,
@@ -48,7 +48,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales} />
       <Banner
         titulo={`SILLAS\nLUMINOSAS`}
         imagen="/productosIndividuales/banner/sillas-luminosas.png"

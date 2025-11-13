@@ -40,7 +40,7 @@ export default function Home() {
 
   const modales = {
     modalA: {
-      text: "MENÚ BOARD",
+      text: cards[0].title,
       fondo: "/pop_ups/MenuBoar.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "8",
@@ -50,7 +50,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales} />
       <Banner
         titulo={`MENÚ BOARDS`}
         imagen="/productosIndividuales/banner/menu-board.webp"

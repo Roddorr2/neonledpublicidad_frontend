@@ -53,7 +53,7 @@ export default function Home() {
 
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE\nACRÍLICO`}
         imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad.webp"

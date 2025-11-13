@@ -38,7 +38,7 @@ export default function Home() {
   const idProducto = 11;
   const modales = {
     modalA: {
-      text: "PANTALLAS LED",
+      text: cards[0].title,
       fondo: "/pop_ups/PantallasLed.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "11",
@@ -48,7 +48,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales} />
       <Banner
         titulo={`PANTALLAS\nLED`}
         imagen="/productosIndividuales/banner/pantalla-led.webp"

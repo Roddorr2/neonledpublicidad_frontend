@@ -38,7 +38,7 @@ export default function Home() {
   const idProducto = 3;
   const modales = {
     modalA: {
-      text: "LETRAS PLATEADAS",
+      text: cards[0].title,
       fondo: "/pop_ups/LetrasPlateadas.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
       serviceName: "3",
@@ -48,7 +48,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} time={14} />
+      <ModalProductoScroll data={modales} />
       <Banner
         titulo={`LETRAS DE ALUMINIO \n PLATEADAS 3D`}
         imagen="/productosIndividuales/banner/fondo-plateado.png"
