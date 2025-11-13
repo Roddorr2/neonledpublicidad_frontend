@@ -72,20 +72,19 @@ export default function ModalProducto({
         { ...formData },
         {
           headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
         }
       );
 
-      await axios.post(URL_WHASAPP, {
-        telefono: phoneWithPrefix,
-        nombre: formData.nombre,
-        fecha: fechaActual,
-        hora: horaActual,
-        templateOption: "cita_gratis",
-      });
+      // await axios.post(URL_WHASAPP, {
+      //   telefono: phoneWithPrefix,
+      //   nombre: formData.nombre,
+      //   fecha: fechaActual,
+      //   hora: horaActual,
+      //   templateOption: "cita_gratis",
+      // });
 
       Swal.fire({
         title: "Enviado correctamente",
