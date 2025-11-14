@@ -29,7 +29,8 @@ export default function ModalProducto({
     nombre: "",
     telefono: "",
     correo: "",
-    id_servicio: serviceName,
+    id_producto: serviceName,
+    productoName: text,
   });
 
   const handleChange = (e) => {
@@ -78,13 +79,14 @@ export default function ModalProducto({
         }
       );
 
-      // await axios.post(URL_WHASAPP, {
-      //   telefono: phoneWithPrefix,
-      //   nombre: formData.nombre,
-      //   fecha: fechaActual,
-      //   hora: horaActual,
-      //   templateOption: "cita_gratis",
-      // });
+      await axios.post(URL_WHASAPP, {
+        telefono: phoneWithPrefix,
+        nombre: formData.nombre,
+        fecha: fechaActual,
+        hora: horaActual,
+        templateOption: "producto",
+        productoName: formData.productoName,
+      });
 
       Swal.fire({
         title: "Enviado correctamente",
