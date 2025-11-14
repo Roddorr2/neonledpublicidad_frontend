@@ -6,6 +6,8 @@ import axios from "axios";
 import Link from "next/link";
 import { getCookie } from "cookies-next";
 import HistorialAuditoria from "./components/HistorialAuditoria"
+import { useAuth } from "../../context/AutContext";
+import { useRouter } from "next/navigation";
 import url from "../../../api/url";
 import {
     Search,
@@ -37,14 +39,38 @@ export default function Page() {
 
     const [currentPage, setCurrentPage] = useState(1);
     const blogsPerPage = 5;
+    const { user, hasPermission } = useAuth();
+const router = useRouter();
 
-    const id_empleado = getCookie("empleado")
-        ? JSON.parse(getCookie("empleado")).id_empleado
-        : -1;
+    let id_empleado = -1; // valor por defecto
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+try {
+    const empleadoCookie = getCookie("empleado");
+    if (empleadoCookie) {
+        const parsed = JSON.parse(empleadoCookie);
+        id_empleado = parsed?.id_empleado ?? -1; // si no existe, usar -1
+    }
+} catch (err) {
+    console.error("Error parseando cookie de empleado", err);
+}
+
+        
+        useEffect(() => {
+    if (!user) return; // Espera a que se cargue el usuario
+
+    if (!hasPermission("ver-blogs")) {
+        Swal.fire({
+            title: "Acceso denegado",
+            text: "No tienes permisos para ver esta sección",
+            icon: "error",
+            confirmButtonText: "Aceptar",
+        }).then(() => {
+            router.replace("/dashboard/main"); // Redirige si no tiene permiso
+        });
+    } else {
+        fetchData(); // Solo ejecuta si tiene permiso
+    }
+}, [user]);
 
     useEffect(() => {
         filterBlogs();
