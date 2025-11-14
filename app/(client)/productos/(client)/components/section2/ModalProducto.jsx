@@ -29,7 +29,8 @@ export default function ModalProducto({
     nombre: "",
     telefono: "",
     correo: "",
-    id_servicio: serviceName,
+    id_producto: serviceName,
+    productoName: text,
   });
 
   const handleChange = (e) => {
@@ -84,7 +85,8 @@ export default function ModalProducto({
         nombre: formData.nombre,
         fecha: fechaActual,
         hora: horaActual,
-        templateOption: "cita_gratis",
+        templateOption: "producto",
+        productoName: formData.productoName,
       });
 
       Swal.fire({
