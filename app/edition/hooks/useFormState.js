@@ -43,6 +43,7 @@ export default function useFormState() {
   const [formEncabezadoBody, setFormEncabezadoBody] = useState({
     titulo: BODY_DEFAULTS.titulo,
     descripcion: BODY_DEFAULTS.descripcion,
+    titulo_tarjeta: BODY_DEFAULTS.titulo_tarjeta,
     fecha: getCurrentDate(),
     alt_image1: BODY_DEFAULTS.alt_image1,
     title_image1: BODY_DEFAULTS.title_image1,
@@ -121,6 +122,7 @@ export default function useFormState() {
     setFormEncabezadoBody({
       titulo: BODY_DEFAULTS.titulo,
       descripcion: BODY_DEFAULTS.descripcion,
+      titulo_tarjeta: BODY_DEFAULTS.titulo_tarjeta,
       fecha: getCurrentDate(),
       alt_image1: BODY_DEFAULTS.alt_image1,
       title_image1: BODY_DEFAULTS.title_image1,
