@@ -1,6 +1,6 @@
-
 import axios from 'axios'
 import url from '../../../../api/url'
+import { getCookie } from "cookies-next";
 
 const Fetch = {
     fetchBlogs: async function fetchBlogs(){
@@ -103,7 +103,36 @@ const Fetch = {
             console.log(error);
             return error;
         }
+    },
+
+    //Nueva función para obtener el historial de blogs
+    fetchBlogAuditoria: async function fetchBlogAuditoria() {
+    try {
+        //Obtener token desde cookies
+        const token = getCookie("token");
+
+        if (!token) {
+            console.warn("No se encontró token en cookies");
+            return [];
+        }
+
+        //Incluir el token en el header Authorization
+        const response = await axios.get(`${url}/api/blogs_auditoria`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return response.data.data;
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.error("❌ Error al obtener auditoría:", error.response?.status, error.message);
+        return [];
     }
+}
 }
 
 export default Fetch;
