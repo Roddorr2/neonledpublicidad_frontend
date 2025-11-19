@@ -10,7 +10,7 @@ import {
   FileText,
   Link2,
 } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 // Configuración centralizada
 import {
@@ -86,29 +86,29 @@ export default function FormHeader({
     data.public_image || defaultImage
   );
 
-  // Combinar estilos
-  const mergedStyles = { ...DEFAULT_STYLES, ...styles };
-  const mergedPlaceholders = { ...DEFAULT_PLACEHOLDERS, ...placeholders };
 
-  // Función de validación
+  const mergedStyles = useMemo(() => ({ ...DEFAULT_STYLES, ...styles }), [styles]);
+  const mergedPlaceholders = useMemo(() => ({ ...DEFAULT_PLACEHOLDERS, ...placeholders }), [placeholders]);
+
+
+  const stableValidationConfig = useMemo(() => validationConfig, [JSON.stringify(validationConfig)]);
+
+
   const validateField = useCallback(
     (fieldName, value) => {
-      const config = validationConfig[fieldName];
+      const config = stableValidationConfig[fieldName];
       if (!config) return { isValid: true, message: "" };
 
       const trimmedValue = value?.toString().trim() || "";
 
-      // Si el campo NO es requerido y está vacío, es válido
       if (!config.required && !trimmedValue) {
         return { isValid: true, message: "Opcional" };
       }
 
-      // Si el campo es requerido y está vacío, es inválido
       if (config.required && !trimmedValue) {
         return { isValid: false, message: "Este campo es requerido" };
       }
 
-      // Si tiene contenido, validar min/max
       if (config.min && trimmedValue.length < config.min) {
         return { isValid: false, message: `Mínimo ${config.min} caracteres` };
       }
@@ -122,7 +122,7 @@ export default function FormHeader({
         message: `${trimmedValue.length}/${config.max} caracteres`,
       };
     },
-    [validationConfig]
+    [stableValidationConfig]
   );
 
   // Manejar cambios en los campos
@@ -175,30 +175,54 @@ export default function FormHeader({
     onImageDelete?.();
   }, [defaultImage, onImageDelete, previewImageUrl]);
 
-  // Sincronizar imagen cuando cambie data.public_image (útil para modo edición)
+  // // Sincronizar imagen cuando cambie data.public_image (útil para modo edición)
+  // useEffect(() => {
+  //   if (data.public_image && data.public_image !== defaultImage) {
+  //     // Verificar si es un blob URL temporal, una URL de Cloudinary, o una URL normal
+  //     if (data.public_image.startsWith("blob:")) {
+  //       // Es un blob URL temporal, usarlo directamente para preview
+  //       setPreviewImageUrl(data.public_image);
+  //     } else if (
+  //       data.public_image.startsWith("http") ||
+  //       data.public_image.startsWith("/") ||
+  //       data.public_image.includes("cloudinary.com") ||
+  //       data.public_image.includes("res.cloudinary.com")
+  //     ) {
+  //       // Es una URL normal o de Cloudinary, usarla directamente
+  //       setPreviewImageUrl(data.public_image);
+  //     } else {
+  //       // Fallback a imagen por defecto
+  //       setPreviewImageUrl(defaultImage);
+  //     }
+  //   } else {
+  //     // Si no hay imagen o es la por defecto, mostrar la por defecto
+  //     setPreviewImageUrl(defaultImage);
+  //   }
+  // }, [data.public_image, defaultImage]);
+
+
+
   useEffect(() => {
-    if (data.public_image && data.public_image !== defaultImage) {
-      // Verificar si es un blob URL temporal, una URL de Cloudinary, o una URL normal
-      if (data.public_image.startsWith("blob:")) {
-        // Es un blob URL temporal, usarlo directamente para preview
-        setPreviewImageUrl(data.public_image);
-      } else if (
-        data.public_image.startsWith("http") ||
-        data.public_image.startsWith("/") ||
-        data.public_image.includes("cloudinary.com") ||
-        data.public_image.includes("res.cloudinary.com")
-      ) {
-        // Es una URL normal o de Cloudinary, usarla directamente
-        setPreviewImageUrl(data.public_image);
-      } else {
-        // Fallback a imagen por defecto
-        setPreviewImageUrl(defaultImage);
+    const newImageUrl = (() => {
+      if (!data.public_image || data.public_image === defaultImage) {
+        return defaultImage;
       }
-    } else {
-      // Si no hay imagen o es la por defecto, mostrar la por defecto
-      setPreviewImageUrl(defaultImage);
-    }
+      
+      if (data.public_image.startsWith("blob:") ||
+          data.public_image.startsWith("http") ||
+          data.public_image.startsWith("/") ||
+          data.public_image.includes("cloudinary.com")) {
+        return data.public_image;
+      }
+      
+      return defaultImage;
+    })();
+
+   
+    setPreviewImageUrl(prev => prev !== newImageUrl ? newImageUrl : prev);
   }, [data.public_image, defaultImage]);
+
+
 
   // Limpiar blob URLs al desmontar el componente para evitar memory leaks
   useEffect(() => {
@@ -362,7 +386,7 @@ export default function FormHeader({
           </p>
         </div>
 
-        {/* Panel de edición */}
+        {/* Panel de edición */} 
         <div className="w-full flex justify-end">
           <div className={mergedStyles.panel}>
             <form className={mergedStyles.form}>
