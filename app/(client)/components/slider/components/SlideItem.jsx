@@ -2,18 +2,25 @@
 
 import Image from "next/image";
 import React from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export const SlideItem = ({ slides, current }) => {
   const slide = slides[current];
+  const isMobile = useIsMobile(768);
+
+  // Usar imgSrcMobile si existe y estamos en móvil, o si aún no sabemos (undefined)
+  const imageSrc = (isMobile || isMobile === undefined) && slide.imgSrcMobile 
+    ? slide.imgSrcMobile 
+    : slide.imgSrc;
 
   return (
     <div className="absolute inset-0 relative w-full h-full">
       <Image
-        src={slide.imgSrc}          
+        src={imageSrc}          
         alt={slide.altText}
         title={slide.title}
         fill                        
-        priority                    
+        priority={current === 0}
         className="object-cover object-[72%_50%] sm:object-center" 
         sizes="(max-width: 767px) 100vw, (max-width: 1023px) 80vw, 60vw"
       />
