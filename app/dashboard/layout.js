@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
     empleadoData?.nombre || userData?.name || "Usuario"
   );
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   // Estado simplificado para el Dark Mode
   const [darkMode, setDarkMode] = useState(false);
@@ -96,47 +96,37 @@ export default function RootLayout({ children }) {
         <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
           {/* Sidebar */}
           <aside
+            onMouseEnter={() => setSidebarOpen(true)}
+            onMouseLeave={() => setSidebarOpen(false)}
             className={`${
               isSidebarOpen ? "w-64" : "w-20"
             } transition-all duration-300 fixed inset-y-0 left-0 z-50 flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-lg`}
           >
             {/* Logo and brand */}
-            <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700">
-              <div className="flex items-center">
-                {isSidebarOpen && (
-                  <>
-                    <Link href="/" className="flex items-center">
-                      <Image
-                        src="/dashboard/main-icon.svg"
-                        alt="Logo"
-                        className="h-8 w-8"
-                        width={200}
-                        height={300}
-                      />
-
-                      <span className="ml-2 text-lg font-semibold text-blue-primary dark:text-white">
-                        Neon Led Publicidad
-                      </span>
-                    </Link>
-                  </>
-                )}
-              </div>
-              <button
-                onClick={() => setSidebarOpen(!isSidebarOpen)}
-                className="btn-ghost-safe p-1 rounded-md"
-                type="button"
-              >
-                <ChevronRight
-                  className={`h-5 w-5 transition-transform duration-300 ${
-                    isSidebarOpen ? "rotate-180" : ""
-                  }`}
+            <div className="flex items-center justify-center h-16 px-4 border-b border-gray-200 dark:border-gray-700">
+              <Link href="/" className="flex items-center overflow-hidden">
+                <Image
+                  src="/dashboard/main-icon.svg"
+                  alt="Logo"
+                  className="h-8 w-8 flex-shrink-0"
+                  width={200}
+                  height={300}
                 />
-              </button>
+                <span
+                  className={`ml-2 text-lg font-semibold text-blue-primary dark:text-white whitespace-nowrap transition-all duration-300 ${
+                    isSidebarOpen
+                      ? "opacity-100 max-w-xs"
+                      : "opacity-0 max-w-0 ml-0"
+                  }`}
+                >
+                  Neon Led Publicidad
+                </span>
+              </Link>
             </div>
 
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto py-4 px-3">
-              <ul className="space-y-1">
+              <ul className="space-y-1 whitespace-nowrap">
                 {dashboardLinks.map((link) => {
                   if (
                     link.permission &&

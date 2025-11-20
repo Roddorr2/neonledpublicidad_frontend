@@ -198,7 +198,7 @@ export default function Body1({ id_blog_body, fecha }) {
                 <div className="relative">
                     <div className="relative md:absolute md:-top-4 left-1/2 transform -translate-x-1/2 text-center mb-4 md:mb-0">
                         <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
-                            Información Importante
+                            {data.titulo_tarjeta || "Información Importante"}
                         </div>
                     </div>
 

@@ -123,6 +123,7 @@ function mapBodyFromServer(data, plantillaId = 1) {
     // Datos principales - usar constantes centralizadas
     titulo: data.titulo || BODY_DEFAULTS.titulo,
     descripcion: data.descripcion || BODY_DEFAULTS.descripcion,
+    titulo_tarjeta: data.titulo_tarjeta || BODY_DEFAULTS.titulo_tarjeta,
     fecha: data.fecha || getCurrentDate(),
 
     // Imagen principal (imagen 1)
@@ -194,6 +195,7 @@ function mapBodyToServer(
   const bodyData = {
     titulo: formData.titulo || BODY_DEFAULTS.titulo,
     descripcion: formData.descripcion || BODY_DEFAULTS.descripcion,
+    titulo_tarjeta: formData.titulo_tarjeta || BODY_DEFAULTS.titulo_tarjeta,
     fecha: formData.fecha || getCurrentDate(),
 
     // Imágenes normalizadas
