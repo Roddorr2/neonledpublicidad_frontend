@@ -154,6 +154,7 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   // Encabezado (formEncabezadoBody)
   titulo: { min: 10, max: 50, required: true },
   descripcion: { min: 10, max: 400, required: true },
+  titulo_tarjeta: { min: 10, max: 100, required: false },
   fecha: { required: true },
   alt_image1: { min: 60, max: 120, required: false },
   title_image1: { min: 50, max: 70, required: false },
