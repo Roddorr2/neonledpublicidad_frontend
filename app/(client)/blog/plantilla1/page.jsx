@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
 import Header from "../components/templates/Header";
 import Body1 from "../components/templates/Body1";
@@ -24,41 +24,91 @@ const Page = () => {
 };
 
 const PageContent = () => {
-  const [data, setDataResponse] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const router = useRouter();
   const searchParams = useSearchParams();
   const blogLink = searchParams.get("blog");
 
+  const [data, setDataResponse] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchBlogData = async () => {
-      if (!blogLink || blogLink === "null") {
-        setError("Link de blog no proporcionado");
-        setIsLoading(false);
-        return;
-      }
-
       try {
         setIsLoading(true);
         setError(null);
+
         const response = await Fetch.fetchBlogByLink(blogLink);
-        setDataResponse(response);
+
+        if (response) {
+          setDataResponse(response);
+        } else {
+          setError("Blog no encontrado");
+        }
       } catch (error) {
-        console.error("Error fetching blog data:", error);
-        setError("No se pudo cargar el contenido del blog");
+        console.error("Error al obtener blog", error);
+        setError("Error al cargar el blog");
         Swal.fire({
           title: "Error",
-          text: "Ocurrió un error inesperado.",
+          text: "Hubo un problema al cargar el blog. Por favor, intenta nuevamente más tarde.",
           icon: "error",
-          confirmButtonText: "OK",
+          confirmButtonText: "Aceptar",
         });
       } finally {
         setIsLoading(false);
       }
     };
-
-    fetchBlogData();
+    if (blogLink) fetchBlogData();
   }, [blogLink]);
+
+  useEffect(() => {
+    if (data) {
+      const title = data?.head?.meta_title || data?.title || "Mi Blog";
+      const description =
+        data?.head?.meta_descripcion ||
+        data?.meta_descripcion ||
+        "Bienvenido a mi blog meta";
+
+      document.title = title;
+
+      // Actualizar <meta name="description">
+      let metaDescription = document.querySelector("meta[name='description']");
+      if (!metaDescription) {
+        metaDescription = document.createElement("meta");
+        metaDescription.name = "description";
+        document.head.appendChild(metaDescription);
+      }
+      metaDescription.setAttribute("content", description);
+
+      // Actualizar etiquetas OG
+      const ogTags = [
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        {
+          property: "og:url",
+          content: `https://www.ledneonpublicidad.com/blogs/${blogLink}`,
+        },
+      ];
+      ogTags.forEach(({ property, content }) => {
+        let tag = document.querySelector(`meta[property='${property}']`);
+        if (!tag) {
+          tag = document.createElement("meta");
+          tag.setAttribute("property", property);
+          document.head.appendChild(tag);
+        }
+        tag.setAttribute("content", content);
+      });
+
+      // Actualiza o crea <Link rel="canonical">
+      let canonicalLink = document.querySelector("link[rel='canonical']");
+      if (!canonicalLink) {
+        canonicalLink = document.createElement("link");
+        canonicalLink.rel = "canonical";
+        document.head.appendChild(canonicalLink);
+      }
+      canonicalLink.href = `https://www.ledneonpublicidad.com/${blogLink}`;
+    }
+  }, [data, blogLink]);
 
   if (error) {
     return (
@@ -71,7 +121,7 @@ const PageContent = () => {
             nuevamente.
           </p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => router.refresh()}
             className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
           >
             Reintentar
