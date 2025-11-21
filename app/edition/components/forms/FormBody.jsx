@@ -667,7 +667,7 @@ export default function FormBody({
         <div className="relative">
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
             <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
-              Información Importante
+              {data.header.titulo_tarjeta || "Información Importante"}
             </div>
           </div>
           <div className="grid grid-cols-1 gap-28 pt-8">
