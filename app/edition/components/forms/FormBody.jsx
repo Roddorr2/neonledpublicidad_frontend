@@ -106,17 +106,17 @@ export default function FormBody({
   // ✅ Garantizar que el título de consejos tenga valor por defecto
   // El backend requiere el campo "titulo" en commend_tarjeta
   useEffect(() => {
-    if (
-      plantillaId !== 2 &&
-      formCommendBody &&
-      (!formCommendBody.titulo || formCommendBody.titulo.trim() === "")
-    ) {
-      setFormCommendBody?.((prev) => ({
-        ...prev,
-        titulo: "Consejos Importantes",
-      }));
-    }
-  }, [plantillaId, formCommendBody, setFormCommendBody]);
+  if (
+    plantillaId !== 2 &&
+    formCommendBody &&
+    formCommendBody.titulo === undefined
+  ) {
+    setFormCommendBody?.((prev) => ({
+      ...prev,
+      titulo: "Consejos Importantes",
+    }));
+  }
+}, []);
 
   // Manejar cambio de tab activo cuando se deshabilitan secciones
   useEffect(() => {
@@ -531,7 +531,7 @@ export default function FormBody({
           <div className="flex items-center justify-center mb-4">
             <div className="h-0.5 w-12 bg-green-400 mr-4"></div>
             <h3 className="text-2xl font-bold text-green-400">
-              {data.consejos.titulo || "Consejos"}
+              {data.consejos.titulo || ""}
             </h3>
             <div className="h-0.5 w-12 bg-green-400 ml-4"></div>
           </div>
