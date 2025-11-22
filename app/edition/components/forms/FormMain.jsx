@@ -137,6 +137,10 @@ const mergedSectionsConfig = currentPlantillaConfig?.sectionsConfig || {
   informacion: { enabled: true },
 };
 
+
+
+const [activePreviewTab, setActivePreviewTab] = useState("informacion");
+
   //Referencias para scroll a secciones
   const headerRef = useRef(null);
   const bodyRef = useRef(null);
@@ -189,6 +193,25 @@ useEffect(() => {
   formEncabezadoBody?.flag_galeria,
   formEncabezadoBody?.flag_informacion,
 ]);
+
+
+useEffect(() => {
+  const currentTabVisible =
+    (activePreviewTab === "consejos" && sectionsVisibility.consejos) ||
+    (activePreviewTab === "galeria" && sectionsVisibility.galeria) ||
+    (activePreviewTab === "informacion" && sectionsVisibility.informacion);
+
+  if (!currentTabVisible) {
+    if (sectionsVisibility.informacion) {
+      setActivePreviewTab("informacion");
+    } else if (sectionsVisibility.consejos) {
+      setActivePreviewTab("consejos");
+    } else if (sectionsVisibility.galeria) {
+      setActivePreviewTab("galeria");
+    }
+  }
+}, [sectionsVisibility, activePreviewTab]);
+
   // Auto-guardado periódico
   useEffect(() => {
     if (!autoSave || !isDirty || !isFormValid) return;
@@ -753,14 +776,17 @@ const renderSectionControls = () => (
 {/* Vista Previa */}
 {viewMode === "preview" && (
   <div className="bg-gray-50 rounded-lg p-6 min-h-screen">
-    <TemplateRenderer
-      plantillaId={selectedPlantilla}
-      blogData={getBlogDataForPreview()}
-      mode="preview"
-      showPlaceholders={true}
-      className="shadow-lg bg-white rounded-lg"
-      renderAfterHeader={renderSectionControls()}
-    />
+  <TemplateRenderer
+  plantillaId={selectedPlantilla}
+  blogData={getBlogDataForPreview()}
+  mode="preview"
+  showPlaceholders={true}
+  className="shadow-lg bg-white rounded-lg"
+  renderAfterHeader={renderSectionControls()}
+  activeTab={activePreviewTab}
+  onTabChange={setActivePreviewTab}
+  sectionsVisibility={sectionsVisibility}
+/>
   </div>
 )}
 

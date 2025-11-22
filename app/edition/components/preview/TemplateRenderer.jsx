@@ -32,19 +32,23 @@ export default function TemplateRenderer({
   showPlaceholders = true,
   className = "",
   renderAfterHeader = null,
+  activeTab = "informacion",
+  onTabChange = null,
+  sectionsVisibility: externalSectionsVisibility = null,
 }) {
-  // Obtener configuración de la plantilla
+
+
   const plantillaConfig = getPlantillaConfig(plantillaId);
   const { layoutType, styles = {}, sectionsConfig = {} } = plantillaConfig;
 
-  // Destructurar datos del blog con valores por defecto
+
   const {
     header = {},
     body = {},
     footer = {},
   } = blogData;
 
-  // Datos específicos del body
+
   const {
     header: bodyHeader = {},
     consejos = {},
@@ -52,14 +56,24 @@ export default function TemplateRenderer({
     informacion = [],
   } = body;
 
-  // Verificar visibilidad de secciones según flags
-  const sectionsVisibility = useMemo(() => ({
-    header: true, // Header siempre visible
+  const sectionsVisibility = useMemo(() => {
+  if (externalSectionsVisibility) {
+    return {
+      header: true,
+      consejos: externalSectionsVisibility.consejos,
+      galeria: externalSectionsVisibility.galeria,
+      informacion: externalSectionsVisibility.informacion,
+      footer: footer.estado ?? false,
+    };
+  }
+  return {
+    header: true,
     consejos: bodyHeader.flag_consejos ?? true,
     galeria: bodyHeader.flag_galeria ?? true,
     informacion: bodyHeader.flag_informacion ?? true,
     footer: footer.estado ?? false,
-  }), [bodyHeader.flag_consejos, bodyHeader.flag_galeria, bodyHeader.flag_informacion, footer.estado]);
+  };
+}, [bodyHeader.flag_consejos, bodyHeader.flag_galeria, bodyHeader.flag_informacion, footer.estado, externalSectionsVisibility]);
 
   // Renderizar sección del header principal
   const renderHeaderSection = () => {
@@ -380,7 +394,7 @@ export default function TemplateRenderer({
         </div>
 
         {footerImages.length > 0 && (
-          <div className="flex flex-wrap justify-center gap-6 mt-8">
+          <div className="flex flex-wrap justify-center gap-16 mt-8">
             {footerImages.map((image) => (
               <div key={image.id} className="relative group">
                 <div className="w-48 h-36 overflow-hidden rounded-lg">
@@ -400,35 +414,84 @@ export default function TemplateRenderer({
     );
   };
 
-  // Renderizar el contenido principal según el layout
-  const renderMainContent = () => {
-    if (layoutType === "tabs") {
-      // Plantilla 2: Layout con tabs
-      return (
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="p-8 md:p-12">
-            {renderBodyHeaderSection()}
-            
-            <div className="space-y-16">
-              {renderConsejosSection()}
-              {renderGaleriaSection()}
-              {renderInformacionSection()}
-            </div>
+
+const renderTabsNavigation = () => {
+  if (!onTabChange) return null;
+
+  const tabs = [
+    { id: "informacion", label: "Información", visible: sectionsVisibility.informacion },
+    { id: "consejos", label: "Consejos", visible: sectionsVisibility.consejos },
+    { id: "galeria", label: "Galería", visible: sectionsVisibility.galeria },
+  ].filter(tab => tab.visible);
+
+  if (tabs.length === 0) return null;
+
+  return (
+    <div className="border-b border-gray-200 mb-8">
+      <nav className="flex space-x-8">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => onTabChange(tab.id)}
+            className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
+              activeTab === tab.id
+                ? "border-teal-500 text-teal-600"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </nav>
+    </div>
+  );
+};
+
+
+ const renderMainContent = () => {
+
+  if (onTabChange) {
+    return (
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="p-8 md:p-12">
+          {renderBodyHeaderSection()}
+          {renderTabsNavigation()}
+          
+          <div>
+            {activeTab === "informacion" && sectionsVisibility.informacion && renderInformacionSection()}
+            {activeTab === "consejos" && sectionsVisibility.consejos && renderConsejosSection()}
+            {activeTab === "galeria" && sectionsVisibility.galeria && renderGaleriaSection()}
           </div>
         </div>
-      );
-    } else {
-      // Plantilla 1 y 3: Layout lineal
-      return (
-        <div className="space-y-16">
+      </div>
+    );
+  }
+
+  if (layoutType === "tabs") {
+    return (
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="p-8 md:p-12">
           {renderBodyHeaderSection()}
-          {renderConsejosSection()}
-          {renderGaleriaSection()}
-          {renderInformacionSection()}
+          
+          <div className="space-y-16">
+            {renderConsejosSection()}
+            {renderGaleriaSection()}
+            {renderInformacionSection()}
+          </div>
         </div>
-      );
-    }
-  };
+      </div>
+    );
+  } else {
+    return (
+      <div className="space-y-16">
+        {renderBodyHeaderSection()}
+        {renderConsejosSection()}
+        {renderGaleriaSection()}
+        {renderInformacionSection()}
+      </div>
+    );
+  }
+};
 
   return (
     <div className={`min-h-screen bg-gray-50 ${className}`}>
