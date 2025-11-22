@@ -25,7 +25,7 @@ import "swiper/css/pagination";
 
 // Importar configuraciones de plantillas
 import {
-  getPlantillaConfig,
+  getPlantillaConfig, 
   DEFAULT_BODY_VALIDATION_CONFIG,
   DEFAULT_SERVICIOS,
 } from "../../config/index.js";

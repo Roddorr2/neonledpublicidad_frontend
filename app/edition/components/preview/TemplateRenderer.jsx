@@ -31,6 +31,7 @@ export default function TemplateRenderer({
   mode = "preview",
   showPlaceholders = true,
   className = "",
+  renderAfterHeader = null,
 }) {
   // Obtener configuración de la plantilla
   const plantillaConfig = getPlantillaConfig(plantillaId);
@@ -441,10 +442,19 @@ export default function TemplateRenderer({
           </div>
         )}
 
-        {/* Header Principal */}
-        <div className="mb-16">
-          {renderHeaderSection()}
-        </div>
+      {/* Header Principal */}
+      <div className="mb-16">
+     {renderHeaderSection()}
+     </div>
+
+     {/* Control de Secciones (si se pasa) */}
+     {renderAfterHeader && (
+     <div className="mb-8">
+      {renderAfterHeader}
+     </div>
+    )}
+
+
 
         {/* Contenido Principal */}
         <div className="mb-16">
