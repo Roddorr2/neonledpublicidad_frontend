@@ -20,13 +20,13 @@ export const HEADER_DEFAULTS = {
 export const BODY_DEFAULTS = {
   titulo: "Descubre Todo Sobre Nuestros Servicios de Neón", // min: 10, max: 50 (required)
   descripcion: "En este artículo exploraremos en detalle los diferentes aspectos de nuestros servicios de letreros de neón y cómo pueden transformar espacios comerciales y residenciales. Conoce las últimas tendencias, técnicas de instalación y consejos de mantenimiento para aprovechar al máximo tu inversión en iluminación LED y neón tradicional de alta calidad.", // min: 10, max: 400 (required)
+  titulo_tarjeta: "Información Relevante Sobre Letreros de Neón", // min: 10, max: 100 (optional)
   alt_image1: "",
   title_image1: "",
   alt_image2: "",
   title_image2: "",
   alt_image3: "",
   title_image3: "",
-  titulo_seccion: "Información Importante",
 };
 
 /**
@@ -51,7 +51,7 @@ export const FOOTER_DEFAULTS = {
  */ 
 export const CONSEJOS_DEFAULTS = {
   titulo: "Consejos Importantes Para Elegir Tu Letrero de Neón Perfecto", // min: 10, max: 100 (requerido por backend)
-  texto1: "Considera el espacio disponible y la v isibilidad desde diferentes ángulos para maximizar el impacto visual", // min: 10, max: 150 (required)
+  texto1: "Considera el espacio disponible y la visibilidad desde diferentes ángulos para maximizar el impacto visual", // min: 10, max: 150 (required)
   texto2: "Elige colores que representen tu marca y sean visibles tanto de día como de noche en tu ubicación específica", // min: 10, max: 150 (required)
   texto3: "Consulta con expertos sobre el mantenimiento y la garantía para asegurar la durabilidad de tu inversión", // min: 10, max: 150 (optional pero incluido)
   texto4: "", // Solo para plantilla 2 (optional)

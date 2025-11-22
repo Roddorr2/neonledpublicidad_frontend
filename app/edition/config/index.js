@@ -154,10 +154,10 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   // Encabezado (formEncabezadoBody)
   titulo: { min: 10, max: 50, required: true },
   descripcion: { min: 10, max: 400, required: true },
+  titulo_tarjeta: { min: 10, max: 100, required: false },
   fecha: { required: true },
   alt_image1: { min: 60, max: 120, required: false },
   title_image1: { min: 50, max: 70, required: false },
-  titulo_seccion: { min: 10, max: 50, required: false },
 
   // Campos de control dinámico
   flag_galeria: { required: true },
@@ -166,7 +166,7 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   service_url: { required: false },
 
   // Consejos (formCommendBody) - Hasta 5 consejos
-  "consejos.titulo": { min: 10, max: 100, required: true }, // Especialmente para plantilla 2
+  "consejos.titulo": { min: 10, max: 100, required: false }, // Especialmente para plantilla 2
   texto1: { min: 10, max: 150, required: true },
   texto2: { min: 10, max: 150, required: true },
   texto3: { min: 10, max: 150, required: false },
@@ -189,7 +189,7 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
 export { PLANTILLA1_CONFIG, PLANTILLA2_CONFIG, PLANTILLA3_CONFIG };
 
 // Export por defecto
-export default { 
+export default {
   PLANTILLAS,
   PLANTILLAS_ARRAY,
   getPlantillaConfig,

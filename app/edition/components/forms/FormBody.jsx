@@ -115,7 +115,7 @@ export default function FormBody({
         titulo: "Consejos Importantes",
       }));
     }
-  }, [plantillaId, formCommendBody?.titulo, setFormCommendBody]);
+  }, [plantillaId, formCommendBody, setFormCommendBody]);
 
 
 
@@ -531,7 +531,7 @@ export default function FormBody({
           <div className="flex items-center justify-center mb-4">
             <div className="h-0.5 w-12 bg-green-400 mr-4"></div>
             <h3 className="text-2xl font-bold text-green-400">
-              {data.consejos.titulo || "Consejos"}
+              {data.consejos.titulo || ""}
             </h3>
             <div className="h-0.5 w-12 bg-green-400 ml-4"></div>
           </div>
@@ -663,12 +663,12 @@ export default function FormBody({
         "bg-gradient-to-br from-gray-800 to-gray-900 border-r-4 border-purple-400",
       ];
 
-      return ( 
-          <div className="relative">
+      return (
+        <div className="relative">
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
-          <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
-          {data.header.titulo_seccion || "Información Importante"}
-          </div>
+            <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
+              {data.header.titulo_tarjeta || "Información Importante"}
+            </div>
           </div>
           <div className="grid grid-cols-1 gap-28 pt-8">
             {data.informacion.map((section, index) => (
@@ -1020,7 +1020,7 @@ export default function FormBody({
                 <div>
                <label className={mergedStyles.label}>
                <Type className="w-4 h-4 mr-2 text-purple-400" />
-                   Título de la sección 
+                   Título de la sección
                <ValidationMessage fieldName="titulo" context="consejos" />
                </label>
                <input
@@ -1292,24 +1292,25 @@ export default function FormBody({
                 Tarjetas de Información (
                 {mergedSectionsConfig.informacion.maxItems} máximo)
               </h4>
-
-               {/* Título de la sección de información */}
+              
+              {/* Título general de la sección de tarjetas */}
               <div className="mb-4">
-              <label className={mergedStyles.label}>
-              <Type className="w-4 h-4 mr-2 text-purple-400" />
-                 Título de la sección
-              <ValidationMessage fieldName="titulo_seccion" context="informacion" />
-              </label>
-              <input
-              type="text"
-              name="titulo_seccion"
-              maxLength={50}
-              value={data.header.titulo_seccion || "Información Importante"}
-              onChange={handleChange(setFormEncabezadoBody)}
-              className={mergedStyles.input}
-              placeholder="Ej: Información Importante, Datos Clave"
-              />
+                <label className={mergedStyles.label}>
+                  <Type className="w-4 h-4 mr-2 text-yellow-400" />
+                  Título de la sección de tarjetas
+                  <ValidationMessage fieldName="titulo_tarjeta" />
+                </label>
+                <input
+                  type="text"
+                  name="titulo_tarjeta"
+                  maxLength={100}
+                  value={data.header.titulo_tarjeta || ""}
+                  onChange={handleChange(setFormEncabezadoBody)}
+                  className={mergedStyles.input}
+                  placeholder="Ej: Información Relevante, Aspectos Destacados"
+                />
               </div>
+
               {/* Swiper para tarjetas de información */}
               <div className="relative">
                 <Swiper
@@ -1640,6 +1641,7 @@ export default function FormBody({
       const headerFields = [
         "titulo",
         "descripcion",
+        "titulo_tarjeta",
         "alt_image1",
         "title_image1",
       ];
@@ -1653,15 +1655,13 @@ export default function FormBody({
 
     // ===== VALIDAR CAMPOS DE CONSEJOS =====
     if (formCommendBody && sectionsVisibility.consejos) {
-      // Validar título de consejos (especialmente para plantilla 2)
-      if (plantillaId === 2) {
-        const tituloValidation = validateFieldInline(
-          "titulo",
-          formCommendBody.titulo || "",
-          "consejos"
-        );
-        initialValidations["consejos.titulo"] = tituloValidation;
-      }
+      // Validar título de consejos (disponible para todas las plantillas)
+      const tituloValidation = validateFieldInline(
+        "titulo",
+        formCommendBody.titulo || "",
+        "consejos"
+      );
+      initialValidations["consejos.titulo"] = tituloValidation;
 
       // Validar textos de consejos
       const consejosFields = ["texto1", "texto2", "texto3", "texto4", "texto5"];
