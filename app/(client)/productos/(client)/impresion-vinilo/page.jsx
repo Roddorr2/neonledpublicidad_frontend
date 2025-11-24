@@ -51,7 +51,7 @@ export default function Home() {
 
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      {/* <ModalProductoScroll data={modales}/> */}
       <Banner
         titulo={`IMPRESIÓN\nEN VINILO`}
         imagen="/productosIndividuales/banner/vinilosparapared.webp"
