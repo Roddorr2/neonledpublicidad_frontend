@@ -26,6 +26,9 @@ import {
 import TemplateSelector from "../preview/TemplateSelector";
 import TemplateRenderer from "../preview/TemplateRenderer";
 
+/** REFERENCIA GLOBAL PARA ACCIONAR BOTÓN DESDE FUERA */
+export const externalSaveRef = { current: null };
+
 /**
  * FormMain - Componente orquestador del workflow completo de blogs
  */
@@ -112,17 +115,20 @@ export default function FormMain({
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [autoSaveTimer, setAutoSaveTimer] = useState(null);
 
-  // Estados para el sistema de preview
-  const [viewMode, setViewMode] = useState("edit"); // 'edit' | 'preview' | 'template-select'
+  // Estado de preview
+  const [viewMode, setViewMode] = useState("edit");
   const [selectedPlantilla, setSelectedPlantilla] = useState(plantillaId);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
 
-  //Referencias para scroll a secciones
+  // Referencias
   const headerRef = useRef(null);
   const bodyRef = useRef(null);
   const footerRef = useRef(null);
 
-  // Generar datos consolidados para preview
+  /** REFERENCIA LOCAL DEL BOTÓN GUARDAR */
+  const saveButtonRef = useRef(null);
+
+  // Generar datos para preview
   const getBlogDataForPreview = useCallback(() => {
     return {
       header: {
@@ -132,7 +138,6 @@ export default function FormMain({
       body: {
         header: {
           ...formEncabezadoBody,
-          // Incluir flags de secciones
           flag_consejos: formEncabezadoBody?.flag_consejos ?? true,
           flag_galeria: formEncabezadoBody?.flag_galeria ?? true,
           flag_informacion: formEncabezadoBody?.flag_informacion ?? true,
@@ -158,33 +163,27 @@ export default function FormMain({
     formImagenFooter,
   ]);
 
-  // Auto-guardado periódico
+  // Auto-guardado
   useEffect(() => {
     if (!autoSave || !isDirty || !isFormValid) return;
 
     const timer = setTimeout(async () => {
       try {
         await saveBlog();
-      } catch (err) {
-        // Error en auto-guardado - silencioso
-      }
+      } catch (err) {}
     }, autoSaveInterval);
 
     setAutoSaveTimer(timer);
-
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
+    return () => timer && clearTimeout(timer);
   }, [autoSave, isDirty, isFormValid, autoSaveInterval, saveBlog]);
 
-  // Limpiar timer al desmontar
   useEffect(() => {
     return () => {
       if (autoSaveTimer) clearTimeout(autoSaveTimer);
     };
   }, [autoSaveTimer]);
 
-  // Manejar clics del menú lateral para hacer scroll
+  // Scroll
   useEffect(() => {
     const handleNavClick = (event) => {
       const target = event.target.closest("[data-scroll-to]");
@@ -214,7 +213,7 @@ export default function FormMain({
     return () => document.removeEventListener("click", handleNavClick);
   }, []);
 
-  // Handlers para FormHeader - Compatibilidad completa con blog_heads
+  // Header handlers
   const handleHeaderChange = useCallback(
     ({ name, value }) => {
       if (["public_image", "url_image", "alt", "title"].includes(name)) {
@@ -231,40 +230,28 @@ export default function FormMain({
       try {
         setLoading(true);
 
-        if (isCreateMode) {
-          setFormImagenHeader((prev) => ({
-            ...prev,
-            public_image: imageData.tempUrl,
-            alt: imageData.alt || "",
-            title: imageData.title || "",
-          }));
+        setFormImagenHeader((prev) => ({
+          ...prev,
+          public_image: imageData.tempUrl,
+          alt: imageData.alt || "",
+          title: imageData.title || "",
+        }));
 
-          // Guardar archivo para subir en saveBlog
-          setFileHeader(imageData.file);
-        } else {
-          setFormImagenHeader((prev) => ({
-            ...prev,
-            public_image: imageData.tempUrl,
-            alt: imageData.alt || "",
-            title: imageData.title || "",
-          }));
-
-          setFileHeader(imageData.file);
-        }
+        setFileHeader(imageData.file);
       } catch (err) {
         setError("Error al procesar imagen del header");
       } finally {
         setLoading(false);
       }
     },
-    [isCreateMode, setFormImagenHeader, setFileHeader, setLoading, setError]
+    [setFormImagenHeader, setFileHeader, setLoading, setError]
   );
 
   const handleHeaderImageDelete = useCallback(async () => {
     try {
       setFormImagenHeader((prev) => ({
         ...prev,
-        public_image: "/blog/fondo_blog_extend.png", // Volver a imagen por defecto
+        public_image: "/blog/fondo_blog_extend.png",
         alt: "",
         title: "",
       }));
@@ -275,10 +262,6 @@ export default function FormMain({
     }
   }, [setFormImagenHeader, setFileHeader, setError]);
 
-  // Handlers para FormBody - Compatibilidad completa con servicios
-  // Los setters se pasan directamente a FormBody para evitar wrappers innecesarios
-
-  // Handlers para FormFooter - Compatibilidad completa
   const handleFooterChange = useCallback(
     ({ name, value }) => {
       if (["public_image1", "public_image2", "public_image3"].includes(name)) {
@@ -290,10 +273,6 @@ export default function FormMain({
     [setFormEncabezadoFooter, setFormImagenFooter]
   );
 
-  // NOTA: handleFooterImagesChange y handleFooterImageDelete fueron eliminados
-  // Las imágenes del footer ahora se manejan a través del flujo principal de saveBlog
-  // que usa el orchestrator para coordinar todas las subidas de imágenes
-
   const handleFooterValidation = useCallback(
     (isValid) => {
       setValidacionFooter(isValid);
@@ -301,7 +280,7 @@ export default function FormMain({
     [setValidacionFooter]
   );
 
-  // Handler principal para guardar
+  // Guardar
   const handleSave = useCallback(async () => {
     if (!isFormValid) {
       setError("Por favor completa todos los campos obligatorios");
@@ -316,16 +295,14 @@ export default function FormMain({
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
 
-      // Notificar éxito al componente padre
       onSuccess?.(result);
     } catch (err) {
       setError("No se pudo guardar el blog. Intenta nuevamente.");
     } finally {
       setIsSaving(false);
     }
-  }, [isFormValid, saveBlog, onSuccess, isCreateMode, setError, clearError]);
+  }, [isFormValid, saveBlog, onSuccess, setError, clearError]);
 
-  // Handler para cancelar
   const handleCancel = useCallback(() => {
     if (isDirty) {
       const confirm = window.confirm(
@@ -333,19 +310,13 @@ export default function FormMain({
       );
       if (!confirm) return;
     }
-
     resetForm();
     onCancel?.();
   }, [isDirty, resetForm, onCancel]);
 
-  // Handler para preview
   const handlePreview = useCallback(() => {
-    if (viewMode === "preview") {
-      setViewMode("edit");
-    } else {
-      setViewMode("preview");
-    }
-  }, [viewMode]);
+    setViewMode((prev) => (prev === "preview" ? "edit" : "preview"));
+  }, []);
 
   const handlePlantillaChange = useCallback(
     (newPlantillaId) => {
@@ -361,19 +332,17 @@ export default function FormMain({
     [selectedPlantilla, isCreateMode, onPlantillaChange]
   );
 
-  // Handler para mostrar selector de plantillas
   const handleShowTemplateSelector = useCallback(() => {
     setShowTemplateSelector(true);
     setViewMode("template-select");
   }, []);
 
-  // Handler para cancelar selección de plantilla
   const handleCancelTemplateSelection = useCallback(() => {
     setShowTemplateSelector(false);
     setViewMode("edit");
   }, []);
 
-  // Estados de carga
+  // Loading estado
   if (loading && isEditMode) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -385,7 +354,7 @@ export default function FormMain({
 
   return (
     <div className={`max-w-7xl mx-auto mt-8 ${className}`}>
-      {/* Header de estado y acciones */}
+      {/* Panel superior */}
       <div className="mb-8 bg-white rounded-lg shadow-sm border p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -401,26 +370,22 @@ export default function FormMain({
           </div>
 
           <div className="flex items-center space-x-3">
-            {/* Estado de validación */}
-            <div className="flex items-center space-x-2">
-              {isFormValid ? (
-                <>
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <span className="text-sm text-green-600">
-                    Formulario válido
-                  </span>
-                </>
-              ) : (
-                <>
-                  <AlertCircle className="w-5 h-5 text-orange-500" />
-                  <span className="text-sm text-orange-500">
-                    Completa los campos
-                  </span>
-                </>
-              )}
-            </div>
+            {isFormValid ? (
+              <>
+                <CheckCircle className="w-5 h-5 text-green-600" />
+                <span className="text-sm text-green-600">
+                  Formulario válido
+                </span>
+              </>
+            ) : (
+              <>
+                <AlertCircle className="w-5 h-5 text-orange-500" />
+                <span className="text-sm text-orange-500">
+                  Completa los campos
+                </span>
+              </>
+            )}
 
-            {/* Indicador de cambios */}
             {isDirty && (
               <div className="flex items-center space-x-1 text-sm text-blue-600">
                 <RefreshCw className="w-4 h-4" />
@@ -430,7 +395,6 @@ export default function FormMain({
           </div>
         </div>
 
-        {/* Mensaje de error global */}
         {error && (
           <div className="mt-4 p-3 bg-red-50 border-l-4 border-red-500 text-red-700">
             <div className="flex items-center">
@@ -446,7 +410,6 @@ export default function FormMain({
           </div>
         )}
 
-        {/* Mensaje de éxito */}
         {saveSuccess && (
           <div className="mt-4 p-3 bg-green-50 border-l-4 border-green-500 text-green-700">
             <div className="flex items-center">
@@ -457,7 +420,7 @@ export default function FormMain({
         )}
       </div>
 
-      {/* Tabs de navegación */}
+      {/* Tabs */}
       <div className="mb-8 bg-white rounded-lg shadow-sm border">
         <div className="flex border-b border-gray-200">
           <button
@@ -507,10 +470,8 @@ export default function FormMain({
         </div>
       </div>
 
-      {/* Contenido según el modo */}
       {viewMode === "edit" && (
         <div className="space-y-8">
-          {/* 🟦 HEADER */}
           <div id="header" ref={headerRef}>
             <FormHeader
               data={{ ...formEncabezadoHeader, ...formImagenHeader }}
@@ -525,7 +486,6 @@ export default function FormMain({
             />
           </div>
 
-          {/* 🟩 BODY */}
           <div id="body" ref={bodyRef}>
             <FormBody
               formCommendBody={formCommendBody}
@@ -548,7 +508,6 @@ export default function FormMain({
             />
           </div>
 
-          {/* 🟧 FOOTER */}
           <div id="footer" ref={footerRef}>
             <FormFooter
               data={{ ...formEncabezadoFooter, ...formImagenFooter }}
@@ -566,7 +525,6 @@ export default function FormMain({
         </div>
       )}
 
-      {/* Vista Previa */}
       {viewMode === "preview" && (
         <div className="bg-gray-50 rounded-lg p-6 min-h-screen">
           <TemplateRenderer
@@ -579,7 +537,6 @@ export default function FormMain({
         </div>
       )}
 
-      {/* Selector de Plantillas */}
       {viewMode === "template-select" && isCreateMode && (
         <div className="bg-gray-50 rounded-lg p-6">
           <TemplateSelector
@@ -592,7 +549,7 @@ export default function FormMain({
         </div>
       )}
 
-      {/* Panel de acciones */}
+      {/* PANEL FINAL DE ACCIONES */}
       <div className="mt-12 bg-white rounded-lg shadow-sm border p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -624,7 +581,6 @@ export default function FormMain({
               </button>
             )}
 
-            {/* Botón para cambiar plantilla (solo en modo create) */}
             {isCreateMode && showTemplateSelectorProp && (
               <button
                 onClick={handleShowTemplateSelector}
@@ -638,15 +594,18 @@ export default function FormMain({
           </div>
 
           <div className="flex items-center space-x-3">
-            {/* Información de auto-guardado */}
             {autoSave && isDirty && (
               <span className="text-sm text-gray-500">
                 Auto-guardado en {Math.round(autoSaveInterval / 1000)}s
               </span>
             )}
 
-            {/* Botón de guardar */}
+            {/* BOTÓN GUARDAR — REFERENCIA AÑADIDA */}
             <button
+              ref={(el) => {
+                saveButtonRef.current = el;
+                externalSaveRef.current = el; // <<--- REFERENCIA GLOBAL
+              }}
               onClick={handleSave}
               disabled={loading || isSaving || !isFormValid}
               className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${
