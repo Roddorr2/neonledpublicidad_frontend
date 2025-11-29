@@ -130,15 +130,23 @@ try {
                     headers: {
                         Authorization: `Bearer ${getCookie("token")}`,
                     },
+                    params: {
+                        estado_publicacion: 1
+                    }
                 }),
                 axios.get(`${url}/api/cards/blog/${id_empleado}`, {
                     headers: {
                         Authorization: `Bearer ${getCookie("token")}`,
                     },
+                    params: {
+                        estado_publicacion: 1
+                    }
                 }),
             ]);
 
             if (responseTodos.status === 200 && responseMe.status === 200) {
+                console.log("Todos los blogs publicados:", responseTodos.data);
+                console.log("Mis blogs publicados:", responseMe.data);
                 setAllBlogs(responseTodos.data);
                 setMyBlogs(responseMe.data);
                 setFilteredBlogs(
@@ -382,13 +390,22 @@ try {
                                 <span className="hidden sm:inline">Crear Nuevo</span>
                             </Link>
                             {auth_service.hasRole("administrador") && (
-                                <Link
-                                    href="/dashboard/blogs/historial"
-                                    className="flex items-center gap-2 px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
-                                >
-                                    <FileText className="w-4 h-4" />
-                                    <span className="hidden sm:inline">Ver historial</span>
-                                </Link>
+                                <>
+                                    <Link
+                                        href="/dashboard/blogs/borradores"
+                                        className="flex items-center gap-2 px-3 py-2 bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors"
+                                    >
+                                        <FileText className="w-4 h-4" />
+                                        <span className="hidden sm:inline">Borradores</span>
+                                    </Link>
+                                    <Link
+                                        href="/dashboard/blogs/historial"
+                                        className="flex items-center gap-2 px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
+                                    >
+                                        <FileText className="w-4 h-4" />
+                                        <span className="hidden sm:inline">Ver historial</span>
+                                    </Link>
+                                </>
                             )}
                         </div>
                     </div>
