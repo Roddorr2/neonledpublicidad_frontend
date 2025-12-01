@@ -47,7 +47,7 @@ const Fetch = {
 
     fetchCards: async function fetchCards(){
         try{
-            const response = await axios.get(`${url}/api/cards`);
+            const response = await axios.get(`${url}/api/cards_public`);
             if(response.status === 200){
                 return response.data;
             }

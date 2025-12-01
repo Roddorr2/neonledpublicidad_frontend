@@ -111,6 +111,22 @@ export default function FormMain({
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [autoSaveTimer, setAutoSaveTimer] = useState(null);
+  // Estado del switch de publicación
+  const [isPublicado, setIsPublicado] = useState(
+    formEncabezadoFooter?.estado_publicacion === 1
+  );
+
+  // Sincroniza el switch con los datos del blog cuando formEncabezadoFooter cambia
+useEffect(() => {
+  if (formEncabezadoFooter) {
+    setIsPublicado(formEncabezadoFooter.estado_publicacion === 1);
+  }
+}, [formEncabezadoFooter]);
+
+
+
+
+
 
   // Estados para el sistema de preview
   const [viewMode, setViewMode] = useState("edit"); // 'edit' | 'preview' | 'template-select'
@@ -144,7 +160,7 @@ export default function FormMain({
       footer: {
         ...formEncabezadoFooter,
         ...formImagenFooter,
-        estado: formEncabezadoFooter?.estado ?? false,
+        estado_publicacion: formEncabezadoFooter?.estado_publicacion ?? (isPublicado ? 1 : 0),
       },
     };
   }, [
@@ -197,10 +213,10 @@ export default function FormMain({
         section === "header"
           ? headerRef
           : section === "body"
-          ? bodyRef
-          : section === "footer"
-          ? footerRef
-          : null;
+            ? bodyRef
+            : section === "footer"
+              ? footerRef
+              : null;
 
       if (sectionRef?.current) {
         sectionRef.current.scrollIntoView({
@@ -303,27 +319,32 @@ export default function FormMain({
 
   // Handler principal para guardar
   const handleSave = useCallback(async () => {
-    if (!isFormValid) {
-      setError("Por favor completa todos los campos obligatorios");
-      return;
-    }
+  if (!isFormValid) {
+    setError("Por favor completa todos los campos obligatorios");
+    return;
+  }
 
-    try {
-      setIsSaving(true);
-      clearError();
+  try {
+    setIsSaving(true);
+    clearError();
 
-      const result = await saveBlog();
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
+    const result = await saveBlog({
+      ...formEncabezadoFooter,
+      estado_publicacion: isPublicado ? 1 : 0,
+    });
 
-      // Notificar éxito al componente padre
-      onSuccess?.(result);
-    } catch (err) {
-      setError("No se pudo guardar el blog. Intenta nuevamente.");
-    } finally {
-      setIsSaving(false);
-    }
-  }, [isFormValid, saveBlog, onSuccess, isCreateMode, setError, clearError]);
+    setSaveSuccess(true);
+    setTimeout(() => setSaveSuccess(false), 3000);
+
+    onSuccess?.(result);
+  } catch (err) {
+    setError("No se pudo guardar el blog. Intenta nuevamente.");
+  } finally {
+    setIsSaving(false);
+  }
+}, [isFormValid, saveBlog, onSuccess, isPublicado, formEncabezadoFooter, setError, clearError]);
+
+
 
   // Handler para cancelar
   const handleCancel = useCallback(() => {
@@ -401,6 +422,44 @@ export default function FormMain({
           </div>
 
           <div className="flex items-center space-x-3">
+            {/* Switch de Publicación */}
+            <div className="flex items-center gap-3 px-4 py-2 bg-white border rounded-xl shadow-sm">
+              <span
+                className={`text-sm font-medium transition-colors ${isPublicado ? "text-green-600" : "text-orange-500"
+                  }`}
+              >
+                {isPublicado ? "Publicar" : "Borrador"}
+              </span>
+
+              <label className="cursor-pointer select-none">
+                <div className="relative w-14 h-7">
+                  {/* INPUT (el peer) */}
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={isPublicado}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setIsPublicado(checked);
+                      setFormEncabezadoFooter(prev => ({
+                        ...prev,
+                        estado_publicacion: checked ? 1 : 0
+                      }));
+                    }}
+                  />
+                  <div className="absolute top-0 left-0 w-full h-full bg-gray-300 rounded-full shadow-inner transition-colors duration-300 peer-checked:bg-green-500">
+                  </div>
+                  <div
+                    className="
+          absolute top-0.5 left-0.5 
+          w-6 h-6 bg-white rounded-full shadow 
+          transition-all duration-300 ease-out
+          peer-checked:translate-x-7
+        "
+                  ></div>
+                </div>
+              </label>
+            </div>
             {/* Estado de validación */}
             <div className="flex items-center space-x-2">
               {isFormValid ? (
@@ -462,11 +521,10 @@ export default function FormMain({
         <div className="flex border-b border-gray-200">
           <button
             onClick={() => setViewMode("edit")}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-              viewMode === "edit"
-                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-            }`}
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "edit"
+              ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+              : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              }`}
           >
             <div className="flex items-center justify-center space-x-2">
               <span>✏️ Editar Blog</span>
@@ -476,13 +534,12 @@ export default function FormMain({
           <button
             onClick={handlePreview}
             disabled={!isFormValid}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-              viewMode === "preview"
-                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                : !isFormValid
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "preview"
+              ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+              : !isFormValid
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-            }`}
+              }`}
           >
             <div className="flex items-center justify-center space-x-2">
               <Eye className="w-4 h-4" />
@@ -493,11 +550,10 @@ export default function FormMain({
           {isCreateMode && showTemplateSelectorProp && (
             <button
               onClick={handleShowTemplateSelector}
-              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-                viewMode === "template-select"
-                  ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-              }`}
+              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "template-select"
+                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                }`}
             >
               <div className="flex items-center justify-center space-x-2">
                 <span>🎨 Cambiar Plantilla</span>
@@ -610,11 +666,10 @@ export default function FormMain({
             {showPreview && (
               <button
                 onClick={handlePreview}
-                className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
-                  viewMode === "preview"
-                    ? "text-blue-700 border-blue-300 bg-blue-50"
-                    : "text-blue-700 border-blue-300 hover:bg-blue-50"
-                }`}
+                className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${viewMode === "preview"
+                  ? "text-blue-700 border-blue-300 bg-blue-50"
+                  : "text-blue-700 border-blue-300 hover:bg-blue-50"
+                  }`}
                 disabled={loading || isSaving || !isFormValid}
               >
                 <Eye className="w-4 h-4" />
@@ -649,11 +704,10 @@ export default function FormMain({
             <button
               onClick={handleSave}
               disabled={loading || isSaving || !isFormValid}
-              className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${
-                isFormValid && !loading && !isSaving
-                  ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+              className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${isFormValid && !loading && !isSaving
+                ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
             >
               {isSaving ? (
                 <>

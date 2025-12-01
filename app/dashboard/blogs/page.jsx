@@ -1,14 +1,15 @@
-"use client";
+"use client"
 
-import { useState, useEffect, useMemo } from "react";
-import Swal from "sweetalert2";
-import axios from "axios";
-import Link from "next/link";
-import { getCookie } from "cookies-next";
+import { useState, useEffect, useMemo } from "react"
+import { useRouter } from "next/navigation"
+import Swal from "sweetalert2"
+import axios from "axios"
+import Link from "next/link"
+import { getCookie } from "cookies-next"
 import HistorialAuditoria from "./components/HistorialAuditoria"
 import { useAuth } from "../../context/AutContext";
-import { useRouter } from "next/navigation";
-import url from "../../../api/url";
+import Borradores from "./borradores/page"
+import url from "../../../api/url"
 import {
     Search,
     Eye,
@@ -23,145 +24,131 @@ import {
     User,
     X,
     PlusCircleIcon,
-} from "lucide-react";
-import auth_service from "../users/services/auth.service";
+    History,
+    FilePen,
+} from "lucide-react"
+import auth_service from "../users/services/auth.service"
 
 export default function Page() {
-    const [allBlogs, setAllBlogs] = useState([]);
-    const [myBlogs, setMyBlogs] = useState([]);
-    const [displayedBlogs, setDisplayedBlogs] = useState([]);
-    const [filteredBlogs, setFilteredBlogs] = useState([]);
+    const [allBlogs, setAllBlogs] = useState([])
+    const [myBlogs, setMyBlogs] = useState([])
+    const [displayedBlogs, setDisplayedBlogs] = useState([])
+    const [filteredBlogs, setFilteredBlogs] = useState([])
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [isRefreshing, setIsRefreshing] = useState(false);
-    const [activeFilter, setActiveFilter] = useState("all");
-    const [searchQuery, setSearchQuery] = useState("");
+    const [isLoading, setIsLoading] = useState(true)
+    const [isRefreshing, setIsRefreshing] = useState(false)
+    const [activeFilter, setActiveFilter] = useState("all")
+    const [searchQuery, setSearchQuery] = useState("")
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const blogsPerPage = 5;
-    const { user, hasPermission } = useAuth();
-const router = useRouter();
+    const [currentPage, setCurrentPage] = useState(1)
+    const blogsPerPage = 5
 
-    let id_empleado = -1; // valor por defecto
+    const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
+    const { isAuthenticated, user, hasPermission } = useAuth();
 
-try {
-    const empleadoCookie = getCookie("empleado");
-    if (empleadoCookie) {
-        const parsed = JSON.parse(empleadoCookie);
-        id_empleado = parsed?.id_empleado ?? -1; // si no existe, usar -1
-    }
-} catch (err) {
-    console.error("Error parseando cookie de empleado", err);
-}
-
-        
-        useEffect(() => {
-    if (!user) return; // Espera a que se cargue el usuario
-
-    if (!hasPermission("ver-blogs")) {
-        Swal.fire({
-            title: "Acceso denegado",
-            text: "No tienes permisos para ver esta sección",
-            icon: "error",
-            confirmButtonText: "Aceptar",
-        }).then(() => {
-            router.replace("/dashboard/main"); // Redirige si no tiene permiso
-        });
-    } else {
-        fetchData(); // Solo ejecuta si tiene permiso
-    }
-}, [user]);
+    const router = useRouter();
 
     useEffect(() => {
-        filterBlogs();
-    }, [activeFilter, searchQuery, allBlogs, myBlogs]);
+        if (user === null) return; // Espera a que se cargue el usuario
+
+        if (!hasPermission("ver-blogs")) {
+            Swal.fire({
+                title: "Acceso denegado",
+                text: "No tienes permisos para ver esta sección",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+            }).then(() => {
+                router.replace("/dashboard/main");
+            });
+        } else {
+            fetchData(); // Solo ejecuta si tiene permiso
+        }
+    }, [user]);
+
+
 
     useEffect(() => {
-        paginateBlogs();
-    }, [filteredBlogs, currentPage]);
+        filterBlogs()
+    }, [activeFilter, searchQuery, allBlogs, myBlogs])
+
+    useEffect(() => {
+        paginateBlogs()
+    }, [filteredBlogs, currentPage])
 
     const filterBlogs = () => {
-        const sourceData = activeFilter === "all" ? allBlogs : myBlogs;
+        const sourceData = activeFilter === "all" ? allBlogs : myBlogs
 
         if (!searchQuery.trim()) {
-            setFilteredBlogs(sourceData);
-            setCurrentPage(1);
-            return;
+            setFilteredBlogs(sourceData)
+            setCurrentPage(1)
+            return
         }
 
-        const query = searchQuery.toLowerCase().trim();
-        const filtered = sourceData.filter((blog) =>
-            blog.titulo.toLowerCase().includes(query)
-        );
+        const query = searchQuery.toLowerCase().trim()
+        const filtered = sourceData.filter((blog) => blog.titulo.toLowerCase().includes(query))
 
-        setFilteredBlogs(filtered);
-        setCurrentPage(1);
-    };
+        setFilteredBlogs(filtered)
+        setCurrentPage(1)
+    }
 
     const paginateBlogs = () => {
-        const startIndex = (currentPage - 1) * blogsPerPage;
-        const endIndex = startIndex + blogsPerPage;
-        setDisplayedBlogs(filteredBlogs.slice(startIndex, endIndex));
-    };
+        const startIndex = (currentPage - 1) * blogsPerPage
+        const endIndex = startIndex + blogsPerPage
+        setDisplayedBlogs(filteredBlogs.slice(startIndex, endIndex))
+    }
 
     const totalPages = useMemo(() => {
-        return Math.max(1, Math.ceil(filteredBlogs.length / blogsPerPage));
-    }, [filteredBlogs]);
+        return Math.max(1, Math.ceil(filteredBlogs.length / blogsPerPage))
+    }, [filteredBlogs])
 
     const handleFilterChange = (filter) => {
-        setActiveFilter(filter);
-        setCurrentPage(1);
-    };
+        setActiveFilter(filter)
+        setCurrentPage(1)
+    }
 
     const handleSearch = (e) => {
-        setSearchQuery(e.target.value);
-    };
+        setSearchQuery(e.target.value)
+    }
 
     const clearSearch = () => {
-        setSearchQuery("");
-    };
+        setSearchQuery("")
+    }
 
     async function fetchData() {
         try {
-            setIsRefreshing(true);
+            setIsRefreshing(true)
 
             const [responseTodos, responseMe] = await Promise.all([
                 axios.get(`${url}/api/cards/blog`, {
                     headers: {
                         Authorization: `Bearer ${getCookie("token")}`,
                     },
-                    params: {
-                        estado_publicacion: 1
-                    }
                 }),
                 axios.get(`${url}/api/cards/blog/${id_empleado}`, {
                     headers: {
                         Authorization: `Bearer ${getCookie("token")}`,
                     },
-                    params: {
-                        estado_publicacion: 1
-                    }
                 }),
-            ]);
+            ])
 
             if (responseTodos.status === 200 && responseMe.status === 200) {
-                console.log("Todos los blogs publicados:", responseTodos.data);
-                console.log("Mis blogs publicados:", responseMe.data);
-                setAllBlogs(responseTodos.data);
-                setMyBlogs(responseMe.data);
-                setFilteredBlogs(
-                    activeFilter === "all" ? responseTodos.data : responseMe.data
-                );
-                setCurrentPage(1);
-            } else {
-                showError("Ocurrió un error al cargar los blogs.");
+                // Filtramos solo los publicados
+                const publicadosTodos = responseTodos.data.filter(blog => blog.estado_publicacion === 1)
+                const publicadosMios = responseMe.data.filter(blog => blog.estado_publicacion === 1)
+
+                setAllBlogs(publicadosTodos)
+                setMyBlogs(publicadosMios)
+                setFilteredBlogs(activeFilter === "all" ? publicadosTodos : publicadosMios)
+                setCurrentPage(1)
+            }else {
+                showError("Ocurrió un error al cargar los blogs.")
             }
         } catch (error) {
-            showError("Ocurrió un error inesperado.");
-            console.error(error);
+            showError("Ocurrió un error inesperado.")
+            console.error(error)
         } finally {
-            setIsRefreshing(false);
-            setIsLoading(false);
+            setIsRefreshing(false)
+            setIsLoading(false)
         }
     }
 
@@ -175,27 +162,25 @@ try {
             cancelButtonColor: "#64748b",
             confirmButtonText: "Sí, eliminar",
             cancelButtonText: "Cancelar",
+            buttonsStyling: true,
+            customClass: {
+                confirmButton: "!px-6",
+                cancelButton: "!px-6",
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                const formCard = {
-                    id_empleado: id_empleado,
-                };
-
-                deleteBlog(id, formCard);
+                deleteBlog(id)
             }
-        });
+        })
     }
 
-    async function deleteBlog(id, formData) {
+    async function deleteBlog(id) {
         try {
             const response = await axios.delete(`${url}/api/blogs/${id}`, {
-                data: formData,
                 headers: {
                     Authorization: `Bearer ${getCookie("token")}`,
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
                 },
-            });
+            })
 
             if (response.status === 200) {
                 Swal.fire({
@@ -204,14 +189,14 @@ try {
                     icon: "success",
                     confirmButtonText: "Aceptar",
                     confirmButtonColor: "#0ea5e9",
-                });
-                fetchData();
+                })
+                fetchData()
             } else {
-                showError("No se pudo eliminar el blog.");
+                showError("No se pudo eliminar el blog.")
             }
         } catch (error) {
-            showError("Ocurrió un error al eliminar el blog.");
-            console.error(error);
+            showError("Ocurrió un error al eliminar el blog.")
+            console.error(error)
         }
     }
 
@@ -222,48 +207,40 @@ try {
             icon: "error",
             confirmButtonText: "Aceptar",
             confirmButtonColor: "#0ea5e9",
-        });
+        })
     }
 
     const EmptyState = ({ message, icon }) => (
         <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-            <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
+            <div className="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-4">
                 {icon}
             </div>
-            <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-2">
-                No hay blogs disponibles
-            </h3>
-            <p className="text-slate-500 dark:text-slate-400max-w-md mb-6">
-                {message}
-            </p>
+            <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-2">No hay blogs disponibles</h3>
+            <p className="text-slate-500 dark:text-slate-400 max-w-md mb-6">{message}</p>
             <Link
-                href="/dashboard/blogs/create"
-                className="inline-flex items-center px-4 py-2 bg-sky-600 dark:bg-sky-700 text-white rounded-lg hover:bg-sky-700 dark:hover:bg-sky-600 transition-colors"
+                href="/edition"
+                className="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors"
             >
                 <Plus className="w-4 h-4 mr-2" />
                 Crear nuevo blog
             </Link>
         </div>
-    );
+    )
 
     // Componente para la vista de tarjetas (móvil)
     const BlogCard = ({ blog }) => (
-        <div className="bg-white border dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-4 space-y-3">
+        <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
             <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">
-                            ID: {blog.id_blog}
+                        <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded">
+                            ID: {blog.id_card}
                         </span>
                     </div>
-                    <h3 className="font-medium text-slate-900 dark:text-slate-100 mb-1 line-clamp-2">
-                        {blog.titulo}
-                    </h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2 mb-2">
-                        {blog.descripcion}
-                    </p>
+                    <h3 className="font-medium text-slate-900 mb-1 line-clamp-2">{blog.titulo}</h3>
+                    <p className="text-sm text-slate-600 line-clamp-2 mb-2">{blog.descripcion}</p>
                 </div>
-                <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700 ml-3 flex-shrink-0">
+                <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 ml-3 flex-shrink-0">
                     <img
                         src={blog.public_image || "/placeholder.svg"}
                         alt={blog.titulo}
@@ -272,11 +249,10 @@ try {
                 </div>
             </div>
 
-            <div className="pt-2 border-t border-slate-100 dark:border-slate-700">
+            <div className="pt-2 border-t border-slate-100">
                 <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-slate-600 dark:text-slate-300">
-                        <span className="font-medium">Autor:</span>{" "}
-                        {blog.empleado?.nombre || "Desconocido"}
+                    <span className="text-sm text-slate-600">
+                        <span className="font-medium">Autor:</span> {blog.empleado?.nombre || "Desconocido"}
                     </span>
                 </div>
 
@@ -285,7 +261,7 @@ try {
                         href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-900/30 transition-colors text-sm"
+                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100 transition-colors text-sm"
                         title="Ver blog"
                     >
                         <Eye className="w-4 h-4" />
@@ -293,7 +269,7 @@ try {
                     </Link>
                     <Link
                         href={`/edition?mode=edit&id=${blog.id_blog}`}
-                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors text-sm"
+                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors text-sm"
                         title="Editar blog"
                     >
                         <Pencil className="w-4 h-4" />
@@ -302,7 +278,7 @@ try {
                     {auth_service.hasRole("administrador") && (
                         <button
                             onClick={() => confirmDelete(blog.id_blog)}
-                            className="flex items-center justify-center p-2 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors"
+                            className="flex items-center justify-center p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
                             title="Eliminar blog"
                         >
                             <Trash2 className="w-4 h-4" />
@@ -311,19 +287,16 @@ try {
                 </div>
             </div>
         </div>
-    );
+    )
+
     const [mostrarHistorial, setMostrarHistorial] = useState(false);
     return (
-        <main className="p-4 sm:p-6 flex flex-col w-full min-h-screen bg-slate-50 dark:bg-slate-900 overflow-y-auto overflow-x-hidden">
+        <main className="p-6 flex flex-col w-full max-h-svh bg-slate-50 dark:bg-slate-900">
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 mb-6">
                 <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-1">
-                            Gestión de Blogs
-                        </h1>
-                        <p className="text-slate-500 dark:text-slate-400">
-                            Administra y visualiza todos los blogs de la plataforma
-                        </p>
+                        <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">Gestión de Blogs</h1>
+                        <p className="text-slate-500 dark:text-slate-400">Administra y visualiza todos los blogs de la plataforma</p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
@@ -333,13 +306,13 @@ try {
                                 placeholder="Buscar por título..."
                                 value={searchQuery}
                                 onChange={handleSearch}
-                                className="w-full sm:w-64 pl-10 pr-10 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent dark:text-slate-200 placeholder-slate-500 dark:placeholder-slate-400"
+                                className="w-full sm:w-64 pl-10 pr-10 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                             />
-                            <Search className="absolute left-3 top-1/3 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
+                            <Search className="absolute left-3 top-1/3 -translate-y-1/2 w-4 h-4 text-slate-400" />
                             {searchQuery && (
                                 <button
                                     onClick={clearSearch}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                                 >
                                     <X className="w-4 h-4" />
                                 </button>
@@ -347,11 +320,12 @@ try {
                         </div>
 
                         <div className="flex gap-2 flex-wrap sm:justify-end">
+
                             <button
                                 onClick={() => handleFilterChange("all")}
                                 className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "all"
-                                        ? "bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800"
-                                        : "bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
+                                        ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
+                                        : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                                     }`}
                             >
                                 <FileText className="w-4 h-4" />
@@ -361,8 +335,8 @@ try {
                             <button
                                 onClick={() => handleFilterChange("mine")}
                                 className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "mine"
-                                        ? "bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800"
-                                        : "bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
+                                        ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
+                                        : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                                     }`}
                             >
                                 <User className="w-4 h-4" />
@@ -372,38 +346,41 @@ try {
                             <button
                                 onClick={fetchData}
                                 disabled={isRefreshing}
-                                className={`flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${isRefreshing
+                                        ? "opacity-70 cursor-not-allowed bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600"
+                                        : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                                     }`}
+                                title="Actualizar datos"
                             >
-                                {isRefreshing ? (
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                ) : (
-                                    <RefreshCw className="w-4 h-4" />
-                                )}
+                                {isRefreshing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
                             </button>
 
                             <Link
                                 href="/edition"
-                                className="flex items-center gap-2 px-3 py-2 bg-sky-600 dark:bg-sky-700 text-white rounded-lg hover:bg-sky-700 dark:hover:bg-sky-600 transition-colors"
+                                className="flex items-center gap-2 px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors"
                             >
                                 <PlusCircleIcon className="w-4 h-4" />
                                 <span className="hidden sm:inline">Crear Nuevo</span>
                             </Link>
                             {auth_service.hasRole("administrador") && (
                                 <>
-                                    <Link
-                                        href="/dashboard/blogs/borradores"
-                                        className="flex items-center gap-2 px-3 py-2 bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors"
-                                    >
-                                        <FileText className="w-4 h-4" />
-                                        <span className="hidden sm:inline">Borradores</span>
-                                    </Link>
+                                    {/* Botón pequeño solo icono - Historial */}
                                     <Link
                                         href="/dashboard/blogs/historial"
-                                        className="flex items-center gap-2 px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
+                                        title="Historial de cambios"
+                                        className="p-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg 
+                                        hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors flex items-center justify-center"
                                     >
-                                        <FileText className="w-4 h-4" />
-                                        <span className="hidden sm:inline">Ver historial</span>
+                                        <History className="w-4 h-4" />
+                                    </Link>
+                                    {/* Botón borradores */}
+                                    <Link
+                                        href="/dashboard/blogs/borradores"
+                                        title="Borradores"
+                                        className="p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-lg 
+                                        hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors flex items-center justify-center"
+                                    >
+                                        <FilePen className="w-4 h-4" />
                                     </Link>
                                 </>
                             )}
@@ -412,13 +389,10 @@ try {
                 </div>
             </div>
 
-            {/* Contenido */}
             {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-16 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-                    <Loader2 className="h-10 w-10 text-sky-600 dark:text-sky-400 animate-spin mb-4" />
-                    <p className="text-slate-500 dark:text-slate-400 font-medium">
-                        Cargando blogs...
-                    </p>
+                    <Loader2 className="h-10 w-10 text-sky-600 animate-spin mb-4" />
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Cargando blogs...</p>
                 </div>
             ) : filteredBlogs.length === 0 ? (
                 <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm">
@@ -430,36 +404,37 @@ try {
                         }
                         icon={
                             activeFilter === "all" ? (
-                                <FileText className="w-6 h-6 text-slate-400 dark:text-slate-500" />
+                                <FileText className="w-6 h-6 text-slate-400" />
                             ) : (
-                                <User className="w-6 h-6 text-slate-400 dark:text-slate-500" />
+                                <User className="w-6 h-6 text-slate-400" />
                             )
                         }
                     />
                 </div>
             ) : (
                 <>
-                    <div className="hidden md:block bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-y-auto mb-6">
+                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-y-auto mb-6">
                         <div className="overflow-x-auto">
+
                             <table className="w-full">
                                 <thead>
                                     <tr className="bg-slate-50 dark:bg-slate-700 border-b border-slate-100 dark:border-slate-600 text-center">
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             ID
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Título
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Descripción
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Imagen
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Autor
                                         </th>
-                                        <th className="px-6 py-3 text-right text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-right text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Acciones
                                         </th>
                                     </tr>
@@ -467,30 +442,22 @@ try {
                                 <tbody>
                                     {displayedBlogs.map((blog, index) => (
                                         <tr
-                                            key={`blog-${blog.id_card}-${index}`}
+                                            key={`blog-${blog.id_card}`}
                                             className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${index !== displayedBlogs.length - 1
                                                     ? "border-b border-slate-100 dark:border-slate-700"
                                                     : ""
                                                 }`}
                                         >
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-700 dark:text-slate-300">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-700 dark:text-slate-200">
                                                 {blog.id_card}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-300">
-                                                <div className="max-w-xs truncate" title={blog.titulo}>
-                                                    {blog.titulo}
-                                                </div>
+                                            <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-200 max-w-[200px] truncate">
+                                                {blog.titulo}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-300">
-                                                <div
-                                                    className="max-w-md truncate"
-                                                    title={blog.descripcion}
-                                                >
-                                                    {blog.descripcion}
-                                                </div>
+                                            <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-200 max-w-[300px] truncate">
+                                                {blog.descripcion}
                                             </td>
-
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-300">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-200">
                                                 <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700">
                                                     <img
                                                         src={blog.public_image || "/placeholder.svg"}
@@ -499,11 +466,13 @@ try {
                                                     />
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-300">
-                                                {blog.empleado?.nombre || "Desconocido"}
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-200">
+                                                {blog.empleado.nombre || "Desconocido"}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+
                                                 <div className="flex justify-end gap-2">
+
                                                     <Link
                                                         href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
                                                         target="_blank"
@@ -514,8 +483,9 @@ try {
                                                         <Eye className="w-4 h-4" />
                                                     </Link>
                                                     <Link
+                                                        //href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
                                                         href={`/edition?mode=edit&id=${blog.id_blog}`}
-                                                        className="p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors"
+                                                        className="p-2 bg-amber-50 dark:bg-amber-900 text-amber-600 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-800 transition-colors"
                                                         title="Editar blog"
                                                     >
                                                         <Pencil className="w-4 h-4" />
@@ -524,7 +494,7 @@ try {
                                                     {auth_service.hasRole("administrador") && (
                                                         <button
                                                             onClick={() => confirmDelete(blog.id_blog)}
-                                                            className="p-2 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors"
+                                                            className="p-2 bg-rose-50 dark:bg-rose-900 text-rose-600 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-800 transition-colors"
                                                             title="Eliminar blog"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
@@ -539,13 +509,11 @@ try {
                         </div>
                     </div>
 
+
                     {totalPages > 1 && (
-                        <div className="hidden lg:flex items-center justify-between bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 mb-6">
-                            <div className="text-sm text-slate-500 dark:text-slate-400">
-                                Mostrando{" "}
-                                <span className="font-medium">{displayedBlogs.length}</span> de{" "}
-                                <span className="font-medium">{filteredBlogs.length}</span>{" "}
-                                blogs
+                        <div className="hidden lg:flex items-center justify-between bg-white rounded-xl shadow-sm p-4 mb-6">
+                            <div className="text-sm text-slate-500">
+                                Mostrando <span className="font-medium">{displayedBlogs.length}</span> de <span className="font-medium">{filteredBlogs.length}</span> blogs
                             </div>
 
                             <div className="flex gap-2">
@@ -553,36 +521,32 @@ try {
                                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                                     disabled={currentPage === 1}
                                     className={`p-2 rounded-lg border ${currentPage === 1
-                                            ? "bg-slate-50 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 cursor-not-allowed"
-                                            : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
+                                        ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
                                         }`}
                                 >
                                     <ChevronLeft className="w-4 h-4" />
                                 </button>
 
-                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                                    (page) => (
-                                        <button
-                                            key={`page-desktop-${page}`}
-                                            onClick={() => setCurrentPage(page)}
-                                            className={`w-9 h-9 rounded-lg border ${currentPage === page
-                                                    ? "bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800"
-                                                    : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                                                }`}
-                                        >
-                                            {page}
-                                        </button>
-                                    )
-                                )}
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                    <button
+                                        key={`page-desktop-${page}`}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={`w-9 h-9 rounded-lg border ${currentPage === page
+                                            ? "bg-sky-50 text-sky-600 border-sky-200"
+                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                            }`}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
 
                                 <button
-                                    onClick={() =>
-                                        setCurrentPage(Math.min(totalPages, currentPage + 1))
-                                    }
+                                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                                     disabled={currentPage === totalPages}
                                     className={`p-2 rounded-lg border ${currentPage === totalPages
-                                            ? "bg-slate-50 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 cursor-not-allowed"
-                                            : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
+                                        ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
                                         }`}
                                 >
                                     <ChevronRight className="w-4 h-4" />
@@ -592,19 +556,17 @@ try {
                     )}
 
                     {/* Vista de tarjetas para pantallas pequeñas y medianas */}
-                    <div className="block md:hidden space-y-4 mb-6">
+                    <div className="lg:hidden space-y-4 mb-6">
                         {displayedBlogs.map((blog) => (
                             <BlogCard key={`blog-card-${blog.id_card}`} blog={blog} />
                         ))}
 
                         {/* Paginación (móvil) */}
                         {totalPages > 1 && (
-                            <div className="flex flex-col sm:flex-row justify-between items-center bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 gap-4">
-                                <div className="text-sm text-slate-500 dark:text-slate-400 text-center sm:text-left">
-                                    Mostrando{" "}
-                                    <span className="font-medium">{displayedBlogs.length}</span>{" "}
-                                    de <span className="font-medium">{filteredBlogs.length}</span>{" "}
-                                    blogs
+                            <div className="flex justify-between items-center bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sticky bottom-0">
+                                <div className="text-sm text-slate-500 dark:text-slate-400">
+                                    Mostrando <span className="font-medium">{displayedBlogs.length}</span> de{" "}
+                                    <span className="font-medium">{filteredBlogs.length}</span> blogs
                                 </div>
 
                                 <div className="flex gap-2 justify-center">
@@ -612,36 +574,32 @@ try {
                                         onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                                         disabled={currentPage === 1}
                                         className={`p-2 rounded-lg border ${currentPage === 1
-                                                ? "bg-slate-50 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 cursor-not-allowed"
-                                                : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
+                                                ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
+                                                : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                                             }`}
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                     </button>
 
-                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                                        (page) => (
-                                            <button
-                                                key={`page-mobile-${page}`}
-                                                onClick={() => setCurrentPage(page)}
-                                                className={`w-9 h-9 rounded-lg border ${currentPage === page
-                                                        ? "bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800"
-                                                        : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                                                    }`}
-                                            >
-                                                {page}
-                                            </button>
-                                        )
-                                    )}
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                        <button
+                                            key={`page-mobile-${page}`}
+                                            onClick={() => setCurrentPage(page)}
+                                            className={`w-9 h-9 rounded-lg border ${currentPage === page
+                                                    ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
+                                                    : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                                }`}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
 
                                     <button
-                                        onClick={() =>
-                                            setCurrentPage(Math.min(totalPages, currentPage + 1))
-                                        }
+                                        onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                                         disabled={currentPage === totalPages}
                                         className={`p-2 rounded-lg border ${currentPage === totalPages
-                                                ? "bg-slate-50 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 cursor-not-allowed"
-                                                : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
+                                                ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
+                                                : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                                             }`}
                                     >
                                         <ChevronRight className="w-4 h-4" />
@@ -658,5 +616,5 @@ try {
                 </div>
             )}
         </main>
-    );
+    )
 }
