@@ -120,6 +120,10 @@ export default function FormMain({
   const [selectedPlantilla, setSelectedPlantilla] = useState(plantillaId);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
 
+  useEffect(()=>{
+    setSelectedPlantilla(plantillaId);
+  }, [plantillaId]);
+  
   // Referencias
   const headerRef = useRef(null);
   const bodyRef = useRef(null);
