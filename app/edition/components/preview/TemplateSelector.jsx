@@ -4,7 +4,7 @@ import {
   Layout,
   Layers,
   Grid3x3,
-  Eye,
+  isCreateMode,
   ArrowRight,
   CheckCircle,
   Sparkles,
@@ -37,6 +37,7 @@ export default function TemplateSelector({
   defaultTemplate = PLANTILLA_IDS.CLASICA,
   showCancel = true,
   className = "",
+  triggerCreate
 }) {
   const [selectedTemplate, setSelectedTemplate] = useState(defaultTemplate);
   const [hoveredTemplate, setHoveredTemplate] = useState(null);
@@ -58,6 +59,7 @@ export default function TemplateSelector({
 
   // Obtener configuración de plantilla seleccionada
   const selectedConfig = getPlantillaConfig(selectedTemplate);
+  
 
   return (
     <div className={`min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 ${className}`}>
@@ -207,15 +209,13 @@ export default function TemplateSelector({
                     </div>
 
                     {/* Selection Button */}
+                    
                     <button
-                      className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
-                        isSelected
-                          ? "bg-yellow-500 text-white shadow-lg"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                      }`}
-                      onClick={() => handleTemplateSelect(config.id)}
+                      onClick={handleConfirm}
+                      className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center"
                     >
-                      {isSelected ? "Seleccionada" : "Seleccionar"}
+                      Crear Blog con esta Plantilla
+                      <ArrowRight className="w-5 h-5 ml-2" />
                     </button>
                   </div>
                 </div>
@@ -260,13 +260,6 @@ export default function TemplateSelector({
               Cancelar
             </button>
           )}
-          <button
-            onClick={handleConfirm}
-            className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center"
-          >
-            Crear Blog con esta Plantilla
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </button>
         </div>
       </div>
     </div>
