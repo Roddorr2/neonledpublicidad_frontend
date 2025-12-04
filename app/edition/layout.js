@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
@@ -15,62 +15,6 @@ export default function EditionLayout({
   const observerRef = useRef(null)
   const isNavigatingRef = useRef(false)
   const sectionsRef = useRef(null)
-
-  const handleSectionClick = (id) => {
-    setSelectedSection(id);
-
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-    }
-
-    isNavigatingRef.current = true;
-
-    const targetElement = document.getElementById(id);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-
-    setTimeout(() => {
-      if (document.getElementById(id)) {
-        setupObserver();
-        isNavigatingRef.current = false;
-      }
-    }, 1000);
-  };
-
-  const setupObserver = () => {
-    if (observerRef.current) observerRef.current.disconnect();
-
-    if (!sectionsRef.current) {
-      sectionsRef.current = document.querySelectorAll("#header, #body, #footer");
-    }
-
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        if (!isNavigatingRef.current) {
-          let mostVisibleSection = null;
-          let maxVisibility = 0;
-
-          entries.forEach((entry) => {
-            const visibility = entry.intersectionRect.height * entry.intersectionRect.width;
-            if (visibility > maxVisibility) {
-              maxVisibility = visibility;
-              mostVisibleSection = entry.target.id;
-            }
-          });
-
-          if (mostVisibleSection) {
-            setSelectedSection(mostVisibleSection);
-          }
-        }
-      },
-      {
-        threshold: Array.from({ length: 21 }, (_, i) => i / 20),
-        rootMargin: "-5% 0px -5% 0px",
-      }
-    );
-
-    if (sectionsRef.current) {
       sectionsRef.current.forEach((section) => observerRef.current.observe(section));
     }
   };
@@ -101,6 +45,8 @@ export default function EditionLayout({
   return (
     <div className="flex flex-col min-h-screen">
 
+  return (
+    <div className="flex flex-col min-h-screen">
       <div className="flex flex-1">
         {/* SIDEBAR */}
         <div className="w-64 bg-gradient-to-b from-blue-800 to-slate-900 text-white fixed top-0 left-0 h-full pt-20 shadow-xl">
@@ -184,7 +130,6 @@ export default function EditionLayout({
                 <House className="mr-3 h-4 w-4 text-slate-400 group-hover:text-white" />
                 Inicio
               </Link>
-            </button>
 
             {/* Plantillas */}
             <button className="group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all flex items-center bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1">

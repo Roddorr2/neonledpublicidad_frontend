@@ -4,8 +4,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import NuestrosProductos from "./productos/components/NuestrosProductos";
-import Slider from "./components/slider/Slider";
-import Slider2 from "./components/slider2/Slider2";
+import dynamic from "next/dynamic";
+
+const Slider = dynamic(() => import("./components/slider/Slider"), {
+  ssr: false,
+});
+const Slider2 = dynamic(() => import("./components/slider2/Slider2"), {
+  ssr: false,
+});
 
 const FilaProductosModificado = ({ productos }) => {
   const router = useRouter();

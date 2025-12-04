@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import ModalProducto from './ModalProducto';
 
-export default function ModalProductoScroll({ data, time = 1 }) {
+export default function ModalProductoScroll({ data, time = 10 }) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {

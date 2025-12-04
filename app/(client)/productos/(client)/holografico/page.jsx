@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <>
       {/* Modal que se abre automáticamente después de 4 segundos */}
-      {/* <ModalProductoScroll data={modales}/> */}
+      <ModalProductoScroll data={modales}/>
 
       <Banner
         titulo="HOLOGRÁFICOS"

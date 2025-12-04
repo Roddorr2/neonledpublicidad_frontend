@@ -119,6 +119,22 @@ export default function FormMain({
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [autoSaveTimer, setAutoSaveTimer] = useState(null);
+  // Estado del switch de publicación
+  const [isPublicado, setIsPublicado] = useState(
+    formEncabezadoFooter?.estado_publicacion === 1
+  );
+
+  // Sincroniza el switch con los datos del blog cuando formEncabezadoFooter cambia
+useEffect(() => {
+  if (formEncabezadoFooter) {
+    setIsPublicado(formEncabezadoFooter.estado_publicacion === 1);
+  }
+}, [formEncabezadoFooter]);
+
+
+
+
+
 
   // Estado de preview
   const [viewMode, setViewMode] = useState("edit");
@@ -173,7 +189,7 @@ const [activePreviewTab, setActivePreviewTab] = useState("informacion");
       footer: {
         ...formEncabezadoFooter,
         ...formImagenFooter,
-        estado: formEncabezadoFooter?.estado ?? false,
+        estado_publicacion: formEncabezadoFooter?.estado_publicacion ?? (isPublicado ? 1 : 0),
       },
     };
   }, [
@@ -250,10 +266,10 @@ useEffect(() => {
         section === "header"
           ? headerRef
           : section === "body"
-          ? bodyRef
-          : section === "footer"
-          ? footerRef
-          : null;
+            ? bodyRef
+            : section === "footer"
+              ? footerRef
+              : null;
 
       if (sectionRef?.current) {
         sectionRef.current.scrollIntoView({
@@ -340,18 +356,31 @@ useEffect(() => {
 
   // Guardar
   const handleSave = useCallback(async () => {
-    if (!isFormValid) {
-      setError("Por favor completa todos los campos obligatorios");
-      return;
-    }
+  if (!isFormValid) {
+    setError("Por favor completa todos los campos obligatorios");
+    return;
+  }
 
-    try {
-      setIsSaving(true);
-      clearError();
+  try {
+    setIsSaving(true);
+    clearError();
 
-      const result = await saveBlog();
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
+    const result = await saveBlog({
+      ...formEncabezadoFooter,
+      estado_publicacion: isPublicado ? 1 : 0,
+    });
+
+    setSaveSuccess(true);
+    setTimeout(() => setSaveSuccess(false), 3000);
+
+    onSuccess?.(result);
+  } catch (err) {
+    setError("No se pudo guardar el blog. Intenta nuevamente.");
+  } finally {
+    setIsSaving(false);
+  }
+}, [isFormValid, saveBlog, onSuccess, isPublicado, formEncabezadoFooter, setError, clearError]);
+
 
       onSuccess?.(result);
     } catch (err) {
@@ -582,11 +611,10 @@ const renderSectionControls = () => (
         <div className="flex border-b border-gray-200">
           <button
             onClick={() => setViewMode("edit")}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-              viewMode === "edit"
-                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-            }`}
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "edit"
+              ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+              : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              }`}
           >
             <div className="flex items-center justify-center space-x-2">
               <span>✏️ Editar Blog</span>
@@ -596,13 +624,12 @@ const renderSectionControls = () => (
           <button
             onClick={handlePreview}
             disabled={!isFormValid}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-              viewMode === "preview"
-                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                : !isFormValid
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "preview"
+              ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+              : !isFormValid
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-            }`}
+              }`}
           >
             <div className="flex items-center justify-center space-x-2">
               <Eye className="w-4 h-4" />
@@ -613,11 +640,10 @@ const renderSectionControls = () => (
           {isCreateMode && showTemplateSelectorProp && (
             <button
               onClick={handleShowTemplateSelector}
-              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-                viewMode === "template-select"
-                  ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-              }`}
+              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "template-select"
+                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                }`}
             >
               <div className="flex items-center justify-center space-x-2">
                 <span>🎨 Cambiar Plantilla</span>
@@ -727,11 +753,10 @@ const renderSectionControls = () => (
             {showPreview && (
               <button
                 onClick={handlePreview}
-                className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
-                  viewMode === "preview"
-                    ? "text-blue-700 border-blue-300 bg-blue-50"
-                    : "text-blue-700 border-blue-300 hover:bg-blue-50"
-                }`}
+                className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${viewMode === "preview"
+                  ? "text-blue-700 border-blue-300 bg-blue-50"
+                  : "text-blue-700 border-blue-300 hover:bg-blue-50"
+                  }`}
                 disabled={loading || isSaving || !isFormValid}
               >
                 <Eye className="w-4 h-4" />
@@ -768,11 +793,10 @@ const renderSectionControls = () => (
               }}
               onClick={handleSave}
               disabled={loading || isSaving || !isFormValid}
-              className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${
-                isFormValid && !loading && !isSaving
-                  ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+              className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${isFormValid && !loading && !isSaving
+                ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
             >
               {isSaving ? (
                 <>
