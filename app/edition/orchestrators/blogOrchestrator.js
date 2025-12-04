@@ -7,6 +7,7 @@ import {
   HEADER_DEFAULTS,
   FOOTER_DEFAULTS,
 } from "../constants/defaults";
+import { IdCard } from "lucide-react";
 
 /**
  * BlogOrchestrator - Orquesta el flujo completo de creación/edición de blogs
@@ -38,6 +39,7 @@ class BlogOrchestrator {
     files,
     plantillaId,
     empleadoId,
+    isPublicado,
   }) {
     const result = {
       success: false,
@@ -141,9 +143,11 @@ class BlogOrchestrator {
         footerData.formEncabezadoFooter?.estado ?? FOOTER_DEFAULTS.estado;
 
       const footerPayload = {
-        ...footerData.formEncabezadoFooter,        
-        keyword: footerData.formEncabezadoFooter.keyword || FOOTER_DEFAULTS.keyword,
-        link: footerData.formEncabezadoFooter.link || FOOTER_DEFAULTS.link,
+        ...footerData.formEncabezadoFooter,
+        palabra:
+          footerData.formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra,
+        enlace:
+          footerData.formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace,
         // Imágenes por defecto
         public_image1: DEFAULT_IMAGES.footer.image1,
         public_image2: DEFAULT_IMAGES.footer.image2,
@@ -172,18 +176,15 @@ class BlogOrchestrator {
         ...headerData.formEncabezadoHeader,
         public_image: DEFAULT_IMAGES.header.image1,
         url_image: "",
-        // IDs de relaciones
+        // ✅ IDs de relaciones
         id_blog_head: result.headerId,
         id_blog_body: result.bodyId,
         id_blog_footer: result.footerId,
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
         id_empleado: empleadoId,
-        // Campo link personalizado (opcional)
-        link: headerData.formEncabezadoHeader.titulo_link || "",
+        link: headerData.formEncabezadoHeader.titulo_enlace || "",
       };
-      
-      console.log("🔍 DEBUG createBlog - Enviando link al backend:", headerData.formEncabezadoHeader.titulo_link);
 
       const blogResult = await API.default.createBlog(blogPayload);
       result.blogId = blogResult?.id || blogResult?.data?.id;
@@ -202,6 +203,7 @@ class BlogOrchestrator {
         url_image: "",
         id_plantilla: plantillaId,
         id_empleado: empleadoId,
+        estado_publicacion: isPublicado ? 1 : 0
       };
 
       const cardResult = await API.default.createCard(cardPayload);
@@ -247,6 +249,7 @@ class BlogOrchestrator {
     plantillaId,
     cardId = null,
     blogRelations = {},
+    isPublicado,
   }) {
     const result = {
       success: false,
@@ -266,8 +269,7 @@ class BlogOrchestrator {
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
         id_empleado: empleadoId,
-        // Campo link personalizado (opcional)
-        link: headerData.formEncabezadoHeader.titulo_link || "",
+        link: headerData.formEncabezadoHeader.titulo_enlace || "",
         ...(blogRelations.id_blog_head && {
           id_blog_head: blogRelations.id_blog_head,
         }),
@@ -278,11 +280,10 @@ class BlogOrchestrator {
           id_blog_footer: blogRelations.id_blog_footer,
         }),
       };
-      
-      console.log("🔍 DEBUG updateBlog - Enviando link al backend:", headerData.formEncabezadoHeader.titulo_link);
 
       await API.default.updateBlog(blogId, blogPayload);
 
+      // Subir imágenes si hay cardId
       if (cardId) {
         const cardPayload = {
           id_blog: blogId,
@@ -295,11 +296,12 @@ class BlogOrchestrator {
           url_image: "",
           id_plantilla: plantillaId,
           id_empleado: empleadoId,
+          estado_publicacion: isPublicado ? 1 : 0,
         };
 
         await API.default.updateCard(cardId, cardPayload);
       } else {
-        console.warn("⚠️ No hay cardId disponible, no se actualizó la card");
+        console.warn("⚠️ No hay cardId disponible, imágenes no se subirán");
       }
 
       // Subir imágenes si hay cardId

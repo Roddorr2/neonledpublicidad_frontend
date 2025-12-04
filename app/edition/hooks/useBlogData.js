@@ -172,28 +172,28 @@ export default function useBlogData(
       setFormEncabezadoHeader((prev) => ({
         ...prev,
         ...blogResponse,
-        titulo_link: blogResponse.link || "", // Cargar el link del blog en el campo titulo_link
+        titulo_enlace: blogResponse.link || "",
       }));
 
       const [headerResponse, bodyResponse, footerResponse, cardsResponse] =
         await Promise.all([
           relations.id_blog_head
             ? Api.getHeader(relations.id_blog_head).catch((err) => {
-                console.warn("⚠️ Error cargando header:", err);
-                return null;
-              })
+              console.warn("⚠️ Error cargando header:", err);
+              return null;
+            })
             : null,
           relations.id_blog_body
             ? Api.getBody(relations.id_blog_body).catch((err) => {
-                console.warn("⚠️ Error cargando body:", err);
-                return null;
-              })
+              console.warn("⚠️ Error cargando body:", err);
+              return null;
+            })
             : null,
           relations.id_blog_footer
             ? Api.getFooter(relations.id_blog_footer).catch((err) => {
-                console.warn("⚠️ Error cargando footer:", err);
-                return null;
-              })
+              console.warn("⚠️ Error cargando footer:", err);
+              return null;
+            })
             : null,
           Api.getCards().catch(() => []),
         ]);
@@ -274,8 +274,8 @@ export default function useBlogData(
               id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
               titulo: tarjeta.titulo || "",
               descripcion: tarjeta.descripcion || "",
-              keyword: tarjeta.keyword || "",
-              link: tarjeta.link || "",
+              palabra: tarjeta.palabra || "",
+              enlace: tarjeta.enlace || "",
             }));
             setFormInfoBody(tarjetasMapped);
           } else {
@@ -291,8 +291,8 @@ export default function useBlogData(
                   id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
                   titulo: tarjeta.titulo || "",
                   descripcion: tarjeta.descripcion || "",
-                  keyword: tarjeta.keyword || "",
-                  link: tarjeta.link || "",
+                  palabra: tarjeta.palabra || "",
+                  enlace: tarjeta.enlace || "",
                 }));
                 setFormInfoBody(tarjetasMapped);
               } else {
@@ -320,8 +320,8 @@ export default function useBlogData(
             title_image2: mappedFooter.title_image2,
             alt_image3: mappedFooter.alt_image3,
             title_image3: mappedFooter.title_image3,
-            keyword:mappedFooter.keyword,
-            link: mappedFooter.link,
+            palabra: mappedFooter.palabra,
+            enlace: mappedFooter.enlace,
           });
           setFormImagenFooter({
             public_image1: mappedFooter.public_image1,
@@ -329,6 +329,13 @@ export default function useBlogData(
             public_image3: mappedFooter.public_image3,
           });
         }
+      }
+      // ========== Cargar estado_publicacion desde CARD ==========
+      if (blogResponse?.card?.estado_publicacion !== undefined) {
+        setFormEncabezadoFooter(prev => ({
+          ...prev,
+          estado_publicacion: blogResponse.card.estado_publicacion
+        }));
       }
 
       setIsDirty(false);
@@ -567,14 +574,14 @@ export default function useBlogData(
           try {
             // Filtrar tarjetas válidas (que tengan al menos un campo con contenido)
             const validTarjetas = formInfoBody.filter(
-              (t) => t.titulo || t.descripcion || t.keyword
+              (t) => t.titulo || t.descripcion || t.palabra
             );
             for (const [index, tarjeta] of validTarjetas.entries()) {
               const tarjetaData = {
                 titulo: tarjeta.titulo || "",
                 descripcion: tarjeta.descripcion || "",
-                keyword: tarjeta.keyword || "",
-                link: tarjeta.link || "",
+                palabra: tarjeta.palabra || "",
+                enlace: tarjeta.enlace || "",
                 id_blog_body: bodyId,
               };
 
@@ -642,16 +649,21 @@ export default function useBlogData(
     blogRelations.id_blog_body,
   ]);
 
-  const saveFooter = useCallback(async () => {
+  const saveFooter = useCallback(async (estado_publicacion) => {
     try {
       setLoading(true);
       setError(null);
 
+      //Enviar correctamente el estado_publicacion al backend
       const footerEnabled =
-        formEncabezadoFooter?.estado ?? FOOTER_DEFAULTS.estado;
+        estado_publicacion !== undefined
+          ? estado_publicacion
+          : formEncabezadoFooter?.estado_publicacion ?? false;
+
 
       const footerPayload = {
         ...formEncabezadoFooter,
+        estado: footerEnabled,
         public_image1: formImagenFooter.public_image1?.startsWith("blob:")
           ? DEFAULT_IMAGES.footer.image1
           : formImagenFooter.public_image1 || DEFAULT_IMAGES.footer.image1,
@@ -667,13 +679,18 @@ export default function useBlogData(
         descripcion: footerEnabled
           ? formEncabezadoFooter.descripcion || FOOTER_DEFAULTS.descripcion
           : FOOTER_DEFAULTS.descripcion,
+        palabra: footerEnabled
+          ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
+          : FOOTER_DEFAULTS.palabra,
+        enlace: footerEnabled
+          ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
+          : FOOTER_DEFAULTS.enlace,
       };
 
       if (isCreateMode) {
         const result = await Api.createFooter(footerPayload);
         return result;
       } else {
-        // ✅ Usar id_blog_footer
         const footerId = blogRelations.id_blog_footer;
         if (!footerId) {
           throw new Error("No se encontró el ID del footer");
@@ -695,8 +712,9 @@ export default function useBlogData(
     blogRelations.id_blog_footer,
   ]);
 
+
   // Guardar blog completo - USANDO ORCHESTRATOR
-  const saveBlog = useCallback(async () => {
+  const saveBlog = useCallback(async ({ estado_publicacion }) => {
     try {
       setLoading(true);
       setError(null);
@@ -706,16 +724,19 @@ export default function useBlogData(
         const result = await blogOrchestrator.createBlog({
           headerData: {
             formEncabezadoHeader,
+            id_blog_head: blogRelations.id_blog_head,
             formImagenHeader,
           },
           bodyData: {
             formEncabezadoBody,
             formGaleryBody,
             formCommendBody,
+            id_blog_body: blogRelations.id_blog_body,
             formInfoBody,
           },
           footerData: {
             formEncabezadoFooter,
+            id_blog_footer: blogRelations.id_blog_footer,
             formImagenFooter,
           },
           files: {
@@ -729,6 +750,7 @@ export default function useBlogData(
           },
           plantillaId,
           empleadoId: getEmpleadoId(),
+          isPublicado: estado_publicacion
         });
 
         // Actualizar cardId en el hook
@@ -757,7 +779,7 @@ export default function useBlogData(
         // ========== MODO EDICIÓN: Usar orchestrator ==========
 
         // Primero actualizar Header, Body, Footer por separado (mantener compatibilidad)
-        await Promise.all([saveHeader(), saveBody(), saveFooter()]);
+        await Promise.all([saveHeader(), saveBody(), saveFooter(estado_publicacion)]);
 
         const result = await blogOrchestrator.updateBlog({
           blogId,
@@ -788,6 +810,7 @@ export default function useBlogData(
           empleadoId: getEmpleadoId(),
           cardId,
           blogRelations,
+          isPublicado: estado_publicacion
         });
 
         setFileHeader(null);
