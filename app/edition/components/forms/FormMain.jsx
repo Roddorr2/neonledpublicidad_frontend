@@ -31,6 +31,9 @@ import {
 import TemplateSelector from "../preview/TemplateSelector";
 import TemplateRenderer from "../preview/TemplateRenderer";
 
+/** REFERENCIA GLOBAL PARA ACCIONAR BOTÓN DESDE FUERA */
+export const externalSaveRef = { current: null };
+
 /**
  * FormMain - Componente orquestador del workflow completo de blogs
  */
@@ -116,6 +119,22 @@ export default function FormMain({
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [autoSaveTimer, setAutoSaveTimer] = useState(null);
+  // Estado del switch de publicación
+  const [isPublicado, setIsPublicado] = useState(
+    formEncabezadoFooter?.estado_publicacion === 1
+  );
+
+  // Sincroniza el switch con los datos del blog cuando formEncabezadoFooter cambia
+useEffect(() => {
+  if (formEncabezadoFooter) {
+    setIsPublicado(formEncabezadoFooter.estado_publicacion === 1);
+  }
+}, [formEncabezadoFooter]);
+
+
+
+
+
 
   // Estados para el sistema de preview
   const [viewMode, setViewMode] = useState("edit"); // 'edit' | 'preview' | 'template-select'
@@ -146,7 +165,10 @@ const [activePreviewTab, setActivePreviewTab] = useState("informacion");
   const bodyRef = useRef(null);
   const footerRef = useRef(null);
 
-  // Generar datos consolidados para preview
+  /** REFERENCIA LOCAL DEL BOTÓN GUARDAR */
+  const saveButtonRef = useRef(null);
+
+  // Generar datos para preview
   const getBlogDataForPreview = useCallback(() => {
     return {
       header: {
@@ -156,7 +178,6 @@ const [activePreviewTab, setActivePreviewTab] = useState("informacion");
       body: {
         header: {
           ...formEncabezadoBody,
-          // Incluir flags de secciones
           flag_consejos: formEncabezadoBody?.flag_consejos ?? true,
           flag_galeria: formEncabezadoBody?.flag_galeria ?? true,
           flag_informacion: formEncabezadoBody?.flag_informacion ?? true,
@@ -168,7 +189,7 @@ const [activePreviewTab, setActivePreviewTab] = useState("informacion");
       footer: {
         ...formEncabezadoFooter,
         ...formImagenFooter,
-        estado: formEncabezadoFooter?.estado ?? false,
+        estado_publicacion: formEncabezadoFooter?.estado_publicacion ?? (isPublicado ? 1 : 0),
       },
     };
   }, [
@@ -219,26 +240,20 @@ useEffect(() => {
     const timer = setTimeout(async () => {
       try {
         await saveBlog();
-      } catch (err) {
-        // Error en auto-guardado - silencioso
-      }
+      } catch (err) {}
     }, autoSaveInterval);
 
     setAutoSaveTimer(timer);
-
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
+    return () => timer && clearTimeout(timer);
   }, [autoSave, isDirty, isFormValid, autoSaveInterval, saveBlog]);
 
-  // Limpiar timer al desmontar
   useEffect(() => {
     return () => {
       if (autoSaveTimer) clearTimeout(autoSaveTimer);
     };
   }, [autoSaveTimer]);
 
-  // Manejar clics del menú lateral para hacer scroll
+  // Scroll
   useEffect(() => {
     const handleNavClick = (event) => {
       const target = event.target.closest("[data-scroll-to]");
@@ -251,10 +266,10 @@ useEffect(() => {
         section === "header"
           ? headerRef
           : section === "body"
-          ? bodyRef
-          : section === "footer"
-          ? footerRef
-          : null;
+            ? bodyRef
+            : section === "footer"
+              ? footerRef
+              : null;
 
       if (sectionRef?.current) {
         sectionRef.current.scrollIntoView({
@@ -268,7 +283,7 @@ useEffect(() => {
     return () => document.removeEventListener("click", handleNavClick);
   }, []);
 
-  // Handlers para FormHeader - Compatibilidad completa con blog_heads
+  // Header handlers
   const handleHeaderChange = useCallback(
     ({ name, value }) => {
       if (["public_image", "url_image", "alt", "title"].includes(name)) {
@@ -285,40 +300,28 @@ useEffect(() => {
       try {
         setLoading(true);
 
-        if (isCreateMode) {
-          setFormImagenHeader((prev) => ({
-            ...prev,
-            public_image: imageData.tempUrl,
-            alt: imageData.alt || "",
-            title: imageData.title || "",
-          }));
+        setFormImagenHeader((prev) => ({
+          ...prev,
+          public_image: imageData.tempUrl,
+          alt: imageData.alt || "",
+          title: imageData.title || "",
+        }));
 
-          // Guardar archivo para subir en saveBlog
-          setFileHeader(imageData.file);
-        } else {
-          setFormImagenHeader((prev) => ({
-            ...prev,
-            public_image: imageData.tempUrl,
-            alt: imageData.alt || "",
-            title: imageData.title || "",
-          }));
-
-          setFileHeader(imageData.file);
-        }
+        setFileHeader(imageData.file);
       } catch (err) {
         setError("Error al procesar imagen del header");
       } finally {
         setLoading(false);
       }
     },
-    [isCreateMode, setFormImagenHeader, setFileHeader, setLoading, setError]
+    [setFormImagenHeader, setFileHeader, setLoading, setError]
   );
 
   const handleHeaderImageDelete = useCallback(async () => {
     try {
       setFormImagenHeader((prev) => ({
         ...prev,
-        public_image: "/blog/fondo_blog_extend.png", // Volver a imagen por defecto
+        public_image: "/blog/fondo_blog_extend.png",
         alt: "",
         title: "",
       }));
@@ -329,10 +332,6 @@ useEffect(() => {
     }
   }, [setFormImagenHeader, setFileHeader, setError]);
 
-  // Handlers para FormBody - Compatibilidad completa con servicios
-  // Los setters se pasan directamente a FormBody para evitar wrappers innecesarios
-
-  // Handlers para FormFooter - Compatibilidad completa
   const handleFooterChange = useCallback(
     ({ name, value }) => {
       if (["public_image1", "public_image2", "public_image3"].includes(name)) {
@@ -408,31 +407,35 @@ const handleSectionToggle = useCallback(
     [setValidacionFooter]
   );
 
-  // Handler principal para guardar
+  // Guardar
   const handleSave = useCallback(async () => {
-    if (!isFormValid) {
-      setError("Por favor completa todos los campos obligatorios");
-      return;
-    }
+  if (!isFormValid) {
+    setError("Por favor completa todos los campos obligatorios");
+    return;
+  }
 
-    try {
-      setIsSaving(true);
-      clearError();
+  try {
+    setIsSaving(true);
+    clearError();
 
-      const result = await saveBlog();
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
+    const result = await saveBlog({
+      ...formEncabezadoFooter,
+      estado_publicacion: isPublicado ? 1 : 0,
+    });
 
-      // Notificar éxito al componente padre
-      onSuccess?.(result);
-    } catch (err) {
-      setError("No se pudo guardar el blog. Intenta nuevamente.");
-    } finally {
-      setIsSaving(false);
-    }
-  }, [isFormValid, saveBlog, onSuccess, isCreateMode, setError, clearError]);
+    setSaveSuccess(true);
+    setTimeout(() => setSaveSuccess(false), 3000);
 
-  // Handler para cancelar
+    onSuccess?.(result);
+  } catch (err) {
+    setError("No se pudo guardar el blog. Intenta nuevamente.");
+  } finally {
+    setIsSaving(false);
+  }
+}, [isFormValid, saveBlog, onSuccess, isPublicado, formEncabezadoFooter, setError, clearError]);
+
+
+
   const handleCancel = useCallback(() => {
     if (isDirty) {
       const confirm = window.confirm(
@@ -440,19 +443,13 @@ const handleSectionToggle = useCallback(
       );
       if (!confirm) return;
     }
-
     resetForm();
     onCancel?.();
   }, [isDirty, resetForm, onCancel]);
 
-  // Handler para preview
   const handlePreview = useCallback(() => {
-    if (viewMode === "preview") {
-      setViewMode("edit");
-    } else {
-      setViewMode("preview");
-    }
-  }, [viewMode]);
+    setViewMode((prev) => (prev === "preview" ? "edit" : "preview"));
+  }, []);
 
   const handlePlantillaChange = useCallback(
     (newPlantillaId) => {
@@ -468,13 +465,11 @@ const handleSectionToggle = useCallback(
     [selectedPlantilla, isCreateMode, onPlantillaChange]
   );
 
-  // Handler para mostrar selector de plantillas
   const handleShowTemplateSelector = useCallback(() => {
     setShowTemplateSelector(true);
     setViewMode("template-select");
   }, []);
 
-  // Handler para cancelar selección de plantilla
   const handleCancelTemplateSelection = useCallback(() => {
     setShowTemplateSelector(false);
     setViewMode("edit");
@@ -591,7 +586,7 @@ const renderSectionControls = () => (
 
   return (
     <div className={`max-w-7xl mx-auto mt-8 ${className}`}>
-      {/* Header de estado y acciones */}
+      {/* Panel superior */}
       <div className="mb-8 bg-white rounded-lg shadow-sm border p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -607,6 +602,44 @@ const renderSectionControls = () => (
           </div>
 
           <div className="flex items-center space-x-3">
+            {/* Switch de Publicación */}
+            <div className="flex items-center gap-3 px-4 py-2 bg-white border rounded-xl shadow-sm">
+              <span
+                className={`text-sm font-medium transition-colors ${isPublicado ? "text-green-600" : "text-orange-500"
+                  }`}
+              >
+                {isPublicado ? "Publicar" : "Borrador"}
+              </span>
+
+              <label className="cursor-pointer select-none">
+                <div className="relative w-14 h-7">
+                  {/* INPUT (el peer) */}
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={isPublicado}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setIsPublicado(checked);
+                      setFormEncabezadoFooter(prev => ({
+                        ...prev,
+                        estado_publicacion: checked ? 1 : 0
+                      }));
+                    }}
+                  />
+                  <div className="absolute top-0 left-0 w-full h-full bg-gray-300 rounded-full shadow-inner transition-colors duration-300 peer-checked:bg-green-500">
+                  </div>
+                  <div
+                    className="
+          absolute top-0.5 left-0.5 
+          w-6 h-6 bg-white rounded-full shadow 
+          transition-all duration-300 ease-out
+          peer-checked:translate-x-7
+        "
+                  ></div>
+                </div>
+              </label>
+            </div>
             {/* Estado de validación */}
             <div className="flex items-center space-x-2">
               {isFormValid ? (
@@ -626,7 +659,6 @@ const renderSectionControls = () => (
               )}
             </div>
 
-            {/* Indicador de cambios */}
             {isDirty && (
               <div className="flex items-center space-x-1 text-sm text-blue-600">
                 <RefreshCw className="w-4 h-4" />
@@ -636,7 +668,6 @@ const renderSectionControls = () => (
           </div>
         </div>
 
-        {/* Mensaje de error global */}
         {error && (
           <div className="mt-4 p-3 bg-red-50 border-l-4 border-red-500 text-red-700">
             <div className="flex items-center">
@@ -652,7 +683,6 @@ const renderSectionControls = () => (
           </div>
         )}
 
-        {/* Mensaje de éxito */}
         {saveSuccess && (
           <div className="mt-4 p-3 bg-green-50 border-l-4 border-green-500 text-green-700">
             <div className="flex items-center">
@@ -663,16 +693,15 @@ const renderSectionControls = () => (
         )}
       </div>
 
-      {/* Tabs de navegación */}
+      {/* Tabs */}
       <div className="mb-8 bg-white rounded-lg shadow-sm border">
         <div className="flex border-b border-gray-200">
           <button
             onClick={() => setViewMode("edit")}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-              viewMode === "edit"
-                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-            }`}
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "edit"
+              ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+              : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              }`}
           >
             <div className="flex items-center justify-center space-x-2">
               <span>✏️ Editar Blog</span>
@@ -682,13 +711,12 @@ const renderSectionControls = () => (
           <button
             onClick={handlePreview}
             disabled={!isFormValid}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-              viewMode === "preview"
-                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                : !isFormValid
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "preview"
+              ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+              : !isFormValid
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-            }`}
+              }`}
           >
             <div className="flex items-center justify-center space-x-2">
               <Eye className="w-4 h-4" />
@@ -699,11 +727,10 @@ const renderSectionControls = () => (
           {isCreateMode && showTemplateSelectorProp && (
             <button
               onClick={handleShowTemplateSelector}
-              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-                viewMode === "template-select"
-                  ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-              }`}
+              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "template-select"
+                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                }`}
             >
               <div className="flex items-center justify-center space-x-2">
                 <span>🎨 Cambiar Plantilla</span>
@@ -733,7 +760,6 @@ const renderSectionControls = () => (
             />
           </div>
 
-          {/* 🟩 BODY */}
           <div id="body" ref={bodyRef}>
             <FormBody
               formCommendBody={formCommendBody}
@@ -756,7 +782,6 @@ const renderSectionControls = () => (
             />
           </div>
 
-          {/* 🟧 FOOTER */}
           <div id="footer" ref={footerRef}>
             <FormFooter
               data={{ ...formEncabezadoFooter, ...formImagenFooter }}
@@ -790,7 +815,6 @@ const renderSectionControls = () => (
   </div>
 )}
 
-      {/* Selector de Plantillas */}
       {viewMode === "template-select" && isCreateMode && (
         <div className="bg-gray-50 rounded-lg p-6">
           <TemplateSelector
@@ -803,7 +827,7 @@ const renderSectionControls = () => (
         </div>
       )}
 
-      {/* Panel de acciones */}
+      {/* PANEL FINAL DE ACCIONES */}
       <div className="mt-12 bg-white rounded-lg shadow-sm border p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -821,11 +845,10 @@ const renderSectionControls = () => (
             {showPreview && (
               <button
                 onClick={handlePreview}
-                className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
-                  viewMode === "preview"
-                    ? "text-blue-700 border-blue-300 bg-blue-50"
-                    : "text-blue-700 border-blue-300 hover:bg-blue-50"
-                }`}
+                className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${viewMode === "preview"
+                  ? "text-blue-700 border-blue-300 bg-blue-50"
+                  : "text-blue-700 border-blue-300 hover:bg-blue-50"
+                  }`}
                 disabled={loading || isSaving || !isFormValid}
               >
                 <Eye className="w-4 h-4" />
@@ -835,7 +858,6 @@ const renderSectionControls = () => (
               </button>
             )}
 
-            {/* Botón para cambiar plantilla (solo en modo create) */}
             {isCreateMode && showTemplateSelectorProp && (
               <button
                 onClick={handleShowTemplateSelector}
@@ -849,22 +871,24 @@ const renderSectionControls = () => (
           </div>
 
           <div className="flex items-center space-x-3">
-            {/* Información de auto-guardado */}
             {autoSave && isDirty && (
               <span className="text-sm text-gray-500">
                 Auto-guardado en {Math.round(autoSaveInterval / 1000)}s
               </span>
             )}
 
-            {/* Botón de guardar */}
+            {/* BOTÓN GUARDAR — REFERENCIA AÑADIDA */}
             <button
+              ref={(el) => {
+                saveButtonRef.current = el;
+                externalSaveRef.current = el; // <<--- REFERENCIA GLOBAL
+              }}
               onClick={handleSave}
               disabled={loading || isSaving || !isFormValid}
-              className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${
-                isFormValid && !loading && !isSaving
-                  ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+              className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${isFormValid && !loading && !isSaving
+                ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
             >
               {isSaving ? (
                 <>
