@@ -1,6 +1,7 @@
 "use client";
 
 import { Link, Trash2, XIcon } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -27,8 +28,9 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
 
   const modalContent = showModal ? (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
-      <div className="bg-gray-900 p-6 rounded-2xl w-full max-w-md mx-4 shadow-2xl border border-purple-600">
+      <div className="bg-gray-900 p-6 rounded-2xl w-full max-w-md mx-4 shadow-2xl border border-blue-600">
         <div className="flex justify-between items-center mb-4">
+          <Image src="/pop_ups/logo.webp" alt="Logo" width={40} height={40} />
           <h2 className="text-white text-lg font-semibold">Añadir Link</h2>
           <button
             type="button"
@@ -49,7 +51,7 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
             placeholder="Palabra o frase escrita en la descripción"
-            className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
@@ -61,7 +63,7 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
 
           {!useCustomUrl ? (
             <select
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               value={url}
               onChange={(e) => {
                 const value = e.target.value;
@@ -86,7 +88,7 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
               <input
                 type="url"
                 placeholder="https://ejemplo.com"
-                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
@@ -96,7 +98,7 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
                   setUseCustomUrl(false);
                   setUrl("");
                 }}
-                className="text-purple-400 text-xs hover:text-purple-300 transition"
+                className="text-blue-400 text-xs hover:text-blue-300 transition"
               >
                 ← Volver a seleccionar servicio
               </button>
@@ -145,7 +147,7 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
       <button
         type="button"
         onClick={() => setShowModal(true)}
-        className="mt-3 inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-sm font-semibold rounded-full shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105 active:scale-95 border border-purple-400/30"
+        className="mt-3 inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-semibold rounded-full shadow-lg hover:shadow-blue-400/50 transition-all duration-300 transform hover:scale-105 active:scale-95 border border-blue-300/30"
       >
         <Link className="w-4 h-4" />
         <span>Añadir Enlace</span>

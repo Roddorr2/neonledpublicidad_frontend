@@ -48,7 +48,7 @@ export const FOOTER_DEFAULTS = {
 
 /**
  * Valores por defecto para Consejos (CommendTarjeta)
- */
+ */ 
 export const CONSEJOS_DEFAULTS = {
   titulo: "Consejos Importantes Para Elegir Tu Letrero de Neón Perfecto", // min: 10, max: 100 (requerido por backend)
   texto1: "Considera el espacio disponible y la visibilidad desde diferentes ángulos para maximizar el impacto visual", // min: 10, max: 150 (required)

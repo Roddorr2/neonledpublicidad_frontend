@@ -8,6 +8,10 @@ import {
   CheckCircle,
   Loader2,
   ArrowLeft,
+
+  MessageSquareQuote,  
+  Images,              
+  FileText,            
 } from "lucide-react";
 import useBlogData from "../../hooks/useBlogData";
 import FormHeader from "./FormHeader";
@@ -20,6 +24,7 @@ import {
   DEFAULT_HEADER_VALIDATION_CONFIG,
   DEFAULT_FOOTER_VALIDATION_CONFIG,
   DEFAULT_BODY_VALIDATION_CONFIG,
+  getPlantillaConfig,  
 } from "../../config/index";
 
 // Componentes de preview
@@ -119,6 +124,25 @@ export default function FormMain({
   const [viewMode, setViewMode] = useState("edit");
   const [selectedPlantilla, setSelectedPlantilla] = useState(plantillaId);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
+  
+
+const [sectionsVisibility, setSectionsVisibility] = useState({
+  consejos: formEncabezadoBody?.flag_consejos ?? true,
+  galeria: formEncabezadoBody?.flag_galeria ?? true,
+  informacion: formEncabezadoBody?.flag_informacion ?? true,
+});
+
+
+const currentPlantillaConfig = getPlantillaConfig(plantillaId);
+const mergedSectionsConfig = currentPlantillaConfig?.sectionsConfig || {
+  consejos: { enabled: true },
+  galeria: { enabled: true },
+  informacion: { enabled: true },
+};
+
+
+
+const [activePreviewTab, setActivePreviewTab] = useState("informacion");
 
   // Referencias
   const headerRef = useRef(null);
@@ -162,6 +186,36 @@ export default function FormMain({
     formEncabezadoFooter,
     formImagenFooter,
   ]);
+
+useEffect(() => {
+  setSectionsVisibility({
+    consejos: formEncabezadoBody?.flag_consejos ?? true,
+    galeria: formEncabezadoBody?.flag_galeria ?? true,
+    informacion: formEncabezadoBody?.flag_informacion ?? true,
+  });
+}, [
+  formEncabezadoBody?.flag_consejos,
+  formEncabezadoBody?.flag_galeria,
+  formEncabezadoBody?.flag_informacion,
+]);
+
+
+useEffect(() => {
+  const currentTabVisible =
+    (activePreviewTab === "consejos" && sectionsVisibility.consejos) ||
+    (activePreviewTab === "galeria" && sectionsVisibility.galeria) ||
+    (activePreviewTab === "informacion" && sectionsVisibility.informacion);
+
+  if (!currentTabVisible) {
+    if (sectionsVisibility.informacion) {
+      setActivePreviewTab("informacion");
+    } else if (sectionsVisibility.consejos) {
+      setActivePreviewTab("consejos");
+    } else if (sectionsVisibility.galeria) {
+      setActivePreviewTab("galeria");
+    }
+  }
+}, [sectionsVisibility, activePreviewTab]);
 
   // Auto-guardado
   useEffect(() => {
@@ -273,6 +327,10 @@ export default function FormMain({
     [setFormEncabezadoFooter, setFormImagenFooter]
   );
 
+  // NOTA: handleFooterImagesChange y handleFooterImageDelete fueron eliminados
+  // Las imágenes del footer ahora se manejan a través del flujo principal de saveBlog
+  // que usa el orchestrator para coordinar todas las subidas de imágenes
+
   const handleFooterValidation = useCallback(
     (isValid) => {
       setValidacionFooter(isValid);
@@ -341,6 +399,105 @@ export default function FormMain({
     setShowTemplateSelector(false);
     setViewMode("edit");
   }, []);
+
+// Componente de Control de Secciones del Blog
+const renderSectionControls = () => (
+  <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 rounded-xl p-4 border border-purple-500/30 shadow-lg">
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      {/* Título */}
+      <div className="flex items-center gap-2">
+        <Eye className="w-5 h-5 text-purple-400" />
+        <h3 className="text-sm font-semibold text-white">
+          Control de Secciones del Blog
+        </h3>
+      </div>
+
+      {/* Toggles */}
+      <div className="flex flex-wrap gap-4 md:gap-6">
+        {/* Toggle Consejos */}
+        {mergedSectionsConfig.consejos?.enabled && (
+          <label className="flex items-center gap-3 cursor-pointer group">
+            <MessageSquareQuote className="w-4 h-4 text-yellow-400" />
+            <span className="text-sm text-gray-300 group-hover:text-white transition-colors">
+              Consejos
+            </span>
+            <div className="relative">
+              <input
+                type="checkbox"
+                checked={sectionsVisibility.consejos}
+                onChange={(e) => handleSectionToggle("consejos", e.target.checked)}
+                className="sr-only"
+              />
+              <div className={`w-11 h-6 rounded-full transition-colors ${
+                sectionsVisibility.consejos ? "bg-yellow-500" : "bg-gray-600"
+              }`}>
+                <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                  sectionsVisibility.consejos ? "translate-x-5" : "translate-x-0"
+                }`} />
+              </div>
+            </div>
+          </label>
+        )}
+
+        {/* Toggle Galería */}
+        {mergedSectionsConfig.galeria?.enabled && (
+          <label className="flex items-center gap-3 cursor-pointer group">
+            <Images className="w-4 h-4 text-blue-400" />
+            <span className="text-sm text-gray-300 group-hover:text-white transition-colors">
+              Galería
+            </span>
+            <div className="relative">
+              <input
+                type="checkbox"
+                checked={sectionsVisibility.galeria}
+                onChange={(e) => handleSectionToggle("galeria", e.target.checked)}
+                className="sr-only"
+              />
+              <div className={`w-11 h-6 rounded-full transition-colors ${
+                sectionsVisibility.galeria ? "bg-yellow-500" : "bg-gray-600"
+              }`}>
+                <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                  sectionsVisibility.galeria ? "translate-x-5" : "translate-x-0"
+                }`} />
+              </div>
+            </div>
+          </label>
+        )}
+
+        {/* Toggle Información */}
+        {mergedSectionsConfig.informacion?.enabled && (
+          <label className="flex items-center gap-3 cursor-pointer group">
+            <FileText className="w-4 h-4 text-green-400" />
+            <span className="text-sm text-gray-300 group-hover:text-white transition-colors">
+              Información
+            </span>
+            <div className="relative">
+              <input
+                type="checkbox"
+                checked={sectionsVisibility.informacion}
+                onChange={(e) => handleSectionToggle("informacion", e.target.checked)}
+                className="sr-only"
+              />
+              <div className={`w-11 h-6 rounded-full transition-colors ${
+                sectionsVisibility.informacion ? "bg-yellow-500" : "bg-gray-600"
+              }`}>
+                <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                  sectionsVisibility.informacion ? "translate-x-5" : "translate-x-0"
+                }`} />
+              </div>
+            </div>
+          </label>
+        )}
+      </div>
+    </div>
+
+    {/* Tooltip informativo */}
+    <div className="mt-3 text-xs text-gray-400 flex items-start gap-2">
+      <span>💡</span>
+      <span>Controla qué secciones se muestran en la plantilla. Los datos se limpian automáticamente al deshabilitar.</span>
+    </div>
+  </div>
+);
 
   // Loading estado
   if (loading && isEditMode) {
@@ -470,8 +627,10 @@ export default function FormMain({
         </div>
       </div>
 
+      {/* Contenido según el modo */}
       {viewMode === "edit" && (
         <div className="space-y-8">
+          {/* 🟦 HEADER */}
           <div id="header" ref={headerRef}>
             <FormHeader
               data={{ ...formEncabezadoHeader, ...formImagenHeader }}
@@ -525,6 +684,7 @@ export default function FormMain({
         </div>
       )}
 
+      {/* Vista Previa */}
       {viewMode === "preview" && (
         <div className="bg-gray-50 rounded-lg p-6 min-h-screen">
           <TemplateRenderer
