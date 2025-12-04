@@ -209,14 +209,7 @@ export default function TemplateSelector({
                     </div>
 
                     {/* Selection Button */}
-                    
-                    <button
-                      onClick={handleConfirm}
-                      className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center"
-                    >
-                      Crear Blog con esta Plantilla
-                      <ArrowRight className="w-5 h-5 ml-2" />
-                    </button>
+
                   </div>
                 </div>
               </div>
@@ -260,6 +253,13 @@ export default function TemplateSelector({
               Cancelar
             </button>
           )}
+          <button
+                      onClick={handleConfirm}
+                      className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center"
+                    >
+                      Crear Blog con esta Plantilla
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </button>
         </div>
       </div>
     </div>
