@@ -169,17 +169,20 @@ export default function Page() {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteBlog(id)
+                deleteBlog(id, id_empleado)
             }
         })
     }
 
-    async function deleteBlog(id) {
+    async function deleteBlog(id , id_empleado) {
         try {
             const response = await axios.delete(`${url}/api/blogs/${id}`, {
                 headers: {
                     Authorization: `Bearer ${getCookie("token")}`,
                 },
+                data:{
+                    id_empleado: id_empleado,
+                }
             })
 
             if (response.status === 200) {
