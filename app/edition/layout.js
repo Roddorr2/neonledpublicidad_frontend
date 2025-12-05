@@ -1,17 +1,37 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
+import { EditionActionsProvider } from "./components/EditionActionsContext"
 import { Button } from "@/components/ui/button"
-import { Save, Layout, Type, FootprintsIcon as FooterIcon, House, BookTemplate, Pencil } from "lucide-react"
+import { Save, Loader2, Layout, FootprintsIcon as FooterIcon, House, BookTemplate, Pencil } from "lucide-react"
 
 export default function EditionLayout({ children }) {
   const [selectedSection, setSelectedSection] = useState("header")
   const observerRef = useRef(null)
   const isNavigatingRef = useRef(false)
   const sectionsRef = useRef(null)
+  const [actions, setActions] = useState({
+    onSave: null,
+    disabled: true,
+    loading: false,
+    label: "",
+  })
+
+  const registerActions = useCallback(
+    (nextActions = {}) => {
+      setActions({
+        onSave: nextActions.onSave || null,
+        disabled:
+          typeof nextActions.disabled === "boolean" ? nextActions.disabled : true,
+        loading: nextActions.loading || false,
+        label: nextActions.label || "",
+      })
+    },
+    []
+  )
   
   const handleSectionClick = (id) => {
     setSelectedSection(id);
@@ -103,113 +123,133 @@ export default function EditionLayout({ children }) {
   }, [])
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
+    <EditionActionsProvider value={{ actions, registerActions }}>
+      <div className="flex flex-col min-h-screen">
+        <Header />
 
-      
-
-      <div className="flex flex-1">
-        <div className="w-64 bg-gradient-to-b from-blue-800 to-slate-900 text-white fixed top-0 left-0 h-full pt-20 shadow-xl">
-          <div className="px-6 py-4 border-b border-slate-700/50">
-
-        <div className="flex items-center justify-center">
-                <Link href="/">
-                  <img src="/header_footer/logo.png" alt="NeonLedPublicidad" width="50" height="50" className="h-auto" />
-               </Link>
-        </div>
-            <div className="flex items-center justify-center space-x-2">
-              <div className="h-2 w-2 rounded-full bg-blue-500"></div>
-              <h1 className="text-lg tracking-wide font-extrabold">MODO EDICIÓN</h1>
-              
-              <Pencil className="mb-1 h-4 w-4" />
-            </div>
-          </div>
-
-          <div className="p-6">
-            <h2 className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-4 flex items-center">
-              <span className="h-px flex-grow bg-slate-700 mr-2"></span>
-              Estructura
-              <span className="h-px flex-grow bg-slate-700 ml-2"></span>
-            </h2>
-
-            <div className="space-y-3 w-full mb-auto">
-              <button
-                className={`section group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center
-                  ${selectedSection === "header"
-                    ? "bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg border-l-4 border-blue-500"
-                    : "bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
-                  }`}
-                onClick={() => handleSectionClick("header")}
-              >
-                <Layout
-                  className={`mr-3 h-4 w-4 ${selectedSection === "header" ? "text-blue-400" : "text-slate-400 group-hover:text-white"}`}
-                />
-                Header
-              </button>
-
-              <button
-                className={`section group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center
-                  ${selectedSection === "body"
-                    ? "bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg border-l-4 border-blue-500"
-                    : "bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
-                  }`}
-                onClick={() => handleSectionClick("body")}
-              >
-                <Layout
-                  className={`mr-3 h-4 w-4 ${selectedSection === "body" ? "text-blue-400" : "text-slate-400 group-hover:text-white"}`}
-                />
-                Body
-              </button>
-
-              <button
-                className={`section group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center
-                  ${selectedSection === "footer"
-                    ? "bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg border-l-4 border-blue-500"
-                    : "bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
-                  }`}
-                onClick={() => handleSectionClick("footer")}
-              >
-                <FooterIcon
-                  className={`mr-3 h-4 w-4 ${selectedSection === "footer" ? "text-blue-400" : "text-slate-400 group-hover:text-white"}`}
-                />
-                Footer
-              </button>
+        <div className="flex flex-1">
+          <div className="w-64 bg-gradient-to-b from-slate-800 to-slate-900 text-white fixed top-0 left-0 h-full pt-20 shadow-xl">
+            <div className="px-6 py-4 border-b border-slate-700/50">
+              <div className="flex items-center justify-center space-x-2">
+                <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+                <h1 className="text-lg tracking-wide font-extrabold">MODO EDICION</h1>
+                <Pencil className="mb-1 h-4 w-4" />
+              </div>
             </div>
 
-            <h2 className="text-xs mt-3 font-medium uppercase tracking-wider text-slate-400 mb-4 flex items-center">
-              <span className="h-px flex-grow bg-slate-700 mr-2"></span>
-              OPCIONES
-              <span className="h-px flex-grow bg-slate-700 ml-2"></span>
-            </h2>
+            <div className="p-6">
+              <h2 className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-4 flex items-center">
+                <span className="h-px flex-grow bg-slate-700 mr-2"></span>
+                Estructura
+                <span className="h-px flex-grow bg-slate-700 ml-2"></span>
+              </h2>
 
-            <button
-              className="group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
-            >
-              <Link href="/dashboard/blogs" className="flex items-center">
-                <House
-                  className="mr-3 h-4 w-4 text-slate-400 group-hover:text-white"
-                />
-                Inicio
-              </Link>
-            </button>
+              <div className="space-y-3 w-full mb-auto">
+                <button
+                  className={`section group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center
+                    ${selectedSection === "header"
+                      ? "bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg border-l-4 border-emerald-500"
+                      : "bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
+                    }`}
+                  onClick={() => handleSectionClick("header")}
+                >
+                  <Layout
+                    className={`mr-3 h-4 w-4 ${selectedSection === "header" ? "text-emerald-400" : "text-slate-400 group-hover:text-white"}`}
+                  />
+                  Header
+                </button>
 
-            <button
-              className="group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
-            >
-              <Link href="/edition/" className="flex items-center">
-                <BookTemplate
-                  className="mr-3 h-4 w-4 text-slate-400 group-hover:text-white"
-                />
-                Plantillas
-              </Link>
-            </button>
+                <button
+                  className={`section group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center
+                    ${selectedSection === "body"
+                      ? "bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg border-l-4 border-emerald-500"
+                      : "bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
+                    }`}
+                  onClick={() => handleSectionClick("body")}
+                >
+                  <Layout
+                    className={`mr-3 h-4 w-4 ${selectedSection === "body" ? "text-emerald-400" : "text-slate-400 group-hover:text-white"}`}
+                  />
+                  Body
+                </button>
+
+                <button
+                  className={`section group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center
+                    ${selectedSection === "footer"
+                      ? "bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg border-l-4 border-emerald-500"
+                      : "bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
+                    }`}
+                  onClick={() => handleSectionClick("footer")}
+                >
+                  <FooterIcon
+                    className={`mr-3 h-4 w-4 ${selectedSection === "footer" ? "text-emerald-400" : "text-slate-400 group-hover:text-white"}`}
+                  />
+                  Footer
+                </button>
+              </div>
+
+              <h2 className="text-xs mt-3 font-medium uppercase tracking-wider text-slate-400 mb-4 flex items-center">
+                <span className="h-px flex-grow bg-slate-700 mr-2"></span>
+                OPCIONES
+                <span className="h-px flex-grow bg-slate-700 ml-2"></span>
+              </h2>
+
+              <button
+                className="group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
+              >
+                <Link href="/dashboard/blogs" className="flex items-center">
+                  <House
+                    className="mr-3 h-4 w-4 text-slate-400 group-hover:text-white"
+                  />
+                  Inicio
+                </Link>
+              </button>
+
+              <button
+                className="group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center bg-slate-800/30 hover:bg-slate-700/50 hover:translate-x-1"
+              >
+                <Link href="/edition/" className="flex items-center">
+                  <BookTemplate
+                    className="mr-3 h-4 w-4 text-slate-400 group-hover:text-white"
+                  />
+                  Plantillas
+                </Link>
+              </button>
+
+              <h2 className="text-xs mt-6 font-medium uppercase tracking-wider text-slate-400 mb-3 flex items-center">
+                <span className="h-px flex-grow bg-slate-700 mr-2"></span>
+                Acciones
+                <span className="h-px flex-grow bg-slate-700 ml-2"></span>
+              </h2>
+
+              <Button
+                onClick={() => actions.onSave?.()}
+                disabled={!actions.onSave || actions.disabled}
+                className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold"
+              >
+                {actions.loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Guardando...
+                  </>
+                ) : (
+                  <>
+                    <Save className="mr-2 h-4 w-4" />
+                    {actions.label || "Guardar"}
+                  </>
+                )}
+              </Button>
+              <p className="mt-2 text-[11px] leading-4 text-slate-300">
+                El boton se habilita cuando el formulario esta listo para guardar.
+              </p>
+            </div>
           </div>
+          <div className="flex-1 p-6 ml-64 bg-slate-50 overflow-auto">{children}</div>
         </div>
-        <div className="flex-1 p-6 ml-64 bg-slate-50 overflow-auto">{children}</div>
+        <div>
+          <Footer />
+        </div>
       </div>
-      <div>
-        <Footer />
-      </div>
-    </div>
+    </EditionActionsProvider>
   )
 }
