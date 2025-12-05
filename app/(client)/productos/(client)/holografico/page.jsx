@@ -1,16 +1,19 @@
+"use client";
+
 import Banner from '../components/Banner';
 import Datos from '../components/Datos';
 import CardSlider from '../components/CardSlider';
 import Section2 from '../components/section2/Section2';
+import ModalProductoScroll from '../components/section2/ModalProductoScroll';
 
 export default function Home() {
   const cards = [
     { 
-      title: "HOLOGRÁFICOS", 
+      title: "HOLOGRAMAS LED", 
       description: "Te mostramos la implementación de los holográficos en diversos espacios", 
       bgColor:"bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
       glow: "text-white-400 text-3xl font-bold tracking-wide mb-4",
-     textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
+      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
       title: "Productos", 
@@ -31,9 +34,25 @@ export default function Home() {
       alt: "Presentación holográfica de persona en escenario con sillas de audiencia"        
     }
   ];
+
   const idProducto = 12;
+
+  const modales = {
+    modalA: {
+      text: cards[0].title,
+      fondo: "/pop_ups/HologramasLed.webp",
+      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
+      serviceName: "12",
+      width: 256,
+      height: 144,
+    },
+  };
+
   return (
     <>
+      {/* Modal que se abre automáticamente después de 4 segundos */}
+      <ModalProductoScroll data={modales}/>
+
       <Banner
         titulo="HOLOGRÁFICOS"
         imagen="/productosIndividuales/banner/holografico.webp"

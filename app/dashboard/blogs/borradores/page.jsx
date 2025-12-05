@@ -145,10 +145,17 @@ export default function PageBorradores() {
       if (responseTodos.status === 200 && responseMe.status === 200) {
         console.log("Todos los borradores:", responseTodos.data);
         console.log("Mis borradores:", responseMe.data);
-        setAllBorradores(responseTodos.data);
-        setMyBorradores(responseMe.data);
+        // Filtrar borradores (estado_publicacion = 0)
+        const borradoresTodos = responseTodos.data.filter(
+          (b) => b.estado_publicacion === 0
+        );
+        const borradoresMios = responseMe.data.filter(
+          (b) => b.estado_publicacion === 0
+        );
+        setAllBorradores(borradoresTodos);
+        setMyBorradores(borradoresMios);
         setFilteredBorradores(
-          activeFilter === "all" ? responseTodos.data : responseMe.data
+          activeFilter === "all" ? borradoresTodos : borradoresMios
         );
         setCurrentPage(1);
       } else {
@@ -352,11 +359,10 @@ export default function PageBorradores() {
             <div className="flex gap-2 flex-wrap sm:justify-end">
               <button
                 onClick={() => handleFilterChange("all")}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                  activeFilter === "all"
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "all"
                     ? "bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800"
                     : "bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                }`}
+                  }`}
               >
                 <FileText className="w-4 h-4" />
                 <span>Todos</span>
@@ -364,11 +370,10 @@ export default function PageBorradores() {
 
               <button
                 onClick={() => handleFilterChange("mine")}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                  activeFilter === "mine"
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "mine"
                     ? "bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800"
                     : "bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                }`}
+                  }`}
               >
                 <User className="w-4 h-4" />
                 <span>Mis borradores</span>
@@ -377,9 +382,8 @@ export default function PageBorradores() {
               <button
                 onClick={fetchData}
                 disabled={isRefreshing}
-                className={`flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors ${
-                  isRefreshing ? "opacity-70 cursor-not-allowed" : ""
-                }`}
+                className={`flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
               >
                 {isRefreshing ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -452,11 +456,10 @@ export default function PageBorradores() {
                   {displayedBorradores.map((blog, index) => (
                     <tr
                       key={`borrador-${blog.id_card}-${index}`}
-                      className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${
-                        index !== displayedBorradores.length - 1
+                      className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${index !== displayedBorradores.length - 1
                           ? "border-b border-slate-100 dark:border-slate-700"
                           : ""
-                      }`}
+                        }`}
                     >
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-700 dark:text-slate-300">
                         {blog.id_card}
@@ -533,11 +536,10 @@ export default function PageBorradores() {
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className={`p-2 rounded-lg border ${
-                    currentPage === 1
+                  className={`p-2 rounded-lg border ${currentPage === 1
                       ? "bg-slate-50 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 cursor-not-allowed"
                       : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                  }`}
+                    }`}
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -547,11 +549,10 @@ export default function PageBorradores() {
                     <button
                       key={`page-desktop-${page}`}
                       onClick={() => setCurrentPage(page)}
-                      className={`w-9 h-9 rounded-lg border ${
-                        currentPage === page
+                      className={`w-9 h-9 rounded-lg border ${currentPage === page
                           ? "bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800"
                           : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                      }`}
+                        }`}
                     >
                       {page}
                     </button>
@@ -563,11 +564,10 @@ export default function PageBorradores() {
                     setCurrentPage(Math.min(totalPages, currentPage + 1))
                   }
                   disabled={currentPage === totalPages}
-                  className={`p-2 rounded-lg border ${
-                    currentPage === totalPages
+                  className={`p-2 rounded-lg border ${currentPage === totalPages
                       ? "bg-slate-50 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 cursor-not-allowed"
                       : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                  }`}
+                    }`}
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -595,11 +595,10 @@ export default function PageBorradores() {
                   <button
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
-                    className={`p-2 rounded-lg border ${
-                      currentPage === 1
+                    className={`p-2 rounded-lg border ${currentPage === 1
                         ? "bg-slate-50 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 cursor-not-allowed"
                         : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                    }`}
+                      }`}
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
@@ -609,11 +608,10 @@ export default function PageBorradores() {
                       <button
                         key={`page-mobile-${page}`}
                         onClick={() => setCurrentPage(page)}
-                        className={`w-9 h-9 rounded-lg border ${
-                          currentPage === page
+                        className={`w-9 h-9 rounded-lg border ${currentPage === page
                             ? "bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800"
                             : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                        }`}
+                          }`}
                       >
                         {page}
                       </button>
@@ -625,11 +623,10 @@ export default function PageBorradores() {
                       setCurrentPage(Math.min(totalPages, currentPage + 1))
                     }
                     disabled={currentPage === totalPages}
-                    className={`p-2 rounded-lg border ${
-                      currentPage === totalPages
+                    className={`p-2 rounded-lg border ${currentPage === totalPages
                         ? "bg-slate-50 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 cursor-not-allowed"
                         : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600"
-                    }`}
+                      }`}
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
