@@ -48,7 +48,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales} />
+      {/* <ModalProductoScroll data={modales} /> */}
       <Banner
         titulo={`LETRAS DE ALUMINIO \n PLATEADAS 3D`}
         imagen="/productosIndividuales/banner/fondo-plateado.png"
