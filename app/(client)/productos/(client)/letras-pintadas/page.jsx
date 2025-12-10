@@ -47,7 +47,7 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      {/* <ModalProductoScroll data={modales}/> */}
       <Banner
         titulo={`LETRAS PINTADAS\nEN MDF`}
         imagen="/productosIndividuales/banner/letras-pintadas.webp"
