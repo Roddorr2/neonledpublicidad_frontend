@@ -51,7 +51,7 @@ export default function Home() {
 
   return (
     <>
-      {/* <ModalProductoScroll data={modales}/> */}
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE NEÓN EN\nTUBOS DE VIDRIO`}
         imagen="/productosIndividuales/banner/letras-neon2.png"

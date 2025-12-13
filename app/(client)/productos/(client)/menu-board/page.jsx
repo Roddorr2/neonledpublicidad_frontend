@@ -50,7 +50,7 @@ export default function Home() {
   };
   return (
     <>
-      {/* <ModalProductoScroll data={modales} /> */}
+      <ModalProductoScroll data={modales} />
       <Banner
         titulo={`MENÚ BOARDS`}
         imagen="/productosIndividuales/banner/menu-board.webp"

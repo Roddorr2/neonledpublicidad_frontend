@@ -50,7 +50,7 @@ export default function Home() {
 
   return (
     <>
-      {/* <ModalProductoScroll data={modales}/> */}
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE ALUMINIO \n DORADAS 3D`}
         imagen="/productosIndividuales/banner/letras-doradas-fondo.png"
