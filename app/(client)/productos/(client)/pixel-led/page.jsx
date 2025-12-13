@@ -48,7 +48,7 @@ export default function Home() {
   };
   return (
     <>
-      {/* <ModalProductoScroll data={modales}/> */}
+      <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`PIXEL\nLED`}
         imagen="/productosIndividuales/banner/pixel-led.webp"
