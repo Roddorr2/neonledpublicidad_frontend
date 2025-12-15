@@ -498,7 +498,7 @@ const renderTabsNavigation = () => {
       <div className="container mx-auto px-6 py-12">
         {/* Preview Badge */}
         {mode === "preview" && (
-          <div className="fixed top-4 right-4 z-50">
+          <div className="fixed top-4 mr-36 mt-1 right-4 z-50">
             <span className="bg-yellow-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
               Vista Previa
             </span>
