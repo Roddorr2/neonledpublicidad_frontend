@@ -8,12 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    env:
-      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
-      NEXT_PUBLIC_API_URL_DEV: ${{ secrets.NEXT_PUBLIC_API_URL_DEV }}
-      NEXT_PUBLIC_API_URL_PROD: ${{ secrets.NEXT_PUBLIC_API_URL_PROD }}
-      CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
-      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+
     steps:
       - name: Clonar código
         uses: actions/checkout@v3
@@ -23,6 +18,14 @@ jobs:
 
       - name: Build estático
         run: npm run build
+        env:
+          NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+          NEXT_PUBLIC_API_URL_DEV: ${{ secrets.NEXT_PUBLIC_API_URL_DEV }}
+          NEXT_PUBLIC_API_URL_PROD: ${{ secrets.NEXT_PUBLIC_API_URL_PROD }}
+          NEXT_PUBLIC_API_URL_WHATSAPP_DEV: ${{ secrets.NEXT_PUBLIC_API_URL_WHATSAPP_DEV }}
+          NEXT_PUBLIC_API_URL_WHATSAPP_PROD: ${{ secrets.NEXT_PUBLIC_API_URL_WHATSAPP_PROD }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
 
       - name: Push a rama deploy
         uses: JamesIves/github-pages-deploy-action@v4
