@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react"; 
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
@@ -13,6 +13,8 @@ import Image from "next/image";
 
 const URL_API = `${url}/api/modales`;
 const URL_WHASAPP = `${url_whasapp}/api/send-message`;
+
+
 
 export default function ModalProducto({
   isOpen,
@@ -32,6 +34,16 @@ export default function ModalProducto({
     id_producto: serviceName,
     productoName: text,
   });
+
+
+const [isModalVisible, setIsModalVisible] = useState(isOpen);
+
+
+  React.useEffect(() => {
+    setIsModalVisible(isOpen);
+  }, [isOpen]);
+
+
 
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -95,7 +107,10 @@ export default function ModalProducto({
         confirmButtonText: "OK",
       });
 
+
+      setIsModalVisible(false); 
       handleClose();
+
       setFormData({
         nombre: "",
         telefono: "",
@@ -109,13 +124,16 @@ export default function ModalProducto({
         icon: "error",
         confirmButtonText: "OK",
       });
+
+ 
+    setIsModalVisible(false); 
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  if (!isOpen) return null;
+  if (!isModalVisible) return null;
 
   return (
     <div
