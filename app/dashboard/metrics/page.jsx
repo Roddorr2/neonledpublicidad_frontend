@@ -7,45 +7,54 @@ import { useAuth } from "../../context/AutContext";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import url from "../../../api/url";
+
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  CartesianGrid,
+  Legend,
+} from "recharts";
+
 import {
   BarChart3,
   Users,
   FileText,
-  Clock,
   TrendingUp,
-  Calendar,
   Loader2,
   RefreshCw,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+
+const CHART_COLORS = ["#6366f1", "#06b6d4", "#8b5cf6", "#10b981", "#f59e0b"];
 
 export default function MetricsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
   const { user, hasPermission } = useAuth();
   const router = useRouter();
 
-  // Estados para las métricas
   const [totalCards, setTotalCards] = useState(0);
   const [cardsByPlantilla, setCardsByPlantilla] = useState([]);
   const [cardsByEmpleado, setCardsByEmpleado] = useState([]);
-  const [empleadosList, setEmpleadosList] = useState([]);
-  const [selectedEmpleado, setSelectedEmpleado] = useState(null);
-  const [frecuenciaPublicacion, setFrecuenciaPublicacion] = useState(null);
 
   useEffect(() => {
     if (!user) return;
-
     if (!hasPermission("ver-blogs")) {
       Swal.fire({
         title: "Acceso denegado",
         text: "No tienes permisos para ver esta sección",
         icon: "error",
-        confirmButtonText: "Aceptar",
-      }).then(() => {
-        router.replace("/dashboard/main");
-      });
+      }).then(() => router.replace("/dashboard/main"));
     } else {
       fetchAllMetrics();
     }
@@ -55,341 +64,209 @@ export default function MetricsPage() {
     try {
       setIsRefreshing(true);
       const token = getCookie("token");
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
+      const headers = { Authorization: `Bearer ${token}` };
 
-      // Obtener todas las métricas en paralelo
-      const [
-        totalCardsRes,
-        cardsByPlantillaRes,
-        cardsByEmpleadoRes,
-        empleadosRes,
-      ] = await Promise.all([
+      const [plantillaRes, empleadoRes] = await Promise.all([
         axios.get(`${url}/api/metrics/count_total_cards`, { headers }),
-        axios.get(`${url}/api/metrics/count_cards_by_plantilla`, { headers }),
-        axios.get(`${url}/api/metrics/count_cards_by_empleado`, { headers }),
-        axios.get(`${url}/api/metrics/list_empleado_cards`, { headers }),
+        axios.get(`${url}/api/metrics/count_total_cards_by_empleado`, { headers }),
       ]);
 
-      setTotalCards(totalCardsRes.data.total_cards || 0);
-      setCardsByPlantilla(cardsByPlantillaRes.data.data || []);
-      setCardsByEmpleado(cardsByEmpleadoRes.data.data || []);
-      setEmpleadosList(empleadosRes.data.data || []);
+      // --- AJUSTE AQUÍ: CREAMOS LA PROPIEDAD 'name' PARA LA LEYENDA ---
+      const formattedPlantillas = (plantillaRes.data.data || []).map(item => ({
+        ...item,
+        name: `Plantilla ${item.id_plantilla}` // Esto es lo que verá la leyenda
+      }));
+
+      const total = formattedPlantillas.reduce((acc, item) => acc + item.count_cards, 0);
+
+      setTotalCards(total);
+      setCardsByPlantilla(formattedPlantillas);
+      setCardsByEmpleado(empleadoRes.data.data || []);
     } catch (error) {
-      console.error("Error al cargar métricas:", error);
-      Swal.fire({
-        title: "Error",
-        text: "No se pudieron cargar las métricas",
-        icon: "error",
-        confirmButtonText: "Aceptar",
-      });
+      console.error(error);
+      Swal.fire("Error", "No se pudieron cargar las métricas", "error");
     } finally {
       setIsRefreshing(false);
       setIsLoading(false);
     }
   };
 
-  const fetchFrecuenciaPublicacion = async (idEmpleado) => {
-    try {
-      const token = getCookie("token");
-      const response = await axios.get(
-        `${url}/api/metrics/publish_frecuency_card_by_empleado`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            id_empleado: idEmpleado,
-          },
-        }
-      );
-
-      if (response.data.status === 200) {
-        setFrecuenciaPublicacion(response.data.data);
-        setSelectedEmpleado(idEmpleado);
-      }
-    } catch (error) {
-      console.error("Error al obtener frecuencia:", error);
-      if (error.response?.status === 404) {
-        Swal.fire({
-          title: "Sin datos",
-          text: error.response.data.message,
-          icon: "info",
-          confirmButtonText: "Aceptar",
-        });
-      }
-    }
-  };
-
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 dark:bg-slate-900">
-        <Loader2 className="h-10 w-10 text-sky-600 dark:text-sky-400 animate-spin mb-4" />
-        <p className="text-slate-500 dark:text-slate-400 font-medium">
-          Cargando métricas...
-        </p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50/50">
+        <Loader2 className="h-12 w-12 animate-spin text-indigo-600 mb-4" />
+        <p className="text-slate-600 font-medium animate-pulse">Cargando métricas...</p>
       </div>
     );
   }
 
+  const topEmpleados = [...cardsByEmpleado]
+    .sort((a, b) => b.count_cards - a.count_cards)
+    .slice(0, 5);
+
   return (
-    <main className="p-4 sm:p-6 flex flex-col w-full min-h-screen bg-slate-50 dark:bg-slate-900">
-      {/* Header */}
-      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 mb-6">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-1">
-              Métricas de Blogs y Cards
-            </h1>
-            <p className="text-slate-500 dark:text-slate-400">
-              Analiza el rendimiento y estadísticas de publicaciones
-            </p>
-          </div>
-
-          <button
-            onClick={fetchAllMetrics}
-            disabled={isRefreshing}
-            className={`flex items-center gap-2 px-4 py-2 bg-sky-600 dark:bg-sky-700 text-white rounded-lg hover:bg-sky-700 dark:hover:bg-sky-600 transition-colors ${
-              isRefreshing ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-          >
-            {isRefreshing ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <RefreshCw className="w-4 h-4" />
-            )}
-            Actualizar
-          </button>
+    <main className="p-6 space-y-8 bg-[#f8fafc] dark:bg-slate-950 min-h-screen">
+      
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Panel de Analytics</h1>
+          <p className="text-slate-500 dark:text-slate-400 mt-1">Visualiza el impacto de tus contenidos en tiempo real.</p>
         </div>
+        <button
+          onClick={fetchAllMetrics}
+          disabled={isRefreshing}
+          className="group flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 text-slate-700 dark:text-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm disabled:opacity-50"
+        >
+          <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
+          <span className="font-semibold text-sm">Actualizar datos</span>
+        </button>
       </div>
 
-      {/* Cards de resumen */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card className="border border-slate-200 dark:border-slate-700 dark:bg-slate-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-300">
-              Total de Cards
-            </CardTitle>
-            <FileText className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-              {totalCards}
-            </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Cards publicadas en total
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border border-slate-200 dark:border-slate-700 dark:bg-slate-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-300">
-              Plantillas Activas
-            </CardTitle>
-            <BarChart3 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-              {cardsByPlantilla.length}
-            </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Plantillas con contenido
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border border-slate-200 dark:border-slate-700 dark:bg-slate-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-300">
-              Empleados Activos
-            </CardTitle>
-            <Users className="h-4 w-4 text-violet-600 dark:text-violet-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-              {cardsByEmpleado.length}
-            </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Empleados con publicaciones
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border border-slate-200 dark:border-slate-700 dark:bg-slate-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-300">
-              Promedio por Empleado
-            </CardTitle>
-            <TrendingUp className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-              {cardsByEmpleado.length > 0
-                ? (totalCards / cardsByEmpleado.length).toFixed(1)
-                : 0}
-            </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Cards por empleado
-            </p>
-          </CardContent>
-        </Card>
+      {/* SUMMARY CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <SummaryCard title="Total de Cards" value={totalCards} Icon={FileText} color="indigo" />
+        <SummaryCard title="Plantillas Activas" value={cardsByPlantilla.length} Icon={BarChart3} color="cyan" />
+        <SummaryCard title="Colaboradores" value={cardsByEmpleado.length} Icon={Users} color="violet" />
+        <SummaryCard 
+          title="Promedio x Empleado" 
+          value={cardsByEmpleado.length ? (totalCards / cardsByEmpleado.length).toFixed(1) : 0} 
+          Icon={TrendingUp} 
+          color="emerald" 
+        />
       </div>
 
-      {/* Contenido principal */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Cards por Plantilla */}
-        <Card className="border border-slate-200 dark:border-slate-700 dark:bg-slate-800">
+      {/* SECCIÓN DE GRÁFICOS */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        {/* BAR CHART: RENDIMIENTO POR PLANTILLA */}
+        <Card className="border-none shadow-xl shadow-slate-200/50 bg-white/80 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="text-lg text-slate-800 dark:text-slate-200 flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              Cards por Plantilla
-            </CardTitle>
+            <CardTitle className="text-lg font-bold">Rendimiento por Plantilla</CardTitle>
+            <CardDescription>Comparativa de cards generadas</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {cardsByPlantilla.length > 0 ? (
-                cardsByPlantilla.map((item) => (
-                  <div
-                    key={item.id_plantilla}
-                    className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-                          {item.id_plantilla}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-slate-800 dark:text-slate-200">
-                          Plantilla {item.id_plantilla}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
-                          Total de cards
-                        </p>
-                      </div>
-                    </div>
-                    <Badge className="bg-emerald-600 dark:bg-emerald-700 text-white">
-                      {item.total_cards}
-                    </Badge>
+          <CardContent className="h-[350px] pr-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={cardsByPlantilla} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis 
+                  dataKey="id_plantilla" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fill: '#64748b', fontSize: 12}} 
+                  dy={10} 
+                  tickFormatter={(value) => `Plantilla ${value}`} // <-- AJUSTE: Etiquetas Plantilla 1, 2, 3
+                />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
+                <Tooltip 
+                  cursor={{fill: '#f1f5f9'}}
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                  labelFormatter={(value) => `Plantilla ${value}`}
+                />
+                <Bar dataKey="count_cards" fill="#6366f1" radius={[6, 6, 0, 0]} barSize={40} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* DONUT CHART: DISTRIBUCIÓN CON LEYENDA CORREGIDA */}
+        <Card className="border-none shadow-xl shadow-slate-200/50 bg-white/80 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="text-lg font-bold">Distribución de Contenido</CardTitle>
+            <CardDescription>Porcentaje de uso de plantillas</CardDescription>
+          </CardHeader>
+          <CardContent className="h-[350px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={cardsByPlantilla}
+                  dataKey="count_cards"
+                  nameKey="name" // <-- AJUSTE: Ahora usa "Plantilla X" en lugar de count_cards
+                  innerRadius={80}
+                  outerRadius={100}
+                  paddingAngle={5}
+                >
+                  {cardsByPlantilla.map((_, i) => (
+                    <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} stroke="none" />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                />
+                {/* LEYENDA MEJORADA */}
+                <Legend 
+                  verticalAlign="bottom" 
+                  height={36} 
+                  iconType="circle"
+                  formatter={(value) => <span className="text-slate-600 font-medium text-sm">{value}</span>}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* TOP EMPLEADOS Y DETALLE (Manteniendo todo lo demás igual) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <Card className="lg:col-span-2 border-none shadow-xl shadow-slate-200/50 bg-white/80">
+          <CardHeader><CardTitle className="text-lg font-bold">Líderes de Contenido</CardTitle></CardHeader>
+          <CardContent className="h-[350px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={topEmpleados} layout="vertical" margin={{ left: 40, right: 40 }}>
+                <XAxis type="number" hide />
+                <YAxis type="category" dataKey="nombre_empleado" axisLine={false} tickLine={false} tick={{fontSize: 12, fontWeight: 500}} />
+                <Tooltip cursor={{fill: 'transparent'}} />
+                <Bar dataKey="count_cards" fill="#06b6d4" radius={[0, 4, 4, 0]} barSize={25} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="border-none shadow-xl shadow-slate-200/50 bg-white/80">
+          <CardHeader><CardTitle className="text-lg font-bold">Detalle de Colaboradores</CardTitle></CardHeader>
+          <CardContent className="space-y-1 max-h-[350px] overflow-y-auto custom-scrollbar">
+            {cardsByEmpleado.map((emp, i) => (
+              <div key={emp.id_empleado} className="flex justify-between items-center p-3 hover:bg-slate-50 rounded-xl transition-colors group">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-500 text-xs font-bold group-hover:bg-indigo-100 group-hover:text-indigo-600">
+                    {i + 1}
                   </div>
-                ))
-              ) : (
-                <p className="text-center text-slate-500 dark:text-slate-400 py-8">
-                  No hay datos disponibles
-                </p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Cards por Empleado */}
-        <Card className="border border-slate-200 dark:border-slate-700 dark:bg-slate-800">
-          <CardHeader>
-            <CardTitle className="text-lg text-slate-800 dark:text-slate-200 flex items-center gap-2">
-              <Users className="h-5 w-5 text-violet-600 dark:text-violet-400" />
-              Cards por Empleado
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3 max-h-[400px] overflow-y-auto">
-              {cardsByEmpleado.length > 0 ? (
-                cardsByEmpleado.map((item) => (
-                  <div
-                    key={item.id_empleado}
-                    className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                    onClick={() => fetchFrecuenciaPublicacion(item.id_empleado)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center">
-                        <span className="text-violet-600 dark:text-violet-400 font-bold text-sm">
-                          {item.nombre?.charAt(0) || "E"}
-                          {item.apellido?.charAt(0) || ""}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-slate-800 dark:text-slate-200">
-                          {item.nombre} {item.apellido}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
-                          Click para ver frecuencia
-                        </p>
-                      </div>
-                    </div>
-                    <Badge className="bg-violet-600 dark:bg-violet-700 text-white">
-                      {item.total_cards}
-                    </Badge>
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-slate-500 dark:text-slate-400 py-8">
-                  No hay datos disponibles
-                </p>
-              )}
-            </div>
+                  <span className="text-sm font-medium text-slate-700">{emp.nombre_empleado}</span>
+                </div>
+                <Badge variant="secondary" className="bg-white border shadow-sm px-3 py-1 text-indigo-600 font-bold">
+                  {emp.count_cards}
+                </Badge>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>
-
-      {/* Frecuencia de Publicación */}
-      {frecuenciaPublicacion && selectedEmpleado && (
-        <Card className="border border-slate-200 dark:border-slate-700 dark:bg-slate-800 mt-6">
-          <CardHeader>
-            <CardTitle className="text-lg text-slate-800 dark:text-slate-200 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-sky-600 dark:text-sky-400" />
-              Frecuencia de Publicación -{" "}
-              {
-                empleadosList.find((e) => e.id_empleado === selectedEmpleado)
-                  ?.nombre
-              }{" "}
-              {
-                empleadosList.find((e) => e.id_empleado === selectedEmpleado)
-                  ?.apellido
-              }
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 bg-sky-50 dark:bg-sky-900/20 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <FileText className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                    Total de Cards
-                  </p>
-                </div>
-                <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-                  {frecuenciaPublicacion.total_cards}
-                </p>
-              </div>
-
-              <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <Clock className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                    Días Transcurridos
-                  </p>
-                </div>
-                <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-                  {frecuenciaPublicacion.dias_transcurridos}
-                </p>
-              </div>
-
-              <div className="p-4 bg-violet-50 dark:bg-violet-900/20 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="h-4 w-4 text-violet-600 dark:text-violet-400" />
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                    Frecuencia por Día
-                  </p>
-                </div>
-                <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-                  {frecuenciaPublicacion.frecuencia_publicacion_por_dia}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </main>
   );
 }
+
+const SummaryCard = ({ title, value, Icon, color }) => {
+  const colorMap = {
+    indigo: "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400",
+    cyan: "bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400",
+    violet: "bg-violet-50 text-violet-600 dark:bg-violet-900/20 dark:text-violet-400",
+    emerald: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400",
+  };
+  return (
+    <Card className="border-none shadow-lg shadow-slate-200/60 bg-white transition-transform hover:scale-[1.02] duration-300">
+      <CardContent className="p-6">
+        <div className="flex justify-between items-start">
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-slate-500">{title}</p>
+            <h3 className="text-3xl font-bold tracking-tight text-slate-900">{value}</h3>
+          </div>
+          <div className={`p-3 rounded-2xl ${colorMap[color] || colorMap.indigo}`}><Icon className="h-6 w-6" /></div>
+        </div>
+        <div className="mt-4 flex items-center text-xs text-slate-400 font-medium">
+          <TrendingUp className="h-3 w-3 mr-1 text-emerald-500" />
+          <span>Datos actualizados</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
