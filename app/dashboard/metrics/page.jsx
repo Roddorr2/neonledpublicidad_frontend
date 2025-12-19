@@ -34,6 +34,7 @@ export default function MetricsPage() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
+  const [filterMode, setFilterMode] = useState("monthly"); // monthly | yearly
   const [month, setMonth] = useState(now.getMonth() + 1);
   const [year, setYear] = useState(now.getFullYear());
 
@@ -43,14 +44,18 @@ export default function MetricsPage() {
 
   useEffect(() => {
     fetchMetrics();
-  }, [month, year]);
+  }, [month, year, filterMode]);
 
   const fetchMetrics = async () => {
     try {
       setRefreshing(true);
       const token = getCookie("token");
       const headers = { Authorization: `Bearer ${token}` };
-      const params = { month, year };
+
+      const params =
+        filterMode === "monthly"
+          ? { month, year }
+          : { year };
 
       const [resPlantillas, resEmpleados] = await Promise.all([
         axios.get(`${url}/api/metrics/count_total_cards`, { headers, params }),
@@ -94,7 +99,8 @@ export default function MetricsPage() {
 
   return (
     <div className="w-full p-6 lg:p-10 space-y-12">
-      {/* 🧭 HEADER PRINCIPAL + FILTROS */}
+
+      {/* 🧭 HEADER + FILTROS */}
       <div className="flex flex-col gap-4 border-b pb-6 md:flex-row md:items-center md:justify-between">
 
         {/* TÍTULO */}
@@ -103,28 +109,45 @@ export default function MetricsPage() {
             Dashboard de Métricas
           </h1>
           <p className="text-sm text-gray-500">
-            Resumen de desempeño y productividad · {MONTHS[month - 1]} {year}
+            {filterMode === "monthly"
+              ? `Resumen mensual · ${MONTHS[month - 1]} ${year}`
+              : `Resumen anual · ${year}`}
           </p>
         </div>
 
         {/* FILTROS */}
-        <div className="flex gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+
+          {/* MODO */}
           <select
-            value={month}
-            onChange={(e) => setMonth(Number(e.target.value))}
-            className="px-4 py-2 rounded-xl border bg-white shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={filterMode}
+            onChange={(e) => setFilterMode(e.target.value)}
+            className="px-4 py-2 rounded-xl border bg-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
           >
-            {MONTHS.map((name, i) => (
-              <option key={i} value={i + 1}>
-                {name}
-              </option>
-            ))}
+            <option value="monthly">Mensual</option>
+            <option value="yearly">Anual</option>
           </select>
 
+          {/* MES */}
+          {filterMode === "monthly" && (
+            <select
+              value={month}
+              onChange={(e) => setMonth(Number(e.target.value))}
+              className="px-4 py-2 rounded-xl border bg-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
+            >
+              {MONTHS.map((name, i) => (
+                <option key={i} value={i + 1}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          )}
+
+          {/* AÑO */}
           <select
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            className="px-4 py-2 rounded-xl border bg-white shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 rounded-xl border bg-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
           >
             {[2023, 2024, 2025].map((y) => (
               <option key={y} value={y}>
@@ -134,7 +157,7 @@ export default function MetricsPage() {
           </select>
 
           {refreshing && (
-            <span className="flex items-center text-xs text-gray-400 animate-pulse">
+            <span className="text-xs text-gray-400 animate-pulse">
               Actualizando…
             </span>
           )}
@@ -143,27 +166,11 @@ export default function MetricsPage() {
 
       {/* 📌 KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-        <SummaryCard
-          title="Total de Cards"
-          subtitle="Cards creadas en el período"
-          value={totalCards}
-          emoji="📄"
-        />
-        <SummaryCard
-          title="Plantillas Activas"
-          subtitle="Plantillas con cards"
-          value={cardsByPlantilla.length}
-          emoji="🎨"
-        />
-        <SummaryCard
-          title="Colaboradores"
-          subtitle="Empleados con actividad"
-          value={empleados.length}
-          emoji="👥"
-        />
+        <SummaryCard title="Total de Cards" value={totalCards} emoji="📄" />
+        <SummaryCard title="Plantillas Activas" value={cardsByPlantilla.length} emoji="🎨" />
+        <SummaryCard title="Colaboradores" value={empleados.length} emoji="👥" />
         <SummaryCard
           title="Promedio por Empleado"
-          subtitle="Cards / colaborador"
           value={empleados.length ? (totalCards / empleados.length).toFixed(1) : 0}
           emoji="📈"
         />
@@ -171,10 +178,7 @@ export default function MetricsPage() {
 
       {/* 📊 GRÁFICOS */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        <Card
-          title="Cards por Plantilla"
-          description="Cantidad total de cards agrupadas por tipo de plantilla"
-        >
+        <Card title="Cards por Plantilla">
           <ResponsiveContainer width="100%" height={360}>
             <BarChart data={cardsByPlantilla}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -186,10 +190,7 @@ export default function MetricsPage() {
           </ResponsiveContainer>
         </Card>
 
-        <Card
-          title="Distribución de Cards (%)"
-          description="Porcentaje de participación de cada plantilla"
-        >
+        <Card title="Distribución de Cards (%)">
           <ResponsiveContainer width="100%" height={360}>
             <PieChart>
               <Pie
@@ -211,33 +212,25 @@ export default function MetricsPage() {
         </Card>
       </div>
 
-      {/* 👥 PRODUCTIVIDAD + TOP */}
+      {/* 👥 PRODUCTIVIDAD */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         <Card title="Productividad por Empleado">
           <div className="max-h-[380px] overflow-y-auto divide-y">
-
             {empleados.map((e, i) => (
               <div
                 key={i}
-                className="flex justify-between items-center px-4 py-3 hover:bg-gray-50 transition"
+                className="flex justify-between items-center px-4 py-3 hover:bg-gray-50"
               >
-                <span className="font-medium text-gray-700">
-                  {e.nombre_empleado}
-                </span>
-
+                <span className="font-medium">{e.nombre_empleado}</span>
                 <span className="bg-blue-600 text-white px-3 py-1 text-sm rounded-full">
                   {e.count_cards} cards
                 </span>
               </div>
             ))}
-
           </div>
         </Card>
 
-        <Card
-          title={`🏆 Top 5 Empleados`}
-          description={`Mayor productividad en ${MONTHS[month - 1]} ${year}`}
-        >
+        <Card title="🏆 Top 5 Empleados">
           <div className="space-y-4">
             {top5Empleados.map((e, i) => (
               <div key={i} className="flex justify-between p-4 border rounded-xl">
@@ -258,14 +251,13 @@ export default function MetricsPage() {
 
 /* 🔹 COMPONENTES */
 
-function SummaryCard({ title, subtitle, value, emoji }) {
+function SummaryCard({ title, value, emoji }) {
   return (
     <div className="bg-white p-6 rounded-2xl shadow border">
       <div className="flex justify-between">
         <div>
           <p className="text-xs uppercase text-gray-400">{title}</p>
           <p className="text-3xl font-black">{value}</p>
-          <p className="text-xs text-gray-500 mt-1">{subtitle}</p>
         </div>
         <div className="text-3xl">{emoji}</div>
       </div>
@@ -273,13 +265,10 @@ function SummaryCard({ title, subtitle, value, emoji }) {
   );
 }
 
-function Card({ title, description, children }) {
+function Card({ title, children }) {
   return (
     <div className="bg-white p-8 rounded-2xl shadow border">
-      <h2 className="text-xl font-bold">{title}</h2>
-      {description && (
-        <p className="text-sm text-gray-500 mb-6">{description}</p>
-      )}
+      <h2 className="text-xl font-bold mb-6">{title}</h2>
       {children}
     </div>
   );
