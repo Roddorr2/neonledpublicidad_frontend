@@ -96,7 +96,7 @@ const [isModalVisible, setIsModalVisible] = useState(isOpen);
         nombre: formData.nombre,
         fecha: fechaActual,
         hora: horaActual,
-        templateOption: "producto",
+        templateOption: serviceName,
         productoName: formData.productoName,
       });
 
