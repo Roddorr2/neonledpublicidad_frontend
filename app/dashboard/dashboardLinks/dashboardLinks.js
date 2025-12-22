@@ -66,6 +66,12 @@ export const dashboardLinks = [
     permission: "crear-blogs",
   },
   {
+    href: "/dashboard/metrics",
+    title: "Métricas de Blogs",
+    icon: FileText,
+    permission: "ver-blogs",
+  },
+  {
     href: "/dashboard/role-permission",
     title: "Roles y Permisos",
     icon: Settings,
