@@ -2,12 +2,20 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import NuestrosProductos from "./productos/components/NuestrosProductos";
-import Slider from "./components/slider/Slider";
-import Slider2 from "./components/slider2/Slider2";
+import dynamic from "next/dynamic";
+
+const Slider = dynamic(() => import("./components/slider/Slider"), {
+  ssr: false,
+});
+const Slider2 = dynamic(() => import("./components/slider2/Slider2"), {
+  ssr: false,
+});
 
 const FilaProductosModificado = ({ productos }) => {
   const router = useRouter();
+  const isMobile = useIsMobile(768);
 
   const handleRedirect = (route) => {
     router.push(route);
@@ -15,37 +23,39 @@ const FilaProductosModificado = ({ productos }) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 justify-items-center w-full max-w-[1300px] mx-auto">
-      {productos.map((producto, index) => (
-        <div
-          key={index}
-          onClick={() => handleRedirect(producto.route)}
-          className="bg-white rounded-3xl p-1 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer w-full max-w-[320px] flex flex-col"
-        >
-          <div className="rounded-2xl overflow-hidden flex flex-col h-full">
-            <div className="relative w-full aspect-[4/3] overflow-hidden flex-shrink-0">
-              <picture>
-                <source
-                  media="(max-width: 768px)"
-                  srcSet={producto.imgSrcMobile || producto.imgSrc}
-                />
-                <img
-                  src={producto.imgSrc}
+      {productos.map((producto, index) => {        
+        const imageSrc =
+          (isMobile || isMobile === undefined) && producto.imgSrcMobile
+            ? producto.imgSrcMobile
+            : producto.imgSrc;
+
+        return (
+          <div
+            key={index}
+            onClick={() => handleRedirect(producto.route)}
+            className="bg-white rounded-3xl p-1 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer w-full max-w-[320px] flex flex-col"
+          >
+            <div className="rounded-2xl overflow-hidden flex flex-col h-full">
+              <div className="relative w-full aspect-[4/3] overflow-hidden flex-shrink-0">
+                <Image
+                  src={imageSrc}
                   alt={producto.altText}
                   title={producto.title}
-                  className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover object-center transition-transform duration-300 hover:scale-105"
                 />
-              </picture>
-            </div>
+              </div>
 
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 flex justify-center items-center h-[70px]">
-              <h3 className="text-white font-bold text-sm md:text-base text-center leading-tight">
-                {producto.description}
-              </h3>
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 flex justify-center items-center h-[70px]">
+                <h3 className="text-white font-bold text-sm md:text-base text-center leading-tight">
+                  {producto.description}
+                </h3>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
@@ -68,9 +78,8 @@ export default function Home() {
         "/productosPrincipal/letras-acrilicas-lux-nails-neon-led-publicidad-mobile.webp",
       altText:
         "Letras corporeas doradas con iluminación led elegante sobre un fondo oscuro",
-      title:
-        "Letras corporeas doradas con iluminación para estudios estéticos",
-      description: "LETRAS DORADAS Y PLATEADAS",
+      title: "Letras corporeas doradas con iluminación para estudios estéticos",
+      description: "LETRAS DE ALUMINIO DORADAS 3D",
       route: "/productos/letras-doradas",
     },
     {
@@ -99,21 +108,22 @@ export default function Home() {
   const slidesData = [
     {
       imgSrc: "/home/imagen_subway.webp",
-      imgSrcMobile: "/home/imagen_subway.webp",
+      imgSrcMobile: "/home/imagen_subway_mobile.webp",
       imgSrcIcon: "/home/imagen_subway.webp",
-      altText: "Letras grandes corpóreas doradas con iluminación y fondo blanco",
+      altText:
+        "Letras grandes corpóreas doradas con iluminación y fondo blanco",
       title: "Letras corporeas doradas con iluminación",
     },
     {
       imgSrc: "/home/imagen_mario_dalmasi.webp",
-      imgSrcMobile: "/home/imagen_mario_dalmasi.webp",
+      imgSrcMobile: "/home/imagen_mario_dalmasi_mobile.webp",
       imgSrcIcon: "/home/imagen_mario_dalmasi.webp",
       altText: "Letras corporeas con gran iluminación de la marca Bembos",
       title: "Letras Bembos con iluminación led",
     },
     {
       imgSrc: "/home/imagen_botella.webp",
-      imgSrcMobile: "/home/imagen_botella.webp",
+      imgSrcMobile: "/home/imagen_botella_mobile.webp",
       imgSrcIcon: "/home/imagen_botella_icon.webp",
       altText:
         "Letrero led amarillo con la palabra tattoo y máquina de tatuar led roja en fachada de estudio de tatuaje",
@@ -121,7 +131,7 @@ export default function Home() {
     },
     {
       imgSrc: "/home/imagen_deltaco.webp",
-      imgSrcMobile: "/home/imagen_deltaco.webp",
+      imgSrcMobile: "/home/imagen_deltaco_mobile.webp",
       imgSrcIcon: "/home/imagen_deltaco.webp",
       altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta",
       title: "Letrero luminoso de la marca Tambo Perú",
@@ -160,7 +170,10 @@ export default function Home() {
     <div className="bg-[--azul_oscuro] overflow-hidden">
       <Slider slides={slidesData} />
 
-      <section className="px-4 lg:px-8 mt-20 mb-24" aria-labelledby="productos-heading">
+      <section
+        className="px-4 lg:px-8 mt-20 mb-24"
+        aria-labelledby="productos-heading"
+      >
         <NuestrosProductos />
         <div className="mt-8">
           <FilaProductosModificado productos={fila1} />
@@ -176,7 +189,10 @@ export default function Home() {
         </a>
       </section>
 
-      <section className="flex justify-center mt-20 mb-24" aria-label="Nuestros clientes">
+      <section
+        className="flex justify-center mt-20 mb-24"
+        aria-label="Nuestros clientes"
+      >
         <Slider2 slides={clientLogos} />
       </section>
     </div>

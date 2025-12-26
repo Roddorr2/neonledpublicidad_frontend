@@ -98,10 +98,10 @@ export default function ProductosLayout({ children }) {
       "position": 2,
       "item": {
         "@type": "Product",
-        "name": "Letreros Doradas y Plateadas",
+        "name": "Letreros De Aluminio Dorados",
         "url": "https://ledneonpublicidad.com/productos/letras-doradas",
         "image": "https://ledneonpublicidad.com/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad-Mobile.webp",
-        "description": "Dale elegancia a tu espacio con letras doradas o plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
+        "description": "Dale elegancia a tu espacio con letras doradas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
         "brand": {
           "@type": "Brand",
           "name": "LedNeonPublicidad"
@@ -118,6 +118,28 @@ export default function ProductosLayout({ children }) {
     {
       "@type": "ListItem",
       "position": 3,
+      "item": {
+        "@type": "Product",
+        "name": "Letreros Doradas y Plateadas",
+        "url": "https://ledneonpublicidad.com/productos/letras-plateadas",
+        "image": "https://ledneonpublicidad.com/productosPrincipal/letras-plateadas.jpg",
+        "description": "Dale elegancia a tu espacio con letras plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
+        "brand": {
+          "@type": "Brand",
+          "name": "LedNeonPublicidad"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PEN",
+          "price": "2500.00",
+          "availability": "https://schema.org/InStock",
+          "url": "https://ledneonpublicidad.com/productos/holografico/"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
       "item": {
         "@type": "Product",
         "name": "Letreros Luminosos",
@@ -139,7 +161,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 4,
+      "position": 5,
       "item": {
         "@type": "Product",
         "name": "Letreros de Neon en Tubos de Vidrio",
@@ -161,7 +183,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 5,
+      "position": 6,
       "item": {
         "@type": "Product",
         "name": "Letreros de Neón LED",
@@ -183,7 +205,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 6,
+      "position": 7,
       "item": {
         "@type": "Product",
         "name": "Impresión en Vinilo",
@@ -205,7 +227,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 7,
+      "position": 8,
       "item": {
         "@type": "Product",
         "name": "Menú Board",
@@ -227,7 +249,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 8,
+      "position": 9,
       "item": {
         "@type": "Product",
         "name": "Letras Pintadas en MDF",
@@ -249,7 +271,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 9,
+      "position": 10,
       "item": {
         "@type": "Product",
         "name": "Monitores de Publicidad",
@@ -271,7 +293,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 10,
+      "position": 11,
       "item": {
         "@type": "Product",
         "name": "Pantallas Led",
@@ -293,7 +315,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 11,
+      "position": 12,
       "item": {
         "@type": "Product",
         "name": "Holográfico",
@@ -315,7 +337,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 12,
+      "position": 13,
       "item": {
         "@type": "Product",
         "name": "Pixel Led",
@@ -337,7 +359,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 13,
+      "position": 14,
       "item": {
         "@type": "Product",
         "name": "Sillas Luminosas",
@@ -359,7 +381,7 @@ export default function ProductosLayout({ children }) {
     },
     {
       "@type": "ListItem",
-      "position": 14,
+      "position": 15,
       "item": {
         "@type": "Product",
         "name": "Techos Led",

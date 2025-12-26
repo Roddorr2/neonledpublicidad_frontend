@@ -27,7 +27,7 @@ export default function Banner({ titulo, imagen, alt }) {
           <h2 className="text-white text-[24px] md:text-[27px] font-medium mb-4 tracking-wide font-inter">
             Conoce más sobre nuestros
           </h2>
-          
+           
           <h1 className="font-inter font-bold text-white uppercase tracking-wide mb-6 drop-shadow-lg text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-none whitespace-pre-line">
             {titulo}
           </h1>

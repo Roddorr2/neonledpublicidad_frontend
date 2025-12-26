@@ -1,9 +1,9 @@
 import Script from "next/script";
 
 export const metadata = {
-  title: "Letras Doradas y Plateadas _ Lima Perú",
+  title: "Letras Doradas _ Lima Perú",
   description:
-    "Dale elegancia a tu espacio con letras doradas o plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
+    "Dale elegancia a tu espacio con letras doradas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
   keywords: [
     "letras doradas corpóreas Lima",
     "letras plateadas 3D Perú",
@@ -20,7 +20,7 @@ export const metadata = {
     canonical: "https://ledneonpublicidad.com/productos/letras-doradas/",
   },
   openGraph: {
-    title: "Letras Doradas y Plateadas _ Lima Perú",
+    title: "Letras Doradas _ Lima Perú",
     description:
       "Dale elegancia a tu espacio con letras doradas o plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
     url: "https://ledneonpublicidad.com/productos/letras-doradas/",
@@ -59,7 +59,7 @@ export default function LetrasDoradasLayout({ children }) {
   const productDoradas = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: "Letreros Doradas y Plateadas",
+    name: "Letreros Doradas",
     image: [
       "https://ledneonpublicidad.com/productosIndividuales/LetrasDoradoLaptop.webp",
       "https://ledneonpublicidad.com/productosIndividuales/banner/letras-doradas.png",
@@ -68,7 +68,7 @@ export default function LetrasDoradasLayout({ children }) {
       "https://ledneonpublicidad.com/productos/letras_doradas_ledneonpublicidad3.webp",
     ],
     description:
-      "Dale elegancia a tu espacio con letras doradas o plateadas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
+      "Dale elegancia a tu espacio con letras doradas. Perfectas para marcas, oficinas y vitrinas. ¡Cotiza ahora!",
     brand: {
       "@type": "Brand",
       name: "LedNeonPublicidad",
@@ -95,7 +95,7 @@ export default function LetrasDoradasLayout({ children }) {
         },
         datePublished: "2024-07-15",
         reviewBody:
-          "El producto letras doradas y plateadas es excelente para eventos, realmente capta la atención del público.",
+          "El producto letras doradas es excelente para eventos, realmente capta la atención del público.",
         name: "Muy recomendado",
         reviewRating: {
           "@type": "Rating",

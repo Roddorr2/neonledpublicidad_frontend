@@ -432,7 +432,7 @@ export default function Header() {
                 }}
               />
               <DropdownLink
-                text={"Letras doradas y plateadas"}
+                text={"Letras aluminio doradas 3D"}
                 link={"/productos/letras-doradas"}
                 isInicio={false}
                 final={false}
@@ -443,7 +443,18 @@ export default function Header() {
                 }}
               />
               <DropdownLink
-                text={"Letreros limunosos"}
+                text={"Letras aluminio plateadas 3D"}
+                link={"/productos/letras-plateadas"}
+                isInicio={false}
+                final={false}
+                closeMenu={() => {
+                  setMenuActive(false);
+                  setContainerFullHeight(false);
+                  setCurrentMenu("main");
+                }}
+              />
+              <DropdownLink
+                text={"Letreros luminosos"}
                 link={"/productos/letreros-luminosos"}
                 isInicio={false}
                 final={false}
