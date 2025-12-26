@@ -512,14 +512,13 @@ const PageContent = () => {
     }
   }
 
-  async function guardarBlog(id_blog_head, id_blog_footer, id_blog_body, id_empleado, descripcion) {
+  async function guardarBlog(id_blog_head, id_blog_footer, id_blog_body,id_empleado) {
     const formBlog = {
       id_blog_head: id_blog_head,
       id_blog_footer: id_blog_footer,
       id_blog_body: id_blog_body,
       fecha: formEncabezadoBody.fecha,
       id_empleado: id_empleado,
-      descripcion: descripcion,
     };
 
     const id = await Fetch.updateBlog(originalData.blog.id_blog, formBlog);
@@ -663,26 +662,6 @@ const PageContent = () => {
     try {
       setLoading(true);
 
-      const result = await Swal.fire({
-        title: "Comentario de Auditoría",
-        input: "textarea",
-        inputLabel: "Por favor, ingresa una descripción del cambio realizado:",
-        inputPlaceholder: "Se puede dejar vacio",
-        inputAttributes: {
-          'aria-label': 'Descripción del cambio para auditoría',
-        },
-        showCancelButton: true,
-        confirmButtonText: "Guardar Cambios",
-        cancelButtonText: "Cancelar Guardado",
-      });
-
-      if (result.isDismissed) {
-        setLoading(false);
-        return;
-      }
-
-      const auditDescription = result.value || '';
-
       const id_commend_tarjeta = await executionFunction(
         guardarCommendTarjeta,
         "No se pudo guardar la tarjeta de comentarios"
@@ -708,7 +687,7 @@ const PageContent = () => {
       );
 
       const id_blog = await executionFunction(
-        () => guardarBlog(id_blog_head, id_blog_footer, id_blog_body, id_empleado, auditDescription),
+        () => guardarBlog(id_blog_head, id_blog_footer, id_blog_body, id_empleado),
         "No se pudo guardar el blog"
       );
       const id_card = await executionFunction(
