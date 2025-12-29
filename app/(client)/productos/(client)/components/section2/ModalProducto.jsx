@@ -5,16 +5,12 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
 import url from "@/api/url";
-import url_whasapp from "@/api/url_whasapp";
 import { Loader2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import styles from "./modal.module.css";
 import Image from "next/image";
 
 const URL_API = `${url}/api/modales`;
-const URL_WHASAPP = `${url_whasapp}/api/send-message`;
-
-
 
 export default function ModalProducto({
   isOpen,
@@ -35,15 +31,11 @@ export default function ModalProducto({
     productoName: text,
   });
 
-
-const [isModalVisible, setIsModalVisible] = useState(isOpen);
-
+  const [isModalVisible, setIsModalVisible] = useState(isOpen);
 
   React.useEffect(() => {
     setIsModalVisible(isOpen);
   }, [isOpen]);
-
-
 
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -75,11 +67,6 @@ const [isModalVisible, setIsModalVisible] = useState(isOpen);
         return;
       }
 
-      const phoneWithPrefix = `51${formData.telefono}`;
-      const fecha = new Date();
-      const fechaActual = fecha.toISOString().split("T")[0];
-      const horaActual = fecha.toTimeString().slice(0, 5);
-
       await axios.post(
         URL_API,
         { ...formData },
@@ -91,22 +78,12 @@ const [isModalVisible, setIsModalVisible] = useState(isOpen);
         }
       );
 
-      await axios.post(URL_WHASAPP, {
-        telefono: phoneWithPrefix,
-        nombre: formData.nombre,
-        fecha: fechaActual,
-        hora: horaActual,
-        templateOption: "producto",
-        productoName: formData.productoName,
-      });
-
       Swal.fire({
         title: "Enviado correctamente",
         text: `Nos pondremos en contacto contigo. Producto: ${text}.`,
         icon: "success",
         confirmButtonText: "OK",
       });
-
 
       setIsModalVisible(false); 
       handleClose();
@@ -125,8 +102,7 @@ const [isModalVisible, setIsModalVisible] = useState(isOpen);
         confirmButtonText: "OK",
       });
 
- 
-    setIsModalVisible(false); 
+      setIsModalVisible(false); 
       console.error(error);
     } finally {
       setLoading(false);
@@ -164,7 +140,6 @@ const [isModalVisible, setIsModalVisible] = useState(isOpen);
             width={width || 200}
             height={height || 100}
           />
-          {/* Logo centrado en la parte superior */}
           <div className="absolute top-5 -translate-x-20">
             <Image
               src="/pop_ups/logo.webp"
@@ -203,12 +178,6 @@ const [isModalVisible, setIsModalVisible] = useState(isOpen);
               value={formData.correo}
               onChange={handleChange}
               required
-            />
-            <input
-              type="hidden"
-              name="id_servicio"
-              value={formData.id_servicio}
-              readOnly
             />
 
             <button
