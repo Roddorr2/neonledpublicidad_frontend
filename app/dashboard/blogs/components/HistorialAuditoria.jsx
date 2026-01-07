@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Fetch from "../../../(client)/blog/services/fetch";
+import Fetch from "@/app/(client)/blog/services/fetch";
 import { Clock, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function HistorialAuditoria() {
