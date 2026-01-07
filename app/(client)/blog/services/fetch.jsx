@@ -106,31 +106,35 @@ const Fetch = {
     },
 
     //Nueva función para obtener el historial de blogs
-    fetchBlogAuditoria: async function fetchBlogAuditoria() {
+    fetchBlogAuditoria: async function fetchBlogAuditoria(page = 1) {
     try {
         //Obtener token desde cookies
         const token = getCookie("token");
 
         if (!token) {
             console.warn("No se encontró token en cookies");
-            return [];
+            return { items: [], currentPage: 1, lastPage: 1 };
         }
 
         //Incluir el token en el header Authorization
-        const response = await axios.get(`${url}/api/blogs_auditoria`, {
+        const response = await axios.get(`${url}/api/blogs_auditoria?page=${page}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
 
         if (response.status === 200) {
-            return response.data.data;
-        } else {
-            return [];
+            const paginator = response.data?.data;
+            return { 
+                items: paginator?.data ?? [],
+                currentPage: paginator?.current_page ?? 1,
+                lastPage: paginator?.last_page ?? 1
+            }
         }
+        return { items: [], currentPage: 1, lastPage: 1 };
     } catch (error) {
         console.error("❌ Error al obtener auditoría:", error.response?.status, error.message);
-        return [];
+        return { items: [], currentPage: 1, lastPage: 1 };
     }
 }
 }
