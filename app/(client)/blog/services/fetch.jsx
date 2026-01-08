@@ -106,37 +106,74 @@ const Fetch = {
     },
 
     //Nueva función para obtener el historial de blogs
+    
     fetchBlogAuditoria: async function fetchBlogAuditoria(page = 1) {
-    try {
-        //Obtener token desde cookies
-        const token = getCookie("token");
+        try {
+            const token = getCookie("token");
 
-        if (!token) {
+            if (!token) {
             console.warn("No se encontró token en cookies");
-            return { items: [], currentPage: 1, lastPage: 1 };
-        }
-
-        //Incluir el token en el header Authorization
-        const response = await axios.get(`${url}/api/blogs_auditoria?page=${page}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        if (response.status === 200) {
-            const paginator = response.data?.data;
-            return { 
-                items: paginator?.data ?? [],
-                currentPage: paginator?.current_page ?? 1,
-                lastPage: paginator?.last_page ?? 1
+            // Devolvemos un paginator vacío para que el UI no se rompa
+            return {
+                data: [],
+                current_page: 1,
+                last_page: 1,
+                total: 0,
+                per_page: 20,
+                from: null,
+                to: null,
+            };
             }
+
+            const response = await axios.get(`${url}/api/blogs_auditoria`, {
+            params: { page }, // <-- aquí va la magia
+            headers: { Authorization: `Bearer ${token}` },
+            });
+
+            // Tu controller retorna: { status: 200, data: $auditorias }
+            if (response.status === 200) {
+            return response.data.data; // <-- esto es el paginator
+            }
+
+            return {
+            data: [],
+            current_page: 1,
+            last_page: 1,
+            total: 0,
+            per_page: 20,
+            from: null,
+            to: null,
+            };
+        } catch (error) {
+            const status = error.response?.status;
+
+            // OJO: tu backend devuelve 404 si está vacío. Lo tratamos como "sin data".
+            if (status === 404) {
+            return {
+                data: [],
+                current_page: 1,
+                last_page: 1,
+                total: 0,
+                per_page: 20,
+                from: null,
+                to: null,
+            };
+            }
+
+            console.error("❌ Error al obtener auditoría:", status, error.message);
+
+            return {
+            data: [],
+            current_page: 1,
+            last_page: 1,
+            total: 0,
+            per_page: 20,
+            from: null,
+            to: null,
+            };
         }
-        return { items: [], currentPage: 1, lastPage: 1 };
-    } catch (error) {
-        console.error("❌ Error al obtener auditoría:", error.response?.status, error.message);
-        return { items: [], currentPage: 1, lastPage: 1 };
-    }
-}
+    },    
+
 }
 
 export default Fetch;
