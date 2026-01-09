@@ -1,7 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import url from "@/api/url";
 import {
   ArrowLeft,
   Mail,
@@ -13,18 +15,57 @@ import {
   ServerIcon
 } from "lucide-react";
 
+const PRODUCTS_URL = `${url}/api/productos/`;
+
 export default function Page() {
   const router = useRouter();
   const [modal, setModal] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [productsById, setProductsById] = useState({});
+  const [productsLoading, setProductsLoading] = useState(true);
 
   useEffect(() => {
     const infoModal = getCookie("modal");
+    fetchProducts();
     if (infoModal) {
         setModal(JSON.parse(infoModal));
     }
     setLoading(false);
   }, []);
+
+  async function fetchProducts() {
+    setProductsLoading(true);
+    try {
+      const res = await axios.get(PRODUCTS_URL, {
+        headers: { Authorization: `Bearer ${getCookie("token")}` },
+      });
+
+      const payload = res.data;
+
+      const list =
+        Array.isArray(payload) ? payload :
+        Array.isArray(payload?.data) ? payload.data :
+        Array.isArray(payload?.data?.data) ? payload.data.data :
+        Array.isArray(payload?.productos) ? payload.productos :
+        [];
+
+      const map = {};
+      for (const p of list) {
+        map[p.id_producto] = p.nombre;
+      }
+      setProductsById(map);
+    } catch (error) {
+      console.error("Error al obtener productos:", error?.message);
+      setProductsById({});
+    } finally {
+      setProductsLoading(false);
+    }
+  }
+
+  const productName = useMemo(() => {
+    if (!modal) return "No asignado"
+    return productsById[modal.id_producto] || "No asignado";
+  }, [modal, productsById]);
 
   if (loading) {
     return (
@@ -149,10 +190,10 @@ export default function Page() {
                   <ServerIcon className="w-6 h-6 text-[#8c52ff]" />
                 </div>
                 <h3 className="text-sm font-semibold text-gray-500 mb-1">
-                  Servicio de Interés
+                  Producto de Interés
                 </h3>
                 <p className="text-lg font-medium text-gray-800">
-                  {modal.servicio.nombre}
+                   {productsLoading ? "Cargando..." : (productsById[modal.id_producto] || "No asignado")}
                 </p>
               </div>
           </div>
