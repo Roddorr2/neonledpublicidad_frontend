@@ -13,6 +13,7 @@ import auth_service from "../users/services/auth.service"
 import Link from "next/link"
 
 const API_BASE_URL = `${url}/api/modales`;
+const PRODUCTOS_URL = `${url}/api/productos`;
 
 export default function Page() {
   const searchParams = useSearchParams()
@@ -23,7 +24,42 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [productsById, setProductsById] = useState({})
   const router = useRouter()
+
+
+    async function fetchProducts() {
+      try {
+        const res = await axios.get(PRODUCTOS_URL, {
+          headers: { Authorization: `Bearer ${getCookie("token")}` },
+        });
+
+        const payload = res.data;
+
+        // Soporta múltiples formas típicas de respuesta
+        const list =
+          Array.isArray(payload) ? payload :
+          Array.isArray(payload?.data) ? payload.data :                 // paginate() directo
+          Array.isArray(payload?.data?.data) ? payload.data.data :      // { data: { data: [...] } }
+          Array.isArray(payload?.productos) ? payload.productos :
+          [];
+
+        if (!Array.isArray(list)) {
+          console.error("Respuesta productos inesperada:", payload);
+          throw new Error("Formato de productos inesperado (no hay array).");
+        }
+
+        const map = {};
+        for (const p of list) {
+          // Ajusta si tu PK/nombre usan otros campos
+          map[p.id_producto] = p.nombre;
+        }
+        setProductsById(map);
+      } catch (error) {
+        console.error("Error al obtener productos:", error?.message);
+        setProductsById({});
+      }
+  }
 
 
   async function fetchModals() {
@@ -255,6 +291,7 @@ export default function Page() {
   }
 
   useEffect(() => {
+    fetchProducts()
     fetchModals(currentPage)
   }, [currentPage])
 
@@ -288,9 +325,9 @@ export default function Page() {
     const csvData = filteredData.map((modal) => [
       modal.id_modalservicio,
       modal.nombre,
-      modal.correo,
-      modal.servicio.nombre,
-      modal.estado ? "Activo" : "Inactivo",
+      modal.correo, 
+      productosById[modal.id_producto] || "No asignado",
+      modal.estado ? "Activo" : "Inactivo"
     ])
 
     const csvContent = [headers.join(","), ...csvData.map((row) => row.join(","))].join("\n")
@@ -380,7 +417,7 @@ export default function Page() {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Servicio de Contrato
+                      Producto de Contrato
                     </th>
                     <th
                       scope="col"
@@ -406,8 +443,8 @@ export default function Page() {
                           {modal.id_modalservicio}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.nombre}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.servicio.nombre}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td> 
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{productsById[modal.id_producto] || 'No asignado'}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
