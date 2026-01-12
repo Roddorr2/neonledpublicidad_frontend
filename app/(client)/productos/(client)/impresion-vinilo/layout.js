@@ -5,16 +5,43 @@ export const metadata = {
   description:
     "Los vinilos son la mejor opción para mostrar tu mensaje, logotipo o marca. Tenemos gran variedad de diseños y estilos disponibles para el gusto del cliente.",
   keywords: [
-    "impresión en vinilo Lima",
-    "vinilos decorativos Perú",
-    "vinilos personalizados Lima",
-    "vinilos para pared Lima",
-    "impresión de vinilos publicitarios Perú",
-    "vinilos adhesivos Lima",
-    "decoración con vinilos Lima",
-    "vinilos para tiendas Lima",
-    "vinilos decorativos interiores Perú",
-    "impresión de vinilos exteriores Lima",
+    // SHORT HEAD 
+    "Vinilos",
+    "Decoración",
+    "Decoraciones",
+    "vinilos adhesivos",
+    "decoración vinilo",
+    "vinilos personalizados",
+
+    // MID - TAIL
+    "vinilos decorativos",
+    "Decoración Perú",
+    "Viniles impresos",
+    "Vinil personalizado",
+    "Vinil autoadhesivo",
+    "Vinil impreso",
+
+    // LONG - TAIL
+    "vinilos decorativos para pared",
+    "viniles impresos personalizados",
+    "impresión en vinilo adhesivo lima",
+    "impresión en vinil peru",
+    "vinilos decorativos perú",
+    "Viniles para pared",
+    "Viniles personalizados",
+
+
+  
+    // "impresión en vinilo Lima",
+    // "vinilos decorativos Perú",
+    // "vinilos personalizados Lima",
+    // "vinilos para pared Lima",
+    // "impresión de vinilos publicitarios Perú",
+    // "vinilos adhesivos Lima",
+    // "decoración con vinilos Lima",
+    // "vinilos para tiendas Lima",
+    // "vinilos decorativos interiores Perú",
+    // "impresión de vinilos exteriores Lima",
   ],
   alternates: {
     canonical: "https://ledneonpublicidad.com/productos/impresion-vinilo/",

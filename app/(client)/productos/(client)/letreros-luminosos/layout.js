@@ -5,16 +5,44 @@ export const metadata = {
   description:
     "Letreros luminosos personalizados en Lima, Perú. Ideal para destacar marcas con iluminación impactante, moderna y de alta durabilidad.",
   keywords: [
-    "letreros luminosos Lima",
-    "rótulos LED luminosos Perú",
-    "letreros publicitarios iluminados Lima",
-    "cajas de luz Lima",
-    "letreros para fachadas luminosos Perú",
-    "letreros LED exteriores Lima",
-    "letreros retroiluminados Lima",
-    "rótulos luminosos para negocios Lima",
-    "letreros comerciales con luz Lima",
-    "diseño letreros luminosos Perú",
+    // SHORT HEAD
+    "Letreros luminosos",
+    "Letreros LED",
+    "Publicidad LED",
+    "Pantallas LED",
+    "Anuncios luminosos",
+    "Letreros neon",
+
+    // MID - TAIL
+    "Letreros luminosos",
+    "Cajas luminosas",
+    "Letras led",
+    "Letreros personalizados",
+    "Letreros acrílicos",
+    "Letras 2D",
+    "Letrero 3D",
+    "Letreros coloridos",
+    "Acrilico luminoso",
+
+    // LONG - TAIL
+    "Publicidad con letreros luminosos",
+    "Letreros luminosos doble cara",
+    "Letreros luminosos modernos",
+    "Letras con led",
+    "Letras led en Lima",
+ 
+    
+
+    // "letreros luminosos Lima",
+    // "rótulos LED luminosos Perú",
+    // "letreros publicitarios iluminados Lima",
+    // "cajas de luz Lima",
+    // "letreros para fachadas luminosos Perú",
+    // "letreros LED exteriores Lima",
+    // "letreros retroiluminados Lima",
+    // "rótulos luminosos para negocios Lima",
+    // "letreros comerciales con luz Lima",
+    // "diseño letreros luminosos Perú",
   ],
   alternates: {
     canonical: "https://ledneonpublicidad.com/productos/letreros-luminosos/",

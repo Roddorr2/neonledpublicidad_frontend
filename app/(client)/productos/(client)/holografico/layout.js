@@ -5,16 +5,42 @@ export const metadata = {
   description:
     "Descubre los mejores productos holográficos en Lima, Perú. Tecnología innovadora para publicidad, decoración y exhibiciones que capturan la atención al instante.",
   keywords: [
-    "hologramas publicitarios Lima",
-    "hologramas 3D Perú",
-    "proyectores holográficos Lima",
-    "hologramas para eventos Lima",
-    "hologramas interactivos Perú",
-    "hologramas LED Lima",
-    "publicidad holográfica 3D Lima",
-    "ventiladores holográficos Lima",
-    "displays holográficos Perú",
-    "proyecciones holográficas Lima",
+    // SHORT HEAD
+    "Holográficos",
+    "Holográmas",
+    "3D",
+    "Pantalla 3D",
+    "Publicidad",
+    "Tecnología",
+
+    // MID - TAIL
+    "Ventiladores holográficos",
+    "Holograma 3D",
+    "proyectores holograficos",
+    "Ventiladores holográficos",
+    "Hologramas publicitarios",
+    
+    // LONG - TAIL
+    "venta proyectores holográficos",
+    "Venta de ventiladores holográficos",
+    "Presentaciones holográficas 3D",
+    "Proyección 3D holográfica",
+    "Publicidad 3D peru",
+    "3D holograma ventilador",
+    "ventilador holográfico perú",
+    "proyector holograma 3d ",
+
+    
+    // "hologramas publicitarios Lima",
+    // "hologramas 3D Perú",
+    // "proyectores holográficos Lima",
+    // "hologramas para eventos Lima",
+    // "hologramas interactivos Perú",
+    // "hologramas LED Lima",
+    // "publicidad holográfica 3D Lima",
+    // "ventiladores holográficos Lima",
+    // "displays holográficos Perú",
+    // "proyecciones holográficas Lima",
   ],
   alternates: {
     canonical: "https://ledneonpublicidad.com/productos/holografico/",

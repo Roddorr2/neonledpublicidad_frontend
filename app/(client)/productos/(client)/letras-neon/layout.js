@@ -5,16 +5,44 @@ export const metadata = {
   description:
     "Las letras neón en tubos de vidrio, son fáciles para poder llamar la atención y cautivar al público, permite destacar tu marca, ideal para eventos y decoraciones especiales. Te permite personalizar y adaptar tú estilo en un ambiente luminoso, vibrante.",
   keywords: [
-    "letras de neón vidrio Lima",
-    "rótulos de neón clásico Perú",
-    "letreros de vidrio iluminados Lima",
-    "letreros de bares con neón Lima",
-    "letreros vintage neón Perú",
-    "tubos de neón publicitarios Lima",
-    "carteles de vidrio iluminados Lima",
-    "letreros retro neón Lima",
-    "letras neón personalizadas Perú",
-    "decoración con tubos de neón Lima",
+    // SHORT HEAD
+    "neón",
+    "Fabricación",
+    "Letras",
+    "Personalizado",
+    "Decoración",
+    "Negocios",
+
+    // MID - TAIL
+    "Luces Neon",
+    "Letrero Neon",
+    "Diseño neón",
+    "Letrero personalizado",
+    "Letreros Lima",
+    "Tubo neon",
+    "Letras de neón en vidrio",
+    "Letras de vidrio para negocios",
+    "Letras de vidrio publicitarias",
+    
+    // LONG - TAIL
+    "Letras de neón",
+    "Letras de neón personalizadas",
+    "Letras de neón para decoración",
+    "Letreros tubos de vidrio",
+    "Letreros neón clásicos",
+   
+    
+
+    // "letras de neón vidrio Lima",
+    // "rótulos de neón clásico Perú",
+    // "letreros de vidrio iluminados Lima",
+    // "letreros de bares con neón Lima",
+    // "letreros vintage neón Perú",
+    // "tubos de neón publicitarios Lima",
+    // "carteles de vidrio iluminados Lima",
+    // "letreros retro neón Lima",
+    // "letras neón personalizadas Perú",
+    // "decoración con tubos de neón Lima",
   ],
   alternates: {
     canonical: "https://ledneonpublicidad.com/productos/letras-neon/",
