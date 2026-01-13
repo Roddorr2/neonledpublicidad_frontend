@@ -26,10 +26,10 @@ export const SlideItem = ({ slides, current }) => {
       />
 
       {/* Borde izquierdo borroso - visible solo en pantallas md+ */}
-      <div className="hidden md:block absolute left-0 top-0 h-full w-16 bg-black/10 backdrop-blur-sm pointer-events-none z-10" />
+      {/* <div className="hidden md:block absolute left-0 top-0 h-full w-16 bg-black/10 backdrop-blur-sm pointer-events-none z-10" /> */}
 
       {/* Borde derecho borroso - visible solo en pantallas md+ */}
-      <div className="hidden md:block absolute right-0 top-0 h-full w-16 bg-black/10 backdrop-blur-sm pointer-events-none z-10" />
+      {/* <div className="hidden md:block absolute right-0 top-0 h-full w-16 bg-black/10 backdrop-blur-sm pointer-events-none z-10" />  */}
     </div>
   );
 };
