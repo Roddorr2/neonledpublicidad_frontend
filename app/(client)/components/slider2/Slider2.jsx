@@ -29,7 +29,7 @@ const Slider2 = ({ slides }) => {
 
 
 
-    const interval = setInterval(moveSlider, 3000);
+    const interval = setInterval(moveSlider, 1000);
     
 
     return () => clearInterval(interval); 
