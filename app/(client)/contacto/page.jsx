@@ -183,8 +183,9 @@ const Contacto = () => {
 
            
             <div className="w-full lg:w-1/3">
-              <h2 className="text-center text-lg font-medium text-white">Conoce nuestros medios de</h2>
-              <h1 className="text-center text-2xl font-[900] text-white mb-6">CONTACTO</h1>
+              {/* <h2 className="text-center text-lg font-medium text-white">Conoce nuestros medios de</h2> */}
+              <h1 className="text-center text-2xl font-[900] text-white mb-6">Contáctanos para fabricar tu letrero luminoso personalizado</h1>
+              
               
               <div className="bg-gradient-to-br from-blue-800/30 to-blue-900/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-blue-400/20">
                 <h3 className="text-2xl font-[900] text-white text-center mb-6">SOLICITA INFORMACIÓN</h3>

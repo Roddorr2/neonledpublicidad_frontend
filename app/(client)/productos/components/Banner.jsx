@@ -42,9 +42,11 @@ export default function Banner() {
         transition={{ duration: 4, ease: "easeOut" }}
       >
        
-        <h1 className={`text-6xl ${styles["neon-text"]}`}>DESCUBRE EL LETRERO</h1>
-        <p className={`text-6xl ${styles["neon-text"]}`}>PERFECTO PARA TU</p>
-         <p className={`text-6xl ${styles["neon-text"]}`}>NEGOCIO</p>
+        <h1 className={`text-6xl ${styles["neon-text"]}`}> Catálogo de letreros luminosos LED y neón para negocios</h1>
+        {/* <p className={`text-6xl ${styles["neon-text"]}`}>PERFECTO PARA TU</p>
+         <p className={`text-6xl ${styles["neon-text"]}`}>NEGOCIO</p> */}
+         <p className={`text-5xl ${styles["neon-text"]}`}>Perfecto para tu negocio</p>
+
 
         <br />
 

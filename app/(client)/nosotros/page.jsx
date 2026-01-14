@@ -33,10 +33,10 @@ const Nosotros = () => {
         <div className="absolute inset-0 bg-black/60"></div>
 
         <div className="relative z-10 max-w-3xl mx-auto px-6">
-          <h2 className="text-base md:text-xl mb-2">Conoce más sobre</h2>
-          <h1 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 text-white">Conoce más sobre</h1>
+          <h2 className="text-base md:text-xl mb-2">
             NOSOTROS
-          </h1>
+          </h2>
           <p className="text-sm md:text-base text-gray-200 leading-relaxed">
             Somos Neon Led Publicidad, una empresa dedicada a la fabricación y
             venta de diseños personalizados de letreros que transforman cualquier
