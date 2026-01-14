@@ -101,7 +101,7 @@ const Blogs = () => {
 
   const BlogCard = ({ dato }) => (
     <Card className="relative w-10/12 mx-auto overflow-hidden border-0 shadow-2xl rounded-2xl 
-      bg-transparent  group hover:scale-105 transition-all duration-500 h-[200px]">
+      bg-transparent  group hover:scale-105 transition-all duration-500 h-[280px]">
       <div className="absolute inset-0 w-full h-full">
         <img
           src={`${dato.public_image}?v=${Date.now()}`}

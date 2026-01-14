@@ -30,13 +30,11 @@ const BannerText = ({
         <div className="absolute top-[15%] sm:top-[20%] right-0 w-[20%] sm:w-[30%] h-[2px] bg-yellow-400 shadow-[0_0_10px_#f97316]" />
 
         {/* Horizontal Izquierda (Azul) - Posición ajustable para mobile */}
-        <div className="absolute bottom-[20%] sm:bottom-[25%] left-0 w-[20%] sm:w-[30%] h-[2px] bg-blue-500 shadow-[0_0_10px_#3b82f6]" />
+        <div className="absolute bottom-[20%] left-0 w-[20%] sm:w-[30%] h-[2px] bg-blue-500 shadow-[0_0_10px_#3b82f6]" />
       </div>
 
-      {/* CONTENIDO TEXTUAL CON PADDING ADAPTATIVO */}
-      <div className="relative z-20 px-8 py-20 sm:py-32 flex flex-col items-center justify-center min-h-[400px]">
+      <div className="relative z-20 px-8 py-6 sm:py-12 flex flex-col items-center justify-center min-h-[400px]">
         <div className="text-center w-full max-w-4xl">
-          
           <h2 className="text-xl sm:text-4xl font-bold uppercase mb-4 text-[#ffad33]">
             {title}
           </h2>
