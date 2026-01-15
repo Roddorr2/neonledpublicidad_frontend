@@ -100,55 +100,41 @@ const Blogs = () => {
   };
 
   const BlogCard = ({ dato }) => (
-    <Card className="relative overflow-hidden border-0 shadow-2xl bg-black backdrop-blur-sm rounded-2xl group hover:scale-105 transition-all duration-500">
-      <div className="relative flex flex-col md:flex-row h-full md:h-[320px]">
-        <div className="relative z-10 flex-1 p-6 md:p-8 flex flex-col bg-black min-h-[280px] md:min-h-[320px]">
-          <div className="flex flex-col justify-between h-full">
-            <div className="flex-1">
-              <h2
-                className={`text-xl md:text-2xl font-bold text-white leading-tight mb-3 md:mb-4 line-clamp-2`}
-              >
-                {dato.titulo}
-              </h2>
+    <Card className="relative w-10/12 mx-auto overflow-hidden border-0 shadow-2xl rounded-2xl 
+      bg-transparent  group hover:scale-105 transition-all duration-500 h-[280px]">
+      <div className="absolute inset-0 w-full h-full">
+        <img
+          src={`${dato.public_image}?v=${Date.now()}`}
+          alt={dato.blog.head.alt || dato.titulo}
+          title={dato.blog.head.title || dato.titulo}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+      </div>
 
-              <p
-                className={`text-gray-200 text-sm leading-relaxed line-clamp-6`}
-              >
-                {dato.descripcion}
-              </p>
-            </div>
-
-            <div className="pt-4 mt-auto">
-              <Link
-                href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`}
-              >
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 md:py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-                  SABER MÁS
-                </Button>
-              </Link>
-            </div>
-          </div>
+      <div className="relative z-10 h-full flex flex-col justify-between p-6 md:p-8">
+        <div>
+          <h2 className="text-xl md:text-2xl w-8/12 font-extrabold text-white leading-tight mb-2 drop-shadow-md">
+            {dato.titulo}
+          </h2>
         </div>
 
-        <div className="relative flex-1 min-h-[200px] md:min-h-[320px]">
-          <img
-            src={`${dato.public_image}?v=${Date.now()}`}
-            // alt={dato.titulo}
-            alt={dato.blog.head.alt || dato.titulo}
-            title={dato.blog.head.title || dato.titulo}
-            className="w-full h-full object-cover"
-          />
+        <div>
+          <Link
+            href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`}
+          >
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/50">
+              SABER MÁS
+            </Button>
+          </Link>
         </div>
-
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/30 pointer-events-none"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
       </div>
     </Card>
   );
 
   if (isLoading) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: "#1a1e2e" }}>
+      <div className="min-h-screen bg-gradient-to-b from-[#1f1d77] to-[#0b0b3a]">
         <div className="container mx-auto px-4 py-12">
           <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
             <Loader2 className="h-12 w-12 animate-spin text-blue-400" />
@@ -161,7 +147,7 @@ const Blogs = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: "#1a1e2e" }}>
+      <div className="min-h-screen bg-gradient-to-b from-[#1f1d77] to-[#0b0b3a]">
         <div className="container mx-auto px-4 py-12">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
@@ -180,7 +166,7 @@ const Blogs = () => {
 
   if (!data || data.length === 0) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: "#1a1e2e" }}>
+      <div className="min-h-screen bg-gradient-to-b from-[#1f1d77] to-[#0b0b3a]">
         <div className="container mx-auto px-4 py-12">
           <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-6 text-center">
             <div className="bg-gray-100 p-6 rounded-full">
@@ -220,13 +206,8 @@ const Blogs = () => {
   };
   return (
     <>
-      <div className="min-h-screen" style={{ backgroundColor: "#0d111fff" }}>
+      <div className="min-h-screen bg-gradient-to-b from-[#1f1d77] to-[#0b0b3a]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-10 md:pt-20">
-          {/* Título principal */}
-          <h1 className="text-5xl md:text-6xl font-bold mb-16 text-center text-white tracking-wider -mt-2">
-            NUESTROS BLOGS
-          </h1>
-
           {/* Barra de búsqueda */}
           <div className="mb-16 max-w-3xl mx-auto flex items-center gap-4">
             <div className="relative flex-1">
@@ -247,7 +228,7 @@ const Blogs = () => {
           </div>
 
           {/* Grid de tarjetas */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
             {getCurrentPageItems().map((dato, index) => (
               <BlogCard key={`${dato.id_card}-${index}`} dato={dato} />
             ))}

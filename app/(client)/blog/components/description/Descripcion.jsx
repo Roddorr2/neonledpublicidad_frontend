@@ -1,7 +1,6 @@
 "use client";
 
 import { DesktopVersion } from "./components/DesktopVersion";
-import { MobileVersion } from "./components/MobileVersion/MobileVersion";
 
 export const items = [
   "Letreros",
@@ -19,7 +18,6 @@ export default function Descripcion() {
     <div className="relative w-full mt-0">
       <div className="absolute top-0 left-0 w-full md:h-[18rem] h-[60%] bg-gradient-to-r from-[--azul_brillante] to-[--azul_intenso]"></div>
       <DesktopVersion />
-      <MobileVersion />
     </div>
   );
 }
