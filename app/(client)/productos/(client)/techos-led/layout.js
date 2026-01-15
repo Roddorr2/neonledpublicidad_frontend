@@ -5,16 +5,43 @@ export const metadata = {
   description:
     "Su diseño moderno y opciones de personalización, se convierten en una herramienta eficaz para realzar la identidad de marca y captar la atención. Una solución ideal para negocios que buscan destacar con elegancia, tecnología y alto impacto estético.",
   keywords: [
-    "techos LED Lima",
-    "iluminación LED para techos Perú",
-    "techos luminosos Lima",
-    "paneles LED en techos Lima",
-    "techos decorativos LED Perú",
-    "iluminación RGB techos Lima",
-    "techos LED modernos Lima",
-    "techos LED exteriores Perú",
-    "techos publicitarios LED Lima",
-    "techos LED interiores Lima",
+    // SHORT HEAD
+    "Iluminación LED",
+    "Techo",
+    "Iluminación",
+    "LED",
+    "Diseño",
+    "Producto",
+
+    // MID - TAIL
+    "Hexagonal led",
+    "Cielo rraso",
+    "Iluminacion led",
+    "Iluminacion moderna",
+
+    // LONG - TAIL
+    "Techo led pixel",
+    "Techos con luz LED",
+    "Techos decorativos LED",
+    "Luces LED para techos",
+    "Techos LED personalizados",
+    "Techos LED para ambientes modernos",
+    "Diseño de techos LED",
+    "Techos LED RGB",
+    "Techo hexagonal led",
+    "Luces de techo led",
+
+
+    // "techos LED Lima",
+    // "iluminación LED para techos Perú",
+    // "techos luminosos Lima",
+    // "paneles LED en techos Lima",
+    // "techos decorativos LED Perú",
+    // "iluminación RGB techos Lima",
+    // "techos LED modernos Lima",
+    // "techos LED exteriores Perú",
+    // "techos publicitarios LED Lima",
+    // "techos LED interiores Lima",
   ],
   openGraph: {
     title: "Techos Led en Lima | Ilumina tu Negocio desde lo Alto",

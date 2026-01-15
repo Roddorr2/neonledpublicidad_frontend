@@ -5,16 +5,45 @@ export const metadata = {
   description:
     "Destaca tu marca con monitores de publicidad digital modernos, sostenibles y versátiles. Comunica con impacto. ¡Cotiza hoy y transforma tu espacio!",
   keywords: [
-    "monitores de publicidad digital Lima",
-    "pantallas interactivas Perú",
-    "monitores táctiles Lima",
-    "displays digitales Lima",
-    "pantallas LED para negocios Perú",
-    "publicidad digital en pantallas Lima",
-    "monitores para ferias Lima",
-    "pantallas publicitarias Lima",
-    "displays LED exteriores Perú",
-    "monitores digitales interactivos Lima",
+    // SHORT HEAD
+    "Monitores ",
+    "Publicidad digital",
+    "Anuncios",
+    "Pantalla",
+    "Digital",
+    "Display",
+
+    // MID - TAIL
+    "Monitores digitales",
+    "Pantalla led",
+    "Monitor publicitario",
+    "Monitores de busqueda",
+   
+    // LONG - TAIL
+    "Monitores de publicidad",
+    "Monitores de publicidad digital",
+    "Monitores de publicidad digital para retail",
+    "Monitores de publicidad digital portable",
+    "Menu board digital",
+    "Módulo de pantalla LED",
+    "Monitor publicitario",
+    "Monitores publicidad exterior",
+    "Publicidad en pantallas",
+    "Pantallas de publicidad digital",
+    "pantallas led para publicidad",
+
+
+
+    // "monitores de publicidad digital Lima",
+    // "pantallas interactivas Perú",
+    // "monitores táctiles Lima",
+    // "displays digitales Lima",
+    // "pantallas LED para negocios Perú",
+    // "publicidad digital en pantallas Lima",
+    // "monitores para ferias Lima",
+    // "pantallas publicitarias Lima",
+    // "displays LED exteriores Perú",
+    // "monitores digitales interactivos Lima",
   ],
   alternates: {
     canonical: "https://ledneonpublicidad.com/productos/displays/",

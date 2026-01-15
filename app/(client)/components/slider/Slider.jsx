@@ -96,7 +96,7 @@ const Slider = ({ slides }) => {
                 />
               ))}
             </div>
-
+ 
             {/* Botón Siguiente */}
             <button
               onClick={nextSlide}
