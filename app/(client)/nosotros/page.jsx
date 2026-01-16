@@ -34,7 +34,7 @@ const Nosotros = () => {
       <div
         className="relative h-[45vh] sm:h-[50vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden"
         style={{
-          backgroundImage: "url('/nosotros/fondo-nosotros.webp')",
+          backgroundImage: "url('/nosotros/fondo-nosotros-mejorado-hd.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
