@@ -17,93 +17,95 @@ const PRODUCTOS_URL = `${url}/api/productos`;
 
 export default function Page() {
   const searchParams = useSearchParams()
-  const currentPage = Number(searchParams.get("page")) || 1
+  const currentPage = searchParams.get("page") || 1
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [totalPages, setTotalPages] = useState(1)
-  const [totalRecords, setTotalRecords] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [productsById, setProductsById] = useState({})
   const router = useRouter()
-  const itemsPerPage = 20
 
-  async function fetchProducts() {
-    try {
-      const res = await axios.get(PRODUCTOS_URL, {
-        headers: { Authorization: `Bearer ${getCookie("token")}` },
-      });
 
-      const payload = res.data;
+    async function fetchProducts() {
+      try {
+        const res = await axios.get(PRODUCTOS_URL, {
+          headers: { Authorization: `Bearer ${getCookie("token")}` },
+        });
 
-      const list =
-        Array.isArray(payload) ? payload :
-        Array.isArray(payload?.data) ? payload.data :
-        Array.isArray(payload?.data?.data) ? payload.data.data :
-        Array.isArray(payload?.productos) ? payload.productos :
-        [];
+        const payload = res.data;
 
-      if (!Array.isArray(list)) {
-        console.error("Respuesta productos inesperada:", payload);
-        throw new Error("Formato de productos inesperado (no hay array).");
+        // Soporta múltiples formas típicas de respuesta
+        const list =
+          Array.isArray(payload) ? payload :
+          Array.isArray(payload?.data) ? payload.data :                 // paginate() directo
+          Array.isArray(payload?.data?.data) ? payload.data.data :      // { data: { data: [...] } }
+          Array.isArray(payload?.productos) ? payload.productos :
+          [];
+
+        if (!Array.isArray(list)) {
+          console.error("Respuesta productos inesperada:", payload);
+          throw new Error("Formato de productos inesperado (no hay array).");
+        }
+
+        const map = {};
+        for (const p of list) {
+          // Ajusta si tu PK/nombre usan otros campos
+          map[p.id_producto] = p.nombre;
+        }
+        setProductsById(map);
+      } catch (error) {
+        console.error("Error al obtener productos:", error?.message);
+        setProductsById({});
       }
-
-      const map = {};
-      for (const p of list) {
-        map[p.id_producto] = p.nombre;
-      }
-      setProductsById(map);
-    } catch (error) {
-      console.error("Error al obtener productos:", error?.message);
-      setProductsById({});
-    }
   }
 
-  async function fetchModals(page = 1, search = "") {
-    setIsLoading(true)
-    
-    try {
-      const response = await axios.get(`${API_BASE_URL}`, {
-        params: {
-          page: page,
-          per_page: itemsPerPage,
-          search: search
-        },
-        headers: {
-          Authorization: `Bearer ${getCookie("token")}`,
-        },
-      })
 
-      // Ajusta según la estructura de tu API
-      const responseData = response.data
-      const modales = responseData.data || []
-      const total = responseData.total || 0
-      const lastPage = responseData.last_page || 1
+  async function fetchModals() {
+    setIsRefreshing(true)
+    let page = 1
+    let allData = []
+    let hasMorePages = true
 
-      setData(modales)
-      setFilteredData(modales)
-      setTotalRecords(total)
-      setTotalPages(lastPage)
-      
-    } catch (error) {
-      console.error("Error al obtener los datos:", error.message)
-
-      if (error.response && error.response.status === 401) {
-        Swal.fire({
-          title: "Sesión Expirada",
-          text: "Por favor, inicia sesión nuevamente.",
-          icon: "warning",
-          confirmButtonText: "OK",
-        }).then(() => {
-          deleteCookie("modal");
-          user_service.logoutClient(router)
+    while (hasMorePages) {
+      try {
+        const response = await axios.get(`${API_BASE_URL}?page=${page}`, {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
         })
+
+        if (response.data.data.length === 0) {
+          hasMorePages = false
+          break
+        }
+
+        allData = [...allData, ...response.data.data]
+        page++
+      } catch (error) {
+        hasMorePages = false
+        console.error("Error al obtener los datos:", error.message)
+
+        if (error.response && error.response.status === 401) {
+          Swal.fire({
+            title: "Sesión Expirada",
+            text: "Por favor, inicia sesión nuevamente.",
+            icon: "warning",
+            confirmButtonText: "OK",
+          }).then(() => {
+            deleteCookie("modal");
+            user_service.logoutClient(router)
+          })
+        }
       }
-    } finally {
-      setIsLoading(false)
-      setIsRefreshing(false)
     }
+
+    setData(allData)
+    setFilteredData(allData)
+    setTotalPages(Math.ceil(allData.length / 4))
+    setIsLoading(false)
+    setIsRefreshing(false)
   }
 
   async function deleteModal(id) {
@@ -121,7 +123,7 @@ export default function Page() {
           icon: "success",
           confirmButtonText: "OK",
         })
-        fetchModals(currentPage, searchTerm)
+        fetchModals(currentPage)
       } else {
         Swal.fire({
           title: "Error",
@@ -206,7 +208,7 @@ export default function Page() {
           icon: "success",
           confirmButtonText: "OK",
         })
-        fetchModals(currentPage, searchTerm)
+        fetchModals(currentPage)
       } else {
         Swal.fire({
           title: "Error",
@@ -288,101 +290,64 @@ export default function Page() {
     }
   }
 
-  const handleRefresh = () => {
-    setIsRefreshing(true)
-    fetchModals(currentPage, searchTerm)
-  }
-
-  // Manejo de búsqueda con debounce
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      if (searchTerm.trim() === "") {
-        fetchModals(1, "")
-        router.push(`?page=1`)
-      } else {
-        fetchModals(1, searchTerm)
-        router.push(`?page=1`)
-      }
-    }, 500) // Espera 500ms después de que el usuario deje de escribir
-
-    return () => clearTimeout(delayDebounce)
-  }, [searchTerm])
-
   useEffect(() => {
     fetchProducts()
-    fetchModals(currentPage, searchTerm)
+    fetchModals(currentPage)
   }, [currentPage])
 
-  const exportToCSV = async () => {
-    try {
-      setIsRefreshing(true)
-      
-      // Obtener TODOS los registros para exportar
-      const response = await axios.get(`${API_BASE_URL}`, {
-        params: {
-          page: 1,
-          per_page: 999999, // Número grande para obtener todos
-          search: searchTerm
-        },
-        headers: {
-          Authorization: `Bearer ${getCookie("token")}`,
-        },
-      })
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      setFilteredData(data)
+    } else {
+      const filtered = data.filter(
+        (modal) =>
+          modal.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          modal.correo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          modal.id_modalservicio.toString().includes(searchTerm),
+      )
+      setFilteredData(filtered)
+    }
+  }, [searchTerm, data])
 
-      const allData = response.data.data || []
-
-      if (allData.length === 0) {
-        Swal.fire({
-          title: "Sin datos",
-          text: "No hay datos para exportar",
-          icon: "info",
-          confirmButtonText: "OK",
-        })
-        return
-      }
-
-      const headers = ["ID", "Nombre", "Correo", "Producto Contratado", "Estado"]
-
-      const csvData = allData.map((modal) => [
-        modal.id_modalservicio,
-        modal.nombre,
-        modal.correo,
-        productsById[modal.id_producto] || "No asignado",
-        modal.estado ? "Activo" : "Inactivo"
-      ])
-
-      const csvContent = [headers.join(","), ...csvData.map((row) => row.join(","))].join("\n")
-
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.setAttribute("href", url)
-      link.setAttribute("download", `modales_${new Date().toISOString().split('T')[0]}.csv`)
-      link.style.visibility = "hidden"
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    } catch (error) {
-      console.error("Error al exportar:", error)
+  const exportToCSV = () => {
+    if (filteredData.length === 0) {
       Swal.fire({
-        title: "Error",
-        text: "No se pudo exportar los datos",
-        icon: "error",
+        title: "Sin datos",
+        text: "No hay datos para exportar",
+        icon: "info",
         confirmButtonText: "OK",
       })
-    } finally {
-      setIsRefreshing(false)
+      return
     }
+
+    const headers = ["ID", "Nombre", "Correo", "Estado", "Servicio Contratado"]
+
+    const csvData = filteredData.map((modal) => [
+      modal.id_modalservicio,
+      modal.nombre,
+      modal.correo, 
+      productosById[modal.id_producto] || "No asignado",
+      modal.estado ? "Activo" : "Inactivo"
+    ])
+
+    const csvContent = [headers.join(","), ...csvData.map((row) => row.join(","))].join("\n")
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.setAttribute("href", url)
+    link.setAttribute("download", "modales.csv")
+    link.style.visibility = "hidden"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
     <main className="p-4 md:p-6 flex flex-col w-full h-[100vh] bg-gray-50 dark:bg-gray-900 overflow-y-auto">
       <div className="bg-white rounded-xl shadow-sm p-6 mb-6 dark:bg-gray-800 dark:text-white">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Gestión de Modales</h1>
-            <p className="text-sm text-gray-500 mt-1">Total: {totalRecords} registros</p>
-          </div>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Gestión de Modales</h1>
 
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="relative flex-grow">
@@ -390,7 +355,7 @@ export default function Page() {
               <input
                 type="text"
                 placeholder="Buscar por nombre, correo o ID..."
-                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -399,8 +364,7 @@ export default function Page() {
             <div className="flex gap-2">
               <button
                 onClick={exportToCSV}
-                disabled={isRefreshing}
-                className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg border border-green-100 hover:bg-green-100 transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg border border-green-100 hover:bg-green-100 transition-colors"
                 title="Exportar a CSV"
               >
                 <Download size={18} />
@@ -408,7 +372,7 @@ export default function Page() {
               </button>
 
               <button
-                onClick={handleRefresh}
+                onClick={() => fetchModals()}
                 disabled={isRefreshing}
                 className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
                 title="Actualizar datos"
@@ -471,13 +435,15 @@ export default function Page() {
                 </thead>
                 <tbody className="bg-white divide-y divide-blue-600 dark:bg-gray-900">
                   {filteredData.length > 0 ? (
-                    filteredData.map((modal) => (
-                      <tr key={`${modal.id_modalservicio}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white">
+                    filteredData
+                    .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
+                    .map((modal)=> (
+                      <tr key={`${modal.id_modalservicio}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"> 
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {modal.id_modalservicio}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.nombre}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td> 
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{productsById[modal.id_producto] || 'No asignado'}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
@@ -502,7 +468,7 @@ export default function Page() {
                               title="Emails y WhatsApp"
                               className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
                             >
-                              <Link href={`./mails?id_modal=${modal.id_modalservicio}`}>
+                              <Link href={`./mails?id_modal=${modal.id_modalservicio}`} >
                                 <Contact size={17} />
                               </Link>
                             </button>
@@ -536,7 +502,7 @@ export default function Page() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="6" className="px-6 py-16 text-center">
+                      <td colSpan="5" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">No hay datos disponibles</p>
@@ -560,9 +526,9 @@ export default function Page() {
             </div>
 
             <Pagination1
-              filteredData={filteredData}
-              currentPage={currentPage}
-              totalPages={totalPages}
+              filteredData = {filteredData}
+              currentPage = {currentPage}
+              totalPages = {totalPages}
             />
           </>
         )}
