@@ -53,7 +53,7 @@ export default function Home() {
       <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE ALUMINIO \n DORADAS 3D`}
-        imagen="/productosIndividuales/banner/letras-doradas-fondo.png"
+        imagen="/productosIndividuales/banner/letras-doradas-fondo-mejorada.png"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
