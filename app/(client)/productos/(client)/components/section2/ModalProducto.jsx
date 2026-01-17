@@ -45,7 +45,7 @@ export default function ModalProducto({
     }
     setFormData({ ...formData, [name]: value });
   };
-
+ 
   const handleClose = (e) => {
     e?.stopPropagation();
     if (onClose) onClose();
@@ -90,9 +90,10 @@ export default function ModalProducto({
 
       setFormData({
         nombre: "",
-        telefono: "",
         correo: "",
+        telefono: "",
         id_servicio: serviceName,
+        productoName: text,
       });
     } catch (error) {
       Swal.fire({

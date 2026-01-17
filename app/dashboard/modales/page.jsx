@@ -14,6 +14,7 @@ import Link from "next/link"
 
 const API_BASE_URL = `${url}/api/modales`;
 const PRODUCTOS_URL = `${url}/api/productos`;
+const ITEMS_PER_PAGE = 5;
 
 export default function Page() {
   const searchParams = useSearchParams()
@@ -103,7 +104,7 @@ export default function Page() {
 
     setData(allData)
     setFilteredData(allData)
-    setTotalPages(Math.ceil(allData.length / 4))
+    setTotalPages(Math.ceil(allData.length /ITEMS_PER_PAGE))
     setIsLoading(false)
     setIsRefreshing(false)
   }
@@ -407,12 +408,21 @@ export default function Page() {
                     >
                       Nombres
                     </th>
-                    <th
+
+                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Correo
                     </th>
+
+                     <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Telefono
+                    </th>
+                   
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -436,7 +446,7 @@ export default function Page() {
                 <tbody className="bg-white divide-y divide-blue-600 dark:bg-gray-900">
                   {filteredData.length > 0 ? (
                     filteredData
-                    .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
+                    .slice((Number(currentPage) - 1) * ITEMS_PER_PAGE, Number(currentPage) * ITEMS_PER_PAGE)
                     .map((modal)=> (
                       <tr key={`${modal.id_modalservicio}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"> 
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
@@ -444,6 +454,7 @@ export default function Page() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.nombre}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td> 
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.telefono}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{productsById[modal.id_producto] || 'No asignado'}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
@@ -502,7 +513,7 @@ export default function Page() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="px-6 py-16 text-center">
+                      <td colSpan="7" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">No hay datos disponibles</p>
