@@ -15,6 +15,9 @@ import url from '../../../api/url';
 
 const URL_API = `${url}/api/contactanos`;
 
+ const ITEMS_PER_PAGE = 5;
+
+
 export default function Page() {
   const searchParams = useSearchParams()
   const currentPage = searchParams.get("page") || 1
@@ -67,7 +70,7 @@ export default function Page() {
 
     setData(allData)
     setFilteredData(allData)
-    setTotalPages(Math.ceil(allData.length / 4))
+    setTotalPages(Math.ceil(allData.length / ITEMS_PER_PAGE))
     setIsLoading(false)
     setIsRefreshing(false)
   }
@@ -366,11 +369,14 @@ export default function Page() {
                     >
                       ID
                     </th>
-                    <th
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Nombres
+                    </th>
+                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
-                      Nombres
+                      Telefono
                     </th>
                     <th
                       scope="col"
@@ -395,13 +401,14 @@ export default function Page() {
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
                   {filteredData.length > 0 ? (
                     filteredData
-                    .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
+                    .slice((Number(currentPage) - 1) * ITEMS_PER_PAGE, Number(currentPage) * ITEMS_PER_PAGE)
                     .map((contacto)=> (
                       <tr key={`${contacto.id_contactanos}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white">
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {contacto.id_contactanos}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{contacto.nombre}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white"> {contacto.nombre} {contacto.apellido}</td>
+                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{contacto.telefono}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{contacto.email}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
@@ -451,7 +458,7 @@ export default function Page() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="px-6 py-16 text-center">
+                      <td colSpan="6" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">No hay datos disponibles</p>
@@ -478,6 +485,7 @@ export default function Page() {
               filteredData = {filteredData}
               currentPage = {currentPage}
               totalPages = {totalPages}
+              itemsPerPage={ITEMS_PER_PAGE}
             />
           </>
         )}
