@@ -136,38 +136,34 @@ export default function Productos() {
     filasRefs.current = filasRefs.current.slice(0, filas.length);
   }, [filas]);
 
-  const options = {
-    rootMargin: "200px",
-    threshold: 0.1,
-  };
+  
+  // const options = {
+  //   rootMargin: "200px",
+  //   threshold: 0.1,
+  // };
 
-  const callback = (entries, observer) => {
-    entries.forEach((entry) => {
-      const index = filasRefs.current.indexOf(entry.target);
-      if (index !== -1 && entry.isIntersecting && !isAnimations[index]) {
-        setIsAnimations((prevState) => {
-          const newState = [...prevState];
-          newState[index] = true;
-          return newState;
-        });
-        observer.unobserve(entry.target);
-      }
-    });
-  };
+  // const callback = (entries, observer) => {
+  //   entries.forEach((entry) => {
+  //     const index = filasRefs.current.indexOf(entry.target);
+  //     if (index !== -1 && entry.isIntersecting && !isAnimations[index]) {
+  //       setIsAnimations((prevState) => {
+  //         const newState = [...prevState];
+  //         newState[index] = true;
+  //         return newState;
+  //       });
+  //       observer.unobserve(entry.target);
+  //     }
+  //   });
+  // };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(callback, options);
 
-    filasRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
 
-    return () => {
-      filasRefs.current.forEach((ref) => {
-        if (ref) observer.unobserve(ref);
-      });
-    };
-  }, []);
+ useEffect(() => {
+  
+  setIsAnimations(Array(filas.length).fill(true));
+}, [filas.length]);
+
+
 
   return (
     <div className={`${styles["productos-container"]} mt-12`}>

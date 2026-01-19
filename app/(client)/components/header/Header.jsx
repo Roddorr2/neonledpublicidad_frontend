@@ -421,16 +421,30 @@ export default function Header() {
                 }}
               />
             </>
+            
           )}
           {currentMenu === "productos" && (
             <>
+
+
+          <DropdownLink
+           text={"Todos los productos"}
+          link={"/productos"}
+          isInicio={true}
+          final={false}
+           closeMenu={() => {
+               setMenuActive(false); 
+               setContainerFullHeight(false);
+               setCurrentMenu("main");
+          }}
+           />
               <DropdownLink
                 text={"Letras de acrílico"}
                 link={"/productos/letras-acrilico"}
-                isInicio={true}
+                isInicio={false}
                 final={false}
                 closeMenu={() => {
-                  setMenuActive(false);
+                  setMenuActive(false); 
                   setContainerFullHeight(false);
                   setCurrentMenu("main");
                 }}
