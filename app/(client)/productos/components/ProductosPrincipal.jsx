@@ -22,7 +22,7 @@ export default function Productos() {
         imgSrc:
           "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
         imgSrcMobile:
-          "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad-Mobile.webp",
+          "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
         altText:
           "Logotipo de Lux Nails Studio iluminado en dorado sobre pared oscura",
         description: "LETRAS DE ALUMINIO DORADAS 3D",
@@ -117,7 +117,7 @@ export default function Productos() {
         imgSrc:
           "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
         imgSrcMobile:
-          "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad-Mobile.webp",
+          "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
         altText:
           "Letrero neón de Wok's Cerveza Artesanal en colores verde y ámbar de noche",
         description: "LETRAS DE NEÓN EN TUBOS DE VIDRIO",

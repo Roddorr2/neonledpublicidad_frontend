@@ -5,16 +5,40 @@ export const metadata = {
   description:
     "Descubre nuestros Neones LED personalizados: diseños atractivos, alta visibilidad y bajo consumo. Ideales para negocios, eventos y decoración.",
   keywords: [
-    "neón LED Lima",
-    "letreros de neón LED Perú",
-    "carteles luminosos LED Lima",
-    "rótulos decorativos LED Lima",
-    "letreros para bares LED Lima",
-    "decoración con neón LED Perú",
-    "letreros neón LED personalizados Lima",
-    "carteles publicitarios LED Lima",
-    "letreros de fiesta LED Perú",
-    "rótulos de neón LED Lima",
+    // SHORT HEAD
+    "Decoraciones",
+    "Neonlights",
+    "Neonled",
+    "Led",
+    "Neon",
+    
+    // MID - TAIL
+    "Neon Led",
+    "Led decorativas",
+    "Diseño neón",
+    "Neón flexible",
+    "Tubos neón",
+
+    // LONG - TAIL
+    "Letras de neón LED",
+    "Letras neón LED personalizadas",
+    "Letras neón LED luminosas",
+    "Letras de neón LED para interiores",
+    "Letras de neón LED para negocios",
+    "Letras neón retro",
+    "Letras neón modernas",
+  
+
+    // "neón LED Lima",
+    // "letreros de neón LED Perú",
+    // "carteles luminosos LED Lima",
+    // "rótulos decorativos LED Lima",
+    // "letreros para bares LED Lima",
+    // "decoración con neón LED Perú",
+    // "letreros neón LED personalizados Lima",
+    // "carteles publicitarios LED Lima",
+    // "letreros de fiesta LED Perú",
+    // "rótulos de neón LED Lima",
   ],
   openGraph: {
     title: "Neón LED Personalizado",

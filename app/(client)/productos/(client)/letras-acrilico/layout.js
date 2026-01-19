@@ -7,16 +7,43 @@ export const metadata = {
   description:
     "Dale estilo a tu marca con letras de acrílico: resistentes, modernas y perfectas para destacar en interiores o exteriores.",
   keywords: [
-    "letras acrílicas Lima",
-    "letras 3D acrílicas Perú",
-    "letreros acrílicos para negocios Lima",
-    "letras acrílicas iluminadas Lima",
-    "letreros publicitarios acrílico Lima",
-    "letras corpóreas acrílicas Perú",
-    "rótulos acrílicos Lima",
-    "diseño de letras acrílicas Perú",
-    "letras acrílicas exteriores Lima",
-    "letreros personalizados acrílico Lima",
+    // SHORT HEAD
+    "Acrílicos",
+    "Personalizados",
+    "Letrero",
+    "Acrilico",
+    "Emprendimiento",
+    "Producto",
+
+    // MID TAIL
+    "Letras 3D",
+    "Letras Led",
+    "Marca personal",
+    "Letras acrilicas",
+    "Letras acrílicas publicitarias",
+    "Letras acrílicas con iluminación",
+    "Letras acrílicas para negocios",
+    "Letras acrílicas decorativas",
+    "Letras acrílicas para interiores",
+   
+    // LONG TAIL
+    "Letras acrílicas iluminadas",
+    "Letras acrílicas para decoración",
+    "Letras de acrílico vinyl",
+    "Letras acrílicas personalizadas",
+    "Letreros en acrílico",
+
+    
+    // "letras acrílicas Lima",
+    // "letras 3D acrílicas Perú",
+    // "letreros acrílicos para negocios Lima",
+    // "letras acrílicas iluminadas Lima",
+    // "letreros publicitarios acrílico Lima",
+    // "letras corpóreas acrílicas Perú",
+    // "rótulos acrílicos Lima",
+    // "diseño de letras acrílicas Perú",
+    // "letras acrílicas exteriores Lima",
+    // "letreros personalizados acrílico Lima",
   ],
   alternates: {
     canonical: "https://ledneonpublicidad.com/productos/letras-acrilico/",

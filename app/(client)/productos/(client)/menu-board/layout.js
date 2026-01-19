@@ -5,16 +5,43 @@ export const metadata = {
   description:
     "Los Menú Boards son pantallas o paneles visuales en establecimientos de comida que muestran productos, precios e imágenes. Su objetivo es que los clientes elijan fácilmente qué ordenar, ofreciendo toda la información de un vistazo. Pueden ser estáticos (impresos) o digitales, y son clave para una comunicación clara.",
   keywords: [
-    "menú boards digitales Lima",
-    "pantallas menú para restaurantes Perú",
-    "menú board LED Lima",
-    "tablero menú electrónico Lima",
-    "letreros digitales restaurantes Lima",
-    "menú digital interactivo Perú",
-    "carteles menú LED Lima",
-    "menú board personalizable Lima",
-    "pantallas menú bares Perú",
-    "menú publicitario digital Lima",
+    // SHORT HEAD
+    "menu boards",
+    "tablero menú",
+    "menu digital",
+    "menú led",
+    "display menú",
+    "menú restaurante",
+
+    // MID - TAIL
+    "Menu boards",
+    "Menú cartel",
+    "Menú ideas",
+    "Restaurante menú",
+    "Menu board led",
+    "Menú iluminado",
+    "Letreros menu",
+    "Menu digital",
+    "Cartelera digital",
+
+    // LONG - TAIL
+    "Menu boards personalizados",
+    "Restaurantes menú boards",
+    "Menú boards fast food",
+    "Menu board para restaurante",
+    "Digital menu board",
+    "Letreros menu board",
+
+    // "menú boards digitales Lima",
+    // "pantallas menú para restaurantes Perú",
+    // "menú board LED Lima",
+    // "tablero menú electrónico Lima",
+    // "letreros digitales restaurantes Lima",
+    // "menú digital interactivo Perú",
+    // "carteles menú LED Lima",
+    // "menú board personalizable Lima",
+    // "pantallas menú bares Perú",
+    // "menú publicitario digital Lima",
   ],
   alternates: {
     canonical: "https://ledneonpublicidad.com/productos/menu-board/",

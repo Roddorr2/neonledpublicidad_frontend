@@ -5,16 +5,44 @@ export const metadata = {
   description:
     "Letras en MDF pintadas a medida para negocios que quieren destacar su identidad visual sin gastar de más. Ideales para decorar paredes, stands y vitrinas. 👉 Resuelve el dolor de “mi local se ve simple o sin estilo” y responde al insight: “quiero algo personalizado, bonito y accesible que represente mi marca”.",
   keywords: [
-    "letras MDF personalizadas Lima",
-    "letreros MDF pintados Perú",
-    "decoración letras MDF Lima",
-    "letras 3D MDF Lima",
-    "rótulos MDF interiores Perú",
-    "letreros MDF para negocios Lima",
-    "letras MDF pintadas Lima",
-    "decoración comercial MDF Perú",
-    "letras MDF acrílicas Lima",
-    "diseño de letras MDF Lima",
+    // SHORT HEAD
+    "Letras MDF",
+    "Letras pintadas",
+    "Letrero",
+    "Decoración",
+    "Personalizadas",
+    "Diseño",
+
+    // MID - TAIL
+    "Letras MDF",
+    "Letras madera",
+    "Letreros MDF",
+    "Letras 3D",
+    "pintado 3d",
+    "Letras pintadas",
+
+    // LONG - TAIL
+    "letras pintadas en mdf",
+    "letras en mdf",
+    "Letras en mdf pintada",
+    "Letras mdf personalizadas",
+    "Letras MDF grandes",
+    "Letras mdf retroiluminadas",
+    "Letras decorativas peru",
+    "Letras MDF 3D",
+    "Letras pintadas en mdf",
+
+
+    // "letras MDF personalizadas Lima",
+    // "letreros MDF pintados Perú",
+    // "decoración letras MDF Lima",
+    // "letras 3D MDF Lima",
+    // "rótulos MDF interiores Perú",
+    // "letreros MDF para negocios Lima",
+    // "letras MDF pintadas Lima",
+    // "decoración comercial MDF Perú",
+    // "letras MDF acrílicas Lima",
+    // "diseño de letras MDF Lima",
   ],
   alternates: {
     canonical: "https://ledneonpublicidad.com/productos/letras-pintadas/",

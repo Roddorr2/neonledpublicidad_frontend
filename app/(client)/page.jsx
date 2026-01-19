@@ -75,7 +75,7 @@ export default function Home() {
       imgSrc:
         "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
       imgSrcMobile:
-        "/productosPrincipal/letras-acrilicas-lux-nails-neon-led-publicidad-mobile.webp",
+        "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
       altText:
         "Letras corporeas doradas con iluminación led elegante sobre un fondo oscuro",
       title: "Letras corporeas doradas con iluminación para estudios estéticos",
@@ -96,7 +96,7 @@ export default function Home() {
       imgSrc:
         "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
       imgSrcMobile:
-        "/productosPrincipal/letrero-works-licoreria-led-neo-led-publicidad-mobile.webp",
+        "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
       altText:
         "Letrero led verde con la palabra woks y cerveza artesanal en letras finas, diseñado para negocio de bebidas",
       title: "Letrero led en diversas tipografías para licorerías",
@@ -107,17 +107,17 @@ export default function Home() {
 
   const slidesData = [
     {
-      imgSrc: "/home/imagen_subway.webp",
+      imgSrc: "/home/imagen_subway_HD_final_2560x1532.png",
       imgSrcMobile: "/home/imagen_subway_mobile.webp",
-      imgSrcIcon: "/home/imagen_subway.webp",
+      imgSrcIcon: "/home/imagen_subway_HD_final_2560x1532.png",
       altText:
         "Letras grandes corpóreas doradas con iluminación y fondo blanco",
       title: "Letras corporeas doradas con iluminación",
     },
-    {
-      imgSrc: "/home/imagen_mario_dalmasi.webp",
-      imgSrcMobile: "/home/imagen_mario_dalmasi_mobile.webp",
-      imgSrcIcon: "/home/imagen_mario_dalmasi.webp",
+   {
+      imgSrc: "/home/imagen_mario_dalmasi_HD.png",
+      imgSrcMobile: "/home/imagen_mario_dalmasi_mobile_HD.png",
+      imgSrcIcon: "/home/imagen_mario_dalmasi_HD.png",
       altText: "Letras corporeas con gran iluminación de la marca Bembos",
       title: "Letras Bembos con iluminación led",
     },
@@ -129,10 +129,10 @@ export default function Home() {
         "Letrero led amarillo con la palabra tattoo y máquina de tatuar led roja en fachada de estudio de tatuaje",
       title: "Letrero led tattoo para estudio de tatuaje",
     },
-    {
-      imgSrc: "/home/imagen_deltaco.webp",
-      imgSrcMobile: "/home/imagen_deltaco_mobile.webp",
-      imgSrcIcon: "/home/imagen_deltaco.webp",
+     {
+      imgSrc: "/home/imagen_deltaco_final_2560x1532.png", 
+      imgSrcMobile: "/home/imagen_deltaco_mobile_2560x1532.png",
+      imgSrcIcon: "/home/imagen_deltaco_final_2560x1532.png",
       altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta",
       title: "Letrero luminoso de la marca Tambo Perú",
     },

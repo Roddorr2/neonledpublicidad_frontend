@@ -5,7 +5,7 @@ import React from "react";
 export const ImageGallery = () => {
   return (
     
-   <div className="relative mx-auto w-full max-w-3xl p-6 rounded-3xl overflow-hidden mb-4 min-h-[615px] flex flex-col justify-between">
+   <div className="relative mx-auto w-full max-w-3xl p-6 rounded-3xl overflow-hidden mt-9 min-h-[615px] flex flex-col justify-between">
 
      
       <div className="absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-r from-orange-500 via-blue-600 to-purple-700">
@@ -43,7 +43,7 @@ export const ImageGallery = () => {
   <img
     src="/blog/description/luces_neonled_ledneopublicidad.webp"
     alt="Luces neón LED"
-    className="w-full h-auto min-h-[350px] rounded-2xl shadow-xl object-cover"
+    className="w-full h-auto min-h-[360px] rounded-2xl shadow-xl object-cover"
   />
 </div>
 

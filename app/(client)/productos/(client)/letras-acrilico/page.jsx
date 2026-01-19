@@ -56,7 +56,7 @@ export default function Home() {
       <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE\nACRÍLICO`}
-        imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad.webp"
+        imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad_mejorada.png"
         alt="Letras corporeas rojas con la marca Kawasaki acompañado por debajo con un eslogan de letras pequeñas en color blanco."
       />
       <Section2 idProducto={idProducto} />

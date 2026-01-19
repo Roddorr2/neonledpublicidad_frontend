@@ -5,16 +5,55 @@ export const metadata = {
   description:
     "Las pantallas LED son una muy buena herramienta visual para mostrar diseños, destacar con dinamismo y transmitir videos, promociones y mensajes en alta resolución, captando la atención del público de forma inmediata.",
   keywords: [
-    "pantallas LED Lima",
-    "pantallas gigantes Perú",
-    "alquiler pantallas LED Lima",
-    "pantallas publicitarias LED Lima",
-    "pantallas LED exteriores Perú",
-    "pantallas LED para eventos Lima",
-    "pantallas LED de alta definición Lima",
-    "displays LED publicitarios Perú",
-    "pantallas LED interactivas Lima",
-    "pantallas LED para ferias Lima",
+    // SHORT HEAD
+    "Pantallas LED",
+    "Display",
+    "Pantalla digital",
+    "Publicidad",
+    "Anuncios",
+    "Tecnología",
+
+    // MID - TAIL
+    "Pantallas led",
+    "Led panel",
+    "Pantallas LED Negocios",
+    "Pantallas Publicitarias",
+    "Publicidad exterior",
+    "Pantallas digitales",
+
+    // LONG - TAIL
+    "Pantallas led para eventos",
+    "Pantallas led para publicidad",
+    "Pantallas led a medida",
+    "Pantallas led para bodas",
+    "Comprar pantallas led",
+    "Totem digital publicitario",
+    "Pantallas led para centros comerciales",
+    "Pantallas para tiendas retail",
+    "Pantallas LED Lima",
+
+    //LONG - TAIL
+    "Pantallas led para eventos",
+    "Pantallas led para publicidad",
+    "Pantallas led a medida",
+    "Pantallas led para bodas",
+    "Comprar pantallas led",
+    "Totem digital publicitario",
+    "Pantallas led para centros comerciales",
+    "Pantallas para tiendas retail",
+    "Pantallas LED Lima",
+
+   
+    // "pantallas LED Lima",
+    // "pantallas gigantes Perú",
+    // "alquiler pantallas LED Lima",
+    // "pantallas publicitarias LED Lima",
+    // "pantallas LED exteriores Perú",
+    // "pantallas LED para eventos Lima",
+    // "pantallas LED de alta definición Lima",
+    // "displays LED publicitarios Perú",
+    // "pantallas LED interactivas Lima",
+    // "pantallas LED para ferias Lima",
   ],
   openGraph: {
     title: "Pantallas LED Perú",

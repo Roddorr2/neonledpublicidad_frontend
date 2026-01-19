@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 const Slider2 = ({ slides }) => {
   const sliderRef = useRef(null);
 
+
   useEffect(() => {
     const slider = sliderRef.current;
     const slideWidth = slider.children[0].offsetWidth; 
@@ -16,7 +17,7 @@ const Slider2 = ({ slides }) => {
       
 
       
-      slider.style.transition = 'transform 5s ease-in-out'; 
+      slider.style.transition = 'transform 2.5s ease-in-out'; 
       slider.style.transform = `translateX(-${slideWidth}px)`;
       
 
@@ -29,7 +30,7 @@ const Slider2 = ({ slides }) => {
 
 
 
-    const interval = setInterval(moveSlider, 3000);
+    const interval = setInterval(moveSlider, 1000);
     
 
     return () => clearInterval(interval); 
@@ -60,6 +61,15 @@ const Slider2 = ({ slides }) => {
       </div>
       </div>
     </div>
+    <style jsx>{`
+        @keyframes infinite-scroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-33.33%); }
+        }
+        .animate-infinite-scroll {
+          animation: infinite-scroll 20s linear infinite;
+        }
+      `}</style>
     </div>
   );
 };
