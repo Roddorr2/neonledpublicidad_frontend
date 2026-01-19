@@ -150,7 +150,7 @@ export default function Productos() {
   //         const newState = [...prevState];
   //         newState[index] = true;
   //         return newState;
-  //       });
+  //       }); 
   //       observer.unobserve(entry.target);
   //     }
   //   });

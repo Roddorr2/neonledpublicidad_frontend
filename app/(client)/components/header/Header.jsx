@@ -431,7 +431,7 @@ export default function Header() {
            text={"Todos los productos"}
           link={"/productos"}
           isInicio={true}
-          final={false}
+          final={false} 
            closeMenu={() => {
                setMenuActive(false); 
                setContainerFullHeight(false);
