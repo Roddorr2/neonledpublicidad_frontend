@@ -75,7 +75,7 @@ export default function Home() {
       imgSrc:
         "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
       imgSrcMobile:
-        "/productosPrincipal/letras-acrilicas-lux-nails-neon-led-publicidad-mobile.webp",
+        "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
       altText:
         "Letras corporeas doradas con iluminación led elegante sobre un fondo oscuro",
       title: "Letras corporeas doradas con iluminación para estudios estéticos",
@@ -96,7 +96,7 @@ export default function Home() {
       imgSrc:
         "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
       imgSrcMobile:
-        "/productosPrincipal/letrero-works-licoreria-led-neo-led-publicidad-mobile.webp",
+        "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
       altText:
         "Letrero led verde con la palabra woks y cerveza artesanal en letras finas, diseñado para negocio de bebidas",
       title: "Letrero led en diversas tipografías para licorerías",
