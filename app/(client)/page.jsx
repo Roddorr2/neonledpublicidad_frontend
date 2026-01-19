@@ -108,7 +108,7 @@ export default function Home() {
   const slidesData = [
     {
       imgSrc: "/home/imagen_subway_HD_final_2560x1532.png",
-      imgSrcMobile: "/home/imagen_subway_mobile_final_2560x1532.png",
+      imgSrcMobile: "/home/imagen_subway_mobile.webp",
       imgSrcIcon: "/home/imagen_subway_HD_final_2560x1532.png",
       altText:
         "Letras grandes corpóreas doradas con iluminación y fondo blanco",
