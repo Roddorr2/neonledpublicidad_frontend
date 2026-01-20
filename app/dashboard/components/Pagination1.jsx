@@ -3,10 +3,14 @@
 import React from 'react'
 import { useRouter } from "next/navigation"
 
-export default function Pagination1({filteredData,currentPage, totalPages}) {
+export default function Pagination1({filteredData,currentPage, totalPages,itemsPerPage}) {
 
     const router = useRouter()
     
+
+    const start = (Number(currentPage) - 1) * itemsPerPage;
+    const end = Math.min(start + itemsPerPage, filteredData.length);
+    const showing = end - start;
     return (
     <>
     {filteredData.length > 0 && (
@@ -32,7 +36,7 @@ export default function Pagination1({filteredData,currentPage, totalPages}) {
         </div>
         
         <p className="text-sm text-gray-500 mt-2 text-center">
-            Mostrando {Math.min(4, filteredData.slice((currentPage - 1) * 4, currentPage * 4).length)} de {filteredData.length} contactos
+                        Mostrando {showing} de {filteredData.length} contactos
         </p>
         </div>
     )}
