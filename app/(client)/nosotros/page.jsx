@@ -20,79 +20,35 @@ const aboutCardsData = [
 ];
 
 const Nosotros = () => {
-  const handleArrowClick = () => {
-    document.getElementById("nosotros-contenido")?.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
-
   return (
-    <section id="nosotros" className="relative overflow-hidden">
-      {/* =========================
-          FILA 1: IMAGEN (solo imagen)
-      ========================== */}
+    <section id="nosotros" className="relative text-white overflow-hidden">
       <div
-        className="relative h-[45vh] sm:h-[50vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden"
+        className="relative flex items-center justify-center text-center py-32 md:py-40"
         style={{
-          backgroundImage: "url('/nosotros/fondo-nosotros-mejorado-hd.webp')",
+          backgroundImage: "url('/nosotros/fondo-nosotros.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-black/15" />
-      </div>
+        <div className="absolute inset-0 bg-black/60"></div>
 
-      {/* =========================
-          FILA 2: FRANJA (texto + flecha)
-      ========================== */}
-      <div className="bg-gradient-to-b from-[#0b0b3a] to-[#1f1d77] text-white">
-        <div className="max-w-6xl mx-auto px-6 py-10 md:py-12 text-center">
-          <p className="text-xs md:text-sm tracking-widest font-semibold opacity-90">
-            CONOCE MÁS SOBRE
-          </p>
-
-          <h1 className="mt-2 text-lg sm:text-2xl md:text-3xl font-extrabold uppercase">
+        <div className="relative z-10 max-w-3xl mx-auto px-6">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 text-white">Conoce más sobre</h1>
+          <h2 className="text-base md:text-xl mb-2">
             NOSOTROS
-          </h1>
-
-          <p className="max-w-2xl mx-auto mt-4 text-sm md:text-base leading-relaxed opacity-90">
-            Somos Neon Led Publicidad, una empresa dedicada a la fabricación y venta de diseños 
-            personalizados de letreros que transforman cualquier espacio en un reflejo único de 
-            estilo y personalidad.
-          </p>
-          <button
-            type="button"
-            onClick={handleArrowClick}
-            aria-label="Bajar"
-            className="mt-6 inline-flex items-center justify-center w-12 h-12 rounded-full bg-sky-500/90 hover:bg-sky-500 transition"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 5v12m0 0l-6-6m6 6l6-6"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* =========================
-          CONTENIDO (lo que estaba debajo)
-      ========================== */}
-      <div id="nosotros-contenido" className="relative py-24 text-white">
-        <SectionBackground />
-
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-6">
-          {/* Texto descriptivo (opcional, si lo quieres conservar) */}
-          <p className="text-sm md:text-base text-gray-200 leading-relaxed max-w-3xl mx-auto text-center mb-12">
+          </h2>
+          <p className="text-sm md:text-base text-gray-200 leading-relaxed">
             Somos Neon Led Publicidad, una empresa dedicada a la fabricación y
             venta de diseños personalizados de letreros que transforman cualquier
             espacio en un reflejo único de estilo y personalidad.
           </p>
+        </div>
+      </div>
+      <div className="relative py-24">
+        {/* Fondo con textura */}
+        <SectionBackground />
 
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {aboutCardsData.map((card, index) => (
               <div

@@ -11,9 +11,17 @@ export const SliderContent = () => {
 
         <div className="pl-8 sm:pl-10">
           {/* Subtítulo */}
+
           <h1 className="text-lg sm:text-3xl font-medium tracking-wide mb-1 sm:mb-2">
-            Letreros para tu negocio
-          </h1>
+            {/* Letreros para tu negocio */}
+            Letreros luminosos LED y Neón en Lima | 
+            <a href="https://wa.me/+51994078320?text=Hola,%20quisiera%20más%20información%20de%20sus%20productos" target="_blank"
+               rel="noopener noreferrer"
+               className=" underline underline-offset-4 hover:text-blue-600 font-semibold transition-colors">
+                 Cotiza hoy
+            </a>
+           
+          </h1> 
 
           {/* Contenedor para el título con ancho ajustado */}
           <div className="inline-block">

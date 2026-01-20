@@ -145,6 +145,7 @@ export default function Header() {
             `}
             >
               {!isSmallScreen && (
+                <a href="/">
                 <img
                   src={logoSrc}
                   alt="Logotipo de Neon Led Publicidad"
@@ -158,14 +159,17 @@ export default function Header() {
                   } 
                 `}
                 />
+                </a>
               )}
 
               {isSmallScreen && (
+                <a href="/">
                 <img
                   src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
                   alt="Logotipo móvil Neon Led Publicidad"
-                  className="w-36 h-auto"
+                  className="w-36 h-auto cursor-pointer"
                 />
+                </a>
               )}
             </div>
           ) : (
@@ -417,16 +421,30 @@ export default function Header() {
                 }}
               />
             </>
+            
           )}
           {currentMenu === "productos" && (
             <>
+
+
+          <DropdownLink
+           text={"Todos los productos"}
+          link={"/productos"}
+          isInicio={true}
+          final={false} 
+           closeMenu={() => {
+               setMenuActive(false); 
+               setContainerFullHeight(false);
+               setCurrentMenu("main");
+          }}
+           />
               <DropdownLink
                 text={"Letras de acrílico"}
                 link={"/productos/letras-acrilico"}
-                isInicio={true}
+                isInicio={false}
                 final={false}
                 closeMenu={() => {
-                  setMenuActive(false);
+                  setMenuActive(false); 
                   setContainerFullHeight(false);
                   setCurrentMenu("main");
                 }}
