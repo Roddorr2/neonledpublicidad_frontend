@@ -1,19 +1,19 @@
-"use client";
-import { useState, useEffect, Suspense } from "react";
-import Link from "next/link";
-import fetch from "../../services/fetch";
-import { Loader2, BookOpen, AlertCircle } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import axios from "axios";
+'use client';
+import { useState, useEffect, Suspense } from 'react';
+import Link from 'next/link';
+import fetch from '../../services/fetch';
+import { Loader2, BookOpen, AlertCircle } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import axios from 'axios';
 
 const ITEMS_PER_PAGE = 6;
 
 const normalizeText = (text) => {
   return text
     .toLowerCase()
-    .replace(/[^a-zA-Z0-9\s]/g, "")
+    .replace(/[^a-zA-Z0-9\s]/g, '')
     .trim();
 };
 
@@ -35,7 +35,7 @@ const Blogs = () => {
   const [data, setDataResponse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,15 +49,15 @@ const Blogs = () => {
       console.log(JSON.stringify(response));
       if (axios.isAxiosError(response) || response instanceof Error) {
         setError(
-          "Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente."
+          'Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente.',
         );
       } else {
         setDataResponse(response);
       }
     } catch (error) {
-      console.error("Error fetching blogs:", error);
+      console.error('Error fetching blogs:', error);
       setError(
-        "Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente."
+        'Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente.',
       );
     } finally {
       setIsLoading(false);
@@ -86,22 +86,31 @@ const Blogs = () => {
     setCurrentPage(page);
   };
 
-  const handleSearch = () => {
-    // Usar la misma lógica del código que funciona
-    const normalizedSearchTerm = normalizeText(searchTerm);
-    const filtered = data.filter(
-      (card) =>
-        normalizeText(card.titulo).includes(normalizedSearchTerm) ||
-        normalizeText(card.descripcion).includes(normalizedSearchTerm)
-    );
-    setFilteredData(filtered);
-    setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
-    setCurrentPage(1);
-  };
+  // Live search - se ejecuta cuando cambia searchTerm
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      // Si el campo está vacío, mostrar todos los datos
+      setFilteredData(data);
+      setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
+    } else {
+      // Filtrar en tiempo real
+      const normalizedSearchTerm = normalizeText(searchTerm);
+      const filtered = data.filter(
+        (card) =>
+          normalizeText(card.titulo).includes(normalizedSearchTerm) ||
+          normalizeText(card.descripcion).includes(normalizedSearchTerm),
+      );
+      setFilteredData(filtered);
+      setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
+    }
+    setCurrentPage(1); // Volver a la primera página cuando se busca
+  }, [searchTerm, data]);
 
   const BlogCard = ({ dato }) => (
-    <Card className="relative w-10/12 mx-auto overflow-hidden border-0 shadow-2xl rounded-2xl 
-      bg-transparent  group hover:scale-105 transition-all duration-500 h-[280px]">
+    <Card
+      className="relative w-10/12 mx-auto overflow-hidden border-0 shadow-2xl rounded-2xl 
+      bg-transparent  group hover:scale-105 transition-all duration-500 h-[280px]"
+    >
       <div className="absolute inset-0 w-full h-full">
         <img
           src={`${dato.public_image}?v=${Date.now()}`}
@@ -120,9 +129,7 @@ const Blogs = () => {
         </div>
 
         <div>
-          <Link
-            href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`}
-          >
+          <Link href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`}>
             <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/50">
               SABER MÁS
             </Button>
@@ -186,21 +193,21 @@ const Blogs = () => {
   }
 
   const blogSchema = {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    url: "https://ledneonpublicidad.com/blog/",
-    name: "Blog de LedNeonPublicidad",
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    url: 'https://ledneonpublicidad.com/blog/',
+    name: 'Blog de LedNeonPublicidad',
     description:
-      "Inspira tu marca con ideas creativas en diseño publicitario. Ilumina tus espacios, rompe lo convencional y marca tendencia con soluciones visuales.",
+      'Inspira tu marca con ideas creativas en diseño publicitario. Ilumina tus espacios, rompe lo convencional y marca tendencia con soluciones visuales.',
     blogPost: data.map((blog) => ({
-      "@type": "BlogPosting",
+      '@type': 'BlogPosting',
       name: blog.titulo,
       url: `https://ledneonpublicidad.com/blog/plantilla/${blog.id_plantilla}?blog=${blog.blog.link}`,
       image: `https://ledneonpublicidad.com/${blog.url_image}`,
       datePublished: blog.blog.fecha,
       author: {
-        "@type": "Organization",
-        name: "LedNeonPublicidad",
+        '@type': 'Organization',
+        name: 'LedNeonPublicidad',
       },
     })),
   };
@@ -218,14 +225,27 @@ const Blogs = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-white transition-colors"
+                  aria-label="Limpiar búsqueda"
+                >
+                  ✕
+                </button>
+              )}
             </div>
-            <button
-              onClick={handleSearch}
-              className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-lg"
-            >
-              BUSCAR
-            </button>
           </div>
+
+          {/* Mostrar resultados o mensaje */}
+          {filteredData.length === 0 && searchTerm ? (
+            <div className="flex flex-col items-center justify-center min-h-[40vh] space-y-4 text-center">
+              <BookOpen className="h-12 w-12 text-gray-400" />
+              <p className="text-lg text-gray-300">
+                No se encontraron blogs para "{searchTerm}"
+              </p>
+            </div>
+          ) : null}
 
           {/* Grid de tarjetas */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
@@ -242,11 +262,11 @@ const Blogs = () => {
                 disabled={currentPage <= 1}
                 className={`p-3 rounded-full transition-all duration-300 ${
                   currentPage <= 1
-                    ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                    : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
+                    ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-700 hover:scale-110'
                 }`}
               >
-                <span className="text-xl font-bold">{"<"}</span>
+                <span className="text-xl font-bold">{'<'}</span>
               </button>
 
               <div className="flex space-x-2">
@@ -257,13 +277,13 @@ const Blogs = () => {
                       onClick={() => handlePageChange(page)}
                       className={`w-12 h-12 rounded-full font-semibold text-lg transition-all duration-300 ${
                         currentPage === page
-                          ? "bg-blue-600 text-white scale-110 shadow-lg"
-                          : "bg-slate-700 text-gray-300 hover:bg-slate-600 hover:scale-105"
+                          ? 'bg-blue-600 text-white scale-110 shadow-lg'
+                          : 'bg-slate-700 text-gray-300 hover:bg-slate-600 hover:scale-105'
                       }`}
                     >
                       {page}
                     </button>
-                  )
+                  ),
                 )}
               </div>
 
@@ -272,11 +292,11 @@ const Blogs = () => {
                 disabled={currentPage >= totalPages}
                 className={`p-3 rounded-full transition-all duration-300 ${
                   currentPage >= totalPages
-                    ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                    : "bg-blue-600 text-white hover:bg-blue-700 hover:scale-110"
+                    ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-700 hover:scale-110'
                 }`}
               >
-                <span className="text-xl font-bold">{">"}</span>
+                <span className="text-xl font-bold">{'>'}</span>
               </button>
             </div>
           )}
