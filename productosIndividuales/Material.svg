@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 42.5 42.5">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 3px;
+      }
+
+      .cls-3 {
+        fill: #007bf9;
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+    <symbol id="Nuevo_símbolo" data-name="Nuevo símbolo" viewBox="0 0 103.41 103.41">
+      <g>
+        <circle class="cls-3" cx="51.7" cy="51.7" r="51.7"/>
+        <g>
+          <path class="cls-2" d="M71.15,39.88l7.44,3.95c.66.35.66,1.3,0,1.66l-26.44,14.05c-.28.15-.61.15-.88,0l-26.44-14.05c-.66-.35-.66-1.3,0-1.66l26.44-14.05c.28-.15.61-.15.88,0l8.3,4.41"/>
+          <line class="cls-2" x1="66.23" y1="37.27" x2="66.36" y2="37.33"/>
+          <path class="cls-1" d="M66.88,51.7l11.7,6.22c.66.35.66,1.3,0,1.66l-26.44,14.05c-.28.15-.61.15-.88,0l-26.44-14.05c-.66-.35-.66-1.3,0-1.66l12.17-6.47"/>
+          <line class="cls-1" x1="30.25" y1="62.46" x2="43.74" y2="55.54"/>
+          <line class="cls-1" x1="37.28" y1="66.12" x2="50.2" y2="59.38"/>
+          <line class="cls-1" x1="44.89" y1="70.22" x2="72.91" y2="54.91"/>
+        </g>
+      </g>
+    </symbol>
+  </defs>
+  <use width="103.41" height="103.41" transform="translate(1.25 1.25) scale(.39)" xlink:href="#Nuevo_símbolo"/>
+</svg>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 42.5 42.5">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 4px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #fff;
+      }
+
+      .cls-1, .cls-3 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4 {
+        fill: #007bf9;
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        stroke-linejoin: round;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-linecap: round;
+        stroke-width: 3px;
+      }
+    </style>
+    <symbol id="Nuevo_símbolo_2" data-name="Nuevo símbolo 2" viewBox="0 0 103.41 103.41">
+      <g>
+        <circle class="cls-4" cx="51.7" cy="51.7" r="51.7"/>
+        <g>
+          <g>
+            <path class="cls-2" d="M33.3,43.51v-12.26c0-1.29,1.04-2.33,2.33-2.33h3.19c1.29,0,2.33,1.04,2.33,2.33v31.78c0,1.29-1.04,2.33-2.33,2.33h-3.19c-1.29,0-2.33-1.04-2.33-2.33v-10.7"/>
+            <line class="cls-2" x1="33.3" y1="47.92" x2="33.3" y2="47.92"/>
+            <path class="cls-3" d="M36.54,72.05l-2.42-6.69h6.19l-2.42,6.69c-.23.62-1.11.62-1.34,0Z"/>
+            <line class="cls-1" x1="33.21" y1="36.72" x2="41.25" y2="36.72"/>
+          </g>
+          <g>
+            <path class="cls-2" d="M47.53,62.48s.74,0,0,0"/>
+            <path class="cls-2" d="M47.03,42.41c5.58,0,10.23,4.53,10.11,10.11-.03,1.44,0,6.1-5.41,8.62"/>
+            <path class="cls-2" d="M45.83,28.92h6.26s-.7,4.16,2.11,5.56,6.52-1.26,6.52-1.26l5.56,5.26s-2.74,2.89-1.63,6.15,5.56,3.29,5.56,3.29v7.97s-3.48-1.04-5.41,3.04,1.33,6,1.33,6l-5.41,5.48s-2.59-3.53-6.07-1.47-2.56,5.54-2.56,5.54h-6.26"/>
+          </g>
+        </g>
+      </g>
+    </symbol>
+  </defs>
+  <use width="103.41" height="103.41" transform="translate(1.25 1.25) scale(.39)" xlink:href="#Nuevo_símbolo_2"/>
+</svg>
