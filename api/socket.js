@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
+import { getCookie } from 'cookies-next';
 
-export const useWhatsAppSocket = (token) => {
+export const useWhatsAppSocket = (tokenArg) => {
   const [data, setData] = useState({
     isConnected: false,
     qrData: null,
@@ -9,6 +10,8 @@ export const useWhatsAppSocket = (token) => {
   });
 
   useEffect(() => {
+    // Obtener el token desde cookie/localStorage si no se pasa como argumento
+    const token = tokenArg || getCookie('token') || (typeof window !== 'undefined' ? localStorage.getItem('token') : null);
     if (!token) return;
 
     const socketUrl =
@@ -43,7 +46,7 @@ export const useWhatsAppSocket = (token) => {
     );
 
     return () => socket.disconnect();
-  }, [token]);
+  }, [tokenArg]);
 
   return data;
 };

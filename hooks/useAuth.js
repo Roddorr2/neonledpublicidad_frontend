@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { AUTH_CONFIG } from '@/config/auth.config.js';
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV || 'http://localhost:5111';
+  process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV ;
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
