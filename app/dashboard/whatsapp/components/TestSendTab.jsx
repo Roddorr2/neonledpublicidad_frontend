@@ -146,7 +146,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
   return (
     <section className="space-y-6">
       <Card>
-        <CardTitle>Prueba</CardTitle>
+        <CardTitle>Personaliza tu campaña masiva </CardTitle>
 
         <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -155,8 +155,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                 Activar campaña (real)
               </p>
               <p className="text-xs text-slate-500">
-                Este tab llama al backend y crea la campaña (Cloudinary + Job
-                Queue).
+                Selecciona el servicio, redacta un mensaje potente y acompáñalo con un flyer creativo que impacte.
               </p>
             </div>
 

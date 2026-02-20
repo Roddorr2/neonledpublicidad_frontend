@@ -9,6 +9,7 @@ import { useWhatsAppSocket } from '@/api/socket';
 import { QrDisplay } from './components/QrDisplay';
 import Swal from 'sweetalert2';
 import { TestSendTab } from './components/TestSendTab';
+import servicesList from './data/servicesList';
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState('conexion');
@@ -18,15 +19,8 @@ export default function WhatsAppPage() {
   // Token cliente (para socket)
   const [clientToken, setClientToken] = useState(null);
 
-  const services = useMemo(
-    () => [
-      { id: 'p1', name: 'Diseño y Desarrollo Web' },
-      { id: 'p2', name: 'Gestión de Redes Sociales' },
-      { id: 'p3', name: 'Marketing y Gestión Digital' },
-      { id: 'p4', name: 'Branding y Diseño' },
-    ],
-    [],
-  );
+  // Services (id + name) kept locally for the WhatsApp campaign select
+  const services = useMemo(() => servicesList, []);
 
   // Socket WhatsApp
   const {
@@ -112,7 +106,7 @@ export default function WhatsAppPage() {
                 <TabButton
                   active={tab === 'prueba'}
                   onClick={() => setTab('prueba')}
-                  label="Prueba"
+                  label="Campaña"
                 />
               </div>
             </div>
