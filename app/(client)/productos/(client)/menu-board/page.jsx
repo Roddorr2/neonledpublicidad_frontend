@@ -36,14 +36,14 @@ export default function Home() {
       alt: "Pantallas digitales de menú con desayuno, hamburguesas y acompañamientos en restaurante de comida rápida",
     },
   ];
-  const idProducto = 8;
+  const idProducto = 7;
 
   const modales = {
     modalA: {
       text: cards[0].title,
       fondo: "/pop_ups/MenuBoar.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "8",
+      serviceName: "7",
       width: 256,
       height: 144,
     },

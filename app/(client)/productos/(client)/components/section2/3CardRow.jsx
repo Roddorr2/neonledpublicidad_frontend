@@ -17,6 +17,7 @@ const prodInfo = [
   { id: 12, description1: "Paneles de acrílico y metal", description2: "Interior y exterior", description3: "Colores Variados" },
   { id: 13, description1: "Polietileno o aluminio", description2: "Interior y exterior", description3: "Colores variados" },
   { id: 14, description1: "Tubos de vidrio", description2: "Interior y exterior", description3: "Colores variados" },
+  { id: 15, description1: "Tubos de vidrio", description2: "Interior y exterior", description3: "Un hilo y doble hilo" },
 ];
 
 export default function ThreeCardRow({ idProducto }) {
