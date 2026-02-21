@@ -60,15 +60,6 @@ const productosInfo = [
   },
   {
     id: 5,
-    title: "LETRAS DE NEÓN EN TUBOS DE VIDRIO",
-    description:
-      "Tubos de vidrio se adaptan cualquier forma, creando letras de neón que se pueden personalizar según las preferencias del cliente. Además estos letreros neón pueden ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.",
-    image: "letras_neon_de_vidrio_ledneonpublicidad.webp",
-    alt: "laptop con fondo de pantalla de letras neón en tubo de vidrio",
-  },
-
-  {
-    id: 6,
     title: "LETRAS DE NEÓN LED",
     description:
       "Tubos con led se adaptan cualquier forma, creando {{letras de neón}} que se pueden personalizar según las preferencias del cliente. Además estos letreros neón pueden ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.",
@@ -82,7 +73,7 @@ const productosInfo = [
     },
   },
   {
-    id: 7,
+    id: 6,
     title: "IMPRESIÓN EN VINILO",
     description:
       "Vinilos para pared es la solución perfecta para llevar tu mensaje, diseño o logotipo a cualquier superficie de forma creativa y resistente. Gracias a su versatilidad, {{vinilos decorativos}} permiten lograr acabados exactos y detallados que se adaptan a cualquier estilo.",
@@ -96,7 +87,7 @@ const productosInfo = [
     },
   },
   {
-    id: 8,
+    id: 7,
     title: "MENÚ BOARDS",
     description:
       "Los letreros de menú en alta definición, con diseños coloridos y contenidos variados, atraen fácilmente la atención del público. Estos {{menú boards personalizados}} no solo destacan los productos, sino que, al estar fabricados con materiales resistentes, ofrecen gran durabilidad frente al uso constante y a las condiciones adversas.",
@@ -111,7 +102,7 @@ const productosInfo = [
     },
   },
   {
-    id: 9,
+    id: 8,
     title: "LETRAS PINTADAS EN MDF",
     description:
       "Letras en MDF ofrecen una solución ideal para decoración y señalización gracias a su alta personalización, permitiendo elegir formas, tamaños y colores. Con acabados premium, estas letras MDF personalizadas logran una apariencia impecable y elegante, destacando en cualquier entorno el pintado 3D.",
@@ -119,7 +110,7 @@ const productosInfo = [
     alt: "Letrero pintado en MDF con diseño de camión y texto Burnout en color amarillo sobre muro gris",
   },
   {
-    id: 10,
+    id: 9,
     title: "MONITORES DE PUBLICIDAD DIGITAL",
     description:
       "Publicidad digital ofrece una tecnología innovadora que no solo transforma la forma en que presentas tu mensaje, sino que también contribuye a un impacto ambiental positivo. Monitores táctiles son más eficientes que las opciones tradicionales.",
@@ -127,7 +118,7 @@ const productosInfo = [
     alt: "Monitores de publicidad digital interactivos para autoservicio en restaurante de comida rápida",
   },
   {
-    id: 11,
+    id: 10,
     title: "PANTALLAS LED",
     description:
       "{{Pantallas led para publicidad}} incluye opciones personalizadas como Pantallas LED a medida, perfectas para campañas publicitarias. Lo que genera que sean una herramienta efectiva para captar la atención y transmitir mensajes de manera clara y atractiva. Siendo ideales para convertirse en una opción más sostenible y económica a largo plazo.",
@@ -141,7 +132,7 @@ const productosInfo = [
     },
   },
   {
-    id: 12,
+    id: 11,
     title: "HOLOGRÁFICOS",
     description:
       "Nuestra venta de ventilador holográfico incluye modelos de última generación, ideales para publicidad, entretenimiento y educación. Generando que nuestros proyectores 3D holográfico sean dispositivos innovadores que proyectan imágenes tridimensionales en el aire, creando un efecto visual de holograma 3D.",
@@ -149,7 +140,7 @@ const productosInfo = [
     alt: "Proyector holográfico 3D mostrando una medusa flotando sobre escritorio moderno",
   },
   {
-    id: 13,
+    id: 12,
     title: "LED PIXEL",
     description:
       "{{Pixel LED}} ofrecen una combinación de tecnología innovadora y personalización, ideales para eventos de entretenimiento o parques temáticos. Led túnel y su diseño hexagonal permite jugar con una amplia gama de colores LED RGB.",
@@ -163,7 +154,7 @@ const productosInfo = [
     },
   },
   {
-    id: 14,
+    id: 13,
     title: "SILLAS LUMINOSAS",
     description:
       "Sillas led son una opción innovadora para quienes buscan un mobiliario LED que combine estética y funcionalidad. Estas {{sillas con luces LED}} ofrecen una experiencia visual única.",
@@ -177,7 +168,7 @@ const productosInfo = [
     },
   },
   {
-    id: 15,
+    id: 14,
     title: "TECHOS LED",
     description:
       "Techos con LED son una solución avanzada de iluminación LED, integrando tecnología de última generación para ofrecer luces led en techo eficiente y de alta calidad. Estos {{techos decorados con led}} no solo mejoran la estética de los espacios, sino que también garantizan iluminación eficiente.",
@@ -189,6 +180,14 @@ const productosInfo = [
         url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=techos-led-para-gimnasios",
       },
     },
+  },
+  {
+    id: 15,
+    title: "LETRAS DE NEÓN EN TUBOS DE VIDRIO",
+    description:
+      "Tubos de vidrio se adaptan cualquier forma, creando letras de neón que se pueden personalizar según las preferencias del cliente. Además estos letreros neón pueden ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.",
+    image: "letras_neon_de_vidrio_ledneonpublicidad.webp",
+    alt: "laptop con fondo de pantalla de letras neón en tubo de vidrio",
   },
 ];
 
