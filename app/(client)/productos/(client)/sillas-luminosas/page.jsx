@@ -35,13 +35,13 @@ export default function Home() {
       alt: "Sofás y mesas LED luminosas en discoteca con ambiente moderno",
     },
   ];
-  const idProducto = 14;
+  const idProducto = 13;
   const modales = {
     modalA: {
       text: cards[0].title,
       fondo: "/pop_ups/sillasLuminosas.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "14",
+      serviceName: "13",
       width: 256,
       height: 144,
     },

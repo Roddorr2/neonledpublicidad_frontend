@@ -34,13 +34,13 @@ export default function Home() {
       alt: "Letras pintadas en MDF retroiluminadas del letrero Marks & Spencer en tienda comercial",
     },
   ];
-  const idProducto = 9;
+  const idProducto = 8;
   const modales = {
     modalA: {
       text: cards[0].title,
       fondo: "/pop_ups/LetrasMDF.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "9",
+      serviceName: "8",
       width: 256,
       height: 144,
     },
