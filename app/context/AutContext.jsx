@@ -83,9 +83,10 @@ export const AuthProvider = ({ children }) => {
 
       return { success: true };
     } catch (error) {
+      console.error("Error en login desde AuthContext:", error);
       return {
         success: false,
-        message: error.message || "Usuario o contraseña incorrectos.",
+        error: error.message || "Usuario o contraseña incorrectos.",
       };
     }
   };

@@ -75,6 +75,14 @@ const auth_service = {
         body: JSON.stringify(form),
       });
 
+      // Verificar que la respuesta sea JSON antes de parsear
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("Respuesta no es JSON:", text);
+        throw new Error("El servidor devolvió una respuesta inválida. Verifica que el backend esté corriendo en el puerto correcto.");
+      }
+
       const data = await response.json();
 
       if (!response.ok) {
