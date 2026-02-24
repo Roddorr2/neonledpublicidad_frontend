@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build-prod": "set NODE_ENV=production && next build",
+    "clean-build": "(if exist .next rmdir /s /q .next) && npm run build",
+    "clean-build-prod": "(if exist .next rmdir /s /q .next) && npm run build-prod",
     "start": "next start",
     "lint": "next lint"
   },

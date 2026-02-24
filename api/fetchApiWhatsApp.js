@@ -1,11 +1,16 @@
 import { getCookie } from 'cookies-next';
 
 // ✅ Laravel (campañas, BD, etc.)
-const API_URL = process.env.NEXT_PUBLIC_API_URL_DEV;
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? process.env.NEXT_PUBLIC_API_URL_PROD
+    : process.env.NEXT_PUBLIC_API_URL_DEV;
 
 // ✅ WhatsApp-service (Node + Baileys)
 const WS_URL =
-  process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV ;
+  process.env.NODE_ENV === "production"
+    ? process.env.NEXT_PUBLIC_API_URL_WHATSAPP_PROD
+    : process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV;
 
 /**
  * ✅ Request hacia Laravel
