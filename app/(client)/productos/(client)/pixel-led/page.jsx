@@ -35,13 +35,13 @@ export default function Home() {
       alt: "Club nocturno con techo de tiras pixel LED verdes y luces láser rojas durante fiesta",
     },
   ];
-  const idProducto = 13;
+  const idProducto = 12;
   const modales = {
     modalA: {
       text: cards[0].title,
       fondo: "/pop_ups/PixelLed.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "13",
+      serviceName: "12",
       width: 256,
       height: 144,
     },

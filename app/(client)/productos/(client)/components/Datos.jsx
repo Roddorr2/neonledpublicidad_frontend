@@ -62,20 +62,6 @@ const data = [
   },
   {
     id: 5,
-    producto: "LETRAS DE NEÓN EN TUBOS DE VIDRIO",
-    caracteristica:
-      "Construidos a partir de tubos de vidrio, su estructura puede ser de un solo hilo o doble hilo. Gracias a esta versatilidad, son aptos para ser utilizados en interiores y exteriores.",
-    ventaja:
-      "Permiten a negocios y eventos fortalecer su presencia en redes sociales y su visibilidad para ganar más clientes, actuando así como una herramienta clave e importante de marketing.",
-    consumo_energetico:
-      "Las letras en tubos de neón led utilizan tecnología LED lo cual hace que consuman desde 30W en adelante dependiendo de su uso.",
-    iluminacion:
-      "La intensidad luminosa varía según el gas utilizado, el grosor del tubo y el voltaje aplicado; estos factores determinan que el neón sea particularmente brillante.",
-    durabilidad:
-      "Pueden instalarse tanto fuera como dentro, ya que su alta resistencia a la intemperie los hace aptos para cualquier estación durante todo el año.",
-  },
-  {
-    id: 6,
     producto: "NEÓN LED",
     caracteristica:
       "Consisten en una manguera que contiene el circuito LED y se ofrecen en diseños de uno o dos hilos. Sumado a ello, son una excelente opción para diseñar rótulos de neón LED a medida.",
@@ -89,7 +75,7 @@ const data = [
       "Están fabricadas con materiales de alta calidad, lo que les otorga una gran resistencia y una larga vida útil.",
   },
   {
-    id: 7,
+    id: 6,
     producto: "IMPRESIÓN EN VINILOS DECORATIVOS",
     caracteristica:
       "Imprimir en vinilo es una opción económica que posibilita a negocios y hogares decorar sin que esto represente un alto costo.",
@@ -103,7 +89,7 @@ const data = [
       "Fabricados con materiales de alta calidad, los vinilos decorativos son muy duraderos y resistentes a la decoloración, incluso con exposición constante al sol.",
   },
   {
-    id: 8,
+    id: 7,
     producto: "MENÚ BOARD",
     caracteristica:
       "Hechos de acero y aluminio, para uso interno y con diseños variados, estos elementos permiten actualizar el menú al momento, lo que es perfecto para mostrar cambios en ingredientes o promociones especiales.",
@@ -117,7 +103,7 @@ const data = [
       "Su fabricación con materiales resistentes garantiza su durabilidad frente al uso diario y condiciones ambientales adversas.",
   },
   {
-    id: 9,
+    id: 8,
     producto: "LETRAS PINTADAS EN MDF",
     caracteristica:
       "Se utilizan para crear letras en diversos espesores y diseños para interiores, además de contar con una superficie lisa que simplifica la aplicación de pintura y barniz, logrando así acabados personalizados y de alta calidad.",
@@ -130,7 +116,7 @@ const data = [
       "Son robustos y duraderos, lo que les permite resistir diversas condiciones ambientales sin que se deterioren con facilidad.",
   },
   {
-    id: 10,
+    id: 9,
     producto: "MONITORES DE PUBLICIDAD DIGITAL",
     caracteristica:
       "Las pantallas táctiles publicitarias son muy flexibles, lo que implica variaciones en su diseño y materiales de construcción. Esto permite mostrar diversos tipos de contenido como imágenes, videos y texto, y además pueden ubicarse tanto en el interior como en el exterior del local.",
@@ -144,7 +130,7 @@ const data = [
       "Un monitor de publicidad digital para celular dura, en promedio y en condiciones normales, entre 2 y 3 años.",
   },
   {
-    id: 11,
+    id: 10,
     producto: "PANTALLAS LED",
     caracteristica:
       "Ideales para su uso en interiores y disponibles en varios formatos. Por otro lado, las pantallas LED para exteriores se construyen con módulos de diferentes dimensiones, adaptándose a la resolución deseada y permitiendo configurar cada pantalla según los requerimientos del cliente.",
@@ -158,7 +144,7 @@ const data = [
       "Están construidas con tecnología avanzada, lo que asegura su alta durabilidad y resistencia al desgaste. Son perfectas para ofrecer un rendimiento prolongado en diversos entornos.",
   },
   {
-    id: 12,
+    id: 11,
     producto: "HOLOGRÁFICO",
     caracteristica:
       " Estos innovadores dispositivos proyectan imágenes en 3D en el aire, creando un efecto visual único. Su capacidad para ofrecer una experiencia futurista y captar la atención del público los hace perfectos para eventos, tiendas y espacios interactivos.",
@@ -172,7 +158,7 @@ const data = [
       "Si bien la durabilidad de los hologramas es variable y depende de su aplicación, los hologramas destinados a la seguridad tienen una alta resistencia.",
   },
   {
-    id: 13,
+    id: 12,
     producto: "PIXEL LED",
     caracteristica:
       "Fabricados con paneles de acrílico y metal, estos elementos son aptos para interiores y exteriores, ofreciendo un diseño adaptable a tus preferencias. Los túneles hexagonales brindan la posibilidad de personalizar colores y patrones dejando que experimentes hasta donde la creatividad te lleve.",
@@ -186,7 +172,7 @@ const data = [
       "La durabilidad de los LED pixel y los LED RGB puede variar según del tipo de uso que se le puede dar.",
   },
   {
-    id: 14,
+    id: 13,
     producto: "SILLAS LUMINOSAS",
     caracteristica:
       "Elaborados en polietileno o aluminio para uso tanto interior como exterior, numerosos modelos ofrecen la posibilidad de elegir entre al menos 16 colores RGB y distintos modos de iluminación, que incluyen luz fija, parpadeo con diferentes velocidades y secuencias de cambio de color.",
@@ -200,7 +186,7 @@ const data = [
       "Se caracterizan por su excelente calidad, gracias al uso de materiales resistentes y translúcidos que aseguran una larga durabilidad.",
   },
   {
-    id: 15,
+    id: 14,
     producto: "TECHOS LED",
     caracteristica:
       "Integrados por un sistema LED y diseñados para uso tanto en interiores como exteriores, ofrecen características personalizables como la regulación de la intensidad y el control del parpadeo de color para ajustarse a tus necesidades específicas.",
@@ -212,6 +198,20 @@ const data = [
       "Se puede ajustar la iluminación según el momento del día o la actividad, lo que se traduce en una mejora del confort y una mayor eficiencia energética del espacio.",
     durabilidad:
       "Gracias a la tecnología LED utilizada, el resultado es una vida útil superior a la de las opciones tradicionales.",
+  },
+  {
+    id: 15,
+    producto: "LETRAS DE NEÓN EN TUBOS DE VIDRIO",
+    caracteristica:
+      "Construidos a partir de tubos de vidrio, su estructura puede ser de un solo hilo o doble hilo. Gracias a esta versatilidad, son aptos para ser utilizados en interiores y exteriores.",
+    ventaja:
+      "Permiten a negocios y eventos fortalecer su presencia en redes sociales y su visibilidad para ganar más clientes, actuando así como una herramienta clave e importante de marketing.",
+    consumo_energetico:
+      "Las letras en tubos de neón led utilizan tecnología LED lo cual hace que consuman desde 30W en adelante dependiendo de su uso.",
+    iluminacion:
+      "La intensidad luminosa varía según el gas utilizado, el grosor del tubo y el voltaje aplicado; estos factores determinan que el neón sea particularmente brillante.",
+    durabilidad:
+      "Pueden instalarse tanto fuera como dentro, ya que su alta resistencia a la intemperie los hace aptos para cualquier estación durante todo el año.",
   },
 ];
 

@@ -35,13 +35,13 @@ export default function Home() {
       alt: "Pantalla LED gigante en interior transmitiendo animación de 20th Century Fox",
     },
   ];
-  const idProducto = 11;
+  const idProducto = 10;
   const modales = {
     modalA: {
       text: cards[0].title,
       fondo: "/pop_ups/PantallasLed.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "11",
+      serviceName: "10",
       width: 256,
       height: 144,
     },
