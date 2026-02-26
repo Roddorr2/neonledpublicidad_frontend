@@ -48,12 +48,12 @@ const Slider2 = ({ slides }) => {
     <div className="overflow-hidden rounded-[2.5rem] bg-white">
       <div ref={sliderRef} className="flex">
         {slides.map((slide, index) => (
-          <div key={index} className="flex-shrink-0 w-48 mx-0">
+          <div key={index} className="flex-shrink-0 w-48 h-[192px] flex items-center justify-center">
             <img
               src={slide.imgSrc}
               alt={slide.altText}
               title={slide.title}
-              className="object-contain w-full h-full mx-auto"
+              className="object-contain max-h-full w-auto mx-auto"
               loading="lazy"
             />
           </div>

@@ -11,7 +11,7 @@ export default function Banner({ titulo, imagen, alt }) {
   return (
     <section className="w-full">
       {/* FILA 1: Imagen (solo imagen) */}
-      <div className="relative h-[45vh] sm:h-[50vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden">
+      <div className="relative h-[45vh] sm:h-[50vh] lg:h-[70vh] max-h-[720px] overflow-hidden">
         <Image
           src={imagen}
           alt={alt ? alt : titulo}
