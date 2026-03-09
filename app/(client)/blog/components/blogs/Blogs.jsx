@@ -2,6 +2,7 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import fetch from "../../services/fetch";
+import { useDebounce } from "@/hooks/useDebounce";
 import { Loader2, BookOpen, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,8 @@ const Blogs = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const debouncedSearchTerm = useDebounce(searchTerm, 600); // Debounce de 600ms
   const [filteredData, setFilteredData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,9 +72,50 @@ const Blogs = () => {
   }, []);
 
   useEffect(() => {
-    // Inicializar filteredData cuando data cambie, igual que en el código que funciona
-    setFilteredData(data);
-    setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
+    // Ejecutar búsqueda debounceada en el backend
+    const performSearch = async () => {
+      // Si está vacío, mostrar todos los datos
+      if (!debouncedSearchTerm.trim()) {
+        setFilteredData(data);
+        setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
+        setCurrentPage(1);
+        setIsSearching(false);
+        return;
+      }
+
+      // Validar mínimo 3 caracteres
+      if (debouncedSearchTerm.trim().length < 3) {
+        setFilteredData([]);
+        setTotalPages(1);
+        setCurrentPage(1);
+        setIsSearching(false);
+        return;
+      }
+
+      setIsSearching(true);
+      try {
+        const results = await fetch.searchCards(debouncedSearchTerm, 'public');
+        setFilteredData(results || []);
+        setTotalPages(Math.ceil((results?.length || 0) / ITEMS_PER_PAGE));
+        setCurrentPage(1);
+      } catch (err) {
+        console.error('Error en búsqueda:', err);
+        setFilteredData([]);
+        setTotalPages(1);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    performSearch();
+  }, [debouncedSearchTerm, data]);
+
+  useEffect(() => {
+    // Inicializar filteredData cuando data cambie
+    if (!searchTerm.trim()) {
+      setFilteredData(data);
+      setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
+    }
   }, [data]);
 
   const getCurrentPageItems = () => {
@@ -87,16 +131,12 @@ const Blogs = () => {
   };
 
   const handleSearch = () => {
-    // Usar la misma lógica del código que funciona
-    const normalizedSearchTerm = normalizeText(searchTerm);
-    const filtered = data.filter(
-      (card) =>
-        normalizeText(card.titulo).includes(normalizedSearchTerm) ||
-        normalizeText(card.descripcion).includes(normalizedSearchTerm)
-    );
-    setFilteredData(filtered);
-    setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
-    setCurrentPage(1);
+    // La búsqueda se realiza automáticamente mediante debounce en el useEffect
+    // Este botón ya no es necesario pero se mantiene por UX
+    if (searchTerm.trim().length >= 3) {
+      // Si el usuario clickea el botón, resetear la página
+      setCurrentPage(1);
+    }
   };
 
   const BlogCard = ({ dato }) => (
@@ -213,17 +253,23 @@ const Blogs = () => {
             <div className="relative flex-1">
               <input
                 type="text"
-                placeholder="ESCRIBE ALGO"
+                placeholder="ESCRIBE (mín. 3 caracteres)"
                 className="w-full px-8 py-4 rounded-full bg-transparent border-2 border-white text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              {isSearching && (
+                <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                  <Loader2 className="h-5 w-5 animate-spin text-blue-400" />
+                </div>
+              )}
             </div>
             <button
               onClick={handleSearch}
-              className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-lg"
+              disabled={isSearching || searchTerm.trim().length < 3}
+              className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              BUSCAR
+              {isSearching ? "BUSCANDO..." : "BUSCAR"}
             </button>
           </div>
 

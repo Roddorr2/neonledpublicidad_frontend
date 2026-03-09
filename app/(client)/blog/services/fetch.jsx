@@ -174,6 +174,30 @@ const Fetch = {
         }
     },    
 
+    searchCards: async function searchCards(query, type = 'public') {
+        try {
+            if (!query || query.trim().length < 3) {
+                return [];
+            }
+            
+            const response = await axios.get(`${url}/api/cards/search`, {
+                params: { 
+                    q: query.trim(),
+                    type: type 
+                }
+            });
+            
+            if (response.status === 200) {
+                return response.data;
+            } else {
+                return [];
+            }
+        } catch (error) {
+            console.error('Error searching cards:', error);
+            return [];
+        }
+    },
+
 }
 
 export default Fetch;
