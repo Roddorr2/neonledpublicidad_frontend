@@ -6,6 +6,7 @@ import {
   prepareImageDataForBackend,
   isValidImageUrl,
 } from "../utils/imageUtils";
+import { safeJsonParse } from "@/lib/safe-json";
 
 /**
  * Procesa la respuesta del servidor de forma robusta
@@ -27,13 +28,9 @@ function processUploadResponse(result) {
   if (typeof result === "string") {
     const jsonMatch = result.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      try {
-        jsonData = JSON.parse(jsonMatch[0]);
-      } catch (parseError) {
-        if (
-          result.toLowerCase().includes("success") ||
-          result.includes("200")
-        ) {
+      jsonData = safeJsonParse(jsonMatch[0], null);
+      if (!jsonData) {
+        if (result.toLowerCase().includes("success") || result.includes("200")) {
           return { url: "", public_url: "" };
         }
       }
@@ -48,11 +45,7 @@ function processUploadResponse(result) {
     if (typeof result.data === "string") {
       const jsonMatch = result.data.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
-        try {
-          jsonData = JSON.parse(jsonMatch[0]);
-        } catch (parseError) {
-          // Continuar con lógica por defecto
-        }
+        jsonData = safeJsonParse(jsonMatch[0], null);
       }
     } else {
       jsonData = result.data;

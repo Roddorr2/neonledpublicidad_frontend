@@ -1,6 +1,7 @@
 "use client";
 import url from "../../../../api/url";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { safeJsonParse } from "@/lib/safe-json";
 
 const api_url = `${url}/api`;
 
@@ -202,30 +203,12 @@ const auth_service = {
 
   getCurrentUser: () => {
     const userCookie = getCookie("user");
-    try {
-      if (userCookie) {
-        const parsedUser =
-          typeof userCookie === "string" ? JSON.parse(userCookie) : userCookie;
-        return parsedUser;
-      }
-      return null;
-    } catch (e) {
-      console.error("Error parsing user cookie:", e);
-      return null;
-    }
+    return safeJsonParse(userCookie, null);
   },
 
   getCurrentEmpleado: () => {
     const empleado = getCookie("empleado");
-    try {
-      if (empleado) {
-        return typeof empleado === "string" ? JSON.parse(empleado) : empleado;
-      }
-      return null;
-    } catch (e) {
-      console.error("Error parsing empleado cookie:", e);
-      return null;
-    }
+    return safeJsonParse(empleado, null);
   },
 
   getCurrentRole: () => {
@@ -234,11 +217,7 @@ const auth_service = {
 
   getCurrentPermissions: () => {
     const permisos = getCookie("permisos");
-    try {
-      return permisos ? JSON.parse(permisos) : [];
-    } catch (e) {
-      return [];
-    }
+    return safeJsonParse(permisos, []);
   },
 
   getToken: () => {
