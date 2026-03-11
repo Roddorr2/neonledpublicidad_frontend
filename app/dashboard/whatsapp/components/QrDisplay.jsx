@@ -3,6 +3,7 @@ export const QrDisplay = ({ qrData, isConnected, loading }) => {
   if (isConnected)
     return <div className="text-green-500 dark:text-emerald-400">✅ WhatsApp Conectado</div>;
 
+  // Renderizar el QR
   return (
     <div className="p-4 border rounded-xl bg-white shadow-lg text-center dark:border-slate-700 dark:bg-slate-900">
       <h3 className="text-lg font-bold mb-4 text-slate-900 dark:text-slate-100">Escanea el código QR</h3>
