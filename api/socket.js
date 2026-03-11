@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { getCookie } from 'cookies-next';
+import WS_URL from './url_whasapp';
 
 export const useWhatsAppSocket = (tokenArg) => {
   const [data, setData] = useState({
@@ -11,12 +12,15 @@ export const useWhatsAppSocket = (tokenArg) => {
 
   useEffect(() => {
     // Obtener el token desde cookie/localStorage si no se pasa como argumento
-    const token = tokenArg || getCookie('token') || (typeof window !== 'undefined' ? localStorage.getItem('token') : null);
+    const token =
+      tokenArg ||
+      getCookie('token') ||
+      (typeof window !== 'undefined' ? localStorage.getItem('token') : null);
     if (!token) return;
 
     const socketUrl =
       process.env.NEXT_PUBLIC_SOCKET_URL_DEV ||
-      process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV ||
+      WS_URL ||
       'http://localhost:5111';
 
     console.log('🔌 Conectando socket a:', socketUrl);

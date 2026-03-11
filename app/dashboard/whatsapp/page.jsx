@@ -7,20 +7,31 @@ import { useAuth } from '@/hooks/useAuth';
 import { apiRequest, whatsappApi } from '@/api/fetchApiWhatsApp';
 import { useWhatsAppSocket } from '@/api/socket';
 import { QrDisplay } from './components/QrDisplay';
-import Swal from 'sweetalert2';
 import { TestSendTab } from './components/TestSendTab';
-import servicesList from './data/servicesList';
+import { PlantillasTab } from './components/PlantillasTab';
+import { CampaignProgressMonitor } from './components/CampaignProgressMonitor';
+import { CampaignQueuePanel } from './components/CampaignQueuePanel';
+import Swal from 'sweetalert2';
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState('conexion');
   const [isConnected, setIsConnected] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [hasActiveCampaigns, setHasActiveCampaigns] = useState(false);
   const { isLoading: isAuthLoading } = useAuth();
 
   // Token cliente (para socket)
   const [clientToken, setClientToken] = useState(null);
 
-  // Services (id + name) kept locally for the WhatsApp campaign select
-  const services = useMemo(() => servicesList, []);
+  const services = useMemo(
+    () => [
+      { id: 'p1', name: 'Diseño y Desarrollo Web' },
+      { id: 'p2', name: 'Gestión de Redes Sociales' },
+      { id: 'p3', name: 'Marketing y Gestión Digital' },
+      { id: 'p4', name: 'Branding y Diseño' },
+    ],
+    [],
+  );
 
   // Socket WhatsApp
   const {
@@ -50,6 +61,28 @@ export default function WhatsAppPage() {
     if (wsConnected !== undefined) setIsConnected(wsConnected);
   }, [wsConnected]);
 
+  // 🔒 Verificar si hay campañas activas para deshabilitar botón de reinicio
+  useEffect(() => {
+    const checkActiveCampaigns = async () => {
+      try {
+        const res = await apiRequest('/api/whatsapp/campaigns?limit=10');
+        const campaigns = res?.data?.data || [];
+
+        // Considerar activa si está en_proceso o ejecutándose
+        const hasActive = campaigns.some((c) => c.estado === 'en_proceso');
+        setHasActiveCampaigns(hasActive);
+      } catch (err) {
+        console.error('Error checking active campaigns:', err);
+      }
+    };
+
+    checkActiveCampaigns();
+    // Verificar cada 5 segundos
+    const interval = setInterval(checkActiveCampaigns, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleRestartSession = async () => {
     try {
       await whatsappApi.restart();
@@ -65,26 +98,48 @@ export default function WhatsAppPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => setIsLoaded(true), []);
   if (!isLoaded)
-    return <div className="p-10 text-center">Iniciando Dashboard...</div>;
+    return (
+      <div className="p-10 text-center text-slate-600 dark:bg-slate-900 dark:text-slate-300">
+        Iniciando Dashboard...
+      </div>
+    );
 
   return (
-    <div className="flex flex-col h-screen w-full bg-slate-50">
+    <div className="flex flex-col h-screen w-full bg-slate-50 dark:bg-slate-900">
+      {/* ✅ Sistema de notificaciones Toast */}
+      <div className="fixed top-4 right-4 z-50 space-y-2 max-w-md">
+        {notifications.map((notification) => (
+          <div
+            key={notification.id}
+            className={`
+              px-4 py-3 rounded-lg shadow-lg border animate-slide-in-right
+              ${notification.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : ''}
+              ${notification.type === 'warning' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' : ''}
+              ${notification.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' : ''}
+              ${notification.type === 'info' ? 'bg-blue-50 border-blue-200 text-blue-800' : ''}
+            `}
+          >
+            <p className="text-sm font-medium">{notification.message}</p>
+          </div>
+        ))}
+      </div>
+
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
+      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-700 dark:bg-slate-900/85">
         <div className="w-full px-4 py-4">
-          <div className="mx-auto w-full max-w-5xl">
+          <div className="mx-auto w-full max-w-7xl">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">
+                <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100">
                   Envío de Whatsapp
                 </h1>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   Conecta tu cuenta y ejecuta pruebas reales de campaña.
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600">
+                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
                   <span
                     className={`h-2.5 w-2.5 rounded-full ${
                       isConnected ? 'bg-emerald-500' : 'bg-rose-500'
@@ -97,7 +152,7 @@ export default function WhatsAppPage() {
 
             {/* Tabs */}
             <div className="mt-4">
-              <div className="flex gap-6 border-b border-slate-200">
+              <div className="flex gap-6 border-b border-slate-200 dark:border-slate-700">
                 <TabButton
                   active={tab === 'conexion'}
                   onClick={() => setTab('conexion')}
@@ -106,7 +161,12 @@ export default function WhatsAppPage() {
                 <TabButton
                   active={tab === 'prueba'}
                   onClick={() => setTab('prueba')}
-                  label="Campaña"
+                  label="Prueba"
+                />
+                <TabButton
+                  active={tab === 'plantillas'}
+                  onClick={() => setTab('plantillas')}
+                  label="Plantillas"
                 />
               </div>
             </div>
@@ -116,57 +176,106 @@ export default function WhatsAppPage() {
 
       {/* Content */}
       <main className="mb-12 flex-1 w-full px-4 py-8 overflow-y-auto">
-        <div className="mx-auto w-full max-w-5xl">
-          {isAuthLoading ? (
+        <div className="mx-auto w-full max-w-7xl">
+          {isAuthLoading && (
             <div className="flex flex-col items-center justify-center p-20">
               <div className="h-12 w-12 animate-spin rounded-full border-4 border-[rgba(140,82,255,1)] border-t-transparent" />
-              <p className="mt-4 text-slate-500">Cargando sesión...</p>
+              <p className="mt-4 text-slate-500 dark:text-slate-400">
+                Cargando sesión...
+              </p>
             </div>
-          ) : tab === 'conexion' ? (
-            <section className="space-y-6">
-              <Card>
-                <CardTitle>Estado de Conexión WhatsApp</CardTitle>
+          )}
 
-                <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={`h-3 w-3 rounded-full ${
-                          isConnected ? 'bg-emerald-500' : 'bg-rose-500'
-                        }`}
-                      />
-                      <div>
-                        <p className="font-semibold text-slate-900">
-                          {statusText}
-                        </p>
-                        <p className="text-sm text-slate-500">{statusHint}</p>
+          {/* Monitor de Progreso de Campañas (siempre visible) */}
+          {!isAuthLoading && (
+            <div className="mb-6">
+              <CampaignProgressMonitor />
+            </div>
+          )}
+
+          {/* Layout con sidebar para pestaña Prueba */}
+          {!isAuthLoading && tab === 'prueba' ? (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Columna principal (2/3) */}
+              <div className="lg:col-span-2">
+                <TestSendTab
+                  services={services}
+                  isConnected={isConnected}
+                  connectedNumber={connectedNumber}
+                />
+              </div>
+
+              {/* Sidebar derecha (1/3) */}
+              <div className="lg:col-span-1">
+                <CampaignQueuePanel />
+              </div>
+            </div>
+          ) : (
+            <>
+              {!isAuthLoading && tab === 'conexion' && (
+                <section className="space-y-6">
+                  <Card>
+                    <CardTitle>Estado de Conexión WhatsApp</CardTitle>
+
+                    <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 dark:border-slate-700 dark:bg-slate-800/60">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex items-center gap-3">
+                          <span
+                            className={`h-3 w-3 rounded-full ${
+                              isConnected ? 'bg-emerald-500' : 'bg-rose-500'
+                            }`}
+                          />
+                          <div>
+                            <p className="font-semibold text-slate-900 dark:text-slate-100">
+                              {statusText}
+                            </p>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                              {statusHint}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-end gap-2">
+                          <button
+                            onClick={handleRestartSession}
+                            disabled={hasActiveCampaigns}
+                            className={`inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-all ${
+                              hasActiveCampaigns
+                                ? 'bg-gray-400 cursor-not-allowed opacity-60 dark:bg-slate-700 dark:text-slate-400'
+                                : 'bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]'
+                            }`}
+                            title={
+                              hasActiveCampaigns
+                                ? 'No se puede reiniciar mientras hay campañas ejecutándose'
+                                : ''
+                            }
+                          >
+                            {hasActiveCampaigns
+                              ? '🔒 Campaña en Proceso'
+                              : 'Reiniciar Sesión'}
+                          </button>
+                          {hasActiveCampaigns && (
+                            <p className="text-xs text-amber-600 dark:text-amber-500">
+                              ⚠️ Espera a que termine la campaña activa
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="mt-6 flex justify-center">
+                        <QrDisplay
+                          qrData={qrData}
+                          isConnected={isConnected}
+                          loading={wsLoading}
+                        />
                       </div>
                     </div>
+                  </Card>
+                </section>
+              )}
 
-                    <button
-                      onClick={handleRestartSession}
-                      className="inline-flex items-center justify-center rounded-full bg-[rgba(140,82,255,1)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
-                    >
-                      Reiniciar Sesión
-                    </button>
-                  </div>
-
-                  <div className="mt-6 flex justify-center">
-                    <QrDisplay
-                      qrData={qrData}
-                      isConnected={isConnected}
-                      loading={wsLoading}
-                    />
-                  </div>
-                </div>
-              </Card>
-            </section>
-          ) : (
-            <TestSendTab
-              services={services}
-              isConnected={isConnected}
-              connectedNumber={connectedNumber}
-            />
+              {!isAuthLoading && tab === 'plantillas' && <PlantillasTab />}
+            </>
           )}
         </div>
       </main>
