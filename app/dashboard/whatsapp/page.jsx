@@ -65,26 +65,26 @@ export default function WhatsAppPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => setIsLoaded(true), []);
   if (!isLoaded)
-    return <div className="p-10 text-center">Iniciando Dashboard...</div>;
+    return <div className="p-10 text-center dark:text-slate-200">Iniciando Dashboard...</div>;
 
   return (
-    <div className="flex flex-col h-screen w-full bg-slate-50">
+    <div className="flex flex-col h-screen w-full bg-slate-50 dark:bg-slate-950">
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
+      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
         <div className="w-full px-4 py-4">
           <div className="mx-auto w-full max-w-5xl">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">
+                <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100">
                   Envío de Whatsapp
                 </h1>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   Conecta tu cuenta y ejecuta pruebas reales de campaña.
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600">
+                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
                   <span
                     className={`h-2.5 w-2.5 rounded-full ${
                       isConnected ? 'bg-emerald-500' : 'bg-rose-500'
@@ -97,7 +97,7 @@ export default function WhatsAppPage() {
 
             {/* Tabs */}
             <div className="mt-4">
-              <div className="flex gap-6 border-b border-slate-200">
+              <div className="flex gap-6 border-b border-slate-200 dark:border-slate-800">
                 <TabButton
                   active={tab === 'conexion'}
                   onClick={() => setTab('conexion')}
@@ -120,14 +120,14 @@ export default function WhatsAppPage() {
           {isAuthLoading ? (
             <div className="flex flex-col items-center justify-center p-20">
               <div className="h-12 w-12 animate-spin rounded-full border-4 border-[rgba(140,82,255,1)] border-t-transparent" />
-              <p className="mt-4 text-slate-500">Cargando sesión...</p>
+              <p className="mt-4 text-slate-500 dark:text-slate-400">Cargando sesión...</p>
             </div>
           ) : tab === 'conexion' ? (
             <section className="space-y-6">
               <Card>
                 <CardTitle>Estado de Conexión WhatsApp</CardTitle>
 
-                <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+                <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 dark:border-slate-700 dark:bg-slate-900/60">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-3">
                       <span
@@ -136,16 +136,16 @@ export default function WhatsAppPage() {
                         }`}
                       />
                       <div>
-                        <p className="font-semibold text-slate-900">
+                        <p className="font-semibold text-slate-900 dark:text-slate-100">
                           {statusText}
                         </p>
-                        <p className="text-sm text-slate-500">{statusHint}</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">{statusHint}</p>
                       </div>
                     </div>
 
                     <button
                       onClick={handleRestartSession}
-                      className="inline-flex items-center justify-center rounded-full bg-[rgba(140,82,255,1)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
+                      className="inline-flex items-center justify-center rounded-full bg-[rgba(140,82,255,1)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)] dark:shadow-[0_0_0_1px_rgba(148,163,184,0.15)]"
                     >
                       Reiniciar Sesión
                     </button>

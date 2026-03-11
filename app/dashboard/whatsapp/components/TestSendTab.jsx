@@ -148,18 +148,18 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
       <Card>
         <CardTitle>Personaliza tu campaña masiva </CardTitle>
 
-        <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
+        <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-700 dark:bg-slate-900/60">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-900">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                 Activar campaña (real)
               </p>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Selecciona el servicio, redacta un mensaje potente y acompáñalo con un flyer creativo que impacte.
               </p>
             </div>
 
-            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
               <span
                 className={`h-2.5 w-2.5 rounded-full ${
                   isConnected ? 'bg-emerald-500' : 'bg-rose-500'
@@ -173,13 +173,13 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
 
           {/* Servicio */}
           <div className="mt-6">
-            <label className="mb-2 block text-sm font-semibold text-slate-800">
+            <label className="mb-2 block text-sm font-semibold text-slate-800 dark:text-slate-200">
               Servicio
             </label>
             <select
               value={service}
               onChange={(e) => setService(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)] dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-[rgba(147,197,253,0.8)] dark:focus:ring-[rgba(59,130,246,0.2)]"
             >
               <option value="">--- Selecciona una opción ---</option>
               {services.map((p) => (
@@ -189,7 +189,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
               ))}
             </select>
 
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               El backend valida: service ∈ (p1,p2,p3,p4) y lo mapea a
               id_servicio.
             </p>
@@ -197,18 +197,18 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
 
           {/* Párrafo */}
           <div className="mt-6">
-            <label className="block text-sm font-semibold text-slate-900">
+            <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100">
               Párrafo (mínimo 10 caracteres)
             </label>
             <textarea
               value={paragraph}
               onChange={(e) => setParagraph(e.target.value)}
               rows={5}
-              className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
+              className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)] dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-[rgba(147,197,253,0.8)] dark:focus:ring-[rgba(59,130,246,0.2)]"
               placeholder="Escribe el mensaje común para la campaña..."
             />
             <div className="mt-2 flex items-center justify-between text-xs">
-              <span className="text-slate-500">
+              <span className="text-slate-500 dark:text-slate-400">
                 Se enviará como “paragraph”.
               </span>
               <span
@@ -224,33 +224,33 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
           </div>
 
           {/* Upload Imagen */}
-          <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6">
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6 dark:border-slate-700 dark:bg-slate-900/80">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                   Imagen <span className="text-rose-500">*</span>
                 </p>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   JPG/PNG/WEBP - máximo 2MB.
                 </p>
               </div>
 
               {imageFile ? (
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
                     <span className="h-2 w-2 rounded-full bg-emerald-500" />
                     {imageFile.name}
                   </span>
                   <button
                     type="button"
                     onClick={() => setImageFile(null)}
-                    className="text-xs font-semibold text-slate-600 hover:text-slate-900"
+                    className="text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
                   >
                     Quitar
                   </button>
                 </div>
               ) : (
-                <span className="text-xs text-slate-400">Sin imagen</span>
+                <span className="text-xs text-slate-400 dark:text-slate-500">Sin imagen</span>
               )}
             </div>
 
@@ -260,14 +260,14 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                 e.stopPropagation();
               }}
               onDrop={handleDrop}
-              className="mt-4 rounded-2xl border-2 border-dashed border-slate-200 bg-white p-8 text-center"
+              className="mt-4 rounded-2xl border-2 border-dashed border-slate-200 bg-white p-8 text-center dark:border-slate-700 dark:bg-slate-950/60"
             >
               <div className="mx-auto flex max-w-md flex-col items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-800">
                   <UploadIcon />
                 </div>
 
-                <p className="text-sm text-slate-700">
+                <p className="text-sm text-slate-700 dark:text-slate-200">
                   Arrastra tu imagen aquí o{' '}
                   <label className="cursor-pointer font-semibold text-[rgba(140,82,255,1)] hover:text-[rgba(140,82,255,0.9)]">
                     haz click para subir
@@ -280,7 +280,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                   </label>
                 </p>
 
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   El backend valida:
                   image|required|mimes:jpg,jpeg,png,webp|max:2048
                 </p>
@@ -297,7 +297,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                 'inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white',
                 canSend
                   ? 'bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]'
-                  : 'bg-slate-300 cursor-not-allowed',
+                  : 'bg-slate-300 cursor-not-allowed dark:bg-slate-700 dark:text-slate-400',
               ].join(' ')}
             >
               {loading ? 'Activando...' : 'Activar Campaña'}
@@ -313,7 +313,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                 setImageFile(null);
                 setLastResponse(null);
               }}
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold text-white hover:bg-slate-800 active:bg-slate-900"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold text-white hover:bg-slate-800 active:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 dark:active:bg-slate-700"
             >
               Reset
             </button>
@@ -327,23 +327,23 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
 
           {/* Debug: payload + response */}
           <div className="mt-7 grid gap-4 md:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-sm font-semibold text-slate-900">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/80">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                 Payload preview
               </p>
-              <pre className="mt-3 overflow-auto rounded-xl bg-white p-3 text-xs text-slate-700 border border-slate-200">
+              <pre className="mt-3 overflow-auto rounded-xl bg-white p-3 text-xs text-slate-700 border border-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200">
                 {JSON.stringify(payloadPreview, null, 2)}
               </pre>
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
                 Nota: el envío real es multipart/form-data (no JSON).
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-sm font-semibold text-slate-900">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/80">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                 Última respuesta
               </p>
-              <pre className="mt-3 overflow-auto rounded-xl bg-white p-3 text-xs text-slate-700 border border-slate-200">
+              <pre className="mt-3 overflow-auto rounded-xl bg-white p-3 text-xs text-slate-700 border border-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200">
                 {lastResponse
                   ? JSON.stringify(lastResponse, null, 2)
                   : '// Sin respuesta aún'}
