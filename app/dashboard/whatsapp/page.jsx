@@ -12,6 +12,7 @@ import { PlantillasTab } from './components/PlantillasTab';
 import { CampaignProgressMonitor } from './components/CampaignProgressMonitor';
 import { CampaignQueuePanel } from './components/CampaignQueuePanel';
 import Swal from 'sweetalert2';
+import servicesList from './data/servicesList';
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState('conexion');
@@ -23,15 +24,7 @@ export default function WhatsAppPage() {
   // Token cliente (para socket)
   const [clientToken, setClientToken] = useState(null);
 
-  const services = useMemo(
-    () => [
-      { id: 'p1', name: 'Diseño y Desarrollo Web' },
-      { id: 'p2', name: 'Gestión de Redes Sociales' },
-      { id: 'p3', name: 'Marketing y Gestión Digital' },
-      { id: 'p4', name: 'Branding y Diseño' },
-    ],
-    [],
-  );
+  const services = useMemo(() => servicesList, []);
 
   // Socket WhatsApp
   const {
@@ -179,7 +172,7 @@ export default function WhatsAppPage() {
         <div className="mx-auto w-full max-w-7xl">
           {isAuthLoading && (
             <div className="flex flex-col items-center justify-center p-20">
-              <div className="h-12 w-12 animate-spin rounded-full border-4 border-[rgba(140,82,255,1)] border-t-transparent" />
+              <div className="h-12 w-12 animate-spin rounded-full border-4 border-azul-principal border-t-transparent" />
               <p className="mt-4 text-slate-500 dark:text-slate-400">
                 Cargando sesión...
               </p>
@@ -242,7 +235,7 @@ export default function WhatsAppPage() {
                             className={`inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-all ${
                               hasActiveCampaigns
                                 ? 'bg-gray-400 cursor-not-allowed opacity-60 dark:bg-slate-700 dark:text-slate-400'
-                                : 'bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]'
+                                : 'bg-azul-principal hover:bg-azul-cobalto active:opacity-80'
                             }`}
                             title={
                               hasActiveCampaigns
