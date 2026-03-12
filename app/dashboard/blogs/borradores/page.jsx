@@ -8,6 +8,7 @@ import { getCookie } from "cookies-next";
 import { useAuth } from "../../../context/AutContext";
 import { useRouter } from "next/navigation";
 import url from "../../../../api/url";
+import { safeJsonParse } from "@/lib/safe-json";
 import {
   Search,
   Eye,
@@ -45,7 +46,7 @@ export default function PageBorradores() {
   try {
     const empleadoCookie = getCookie("empleado");
     if (empleadoCookie) {
-      const parsed = JSON.parse(empleadoCookie);
+      const parsed = safeJsonParse(empleadoCookie, null);
       id_empleado = parsed?.id_empleado ?? -1;
     }
   } catch (err) {

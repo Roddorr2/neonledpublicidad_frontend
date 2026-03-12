@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
+import { safeJsonParse } from "@/lib/safe-json"
 import {
   ArrowLeft,
   FileText,
@@ -26,7 +27,7 @@ export default function Page() {
   useEffect(() => {
     const infoReclamacion = getCookie("reclamacion")
     if (infoReclamacion) {
-      setReclamacion(JSON.parse(infoReclamacion))
+      setReclamacion(safeJsonParse(infoReclamacion, null))
     }
     setLoading(false)
   }, [])

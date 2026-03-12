@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
 import { DisplayNameContext } from "./components/DisplayNameContext";
+import { safeJsonParse } from "@/lib/safe-json";
 
 import {
   User,
@@ -32,12 +33,8 @@ export default function RootLayout({ children }) {
 
   // Info usuario y rol
   const userRole = getCookie("rol") || "Usuario";
-  const userData = getCookie("user")
-    ? JSON.parse(getCookie("user"))
-    : { name: "Usuario" };
-  const empleadoData = getCookie("empleado")
-    ? JSON.parse(getCookie("empleado"))
-    : null;
+  const userData = safeJsonParse(getCookie("user"), { name: "Usuario" });
+  const empleadoData = safeJsonParse(getCookie("empleado"), null);
 
   const [displayName, setDisplayName] = useState(
     empleadoData?.nombre || userData?.name || "Usuario"

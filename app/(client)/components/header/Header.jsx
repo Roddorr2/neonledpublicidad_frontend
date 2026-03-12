@@ -7,6 +7,7 @@ import auth_service from "@/app/dashboard/users/services/auth.service";
 import { dashboardLinks } from "@/app/dashboard/dashboardLinks/dashboardLinks";
 import { ChevronDown } from "lucide-react";
 import { getCookie } from "cookies-next";
+import { safeJsonParse } from "@/lib/safe-json";
 
 export default function Header() {
   const [menuActive, setMenuActive] = useState(false);
@@ -32,7 +33,7 @@ export default function Header() {
   useEffect(() => {
     const savedMenuState = localStorage.getItem("menuActive");
     if (savedMenuState !== null) {
-      setMenuActive(JSON.parse(savedMenuState));
+      setMenuActive(Boolean(safeJsonParse(savedMenuState, false)));
     }
 
     const handleResize = () => {

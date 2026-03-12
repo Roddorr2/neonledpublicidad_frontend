@@ -10,6 +10,7 @@ import HistorialAuditoria from "./components/HistorialAuditoria"
 import { useAuth } from "../../context/AutContext";
 import Borradores from "./borradores/page"
 import url from "../../../api/url"
+import { safeJsonParse } from "@/lib/safe-json"
 import {
     Search,
     Eye,
@@ -43,7 +44,8 @@ export default function Page() {
     const [currentPage, setCurrentPage] = useState(1)
     const blogsPerPage = 5
 
-    const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
+    const empleadoCookie = safeJsonParse(getCookie("empleado"), null)
+    const id_empleado = empleadoCookie?.id_empleado ?? -1
     const { isAuthenticated, user, hasPermission } = useAuth();
 
     const router = useRouter();

@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator"
 import { CldImage } from "next-cloudinary"
 
 import url from "@/api/url"
+import { safeJsonParse } from "@/lib/safe-json"
 export default function Page() {
   const [userData, setUserData] = useState(null)
   const [empleadoData, setEmpleadoData] = useState(null)
@@ -112,7 +113,8 @@ export default function Page() {
           const empleadoCookie = getCookie("empleado")
           const clienteCookie = getCookie("cliente")
           if (empleadoCookie && empleadoCookie!=="null") {
-            const empleado = JSON.parse(empleadoCookie)
+            const empleado = safeJsonParse(empleadoCookie, null)
+            if (!empleado) throw new Error("No se pudo interpretar la cookie de empleado")
             const idEmpleado = empleado.id_empleado
 
             if (idEmpleado) {
@@ -153,10 +155,12 @@ export default function Page() {
 
           const userCookie = getCookie("user")
           const rolCookie = getCookie("rol")
-          if (userCookie) setUserData(JSON.parse(userCookie))
+          if (userCookie) setUserData(safeJsonParse(userCookie, null))
           // if (rolCookie && !userRole) setUserRole(rolCookie)
           if (rolCookie) setUserRole(rolCookie)
-          if (clienteCookie && clienteCookie !== "null") setUserData(JSON.parse(clienteCookie));
+          if (clienteCookie && clienteCookie !== "null") {
+            setUserData(safeJsonParse(clienteCookie, null));
+          }
 
   
 
@@ -168,12 +172,14 @@ export default function Page() {
           const rolCookie = getCookie("rol")
 
           if (empleadoCookie) {
-            const empleado = JSON.parse(empleadoCookie)
-            setEmpleadoData(empleado)
-            setImageUrl(empleado.imagen_perfil_url)
+            const empleado = safeJsonParse(empleadoCookie, null)
+            if (empleado) {
+              setEmpleadoData(empleado)
+              setImageUrl(empleado.imagen_perfil_url)
+            }
           }
 
-          if (userCookie) setUserData(JSON.parse(userCookie))
+          if (userCookie) setUserData(safeJsonParse(userCookie, null))
           if (rolCookie) setUserRole(rolCookie)
         } finally {
           setIsLoading(false)
