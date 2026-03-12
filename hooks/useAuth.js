@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AUTH_CONFIG } from '@/config/auth.config.js';
+import { safeJsonParse } from '@/lib/safe-json';
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV ;
@@ -55,7 +56,10 @@ export const useAuth = () => {
     }
 
     try {
-      const parsedUser = JSON.parse(userData);
+      const parsedUser = safeJsonParse(userData, null);
+      if (!parsedUser) {
+        throw new Error('Invalid user data in localStorage');
+      }
       const isValid = await validateToken(token);
 
       if (isValid) {

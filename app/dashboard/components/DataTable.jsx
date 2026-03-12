@@ -7,13 +7,14 @@ import { Eye, Pencil, Trash2, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { safeJsonParse } from "@/lib/safe-json"
 
 export default function DataTable({ headers, data, onDelete, onUpdate, onShow }) {
   const router = useRouter()
   const [expandedRow, setExpandedRow] = useState(null)
 
   const empleadoCookie = getCookie("empleado")
-  const empleadoAutenticado = empleadoCookie ? JSON.parse(empleadoCookie) : null
+  const empleadoAutenticado = safeJsonParse(empleadoCookie, null)
   const empleadoAutenticadoId = empleadoAutenticado?.id_empleado
   const empleadoAutenticadoEmail = empleadoAutenticado?.email
 
