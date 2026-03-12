@@ -7,6 +7,7 @@ import { PlantillasTipoSelector } from './PlantillasTipoSelector';
 import { PlantillasList } from './PlantillasList';
 import { PlantillaEditor } from './PlantillaEditor';
 import { PlantillaPreview } from './PlantillaPreview';
+import servicesList from '../data/servicesList';
 
 export function PlantillasTab() {
   const [tipo, setTipo] = useState('whatsapp'); // "whatsapp" | "email"
@@ -19,12 +20,12 @@ export function PlantillasTab() {
   const [saving, setSaving] = useState(false);
 
   const servicios = useMemo(
-    () => [
-      { id: 1, nombre: 'Diseño y Desarrollo Web' },
-      { id: 2, nombre: 'Gestión de Redes Sociales' },
-      { id: 3, nombre: 'Marketing y Gestión Digital' },
-      { id: 4, nombre: 'Branding y Diseño' },
-    ],
+    () =>
+      servicesList.map((s) => ({
+        ...s,
+        id: parseInt(s.id.replace('p', '')),
+        nombre: s.name,
+      })),
     [],
   );
 

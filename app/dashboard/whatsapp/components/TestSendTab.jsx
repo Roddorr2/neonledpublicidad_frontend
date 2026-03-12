@@ -1,13 +1,15 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import Swal from "sweetalert2";
-import { apiRequest } from "@/api/fetchApiWhatsApp";
-import { Card, CardTitle, UploadIcon } from "./TabButton";
+import { useMemo, useState } from 'react';
+import Swal from 'sweetalert2';
+import { apiRequest } from '@/api/fetchApiWhatsApp';
+import { Card, CardTitle, UploadIcon } from './TabButton';
 
 export function TestSendTab({ services, isConnected, connectedNumber }) {
-  const [service, setService] = useState("");
-  const [paragraph, setParagraph] = useState("Hola 👋 Esta es una campaña de prueba con payload común.");
+  const [service, setService] = useState('');
+  const [paragraph, setParagraph] = useState(
+    'Hola 👋 Esta es una campaña de prueba con payload común.',
+  );
   const [imageFile, setImageFile] = useState(null);
 
   const [loading, setLoading] = useState(false);
@@ -16,16 +18,16 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
   const serviceIdAsNumber = useMemo(() => {
     // p1/p2/p3/p4 => 1/2/3/4 (solo para preview)
     if (!service) return null;
-    const n = Number(String(service).replace("p", ""));
+    const n = Number(String(service).replace('p', ''));
     return Number.isFinite(n) ? n : null;
   }, [service]);
 
   const canSend = Boolean(
     isConnected &&
-      service &&
-      paragraph.trim().length >= 10 &&
-      imageFile &&
-      !loading
+    service &&
+    paragraph.trim().length >= 10 &&
+    imageFile &&
+    !loading,
   );
 
   const payloadPreview = useMemo(() => {
@@ -33,13 +35,15 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
       service,
       id_servicio_preview: serviceIdAsNumber,
       paragraph,
-      image: imageFile ? { name: imageFile.name, size: imageFile.size, type: imageFile.type } : null,
+      image: imageFile
+        ? { name: imageFile.name, size: imageFile.size, type: imageFile.type }
+        : null,
       meta: {
         connected_as: connectedNumber || null,
-        step_1_endpoint: "/api/whatsapp/campaign/create",
-        step_2_endpoint: "/api/whatsapp/campaign/{id}/start",
-        content_type: "multipart/form-data",
-        fase: "FASE 2 - FIFO Campaign System",
+        step_1_endpoint: '/api/whatsapp/campaign/create',
+        step_2_endpoint: '/api/whatsapp/campaign/{id}/start',
+        content_type: 'multipart/form-data',
+        fase: 'FASE 2 - FIFO Campaign System',
       },
     };
   }, [service, serviceIdAsNumber, paragraph, imageFile, connectedNumber]);
@@ -49,13 +53,13 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
 
     const max2mb = 2 * 1024 * 1024;
     if (file.size > max2mb) {
-      Swal.fire("Imagen muy pesada", "Debe ser menor a 2MB.", "warning");
+      Swal.fire('Imagen muy pesada', 'Debe ser menor a 2MB.', 'warning');
       return;
     }
 
-    const allowed = ["image/jpeg", "image/png", "image/webp"];
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
     if (!allowed.includes(file.type)) {
-      Swal.fire("Formato no permitido", "Usa JPG, PNG o WEBP.", "warning");
+      Swal.fire('Formato no permitido', 'Usa JPG, PNG o WEBP.', 'warning');
       return;
     }
 
@@ -70,19 +74,31 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
 
   const handleActivateReal = async () => {
     if (!isConnected) {
-      Swal.fire("Sin conexión", "Conecta WhatsApp antes de probar.", "warning");
+      Swal.fire('Sin conexión', 'Conecta WhatsApp antes de probar.', 'warning');
       return;
     }
     if (!service) {
-      Swal.fire("Falta servicio", "Selecciona un servicio (p1..p4).", "warning");
+      Swal.fire(
+        'Falta servicio',
+        'Selecciona un servicio (p1..p4).',
+        'warning',
+      );
       return;
     }
     if (paragraph.trim().length < 10) {
-      Swal.fire("Texto corto", "El párrafo debe tener al menos 10 caracteres.", "warning");
+      Swal.fire(
+        'Texto corto',
+        'El párrafo debe tener al menos 10 caracteres.',
+        'warning',
+      );
       return;
     }
     if (!imageFile) {
-      Swal.fire("Falta imagen", "Sube una imagen para la campaña (<=2MB).", "warning");
+      Swal.fire(
+        'Falta imagen',
+        'Sube una imagen para la campaña (<=2MB).',
+        'warning',
+      );
       return;
     }
 
@@ -90,24 +106,27 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
     setLastResponse(null);
 
     try {
-      const previewRes = await apiRequest(`/api/whatsapp/campaign/preview/${service}`);
+      const previewRes = await apiRequest(
+        `/api/whatsapp/campaign/preview/${service}`,
+      );
       const totalDestinatarios = Number(previewRes?.data?.total_destinatarios);
-      const estimatedDays = Number.isFinite(totalDestinatarios) && totalDestinatarios > 0
-        ? Math.max(1, Math.ceil(totalDestinatarios / 50))
-        : null;
+      const estimatedDays =
+        Number.isFinite(totalDestinatarios) && totalDestinatarios > 0
+          ? Math.max(1, Math.ceil(totalDestinatarios / 50))
+          : null;
 
       // Mostrar confirmación (aún no se envia nada al backend)
       const confirmStart = await Swal.fire({
-        title: "Confirmar campaña",
+        title: 'Confirmar campaña',
         html: `
-          <p>Esta campaña tiene <strong>${totalDestinatarios > 0 ? totalDestinatarios : "?"}</strong> destinatarios.</p>
-          <p class="mt-1">Duración estimada - Sin interrupciones: <strong>${estimatedDays ?? "?"} día(s)</strong> (50 envíos/día).</p>
+          <p>Esta campaña tiene <strong>${totalDestinatarios > 0 ? totalDestinatarios : '?'}</strong> destinatarios.</p>
+          <p class="mt-1">Duración estimada - Sin interrupciones: <strong>${estimatedDays ?? '?'} día(s)</strong> (50 envíos/día).</p>
         `,
-        icon: "info",
+        icon: 'info',
         showCancelButton: true,
-        confirmButtonText: "Aceptar",
-        cancelButtonText: "Cancelar",
-        confirmButtonColor: "rgba(140,82,255,1)",
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#1157D3',
       });
 
       if (!confirmStart.isConfirmed) {
@@ -117,61 +136,80 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
 
       // Recién ahora crear la campaña como borrador
       const formData = new FormData();
-      formData.append("service", service);
-      formData.append("paragraph", paragraph);
-      formData.append("image", imageFile);
+      formData.append('service', service);
+      formData.append('paragraph', paragraph);
+      formData.append('image', imageFile);
 
-      const createRes = await apiRequest("/api/whatsapp/campaign/create", {
-        method: "POST",
+      const createRes = await apiRequest('/api/whatsapp/campaign/create', {
+        method: 'POST',
         body: formData,
       });
 
       if (!createRes?.success) {
         setLastResponse(createRes);
-        Swal.fire("Error al crear", createRes?.message || "No se pudo crear la campaña en borrador.", "error");
+        Swal.fire(
+          'Error al crear',
+          createRes?.message || 'No se pudo crear la campaña en borrador.',
+          'error',
+        );
         return;
       }
 
       const campaniaId = createRes.data?.campania_id;
 
-      // PASO 3: iniciar la campaña (FIFO) 
-      const startRes = await apiRequest(`/api/whatsapp/campaign/${campaniaId}/start`, {
-        method: "POST",
-      });
+      // PASO 3: iniciar la campaña (FIFO)
+      const startRes = await apiRequest(
+        `/api/whatsapp/campaign/${campaniaId}/start`,
+        {
+          method: 'POST',
+        },
+      );
 
-      setLastResponse({ preview: previewRes, create: createRes, start: startRes });
+      setLastResponse({
+        preview: previewRes,
+        create: createRes,
+        start: startRes,
+      });
 
       if (startRes?.success) {
         Swal.fire({
-          title: "Campaña iniciada",
+          title: 'Campaña iniciada',
           html: `
             <p>Campaña #${campaniaId}</p>
-            <p>Total destinatarios: ${createRes.data?.total_destinatarios ?? totalDestinatarios ?? "?"}</p>
+            <p>Total destinatarios: ${createRes.data?.total_destinatarios ?? totalDestinatarios ?? '?'}</p>
             <p class="text-xs text-slate-500 mt-2">✅ Sistema FIFO activo - Solo una campaña a la vez</p>
           `,
-          icon: "success",
-          confirmButtonColor: "rgba(140,82,255,1)",
+          icon: 'success',
+          confirmButtonColor: '#1157D3',
         });
       } else {
         // Si falló al iniciar, pero la campaña se creó
         if (startRes?.active_campaign) {
           Swal.fire({
-            title: "Campaña creada en borrador",
+            title: 'Campaña creada en borrador',
             html: `
               <p>La campaña #${campaniaId} se creó correctamente.</p>
               <p class="text-sm text-rose-600 mt-2">⚠️ No se pudo iniciar porque hay otra campaña activa:</p>
               <p class="text-xs mt-1">Campaña #${startRes.active_campaign?.id} - ${startRes.active_campaign?.estado} - ${startRes.active_campaign?.progreso}%</p>
             `,
-            icon: "info",
-            confirmButtonColor: "rgba(140,82,255,1)",
+            icon: 'info',
+            confirmButtonColor: '#1157D3',
           });
         } else {
-          Swal.fire("Error al iniciar", startRes?.message || "La campaña se creó pero no se pudo iniciar.", "error");
+          Swal.fire(
+            'Error al iniciar',
+            startRes?.message || 'La campaña se creó pero no se pudo iniciar.',
+            'error',
+          );
         }
       }
     } catch (error) {
       console.error(error);
-      Swal.fire("Error", "No se pudo crear/iniciar la campaña. Revisa Network/Console.", "error");
+      Swal.fire(
+        'Error',
+        'No se pudo crear/iniciar la campaña. Revisa Network/Console.',
+        'error',
+      );
     } finally {
       setLoading(false);
     }
@@ -185,7 +223,9 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
         <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-700 dark:bg-slate-800/60">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Crear e Iniciar Campaña</p>
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                Crear e Iniciar Campaña
+              </p>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 Crea campaña en borrador y luego la inicia (sistema FIFO).
               </p>
@@ -194,12 +234,12 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
             <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
               <span
                 className={`h-2.5 w-2.5 rounded-full ${
-                  isConnected ? "bg-emerald-500" : "bg-rose-500"
+                  isConnected ? 'bg-emerald-500' : 'bg-rose-500'
                 }`}
               />
               {isConnected
-                ? `Conectado${connectedNumber ? ` (${connectedNumber})` : ""}`
-                : "Desconectado"}
+                ? `Conectado${connectedNumber ? ` (${connectedNumber})` : ''}`
+                : 'Desconectado'}
             </span>
           </div>
 
@@ -211,7 +251,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
             <select
               value={service}
               onChange={(e) => setService(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)] dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-azul-principal focus:ring-4 focus:ring-azul-principal/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
             >
               <option value="">--- Selecciona una opción ---</option>
               {services.map((p) => (
@@ -222,7 +262,8 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
             </select>
 
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-              El backend valida: service ∈ (p1,p2,p3,p4) y lo mapea a id_servicio.
+              El backend valida: service ∈ (p1,p2,p3,p4) y lo mapea a
+              id_servicio.
             </p>
           </div>
 
@@ -235,12 +276,20 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
               value={paragraph}
               onChange={(e) => setParagraph(e.target.value)}
               rows={5}
-              className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)] dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
+              className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-azul-principal focus:ring-4 focus:ring-azul-principal/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
               placeholder="Escribe el mensaje común para la campaña..."
             />
             <div className="mt-2 flex items-center justify-between text-xs">
-              <span className="text-slate-500 dark:text-slate-400">Se enviará como “paragraph”.</span>
-              <span className={paragraph.trim().length >= 10 ? "text-emerald-600" : "text-rose-600"}>
+              <span className="text-slate-500 dark:text-slate-400">
+                Se enviará como “paragraph”.
+              </span>
+              <span
+                className={
+                  paragraph.trim().length >= 10
+                    ? 'text-emerald-600'
+                    : 'text-rose-600'
+                }
+              >
                 {paragraph.trim().length}/10
               </span>
             </div>
@@ -253,7 +302,9 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                 <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                   Imagen <span className="text-rose-500">*</span>
                 </p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">JPG/PNG/WEBP - máximo 2MB.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  JPG/PNG/WEBP - máximo 2MB.
+                </p>
               </div>
 
               {imageFile ? (
@@ -271,7 +322,9 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                   </button>
                 </div>
               ) : (
-                <span className="text-xs text-slate-400 dark:text-slate-500">Sin imagen</span>
+                <span className="text-xs text-slate-400 dark:text-slate-500">
+                  Sin imagen
+                </span>
               )}
             </div>
 
@@ -289,8 +342,8 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                 </div>
 
                 <p className="text-sm text-slate-700 dark:text-slate-300">
-                  Arrastra tu imagen aquí o{" "}
-                  <label className="cursor-pointer font-semibold text-[rgba(140,82,255,1)] hover:text-[rgba(140,82,255,0.9)]">
+                  Arrastra tu imagen aquí o{' '}
+                  <label className="cursor-pointer font-semibold text-azul-principal hover:text-azul-cobalto">
                     haz click para subir
                     <input
                       type="file"
@@ -302,7 +355,8 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                 </p>
 
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  El backend valida: image|required|mimes:jpg,jpeg,png,webp|max:2048
+                  El backend valida:
+                  image|required|mimes:jpg,jpeg,png,webp|max:2048
                 </p>
               </div>
             </div>
@@ -314,20 +368,22 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
               onClick={handleActivateReal}
               disabled={!canSend}
               className={[
-                "inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white",
+                'inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white',
                 canSend
-                  ? "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
-                  : "bg-slate-300 cursor-not-allowed",
-              ].join(" ")}
+                  ? 'bg-azul-principal hover:bg-azul-cobalto active:opacity-80'
+                  : 'bg-slate-300 cursor-not-allowed',
+              ].join(' ')}
             >
-              {loading ? "Activando..." : "Activar Campaña"}
+              {loading ? 'Activando...' : 'Activar Campaña'}
             </button>
 
             <button
               type="button"
               onClick={() => {
-                setService("");
-                setParagraph("Hola 👋 Esta es una campaña de prueba con payload común.");
+                setService('');
+                setParagraph(
+                  'Hola 👋 Esta es una campaña de prueba con payload común.',
+                );
                 setImageFile(null);
                 setLastResponse(null);
               }}
@@ -346,9 +402,11 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
           {/* Debug: payload + response */}
           <div className="mt-7 grid gap-4 md:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50">
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Payload preview</p>
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                Payload preview
+              </p>
               <pre className="mt-3 overflow-auto rounded-xl bg-white p-3 text-xs text-slate-700 border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
-{JSON.stringify(payloadPreview, null, 2)}
+                {JSON.stringify(payloadPreview, null, 2)}
               </pre>
               <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
                 Nota: el envío real es multipart/form-data (no JSON).
@@ -356,9 +414,13 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50">
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Última respuesta</p>
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                Última respuesta
+              </p>
               <pre className="mt-3 overflow-auto rounded-xl bg-white p-3 text-xs text-slate-700 border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
-{lastResponse ? JSON.stringify(lastResponse, null, 2) : "// Sin respuesta aún"}
+                {lastResponse
+                  ? JSON.stringify(lastResponse, null, 2)
+                  : '// Sin respuesta aún'}
               </pre>
             </div>
           </div>

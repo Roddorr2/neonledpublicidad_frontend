@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { apiRequest } from "@/api/fetchApiWhatsApp";
+import { useState, useEffect } from 'react';
+import { apiRequest } from '@/api/fetchApiWhatsApp';
 
 export function CampaignProgressMonitor() {
   const [activeCampaign, setActiveCampaign] = useState(null);
@@ -10,18 +10,21 @@ export function CampaignProgressMonitor() {
 
   const fetchActiveCampaign = async () => {
     try {
-      const res = await apiRequest("/api/whatsapp/campaigns?limit=10");
-      
+      const res = await apiRequest('/api/whatsapp/campaigns?limit=10');
+
       if (res?.success && res?.data) {
         // Buscar campaña activa (en_proceso o pausada_hasta_mañana)
         const active = res.data.campanias?.find(
-          (c) => c.estado === "en_proceso" || c.estado === "pausada_hasta_mañana"
+          (c) =>
+            c.estado === 'en_proceso' || c.estado === 'pausada_hasta_mañana',
         );
-        
+
         if (active && active.id_campania) {
           // Obtener detalles completos
-          const statusRes = await apiRequest(`/api/whatsapp/campaign/${active.id_campania}/status`);
-          
+          const statusRes = await apiRequest(
+            `/api/whatsapp/campaign/${active.id_campania}/status`,
+          );
+
           if (statusRes?.success) {
             setActiveCampaign(statusRes.data);
             setError(null);
@@ -32,18 +35,18 @@ export function CampaignProgressMonitor() {
       }
       setLoading(false);
     } catch (err) {
-      console.error("Error fetching campaign:", err);
-      setError("Error al cargar el progreso");
+      console.error('Error fetching campaign:', err);
+      setError('Error al cargar el progreso');
       setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchActiveCampaign();
-    
+
     // Polling cada 5 segundos
     const interval = setInterval(fetchActiveCampaign, 5000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -51,8 +54,10 @@ export function CampaignProgressMonitor() {
     return (
       <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800/60">
         <div className="flex items-center gap-2">
-          <div className="h-4 w-4 animate-spin rounded-full border-2 border-purple-500 border-t-transparent"></div>
-          <p className="text-sm text-slate-600 dark:text-slate-400">Cargando campañas...</p>
+          <div className="h-4 w-4 animate-spin rounded-full border-2 border-azul-principal border-t-transparent"></div>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            Cargando campañas...
+          </p>
         </div>
       </div>
     );
@@ -76,7 +81,8 @@ export function CampaignProgressMonitor() {
     );
   }
 
-  const { id_campania, servicio, estado, progreso, envios_hoy, limite_diario } = activeCampaign;
+  const { id_campania, servicio, estado, progreso, envios_hoy, limite_diario } =
+    activeCampaign;
   const porcentaje = progreso?.porcentaje || 0;
   const exitosos = progreso?.exitosos || 0;
   const fallidos = progreso?.fallidos || 0;
@@ -87,32 +93,32 @@ export function CampaignProgressMonitor() {
 
   const estadoConfig = {
     en_proceso: {
-      color: "bg-emerald-500",
-      text: "En Proceso",
-      icon: "🚀",
-      bgColor: "bg-emerald-50 dark:bg-emerald-950/30",
-      borderColor: "border-emerald-200 dark:border-emerald-900",
+      color: 'bg-emerald-500',
+      text: 'En Proceso',
+      icon: '🚀',
+      bgColor: 'bg-emerald-50 dark:bg-emerald-950/30',
+      borderColor: 'border-emerald-200 dark:border-emerald-900',
     },
     pausada_hasta_mañana: {
-      color: "bg-amber-500",
-      text: "Pausada hasta mañana",
-      icon: "🌙",
-      bgColor: "bg-amber-50 dark:bg-amber-950/30",
-      borderColor: "border-amber-200 dark:border-amber-900",
+      color: 'bg-amber-500',
+      text: 'Pausada hasta mañana',
+      icon: '🌙',
+      bgColor: 'bg-amber-50 dark:bg-amber-950/30',
+      borderColor: 'border-amber-200 dark:border-amber-900',
     },
     completada: {
-      color: "bg-blue-500",
-      text: "Completada",
-      icon: "✅",
-      bgColor: "bg-blue-50 dark:bg-blue-950/30",
-      borderColor: "border-blue-200 dark:border-blue-900",
+      color: 'bg-blue-500',
+      text: 'Completada',
+      icon: '✅',
+      bgColor: 'bg-blue-50 dark:bg-blue-950/30',
+      borderColor: 'border-blue-200 dark:border-blue-900',
     },
     fallida: {
-      color: "bg-rose-500",
-      text: "Fallida",
-      icon: "❌",
-      bgColor: "bg-rose-50 dark:bg-rose-950/30",
-      borderColor: "border-rose-200 dark:border-rose-900",
+      color: 'bg-rose-500',
+      text: 'Fallida',
+      icon: '❌',
+      bgColor: 'bg-rose-50 dark:bg-rose-950/30',
+      borderColor: 'border-rose-200 dark:border-rose-900',
     },
   };
 
@@ -132,13 +138,15 @@ export function CampaignProgressMonitor() {
             </h3>
           </div>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-            {servicio || "Servicio desconocido"}
+            {servicio || 'Servicio desconocido'}
           </p>
         </div>
         <span
           className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${config.bgColor}`}
         >
-          <span className={`h-2 w-2 rounded-full ${config.color} animate-pulse`}></span>
+          <span
+            className={`h-2 w-2 rounded-full ${config.color} animate-pulse`}
+          ></span>
           {config.text}
         </span>
       </div>
@@ -146,12 +154,16 @@ export function CampaignProgressMonitor() {
       {/* Barra de progreso */}
       <div className="mb-4">
         <div className="mb-2 flex items-center justify-between text-sm">
-          <span className="font-semibold text-slate-700 dark:text-slate-300">Progreso General</span>
-          <span className="font-bold text-purple-600 dark:text-purple-400">{porcentaje.toFixed(1)}%</span>
+          <span className="font-semibold text-slate-700 dark:text-slate-300">
+            Progreso General
+          </span>
+          <span className="font-bold text-azul-principal dark:text-azul-claro">
+            {porcentaje.toFixed(1)}%
+          </span>
         </div>
         <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-purple-500 to-purple-600 transition-all duration-500 ease-out"
+            className="h-full rounded-full bg-gradient-to-r from-azul-principal to-azul-cobalto transition-all duration-500 ease-out"
             style={{ width: `${porcentaje}%` }}
           ></div>
         </div>
@@ -161,19 +173,31 @@ export function CampaignProgressMonitor() {
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <div className="rounded-xl bg-white/50 p-3 dark:bg-slate-900/30">
           <p className="text-xs text-slate-500 dark:text-slate-400">Total</p>
-          <p className="text-xl font-bold text-slate-900 dark:text-slate-100">{total}</p>
+          <p className="text-xl font-bold text-slate-900 dark:text-slate-100">
+            {total}
+          </p>
         </div>
         <div className="rounded-xl bg-white/50 p-3 dark:bg-slate-900/30">
-          <p className="text-xs text-emerald-600 dark:text-emerald-400">Exitosos</p>
-          <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{exitosos}</p>
+          <p className="text-xs text-emerald-600 dark:text-emerald-400">
+            Exitosos
+          </p>
+          <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
+            {exitosos}
+          </p>
         </div>
         <div className="rounded-xl bg-white/50 p-3 dark:bg-slate-900/30">
           <p className="text-xs text-rose-600 dark:text-rose-400">Fallidos</p>
-          <p className="text-xl font-bold text-rose-600 dark:text-rose-400">{fallidos}</p>
+          <p className="text-xl font-bold text-rose-600 dark:text-rose-400">
+            {fallidos}
+          </p>
         </div>
         <div className="rounded-xl bg-white/50 p-3 dark:bg-slate-900/30">
-          <p className="text-xs text-slate-500 dark:text-slate-400">Pendientes</p>
-          <p className="text-xl font-bold text-slate-700 dark:text-slate-300">{pendientes}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Pendientes
+          </p>
+          <p className="text-xl font-bold text-slate-700 dark:text-slate-300">
+            {pendientes}
+          </p>
         </div>
       </div>
 
@@ -183,7 +207,7 @@ export function CampaignProgressMonitor() {
           <span className="font-semibold text-slate-700 dark:text-slate-300">
             Envíos hoy (Límite: {limiteDiario})
           </span>
-          <span className="font-bold text-purple-600 dark:text-purple-400">
+          <span className="font-bold text-azul-principal dark:text-azul-claro">
             {enviosHoy}/{limiteDiario}
           </span>
         </div>
@@ -191,10 +215,10 @@ export function CampaignProgressMonitor() {
           <div
             className={`h-full rounded-full transition-all duration-500 ${
               enviosHoy >= limiteDiario
-                ? "bg-rose-500"
+                ? 'bg-rose-500'
                 : enviosHoy >= limiteDiario * 0.8
-                ? "bg-amber-500"
-                : "bg-emerald-500"
+                  ? 'bg-amber-500'
+                  : 'bg-emerald-500'
             }`}
             style={{ width: `${(enviosHoy / limiteDiario) * 100}%` }}
           ></div>
@@ -203,7 +227,7 @@ export function CampaignProgressMonitor() {
 
       {/* Indicador de actualización */}
       <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-        <div className="h-2 w-2 animate-pulse rounded-full bg-purple-500"></div>
+        <div className="h-2 w-2 animate-pulse rounded-full bg-azul-principal"></div>
         <span>Actualizando cada 5 segundos</span>
       </div>
     </div>

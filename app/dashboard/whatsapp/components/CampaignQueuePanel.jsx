@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { apiRequest } from "@/api/fetchApiWhatsApp";
-import Swal from "sweetalert2";
+import { useState, useEffect } from 'react';
+import { apiRequest } from '@/api/fetchApiWhatsApp';
+import Swal from 'sweetalert2';
 
 export function CampaignQueuePanel() {
   const [campaigns, setCampaigns] = useState([]);
@@ -19,14 +19,14 @@ export function CampaignQueuePanel() {
 
   const fetchCampaigns = async () => {
     try {
-      const response = await apiRequest("/api/whatsapp/campaigns?limit=10");
-      
+      const response = await apiRequest('/api/whatsapp/campaigns?limit=10');
+
       if (response.success) {
         setActiveCampaign(response.active_campaign);
         setCampaigns(response.data.campanias || []);
       }
     } catch (error) {
-      console.error("Error fetching campaigns:", error);
+      console.error('Error fetching campaigns:', error);
     } finally {
       setLoading(false);
     }
@@ -36,58 +36,63 @@ export function CampaignQueuePanel() {
     try {
       setActionLoading(true);
 
-      const response = await apiRequest(`/api/whatsapp/campaign/${campaniaId}/start`, {
-        method: "POST",
-      });
+      const response = await apiRequest(
+        `/api/whatsapp/campaign/${campaniaId}/start`,
+        {
+          method: 'POST',
+        },
+      );
 
       if (response.success) {
         Swal.fire({
-          icon: "success",
-          title: "¡Campaña Iniciada!",
-          text: response.message || "La campaña se está procesando",
+          icon: 'success',
+          title: '¡Campaña Iniciada!',
+          text: response.message || 'La campaña se está procesando',
           timer: 3000,
         });
-        
+
         // Refrescar inmediatamente
         await fetchCampaigns();
       } else {
         // Manejar diferentes tipos de errores
-        const errorType = response.error_type || "unknown";
-        
-        if (errorType === "whatsapp_not_connected") {
+        const errorType = response.error_type || 'unknown';
+
+        if (errorType === 'whatsapp_not_connected') {
           Swal.fire({
-            icon: "warning",
-            title: "📱 WhatsApp No Conectado",
+            icon: 'warning',
+            title: '📱 WhatsApp No Conectado',
             html: `
               <p>${response.message}</p>
               <p class="text-sm text-gray-600 mt-2">
                 Ve a la pestaña <strong>"Conexión"</strong> y escanea el código QR primero.
               </p>
             `,
-            confirmButtonText: "Entendido",
-            confirmButtonColor: "#8b5cf6",
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#8b5cf6',
           });
-        } else if (errorType === "campaign_active") {
+        } else if (errorType === 'campaign_active') {
           Swal.fire({
-            icon: "info",
-            title: "Campaña en Proceso",
-            text: response.message || "Hay una campaña activa en proceso",
-            confirmButtonText: "OK",
+            icon: 'info',
+            title: 'Campaña en Proceso',
+            text: response.message || 'Hay una campaña activa en proceso',
+            confirmButtonText: 'OK',
           });
         } else {
           Swal.fire({
-            icon: "error",
-            title: "No se puede iniciar",
-            text: response.message || "Error desconocido",
+            icon: 'error',
+            title: 'No se puede iniciar',
+            text: response.message || 'Error desconocido',
           });
         }
       }
     } catch (error) {
-      console.error("Error starting campaign:", error);
+      console.error('Error starting campaign:', error);
       Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: error.message || "No se pudo iniciar la campaña. Verifica tu conexión.",
+        icon: 'error',
+        title: 'Error',
+        text:
+          error.message ||
+          'No se pudo iniciar la campaña. Verifica tu conexión.',
       });
     } finally {
       setActionLoading(false);
@@ -95,31 +100,69 @@ export function CampaignQueuePanel() {
   };
 
   // Filtrar campañas por categoría
-  const draftCampaigns = campaigns.filter((c) => c.estado === "borrador");
+  const draftCampaigns = campaigns.filter((c) => c.estado === 'borrador');
   const pausedCampaigns = campaigns.filter((c) =>
-    ["pausada_hasta_mañana", "pausada_fuera_horario", "pausada_sin_conexion"].includes(c.estado)
+    [
+      'pausada_hasta_mañana',
+      'pausada_fuera_horario',
+      'pausada_sin_conexion',
+    ].includes(c.estado),
   );
-  const recentCompletedCampaigns = campaigns.filter((c) => 
-    c.estado === "completada"
-  ).slice(0, 3);
+  const recentCompletedCampaigns = campaigns
+    .filter((c) => c.estado === 'completada')
+    .slice(0, 3);
 
   const getEstadoBadge = (estado) => {
     const badges = {
-      borrador: { bg: "bg-slate-100", text: "text-slate-700", label: "📝 Borrador" },
-      pendiente: { bg: "bg-blue-100", text: "text-blue-700", label: "⏳ Pendiente" },
-      en_proceso: { bg: "bg-purple-100", text: "text-purple-700", label: "🚀 En Proceso" },
-      pausada_hasta_mañana: { bg: "bg-amber-100", text: "text-amber-700", label: "⏸️ Pausada (Límite)" },
-      pausada_fuera_horario: { bg: "bg-orange-100", text: "text-orange-700", label: "🌙 Pausada (Horario)" },
-      pausada_sin_conexion: { bg: "bg-red-100", text: "text-red-700", label: "📵 Pausada (Sin Conexión)" },
-      completada: { bg: "bg-emerald-100", text: "text-emerald-700", label: "✅ Completada" },
-      cancelada: { bg: "bg-rose-100", text: "text-rose-700", label: "❌ Cancelada" },
-      error: { bg: "bg-red-100", text: "text-red-700", label: "⚠️ Error" },
+      borrador: {
+        bg: 'bg-slate-100',
+        text: 'text-slate-700',
+        label: '📝 Borrador',
+      },
+      pendiente: {
+        bg: 'bg-blue-100',
+        text: 'text-blue-700',
+        label: '⏳ Pendiente',
+      },
+      en_proceso: {
+        bg: 'bg-purple-100',
+        text: 'text-purple-700',
+        label: '🚀 En Proceso',
+      },
+      pausada_hasta_mañana: {
+        bg: 'bg-amber-100',
+        text: 'text-amber-700',
+        label: '⏸️ Pausada (Límite)',
+      },
+      pausada_fuera_horario: {
+        bg: 'bg-orange-100',
+        text: 'text-orange-700',
+        label: '🌙 Pausada (Horario)',
+      },
+      pausada_sin_conexion: {
+        bg: 'bg-red-100',
+        text: 'text-red-700',
+        label: '📵 Pausada (Sin Conexión)',
+      },
+      completada: {
+        bg: 'bg-emerald-100',
+        text: 'text-emerald-700',
+        label: '✅ Completada',
+      },
+      cancelada: {
+        bg: 'bg-rose-100',
+        text: 'text-rose-700',
+        label: '❌ Cancelada',
+      },
+      error: { bg: 'bg-red-100', text: 'text-red-700', label: '⚠️ Error' },
     };
 
     const badge = badges[estado] || badges.borrador;
 
     return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badge.bg} ${badge.text}`}>
+      <span
+        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badge.bg} ${badge.text}`}
+      >
         {badge.label}
       </span>
     );
@@ -140,12 +183,12 @@ export function CampaignQueuePanel() {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-4">
+      <div className="bg-gradient-to-r from-azul-intenso to-azul-principal px-6 py-4">
         <h3 className="text-lg font-semibold text-white flex items-center gap-2">
           📋 Cola de Campañas
         </h3>
         <p className="text-purple-100 text-sm mt-1">
-          {activeCampaign ? "1 campaña activa" : "Sin campañas activas"}
+          {activeCampaign ? '1 campaña activa' : 'Sin campañas activas'}
         </p>
       </div>
 
@@ -167,7 +210,9 @@ export function CampaignQueuePanel() {
                       <p className="font-medium text-slate-900 text-sm">
                         Campaña #{campaign.id_campania}
                       </p>
-                      <p className="text-xs text-slate-500">{campaign.servicio}</p>
+                      <p className="text-xs text-slate-500">
+                        {campaign.servicio}
+                      </p>
                     </div>
                     {getEstadoBadge(campaign.estado)}
                   </div>
@@ -175,7 +220,9 @@ export function CampaignQueuePanel() {
                   <div className="flex items-center justify-between text-xs text-slate-600 mb-3">
                     <span>📊 {campaign.total_destinatarios} destinatarios</span>
                     <span className="text-slate-400">
-                      {new Date(campaign.created_at).toLocaleDateString("es-PE")}
+                      {new Date(campaign.created_at).toLocaleDateString(
+                        'es-PE',
+                      )}
                     </span>
                   </div>
 
@@ -184,11 +231,11 @@ export function CampaignQueuePanel() {
                     disabled={actionLoading || !campaign.can_be_started}
                     className={`w-full py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
                       campaign.can_be_started && !actionLoading
-                        ? "bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800"
-                        : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                        ? 'bg-purple-600 text-white hover:bg-purple-700 active:bg-purple-800'
+                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                     }`}
                   >
-                    {actionLoading ? "⏳ Iniciando..." : "🚀 Iniciar Campaña"}
+                    {actionLoading ? '⏳ Iniciando...' : '🚀 Iniciar Campaña'}
                   </button>
 
                   {!campaign.can_be_started && activeCampaign && (
@@ -219,7 +266,9 @@ export function CampaignQueuePanel() {
                       <p className="font-medium text-slate-900 text-sm">
                         Campaña #{campaign.id_campania}
                       </p>
-                      <p className="text-xs text-slate-500">{campaign.servicio}</p>
+                      <p className="text-xs text-slate-500">
+                        {campaign.servicio}
+                      </p>
                     </div>
                     {getEstadoBadge(campaign.estado)}
                   </div>
@@ -229,8 +278,10 @@ export function CampaignQueuePanel() {
                       <span className="text-emerald-600 font-medium">
                         ✅ {campaign.envios_exitosos}
                       </span>
-                      {" / "}
-                      <span className="text-slate-500">{campaign.total_destinatarios}</span>
+                      {' / '}
+                      <span className="text-slate-500">
+                        {campaign.total_destinatarios}
+                      </span>
                     </div>
                     <div className="text-right">
                       <span className="text-amber-600 font-medium">
@@ -248,22 +299,26 @@ export function CampaignQueuePanel() {
                   </div>
 
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-500">📅 Hoy: {campaign.envios_hoy}/50</span>
+                    <span className="text-slate-500">
+                      📅 Hoy: {campaign.envios_hoy}/50
+                    </span>
                     <span className="text-slate-400">
                       {campaign.porcentaje}% completado
                     </span>
                   </div>
 
-                  <div className={`mt-2 text-xs rounded px-2 py-1 text-center ${
-                    campaign.estado === "pausada_sin_conexion" 
-                      ? "text-red-700 bg-red-100" 
-                      : "text-amber-700 bg-amber-100"
-                  }`}>
-                    {campaign.estado === "pausada_hasta_mañana"
-                      ? "⏰ Se reanudará mañana automáticamente"
-                      : campaign.estado === "pausada_sin_conexion"
-                      ? "📵 Se reanudará cuando WhatsApp se reconecte"
-                      : "🌙 Se reanudará a las 8am automáticamente"}
+                  <div
+                    className={`mt-2 text-xs rounded px-2 py-1 text-center ${
+                      campaign.estado === 'pausada_sin_conexion'
+                        ? 'text-red-700 bg-red-100'
+                        : 'text-amber-700 bg-amber-100'
+                    }`}
+                  >
+                    {campaign.estado === 'pausada_hasta_mañana'
+                      ? '⏰ Se reanudará mañana automáticamente'
+                      : campaign.estado === 'pausada_sin_conexion'
+                        ? '📵 Se reanudará cuando WhatsApp se reconecte'
+                        : '🌙 Se reanudará a las 8am automáticamente'}
                   </div>
                 </div>
               ))}
@@ -288,12 +343,13 @@ export function CampaignQueuePanel() {
                       Campaña #{campaign.id_campania}
                     </p>
                     <span className="text-xs text-emerald-600 font-medium">
-                      ✅ {campaign.envios_exitosos}/{campaign.total_destinatarios}
+                      ✅ {campaign.envios_exitosos}/
+                      {campaign.total_destinatarios}
                     </span>
                   </div>
                   <p className="text-xs text-slate-500">{campaign.servicio}</p>
                   <p className="text-xs text-slate-400 mt-1">
-                    {new Date(campaign.fecha_fin).toLocaleString("es-PE")}
+                    {new Date(campaign.fecha_fin).toLocaleString('es-PE')}
                   </p>
                 </div>
               ))}

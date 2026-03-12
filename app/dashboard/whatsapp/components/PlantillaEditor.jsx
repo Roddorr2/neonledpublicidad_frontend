@@ -62,7 +62,7 @@ export function PlantillaEditor({
             className={`rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition ${
               saving
                 ? 'bg-slate-400 cursor-not-allowed'
-                : 'bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700'
+                : 'bg-azul-principal hover:bg-azul-cobalto active:opacity-80'
             }`}
           >
             {saving ? 'Guardando...' : 'Guardar Cambios'}
@@ -90,7 +90,7 @@ export function PlantillaEditor({
                   value={formData.mensaje || ''}
                   onChange={(e) => handleInputChange('mensaje', e.target.value)}
                   rows={12}
-                  className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                  className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-sm text-slate-700 dark:text-slate-200 focus:border-azul-principal focus:outline-none focus:ring-2 focus:ring-azul-principal/20"
                   placeholder="Escribe el mensaje aquí... Usa {nombre} para personalizar. Puedes usar *negrita* y _cursiva_."
                 />
                 <div className="mt-2 flex items-start justify-between gap-3">
@@ -98,7 +98,7 @@ export function PlantillaEditor({
                     <strong className="text-slate-700 dark:text-slate-300">
                       Importante:
                     </strong>{' '}
-                    <code className="rounded bg-cyan-50 border border-cyan-200 px-1.5 py-0.5 font-semibold text-cyan-700">
+                    <code className="rounded bg-azul-claro/20 border border-azul-claro px-1.5 py-0.5 font-semibold text-azul-principal">
                       {'{nombre}'}
                     </code>{' '}
                     es un placeholder del sistema que se reemplaza
@@ -136,7 +136,7 @@ export function PlantillaEditor({
                     htmlFor="imageUpload"
                     onDrop={handleDrop}
                     onDragOver={(e) => e.preventDefault()}
-                    className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-6 hover:border-cyan-400 hover:bg-cyan-50/30 cursor-pointer transition active:scale-[0.99]"
+                    className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-6 hover:border-azul-principal hover:bg-azul-claro/10 cursor-pointer transition active:scale-[0.99]"
                   >
                     <UploadIcon />
                     <p className="mt-2 text-sm font-semibold text-slate-700">
@@ -166,7 +166,7 @@ export function PlantillaEditor({
                       />
 
                       {imageFile && (
-                        <div className="absolute bottom-2 left-2 rounded bg-cyan-500 px-2 py-1 text-xs font-semibold text-white">
+                        <div className="absolute bottom-2 left-2 rounded bg-azul-principal px-2 py-1 text-xs font-semibold text-white">
                           Nueva imagen
                         </div>
                       )}
