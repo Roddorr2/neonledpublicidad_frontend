@@ -49,7 +49,6 @@ const Blogs = () => {
       setError(null);
       const response = await fetch.fetchCards();
 
-      console.log(JSON.stringify(response));
       if (axios.isAxiosError(response) || response instanceof Error) {
         setError(
           "Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente."
@@ -72,10 +71,11 @@ const Blogs = () => {
   }, []);
 
   useEffect(() => {
-    // Ejecutar búsqueda debounceada en el backend
+    let stale = false;
+
     const performSearch = async () => {
-      // Si está vacío, mostrar todos los datos
-      if (!debouncedSearchTerm.trim()) {
+      // Mínimo 3 caracteres para lanzar la búsqueda al backend
+      if (debouncedSearchTerm.trim().length < 3) {
         setFilteredData(data);
         setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
         setCurrentPage(1);
@@ -86,19 +86,26 @@ const Blogs = () => {
       setIsSearching(true);
       try {
         const results = await fetch.searchCards(debouncedSearchTerm, 'public');
+        // Ignorar respuestas de búsquedas anteriores (race condition)
+        if (stale) return;
         setFilteredData(results || []);
         setTotalPages(Math.ceil((results?.length || 0) / ITEMS_PER_PAGE));
         setCurrentPage(1);
       } catch (err) {
+        if (stale) return;
         console.error('Error en búsqueda:', err);
         setFilteredData([]);
         setTotalPages(1);
       } finally {
-        setIsSearching(false);
+        if (!stale) setIsSearching(false);
       }
     };
 
     performSearch();
+
+    return () => {
+      stale = true;
+    };
   }, [debouncedSearchTerm, data]);
 
   useEffect(() => {
@@ -110,7 +117,6 @@ const Blogs = () => {
   }, [data]);
 
   const getCurrentPageItems = () => {
-    console.log(`getCurrentPageItems | ${filteredData}`);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return filteredData.slice(startIndex, endIndex);
