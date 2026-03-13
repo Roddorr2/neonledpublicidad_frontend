@@ -83,15 +83,6 @@ const Blogs = () => {
         return;
       }
 
-      // Validar mínimo 3 caracteres
-      if (debouncedSearchTerm.trim().length < 3) {
-        setFilteredData([]);
-        setTotalPages(1);
-        setCurrentPage(1);
-        setIsSearching(false);
-        return;
-      }
-
       setIsSearching(true);
       try {
         const results = await fetch.searchCards(debouncedSearchTerm, 'public');
@@ -133,7 +124,7 @@ const Blogs = () => {
   const handleSearch = () => {
     // La búsqueda se realiza automáticamente mediante debounce en el useEffect
     // Este botón ya no es necesario pero se mantiene por UX
-    if (searchTerm.trim().length >= 3) {
+    if (searchTerm.trim().length >= 1) {
       // Si el usuario clickea el botón, resetear la página
       setCurrentPage(1);
     }
@@ -144,7 +135,7 @@ const Blogs = () => {
       bg-transparent  group hover:scale-105 transition-all duration-500 h-[280px]">
       <div className="absolute inset-0 w-full h-full">
         <img
-          src={`${dato.public_image}?v=${Date.now()}`}
+          src={dato.public_image}
           alt={dato.blog.head.alt || dato.titulo}
           title={dato.blog.head.title || dato.titulo}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -253,7 +244,7 @@ const Blogs = () => {
             <div className="relative flex-1">
               <input
                 type="text"
-                placeholder="ESCRIBE (mín. 3 caracteres)"
+                placeholder="ESCRIBE PARA BUSCAR"
                 className="w-full px-8 py-4 rounded-full bg-transparent border-2 border-white text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -266,7 +257,7 @@ const Blogs = () => {
             </div>
             <button
               onClick={handleSearch}
-              disabled={isSearching || searchTerm.trim().length < 3}
+              disabled={isSearching}
               className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSearching ? "BUSCANDO..." : "BUSCAR"}

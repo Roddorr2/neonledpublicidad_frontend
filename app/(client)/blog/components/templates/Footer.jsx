@@ -67,7 +67,7 @@ export default function Footer({ id_blog_footer }) {
         return previewImageUrl; 
         }
 
-        return `${previewImageUrl}?v=${Date.now()}`; 
+        return previewImageUrl;
     };
 
     if (isLoading) {

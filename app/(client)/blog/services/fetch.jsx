@@ -2,6 +2,89 @@ import axios from 'axios'
 import url from '../../../../api/url'
 import { getCookie } from "cookies-next";
 
+const isBlogMockMode = process.env.NEXT_PUBLIC_BLOG_MOCK === 'true';
+
+const mockCards = [
+    {
+        id_card: 1,
+        id_plantilla: 1,
+        titulo: 'Techos LED para Gimnasios',
+        public_image: '/blog/blog-4.webp',
+        blog: {
+            link: 'mock-techos-led-gimnasios',
+            head: {
+                alt: 'Techos LED para gimnasios',
+                title: 'Techos LED para gimnasios',
+            },
+        },
+    },
+    {
+        id_card: 2,
+        id_plantilla: 2,
+        titulo: 'Sillas luminosas para eventos',
+        public_image: '/blog/blog-8.webp',
+        blog: {
+            link: 'mock-sillas-luminosas-eventos',
+            head: {
+                alt: 'Sillas luminosas para eventos',
+                title: 'Sillas luminosas para eventos',
+            },
+        },
+    },
+    {
+        id_card: 3,
+        id_plantilla: 3,
+        titulo: 'LED Pixel para Discotecas',
+        public_image: '/blog/blog-10.webp',
+        blog: {
+            link: 'mock-led-pixel-discotecas',
+            head: {
+                alt: 'LED Pixel para discotecas',
+                title: 'LED Pixel para discotecas',
+            },
+        },
+    },
+    {
+        id_card: 4,
+        id_plantilla: 1,
+        titulo: 'Letras DyP de Lujo Dorado y Plateado',
+        public_image: '/blog/blog-1.webp',
+        blog: {
+            link: 'mock-letras-dyp-lujo',
+            head: {
+                alt: 'Letras de lujo doradas y plateadas',
+                title: 'Letras de lujo doradas y plateadas',
+            },
+        },
+    },
+    {
+        id_card: 5,
+        id_plantilla: 2,
+        titulo: 'Letreros luminosos para marcas',
+        public_image: '/blog/blog-14.webp',
+        blog: {
+            link: 'mock-letreros-luminosos-marcas',
+            head: {
+                alt: 'Letreros luminosos para marcas',
+                title: 'Letreros luminosos para marcas',
+            },
+        },
+    },
+    {
+        id_card: 6,
+        id_plantilla: 3,
+        titulo: 'Neon LED para restaurantes',
+        public_image: '/blog/blog-12.webp',
+        blog: {
+            link: 'mock-neon-led-restaurantes',
+            head: {
+                alt: 'Neon LED para restaurantes',
+                title: 'Neon LED para restaurantes',
+            },
+        },
+    },
+];
+
 const Fetch = {
     fetchBlogs: async function fetchBlogs(){
         try{
@@ -46,6 +129,10 @@ const Fetch = {
     },
 
     fetchCards: async function fetchCards(){
+        if (isBlogMockMode) {
+            return mockCards;
+        }
+
         try{
             const response = await axios.get(`${url}/api/cards_public`);
             if(response.status === 200){
@@ -175,8 +262,19 @@ const Fetch = {
     },    
 
     searchCards: async function searchCards(query, type = 'public') {
+        if (isBlogMockMode) {
+            if (!query || !query.trim()) {
+                return [];
+            }
+
+            const term = query.trim().toLowerCase();
+            return mockCards.filter((card) =>
+                card.titulo.toLowerCase().includes(term)
+            );
+        }
+
         try {
-            if (!query || query.trim().length < 3) {
+            if (!query || !query.trim()) {
                 return [];
             }
             
