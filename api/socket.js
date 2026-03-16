@@ -16,7 +16,7 @@ export const useWhatsAppSocket = (tokenArg) => {
 
     const socketUrl =
       process.env.NEXT_PUBLIC_SOCKET_URL_DEV ||
-      process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV ||
+      process.env.NEXT_PUBLIC_API_URL_WHATSAPP_PROD ||
       'http://localhost:5111';
 
     console.log('🔌 Conectando socket a:', socketUrl);
