@@ -83,7 +83,7 @@ export default function Body3({ id_blog_body, fecha }) {
         return previewImageUrl; 
         }
 
-        return `${previewImageUrl}?v=${Date.now()}`; 
+        return previewImageUrl;
     };
 
     if (isLoading) {

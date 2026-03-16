@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { getCookie, setCookie } from 'cookies-next';
 import ModalWrapper from "../../components/modal-wrapper"
 import { DisplayNameContext } from "../../components/DisplayNameContext"
+import { safeJsonParse } from "@/lib/safe-json";
 
 export default function modal_empleado({ isVisible, onClose, data, onUpdateSuccess, isProfileEdit = false }) {
   const router = useRouter()
@@ -193,7 +194,7 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
             setError({ status: false, message: "Información actualizada correctamente" });
   
             if (isProfileEdit) {
-              const currentEmpleadoData = getCookie('empleado') ? JSON.parse(getCookie('empleado')) : null;
+              const currentEmpleadoData = safeJsonParse(getCookie('empleado'), null);
   
               if (currentEmpleadoData) {
                 const updatedEmpleadoData = {
