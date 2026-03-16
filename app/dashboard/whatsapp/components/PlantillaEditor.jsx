@@ -49,7 +49,7 @@ export function PlantillaEditor({
         <div className="flex items-center justify-between">
           <div>
             <CardTitle>
-              {getNombreServicio(selectedPlantilla.id_servicio)}
+              {getNombreServicio(selectedPlantilla.id_producto)}
             </CardTitle>
             <p className="mt-1 text-sm text-slate-500">
               {getTiempoEnvio(selectedPlantilla.numero_plantilla)} · ID:{' '}

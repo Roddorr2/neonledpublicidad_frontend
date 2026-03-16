@@ -39,7 +39,7 @@ export function PlantillasTab() {
     if (selectedPlantilla) {
       setFormData({
         id: getPlantillaId(selectedPlantilla),
-        id_servicio: selectedPlantilla.id_servicio,
+        id_producto: selectedPlantilla.id_producto,
         numero_plantilla: selectedPlantilla.numero_plantilla,
         ...(tipo === 'whatsapp'
           ? {
@@ -263,9 +263,10 @@ export function PlantillasTab() {
     }
   };
 
-  const getNombreServicio = (id_servicio) => {
-    const servicio = servicios.find((s) => s.id === id_servicio);
-    return servicio ? servicio.nombre : `Servicio ${id_servicio}`;
+  const getNombreServicio = (id_producto) => {
+    const productoId = Number(id_producto);
+    const servicio = servicios.find((s) => Number(s.id) === productoId);
+    return servicio ? servicio.nombre : `Producto ${id_producto}`;
   };
 
   const getTiempoEnvio = (numero_plantilla) => {
