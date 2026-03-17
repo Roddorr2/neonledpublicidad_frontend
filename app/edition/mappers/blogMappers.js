@@ -358,6 +358,11 @@ export function mapConsejos(formData, plantillaId = 1) {
     consejos.titulo = CONSEJOS_DEFAULTS.titulo || "Consejos Importantes";
   }
 
+  // Preservar texto4/texto5 aunque la plantilla no los requiera explícitamente.
+  // Evitamos pérdidas silenciosas si el editor permite esos campos.
+  consejos.texto4 = formData?.texto4 || "";
+  consejos.texto5 = formData?.texto5 || "";
+
   return consejos;
 }
 

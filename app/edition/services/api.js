@@ -43,7 +43,7 @@ const Api = {
   deleteCommendTarjeta: (id) =>
     apiClient.delete(`/commend_tarjeta/${id}`).then((r) => r.data),
 
-  getTarjetas: () => apiClient.get("/cards").then((r) => r.data), // Original: /cards
+  getTarjetas: () => apiClient.get("/tarjetas").then((r) => r.data),
   getTarjetaById: (id) =>
     apiClient.get(`/tarjeta/${id}`).then((r) => r.data?.data),
   createTarjeta: (formData) =>
