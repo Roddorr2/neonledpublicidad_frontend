@@ -132,10 +132,10 @@ export default function Page() {
         </div>
       </main>
       <section className="p-8 text-[#b2b2b2] md:border-2 md:my-16 border-[#b2b2b2] max-w-3xl mx-auto">
-        <h2 className="text-center text-black md:text-left">Déjanos tus datos para poder atender tu reclamo</h2>
+        <h2 className="text-xl text-center mb-4 mt-6 text-white md:text-left">Déjanos tus datos para poder atender tu reclamo</h2>
 
         <form onSubmit={handleSubmit}>
-          <h3 className="text-xl text-center mb-4 mt-2 text-black md:text-left">Identidad del consumidor reclamante</h3>
+          <h3 className="text-xl text-center mb-4 mt-2 text-white md:text-left">Identidad del consumidor reclamante</h3>
 
           <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
             <Input
