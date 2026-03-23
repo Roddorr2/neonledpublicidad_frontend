@@ -196,7 +196,7 @@ export default function Page() {
             />
           </div>
 
-          <h3 className="text-xl text-center mb-4 mt-6 text-black md:text-left">Información del servicio</h3>
+          <h3 className="text-xl text-center mb-4 mt-6 text-white md:text-left">Información del servicio</h3>
 
           <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
             <select
