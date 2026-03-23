@@ -1,8 +1,13 @@
 "use client";
 import { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 const Slider2 = ({ slides }) => {
   const sliderRef = useRef(null);
+  const duplicatedSlides = [...slides, ...slides].map((slide, index) => ({
+    ...slide,
+    duplicateGroup: index < slides.length ? "first" : "second",
+  }));
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -34,27 +39,41 @@ const Slider2 = ({ slides }) => {
           NUESTROS CLIENTES
         </h2>
       </div>
-      <div
-        className="p-1 rounded-[2.5rem] bg-gradient-to-r from-orange-500 via-blue-500 to-fuchsia-500 mx-auto"
-        style={{ width: `${slides.length * 192 + 2}px` }}>
-        <div className="overflow-hidden rounded-[2.5rem]">
-          <div ref={sliderRef} className="flex">
-            {[...slides, ...slides].map((slide, index) => (
-              <div key={index} className="flex-shrink-0 w-48">
-                <img
-                  src={slide.imgSrc}
-                  alt={slide.altText}
-                  title={slide.title}
-                  className="object-contain w-full h-full mx-auto"
-                  loading="lazy"
-                />
-              </div>
-            ))}
+      <div className="w-full overflow-hidden">
+        <div
+          className="p-1 rounded-[2.5rem] bg-gradient-to-r from-orange-500 via-blue-500 to-fuchsia-500 relative left-1/2 -translate-x-1/2"
+          style={{ width: `${slides.length * 192 + 2}px` }}>
+          <div className="overflow-hidden rounded-[2.5rem]">
+            <div ref={sliderRef} className="flex">
+              {duplicatedSlides.map((slide) => (
+                <div
+                  key={`${slide.imgSrc}-${slide.altText}-${slide.duplicateGroup}`}
+                  className="flex-shrink-0 w-48">
+                  <img
+                    src={slide.imgSrc}
+                    alt={slide.altText}
+                    title={slide.title}
+                    className="object-contain w-full h-full mx-auto"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+Slider2.propTypes = {
+  slides: PropTypes.arrayOf(
+    PropTypes.shape({
+      imgSrc: PropTypes.string.isRequired,
+      altText: PropTypes.string,
+      title: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default Slider2;
