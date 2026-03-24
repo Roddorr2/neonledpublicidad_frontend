@@ -54,7 +54,7 @@ export default function Footer() {
             <div>
               <p className="font-semibold mb-2">Disponibilidad:</p>
               <p className="text-sm mb-1">Lunes a Viernes</p>
-              <p className="text-sm">8:00 a.m – 7:00 p.m</p>
+              <p className="text-sm">9:00 a.m – 6:00 p.m</p>
             </div>
           </div>
 
