@@ -332,6 +332,47 @@ export function CampaignQueuePanel() {
             <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
               ✅ Completadas Recientes
             </h4>
+
+            {/* Envíos Hoy (migrado desde CampaignProgressMonitor) */}
+            <div className="mb-3 rounded-xl bg-white/50 p-3 dark:bg-slate-900/30">
+              {(() => {
+                const enviosHoy =
+                  activeCampaign?.envios_hoy ??
+                  (recentCompletedCampaigns[0]?.envios_hoy ?? 0);
+                const limiteDiario = activeCampaign?.limite_diario ?? 50;
+                const percentage = Math.min(
+                  100,
+                  (enviosHoy / Math.max(1, limiteDiario)) * 100,
+                );
+
+                return (
+                  <>
+                    <div className="flex items-center justify-between text-sm mb-2">
+                      <span className="font-semibold text-slate-700 dark:text-slate-300">
+                        Envíos hoy (Límite: {limiteDiario})
+                      </span>
+                      <span className="font-bold text-azul-principal dark:text-azul-claro">
+                        {enviosHoy}/{limiteDiario}
+                      </span>
+                    </div>
+
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          enviosHoy >= limiteDiario
+                            ? 'bg-rose-500'
+                            : enviosHoy >= limiteDiario * 0.8
+                            ? 'bg-amber-500'
+                            : 'bg-emerald-500'
+                        }`}
+                        style={{ width: `${percentage}%` }}
+                      ></div>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+
             <div className="space-y-2">
               {recentCompletedCampaigns.map((campaign) => (
                 <div
