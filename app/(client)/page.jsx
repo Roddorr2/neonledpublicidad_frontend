@@ -115,9 +115,9 @@ export default function Home() {
       title: "Letras corporeas doradas con iluminación",
     },
    {
-      imgSrc: "/home/imagen_mario_dalmasi_HD.png",
-      imgSrcMobile: "/home/imagen_mario_dalmasi_mobile_HD.png",
-      imgSrcIcon: "/home/imagen_mario_dalmasi_HD.png",
+      imgSrc: "/home/imagen_mario_dalmasi_HD.webp",
+      imgSrcMobile: "/home/imagen_mario_dalmasi_mobile_HD.webp",
+      imgSrcIcon: "/home/imagen_mario_dalmasi_HD.webp",
       altText: "Letras corporeas con gran iluminación de la marca Bembos",
       title: "Letras Bembos con iluminación led",
     },

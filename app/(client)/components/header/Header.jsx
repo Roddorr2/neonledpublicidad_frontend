@@ -152,8 +152,8 @@ export default function Header() {
                   alt="Logotipo de Neon Led Publicidad"
                   title="Neon Led Publicidad especialistas en letreros led"
                   className={`
-                  h-auto transition-all duration-300
-                  ${
+                  h-full w-auto object-contain transition-all duration-300 
+                  ${ 
                     logoSrc.includes("Logo_corto_nlp_header")
                       ? "w-12 mt-2"
                       : "w-36"
@@ -168,7 +168,7 @@ export default function Header() {
                 <img
                   src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
                   alt="Logotipo móvil Neon Led Publicidad"
-                  className="w-36 h-auto cursor-pointer"
+                  className="h-full w-auto object-contain cursor-pointer" 
                 />
                 </a>
               )}
