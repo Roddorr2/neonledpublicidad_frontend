@@ -40,6 +40,12 @@ export const SocialMedia = () => {
             alt: "YouTube",
             title: "YouTube",
         },
+        {
+            href: "https://mail.google.com/mail/?view=cm&to=Publicidadnls@gmail.com&su=Consulta+sobre+luces+ne%C3%B3n+personalizadas&body=Estoy+interesado(a)+en+sus+luces+ne%C3%B3n+personalizadas+y+me+gustar%C3%ADa+recibir+m%C3%A1s+informaci%C3%B3n.%0AGracias.",
+            src: "/header_footer/icono_gmail.png",
+            alt: "Gmail",
+            title: "Gmail",
+        },
     ];
 
     return (
