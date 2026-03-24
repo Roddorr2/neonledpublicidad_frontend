@@ -276,8 +276,8 @@ export default function useBlogData(
               id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
               titulo: tarjeta.titulo || "",
               descripcion: tarjeta.descripcion || "",
-              palabra: tarjeta.palabra || "",
-              enlace: tarjeta.enlace || "",
+              keyword: tarjeta.keyword || tarjeta.palabra || "",
+              link: tarjeta.link || tarjeta.enlace || "",
             }));
             setFormInfoBody(tarjetasMapped);
           } else {
@@ -293,8 +293,8 @@ export default function useBlogData(
                   id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
                   titulo: tarjeta.titulo || "",
                   descripcion: tarjeta.descripcion || "",
-                  palabra: tarjeta.palabra || "",
-                  enlace: tarjeta.enlace || "",
+                  keyword: tarjeta.keyword || tarjeta.palabra || "",
+                  link: tarjeta.link || tarjeta.enlace || "",
                 }));
                 setFormInfoBody(tarjetasMapped);
               } else {
@@ -322,8 +322,8 @@ export default function useBlogData(
             title_image2: mappedFooter.title_image2,
             alt_image3: mappedFooter.alt_image3,
             title_image3: mappedFooter.title_image3,
-            palabra: mappedFooter.palabra,
-            enlace: mappedFooter.enlace,
+            keyword: mappedFooter.keyword,
+            link: mappedFooter.link,
           });
           setFormImagenFooter({
             public_image1: mappedFooter.public_image1,
@@ -445,7 +445,9 @@ export default function useBlogData(
         const hasConsejos =
           formCommendBody?.texto1 ||
           formCommendBody?.texto2 ||
-          formCommendBody?.texto3;
+          formCommendBody?.texto3 ||
+          formCommendBody?.texto4 ||
+          formCommendBody?.texto5;
 
         if (hasConsejos) {
           const consejosPayload = mapConsejos(formCommendBody, plantillaId);
@@ -521,7 +523,9 @@ export default function useBlogData(
         const hasConsejos =
           formCommendBody?.texto1 ||
           formCommendBody?.texto2 ||
-          formCommendBody?.texto3;
+          formCommendBody?.texto3 ||
+          formCommendBody?.texto4 ||
+          formCommendBody?.texto5;
 
         if (hasConsejos) {
           const consejosPayload = mapConsejos(formCommendBody, plantillaId);
@@ -548,7 +552,11 @@ export default function useBlogData(
               commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
             }
           } catch (err) {
-            console.warn("⚠️ Error actualizando consejos:", err);
+            throw new Error(
+              `No se pudieron guardar los consejos: ${
+                err?.response?.data?.message || err.message
+              }`
+            );
           }
         }
 
@@ -576,14 +584,22 @@ export default function useBlogData(
           try {
             // Filtrar tarjetas válidas (que tengan al menos un campo con contenido)
             const validTarjetas = formInfoBody.filter(
-              (t) => t.titulo || t.descripcion || t.palabra
+              (t) =>
+                t.titulo ||
+                t.descripcion ||
+                t.keyword ||
+                t.link ||
+                t.palabra ||
+                t.enlace
             );
+
+            const tarjetaErrors = [];
             for (const [index, tarjeta] of validTarjetas.entries()) {
               const tarjetaData = {
                 titulo: tarjeta.titulo || "",
                 descripcion: tarjeta.descripcion || "",
-                palabra: tarjeta.palabra || "",
-                enlace: tarjeta.enlace || "",
+                keyword: tarjeta.keyword || tarjeta.palabra || "",
+                link: tarjeta.link || tarjeta.enlace || "",
                 id_blog_body: bodyId,
               };
 
@@ -593,11 +609,19 @@ export default function useBlogData(
                   await Api.updateTarjeta(tarjeta.id, tarjetaData);
                 } else {
                   // ❌ Si no tiene ID, es una creación nueva
-                  const result = await Api.createTarjeta(tarjetaData);
+                  await Api.createTarjeta(tarjetaData);
                 }
               } catch (err) {
-                console.warn(`⚠️ Error procesando tarjeta ${index + 1}:`, err);
+                tarjetaErrors.push(
+                  `Tarjeta ${index + 1}: ${
+                    err?.response?.data?.message || err.message
+                  }`
+                );
               }
+            }
+
+            if (tarjetaErrors.length > 0) {
+              throw new Error(tarjetaErrors.join(" | "));
             }
 
             // ========== ELIMINAR TARJETAS QUE YA NO EXISTEN ==========
@@ -618,15 +642,18 @@ export default function useBlogData(
                 try {
                   await Api.deleteTarjeta(tarjetaId);
                 } catch (err) {
-                  console.warn(
-                    `⚠️ Error eliminando tarjeta ${tarjetaId}:`,
-                    err
+                  throw new Error(
+                    `No se pudo eliminar la tarjeta ${tarjetaId}: ${
+                      err?.response?.data?.message || err.message
+                    }`
                   );
                 }
               }
             }
           } catch (err) {
-            console.warn("⚠️ Error actualizando tarjetas de información:", err);
+            throw new Error(
+              `No se pudieron guardar las tarjetas de informacion: ${err.message}`
+            );
           }
         }
 
@@ -681,12 +708,12 @@ export default function useBlogData(
         descripcion: footerEnabled
           ? formEncabezadoFooter.descripcion || FOOTER_DEFAULTS.descripcion
           : FOOTER_DEFAULTS.descripcion,
-        palabra: footerEnabled
-          ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
-          : FOOTER_DEFAULTS.palabra,
-        enlace: footerEnabled
-          ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
-          : FOOTER_DEFAULTS.enlace,
+        keyword: footerEnabled
+          ? formEncabezadoFooter.keyword || FOOTER_DEFAULTS.keyword
+          : FOOTER_DEFAULTS.keyword,
+        link: footerEnabled
+          ? formEncabezadoFooter.link || FOOTER_DEFAULTS.link
+          : FOOTER_DEFAULTS.link,
       };
 
       if (isCreateMode) {

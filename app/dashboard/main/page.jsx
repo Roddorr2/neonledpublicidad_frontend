@@ -30,6 +30,7 @@ export default function Page() {
 
 
   const [imageUrl, setImageUrl] = useState(null)
+  const [imageVersion, setImageVersion] = useState(null)
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -195,6 +196,13 @@ export default function Page() {
     setImageUrl(updatedData.imagen_perfil_url)
   }
 
+  const getVersionedImageUrl = (rawUrl) => {
+    if (!rawUrl) return rawUrl
+    if (!imageVersion) return rawUrl
+    const separator = rawUrl.includes("?") ? "&" : "?"
+    return `${rawUrl}${separator}v=${imageVersion}`
+  }
+
   const handleDeleteProfileImage = async () => {
     try {
       const confirmResult = await Swal.fire({
@@ -226,6 +234,7 @@ export default function Page() {
       setImageUrl(
         "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
       )
+      setImageVersion(Date.now())
       setEmpleadoData((prev) => ({
         ...prev,
         imagen_perfil: null,
@@ -308,21 +317,29 @@ console.log(userData)
             <div className="md:w-1/3">
               <div className="flex flex-col items-center">
                 <div className="relative">
-                  {empleadoData?.imagen_perfil_url && empleadoData?.imagen_perfil ? (
+                  {(empleadoData?.imagen_perfil_url || empleadoData?.imagen_perfil) ? (
                     <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-[#03c4ff] shadow-md">
-                      <CldImage
-                        width={280}
-                        height={280}
-                        src={empleadoData.imagen_perfil}
-                        alt={`${nombre} ${apellido}`}
-                        className="w-full h-full object-cover"
-                        priority
-                        crop="fill"
-                        gravity="faces"
-                        quality="auto"
-                        fetchPriority="high"
-                        sizes="(max-width: 768px) 100vw, 280px"
-                      />
+                      {empleadoData?.imagen_perfil_url?.startsWith("http") ? (
+                        <img
+                          src={getVersionedImageUrl(empleadoData.imagen_perfil_url)}
+                          alt={`${nombre} ${apellido}`}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <CldImage
+                          width={280}
+                          height={280}
+                          src={empleadoData.imagen_perfil || empleadoData.imagen_perfil_url}
+                          alt={`${nombre} ${apellido}`}
+                          className="w-full h-full object-cover"
+                          priority
+                          crop="fill"
+                          gravity="faces"
+                          quality="auto"
+                          fetchPriority="high"
+                          sizes="(max-width: 768px) 100vw, 280px"
+                        />
+                      )}
                     </div>
                   ) : (
                     <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-[#1056d2] flex items-center justify-center text-white text-3xl font-bold shadow-md border-2 border-[#03c4ff]">
@@ -338,8 +355,9 @@ console.log(userData)
                     <div className="mt-2">
                       <ProfileImageUpload
                         empleadoId={empleadoData?.id_empleado}
-                        onImageUpload={(url, publicId) => {
+                        onImageUpload={(url, publicId, version) => {
                           setImageUrl(url)
+                          setImageVersion(version || Date.now())
                           setEmpleadoData((prev) => ({
                             ...prev,
                             imagen_perfil: publicId,
