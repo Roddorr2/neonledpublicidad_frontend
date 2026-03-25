@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User, Lock, ArrowLeft } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
@@ -9,12 +9,15 @@ import Link from "next/link";
 import Header from "../../(client)/components/header/Header";
 import Footer from "../../(client)/components/footer/Footer";
 import { useAuth } from "@/app/context/AutContext";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loadingForm, setLoadingForm] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState(null);
+  const turnstileRef = useRef(null);
   const { login } = useAuth();
   const router = useRouter();
 
@@ -25,11 +28,16 @@ export default function LoginPage() {
     setErrorMessage("");
 
     // Llamaos a la funcion login del servicio
-    const result = await login(formData);
+    const result = await login({
+      ...formData,
+      turnstile_token: turnstileToken,
+    });
 
     if (!result.success) {
       setError(true);
-      setErrorMessage(result.error);
+      setErrorMessage(result.message || "Usuario o contraseña incorrectos");
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
     }
     setLoadingForm(false);
   };
@@ -37,7 +45,6 @@ export default function LoginPage() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-
   return (
     <>
       <Header />
@@ -48,12 +55,10 @@ export default function LoginPage() {
             "url('/login/fondo.web.Neon.Led.Publicidad (1).webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-        }}
-      >
+        }}>
         <Link
           href="/"
-          className="absolute top-6 left-6 md:left-auto md:right-6"
-        >
+          className="absolute top-6 left-6 md:left-auto md:right-6">
           <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-black/60 hover:bg-black/80 transition-all border border-white text-white">
             <ArrowLeft className="w-4 h-4" />
             Regresar
@@ -99,8 +104,7 @@ export default function LoginPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                    className="block text-sm font-medium text-gray-700">
                     Usuario
                   </label>
                   <div className="relative">
@@ -121,14 +125,12 @@ export default function LoginPage() {
                   <div className="flex justify-between items-center">
                     <label
                       htmlFor="password"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                      className="block text-sm font-medium text-gray-700">
                       Contraseña
                     </label>
                     <Link
                       href="./email/"
-                      className="text-sm text-blue-500 hover:underline"
-                    >
+                      className="text-sm text-blue-500 hover:underline">
                       ¿Olvidaste tu contraseña?
                     </Link>
                   </div>
@@ -146,11 +148,20 @@ export default function LoginPage() {
                   </div>
                 </div>
 
+                <div className="flex justify-center">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                    onSuccess={(token) => setTurnstileToken(token)}
+                    onExpire={() => setTurnstileToken(null)}
+                    onError={() => setTurnstileToken(null)}
+                  />
+                </div>
+
                 <button
                   type="submit"
                   disabled={loadingForm}
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all"
-                >
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all">
                   {loadingForm ? "Iniciando sesión..." : "Iniciar Sesión"}
                 </button>
               </form>
