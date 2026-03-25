@@ -167,8 +167,8 @@ const Contacto = () => {
                   <img src="/contacto/Mapa.png" className="w-14 mx-auto mb-4 hover:scale-110 transition-transform"/>
                 </a>
                 <h3 className="text-xl font-[900] text-white">Dirección</h3>
-                <p className="text-gray-300 text-sm">Jr. Paruro 1401. S130. Lima - Perú</p>
-                <p className="text-gray-300 text-sm">Referencia: La Rivera Mz F, Lt.30</p>
+                <p className="text-gray-300 text-sm">Urb. Alameda La Rivera</p>
+                <p className="text-gray-300 text-sm"> Mz F, Lt.30</p>
                 <p className="text-gray-300 text-sm">Santa Martha, Ate Vitarte, Perú</p>
               </div>
 
