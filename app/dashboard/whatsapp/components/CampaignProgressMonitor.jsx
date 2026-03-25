@@ -240,29 +240,7 @@ export function CampaignProgressMonitor() {
         </div>
       </div>
 
-      {/* Límite diario */}
-      <div className="mt-4 rounded-xl bg-white/50 p-4 dark:bg-slate-900/30">
-        <div className="mb-2 flex items-center justify-between text-sm">
-          <span className="font-semibold text-slate-700 dark:text-slate-300">
-            Envíos hoy (Límite: {limiteDiario})
-          </span>
-          <span className="font-bold text-azul-principal dark:text-azul-claro">
-            {enviosHoy}/{limiteDiario}
-          </span>
-        </div>
-        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
-          <div
-            className={`h-full rounded-full transition-all duration-500 ${
-              enviosHoy >= limiteDiario
-                ? 'bg-rose-500'
-                : enviosHoy >= limiteDiario * 0.8
-                  ? 'bg-amber-500'
-                  : 'bg-emerald-500'
-            }`}
-            style={{ width: `${(enviosHoy / limiteDiario) * 100}%` }}
-          ></div>
-        </div>
-      </div>
+      {/* (El contador 'Envíos hoy' fue migrado al panel de colas para evitar duplicados) */}
 
       {/* Indicador de actualización */}
       <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
