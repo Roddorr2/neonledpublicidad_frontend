@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
 import { apiRequest } from '@/api/fetchApiWhatsApp';
 import { Card, CardTitle, UploadIcon } from './TabButton';
+import { PlantillaPreview } from './PlantillaPreview';
 
 export function TestSendTab({ services, isConnected, connectedNumber }) {
   const [service, setService] = useState('');
@@ -11,6 +12,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
     'Hola 👋 Esta es una campaña de prueba con payload común.',
   );
   const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [lastResponse, setLastResponse] = useState(null);
@@ -64,6 +66,13 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
     }
 
     setImageFile(file);
+    
+    // Crear preview de la imagen
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleDrop = (e) => {
@@ -266,99 +275,118 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
               id_servicio.
             </p>
           </div>
+          <br></br>
 
-          {/* Párrafo */}
-          <div className="mt-6">
-            <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100">
-              Párrafo (mínimo 10 caracteres)
-            </label>
-            <textarea
-              value={paragraph}
-              onChange={(e) => setParagraph(e.target.value)}
-              rows={5}
-              className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-azul-principal focus:ring-4 focus:ring-azul-principal/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
-              placeholder="Escribe el mensaje común para la campaña..."
-            />
-            <div className="mt-2 flex items-center justify-between text-xs">
-              <span className="text-slate-500 dark:text-slate-400">
-                Se enviará como “paragraph”.
-              </span>
-              <span
-                className={
-                  paragraph.trim().length >= 10
-                    ? 'text-emerald-600'
-                    : 'text-rose-600'
-                }
-              >
-                {paragraph.trim().length}/10
-              </span>
-            </div>
-          </div>
-
-          {/* Upload Imagen */}
-          <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6 dark:border-slate-700 dark:bg-slate-900/50">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          {/* Párrafo con Previsualización */}
+          <div className="mt-6 grid gap-6 lg:grid-cols-2">
+            {/* Columna izquierda: Textarea + Upload Imagen */}
+            <div className="space-y-6">
+              {/* Párrafo */}
               <div>
-                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                  Imagen <span className="text-rose-500">*</span>
-                </p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  JPG/PNG/WEBP - máximo 2MB.
-                </p>
-              </div>
-
-              {imageFile ? (
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                    {imageFile.name}
+                <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100">
+                  Párrafo (mínimo 10 caracteres)
+                </label>
+                <textarea
+                  value={paragraph}
+                  onChange={(e) => setParagraph(e.target.value)}
+                  rows={8}
+                  className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-azul-principal focus:ring-4 focus:ring-azul-principal/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
+                  placeholder="Escribe el mensaje común para la campaña..."
+                />
+                <div className="mt-2 flex items-center justify-between text-xs">
+                  <span className="text-slate-500 dark:text-slate-400">
+                    Se enviará como "paragraph".
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => setImageFile(null)}
-                    className="text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+                  <span
+                    className={
+                      paragraph.trim().length >= 10
+                        ? 'text-emerald-600'
+                        : 'text-rose-600'
+                    }
                   >
-                    Quitar
-                  </button>
+                    {paragraph.trim().length}/10
+                  </span>
                 </div>
-              ) : (
-                <span className="text-xs text-slate-400 dark:text-slate-500">
-                  Sin imagen
-                </span>
-              )}
+              </div>
+                    <br></br>
+              {/* Upload Imagen */}
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6 dark:border-slate-700 dark:bg-slate-900/50">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      Imagen <span className="text-rose-500">*</span>
+                    </p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      JPG/PNG/WEBP - máximo 2MB.
+                    </p>
+                  </div>
+
+                  {imageFile ? (
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                        {imageFile.name}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setImageFile(null)}
+                        className="text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+                      >
+                        Quitar
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="text-xs text-slate-400 dark:text-slate-500">
+                      Sin imagen
+                    </span>
+                  )}
+                </div>
+
+                <div
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  onDrop={handleDrop}
+                  className="mt-4 rounded-2xl border-2 border-dashed border-slate-200 bg-white p-8 text-center dark:border-slate-700 dark:bg-slate-900"
+                >
+                  <div className="mx-auto flex max-w-md flex-col items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-700">
+                      <UploadIcon />
+                    </div>
+
+                    <p className="text-sm text-slate-700 dark:text-slate-300">
+                      Arrastra tu imagen aquí o{' '}
+                      <label className="cursor-pointer font-semibold text-azul-principal hover:text-azul-cobalto">
+                        haz click para subir
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept=".webp,image/webp,.jpg,.jpeg,.png"
+                          onChange={(e) => pickFile(e.target.files?.[0])}
+                        />
+                      </label>
+                    </p>
+
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      El backend valida:
+                      image|required|mimes:jpg,jpeg,png,webp|max:2048
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div
-              onDragOver={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              onDrop={handleDrop}
-              className="mt-4 rounded-2xl border-2 border-dashed border-slate-200 bg-white p-8 text-center dark:border-slate-700 dark:bg-slate-900"
-            >
-              <div className="mx-auto flex max-w-md flex-col items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-700">
-                  <UploadIcon />
-                </div>
-
-                <p className="text-sm text-slate-700 dark:text-slate-300">
-                  Arrastra tu imagen aquí o{' '}
-                  <label className="cursor-pointer font-semibold text-azul-principal hover:text-azul-cobalto">
-                    haz click para subir
-                    <input
-                      type="file"
-                      className="hidden"
-                      accept=".webp,image/webp,.jpg,.jpeg,.png"
-                      onChange={(e) => pickFile(e.target.files?.[0])}
-                    />
-                  </label>
-                </p>
-
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  El backend valida:
-                  image|required|mimes:jpg,jpeg,png,webp|max:2048
-                </p>
-              </div>
+            {/* Columna derecha: Preview WhatsApp */}
+            <div className="flex max-h-[650px]">
+              <PlantillaPreview
+                tipo="whatsapp"
+                selectedPlantilla={service ? { id: service } : null}
+                formData={{
+                  mensaje: paragraph,
+                }}
+                imagePreview={imagePreview}
+              />
             </div>
           </div>
 
@@ -385,6 +413,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                   'Hola 👋 Esta es una campaña de prueba con payload común.',
                 );
                 setImageFile(null);
+                setImagePreview(null);
                 setLastResponse(null);
               }}
               className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold text-white hover:bg-slate-800 active:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 dark:active:bg-slate-700"
@@ -395,7 +424,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
 
           {!isConnected && (
             <p className="mt-4 text-xs text-rose-600">
-              Conecta WhatsApp primero (tab “Conexión”).
+              Conecta WhatsApp primero (tab "Conexión").
             </p>
           )}
 
