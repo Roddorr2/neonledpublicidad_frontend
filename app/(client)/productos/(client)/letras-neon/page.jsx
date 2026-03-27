@@ -36,14 +36,14 @@ export default function Home() {
       alt: "letrero de un tienda con letras neón en tubo de vidrio",
     },
   ];
-  const idProducto = 6;
+  const idProducto = 15;
 
   const modales = {
     modalA: {
       text: cards[0].title,
       fondo: "/pop_ups/TubosdeNeon.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "6",
+      serviceName: "15",
       width: 256,
       height: 144,
     },

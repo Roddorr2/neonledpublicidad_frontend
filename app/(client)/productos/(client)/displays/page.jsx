@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Banner from '../components/Banner';
 import Datos from '../components/Datos';

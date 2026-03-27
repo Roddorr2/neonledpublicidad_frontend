@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import auth_service from "../dashboard/users/services/auth.service";
+import { safeJsonParse } from "@/lib/safe-json";
 
 const AuthContext = createContext();
 
@@ -115,7 +116,7 @@ export const AuthProvider = ({ children }) => {
     const rol = user?.rol || getCookie("rol");
     if (rol === "administrador") return true;
 
-    const permisos = user?.permisos || JSON.parse(getCookie("permisos") || "[]");
+    const permisos = user?.permisos || safeJsonParse(getCookie("permisos"), []);
     if (!Array.isArray(permisos)) return false;
 
     const normalizados = permisos.map(p => normalize(p));

@@ -36,14 +36,14 @@ export default function Home() {
       alt: "Vinilo decorativo japonés en pared con ilustración de tazón de carne y personajes tradicionales",
     },
   ];
-  const idProducto = 7;
+  const idProducto = 6;
 
   const modales = {
     modalA: {
       text: cards[0].title,
       fondo: "/pop_ups/VinilosDecorativos.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "7",
+      serviceName: "6",
       width: 256,
       height: 144,
     },

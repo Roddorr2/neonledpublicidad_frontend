@@ -4,6 +4,7 @@ import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import url from "@/api/url";
+import { safeJsonParse } from "@/lib/safe-json";
 import {
   ArrowLeft,
   Mail,
@@ -28,7 +29,7 @@ export default function Page() {
     const infoModal = getCookie("modal");
     fetchProducts();
     if (infoModal) {
-        setModal(JSON.parse(infoModal));
+        setModal(safeJsonParse(infoModal, null));
     }
     setLoading(false);
   }, []);

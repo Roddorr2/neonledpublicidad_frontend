@@ -34,6 +34,7 @@ import {
   MAX_INFO_TARJETAS,
 } from "../constants/defaults";
 import useFormState from "./useFormState";
+import { safeJsonParse } from "@/lib/safe-json";
 
 /**
  * Hook principal para manejar el estado del blog
@@ -137,7 +138,8 @@ export default function useBlogData(
     try {
       const empleadoCookie = getCookie("empleado");
       if (empleadoCookie) {
-        const empleadoData = JSON.parse(empleadoCookie);
+        const empleadoData = safeJsonParse(empleadoCookie, null);
+        if (!empleadoData) return 1;
         return empleadoData.id_empleado || 1;
       }
       return 1; // Fallback por defecto

@@ -35,13 +35,13 @@ export default function Home() {
       alt: "Tienda comercial con diseño de techo moderno e iluminación LED cuadrada",
     },
   ];
-  const idProducto = 15;
+  const idProducto = 14;
   const modales = {
     modalA: {
       text: cards[0].title,
       fondo: "/pop_ups/techosLed.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "15",
+      serviceName: "14",
       width: 256,
       height: 144,
     },

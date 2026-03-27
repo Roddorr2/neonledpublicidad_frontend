@@ -4,6 +4,7 @@ import url from "../../../../api/url";
 const api_url_client = `${url}/api/cliente`;
 
 import { getCookie } from "cookies-next";
+import { safeJsonParse } from "@/lib/safe-json";
 
 const handleResponse = async (response) => {
   if (!response.ok) {
@@ -114,14 +115,13 @@ const getClienteId = () => {
   const clienteCookie = getCookie("cliente");
   if (!clienteCookie) throw new Error("No se encontró cookie de cliente");
 
-  try {
-    const parsedCliente = JSON.parse(clienteCookie);
-    if (!parsedCliente.id) throw new Error("ID de cliente inválido");
-    return parsedCliente.id;
-  } catch (error) {
-    console.error("Error al parsear cookie de cliente:", error);
+  const parsedCliente = safeJsonParse(clienteCookie, null);
+  if (!parsedCliente?.id) {
+    console.error("Error al parsear cookie de cliente: ID inválido");
     throw new Error("Error al obtener el ID de cliente");
   }
+
+  return parsedCliente.id;
 };
 
 export default propuesta_cliente_service;

@@ -35,14 +35,14 @@ export default function Home() {
     }
   ];
 
-  const idProducto = 12;
+  const idProducto = 11;
 
   const modales = {
     modalA: {
       text: cards[0].title,
       fondo: "/pop_ups/HologramasLed.webp",
       title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "12",
+      serviceName: "11",
       width: 256,
       height: 144,
     },
