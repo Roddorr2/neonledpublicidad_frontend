@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
+import { safeJsonParse } from "@/lib/safe-json"
 import { ArrowLeft, Mail, User, Phone, Calendar, MessageSquare, CheckCircle, XCircle, MapPinned } from "lucide-react"
 
 export default function Page() {
@@ -12,7 +13,7 @@ export default function Page() {
   useEffect(() => {
     const infoContactanos = getCookie("contacto")
     if (infoContactanos) {
-      setContacto(JSON.parse(infoContactanos))
+      setContacto(safeJsonParse(infoContactanos, null))
     }
     setLoading(false)
   }, [])

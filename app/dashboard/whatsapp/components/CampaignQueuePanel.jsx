@@ -7,6 +7,9 @@ import Swal from 'sweetalert2';
 export function CampaignQueuePanel() {
   const [campaigns, setCampaigns] = useState([]);
   const [activeCampaign, setActiveCampaign] = useState(null);
+  const [enviosDia, setEnviosDia] = useState(0);
+  const [limiteDiario, setLimiteDiario] = useState(50);
+  const [progressVersion, setProgressVersion] = useState(0);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
 
@@ -24,11 +27,62 @@ export function CampaignQueuePanel() {
       if (response.success) {
         setActiveCampaign(response.active_campaign);
         setCampaigns(response.data.campanias || []);
+        // Capturar contador global del día
+        setEnviosDia(response.envios_hoy || 0);
+        setLimiteDiario(response.limite_diario || 50);
+        // Si hay campaña activa, traer estado detallado (envios_hoy, progreso, etc.)
+        if (response.active_campaign?.id_campania) {
+          await fetchActiveCampaignStatus(response.active_campaign.id_campania);
+        }
       }
     } catch (error) {
       console.error('Error fetching campaigns:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchActiveCampaignStatus = async (campaniaId) => {
+    if (!campaniaId) return;
+
+    try {
+      const statusRes = await apiRequest(`/api/whatsapp/campaign/${campaniaId}/status`);
+
+      if (statusRes?.success && statusRes.data) {
+        setActiveCampaign((prev) => ({ ...(prev || {}), ...statusRes.data }));
+        setProgressVersion(statusRes.data?.progress_version || 0);
+        // actualizar contador global también si viene en este endpoint
+        if (typeof statusRes.data.envios_hoy === 'number') {
+          setEnviosDia(statusRes.data.envios_hoy);
+        }
+        if (typeof statusRes.data.limite_diario === 'number') {
+          setLimiteDiario(statusRes.data.limite_diario);
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching active campaign status:', err);
+    }
+  };
+
+  const pollProgressFlag = async () => {
+    const campaniaId = activeCampaign?.id_campania;
+    if (!campaniaId) return;
+
+    try {
+      const flagRes = await apiRequest(
+        `/api/whatsapp/campaign/${campaniaId}/progress-flag?since_version=${progressVersion}`,
+      );
+
+      if (!flagRes?.success) return;
+
+      const data = flagRes.data || {};
+      if (data.changed) {
+        await fetchActiveCampaignStatus(campaniaId);
+      } else if (typeof data.progress_version === 'number') {
+        setProgressVersion(data.progress_version);
+      }
+    } catch (err) {
+      console.error('Error polling campaign progress flag:', err);
     }
   };
 
@@ -193,6 +247,8 @@ export function CampaignQueuePanel() {
       </div>
 
       <div className="p-6 space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto">
+        {/* Contador global movido abajo dentro de "Completadas Recientes" para evitar duplicados */}
+
         {/* Campañas en Borrador */}
         {draftCampaigns.length > 0 && (
           <div>
@@ -329,6 +385,42 @@ export function CampaignQueuePanel() {
         {/* Campañas Completadas Recientes */}
         {recentCompletedCampaigns.length > 0 && (
           <div>
+
+
+            {/* Envíos Hoy — usa contador global `enviosDia`/`limiteDiario` */}
+            <div className="mb-3 rounded-xl bg-white/50 p-3 dark:bg-slate-900/30">
+              <div className="flex items-center justify-between text-sm mb-2">
+                <span className="font-semibold text-slate-700 dark:text-slate-300">
+                  Envíos hoy (Límite: {limiteDiario})
+                </span>
+                <span className="font-bold text-azul-principal dark:text-azul-claro">
+                  {enviosDia}/{limiteDiario}
+                </span>
+              </div>
+
+              <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                <div
+                  className={`h-full rounded-full transition-all duration-500 ${
+                    enviosDia >= limiteDiario
+                      ? 'bg-rose-500'
+                      : enviosDia >= limiteDiario * 0.8
+                      ? 'bg-amber-500'
+                      : 'bg-emerald-500'
+                  }`}
+                  style={{ width: `${Math.min(100, (enviosDia / Math.max(1, limiteDiario)) * 100)}%` }}
+                ></div>
+              </div>
+              <div className="mt-2 text-xs text-slate-600 dark:text-slate-400 flex justify-between">
+                <span>
+                  {limiteDiario - enviosDia > 0
+                    ? `${limiteDiario - enviosDia} envios disponibles`
+                    : '⚠️ Limite diario alcanzado'}
+                </span>
+                <span>{((enviosDia / Math.max(1, limiteDiario)) * 100).toFixed(1)}%</span>
+              </div>
+            </div>
+            <hr></hr>
+            <br></br>
             <h4 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
               ✅ Completadas Recientes
             </h4>

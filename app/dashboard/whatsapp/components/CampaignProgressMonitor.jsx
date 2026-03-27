@@ -5,8 +5,22 @@ import { apiRequest } from '@/api/fetchApiWhatsApp';
 
 export function CampaignProgressMonitor() {
   const [activeCampaign, setActiveCampaign] = useState(null);
+  const [activeCampaignId, setActiveCampaignId] = useState(null);
+  const [progressVersion, setProgressVersion] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const fetchCampaignStatus = async (campaignId) => {
+    if (!campaignId) return;
+
+    const statusRes = await apiRequest(`/api/whatsapp/campaign/${campaignId}/status`);
+
+    if (statusRes?.success) {
+      setActiveCampaign(statusRes.data);
+      setProgressVersion(statusRes.data?.progress_version || 0);
+      setError(null);
+    }
+  };
 
   const fetchActiveCampaign = async () => {
     try {
@@ -20,16 +34,11 @@ export function CampaignProgressMonitor() {
         );
 
         if (active && active.id_campania) {
-          // Obtener detalles completos
-          const statusRes = await apiRequest(
-            `/api/whatsapp/campaign/${active.id_campania}/status`,
-          );
-
-          if (statusRes?.success) {
-            setActiveCampaign(statusRes.data);
-            setError(null);
-          }
+          setActiveCampaignId(active.id_campania);
+          await fetchCampaignStatus(active.id_campania);
         } else {
+          setActiveCampaignId(null);
+          setProgressVersion(0);
           setActiveCampaign(null);
         }
       }
@@ -41,14 +50,44 @@ export function CampaignProgressMonitor() {
     }
   };
 
+  const pollProgressFlag = async () => {
+    if (!activeCampaignId) return;
+
+    try {
+      const flagRes = await apiRequest(
+        `/api/whatsapp/campaign/${activeCampaignId}/progress-flag?since_version=${progressVersion}`,
+      );
+
+      if (!flagRes?.success) return;
+
+      const data = flagRes.data || {};
+      if (data.changed) {
+        await fetchCampaignStatus(activeCampaignId);
+      } else if (typeof data.progress_version === 'number') {
+        setProgressVersion(data.progress_version);
+      }
+    } catch (err) {
+      console.error('Error polling progress flag:', err);
+    }
+  };
+
   useEffect(() => {
     fetchActiveCampaign();
 
-    // Polling cada 5 segundos
-    const interval = setInterval(fetchActiveCampaign, 5000);
+    // Descubrimiento de campaña activa cada 30 segundos
+    const interval = setInterval(fetchActiveCampaign, 30000);
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!activeCampaignId) return;
+
+    // Polling liviano por bandera de progreso
+    const interval = setInterval(pollProgressFlag, 5000);
+
+    return () => clearInterval(interval);
+  }, [activeCampaignId, progressVersion]);
 
   if (loading) {
     return (
@@ -201,34 +240,12 @@ export function CampaignProgressMonitor() {
         </div>
       </div>
 
-      {/* Límite diario */}
-      <div className="mt-4 rounded-xl bg-white/50 p-4 dark:bg-slate-900/30">
-        <div className="mb-2 flex items-center justify-between text-sm">
-          <span className="font-semibold text-slate-700 dark:text-slate-300">
-            Envíos hoy (Límite: {limiteDiario})
-          </span>
-          <span className="font-bold text-azul-principal dark:text-azul-claro">
-            {enviosHoy}/{limiteDiario}
-          </span>
-        </div>
-        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
-          <div
-            className={`h-full rounded-full transition-all duration-500 ${
-              enviosHoy >= limiteDiario
-                ? 'bg-rose-500'
-                : enviosHoy >= limiteDiario * 0.8
-                  ? 'bg-amber-500'
-                  : 'bg-emerald-500'
-            }`}
-            style={{ width: `${(enviosHoy / limiteDiario) * 100}%` }}
-          ></div>
-        </div>
-      </div>
+      {/* (El contador 'Envíos hoy' fue migrado al panel de colas para evitar duplicados) */}
 
       {/* Indicador de actualización */}
       <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
         <div className="h-2 w-2 animate-pulse rounded-full bg-azul-principal"></div>
-        <span>Actualizando cada 5 segundos</span>
+        <span>Actualizando por bandera de progreso (cada 5s)</span>
       </div>
     </div>
   );

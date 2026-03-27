@@ -1,4 +1,5 @@
 import { getCookie } from 'cookies-next';
+import { safeJsonParse } from '@/lib/safe-json';
 
 // ✅ Laravel (campañas, BD, etc.)
 const API_URL = process.env.NEXT_PUBLIC_API_URL_DEV || 'http://127.0.0.1:8000';
@@ -39,7 +40,12 @@ export const apiRequest = async (endpoint, options = {}) => {
     return { success: response.ok, text: raw, status: response.status };
   }
 
-  return JSON.parse(raw);
+  return safeJsonParse(raw, {
+    success: response.ok,
+    status: response.status,
+    error: 'JSON inválido en respuesta de Laravel',
+    text: raw,
+  });
 };
 
 /**
@@ -74,7 +80,12 @@ const wsRequest = async (endpoint, options = {}) => {
     return { success: res.ok, text: raw, status: res.status };
   }
 
-  return JSON.parse(raw);
+  return safeJsonParse(raw, {
+    success: res.ok,
+    status: res.status,
+    error: 'JSON inválido en respuesta de WhatsApp service',
+    text: raw,
+  });
 };
 
 export const whatsappApi = {

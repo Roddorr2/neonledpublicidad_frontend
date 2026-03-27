@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react"
 import { useRouter } from "next/navigation"
+import { useDebounce } from "@/hooks/useDebounce"
 import Swal from "sweetalert2"
 import axios from "axios"
 import Link from "next/link"
@@ -10,6 +11,7 @@ import HistorialAuditoria from "./components/HistorialAuditoria"
 import { useAuth } from "../../context/AutContext";
 import Borradores from "./borradores/page"
 import url from "../../../api/url"
+import { safeJsonParse } from "@/lib/safe-json"
 import {
     Search,
     Eye,
@@ -39,11 +41,13 @@ export default function Page() {
     const [isRefreshing, setIsRefreshing] = useState(false)
     const [activeFilter, setActiveFilter] = useState("all")
     const [searchQuery, setSearchQuery] = useState("")
+    const debouncedSearchQuery = useDebounce(searchQuery, 300) // Debounce de 300ms
 
     const [currentPage, setCurrentPage] = useState(1)
     const blogsPerPage = 5
 
-    const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
+    const empleadoCookie = safeJsonParse(getCookie("empleado"), null)
+    const id_empleado = empleadoCookie?.id_empleado ?? -1
     const { isAuthenticated, user, hasPermission } = useAuth();
 
     const router = useRouter();
@@ -69,7 +73,7 @@ export default function Page() {
 
     useEffect(() => {
         filterBlogs()
-    }, [activeFilter, searchQuery, allBlogs, myBlogs])
+    }, [activeFilter, debouncedSearchQuery, allBlogs, myBlogs])
 
     useEffect(() => {
         paginateBlogs()
@@ -78,13 +82,20 @@ export default function Page() {
     const filterBlogs = () => {
         const sourceData = activeFilter === "all" ? allBlogs : myBlogs
 
-        if (!searchQuery.trim()) {
+        if (!debouncedSearchQuery.trim()) {
             setFilteredBlogs(sourceData)
             setCurrentPage(1)
             return
         }
 
-        const query = searchQuery.toLowerCase().trim()
+        // Validar mínimo 3 caracteres antes de filtrar
+        if (debouncedSearchQuery.trim().length < 3) {
+            setFilteredBlogs([])
+            setCurrentPage(1)
+            return
+        }
+
+        const query = debouncedSearchQuery.toLowerCase().trim()
         const filtered = sourceData.filter((blog) => blog.titulo.toLowerCase().includes(query))
 
         setFilteredBlogs(filtered)
@@ -306,7 +317,7 @@ export default function Page() {
                         <div className="relative">
                             <input
                                 type="text"
-                                placeholder="Buscar por título..."
+                                placeholder="Buscar por título (mín. 3 caracteres)..."
                                 value={searchQuery}
                                 onChange={handleSearch}
                                 className="w-full sm:w-64 pl-10 pr-10 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"

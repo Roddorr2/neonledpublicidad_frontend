@@ -2,6 +2,7 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import fetch from "../../services/fetch";
+import { useDebounce } from "@/hooks/useDebounce";
 import { Loader2, BookOpen, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,8 @@ const Blogs = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const debouncedSearchTerm = useDebounce(searchTerm, 600); // Debounce de 600ms
   const [filteredData, setFilteredData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,7 +49,6 @@ const Blogs = () => {
       setError(null);
       const response = await fetch.fetchCards();
 
-      console.log(JSON.stringify(response));
       if (axios.isAxiosError(response) || response instanceof Error) {
         setError(
           "Ocurrió un error al cargar los blogs. Por favor, intenta nuevamente."
@@ -69,13 +71,52 @@ const Blogs = () => {
   }, []);
 
   useEffect(() => {
-    // Inicializar filteredData cuando data cambie, igual que en el código que funciona
-    setFilteredData(data);
-    setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
+    let stale = false;
+
+    const performSearch = async () => {
+      // Mínimo 3 caracteres para lanzar la búsqueda al backend
+      if (debouncedSearchTerm.trim().length < 3) {
+        setFilteredData(data);
+        setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
+        setCurrentPage(1);
+        setIsSearching(false);
+        return;
+      }
+
+      setIsSearching(true);
+      try {
+        const results = await fetch.searchCards(debouncedSearchTerm, 'public');
+        // Ignorar respuestas de búsquedas anteriores (race condition)
+        if (stale) return;
+        setFilteredData(results || []);
+        setTotalPages(Math.ceil((results?.length || 0) / ITEMS_PER_PAGE));
+        setCurrentPage(1);
+      } catch (err) {
+        if (stale) return;
+        console.error('Error en búsqueda:', err);
+        setFilteredData([]);
+        setTotalPages(1);
+      } finally {
+        if (!stale) setIsSearching(false);
+      }
+    };
+
+    performSearch();
+
+    return () => {
+      stale = true;
+    };
+  }, [debouncedSearchTerm, data]);
+
+  useEffect(() => {
+    // Inicializar filteredData cuando data cambie
+    if (!searchTerm.trim()) {
+      setFilteredData(data);
+      setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
+    }
   }, [data]);
 
   const getCurrentPageItems = () => {
-    console.log(`getCurrentPageItems | ${filteredData}`);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return filteredData.slice(startIndex, endIndex);
@@ -87,16 +128,12 @@ const Blogs = () => {
   };
 
   const handleSearch = () => {
-    // Usar la misma lógica del código que funciona
-    const normalizedSearchTerm = normalizeText(searchTerm);
-    const filtered = data.filter(
-      (card) =>
-        normalizeText(card.titulo).includes(normalizedSearchTerm) ||
-        normalizeText(card.descripcion).includes(normalizedSearchTerm)
-    );
-    setFilteredData(filtered);
-    setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
-    setCurrentPage(1);
+    // La búsqueda se realiza automáticamente mediante debounce en el useEffect
+    // Este botón ya no es necesario pero se mantiene por UX
+    if (searchTerm.trim().length >= 1) {
+      // Si el usuario clickea el botón, resetear la página
+      setCurrentPage(1);
+    }
   };
 
   const BlogCard = ({ dato }) => (
@@ -104,7 +141,7 @@ const Blogs = () => {
       bg-transparent  group hover:scale-105 transition-all duration-500 h-[280px]">
       <div className="absolute inset-0 w-full h-full">
         <img
-          src={`${dato.public_image}?v=${Date.now()}`}
+          src={dato.public_image}
           alt={dato.blog.head.alt || dato.titulo}
           title={dato.blog.head.title || dato.titulo}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -213,17 +250,23 @@ const Blogs = () => {
             <div className="relative w-full flex-1">
               <input
                 type="text"
-                placeholder="ESCRIBE ALGO"
+                placeholder="ESCRIBE PARA BUSCAR"
                 className="w-full px-6 py-3 sm:px-8 sm:py-4 rounded-full bg-transparent border-2 border-white text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base sm:text-lg"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              {isSearching && (
+                <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                  <Loader2 className="h-5 w-5 animate-spin text-blue-400" />
+                </div>
+              )}
             </div>
             <button
               onClick={handleSearch}
-              className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-base sm:text-lg"
+              disabled={isSearching}
+              className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              BUSCAR
+              {isSearching ? "BUSCANDO..." : "BUSCAR"}
             </button>
           </div>
 

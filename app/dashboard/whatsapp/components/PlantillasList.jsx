@@ -25,7 +25,7 @@ export function PlantillasList({
           <div className="mt-4 space-y-2">
             {servicios.map((servicio) => {
               const plantillasServicio = plantillas.filter(
-                (p) => p.id_servicio === servicio.id,
+                (p) => Number(p.id_producto) === Number(servicio.id),
               );
 
               return (
@@ -39,7 +39,7 @@ export function PlantillasList({
                   <div className="space-y-1">
                     {[1, 2, 3].map((numero) => {
                       const plantilla = plantillasServicio.find(
-                        (p) => p.numero_plantilla === numero,
+                        (p) => Number(p.numero_plantilla) === Number(numero),
                       );
                       const isSelected =
                         getPlantillaId(selectedPlantilla) ===

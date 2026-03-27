@@ -13,7 +13,7 @@ export function PlantillaPreview({
           </p>
 
           {tipo === 'whatsapp' ? (
-            <div className="mx-auto max-w-[350px] overflow-hidden rounded-xl bg-[#efeae2] shadow-lg relative border border-slate-200 flex flex-col h-[850px]">
+            <div className="mx-auto max-w-[350px] overflow-hidden rounded-xl bg-[#efeae2] shadow-lg relative border border-slate-200 flex flex-col h-[590px]">
               {/* Header WhatsApp */}
               <div className="bg-[#075e54] px-4 py-3 flex items-center gap-3 shrink-0 z-10">
                 <div className="h-8 w-8 rounded-full bg-slate-300 flex items-center justify-center shrink-0">
