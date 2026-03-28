@@ -30,7 +30,6 @@ export const FormLogin = () => {
       const data = await response.json(); // Convertir la respuesta a JSON
 
       if (response.ok) {
-        console.log("Login exitoso", data);
         if (data.token) {
           localStorage.setItem("token", data.token);
           router.push("/dashboard/contactos");

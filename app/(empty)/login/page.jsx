@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { User, Lock, ArrowLeft } from "lucide-react";
+import { User, Lock, ArrowLeft, AlertCircle } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
@@ -17,34 +17,149 @@ export default function LoginPage() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [turnstileToken, setTurnstileToken] = useState(null);
+  const [cooldownTime, setCooldownTime] = useState(0);
+  const [errorType, setErrorType] = useState("credentials");
   const turnstileRef = useRef(null);
   const { login } = useAuth();
   const router = useRouter();
 
+  useEffect(() => {
+    let interval;
+    if (cooldownTime > 0) {
+      interval = setInterval(() => {
+        setCooldownTime((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [cooldownTime]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (cooldownTime > 0) {
+      setErrorType(true);
+      setErrorType("rate_limit");
+      setErrorMessage(
+        `Por favor, espera ${cooldownTime} segundos antes de intentar nuevamente.`,
+      );
+      return;
+    }
+
     setLoadingForm(true);
     setError(false);
     setErrorMessage("");
+    setErrorType("credentials");
 
-    // Llamaos a la funcion login del servicio
-    const result = await login({
-      ...formData,
-      turnstile_token: turnstileToken,
-    });
+    if (!turnstileToken) {
+      setErrorType(true);
+      setErrorType("captcha");
+      setErrorMessage("Por favor completa la verificación de seguridad");
+      setLoadingForm(false);
+    }
 
-    if (!result.success) {
+    try {
+      const result = await login({
+        ...formData,
+        turnstile_token: turnstileToken,
+      });
+
+      if (!result.success) {
+        handleLoginError(result.status, result.message);
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
+      }
+    } catch (error) {
       setError(true);
-      setErrorMessage(result.message || "Usuario o contraseña incorrectos");
+      setErrorType("credentials");
+      setErrorMessage("Error de conexión. Intenta nuevamente.");
       turnstileRef.current?.reset();
       setTurnstileToken(null);
+    } finally {
+      setLoadingForm(false);
     }
-    setLoadingForm(false);
+  };
+
+  const handleLoginError = (status, message) => {
+    setError(true);
+
+    switch (status) {
+      case 429:
+        setErrorType("rate_limit");
+        setErrorMessage(message);
+
+        const minutosMatch = message.match(/(\d+)\s*minutos?/);
+        if (minutosMatch) {
+          const minutos = parseInt(minutosMatch[1]);
+          setCooldownTime(minutos * 60);
+        } else {
+          setColldownTime(60);
+        }
+        break;
+
+      case 422:
+        setErrorType("captcha");
+        setErrorMessage(
+          message ||
+            "Error de verificación de seguridad. Inténtalo nuevamnete.",
+        );
+        break;
+
+      case 401:
+        setErrorType("credentials");
+        setErrorMessage(message || "Usuario o contraseña incorrectos");
+
+      default:
+        setErrorType("credentials");
+        setErrorMessage(
+          message || "Error al iniciar sesión. Intenta nuevamente.",
+        );
+    }
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
+  const renderErrorMessage = () => {
+    if (!error) return null;
+
+    const styles = {
+      credentials: "bg-red-50 border-1-4 border-red-500",
+      rate_limit: "bg-orange-50 border-1-4 border-orange-500",
+      captcha: "bg-yellow-50 border-1-4 border-yellow-500",
+    };
+
+    const icons = {
+      credentials: <AlertCircle className="w-5 h-5 text-red-500" />,
+      rate_limit: <AlertCircle className="w-5 h-5 text-orange-500" />,
+      captcha: <AlertCircle className="w-5 h-5 text-yellow-500" />,
+    };
+
+    return (
+      <div className={`${styles[errorType]} p-4 mb-6 rounded-r`}>
+        <div className="flex items-start gap-3">
+          {icons[errorType]}
+          <p
+            className={`text-sm ${
+              errorType === "credentials"
+                ? "text-red-700"
+                : errorType === "rate_limit"
+                  ? "text-orange-700"
+                  : "text-yellow-700"
+            }`}>
+            {errorMessage}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <Header />
@@ -94,11 +209,7 @@ export default function LoginPage() {
                 </p>
               </div>
 
-              {error && (
-                <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r">
-                  <p className="text-red-700 text-sm">{errorMessage}</p>
-                </div>
-              )}
+              {renderErrorMessage()}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -117,6 +228,7 @@ export default function LoginPage() {
                       placeholder="Ingresa tu usuario"
                       className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                       required
+                      disabled={cooldownTime > 0}
                     />
                   </div>
                 </div>
@@ -144,6 +256,7 @@ export default function LoginPage() {
                       placeholder="Ingresa tu contraseña"
                       className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                       required
+                      disabled={cooldownTime > 0}
                     />
                   </div>
                 </div>
@@ -161,8 +274,16 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loadingForm}
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all">
-                  {loadingForm ? "Iniciando sesión..." : "Iniciar Sesión"}
+                  className={`w-full py-3 rounded-lg font-semibold transition-all ${
+                    loadingForm || cooldownTime > 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-blue-700"
+                  } text-white`}>
+                  {loadingForm
+                    ? "Iniciando sesión..."
+                    : cooldownTime > 0
+                      ? `Esperar ${cooldownTime} segundos`
+                      : "Iniciar sesión"}
                 </button>
               </form>
             </div>
