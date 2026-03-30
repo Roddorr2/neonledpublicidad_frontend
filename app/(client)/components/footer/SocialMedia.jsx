@@ -17,7 +17,7 @@ export const SocialMedia = () => {
             title: "Instagram",
         },
         {
-            href: "https://www.facebook.com/Neonledpublicidad.peru",
+            href: "https://www.facebook.com/profile.php?id=61578497411241",
             src: "/header_footer/Facebook_icon.webp",
             alt: "Facebook",
             title: "Facebook",
