@@ -82,7 +82,7 @@ const aboutPageSchema = {
     },
     "areaServed": "PE",
     "sameAs": [
-      "https://www.facebook.com/neonledpublicidad.pe/",
+      "https://www.facebook.com/profile.php?id=61578497411241",
       "https://www.instagram.com/neonledpublicidad.peru/"
     ]
   }
