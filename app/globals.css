@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   /* Original custom colors */
   --azul_claro: #a5dffd;
@@ -60,7 +59,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
   }
   :root {
     --background: 0 0% 100%;
