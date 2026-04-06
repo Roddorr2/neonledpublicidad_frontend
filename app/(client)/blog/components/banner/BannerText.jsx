@@ -33,7 +33,7 @@ const BannerText = ({
         <div className="absolute bottom-[20%] left-0 w-[20%] sm:w-[30%] h-[2px] bg-blue-500 shadow-[0_0_10px_#3b82f6]" />
       </div>
 
-      <div className="relative z-20 px-8 py-6 sm:py-12 flex flex-col items-center justify-center min-h-[400px]">
+      <div className="relative z-20 px-4 sm:px-8 py-6 sm:py-12 flex flex-col items-center justify-center min-h-[250px] sm:min-h-[400px]">
         <div className="text-center w-full max-w-4xl">
           <h2 className="text-xl sm:text-4xl font-bold uppercase mb-4 text-[#ffad33]">
             {title}
