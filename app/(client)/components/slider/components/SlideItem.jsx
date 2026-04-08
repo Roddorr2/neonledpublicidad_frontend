@@ -20,7 +20,7 @@ export const SlideItem = ({ slides, current }) => {
         alt={slide.altText}
         title={slide.title}
         fill                        
-        priority={current === 0}
+        priority={slide.priority || current === 0}
         className="object-cover object-[72%_50%] sm:object-center" 
         sizes="(max-width: 767px) 100vw, (max-width: 1023px) 80vw, 60vw"
       />

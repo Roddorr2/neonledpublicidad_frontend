@@ -15,6 +15,7 @@ export default function Footer() {
               <div className="flex items-center mb-6">
                 <img
                   width="150"
+                  height="45"
                   src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
                   alt="Logo Neon Led Publicidad"
                 />
@@ -64,11 +65,13 @@ export default function Footer() {
             <h2 className="text-[#48A8FF] text-xl font-bold mb-4">RECLAMACIONES</h2>
             <div className="text-left">
               <p className="mb-4">Libro de Reclamaciones</p>
-              <Link href="/reclamaciones">
+              <Link href="/reclamaciones" className="inline-block p-2">
                 <div className="inline-block">
                   <img
                     className="w-[180px] h-auto mx-auto hover:scale-105 transition-transform duration-300"
                     src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
+                    width="180"
+                    height="120"
                     alt="Ilustración del libro de reclamaciones"
                     title="Libro de Reclamaciones Perú"
                     loading="lazy"

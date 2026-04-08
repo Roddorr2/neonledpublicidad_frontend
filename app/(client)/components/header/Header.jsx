@@ -137,7 +137,7 @@ export default function Header() {
           {currentMenu === "main" ? (
             <div
               className={`
-              transition-all duration-300
+              
               ${
                 isSmallScreen
                   ? "absolute left-1/2 transform -translate-x-1/2 w-28"
@@ -151,6 +151,8 @@ export default function Header() {
                   src={logoSrc}
                   alt="Logotipo de Neon Led Publicidad"
                   title="Neon Led Publicidad especialistas en letreros led"
+                  width={logoSrc.includes("Logo_corto") ? 48 : 144}
+                  height={45}
                   className={`
                   h-auto transition-all duration-300
                   ${
@@ -168,6 +170,8 @@ export default function Header() {
                 <img
                   src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
                   alt="Logotipo móvil Neon Led Publicidad"
+                  width={144}
+                  height={45}
                   className="w-36 h-auto cursor-pointer"
                 />
                 </a>
@@ -183,7 +187,7 @@ export default function Header() {
               <a
                 href="#"
                 onClick={goBack}
-                className="text-white font-bold cursor-pointer text-sm lg:text-base"
+                className="text-white font-bold cursor-pointer text-sm lg:text-base inline-block p-2"
               >
                 &lt; Volver
               </a>
@@ -251,7 +255,7 @@ export default function Header() {
               BLOG
             </a>
             {/*----- Panel options -----*/}
-            <li
+            <div
               className={`relative cursor-pointer list-none ${
                 isActiveLink("/login") || isActiveLink("/dashboard/main")
                   ? "text-blue-400"
@@ -317,12 +321,12 @@ export default function Header() {
                   Ingresar
                 </a>
               )}
-            </li>
+            </div>
           </nav>
 
           {isSmallScreen && (
             <div
-              className="flex items-center cursor-pointer"
+              className="flex items-center cursor-pointer p-2"
               onClick={toggleMenu}
             >
               <span
@@ -613,6 +617,8 @@ export default function Header() {
                 className="w-20 h-20 object-contain"
                 src="/header_footer/logo_azul_letraNegra_ledneonpublicidad2.webp"
                 alt="Logotipo de Neon LED Publicidad con letras negras"
+                width={80} 
+                height={80}
               />
             </div>
           </div>
