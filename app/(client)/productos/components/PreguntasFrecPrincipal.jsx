@@ -10,7 +10,7 @@ const PreguntasFrecPrincipal = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  let globalIndex = 0; // clave para que sea único entre secciones
+  let globalIndex = 0;
 
   const faqData = [
     {
@@ -91,11 +91,18 @@ const PreguntasFrecPrincipal = () => {
   return (
     <div className="mt-10 md:mt-20 pb-10 px-4 md:px-8">
       <div className="max-w-5xl mx-auto">
+        {/* TÍTULO */}
+        <div className="mb-8 text-center">
+          <h2 className="text-white text-2xl md:text-4xl font-bold">
+            Preguntas Frecuentes
+          </h2>
+        </div>
+
         {faqData.map((section, index) => (
           <div key={index} className="pb-10">
-            <h2 className="text-white text-xl md:text-2xl font-semibold mb-4">
+            <h3 className="text-white text-xl md:text-2xl font-semibold mb-4 border-white/40 pl-3">
               {section.category}
-            </h2>
+            </h3>
 
             <div className="space-y-3">
               {section.items.map((item, i) => {
