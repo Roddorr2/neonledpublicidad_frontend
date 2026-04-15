@@ -92,7 +92,6 @@ const PreguntasFrecPrincipal = () => {
   return (
     <div className="mt-10 md:mt-20 pb-10 px-4 md:px-8">
       <div className="max-w-5xl mx-auto">
-        {/* TÍTULO */}
         <motion.div
           className="mb-8 text-center"
           initial={{
@@ -114,6 +113,8 @@ const PreguntasFrecPrincipal = () => {
           <h2 className="text-white text-2xl md:text-4xl font-bold">
             Preguntas Frecuentes
           </h2>
+
+          <div className="w-24 h-1 bg-[#44b0f8] mx-auto mt-6 rounded-full"></div>
         </motion.div>
 
         {faqData.map((section, index) => {
