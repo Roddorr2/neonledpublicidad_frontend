@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import PreguntasFrecIndividual from "./PreguntasFrecIndividual";
+import { motion } from "framer-motion";
 
 const PreguntasFrecPrincipal = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -92,35 +93,66 @@ const PreguntasFrecPrincipal = () => {
     <div className="mt-10 md:mt-20 pb-10 px-4 md:px-8">
       <div className="max-w-5xl mx-auto">
         {/* TÍTULO */}
-        <div className="mb-8 text-center">
+        <motion.div
+          className="mb-8 text-center"
+          initial={{
+            opacity: 0,
+            scale: 0.5,
+            filter: "blur(10px)",
+          }}
+          whileInView={{
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+          }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.5,
+            ease: "easeOut",
+          }}
+        >
           <h2 className="text-white text-2xl md:text-4xl font-bold">
             Preguntas Frecuentes
           </h2>
-        </div>
+        </motion.div>
 
-        {faqData.map((section, index) => (
-          <div key={index} className="pb-10">
-            <h3 className="text-white text-xl md:text-2xl font-semibold mb-4 border-white/40 pl-3">
-              {section.category}
-            </h3>
+        {faqData.map((section, index) => {
+          const isLeft = index % 2 === 0;
 
-            <div className="space-y-3">
-              {section.items.map((item, i) => {
-                const currentIndex = globalIndex++;
+          return (
+            <motion.div
+              key={index}
+              className="pb-10"
+              initial={{ opacity: 0, x: isLeft ? -240 : 240 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 0.9,
+                ease: "easeOut",
+              }}
+            >
+              <h3 className="text-white text-xl md:text-2xl font-semibold mb-4 border-white/40 pl-3">
+                {section.category}
+              </h3>
 
-                return (
-                  <PreguntasFrecIndividual
-                    key={currentIndex}
-                    question={item.question}
-                    answer={item.answer}
-                    isOpen={activeIndex === currentIndex}
-                    onToggle={() => handleToggle(currentIndex)}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        ))}
+              <div className="space-y-3">
+                {section.items.map((item, i) => {
+                  const currentIndex = globalIndex++;
+
+                  return (
+                    <PreguntasFrecIndividual
+                      key={currentIndex}
+                      question={item.question}
+                      answer={item.answer}
+                      isOpen={activeIndex === currentIndex}
+                      onToggle={() => handleToggle(currentIndex)}
+                    />
+                  );
+                })}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );
