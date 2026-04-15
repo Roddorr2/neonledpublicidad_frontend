@@ -12,7 +12,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -31,14 +31,24 @@ export const AuthProvider = ({ children }) => {
 
         if (res && res.user) {
           const rolUsuario = res.rol || getCookie("rol") || "cliente"; // rol por defecto
-          const usuarioConRol = { ...res.user, rol: rolUsuario, permisos: res.permisos || [] };
+          const usuarioConRol = {
+            ...res.user,
+            rol: rolUsuario,
+            permisos: res.permisos || [],
+          };
 
           setIsAuthenticated(true);
           setUser(usuarioConRol);
 
           // Guardar cookies
-          setCookie("user", JSON.stringify(usuarioConRol), { maxAge: 300 * 60, path: "/" });
-          setCookie("permisos", JSON.stringify(res.permisos || []), { maxAge: 300 * 60, path: "/" });
+          setCookie("user", JSON.stringify(usuarioConRol), {
+            maxAge: 300 * 60,
+            path: "/",
+          });
+          setCookie("permisos", JSON.stringify(res.permisos || []), {
+            maxAge: 300 * 60,
+            path: "/",
+          });
           setCookie("rol", rolUsuario, { maxAge: 300 * 60, path: "/" });
 
           if (pathname === "/login/") {
@@ -63,20 +73,34 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (formData) => {
     try {
-      const data = await auth_service.login(formData);
-      if (data.error) throw new Error(data.message);
+      const result = await auth_service.login(formData);
 
-      setCookie("token", data.token, { maxAge: 300 * 60, path: "/" });
+      if (result.success === false) {
+        return {
+          success: false,
+          status: result.status,
+          message: result.message,
+        };
+      }
 
-      const userData = await auth_service.me();
-      if (userData.error) throw new Error("Error al obtener información del usuario");
-
-      const rolUsuario = userData.rol || getCookie("rol") || "cliente";
-      const usuarioConRol = { ...userData.user, rol: rolUsuario, permisos: userData.permisos || [] };
+      const rolUsuario = result.rol || "cliente";
+      const permisos = result.permisos || [];
+      const usuarioConRol = {
+        ...result.user,
+        rol: rolUsuario,
+        permisos,
+      };
 
       setUser(usuarioConRol);
-      setCookie("user", JSON.stringify(usuarioConRol), { maxAge: 300 * 60, path: "/" });
-      setCookie("permisos", JSON.stringify(userData.permisos || []), { maxAge: 300 * 60, path: "/" });
+      setCookie("token", result.token, { maxAge: 300 * 60, path: "/" });
+      setCookie("user", JSON.stringify(usuarioConRol), {
+        maxAge: 300 * 60,
+        path: "/",
+      });
+      setCookie("permisos", JSON.stringify(permisos), {
+        maxAge: 300 * 60,
+        path: "/",
+      });
       setCookie("rol", rolUsuario, { maxAge: 300 * 60, path: "/" });
 
       setIsAuthenticated(true);
@@ -86,7 +110,8 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        message: error.message || "Usuario o contraseña incorrectos.",
+        status: 500,
+        message: "Error de conexión con el servidor. Intenta nuevamente.",
       };
     }
   };
@@ -119,12 +144,13 @@ export const AuthProvider = ({ children }) => {
     const permisos = user?.permisos || safeJsonParse(getCookie("permisos"), []);
     if (!Array.isArray(permisos)) return false;
 
-    const normalizados = permisos.map(p => normalize(p));
+    const normalizados = permisos.map((p) => normalize(p));
     return normalizados.includes(normalize(permiso));
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, hasPermission }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, login, logout, hasPermission }}>
       {children}
     </AuthContext.Provider>
   );

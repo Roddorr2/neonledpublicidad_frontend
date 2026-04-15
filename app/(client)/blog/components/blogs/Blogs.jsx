@@ -246,12 +246,12 @@ const Blogs = () => {
       <div className="min-h-screen bg-gradient-to-b from-[#1f1d77] to-[#0b0b3a]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-10 md:pt-20">
           {/* Barra de búsqueda */}
-          <div className="mb-16 max-w-3xl mx-auto flex items-center gap-4">
-            <div className="relative flex-1">
+          <div className="mb-12 sm:mb-16 max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-4">
+            <div className="relative w-full flex-1">
               <input
                 type="text"
                 placeholder="ESCRIBE PARA BUSCAR"
-                className="w-full px-8 py-4 rounded-full bg-transparent border-2 border-white text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
+                className="w-full px-6 py-3 sm:px-8 sm:py-4 rounded-full bg-transparent border-2 border-white text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base sm:text-lg"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -264,7 +264,7 @@ const Blogs = () => {
             <button
               onClick={handleSearch}
               disabled={isSearching}
-              className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 focus:outline-none transition-all duration-300 font-semibold text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSearching ? "BUSCANDO..." : "BUSCAR"}
             </button>

@@ -106,7 +106,7 @@ export default function Page() {
   return (
     <>
       <main
-        className="relative flex p-8 justify-center items-center text-white min-h-[400px] md:min-h-[500px] lg:min-h-[600px] overflow-hidden"
+        className="relative flex p-4 sm:p-8 justify-center items-center text-white min-h-[300px] md:min-h-[500px] lg:min-h-[600px] overflow-hidden"
         style={{
           backgroundPosition: "center",
           backgroundSize: "cover",
@@ -122,8 +122,8 @@ export default function Page() {
         <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
 
         <div className="relative z-20 flex items-center justify-center">
-          <div className="text-center md:text-left max-w-4xl px-4">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          <div className="text-center md:text-left max-w-4xl px-4 mt-8 md:mt-0">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
               <span className="text-cyan-400">COMPROMETIDOS</span> <span className="text-white">CON TU MARCA,</span>
               <br />
               <span className="text-white">APASIONADOS POR EL DISEÑO</span>
@@ -131,11 +131,11 @@ export default function Page() {
           </div>
         </div>
       </main>
-      <section className="p-8 text-[#b2b2b2] md:border-2 md:my-16 border-[#b2b2b2] max-w-3xl mx-auto">
-        <h2 className="text-center text-black md:text-left">Déjanos tus datos para poder atender tu reclamo</h2>
+      <section className="p-4 sm:p-8 text-[#b2b2b2] md:border-2 my-8 md:my-16 border-[#b2b2b2] max-w-3xl mx-auto">
+        <h2 className="text-center text-black md:text-left text-lg md:text-xl font-semibold mb-4 text-balance">Déjanos tus datos para poder atender tu reclamo</h2>
 
         <form onSubmit={handleSubmit}>
-          <h3 className="text-xl text-center mb-4 mt-2 text-black md:text-left">Identidad del consumidor reclamante</h3>
+          <h3 className="text-xl text-center mb-4 mt-2 text-white md:text-left">Identidad del consumidor reclamante</h3>
 
           <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
             <Input
@@ -196,7 +196,7 @@ export default function Page() {
             />
           </div>
 
-          <h3 className="text-xl text-center mb-4 mt-6 text-black md:text-left">Información del servicio</h3>
+          <h3 className="text-xl text-center mb-4 mt-6 text-white md:text-left">Información del servicio</h3>
 
           <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
             <select
@@ -276,7 +276,7 @@ export default function Page() {
             Neon Led Publicidad deberá dar respuesta al reclamo o queja en un plazo no mayor a quince (15) días hábiles.
           </p>
 
-          <button type="submit" className="bg-[#0c1a27] rounded-full p-4 px-16 font-bold block m-auto text-white">
+          <button type="submit" className="bg-[#0c1a27] rounded-full p-4 px-8 md:px-16 w-full md:w-auto font-bold block m-auto text-white mt-6">
             {status === "loading" ? "Enviando..." : "Enviar"}
           </button>
         </form>

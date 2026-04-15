@@ -72,6 +72,7 @@ const auth_service = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify(form),
       });
@@ -79,7 +80,12 @@ const auth_service = {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Error en la autenticación");
+        return {
+          success: false,
+          status: response.status,
+          message: data.message || "Error en la autenticación",
+          data: data,
+        };
       }
 
       setAuthCookie("token", data.token);
@@ -103,7 +109,12 @@ const auth_service = {
       return data;
     } catch (error) {
       console.error("Error en login:", error);
-      throw error;
+      return {
+        success: false,
+        status: 500,
+        message: "Error de conexión con el servidor. Intenta nuevamente,",
+        error: error.message,
+      };
     }
   },
 
@@ -153,9 +164,10 @@ const auth_service = {
         if (response.status === 401) {
           auth_service.clearAuthCookies();
         }
-        throw new Error(
-          data.message || "Error al obtener información del usuario"
-        );
+        return {
+          error: true,
+          message: data.message || "Error al obtener información del usuario",
+        };
       }
 
       if (data.user) {

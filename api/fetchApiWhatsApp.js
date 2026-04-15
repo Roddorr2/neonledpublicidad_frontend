@@ -2,7 +2,7 @@ import { getCookie } from 'cookies-next';
 import { safeJsonParse } from '@/lib/safe-json';
 
 // ✅ Laravel (campañas, BD, etc.)
-const API_URL = process.env.NEXT_PUBLIC_API_URL_PROD || process.env.NEXT_PUBLIC_API_URL_DEV || 'http://127.0.0.1:8000';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL_PROD || process.env.NEXT_PUBLIC_API_URL_DEV || 'http://127.0.0.1:8000';
 
 // ✅ WhatsApp-service (Node + Baileys)
 const WS_URL =

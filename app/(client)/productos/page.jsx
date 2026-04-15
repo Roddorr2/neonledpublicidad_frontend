@@ -11,7 +11,7 @@ export default function Home() {
       {/* <NeonBackground /> */}
       <div className="relative z-10">
         <Banner />
-        <div className="pr-12 pl-12 lg:px-8 mt-20 mb-10">
+        <div className="px-4 md:px-12 lg:px-8 mt-10 md:mt-20 mb-10">
         <NuestrosProductos />
         </div>
         <Productos />

@@ -37,8 +37,7 @@ export default function Footer() {
           <div>
             <h2 className="text-[#48A8FF] text-xl font-bold mb-4">CONTÁCTANOS</h2>
             <div className="mb-6">
-              <p className="font-semibold mb-2">Direcciones:</p>
-              <p className="text-sm mb-9">Jr. Paruro 1401. S130. Lima - Perú</p>
+              <p className="font-semibold mb-2">Dirección:</p>
               <p className="text-sm mb-1">Urb. Alameda La Rivera</p>
               <p className="text-sm mb-1">Mz F Lot 30</p>
               <p className="text-sm mb-1">Santa Martha. Ate</p>
@@ -55,7 +54,7 @@ export default function Footer() {
             <div>
               <p className="font-semibold mb-2">Disponibilidad:</p>
               <p className="text-sm mb-1">Lunes a Viernes</p>
-              <p className="text-sm">8:00 a.m – 7:00 p.m</p>
+              <p className="text-sm">9:00 a.m – 6:00 p.m</p>
             </div>
           </div>
 

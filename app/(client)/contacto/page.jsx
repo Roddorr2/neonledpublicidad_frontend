@@ -90,7 +90,7 @@ const Contacto = () => {
   
   const SocialMediaSection = () => {
     const socialMediaLinks = [
-      { href: "https://www.facebook.com/ledneonpublicidad", src: "/contacto/Facebook.png", alt: "Enlace a Facebook" },
+      { href: "https://www.facebook.com/profile.php?id=61578497411241", src: "/contacto/Facebook.png", alt: "Enlace a Facebook" },
       { href: "https://www.tiktok.com/@neonled.publicidad", src: "/contacto/Tiktok.png", alt: "Enlace a TikTok" },
       { href: "https://www.instagram.com/neonledpublicidad.peru?igsh=a3RseGpuYXM5ZnZo", src: "/contacto/ig.png", alt: "Enlace a Instagram" },
       { href: "https://www.youtube.com/@neonledpublicidadpe", src: "/contacto/yootube.png", alt: "Enlace a YouTube" }
@@ -103,7 +103,7 @@ const Contacto = () => {
             <h2 className="text-3xl font-[900] mb-6 text-white uppercase tracking-wide">
               Síguenos en nuestras redes
             </h2>
-            <div className="flex justify-center items-center space-x-6 ">
+            <div className="flex justify-center items-center space-x-4 sm:space-x-6">
               {socialMediaLinks.map((social, index) => (
                 <a
                   key={index}
@@ -157,18 +157,18 @@ const Contacto = () => {
           <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-32 bg-gradient-to-b from-transparent via-black/30 to-transparent"></div>
         </div>
 
-        <div className="container mx-auto px-4 py-12 relative z-10 -mt-16">
+        <div className="container mx-auto px-4 py-8 md:py-12 relative z-10 -mt-8 md:-mt-16">
           <div className="flex flex-col lg:flex-row items-start justify-center gap-8 pt-8">
             
         
-            <div className="w-full lg:w-1/3 space-y-8 text-center mt-24">
+            <div className="w-full lg:w-1/3 space-y-6 md:space-y-8 text-center mt-12 lg:mt-24">
               <div>
                 <a href="https://maps.app.goo.gl/jWD3Y4GgzaNj1WtY7" target="_blank">
                   <img src="/contacto/Mapa.png" className="w-14 mx-auto mb-4 hover:scale-110 transition-transform"/>
                 </a>
                 <h3 className="text-xl font-[900] text-white">Dirección</h3>
-                <p className="text-gray-300 text-sm">Jr. Paruro 1401. S130. Lima - Perú</p>
-                <p className="text-gray-300 text-sm">Referencia: La Rivera Mz F, Lt.30</p>
+                <p className="text-gray-300 text-sm">Urb. Alameda La Rivera</p>
+                <p className="text-gray-300 text-sm"> Mz F, Lt.30</p>
                 <p className="text-gray-300 text-sm">Santa Martha, Ate Vitarte, Perú</p>
               </div>
 
@@ -184,11 +184,11 @@ const Contacto = () => {
            
             <div className="w-full lg:w-1/3">
               {/* <h2 className="text-center text-lg font-medium text-white">Conoce nuestros medios de</h2> */}
-              <h1 className="text-center text-2xl font-[900] text-white mb-6">Contáctanos para fabricar tu letrero luminoso personalizado</h1>
+              <h1 className="text-center text-xl sm:text-2xl font-[900] text-white mb-4 sm:mb-6">Contáctanos para fabricar tu letrero luminoso personalizado</h1>
               
               
-              <div className="bg-gradient-to-br from-blue-800/30 to-blue-900/40 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-blue-400/20">
-                <h3 className="text-2xl font-[900] text-white text-center mb-6">SOLICITA INFORMACIÓN</h3>
+              <div className="bg-gradient-to-br from-blue-800/30 to-blue-900/40 backdrop-blur-md rounded-2xl p-4 sm:p-6 shadow-2xl border border-blue-400/20">
+                <h3 className="text-xl sm:text-2xl font-[900] text-white text-center mb-4 sm:mb-6">SOLICITA INFORMACIÓN</h3>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -19,7 +19,7 @@ export const useWhatsAppSocket = (tokenArg) => {
     if (!token) return;
 
     const socketUrl =
-      process.env.NEXT_PUBLIC_SOCKET_URL_DEV ||
+      process.env.NEXT_PUBLIC_SOCKET_URL_PROD ||
       process.env.NEXT_PUBLIC_API_URL_WHATSAPP_PROD ||
       'http://localhost:5111';
 

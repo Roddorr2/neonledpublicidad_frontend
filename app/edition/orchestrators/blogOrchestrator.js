@@ -74,7 +74,9 @@ class BlogOrchestrator {
       const hasConsejos =
         bodyData.formCommendBody?.texto1 ||
         bodyData.formCommendBody?.texto2 ||
-        bodyData.formCommendBody?.texto3;
+        bodyData.formCommendBody?.texto3 ||
+        bodyData.formCommendBody?.texto4 ||
+        bodyData.formCommendBody?.texto5;
 
       if (hasConsejos) {
         const consejosPayload = mapConsejos(
