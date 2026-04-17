@@ -83,7 +83,7 @@ const productosInfo = [
       "vinilos decorativos": {
         type: "external",
         url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=neon-led-para-bares-modernos",
-      }, 
+      },
     },
   },
   {
@@ -188,6 +188,14 @@ const productosInfo = [
       "Tubos de vidrio se adaptan cualquier forma, creando letras de neón que se pueden personalizar según las preferencias del cliente. Además estos letreros neón pueden ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.",
     image: "letras_neon_de_vidrio_ledneonpublicidad.webp",
     alt: "laptop con fondo de pantalla de letras neón en tubo de vidrio",
+  },
+  {
+    id: 16,
+    title: "CAJAS LUMINOSAS",
+    description:
+      "Nuestras cajas luminosas son una solución de publicidad visual de alto impacto, que integra sistemas de retroiluminación LED de última generación para ofrecer una exhibición de marca nítida y brillante. Estas cajas de luz no solo optimizan la visibilidad de tu negocio las 24 horas, sino que también garantizan un consumo energético eficiente con un diseño moderno y minimalista.",
+    image: "cajas-luminosas-cafeteria-restaurante.webp",
+    alt: "Caja luminosa LED instalada en fachada comercial con alta visibilidad nocturna",
   },
 ];
 
