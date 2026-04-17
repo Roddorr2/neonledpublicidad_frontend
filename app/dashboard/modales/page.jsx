@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { Search, Eye, ToggleLeft, Trash2, Loader2, Filter, Download, RefreshCw, Contact } from "lucide-react"
 import auth_service from "../users/services/auth.service"
 import Link from "next/link"
+import { set } from 'react-hook-form';
 
 const API_BASE_URL = `${url}/api/modales`;
 const PRODUCTOS_URL = `${url}/api/productos`;
@@ -22,47 +23,53 @@ export default function Page() {
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [totalPages, setTotalPages] = useState(1)
-  const [isLoading, setIsLoading] = useState(true)
+
+  //const [isLoading, setIsLoading] = useState(true)
+
+  const [isLoadingModals, setIsLoadingModals] = useState(true)
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true)
+
   const [searchTerm, setSearchTerm] = useState("")
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [productsById, setProductsById] = useState({})
   const router = useRouter()
 
+  /*
+  async function fetchProducts() {
+    try {
+      const res = await axios.get(PRODUCTOS_URL, {
+        headers: { Authorization: `Bearer ${getCookie("token")}` },
+      });
 
-    async function fetchProducts() {
-      try {
-        const res = await axios.get(PRODUCTOS_URL, {
-          headers: { Authorization: `Bearer ${getCookie("token")}` },
-        });
+      const payload = res.data;
 
-        const payload = res.data;
-
-        // Soporta múltiples formas típicas de respuesta
-        const list =
-          Array.isArray(payload) ? payload :
+      // Soporta múltiples formas típicas de respuesta
+      const list =
+        Array.isArray(payload) ? payload :
           Array.isArray(payload?.data) ? payload.data :                 // paginate() directo
-          Array.isArray(payload?.data?.data) ? payload.data.data :      // { data: { data: [...] } }
-          Array.isArray(payload?.productos) ? payload.productos :
-          [];
+            Array.isArray(payload?.data?.data) ? payload.data.data :      // { data: { data: [...] } }
+              Array.isArray(payload?.productos) ? payload.productos :
+                [];
 
-        if (!Array.isArray(list)) {
-          console.error("Respuesta productos inesperada:", payload);
-          throw new Error("Formato de productos inesperado (no hay array).");
-        }
-
-        const map = {};
-        for (const p of list) {
-          // Ajusta si tu PK/nombre usan otros campos
-          map[p.id_producto] = p.nombre;
-        }
-        setProductsById(map);
-      } catch (error) {
-        console.error("Error al obtener productos:", error?.message);
-        setProductsById({});
+      if (!Array.isArray(list)) {
+        console.error("Respuesta productos inesperada:", payload);
+        throw new Error("Formato de productos inesperado (no hay array).");
       }
+
+      const map = {};
+      for (const p of list) {
+        // Ajusta si tu PK/nombre usan otros campos
+        map[p.id_producto] = p.nombre;
+      }
+      setProductsById(map);
+    } catch (error) {
+      console.error("Error al obtener productos:", error?.message);
+      setProductsById({});
+    }
   }
+  */
 
-
+  /*
   async function fetchModals() {
     setIsRefreshing(true)
     let page = 1
@@ -107,6 +114,59 @@ export default function Page() {
     setTotalPages(Math.ceil(allData.length /ITEMS_PER_PAGE))
     setIsLoading(false)
     setIsRefreshing(false)
+  }
+  */
+
+  async function fetchProducts() {
+    try {
+      const res = await axios.get(PRODUCTOS_URL, {
+        headers: { Authorization: `Bearer ${getCookie("token")}` },
+      });
+
+      const payload = res.data;
+
+      const list =
+        Array.isArray(payload) ? payload :
+          Array.isArray(payload?.data) ? payload.data :
+            Array.isArray(payload?.data?.data) ? payload.data.data :
+              Array.isArray(payload?.productos) ? payload.productos :
+                [];
+
+      const map = {};
+      for (const p of list) {
+        map[p.id_producto] = p.nombre;
+      }
+
+      setProductsById(map);
+
+    } catch (error) {
+      console.error("Error al obtener productos:", error?.message);
+      setProductsById({});
+    } finally {
+      setIsLoadingProducts(false) // ✅ IMPORTANTE
+    }
+  }
+
+  async function fetchModals(page = 1) {
+    setIsLoadingModals(true)
+
+    try {
+      const response = await axios.get(`${API_BASE_URL}?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+      })
+
+      const data = response.data.data
+
+      setData(data)
+      setFilteredData(data)
+      setTotalPages(response.data.last_page) // importante
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoadingModals(false)
+    }
   }
 
   async function deleteModal(id) {
@@ -291,8 +351,18 @@ export default function Page() {
     }
   }
 
+  /*
   useEffect(() => {
     fetchProducts()
+    fetchModals(currentPage)
+  }, [currentPage])
+  */
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
+  useEffect(() => {
     fetchModals(currentPage)
   }, [currentPage])
 
@@ -326,7 +396,7 @@ export default function Page() {
     const csvData = filteredData.map((modal) => [
       modal.id_modalservicio,
       modal.nombre,
-      modal.correo, 
+      modal.correo,
       productosById[modal.id_producto] || "No asignado",
       modal.estado ? "Activo" : "Inactivo"
     ])
@@ -385,7 +455,7 @@ export default function Page() {
           </div>
         </div>
 
-        {isLoading ? (
+        {isLoadingModals ? (
           <div className="flex flex-col items-center justify-center py-16">
             <Loader2 className="h-10 w-10 text-[#8c52ff] animate-spin mb-4" />
             <p className="text-gray-500 font-medium">Cargando modales...</p>
@@ -409,20 +479,20 @@ export default function Page() {
                       Nombres
                     </th>
 
-                     <th
+                    <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Correo
                     </th>
 
-                     <th
+                    <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Telefono
                     </th>
-                   
+
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -446,71 +516,75 @@ export default function Page() {
                 <tbody className="bg-white divide-y divide-blue-600 dark:bg-gray-900">
                   {filteredData.length > 0 ? (
                     filteredData
-                    .slice((Number(currentPage) - 1) * ITEMS_PER_PAGE, Number(currentPage) * ITEMS_PER_PAGE)
-                    .map((modal)=> (
-                      <tr key={`${modal.id_modalservicio}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"> 
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                          {modal.id_modalservicio}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.nombre}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td> 
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.telefono}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{productsById[modal.id_producto] || 'No asignado'}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              modal.estado ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                            }`}
-                          >
-                            {modal.estado ? "Activo" : "Inactivo"}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <div className="flex justify-end gap-2">
-                            <button
-                              onClick={() => visualizar(modal.id_modalservicio)}
-                              title="Visualizar"
-                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                      .slice((Number(currentPage) - 1) * ITEMS_PER_PAGE, Number(currentPage) * ITEMS_PER_PAGE)
+                      .map((modal) => (
+                        <tr key={`${modal.id_modalservicio}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                            {modal.id_modalservicio}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.nombre}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.telefono}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                            {/* {productsById[modal.id_producto] || 'No asignado'} */}
+                            {isLoadingProducts
+                              ? 'Cargando...'
+                              : productsById[modal.id_producto] || 'No asignado'
+                            }
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${modal.estado ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                                }`}
                             >
-                              <Eye size={18} />
-                            </button>
+                              {modal.estado ? "Activo" : "Inactivo"}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div className="flex justify-end gap-2">
+                              <button
+                                onClick={() => visualizar(modal.id_modalservicio)}
+                                title="Visualizar"
+                                className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                              >
+                                <Eye size={18} />
+                              </button>
 
-                            <button
-                              title="Emails y WhatsApp"
-                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
-                            >
-                              <Link href={`./mails?id_modal=${modal.id_modalservicio}`} >
-                                <Contact size={17} />
-                              </Link>
-                            </button>
+                              <button
+                                title="Emails y WhatsApp"
+                                className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                              >
+                                <Link href={`./mails?id_modal=${modal.id_modalservicio}`} >
+                                  <Contact size={17} />
+                                </Link>
+                              </button>
 
-                            <button
-                              onClick={() =>
-                                confirmarCambiarEstado(modal.id_modalservicio, `${modal.estado ? 0 : 1}`)
-                              }
-                              title={`Cambiar a ${modal.estado ? "Inactivo" : "Activo"}`}
-                              className={`p-1.5 rounded-lg transition-colors ${
-                                modal.estado
+                              <button
+                                onClick={() =>
+                                  confirmarCambiarEstado(modal.id_modalservicio, `${modal.estado ? 0 : 1}`)
+                                }
+                                title={`Cambiar a ${modal.estado ? "Inactivo" : "Activo"}`}
+                                className={`p-1.5 rounded-lg transition-colors ${modal.estado
                                   ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
                                   : "bg-green-50 text-green-600 hover:bg-green-100"
-                              }`}
-                            >
-                              <ToggleLeft size={18} />
-                            </button>
-
-                            {auth_service.hasRole("administrador") && (
-                              <button
-                                onClick={() => confirmarEliminacion(modal.id_modalservicio)}
-                                title="Eliminar"
-                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                                  }`}
                               >
-                                <Trash2 size={18} />
+                                <ToggleLeft size={18} />
                               </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+
+                              {auth_service.hasRole("administrador") && (
+                                <button
+                                  onClick={() => confirmarEliminacion(modal.id_modalservicio)}
+                                  title="Eliminar"
+                                  className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                                >
+                                  <Trash2 size={18} />
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))
                   ) : (
                     <tr>
                       <td colSpan="7" className="px-6 py-16 text-center">
@@ -537,9 +611,9 @@ export default function Page() {
             </div>
 
             <Pagination1
-              filteredData = {filteredData}
-              currentPage = {currentPage}
-              totalPages = {totalPages}
+              filteredData={filteredData}
+              currentPage={currentPage}
+              totalPages={totalPages}
             />
           </>
         )}
