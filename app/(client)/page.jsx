@@ -6,8 +6,10 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import NuestrosProductos from './productos/components/NuestrosProductos';
 import dynamic from 'next/dynamic';
 
+import { Testimonials } from './components/Testimonials'; 
+
 const Slider = dynamic(() => import('./components/slider/Slider'), {
- 
+  
 });
 const Slider2 = dynamic(() => import('./components/slider2/Slider2'), {
   
@@ -204,11 +206,17 @@ export default function Home() {
       </section>
 
       <section
-        className="flex justify-center mt-12 md:mt-20 mb-12 md:mb-24"
+        className="flex justify-center mt-12 md:mt-20 mb-12 md:mb-16"
         aria-label="Nuestros clientes"
       >
         <Slider2 slides={clientLogos} />
       </section>
+
+      
+      <section className="mb-24 md:mb-32" aria-label="Testimonios de clientes">
+        <Testimonials />
+      </section>
+
     </div>
   );
 }
