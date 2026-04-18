@@ -6,7 +6,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import NuestrosProductos from './productos/components/NuestrosProductos';
 import dynamic from 'next/dynamic';
 
-import { Testimonials } from './components/Testimonials'; 
+
 
 const Slider = dynamic(() => import('./components/slider/Slider'), {
   
@@ -213,9 +213,7 @@ export default function Home() {
       </section>
 
       
-      <section className="mb-24 md:mb-32" aria-label="Testimonios de clientes">
-        <Testimonials />
-      </section>
+      
 
     </div>
   );
