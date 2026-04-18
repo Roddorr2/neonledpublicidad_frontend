@@ -1,5 +1,6 @@
 'use client';
 import { SectionBackground } from './components/SectionBackground';
+import { Testimonials } from './components/Testimonials';
 
 const aboutCardsData = [
   {
@@ -108,9 +109,11 @@ const Nosotros = () => {
                 </p>
               </div>
             ))}
+            
           </div>
         </div>
       </div>
+      <Testimonials />
     </section>
   );
 };
