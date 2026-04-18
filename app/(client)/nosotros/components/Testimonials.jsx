@@ -53,7 +53,10 @@ const testimonialsData = [
 
 export const Testimonials = () => {
   return (
-    <div className="mt-24 w-full max-w-6xl mx-auto px-6">
+    // 🚨 SOLUCIÓN 2 (Footer Pegado): 
+    // Añadimos 'mb-24 md:mb-32' directamente a este contenedor principal.
+    // Esto asegura que SIEMPRE haya un gran espacio debajo del grid de testimonios.
+    <div className="mt-24 mb-24 md:mb-32 w-full max-w-6xl mx-auto px-6">
       <div className="text-center mb-12">
         <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-white tracking-wide">
           TESTIMONIOS
@@ -67,24 +70,22 @@ export const Testimonials = () => {
             key={review.id}
             className="bg-white text-black rounded-2xl shadow-lg p-6 md:p-8 flex flex-col transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl relative"
           >
-            {/* 🚨 AQUÍ ESTÁ EL CAMBIO 🚨
-              Usamos 'flex items-center' para poner la foto y el texto uno al lado del otro. 
-            */}
+            
             <div className="flex items-center mb-4">
               
+              {/* El avatar va PRIMERO, con margen a la derecha ('mr-4') */}
               <img 
                 src={review.avatar} 
                 alt={`Foto de perfil de ${review.name}`} 
-                /* Volvemos a poner 'mr-4 shrink-0' para dar margen a la derecha y evitar que la foto se aplaste */
                 className="w-12 h-12 rounded-full object-cover mr-4 shrink-0 shadow-sm border border-gray-200"
               />
 
-              {/* Contenedor del nombre y estrellas (se apilan solos hacia abajo automáticamente) */}
+              {/* El contenedor de texto va SEGUNDO, quedando a la derecha del avatar */}
               <div>
                 <h3 className="font-bold text-gray-900 leading-tight line-clamp-1">{review.name}</h3>
                 <div className="flex text-sm mt-1">
                   
-                  {/* LÓGICA DE ESTRELLAS MEJORADA (Amarillas y Grises) */}
+                  {/* LÓGICA DE ESTRELLAS (Amarillas y Grises) */}
                   {[...Array(5)].map((_, i) => (
                     <svg 
                       key={i} 
