@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { User, Lock, ArrowLeft, AlertCircle } from "lucide-react";
+import { User, Lock, ArrowLeft, AlertCircle, Sun, Moon } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
@@ -19,6 +19,7 @@ export default function LoginPage() {
   const [turnstileToken, setTurnstileToken] = useState(null);
   const [cooldownTime, setCooldownTime] = useState(0);
   const [errorType, setErrorType] = useState("credentials");
+  const [darkMode, setDarkMode] = useState(false);
   const turnstileRef = useRef(null);
   const { login } = useAuth();
   const router = useRouter();
@@ -43,10 +44,10 @@ export default function LoginPage() {
     e.preventDefault();
 
     if (cooldownTime > 0) {
-      setErrorType(true);
+      setError(true);
       setErrorType("rate_limit");
       setErrorMessage(
-        `Por favor, espera ${cooldownTime} segundos antes de intentar nuevamente.`,
+        `Por favor, espera ${cooldownTime} segundos antes de intentar nuevamente.`
       );
       return;
     }
@@ -57,10 +58,11 @@ export default function LoginPage() {
     setErrorType("credentials");
 
     if (!turnstileToken) {
-      setErrorType(true);
+      setError(true);
       setErrorType("captcha");
       setErrorMessage("Por favor completa la verificación de seguridad");
       setLoadingForm(false);
+      return;
     }
 
     try {
@@ -92,32 +94,31 @@ export default function LoginPage() {
       case 429:
         setErrorType("rate_limit");
         setErrorMessage(message);
-
         const minutosMatch = message.match(/(\d+)\s*minutos?/);
         if (minutosMatch) {
           const minutos = parseInt(minutosMatch[1]);
           setCooldownTime(minutos * 60);
         } else {
-          setColldownTime(60);
+          setCooldownTime(60);
         }
         break;
 
       case 422:
         setErrorType("captcha");
         setErrorMessage(
-          message ||
-            "Error de verificación de seguridad. Inténtalo nuevamnete.",
+          message || "Error de verificación de seguridad. Inténtalo nuevamente."
         );
         break;
 
       case 401:
         setErrorType("credentials");
         setErrorMessage(message || "Usuario o contraseña incorrectos");
+        break;
 
       default:
         setErrorType("credentials");
         setErrorMessage(
-          message || "Error al iniciar sesión. Intenta nuevamente.",
+          message || "Error al iniciar sesión. Intenta nuevamente."
         );
     }
   };
@@ -130,9 +131,9 @@ export default function LoginPage() {
     if (!error) return null;
 
     const styles = {
-      credentials: "bg-red-50 border-1-4 border-red-500",
-      rate_limit: "bg-orange-50 border-1-4 border-orange-500",
-      captcha: "bg-yellow-50 border-1-4 border-yellow-500",
+      credentials: "bg-red-50 border-l-4 border-red-500",
+      rate_limit: "bg-orange-50 border-l-4 border-orange-500",
+      captcha: "bg-yellow-50 border-l-4 border-yellow-500",
     };
 
     const icons = {
@@ -150,8 +151,8 @@ export default function LoginPage() {
               errorType === "credentials"
                 ? "text-red-700"
                 : errorType === "rate_limit"
-                  ? "text-orange-700"
-                  : "text-yellow-700"
+                ? "text-orange-700"
+                : "text-yellow-700"
             }`}>
             {errorMessage}
           </p>
@@ -196,15 +197,30 @@ export default function LoginPage() {
           </div>
 
           <div className="flex flex-col items-center w-full mt-8 lg:mt-0 lg:w-1/2">
-            <div className="bg-white text-gray-900 rounded-2xl shadow-2xl p-6 md:p-10 max-w-md w-full lg:h-auto">
+
+            {/* Botón toggle dark mode */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="mb-3 self-end flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/30 bg-black/40 hover:bg-black/60 text-white text-xs transition-all"
+            >
+              {darkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+              {darkMode ? "Modo claro" : "Modo oscuro"}
+            </button>
+
+            {/* Tarjeta del formulario */}
+            <div className={`rounded-2xl shadow-2xl p-6 md:p-10 max-w-md w-full transition-colors duration-300 ${
+              darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+            }`}>
               <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <User className="w-8 h-8 text-black-600" />
+                <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
+                  darkMode ? "bg-blue-900" : "bg-blue-50"
+                }`}>
+                  <User className={`w-8 h-8 ${darkMode ? "text-blue-300" : "text-blue-600"}`} />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold">
                   Iniciar Sesión
                 </h2>
-                <p className="text-gray-500 mt-2">
+                <p className={`mt-2 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
                   Ingresa tus credenciales para continuar
                 </p>
               </div>
@@ -215,7 +231,7 @@ export default function LoginPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700">
+                    className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
                     Usuario
                   </label>
                   <div className="relative">
@@ -226,7 +242,11 @@ export default function LoginPage() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Ingresa tu usuario"
-                      className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className={`w-full pl-10 pr-3 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-colors duration-300 ${
+                        darkMode
+                          ? "bg-gray-800 border-gray-600 text-white placeholder-gray-500"
+                          : "bg-white border-gray-300 text-gray-900"
+                      }`}
                       required
                       disabled={cooldownTime > 0}
                     />
@@ -237,7 +257,7 @@ export default function LoginPage() {
                   <div className="flex justify-between items-center">
                     <label
                       htmlFor="password"
-                      className="block text-sm font-medium text-gray-700">
+                      className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
                       Contraseña
                     </label>
                     <Link
@@ -254,7 +274,11 @@ export default function LoginPage() {
                       value={formData.password}
                       onChange={handleChange}
                       placeholder="Ingresa tu contraseña"
-                      className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className={`w-full pl-10 pr-3 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-colors duration-300 ${
+                        darkMode
+                          ? "bg-gray-800 border-gray-600 text-white placeholder-gray-500"
+                          : "bg-white border-gray-300 text-gray-900"
+                      }`}
                       required
                       disabled={cooldownTime > 0}
                     />
@@ -282,8 +306,8 @@ export default function LoginPage() {
                   {loadingForm
                     ? "Iniciando sesión..."
                     : cooldownTime > 0
-                      ? `Esperar ${cooldownTime} segundos`
-                      : "Iniciar sesión"}
+                    ? `Esperar ${cooldownTime} segundos`
+                    : "Iniciar sesión"}
                 </button>
               </form>
             </div>
