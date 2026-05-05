@@ -8,7 +8,7 @@ import user_service from '../users/services/user.service';
 import url from '../../../api/url';
 import axios from 'axios'
 import Swal from 'sweetalert2';
-import { Search, Eye, ToggleLeft, Trash2, Loader2, Filter, Download, RefreshCw, Contact } from "lucide-react"
+import { Search, Eye, ToggleLeft, Trash2, Loader2, Filter, Download, RefreshCw, Contact, Mail, Phone, Package } from "lucide-react"
 import auth_service from "../users/services/auth.service"
 import Link from "next/link"
 import { set } from 'react-hook-form';
@@ -24,8 +24,6 @@ export default function Page() {
   const [filteredData, setFilteredData] = useState([])
   const [totalPages, setTotalPages] = useState(1)
 
-  //const [isLoading, setIsLoading] = useState(true)
-
   const [isLoadingModals, setIsLoadingModals] = useState(true)
   const [isLoadingProducts, setIsLoadingProducts] = useState(true)
 
@@ -33,89 +31,6 @@ export default function Page() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [productsById, setProductsById] = useState({})
   const router = useRouter()
-
-  /*
-  async function fetchProducts() {
-    try {
-      const res = await axios.get(PRODUCTOS_URL, {
-        headers: { Authorization: `Bearer ${getCookie("token")}` },
-      });
-
-      const payload = res.data;
-
-      // Soporta múltiples formas típicas de respuesta
-      const list =
-        Array.isArray(payload) ? payload :
-          Array.isArray(payload?.data) ? payload.data :                 // paginate() directo
-            Array.isArray(payload?.data?.data) ? payload.data.data :      // { data: { data: [...] } }
-              Array.isArray(payload?.productos) ? payload.productos :
-                [];
-
-      if (!Array.isArray(list)) {
-        console.error("Respuesta productos inesperada:", payload);
-        throw new Error("Formato de productos inesperado (no hay array).");
-      }
-
-      const map = {};
-      for (const p of list) {
-        // Ajusta si tu PK/nombre usan otros campos
-        map[p.id_producto] = p.nombre;
-      }
-      setProductsById(map);
-    } catch (error) {
-      console.error("Error al obtener productos:", error?.message);
-      setProductsById({});
-    }
-  }
-  */
-
-  /*
-  async function fetchModals() {
-    setIsRefreshing(true);
-    let page = 1;
-    let allData = [];
-    let hasMorePages = true;
-
-    while (hasMorePages) {
-      try {
-        const response = await axios.get(`${API_BASE_URL}?page=${page}`, {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        });
-
-        if (response.data.data.length === 0) {
-          hasMorePages = false;
-          break;
-        }
-
-        allData = [...allData, ...response.data.data];
-        page++;
-      } catch (error) {
-        hasMorePages = false;
-        console.error("Error al obtener los datos:", error.message);
-
-        if (error.response && error.response.status === 401) {
-          Swal.fire({
-            title: "Sesión Expirada",
-            text: "Por favor, inicia sesión nuevamente.",
-            icon: "warning",
-            confirmButtonText: "OK",
-          }).then(() => {
-            deleteCookie("modal");
-            user_service.logoutClient(router);
-          });
-        }
-      }
-    }
-
-    setData(allData);
-    setFilteredData(allData);
-    setTotalPages(Math.ceil(allData.length / ITEMS_PER_PAGE));
-    setIsLoading(false);
-    setIsRefreshing(false);
-  }
-  */
 
   async function fetchProducts() {
     try {
@@ -350,13 +265,6 @@ export default function Page() {
       }
     }
   }
-
-  /*
-  useEffect(() => {
-    fetchProducts()
-    fetchModals(currentPage)
-  }, [currentPage])
-  */
 
   useEffect(() => {
     fetchProducts()
@@ -627,21 +535,21 @@ export default function Page() {
 
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Correo
                     </th>
 
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Telefono
                     </th>
 
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Producto de Contrato
                     </th>
