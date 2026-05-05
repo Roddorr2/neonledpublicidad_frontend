@@ -73,9 +73,9 @@ export default function Home() {
     },
     {
       imgSrc:
-        "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad(1).webp",
+        "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
       imgSrcMobile:
-        "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad(1).webp",
+        "/productosPrincipal/Letras-acrilicas-Lux-Nails-Neon-Led-Publicidad.webp",
       altText:
         "Letras corporeas doradas con iluminación led elegante sobre un fondo oscuro",
       title: "Letras corporeas doradas con iluminación para estudios estéticos",
@@ -94,9 +94,9 @@ export default function Home() {
     },
     {
       imgSrc:
-        "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad(1).webp",
+        "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
       imgSrcMobile:
-        "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad(1).webp",
+        "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
       altText:
         "Letrero led verde con la palabra woks y cerveza artesanal en letras finas, diseñado para negocio de bebidas",
       title: "Letrero led en diversas tipografías para licorerías",
@@ -183,7 +183,7 @@ export default function Home() {
       <section className="flex justify-center items-center mb-12 md:mb-24 px-4">
         <a
           href="/contacto"
-          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold text-xl sm:text-3xl md:text-4xl py-4 sm:py-8 md:py-10 px-8 sm:px-16 md:px-20 rounded-full shadow-lg hover:scale-105 transition-transform text-center w-full max-w-[300px] sm:max-w-none"
+          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold text-xl sm:text-3xl md:text-4xl py-4 sm:py-8 md:py-10 px-8 sm:px-16 md:px-20 rounded-full shadow-lg hover:scale-105 transition-transform text-center w-full sm:w-auto inline-block max-w-full"
         >
           ¡CONTÁCTANOS!
         </a>
