@@ -101,14 +101,14 @@ export default function MetricsPage() {
     <div className="w-full p-6 lg:p-10 space-y-12">
 
       {/* 🧭 HEADER + FILTROS */}
-      <div className="flex flex-col gap-4 border-b pb-6 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-4 border-b border-gray-200 dark:border-gray-700 pb-6 md:flex-row md:items-center md:justify-between">
 
         {/* TÍTULO */}
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-gray-900">
+          <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
             Dashboard de Métricas
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             {filterMode === "monthly"
               ? `Resumen mensual · ${MONTHS[month - 1]} ${year}`
               : `Resumen anual · ${year}`}
@@ -122,7 +122,7 @@ export default function MetricsPage() {
           <select
             value={filterMode}
             onChange={(e) => setFilterMode(e.target.value)}
-            className="px-4 py-2 rounded-xl border bg-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
           >
             <option value="monthly">Mensual</option>
             <option value="yearly">Anual</option>
@@ -133,7 +133,7 @@ export default function MetricsPage() {
             <select
               value={month}
               onChange={(e) => setMonth(Number(e.target.value))}
-              className="px-4 py-2 rounded-xl border bg-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
             >
               {MONTHS.map((name, i) => (
                 <option key={i} value={i + 1}>
@@ -147,7 +147,7 @@ export default function MetricsPage() {
           <select
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            className="px-4 py-2 rounded-xl border bg-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
           >
             {[2023, 2024, 2025, 2026].map((y) => (
               <option key={y} value={y}>
@@ -157,7 +157,7 @@ export default function MetricsPage() {
           </select>
 
           {refreshing && (
-            <span className="text-xs text-gray-400 animate-pulse">
+            <span className="text-xs text-gray-400 dark:text-gray-500 animate-pulse">
               Actualizando…
             </span>
           )}
@@ -215,13 +215,13 @@ export default function MetricsPage() {
       {/* 👥 PRODUCTIVIDAD */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         <Card title="Productividad por Empleado">
-          <div className="max-h-[380px] overflow-y-auto divide-y">
+          <div className="max-h-[380px] overflow-y-auto divide-y divide-gray-100 dark:divide-gray-700">
             {empleados.map((e, i) => (
               <div
                 key={i}
-                className="flex justify-between items-center px-4 py-3 hover:bg-gray-50"
+                className="flex justify-between items-center px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700"
               >
-                <span className="font-medium">{e.nombre_empleado}</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">{e.nombre_empleado}</span>
                 <span className="bg-blue-600 text-white px-3 py-1 text-sm rounded-full">
                   {e.count_cards} cards
                 </span>
@@ -233,8 +233,8 @@ export default function MetricsPage() {
         <Card title="🏆 Top 5 Empleados">
           <div className="space-y-4">
             {top5Empleados.map((e, i) => (
-              <div key={i} className="flex justify-between p-4 border rounded-xl">
-                <span className="font-bold text-blue-600">
+              <div key={i} className="flex justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-xl">
+                <span className="font-bold text-blue-600 dark:text-blue-400">
                   #{i + 1} {e.nombre_empleado}
                 </span>
                 <span className="bg-blue-600 text-white px-3 py-1 rounded-lg">
@@ -253,11 +253,11 @@ export default function MetricsPage() {
 
 function SummaryCard({ title, value, emoji }) {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow border">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow border border-gray-200 dark:border-gray-700">
       <div className="flex justify-between">
         <div>
-          <p className="text-xs uppercase text-gray-400">{title}</p>
-          <p className="text-3xl font-black">{value}</p>
+          <p className="text-xs uppercase text-gray-400 dark:text-gray-500">{title}</p>
+          <p className="text-3xl font-black text-gray-900 dark:text-white">{value}</p>
         </div>
         <div className="text-3xl">{emoji}</div>
       </div>
@@ -267,8 +267,8 @@ function SummaryCard({ title, value, emoji }) {
 
 function Card({ title, children }) {
   return (
-    <div className="bg-white p-8 rounded-2xl shadow border">
-      <h2 className="text-xl font-bold mb-6">{title}</h2>
+    <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow border border-gray-200 dark:border-gray-700">
+      <h2 className="text-xl font-bold mb-6 text-gray-900 dark:text-white">{title}</h2>
       {children}
     </div>
   );

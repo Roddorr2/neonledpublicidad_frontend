@@ -19,7 +19,7 @@ export default function Header() {
   const { isAuthenticated, logout } = useAuth();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [logoSrc, setLogoSrc] = useState(
-    "/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
+    "/header_footer/Logo.oficial.Neon.Led.Publicidad.webp",
   );
 
   // Filtrado de los links segun permisos y roles del usuario
@@ -147,29 +147,29 @@ export default function Header() {
             >
               {!isSmallScreen && (
                 <a href="/">
-                <img
-                  src={logoSrc}
-                  alt="Logotipo de Neon Led Publicidad"
-                  title="Neon Led Publicidad especialistas en letreros led"
-                  className={`
-                  h-auto transition-all duration-300
-                  ${
-                    logoSrc.includes("Logo_corto_nlp_header")
-                      ? "w-12 mt-2"
-                      : "w-36"
-                  } 
-                `}
-                />
+                  <img
+                    src={logoSrc}
+                    alt="Logotipo de Neon Led Publicidad"
+                    title="Neon Led Publicidad especialistas en letreros led"
+                    width={213}
+                    height={75}
+                    className={`
+        object-contain transition-transform duration-300 will-change-transform
+        ${logoSrc.includes("Logo_corto_nlp_header") ? "w-[52px]" : "w-[144px]"}
+      `}
+                  />
                 </a>
               )}
 
               {isSmallScreen && (
                 <a href="/">
-                <img
-                  src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
-                  alt="Logotipo móvil Neon Led Publicidad"
-                  className="w-36 h-auto cursor-pointer"
-                />
+                  <img
+                    src="/header_footer/Logo.oficial.Neon.Led.Publicidad.webp"
+                    alt="Logotipo móvil Neon Led Publicidad"
+                    width="213"
+                    height="75"
+                    className="w-[144px] h-auto cursor-pointer object-contain"
+                  />
                 </a>
               )}
             </div>
@@ -333,8 +333,8 @@ export default function Header() {
                 {menuActive && currentMenu === "main"
                   ? "Cerrar"
                   : !menuActive
-                  ? "\u2630"
-                  : ""}
+                    ? "\u2630"
+                    : ""}
               </span>
               {menuActive && currentMenu === "main" && (
                 <div className="w-10 h-10 bg-gradient-to-r from-[--azul_brillante] to-[--azul_intenso] flex items-center justify-center relative">
@@ -422,30 +422,27 @@ export default function Header() {
                 }}
               />
             </>
-            
           )}
           {currentMenu === "productos" && (
             <>
-
-
-          <DropdownLink
-           text={"Todos los productos"}
-          link={"/productos"}
-          isInicio={true}
-          final={false} 
-           closeMenu={() => {
-               setMenuActive(false); 
-               setContainerFullHeight(false);
-               setCurrentMenu("main");
-          }}
-           />
+              <DropdownLink
+                text={"Todos los productos"}
+                link={"/productos"}
+                isInicio={true}
+                final={false}
+                closeMenu={() => {
+                  setMenuActive(false);
+                  setContainerFullHeight(false);
+                  setCurrentMenu("main");
+                }}
+              />
               <DropdownLink
                 text={"Letras de acrílico"}
                 link={"/productos/letras-acrilico"}
                 isInicio={false}
                 final={false}
                 closeMenu={() => {
-                  setMenuActive(false); 
+                  setMenuActive(false);
                   setContainerFullHeight(false);
                   setCurrentMenu("main");
                 }}

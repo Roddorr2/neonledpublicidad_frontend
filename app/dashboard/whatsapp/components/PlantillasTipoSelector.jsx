@@ -8,7 +8,7 @@ export function PlantillasTipoSelector({
   return (
     <Card>
       <CardTitle>Gestión de Plantillas</CardTitle>
-      <p className="mt-2 text-sm text-slate-500">
+      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
         Edita las plantillas de mensajes automáticos para WhatsApp y correos
         electrónicos.
       </p>
@@ -22,7 +22,7 @@ export function PlantillasTipoSelector({
           className={`flex-1 rounded-xl border-2 px-6 py-4 text-sm font-semibold transition ${
             tipo === 'whatsapp'
               ? 'border-azul-principal bg-azul-claro/20 text-azul-principal'
-              : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+              : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'
           }`}
         >
           <div className="flex items-center justify-center gap-2">
@@ -41,7 +41,7 @@ export function PlantillasTipoSelector({
           className={`flex-1 rounded-xl border-2 px-6 py-4 text-sm font-semibold transition ${
             tipo === 'email'
               ? 'border-azul-principal bg-azul-claro/20 text-azul-principal'
-              : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+              : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'
           }`}
         >
           <div className="flex items-center justify-center gap-2">
