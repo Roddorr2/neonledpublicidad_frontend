@@ -29,10 +29,8 @@ export default function Productos() {
         route: "/productos/letras-doradas",
       },
       {
-        imgSrc:
-          "/productosPrincipal/letras-aluminio-plateadas.jpg",
-        imgSrcMobile:
-          "/productosPrincipal/letras-aluminio-plateadas.jpg",
+        imgSrc: "/productosPrincipal/letras-aluminio-plateadas.jpg",
+        imgSrcMobile: "/productosPrincipal/letras-aluminio-plateadas.jpg",
         altText:
           "Logotipo de Yava iluminado con letras plateadas sobre pared clara",
         description: "LETRAS DE ALUMINIO PLATEADAS 3D",
@@ -114,6 +112,13 @@ export default function Productos() {
         route: "/productos/techos-led",
       },
       {
+        imgSrcMobile: "/productosPrincipal/cajas-luminosas.webp",
+        altText:
+          "Caja luminosa publicitaria para cafetería con iluminación LED",
+        description: "CAJAS LUMINOSAS",
+        route: "/productos/cajas-luminosas",
+      },
+      {
         imgSrc:
           "/productosPrincipal/Letrero-Works-licoreria-led-neo-led-publicidad.webp",
         imgSrcMobile:
@@ -127,7 +132,7 @@ export default function Productos() {
   ];
 
   const [isAnimations, setIsAnimations] = useState(
-    Array(filas.length).fill(false)
+    Array(filas.length).fill(false),
   );
 
   const filasRefs = useRef([]);
@@ -136,7 +141,6 @@ export default function Productos() {
     filasRefs.current = filasRefs.current.slice(0, filas.length);
   }, [filas]);
 
-  
   // const options = {
   //   rootMargin: "200px",
   //   threshold: 0.1,
@@ -150,20 +154,15 @@ export default function Productos() {
   //         const newState = [...prevState];
   //         newState[index] = true;
   //         return newState;
-  //       }); 
+  //       });
   //       observer.unobserve(entry.target);
   //     }
   //   });
   // };
 
-
-
- useEffect(() => {
-  
-  setIsAnimations(Array(filas.length).fill(true));
-}, [filas.length]);
-
-
+  useEffect(() => {
+    setIsAnimations(Array(filas.length).fill(true));
+  }, [filas.length]);
 
   return (
     <div className={`${styles["productos-container"]} mt-12`}>
