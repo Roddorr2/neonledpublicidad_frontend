@@ -109,3 +109,26 @@ export const whatsappApi = {
     return wsRequest('/api/whatsapp/qr-status', { method: 'GET' });
   },
 };
+
+// ─── POP-UPS agregamos esto ─────────────────────────────────────────────
+export const popupApi = {
+  // Productos (para el selector)
+  getProductos: () =>
+    apiRequest('/api/productos', { method: 'GET' }),
+
+  // Popup Configs
+  getAll: () =>
+    apiRequest('/api/popup-configs', { method: 'GET' }),
+
+  getByProducto: (idProducto) =>
+    apiRequest(`/api/popup-configs/producto/${idProducto}`, { method: 'GET' }),
+
+  create: (formData) =>
+    apiRequest('/api/popup-configs', { method: 'POST', body: formData }),
+
+  update: (id, formData) =>
+    apiRequest(`/api/popup-configs/${id}/actualizar`, { method: 'POST', body: formData }),
+
+  destroy: (id) =>
+    apiRequest(`/api/popup-configs/${id}`, { method: 'DELETE' }),
+};
