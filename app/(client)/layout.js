@@ -92,7 +92,7 @@ export default function ClientLayout({ children }) {
       "closes": "19:00"
     },
     "sameAs": [
-      "https://www.facebook.com/neonledpublicidad.pe/",
+      "https://www.facebook.com/profile.php?id=61578497411241",
       "https://www.instagram.com/neonledpublicidad.peru/",
       "https://www.tiktok.com/@neonled.publicidad",
       "https://www.youtube.com/@neonledpublicidadpe"
