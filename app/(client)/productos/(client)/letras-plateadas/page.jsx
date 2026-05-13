@@ -49,6 +49,8 @@ export default function Home() {
   return (
     <>
       <ModalProductoScroll data={modales} />
+      <ServicePopup idProducto={3} productoName="LETRAS DE ALUMINIO PLATEADAS 3D" />
+
       <Banner
         titulo={`LETRAS DE ALUMINIO \n PLATEADAS 3D`}
         imagen="/productosIndividuales/banner/fondo-plateado.png"

@@ -51,6 +51,9 @@ export default function Home() {
   return (
     <>
       <ModalProductoScroll data={modales} />
+
+      <ServicePopup idProducto={7} productoName="MENÚ BOARD" />
+
       <Banner
         titulo={`MENÚ BOARDS`}
         imagen="/productosIndividuales/banner/menu-board.webp"

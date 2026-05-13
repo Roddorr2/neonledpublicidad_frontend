@@ -51,7 +51,10 @@ export default function Home() {
 
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ModalProductoScroll data={modales} />
+
+      <ServicePopup idProducto={6} productoName="IMPRESIÓN EN VINILO" />
+
       <Banner
         titulo={`IMPRESIÓN\nEN VINILO`}
         imagen="/productosIndividuales/banner/vinilosparapared.webp"
