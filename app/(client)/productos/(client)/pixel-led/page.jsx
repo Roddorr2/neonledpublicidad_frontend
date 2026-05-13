@@ -48,7 +48,10 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ModalProductoScroll data={modales} />
+
+      <ServicePopup idProducto={12} productoName="PIXEL LED" />
+
       <Banner
         titulo={`PIXEL\nLED`}
         imagen="/productosIndividuales/banner/pixel-led.webp"

@@ -48,7 +48,8 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ModalProductoScroll data={modales} />
+      <ServicePopup idProducto={5} productoName="LED NEÓN" />
       <Banner
         titulo={`LETRAS DE\nNEÓN LED`}
         imagen="/productosIndividuales/banner/neon-led.png"

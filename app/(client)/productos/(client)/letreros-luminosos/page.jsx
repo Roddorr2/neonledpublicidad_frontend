@@ -46,7 +46,9 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ModalProductoScroll data={modales} />
+      <ServicePopup idProducto={4} productoName="LETREROS LUMINOSOS" />
+
       <Banner
         titulo={`LETREROS\nLUMINOSOS`}
         imagen="/productosIndividuales/banner/letreros-luminosos2.png"
