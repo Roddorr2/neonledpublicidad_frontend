@@ -5,6 +5,7 @@ import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
 import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+import ServicePopup from "../components/ServicePopup";
 
 export default function Home() {
   const cards = [
@@ -54,6 +55,8 @@ export default function Home() {
     <>
       {/* Modal que se abre automáticamente después de 4 segundos */}
       <ModalProductoScroll data={modales} />
+
+      <ServicePopup idProducto={16} productoName="CAJAS LUMINOSAS" />
 
       <Banner
         titulo={`CAJAS\nLUMINOSAS`}

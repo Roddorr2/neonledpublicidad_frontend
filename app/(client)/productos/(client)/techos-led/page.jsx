@@ -48,7 +48,10 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ModalProductoScroll data={modales} />
+
+      <ServicePopup idProducto={14} productoName="TECHOS LED" />
+
       <Banner
         titulo={`TECHOS\nLED`}
         imagen="/productosIndividuales/banner/techos-led.png"

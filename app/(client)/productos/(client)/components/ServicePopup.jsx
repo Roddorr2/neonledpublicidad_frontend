@@ -9,30 +9,6 @@ import url from '@/api/url';
 
 const URL_API = `${url}/api/modales`;
 
-// ─── MOCK temporal ────────────────────────────────────────────────────────────
-// Cuando el backend habilite GET /api/public/popup-configs/producto/{id_producto}
-// buscar el comentario "TODO BACKEND" y descomenta el fetch real.
-// ─────────────────────────────────────────────────────────────────────────────
-const MOCK_CONFIG = {
-  title_text: "¡SOLO POR HOY: ACCEDE A UNA ASESORÍA GRATIS!",
-  title_color: "#FFFFFF",
-  button_text: "HAZLO YA",
-  button_color: "#feb549",
-  service_color: "#5966f5",
-  service_color_2: "#854ff4",
-  gradient_direction: "to bottom",
-  trigger_time: 8,
-  left_image_url: null,
-  left_opacity: 85,
-  left_alt: "", // ← alt SEO imagen izquierda
-  right_image_url: null,
-  right_opacity: 100,
-  right_alt: "", // ← alt SEO imagen derecha (fondo)
-  mobile_image_url: null,
-  mobile_opacity: 100,
-  mobile_alt: "", // ← alt SEO imagen mobile
-};
-
 // Helper: fondo sólido o degradado
 const getBg = (c) =>
   c.service_color_2 && c.service_color_2 !== c.service_color
@@ -74,16 +50,10 @@ export default function ServicePopup({ idProducto, productoName }) {
 
   // ── Cargar config ──────────────────────────────────────────────────────────
   useEffect(() => {
-    // TODO BACKEND: cuando el backend habilite el endpoint público, reemplaza
-    // las líneas de abajo por:
-    //
-    // fetch(`${url}/api/public/popup-configs/producto/${idProducto}`)
-    //   .then(r => r.json())
-    //   .then(d => { if (d.success) setConfig(d.data); else setConfig(MOCK_CONFIG); })
-    //   .catch(() => setConfig(MOCK_CONFIG));
-    //
-    // El backend debe devolver los mismos campos que MOCK_CONFIG arriba.
-    setConfig(MOCK_CONFIG);
+    fetch(`${url}/api/public/popup-configs/producto/${idProducto}`)
+      .then(r => r.json())
+      .then(d => { if (d.success) setConfig(d.data); else setConfig(null); })
+      .catch(() => setConfig(null));
   }, [idProducto]);
 
   // ── Timer de aparición ─────────────────────────────────────────────────────

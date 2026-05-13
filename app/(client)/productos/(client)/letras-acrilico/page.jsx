@@ -53,7 +53,9 @@ export default function Home() {
 
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ModalProductoScroll data={modales} />
+      <ServicePopup idProducto={1} productoName="LETRAS DE ACRÍLICO" />
+
       <Banner
         titulo={`LETRAS DE\nACRÍLICO`}
         imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad_mejorada.png"

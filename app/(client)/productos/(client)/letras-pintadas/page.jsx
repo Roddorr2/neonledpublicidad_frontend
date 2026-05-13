@@ -47,7 +47,10 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ModalProductoScroll data={modales} />
+      
+      <ServicePopup idProducto={8} productoName="LETRAS PINTADAS EN MDF" />
+
       <Banner
         titulo={`LETRAS PINTADAS\nEN MDF`}
         imagen="/productosIndividuales/banner/letras-pintadas.webp"

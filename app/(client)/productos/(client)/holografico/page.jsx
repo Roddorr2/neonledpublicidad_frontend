@@ -53,6 +53,8 @@ export default function Home() {
       {/* Modal que se abre automáticamente después de 4 segundos */}
       <ModalProductoScroll data={modales}/>
 
+      <ServicePopup idProducto={11} productoName="HOLOGRÁFICO" />
+
       <Banner
         titulo="HOLOGRÁFICOS"
         imagen="/productosIndividuales/banner/holografico.webp"
