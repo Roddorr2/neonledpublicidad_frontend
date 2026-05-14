@@ -1,4 +1,5 @@
 "use client";
+import ServicePopup from '../components/ServicePopup';
 import Banner from "../components/Banner";
 import CardSlider from "../components/CardSlider";
 import Datos from "../components/Datos";
