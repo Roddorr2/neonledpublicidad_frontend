@@ -77,6 +77,10 @@ export const Testimonials = () => {
               <img 
                 src={review.avatar} 
                 alt={`Foto de perfil de ${review.name}`} 
+                // ✅ CAMBIO: Se agregó loading="lazy" para que los avatares de
+                // testimonios NO se descarguen al entrar a la página.
+                // En móvil esto libera ancho de banda para el LCP (imagen hero).
+                loading="lazy"
                 className="w-12 h-12 rounded-full object-cover mr-4 shrink-0 shadow-sm border border-gray-200"
               />
 

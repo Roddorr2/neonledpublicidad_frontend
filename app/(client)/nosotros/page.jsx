@@ -1,4 +1,6 @@
 'use client';
+// CAMBIO 1: Se importa Image de Next.js para optimización automática (WebP, lazy, preload)
+import Image from 'next/image';
 import { SectionBackground } from './components/SectionBackground';
 import { Testimonials } from './components/Testimonials';
 
@@ -32,14 +34,23 @@ const Nosotros = () => {
       {/* =========================
           FILA 1: IMAGEN (solo imagen)
       ========================== */}
-      <div
-        className="relative h-[35vh] sm:h-[45vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden"
-        style={{
-          backgroundImage: "url('/nosotros/fondo-nosotros-mejorado-hd.webp')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+
+      {/*  CAMBIO 2: Se reemplazó el <div> con backgroundImage (style inline) por un
+          contenedor <div> con position relative + <Image> de Next.js.
+          Antes: style={{ backgroundImage: "url(...)" }} → el navegador NO puede hacer
+          preload de esa imagen → LCP alto en móvil.
+          Ahora: <Image priority> le dice a Next.js que esta imagen es la más importante
+          de la página y la precarga en el <head> automáticamente. */}
+      <div className="relative h-[35vh] sm:h-[45vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden">
+        <Image
+          src="/nosotros/fondo-nosotros-mejorado-hd.webp"
+          alt="Fondo Nosotros - Neon Led Publicidad"
+          fill
+          priority
+          fetchPriority="high"
+          sizes="100vw"
+          className="object-cover object-center"
+        />
         <div className="absolute inset-0 bg-black/15" />
       </div>
 
@@ -90,7 +101,6 @@ const Nosotros = () => {
         <SectionBackground />
 
         <div className="relative z-10 w-full max-w-6xl mx-auto px-6">
-          {/* Texto descriptivo (opcional, si lo quieres conservar) */}
           <p className="text-sm md:text-base text-gray-200 leading-relaxed max-w-3xl mx-auto text-center mb-12">
             Somos Neon Led Publicidad, una empresa dedicada a la fabricación y
             venta de diseños personalizados de letreros que transforman
@@ -109,7 +119,6 @@ const Nosotros = () => {
                 </p>
               </div>
             ))}
-            
           </div>
         </div>
       </div>
