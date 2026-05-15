@@ -1,4 +1,5 @@
 "use client";
+import ServicePopup from '../components/ServicePopup';
 import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
@@ -47,7 +48,10 @@ export default function Home() {
   };
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ModalProductoScroll data={modales} />
+      
+      <ServicePopup idProducto={8} productoName="LETRAS PINTADAS EN MDF" />
+
       <Banner
         titulo={`LETRAS PINTADAS\nEN MDF`}
         imagen="/productosIndividuales/banner/letras-pintadas.webp"

@@ -1,4 +1,5 @@
 "use client";
+import ServicePopup from '../components/ServicePopup';
 import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
@@ -49,6 +50,9 @@ export default function Home() {
   return (
     <>
       <ModalProductoScroll data={modales} />
+
+      <ServicePopup idProducto={13} productoName="SILLAS LUMINOSAS" />
+
       <Banner
         titulo={`SILLAS\nLUMINOSAS`}
         imagen="/productosIndividuales/banner/sillas-luminosas.png"

@@ -1,4 +1,5 @@
 "use client";
+import ServicePopup from '../components/ServicePopup';
 import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
@@ -49,6 +50,8 @@ export default function Home() {
   return (
     <>
       <ModalProductoScroll data={modales} />
+      <ServicePopup idProducto={3} productoName="LETRAS DE ALUMINIO PLATEADAS 3D" />
+
       <Banner
         titulo={`LETRAS DE ALUMINIO \n PLATEADAS 3D`}
         imagen="/productosIndividuales/banner/fondo-plateado.png"

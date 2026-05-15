@@ -1,4 +1,5 @@
 "use client";
+import ServicePopup from '../components/ServicePopup';
 import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
@@ -51,6 +52,9 @@ export default function Home() {
   return (
     <>
       <ModalProductoScroll data={modales} />
+
+      <ServicePopup idProducto={7} productoName="MENÚ BOARD" />
+
       <Banner
         titulo={`MENÚ BOARDS`}
         imagen="/productosIndividuales/banner/menu-board.webp"

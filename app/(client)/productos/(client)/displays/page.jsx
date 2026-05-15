@@ -1,5 +1,6 @@
 "use client";
 
+import ServicePopup from '../components/ServicePopup';
 import Banner from '../components/Banner';
 import Datos from '../components/Datos';
 import CardSlider from '../components/CardSlider';
@@ -50,15 +51,17 @@ export default function Home() {
   return (
     <>
       {/* Modal que se abre automáticamente después de 4 segundos */}
-      <ModalProductoScroll data={modales}/>
+      <ModalProductoScroll data={modales} />
+
+      <ServicePopup idProducto={9} productoName="MONITORES DE PUBLICIDAD" />
 
       <Banner
         titulo={`MONITORES DE\nPUBLICIDAD DIGITAL`}
         imagen="/productosIndividuales/banner/monitores_tactiles4.jpg"
       />
       <Section2 idProducto={idProducto} />
-      <CardSlider cards={cards}/>
-       <Datos idProducto={idProducto}/>
+      <CardSlider cards={cards} />
+      <Datos idProducto={idProducto} />
     </>
   );
 }
