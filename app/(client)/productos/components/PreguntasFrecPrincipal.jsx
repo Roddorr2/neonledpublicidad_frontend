@@ -3,6 +3,7 @@
 import { useState } from "react";
 import PreguntasFrecIndividual from "./PreguntasFrecIndividual";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const PreguntasFrecPrincipal = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -110,11 +111,27 @@ const PreguntasFrecPrincipal = () => {
             ease: "easeOut",
           }}
         >
-          <h2 className="text-white text-2xl md:text-4xl font-bold">
+
+          <div className="flex items-center justify-center gap-3">
+            <Image
+              src='/productos/preguntas/Eón-Pensativo.png'
+              alt=""
+              width={200}
+              height={200}
+            />
+            <div>
+              <h2 className="text-white text-2xl md:text-4xl font-bold">
+                Preguntas Frecuentes
+              </h2>
+              <div className="w-24 h-1 bg-[#44b0f8] mx-auto mt-6 rounded-full"></div>
+            </div>
+          </div>
+
+          {/* <h2 className="text-white text-2xl md:text-4xl font-bold">
             Preguntas Frecuentes
           </h2>
 
-          <div className="w-24 h-1 bg-[#44b0f8] mx-auto mt-6 rounded-full"></div>
+          <div className="w-24 h-1 bg-[#44b0f8] mx-auto mt-6 rounded-full"></div> */}
         </motion.div>
 
         {faqData.map((section, index) => {

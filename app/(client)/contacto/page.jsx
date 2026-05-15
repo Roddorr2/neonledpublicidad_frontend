@@ -184,7 +184,18 @@ const Contacto = () => {
            
             <div className="w-full lg:w-1/3">
               {/* <h2 className="text-center text-lg font-medium text-white">Conoce nuestros medios de</h2> */}
-              <h1 className="text-center text-xl sm:text-2xl font-[900] text-white mb-4 sm:mb-6">Contáctanos para fabricar tu letrero luminoso personalizado</h1>
+              <div className="flex items-center justify-between max-md:justify-between max-lg:justify-evenly px-[20px] overflow-hidden">
+                <h1 className="text-justify text-xl sm:text-2xl font-[900] text-white mb-4 sm:mb-6
+                  w-[60%] mt-[40px]
+                ">Contáctanos para fabricar tu letrero luminoso personalizado</h1>
+                <Image
+                  alt=""
+                  src='/contacto/EON-INDICANDO.png'
+                  width={150}
+                  height={150}
+                  className="mb-[15px]"
+                />
+              </div>
               
               
               <div className="bg-gradient-to-br from-blue-800/30 to-blue-900/40 backdrop-blur-md rounded-2xl p-4 sm:p-6 shadow-2xl border border-blue-400/20">
