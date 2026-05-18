@@ -47,7 +47,7 @@ export default function LoginPage() {
       setError(true);
       setErrorType("rate_limit");
       setErrorMessage(
-        `Por favor, espera ${cooldownTime} segundos antes de intentar nuevamente.`
+        `Por favor, espera ${cooldownTime} segundos antes de intentar nuevamente.`,
       );
       return;
     }
@@ -106,7 +106,8 @@ export default function LoginPage() {
       case 422:
         setErrorType("captcha");
         setErrorMessage(
-          message || "Error de verificación de seguridad. Inténtalo nuevamente."
+          message ||
+            "Error de verificación de seguridad. Inténtalo nuevamente.",
         );
         break;
 
@@ -118,7 +119,7 @@ export default function LoginPage() {
       default:
         setErrorType("credentials");
         setErrorMessage(
-          message || "Error al iniciar sesión. Intenta nuevamente."
+          message || "Error al iniciar sesión. Intenta nuevamente.",
         );
     }
   };
@@ -151,9 +152,10 @@ export default function LoginPage() {
               errorType === "credentials"
                 ? "text-red-700"
                 : errorType === "rate_limit"
-                ? "text-orange-700"
-                : "text-yellow-700"
-            }`}>
+                  ? "text-orange-700"
+                  : "text-yellow-700"
+            }`}
+          >
             {errorMessage}
           </p>
         </div>
@@ -171,10 +173,12 @@ export default function LoginPage() {
             "url('/login/fondo.web.Neon.Led.Publicidad (1).webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-        }}>
+        }}
+      >
         <Link
           href="/"
-          className="absolute top-6 left-6 md:left-auto md:right-6">
+          className="absolute top-6 left-6 md:left-auto md:right-6"
+        >
           <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-black/60 hover:bg-black/80 transition-all border border-white text-white">
             <ArrowLeft className="w-4 h-4" />
             Regresar
@@ -197,30 +201,49 @@ export default function LoginPage() {
           </div>
 
           <div className="flex flex-col items-center w-full mt-8 lg:mt-0 lg:w-1/2">
-
-            {/* Botón toggle dark mode */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="mb-3 self-end flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/30 bg-black/40 hover:bg-black/60 text-white text-xs transition-all"
-            >
-              {darkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-              {darkMode ? "Modo claro" : "Modo oscuro"}
-            </button>
+            <div className="mb-3 self-end flex items-center gap-3">
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className={`relative inline-flex h-7 w-14 items-center rounded-full border border-white/10 transition-all duration-300 ${
+                  darkMode ? "bg-gray-900" : "bg-zinc-500/70"
+                }`}
+              >
+                <span
+                  className={`inline-flex h-5 w-5 transform items-center justify-center rounded-full bg-white shadow-md transition-all duration-300 ${
+                    darkMode ? "translate-x-8" : "translate-x-1"
+                  }`}
+                >
+                  {darkMode ? (
+                    <Moon className="w-3 h-3 text-zinc-800" />
+                  ) : (
+                    <Sun className="w-3 h-3 text-amber-500" />
+                  )}
+                </span>
+              </button>
+            </div>
 
             {/* Tarjeta del formulario */}
-            <div className={`rounded-2xl shadow-2xl p-6 md:p-10 max-w-md w-full transition-colors duration-300 ${
-              darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
-            }`}>
+            <div
+              className={`rounded-2xl shadow-2xl p-6 md:p-10 max-w-md w-full transition-colors duration-300 ${
+                darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+              }`}
+            >
               <div className="text-center mb-8">
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
-                  darkMode ? "bg-blue-900" : "bg-blue-50"
-                }`}>
-                  <User className={`w-8 h-8 ${darkMode ? "text-blue-300" : "text-blue-600"}`} />
+                <div
+                  className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
+                    darkMode ? "bg-blue-900" : "bg-blue-50"
+                  }`}
+                >
+                  <User
+                    className={`w-8 h-8 ${darkMode ? "text-blue-300" : "text-blue-600"}`}
+                  />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold">
                   Iniciar Sesión
                 </h2>
-                <p className={`mt-2 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                <p
+                  className={`mt-2 ${darkMode ? "text-gray-400" : "text-gray-500"}`}
+                >
                   Ingresa tus credenciales para continuar
                 </p>
               </div>
@@ -231,7 +254,8 @@ export default function LoginPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+                    className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"}`}
+                  >
                     Usuario
                   </label>
                   <div className="relative">
@@ -257,12 +281,14 @@ export default function LoginPage() {
                   <div className="flex justify-between items-center">
                     <label
                       htmlFor="password"
-                      className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+                      className={`block text-sm font-medium ${darkMode ? "text-gray-300" : "text-gray-700"}`}
+                    >
                       Contraseña
                     </label>
                     <Link
                       href="./email/"
-                      className="text-sm text-blue-500 hover:underline">
+                      className="text-sm text-blue-500 hover:underline"
+                    >
                       ¿Olvidaste tu contraseña?
                     </Link>
                   </div>
@@ -302,12 +328,13 @@ export default function LoginPage() {
                     loadingForm || cooldownTime > 0
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-blue-600 hover:bg-blue-700"
-                  } text-white`}>
+                  } text-white`}
+                >
                   {loadingForm
                     ? "Iniciando sesión..."
                     : cooldownTime > 0
-                    ? `Esperar ${cooldownTime} segundos`
-                    : "Iniciar sesión"}
+                      ? `Esperar ${cooldownTime} segundos`
+                      : "Iniciar sesión"}
                 </button>
               </form>
             </div>
