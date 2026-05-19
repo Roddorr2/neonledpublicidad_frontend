@@ -10,6 +10,7 @@ import Header from "../../(client)/components/header/Header";
 import Footer from "../../(client)/components/footer/Footer";
 import { useAuth } from "@/app/context/AutContext";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { keyframes } from "framer-motion";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -131,33 +132,77 @@ export default function LoginPage() {
   const renderErrorMessage = () => {
     if (!error) return null;
 
-    const styles = {
-      credentials: "bg-red-50 border-l-4 border-red-500",
-      rate_limit: "bg-orange-50 border-l-4 border-orange-500",
-      captcha: "bg-yellow-50 border-l-4 border-yellow-500",
+    const config = {
+      credentials: {
+        container: darkMode
+          ? "bg-red-500/10 border-red-500/30"
+          : "bg-red-50 border-red-200",
+        text: darkMode ? "text-red-200" : "text-red-700",
+        icon: darkMode ? "text-red-300" : "text-red-500",
+      },
+
+      rate_limit: {
+        container: darkMode
+          ? "bg-orange-500/10 border-orange-500/30"
+          : "bg-orange-50 border-orange-200",
+        text: darkMode ? "text-orange-200" : "text-orange-700",
+        icon: darkMode ? "text-orange-300" : "text-orange-500",
+      },
+
+      captcha: {
+        container: darkMode
+          ? "bg-yellow-500/10 border-yellow-500/30"
+          : "bg-yellow-50 border-yellow-200",
+        text: darkMode ? "text-yellow-200" : "text-yellow-700",
+        icon: darkMode ? "text-yellow-300" : "text-yellow-500",
+      },
     };
 
-    const icons = {
-      credentials: <AlertCircle className="w-5 h-5 text-red-500" />,
-      rate_limit: <AlertCircle className="w-5 h-5 text-orange-500" />,
-      captcha: <AlertCircle className="w-5 h-5 text-yellow-500" />,
-    };
+    const current = config[errorType];
 
     return (
-      <div className={`${styles[errorType]} p-4 mb-6 rounded-r`}>
+      <div
+        className={`
+        mb-5
+        rounded-xl
+        border
+        backdrop-blur-sm
+        px-4
+        py-3
+        animate-in
+        fade-in
+        slide-in-from-top-1
+        duration-300
+        ${current.container}
+      `}
+      >
         <div className="flex items-start gap-3">
-          {icons[errorType]}
-          <p
-            className={`text-sm ${
-              errorType === "credentials"
-                ? "text-red-700"
-                : errorType === "rate_limit"
-                  ? "text-orange-700"
-                  : "text-yellow-700"
-            }`}
+          <div
+            className={`
+            flex-shrink-0
+            mt-0.5
+            ${current.icon}
+          `}
           >
-            {errorMessage}
-          </p>
+            <AlertCircle className="w-4 h-4" />
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <p
+              title={errorMessage}
+              className={`
+    text-[13px]
+    leading-5
+    whitespace-nowrap
+    overflow-hidden
+    text-ellipsis
+    pr-1
+    ${current.text}
+  `}
+            >
+              {errorMessage}
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -167,10 +212,10 @@ export default function LoginPage() {
     <>
       {/* <Header /> */}
 
-      <div className="min-h-screen w-full flex bg-[#07152d]">
+      <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#07152d]">
         {/* PANEL IZQUIERDO */}
         <div
-          className="hidden lg:flex lg:w-1/2 relative items-center justify-center overflow-hidden"
+          className="w-full h-[55vh] min-h-[420px] lg:h-auto lg:w-1/2 relative flex items-center justify-center overflow-hidden"
           style={{
             backgroundImage:
               "url('/login/fondo.web.Neon.Led.Publicidad (1).webp')",
@@ -181,7 +226,7 @@ export default function LoginPage() {
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/55" />
 
-          <div className="relative z-10 flex flex-col items-center text-center px-12 max-w-2xl">
+          <div className="relative z-10 flex flex-col items-center text-center px-8 sm:px-12 max-w-2xl">
             <h1 className="text-3xl xl:text-4xl font-bold text-white mb-5">
               ¡Bienvenido!
             </h1>
@@ -193,13 +238,13 @@ export default function LoginPage() {
             <img
               src="/login/login.Neon.Led.Publicidad.webp"
               alt="Login"
-              className="w-full max-w-[240px] xl:max-w-[300px] mt-10 animate-float"
+              className="w-full max-w-[220px] sm:max-w-[260px] xl:max-w-[300px] mt-8 lg:mt-10 animate-float"
             />
           </div>
         </div>
 
         {/* PANEL DERECHO */}
-        <div className="relative w-full lg:w-1/2 flex items-center justify-center px-6 py-6">
+        <div className="relative w-full lg:w-1/2 flex items-start lg:items-center justify-center px-6 py-8">
           {/* BOTÓN REGRESAR */}
           <div className="absolute top-5 left-5 z-30">
             <Link href="/">
@@ -363,6 +408,20 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+      <style jsx>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+      `}</style>
 
       {/* <Footer /> */}
     </>
