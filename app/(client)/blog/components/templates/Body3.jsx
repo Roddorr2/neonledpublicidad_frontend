@@ -173,7 +173,9 @@ export default function Body3({ id_blog_body, fecha }) {
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[--azul_oscuro]-100 to-transparent"></div>
                 <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center">
                     <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
-                        <h1 className="text-4xl md:text-5xl font-black text-[--azul_oscuro]-900 leading-tight mb-6">{data.titulo}</h1>
+                        {/* CAMBIO: Era <h1> pero ya existe en Header.jsx. 
+                            Cambiado a <h2> para evitar múltiples h1 (auditoría: H1 múltiple). */}
+                        <h2 className="text-4xl md:text-5xl font-black text-[--azul_oscuro]-900 leading-tight mb-6">{data.titulo}</h2>
                         <div className="w-20 h-1 bg-gradient-to-r from-[--azul_oscuro] to-[--azul_brillante] mb-6"></div>
                         <p className="text-lg text-gray-700 leading-relaxed">{data.descripcion}</p>
                         <button

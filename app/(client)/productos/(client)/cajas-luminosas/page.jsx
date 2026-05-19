@@ -4,7 +4,7 @@ import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+import ServicePopup from '../components/ServicePopup';
 
 export default function Home() {
   const cards = [
@@ -53,7 +53,7 @@ export default function Home() {
   return (
     <>
       {/* Modal que se abre automáticamente después de 4 segundos */}
-      <ModalProductoScroll data={modales} />
+      <ServicePopup idProducto="p1" productoName="LETRAS DE ACRÍLICO" />
 
       <Banner
         titulo={`CAJAS\nLUMINOSAS`}

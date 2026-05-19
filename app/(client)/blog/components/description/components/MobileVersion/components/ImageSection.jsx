@@ -10,10 +10,18 @@ const ImageSection = () => {
         destacables."
       </p>
       <div className="mt-4 border-[10px] border-[#0F1721] rounded-lg shadow-lg overflow-hidden">
+        {/* CAMBIO: Se agregó width, height y loading="lazy" para:
+            - width/height: evitan CLS (el espacio se reserva antes de cargar)
+            - loading="lazy": esta imagen NO es LCP, carga diferida ahorra ancho de banda móvil
+            - alt mejorado: más descriptivo para SEO y accesibilidad (auditoría: imágenes sin alt) */}
         <img
           src="/blog/description/luces_neonled_ledneopublicidad.webp"
-          alt="Imagen destacada"
-          className="max-h-[23rem] object-cover rounded-lg"
+          alt="Luces de neón LED instaladas por Neón Led Publicidad en Lima"
+          width={600}
+          height={368}
+          loading="lazy"
+          decoding="async"
+          className="max-h-[23rem] w-full object-cover rounded-lg"
         />
       </div>
     </div>

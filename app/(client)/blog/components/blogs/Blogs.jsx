@@ -140,10 +140,18 @@ const Blogs = () => {
     <Card className="relative w-10/12 mx-auto overflow-hidden border-0 shadow-2xl rounded-2xl 
       bg-transparent  group hover:scale-105 transition-all duration-500 h-[280px]">
       <div className="absolute inset-0 w-full h-full">
+        {/* CAMBIO: Se agregaron width, height y loading="lazy":
+            - Evitan CLS al reservar espacio antes de que cargue la imagen
+            - loading="lazy": estas tarjetas están debajo del fold, no deben cargar inmediato
+            - Mejora el score de rendimiento móvil (auditoría: imágenes sin dimensiones) */}
         <img
           src={dato.public_image}
           alt={dato.blog.head.alt || dato.titulo}
           title={dato.blog.head.title || dato.titulo}
+          width={600}
+          height={280}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
