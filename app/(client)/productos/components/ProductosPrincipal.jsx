@@ -29,8 +29,8 @@ export default function Productos() {
         route: "/productos/letras-doradas",
       },
       {
-        imgSrc: "/productosPrincipal/letras-aluminio-plateadas.jpg",
-        imgSrcMobile: "/productosPrincipal/letras-aluminio-plateadas.jpg",
+        imgSrc: "/productosPrincipal/letras-aluminio-plateadas.webp",
+        imgSrcMobile: "/productosPrincipal/letras-aluminio-plateadas.webp",
         altText:
           "Logotipo de Yava iluminado con letras plateadas sobre pared clara",
         description: "LETRAS DE ALUMINIO PLATEADAS 3D",
@@ -48,13 +48,13 @@ export default function Productos() {
     ],
     [
       {
-        imgSrcMobile: "/productosPrincipal/5letrasDeNeon.png",
+        imgSrcMobile: "/productosPrincipal/5letrasDeNeon.webp",
         altText: "Producto 5",
         description: "NEÓN LED",
         route: "/productos/neon-led",
       },
       {
-        imgSrcMobile: "/productosPrincipal/6impresionEnVinilo.png",
+        imgSrcMobile: "/productosPrincipal/6impresionEnVinilo.webp",
         altText: "Producto 6",
         description: "IMPRESIÓN EN VINILO",
         route: "/productos/impresion-vinilo",
@@ -66,7 +66,7 @@ export default function Productos() {
         route: "/productos/menu-board",
       },
       {
-        imgSrcMobile: "/productosPrincipal/8burnout.jpg",
+        imgSrcMobile: "/productosPrincipal/8burnout.webp",
         altText: "Producto 8",
         description: "LETRAS PINTADAS EN MDF",
         route: "/productos/letras-pintadas",
@@ -74,25 +74,25 @@ export default function Productos() {
     ],
     [
       {
-        imgSrcMobile: "/productosPrincipal/monitores_tactiles.jpg",
+        imgSrcMobile: "/productosPrincipal/monitores_tactiles.webp",
         altText: "Producto 9",
         description: "MONITORES DE PUBLICIDAD",
         route: "/productos/displays",
       },
       {
-        imgSrcMobile: "/productosPrincipal/Pantallas_led.jpg",
+        imgSrcMobile: "/productosPrincipal/Pantallas_led.webp",
         altText: "Producto 10",
         description: "PANTALLAS LED",
         route: "/productos/pantalla-led",
       },
       {
-        imgSrcMobile: "/productosPrincipal/holograma_3d_1.png",
+        imgSrcMobile: "/productosPrincipal/holograma_3d_1.webp",
         altText: "Producto 11",
         description: "HOLOGRÁFICO",
         route: "/productos/holografico",
       },
       {
-        imgSrcMobile: "/productosPrincipal/pixel_led_1.png",
+        imgSrcMobile: "/productosPrincipal/pixel_led_1.webp",
         altText: "Producto 12",
         description: "PIXEL LED",
         route: "/productos/pixel-led",
@@ -100,13 +100,13 @@ export default function Productos() {
     ],
     [
       {
-        imgSrcMobile: "/productosPrincipal/sillas_luminosas_1.png",
+        imgSrcMobile: "/productosPrincipal/sillas_luminosas_1.webp",
         altText: "Producto 13",
         description: "SILLAS LUMINOSAS",
         route: "/productos/sillas-luminosas",
       },
       {
-        imgSrcMobile: "/productosPrincipal/luces_led_techo_1.png",
+        imgSrcMobile: "/productosPrincipal/luces_led_techo_1.webp",
         altText: "Producto 14",
         description: "TECHOS LED",
         route: "/productos/techos-led",
@@ -131,8 +131,12 @@ export default function Productos() {
     ],
   ];
 
+  const [mobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+
+  const animationDuration = mobile ? 1 : 2;
+
   const [isAnimations, setIsAnimations] = useState(
-    Array(filas.length).fill(false),
+    mobile ? Array(filas.length).fill(true) : Array(filas.length).fill(false),
   );
 
   const filasRefs = useRef([]);
@@ -141,44 +145,52 @@ export default function Productos() {
     filasRefs.current = filasRefs.current.slice(0, filas.length);
   }, [filas]);
 
-  // const options = {
-  //   rootMargin: "200px",
-  //   threshold: 0.1,
-  // };
+  const options = {
+    rootMargin: "200px",
+    threshold: 0.1,
+  };
 
-  // const callback = (entries, observer) => {
-  //   entries.forEach((entry) => {
-  //     const index = filasRefs.current.indexOf(entry.target);
-  //     if (index !== -1 && entry.isIntersecting && !isAnimations[index]) {
-  //       setIsAnimations((prevState) => {
-  //         const newState = [...prevState];
-  //         newState[index] = true;
-  //         return newState;
-  //       });
-  //       observer.unobserve(entry.target);
-  //     }
-  //   });
-  // };
+  const callback = (entries, observer) => {
+    entries.forEach((entry) => {
+      const index = filasRefs.current.indexOf(entry.target);
+      if (index !== -1 && entry.isIntersecting && !isAnimations[index]) {
+        setIsAnimations((prevState) => {
+          const newState = [...prevState];
+          newState[index] = true;
+          return newState;
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  };
 
   useEffect(() => {
-    setIsAnimations(Array(filas.length).fill(true));
-  }, [filas.length]);
+    if (!mobile) {
+      const observer = new IntersectionObserver(callback, options);
+      filasRefs.current.forEach((ref) => {
+        if (ref) observer.observe(ref);
+      });
+      return () => observer.disconnect();
+    }
+  }, [filas.length, mobile]);
+
+  // Remove the old useEffect that set all to true
 
   return (
     <div className={`${styles["productos-container"]} mt-12`}>
       {filas.map((fila, index) => (
         <div key={index}>
-          <motion.div
-            ref={(el) => (filasRefs.current[index] = el)}
-            className={styles["fila-productos"]}
-            initial={{ x: index % 2 === 0 ? "100%" : "-100%" }}
-            animate={{
-              x: isAnimations[index] ? 0 : index % 2 === 0 ? "100%" : "-100%",
-            }}
-            transition={{ duration: 2, ease: "easeOut" }}
-          >
-            <FilaProductos productos={fila} />
-          </motion.div>
+            <motion.div
+              ref={(el) => (filasRefs.current[index] = el)}
+              className={styles["fila-productos"]}
+              initial={{ x: index % 2 === 0 ? "100%" : "-100%" }}
+              animate={{
+                x: isAnimations[index] ? 0 : index % 2 === 0 ? "100%" : "-100%",
+              }}
+              transition={{ duration: animationDuration, ease: "easeOut" }}
+            >
+              <FilaProductos productos={fila} isFirst={index === 0} />
+            </motion.div>
           {index < filas.length - 1 && <LineaHorizontal index={index} />}
         </div>
       ))}

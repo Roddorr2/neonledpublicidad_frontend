@@ -28,6 +28,7 @@ const WhatsAppButton = () => {
         alt="Icono de WhatsApp"
         width={70}
         height={70}
+        quality={60}
         priority={true}
       />
     </a>

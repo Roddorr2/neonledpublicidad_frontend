@@ -22,9 +22,10 @@ export default function Banner() {
       loop
       muted
       playsInline
+      fetchPriority="high"
       onError={(e) => console.log("Error cargando video:", e)}
       >
-     <source src="/productos/video_banner.mp4" type="video/mp4" />
+     <source src="/productos/Video Banner.mp4" type="video/mp4" />
      Tu navegador no soporta el elemento video o el video no se puede cargar.
      </video>
 
