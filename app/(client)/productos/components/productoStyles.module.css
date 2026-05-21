@@ -1,4 +1,4 @@
-.bg-black {
+/* .bg-black {
   overflow: hidden;
   position: relative;
 }
@@ -402,4 +402,389 @@
   .producto-title {
     font-size: 11px;
   }
+} */
+
+
+.bg-black {
+  position: relative;
+  overflow: hidden;
 }
+
+.text-color {
+  color: #a5dffd;
+}
+
+/* =========================================
+   TEXTO NEÓN OPTIMIZADO
+========================================= */
+
+.neon-text {
+  color: white;
+  text-shadow:
+    0 0 2px #c5e8f9,
+    0 0 6px #c5e8f9;
+}
+
+@keyframes neonv2 {
+  0% {
+    text-shadow:
+      0 0 4px #03c4ff,
+      0 0 8px #03c4ff,
+      0 0 16px #03c4ff;
+  }
+
+  100% {
+    text-shadow:
+      0 0 6px #03c4ff,
+      0 0 12px #03c4ff,
+      0 0 24px #03c4ff;
+  }
+}
+
+.neon-textov2 {
+  animation: neonv2 2s ease-in-out infinite alternate;
+}
+
+@keyframes neonv4 {
+  0% {
+    text-shadow:
+      0 0 4px #ff4d4d,
+      0 0 8px #ff4d4d,
+      0 0 16px #ff4d4d;
+  }
+
+  100% {
+    text-shadow:
+      0 0 6px #ff4d4d,
+      0 0 12px #ff4d4d,
+      0 0 24px #ff4d4d;
+  }
+}
+
+.neon-textov4 {
+  animation: neonv4 2s ease-in-out infinite alternate;
+}
+
+/* =========================================
+   CONTENEDOR PRODUCTOS
+========================================= */
+
+.productos-container {
+  padding: 3% 10%;
+  max-width: 100vw;
+  margin: 0 auto;
+}
+
+.producto-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  justify-items: center;
+  align-items: stretch;
+  margin-bottom: 3rem;
+}
+
+/* =========================================
+   LINKS
+========================================= */
+
+.producto-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.25s ease;
+}
+
+.producto-link:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.producto {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.producto-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px solid #ffffff;
+  background: #000;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.producto-card:hover {
+  border-color: #00d4ff;
+
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+/* =========================================
+   IMAGEN
+========================================= */
+
+.producto-img-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.producto-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+
+  transition: transform 0.25s ease;
+}
+
+.producto-card:hover .producto-img {
+  transform: scale(1.02);
+}
+
+/* =========================================
+   OVERLAY
+========================================= */
+
+.producto-overlay {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: flex-end;
+
+  min-height: 50px;
+
+  padding: 18px 12px 12px;
+
+  background: linear-gradient(
+    to top,
+    rgba(72, 168, 255, 0.92) 0%,
+    rgba(72, 168, 255, 0.7) 65%,
+    transparent 100%
+  );
+}
+
+.producto-title {
+  width: 100%;
+
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4);
+
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* =========================================
+   EFECTO SHINE OPTIMIZADO
+========================================= */
+
+.producto-card::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: -120%;
+  z-index: 2;
+
+  width: 40%;
+  height: 100%;
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.18) 100%
+  );
+
+  transform: skewX(-20deg);
+}
+
+.producto-card:hover::before {
+  animation: shine 0.7s ease forwards;
+}
+
+@keyframes shine {
+  from {
+    left: -120%;
+  }
+
+  to {
+    left: 140%;
+  }
+}
+
+/* =========================================
+   BOTÓN
+========================================= */
+
+.boton {
+  --primary-color: #2c1e8a83;
+  --secondary-color: #ffffff;
+  --hover-color: #1a7af5;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+
+  margin: 0 auto;
+
+  padding: 0.45em 1.6em;
+
+  border: 0;
+  border-radius: 20px;
+
+  color: var(--secondary-color);
+
+  background: var(--primary-color);
+
+  font-weight: 700;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.boton:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1024px) {
+
+  .producto-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .producto {
+    width: 200px;
+    height: 200px;
+  }
+
+  .producto-title {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .productos-container {
+    padding: 3% 5%;
+  }
+
+  .producto-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .producto {
+    width: 150px;
+    height: 150px;
+  }
+
+  .producto-title {
+    font-size: 12px;
+  }
+
+  .producto-overlay {
+    padding: 10px 8px;
+  }
+
+  /* Desactivar efectos caros en móvil */
+
+  .neon-textov2,
+  .neon-textov4 {
+    animation: none;
+  }
+
+  .producto-link:hover {
+    transform: none;
+  }
+
+  .producto-card:hover .producto-img {
+    transform: none;
+  }
+
+  .producto-card::before {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .producto-row {
+    grid-template-columns: 1fr;
+  }
+
+  .producto {
+    width: 130px;
+    height: 130px;
+  }
+
+  .producto-title {
+    font-size: 11px;
+  }
+}
+
+
+
+/* Si tu versión de Tailwind no toma directo grid-template-rows-[0fr] */
+.grid-template-rows-\[0fr\] {
+  grid-template-rows: 0fr;
+}
+.grid-template-rows-\[1fr\] {
+  grid-template-rows: 1fr;
+}
+
+/* Optimización extra para el navegador */
+.containment-layout {
+  contain: layout cycles;
+}
+
