@@ -30,7 +30,7 @@ const testimonialsData = [
 
 const ITEMS_PER_LOAD = 6;
 
-export const Testimonials = () => {
+export default function Testimonials  ()  {
   const [visibleCount, setVisibleCount] = useState(6);
 
   const handleShowMore = () => {
@@ -42,13 +42,13 @@ export const Testimonials = () => {
       
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-extrabold uppercase text-white tracking-widest drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-          TESTIMONIOS
+          ¿Que opinan los clientes de nuestro trabajo?
         </h2>
         <div className="w-24 h-1 mx-auto mt-4 rounded-full bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.8)]"></div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        
+          
         {testimonialsData.slice(0, visibleCount).map((review) => (
           <div
             key={review.id}
@@ -97,7 +97,7 @@ export const Testimonials = () => {
           </div>
         ))}
       </div>
-
+        
       {visibleCount < testimonialsData.length && (
         <div className="flex justify-center mt-14">
           <button 

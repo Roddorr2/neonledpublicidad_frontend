@@ -163,7 +163,7 @@ const Nosotros = () => {
           </div>
         </div>
       </div>
-      <Testimonials />
+      {/* <Testimonials /> */}
     </section>
   );
 };
