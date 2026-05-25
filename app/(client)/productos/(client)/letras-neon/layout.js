@@ -90,7 +90,7 @@ export default function LetrasNeonLayout({ children }) {
     name: "Letras de Neón en Tubos de Vidrio",
     image: [
       "https://ledneonpublicidad.com/productosIndividuales/letras_neon_de_vidrio_ledneonpublicidad.webp",
-      "https://ledneonpublicidad.com/productosIndividuales/banner/letras-neon2.png",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/letras-neon2.webp",
       "https://ledneonpublicidad.com/productos/letras_de_vidrio_iluminadas_ledneonpublicidad.webp",
       "https://ledneonpublicidad.com/productos/letras_de_neon_en_vidrio_ledneonpublicidad.webp",
       "https://ledneonpublicidad.com/productos/Letras_de_neon_en_vidrio_ledneonpublicidad2.webp",
