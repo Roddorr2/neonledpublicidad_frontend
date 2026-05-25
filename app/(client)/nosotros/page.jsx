@@ -23,9 +23,15 @@ const aboutCardsData = [
     borderColor: 'border-orange-400', 
   },
   {
-    title: 'VALORES',
-    description:
-      'Trabajamos como un equipo multidisciplinario profundamente comprometido con el éxito de nuestros clientes, ofreciendo soluciones profesionales. Nos enfocamos en el cumplimiento riguroso de cada entrega de forma puntual, cuidando minuciosamente los detalles decorativos y funcionales de cada letrero, mientras mantenemos siempre una actitud colaborativa, respetuosa y transparente que garantiza un ambiente de confianza mutua en cada proyecto.',
+    title: 'Valores',
+    description: [
+      'Trabajamos como un equipo multidisciplinario profundamente comprometido con el éxito de nuestros clientes, ofreciendo soluciones profesionales.',
+      'Nos enfocamos en el cumplimiento riguroso de cada entrega de forma puntual, cuidando minuciosamente los detalles decorativos y funcionales de cada letrero.',
+      'Mantenemos siempre una actitud colaborativa, respetuosa y transparente que garantiza un ambiente de confianza mutua en cada proyecto.'
+    ],
+    topImage: '/nosotros/fondo_valores.webp',
+    iconImage: '/nosotros/icono_valores.webp',
+    borderColor: 'border-purple-600', 
   },
 ];
 
