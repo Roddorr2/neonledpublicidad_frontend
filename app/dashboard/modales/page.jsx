@@ -28,39 +28,56 @@ export default function Page() {
   const [productsById, setProductsById] = useState({})
   const router = useRouter()
 
-
+// PROBLEMA: fetchProducts solo cargaba la página 1 (7 productos).
+// Los productos del 8 al 15 no estaban en el mapa → mostraban "No asignado".
+//
+// SOLUCIÓN: Iterar todas las páginas hasta tener los 15 productos completos.
+// No requiere cambios en el backend.
+// ══════════════════════════════════════════════════════════════════════════════
+ 
     async function fetchProducts() {
-      try {
-        const res = await axios.get(PRODUCTOS_URL, {
-          headers: { Authorization: `Bearer ${getCookie("token")}` },
-        });
-
-        const payload = res.data;
-
-        // Soporta múltiples formas típicas de respuesta
-        const list =
-          Array.isArray(payload) ? payload :
-          Array.isArray(payload?.data) ? payload.data :                 // paginate() directo
-          Array.isArray(payload?.data?.data) ? payload.data.data :      // { data: { data: [...] } }
-          Array.isArray(payload?.productos) ? payload.productos :
-          [];
-
-        if (!Array.isArray(list)) {
-          console.error("Respuesta productos inesperada:", payload);
-          throw new Error("Formato de productos inesperado (no hay array).");
-        }
-
-        const map = {};
-        for (const p of list) {
-          // Ajusta si tu PK/nombre usan otros campos
-          map[p.id_producto] = p.nombre;
-        }
-        setProductsById(map);
-      } catch (error) {
-        console.error("Error al obtener productos:", error?.message);
-        setProductsById({});
+  try {
+    const headers = { Authorization: `Bearer ${getCookie("token")}` };
+    const map = {};
+    let page = 1;
+    let lastPage = 1;
+ 
+    // Iterar todas las páginas hasta tener todos los productos
+    do {
+      const res = await axios.get(`${PRODUCTOS_URL}?page=${page}`, { headers });
+      const payload = res.data;
+ 
+      // Soporta múltiples formas de respuesta paginada
+      const list =
+        Array.isArray(payload) ? payload :
+        Array.isArray(payload?.data) ? payload.data :
+        Array.isArray(payload?.data?.data) ? payload.data.data :
+        Array.isArray(payload?.productos) ? payload.productos :
+        [];
+ 
+      // Extraer last_page de la respuesta paginada de Laravel
+      const meta = payload?.data ?? payload;
+      lastPage = meta?.last_page ?? meta?.meta?.last_page ?? 1;
+ 
+      for (const p of list) {
+        map[p.id_producto] = p.nombre;
       }
+ 
+      page++;
+    } while (page <= lastPage);
+ 
+    setProductsById(map);
+  } catch (error) {
+    console.error("Error al obtener productos:", error?.message);
+    setProductsById({});
   }
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════════
+// NOTA: Con 15 productos y 7 por página son solo 3 peticiones al montar
+// la página de modales — completamente aceptable.
+// ══════════════════════════════════════════════════════════════════════════════
 
 
   async function fetchModals() {

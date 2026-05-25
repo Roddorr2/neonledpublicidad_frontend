@@ -2,19 +2,7 @@
 
 /**
  * PopupPreview — Preview en vivo del editor de pop-ups NLP
- *
- * Lógica de imágenes:
- *  Desktop:
- *    - left_image  → columna lateral izquierda con nombre del producto abajo
- *    - right_image → fondo completo detrás de todo el popup
- *    - Sin imágenes → fondo degradado con service_color / service_color_2
- *  Mobile:
- *    - mobile_image → fondo completo SIN overlay de color encima
- *    - Sin imagen   → fondo degradado
- *
- * Alt de imágenes:
- *    - Se usan formData.left_alt, formData.right_alt, formData.mobile_alt
- *    - Si están vacíos, fallback al nombre del producto
+ * Debe ser lo más fiel posible al ServicePopup.jsx del cliente.
  */
 
 const getBg = (f) =>
@@ -23,56 +11,65 @@ const getBg = (f) =>
     : f.service_color;
 
 export function PopupPreview({ formData, imagePreviews, view, productoName }) {
-  const bg         = getBg(formData);
-  const hasRightBg = !!imagePreviews.right;
-  const hasMobileBg= !!imagePreviews.mobile;
+  const bg          = getBg(formData);
+  const hasRightBg  = !!imagePreviews.right;
+  const hasMobileBg = !!imagePreviews.mobile;
 
-  // --- EN mobil ---------
+  // ── MOBILE ────────────────────────────────────────────────────────────────
   if (view === 'mobile') {
     return (
       <div className="flex justify-center">
         <div
-          className="relative w-[200px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-600 shadow-lg flex flex-col"
-          style={{ background: hasMobileBg ? 'transparent' : bg, minHeight: 280 }}
+          className="relative w-[210px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-600 shadow-lg flex flex-col"
+          style={{ background: hasMobileBg ? 'transparent' : bg, minHeight: 310 }}
         >
-          {/* Imagen mobile = fondo completo, sin overlay */}
           {hasMobileBg && (
             <div className="absolute inset-0 z-0">
               <img
                 src={imagePreviews.mobile}
                 alt={formData.mobile_alt || productoName || 'popup mobile'}
-                title={formData.mobile_alt || ''}
                 className="w-full h-full object-cover"
                 style={{ opacity: formData.mobile_opacity / 100 }}
               />
             </div>
           )}
 
-          {/* Contenido encima */}
-          <div className="relative z-10 flex flex-col items-center gap-2 px-4 py-5 w-full">
-            <button className="absolute top-2 right-2 w-5 h-5 rounded-full bg-white/30 flex items-center justify-center text-white text-xs font-bold">
-              ✕
-            </button>
+          {/* ── Botón cerrar — igual posición que en ServicePopup ── */}
+          <button className="absolute top-2 right-2 z-50 w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-xs">
+            ✕
+          </button>
 
+          <div className="relative z-10 flex flex-col justify-center gap-3 px-4 py-5 flex-1">
             <p
-              className="text-sm font-extrabold text-center leading-tight pt-3"
+              className="text-sm font-extrabold text-center leading-tight pt-2"
               style={{ color: formData.title_color }}
             >
               {formData.title_text || 'TÍTULO DEL POP-UP'}
             </p>
 
-            <div className="w-full space-y-1.5 mt-1">
-              {['Nombre', 'Teléfono', 'Correo'].map((ph) => (
-                <input
-                  key={ph} readOnly placeholder={ph}
-                  className="w-full rounded-full bg-white px-3 py-1.5 text-xs text-slate-700 outline-none"
-                />
+            <div className="flex flex-col gap-2">
+              {[
+                { label: 'Nombre',   placeholder: 'Tu nombre completo' },
+                { label: 'Teléfono', placeholder: '9 dígitos' },
+                { label: 'Correo',   placeholder: 'tu@correo.com' },
+              ].map(({ label, placeholder }) => (
+                <div key={label} className="flex flex-col gap-0.5">
+                  {/* ── Label — igual que en ServicePopup ── */}
+                  <span className="text-[10px] font-semibold" style={{ color: formData.title_color }}>
+                    {label}
+                  </span>
+                  <input
+                    readOnly
+                    placeholder={placeholder}
+                    className="w-full rounded-full bg-white px-3 py-1.5 text-[10px] text-slate-700 outline-none"
+                  />
+                </div>
               ))}
             </div>
 
             <button
-              className="w-full rounded-full py-1.5 text-xs font-bold"
-              style={{ backgroundColor: formData.button_color, color: '#FFFFFF' }}
+              className="w-full rounded-full py-1.5 text-xs font-extrabold text-white"
+              style={{ backgroundColor: formData.button_color }}
             >
               {formData.button_text || 'HAZLO YA'}
             </button>
@@ -82,42 +79,40 @@ export function PopupPreview({ formData, imagePreviews, view, productoName }) {
     );
   }
 
-  // -------- desktop -----------
+  // ── DESKTOP ───────────────────────────────────────────────────────────────
   return (
     <div className="w-full">
       <div
         className="relative w-full rounded-2xl overflow-hidden shadow-xl border border-white/10 flex items-stretch"
-        style={{ background: hasRightBg ? 'transparent' : bg, minHeight: 230 }}
+        style={{ background: hasRightBg ? 'transparent' : bg, minHeight: 240 }}
       >
-        {/* Imagen derecha = FONDO COMPLETO (absolute, detrás de todo) */}
+        {/* Imagen derecha = fondo completo */}
         {hasRightBg && (
           <div className="absolute inset-0 z-0">
             <img
               src={imagePreviews.right}
               alt={formData.right_alt || productoName || 'fondo popup'}
-              title={formData.right_alt || ''}
               className="w-full h-full object-cover"
               style={{ opacity: formData.right_opacity / 100 }}
             />
           </div>
         )}
 
-        {/* Imagen izquierda = columna lateral con nombre del producto abajo */}
+        {/* Imagen izquierda = columna lateral con nombre del producto */}
         {imagePreviews.left && (
-          <div className="relative z-10 w-[38%] flex-shrink-0 overflow-hidden">
+          <div className="relative z-10 w-[38%] flex-shrink-0 overflow-hidden" style={{ minHeight: 240 }}>
             <img
               src={imagePreviews.left}
               alt={formData.left_alt || productoName || 'columna lateral popup'}
-              title={formData.left_alt || ''}
               className="absolute inset-0 w-full h-full object-cover"
               style={{ opacity: formData.left_opacity / 100 }}
             />
-            {/* Degradado oscuro para que el nombre del producto sea legible */}
+            {/* Degradado oscuro igual que en ServicePopup */}
             <div
               className="absolute inset-0"
               style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)' }}
             />
-            {/* Nombre del producto — igual que en el popup real */}
+            {/* ── Nombre del producto abajo izquierda — igual que en ServicePopup ── */}
             {productoName && (
               <div className="absolute bottom-0 left-0 right-0 px-3 pb-3 z-10">
                 <p
@@ -137,30 +132,46 @@ export function PopupPreview({ formData, imagePreviews, view, productoName }) {
         )}
 
         {/* Panel central: formulario */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center gap-2.5 px-5 py-6">
-          <button className="absolute top-2 right-2 w-5 h-5 rounded-full bg-white/30 flex items-center justify-center text-white text-xs font-bold">
+        <div className="relative z-10 flex-1 flex flex-col justify-center gap-3 px-5 py-6">
+
+          {/* ── Botón cerrar — separado del título con margen suficiente ── */}
+          <button className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white text-xs font-bold">
             ✕
           </button>
 
-          <p
-            className="text-base font-extrabold text-center leading-tight"
-            style={{ color: formData.title_color }}
-          >
-            {formData.title_text || 'TÍTULO DEL POP-UP'}
-          </p>
+          {/* Espacio para que el título no quede debajo del botón ✕ */}
+          <div className="pr-6">
+            <p
+              className="text-sm font-extrabold text-center leading-tight"
+              style={{ color: formData.title_color }}
+            >
+              {formData.title_text || 'TÍTULO DEL POP-UP'}
+            </p>
+          </div>
 
-          <div className="w-full space-y-1.5">
-            {['Nombre', 'Teléfono', 'Correo'].map((ph) => (
-              <input
-                key={ph} readOnly placeholder={ph}
-                className="w-full rounded-full bg-white px-3 py-1.5 text-xs text-slate-700 outline-none border border-white/50"
-              />
+          {/* ── Campos con label — igual que en ServicePopup ── */}
+          <div className="flex flex-col gap-2 w-full">
+            {[
+              { label: 'Nombre',   placeholder: 'Tu nombre completo' },
+              { label: 'Teléfono', placeholder: '9 dígitos' },
+              { label: 'Correo',   placeholder: 'tu@correo.com' },
+            ].map(({ label, placeholder }) => (
+              <div key={label} className="flex flex-col gap-0.5">
+                <span className="text-[10px] font-semibold" style={{ color: formData.title_color }}>
+                  {label}
+                </span>
+                <input
+                  readOnly
+                  placeholder={placeholder}
+                  className="w-full rounded-full bg-white px-3 py-1.5 text-[10px] text-slate-700 outline-none border border-white/50"
+                />
+              </div>
             ))}
           </div>
 
           <button
-            className="w-full rounded-full py-2 text-xs font-extrabold"
-            style={{ backgroundColor: formData.button_color, color: '#FFFFFF' }}
+            className="w-full rounded-full py-2 text-xs font-extrabold text-white"
+            style={{ backgroundColor: formData.button_color }}
           >
             {formData.button_text || 'HAZLO YA'}
           </button>

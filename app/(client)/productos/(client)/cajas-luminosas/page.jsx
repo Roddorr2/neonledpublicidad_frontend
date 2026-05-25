@@ -39,21 +39,12 @@ export default function Home() {
   ];
   const idProducto = 16;
 
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/cajas-luminosas.webp",
-      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "16",
-      width: 256,
-      height: 144,
-    },
-  };
+  
 
   return (
     <>
-      {/* Modal que se abre automáticamente después de 4 segundos */}
-      <ServicePopup idProducto="p1" productoName="LETRAS DE ACRÍLICO" />
+     
+      <ServicePopup idProducto={idProducto} productoName="CAJAS LUMINOSAS" />
 
       <Banner
         titulo={`CAJAS\nLUMINOSAS`}

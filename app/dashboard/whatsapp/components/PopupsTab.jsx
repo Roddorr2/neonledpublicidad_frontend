@@ -5,7 +5,8 @@ import Swal from 'sweetalert2';
 import { popupApi } from '@/api/fetchApiWhatsApp';
 import { Card, CardTitle, UploadIcon } from './TabButton';
 import { PopupPreview } from './PopupPreview';
-import servicesList from '../data/servicesList';
+//Antes: import servicesList from '../data/servicesList';
+import servicesList from '../data/servicesListPopups';
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const TIEMPOS = [
@@ -229,9 +230,33 @@ export function PopupsTab() {
       form.append('left_alt',           formData.left_alt);
       form.append('right_alt',          formData.right_alt);
       form.append('mobile_alt',         formData.mobile_alt);
-      if (imageFiles.left)   form.append('left_image',   imageFiles.left);
-      if (imageFiles.right)  form.append('right_image',  imageFiles.right);
-      if (imageFiles.mobile) form.append('mobile_image', imageFiles.mobile);
+
+      // ANTES (solo subía imágenes nuevas):
+      // if (imageFiles.left)   form.append('left_image',   imageFiles.left);
+      // if (imageFiles.right)  form.append('right_image',  imageFiles.right);
+      // if (imageFiles.mobile) form.append('mobile_image', imageFiles.mobile);
+
+      //
+// DESPUÉS (también indica al backend cuándo se eliminó una imagen):
+ 
+    // ── Imágenes: subir nuevas o indicar eliminadas ──
+    ['left', 'right', 'mobile'].forEach((slot) => {
+      const fileKey    = `${slot}`;           // 'left' | 'right' | 'mobile'
+      const imageFile  = imageFiles[fileKey]; // File | null
+      const previewNow = imagePreviews[fileKey]; // URL actual (null si fue eliminada)
+ 
+      // URL que tenía guardada en BD al cargar el editor
+      const urlEnBD = !isNew ? (popupConfig?.[`${slot}_image_url`] ?? null) : null;
+ 
+      if (imageFile) {
+        // Usuario cargó imagen nueva → subirla
+        form.append(`${slot}_image`, imageFile);
+      } else if (urlEnBD && !previewNow) {
+        // Había imagen en BD, el usuario la eliminó (preview = null) y no cargó otra
+        form.append(`remove_${slot}_image`, '1');
+      }
+      // Si previewNow === urlEnBD → sin cambios, no se manda nada
+    });
 
       const res = isNew
         ? await popupApi.create(form)
@@ -276,7 +301,8 @@ export function PopupsTab() {
   const inputCls = "w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-orange-400";
   const labelCls = "block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1";
   const counterCls = (len, max) => `text-xs ${len > max * 0.9 ? 'text-red-500' : 'text-slate-400'}`;
-  const productoName = servicesList.find((s) => s.id === selectedProductoId)?.name || '';
+  const productoName = servicesList.find((s) => s.id === Number(selectedProductoId))?.name || '';
+
 
   // ─────────────────────────────────────────────────────────────────────────
   return (
