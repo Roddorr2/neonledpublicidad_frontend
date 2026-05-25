@@ -22,20 +22,24 @@ export default function Home() {
       title: "Cafetería",
       description: "Espacio exterior",
       image:
-        "/productos/letras_de_acrílico_para_negocio_ledneonpublicidad.webp",
+        //"/productos/letras_de_acrílico_para_negocio_ledneonpublicidad.webp",
+        "/productos/3.webp",
       alt: "Letras corporeas doradas en dos tipos de tipografía, acompañado de una figura visual dorada en forma de una taza de café en fondo negro ",
     },
     {
       title: "Tienda de ropa",
       description: "Espacio interior",
       image:
-        "/productos/letreros_volumétricos_con_luces_LED_ledneonpublicidad.webp",
+        //"/productos/letreros_volumétricos_con_luces_LED_ledneonpublicidad.webp",
+        "/productos/2.webp",
       alt: "Letras acrilicas blancas con iluminación led que destaca el blanco y dorado entre sí, con un fondo de fachada marrón claro.",
     },
     {
-      title: "Cafetería",
+      title: "Estudios - interior",
       description: "Espacio exterior",
-      image: "/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp",
+      image: 
+        //"/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp",
+        "/productos/letras-acrilico-lima.webp",
       alt: "Letrero de cafetería con letras de acrílico",
     },
   ];
@@ -59,7 +63,7 @@ export default function Home() {
 
       <Banner
         titulo={`LETRAS DE\nACRÍLICO`}
-        imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad_mejorada.png"
+        imagen="/productosIndividuales/banner/LETRAS_ACRILICO.webp"
         alt="Letras corporeas rojas con la marca Kawasaki acompañado por debajo con un eslogan de letras pequeñas en color blanco."
       />
       <Section2 idProducto={idProducto} />
