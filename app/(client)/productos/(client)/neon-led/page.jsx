@@ -43,7 +43,7 @@ export default function Home() {
       <ServicePopup idProducto={idProducto} productoName="LETRAS DE NEÓN LED" />
       <Banner
         titulo={`LETRAS DE\nNEÓN LED`}
-        imagen="/productosIndividuales/banner/neon-led.png"
+        imagen="/productosIndividuales/banner/neon-led-banner.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
