@@ -54,7 +54,7 @@ export default function Home() {
       <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE NEÓN EN\nTUBOS DE VIDRIO`}
-        imagen="/productosIndividuales/banner/letras-neon2.png"
+        imagen="/productosIndividuales/banner/letras-neon2.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />

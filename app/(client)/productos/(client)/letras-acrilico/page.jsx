@@ -32,7 +32,7 @@ export default function Home() {
       alt: "Letras acrilicas blancas con iluminación led que destaca el blanco y dorado entre sí, con un fondo de fachada marrón claro.",
     },
     {
-      title: "Cafetería",
+      title: "Estudios",
       description: "Espacio exterior",
       image: "/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp",
       alt: "Letrero de cafetería con letras de acrílico",
@@ -56,7 +56,7 @@ export default function Home() {
       <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`LETRAS DE\nACRÍLICO`}
-        imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad_mejorada.png"
+        imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad_mejorada.webp"
         alt="Letras corporeas rojas con la marca Kawasaki acompañado por debajo con un eslogan de letras pequeñas en color blanco."
       />
       <Section2 idProducto={idProducto} />
