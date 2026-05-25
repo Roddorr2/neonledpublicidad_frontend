@@ -1,25 +1,24 @@
 import React from "react";
+import Image from "next/image";
 import styles from "./productoStyles.module.css";
 
-function Producto({ imgSrc, altText, title, description, route, imgSrcMobile }) {
+const Producto = React.memo(({ imgSrc, altText, title, description, route, imgSrcMobile, isLcp = false }) => {
   return (
     <a href={route} className={styles["producto-link"]}>
       <div className={styles.producto}>
         <div className={styles["producto-card"]}>
           {/* Imagen del producto */}
           <div className={styles["producto-img-container"]}>
-            <picture>
-              {imgSrcMobile && (
-                <source media="(max-width: 768px)" srcSet={imgSrcMobile} />
-              )}
-              <img
-                src={imgSrc || imgSrcMobile}
-                alt={altText}
-                title={title}
-                className={styles["producto-img"]}
-                loading="lazy"
-              />
-            </picture>
+            <Image
+              src={imgSrc || imgSrcMobile}
+              alt={altText}
+              title={title}
+              fill
+              className={styles["producto-img"]}
+              sizes="(max-width: 480px) 130px, (max-width: 768px) 150px, (max-width: 1024px) 200px, 250px"
+              quality={65}
+              priority={isLcp}
+            />
           </div>
           
           {/* Descripción superpuesta en la parte inferior */}
@@ -32,6 +31,6 @@ function Producto({ imgSrc, altText, title, description, route, imgSrcMobile }) 
       </div>
     </a>
   );
-}
+});
 
 export default Producto;

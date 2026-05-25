@@ -145,25 +145,22 @@ class BlogOrchestrator {
         footerData.formEncabezadoFooter?.estado ?? FOOTER_DEFAULTS.estado;
 
       const footerPayload = {
-        ...footerData.formEncabezadoFooter,
-        palabra:
-          footerData.formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra,
-        enlace:
-          footerData.formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace,
-        // Imágenes por defecto
+        titulo: footerEnabled
+          ? footerData.formEncabezadoFooter?.titulo || FOOTER_DEFAULTS.titulo
+          : FOOTER_DEFAULTS.titulo,
+        descripcion: footerEnabled
+          ? footerData.formEncabezadoFooter?.descripcion ||
+            FOOTER_DEFAULTS.descripcion
+          : FOOTER_DEFAULTS.descripcion,
         public_image1: DEFAULT_IMAGES.footer.image1,
         public_image2: DEFAULT_IMAGES.footer.image2,
         public_image3: DEFAULT_IMAGES.footer.image3,
         url_image1: "",
         url_image2: "",
         url_image3: "",
-        titulo: footerEnabled
-          ? footerData.formEncabezadoFooter.titulo || FOOTER_DEFAULTS.titulo
-          : FOOTER_DEFAULTS.titulo,
-        descripcion: footerEnabled
-          ? footerData.formEncabezadoFooter.descripcion ||
-            FOOTER_DEFAULTS.descripcion
-          : FOOTER_DEFAULTS.descripcion,
+        estado: footerEnabled,
+        keyword: footerData.formEncabezadoFooter?.keyword || "",
+        link: footerData.formEncabezadoFooter?.link || "",
       };
 
       const footerResult = await API.default.createFooter(footerPayload);

@@ -1,7 +1,6 @@
 import { Inter, League_Gothic } from "next/font/google";
 import "./globals.css";
 import { WhatsAppButton } from "./(client)/components/index";
-import "swiper/css";
 import Script from "next/script";
 import { AuthProvider } from "./context/AutContext";
 

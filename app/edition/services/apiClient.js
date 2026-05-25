@@ -50,7 +50,7 @@ apiClient.interceptors.response.use(
           console.warn("Error de validación:", data.errors || data.message);
           break;
         case 500:
-          console.error("Error interno del servidor");
+          console.error("Error interno del servidor", data);
           break;
         default:
           console.error(`Error ${status}:`, data.message || error.message);
