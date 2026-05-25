@@ -4,6 +4,7 @@ import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
 import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+
 export default function Home() {
   const cards = [
     {
@@ -49,9 +50,10 @@ export default function Home() {
   return (
     <>
       <ModalProductoScroll data={modales}/>
+
       <Banner
         titulo={`LETRAS DE\nNEÓN LED`}
-        imagen="/productosIndividuales/banner/neon-led.png"
+        imagen="/productosIndividuales/banner/neon-led-banner.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
