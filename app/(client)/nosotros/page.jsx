@@ -1,4 +1,6 @@
 'use client';
+// CAMBIO 1: Se importa Image de Next.js para optimización automática (WebP, lazy, preload)
+import Image from 'next/image';
 import { SectionBackground } from './components/SectionBackground';
 import { Testimonials } from './components/Testimonials';
 
@@ -39,14 +41,23 @@ const Nosotros = () => {
       {/* =========================
           FILA 1: IMAGEN (solo imagen)
       ========================== */}
-      <div
-        className="relative h-[35vh] sm:h-[45vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden"
-        style={{
-          backgroundImage: "url('/nosotros/fondo-nosotros-mejorado-hd.webp')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+
+      {/*  CAMBIO 2: Se reemplazó el <div> con backgroundImage (style inline) por un
+          contenedor <div> con position relative + <Image> de Next.js.
+          Antes: style={{ backgroundImage: "url(...)" }} → el navegador NO puede hacer
+          preload de esa imagen → LCP alto en móvil.
+          Ahora: <Image priority> le dice a Next.js que esta imagen es la más importante
+          de la página y la precarga en el <head> automáticamente. */}
+      <div className="relative h-[35vh] sm:h-[45vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden">
+        <Image
+          src="/nosotros/fondo-nosotros-mejorado-hd.webp"
+          alt="Fondo Nosotros - Neon Led Publicidad"
+          fill
+          priority
+          fetchPriority="high"
+          sizes="100vw"
+          className="object-cover object-center"
+        />
         <div className="absolute inset-0 bg-black/15" />
       </div>
 
@@ -94,8 +105,7 @@ const Nosotros = () => {
       >
         <SectionBackground />
 
-        {/* CAMBIO: max-w-7xl en lugar de max-w-6xl para hacer el bloque más ancho */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-6">
           <p className="text-sm md:text-base text-gray-200 leading-relaxed max-w-3xl mx-auto text-center mb-12">
             Nuestra trayectoria se basa en la evolución constante y el compromiso con la excelencia. Entendemos que un letrero es la primera impresión de una marca, por lo que utilizamos tecnología de vanguardia e insumos certificados para garantizar resultados de alta durabilidad y eficiencia energética.
           </p>
@@ -148,7 +158,6 @@ const Nosotros = () => {
                 </div>
               </div>
             ))}
-            
           </div>
         </div>
       </div>

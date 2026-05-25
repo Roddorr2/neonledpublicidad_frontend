@@ -1,10 +1,10 @@
 "use client";
-import ServicePopup from '../components/ServicePopup';
 import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+import ServicePopup from "../components/ServicePopup";
+
 export default function Home() {
   const cards = [
     {
@@ -37,22 +37,10 @@ export default function Home() {
     },
   ];
   const idProducto = 14;
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/techosLed.webp",
-      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "14",
-      width: 256,
-      height: 144,
-    },
-  };
+
   return (
     <>
-      <ModalProductoScroll data={modales} />
-
-      <ServicePopup idProducto={14} productoName="TECHOS LED" />
-
+      <ServicePopup idProducto={idProducto} productoName="TECHOS LED" />
       <Banner
         titulo={`TECHOS\nLED`}
         imagen="/productosIndividuales/banner/techos-led.png"

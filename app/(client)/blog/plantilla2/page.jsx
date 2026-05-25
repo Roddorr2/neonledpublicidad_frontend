@@ -78,9 +78,10 @@ const PageContent = () => {
       const ogTags = [
         { property: "og:title", content: title },
         { property: "og:description", content: description },
+        // CAMBIO: URL de og:url corregida (era www. → sin www, consistente con canonical)
         {
           property: "og:url",
-          content: `https://www.ledneonpublicidad.com/blogs/${blogLink}`,
+          content: `https://ledneonpublicidad.com/blog/${blogLink}`,
         },
       ];
       ogTags.forEach(({ property, content }) => {
@@ -100,7 +101,10 @@ const PageContent = () => {
         canonicalLink.rel = "canonical";
         document.head.appendChild(canonicalLink);
       }
-      canonicalLink.href = `https://www.ledneonpublicidad.com/${blogLink}`;
+      // CAMBIO: El canonical apuntaba a www.ledneonpublicidad.com pero el dominio
+      // principal es ledneonpublicidad.com (sin www). La auditoría detectó 8 URLs
+      // canonicalizadas incorrectamente. Esto le dice a Google que indexe la versión correcta.
+      canonicalLink.href = `https://ledneonpublicidad.com/blog/${blogLink}`;
     }
   }, [data, blogLink]);
 

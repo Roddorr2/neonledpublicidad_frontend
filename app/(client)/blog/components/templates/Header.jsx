@@ -97,18 +97,31 @@ export default function Header({ id_blog_head }) {
             className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${data.public_image})`}}
         >
+             {/* CAMBIO: Se agregaron width, height y fetchPriority="high":
+                 - Esta imagen es el LCP de la página de blog individual
+                 - fetchPriority="high": le da prioridad máxima al navegador
+                 - width/height: evitan CLS reservando espacio (auditoría: CLS y dimensiones)
+                 - No tiene loading="lazy" porque es visible inmediatamente */}
              <img 
                 src={data.public_image} 
-                alt={data.alt || "Imagen de fondo"} 
+                alt={data.alt || "Imagen de encabezado del blog"} 
                 title={data.title || ""} 
+                width={1440}
+                height={810}
+                fetchPriority="high"
+                decoding="async"
                 className="hidden" 
             />
             <div className="absolute inset-0 bg-black/30"></div>
 
             <div className="relative z-10 max-w-2xl text-white">
+                {/* CAMBIO: Era <h1> el título principal (correcto) */}
                 <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">{data.titulo}</h1>
 
-                <h1 className="text-2xl md:text-xl font-bold mb-4">{data.texto_frase}</h1>
+                {/* CAMBIO: Era <h1> (duplicado → penalización SEO según auditoría).
+                    Cambiado a <p> con estilo visual equivalente. La auditoría detectó múltiples
+                    <h1> en las URLs de plantilla2. Solo debe haber uno por página. */}
+                <p className="text-2xl md:text-xl font-bold mb-4">{data.texto_frase}</p>
 
                 <p className="text-lg text-gray-300 font-light">{data.texto_descripcion}</p>
 

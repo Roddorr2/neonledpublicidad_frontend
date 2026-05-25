@@ -59,7 +59,8 @@ export default function Testimonials  ()  {
                 src={review.avatar} 
                 onError={(e) => { e.target.src = 'https://ui-avatars.com/api/?name=' + review.name + '&background=random' }}
                 alt={`Foto de perfil de ${review.name}`} 
-                className="w-14 h-14 rounded-full object-cover mr-4 shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.2)] border border-slate-700"
+                loading="lazy"
+                className="w-12 h-12 rounded-full object-cover mr-4 shrink-0 shadow-sm border border-gray-200"
               />
 
               <div>

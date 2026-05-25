@@ -1,10 +1,10 @@
 "use client";
-import ServicePopup from '../components/ServicePopup';
 import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+import ServicePopup from "../components/ServicePopup";
+
 export default function Home() {
   const cards = [
     {
@@ -37,20 +37,10 @@ export default function Home() {
     },
   ];
   const idProducto = 5;
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/LetrasNeon.webp",
-      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "5",
-      width: 256,
-      height: 144,
-    },
-  };
+
   return (
     <>
-      <ModalProductoScroll data={modales} />
-      <ServicePopup idProducto={5} productoName="LED NEÓN" />
+      <ServicePopup idProducto={idProducto} productoName="LETRAS DE NEÓN LED" />
       <Banner
         titulo={`LETRAS DE\nNEÓN LED`}
         imagen="/productosIndividuales/banner/neon-led.png"
