@@ -4,6 +4,7 @@ import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
 import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+
 export default function Home() {
   const cards = [
     {
@@ -34,8 +35,17 @@ export default function Home() {
       image: "/productos/tienda-comercial-techo-led-moderno.webp",
       alt: "Tienda comercial con diseño de techo moderno e iluminación LED cuadrada",
     },
+    // Aquí está la nueva tarjeta agregada
+    {
+      title: "Academia de danzas",
+      description: "Espacio interior",
+      image: "/productos/academia-danza-luces-led.webp",
+      alt: "Academia de danzas con iluminación LED moderna en el techo",
+    },
   ];
+
   const idProducto = 14;
+
   const modales = {
     modalA: {
       text: cards[0].title,
@@ -46,12 +56,13 @@ export default function Home() {
       height: 144,
     },
   };
+
   return (
     <>
       <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`TECHOS\nLED`}
-        imagen="/productosIndividuales/banner/techos-led.png"
+        imagen="/productosIndividuales/banner/techos-led.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
