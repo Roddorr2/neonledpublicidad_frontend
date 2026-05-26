@@ -30,10 +30,34 @@ export default function Home() {
       alt: "Vinilo en pared roja con texto Piri Piri Chicken en restaurante con diseño moderno y bancas amarillas",
     },
     {
-      title: "Decoracion en vinilo para paredes",
+      title: "Oficinas",
       description: "Espacio interior",
-      image: "/productos/vinilo-japones-no1-beef-bowl-pared.webp",
+      image: "/productos/vinilo-decorativo-lima-.3.webp",
       alt: "Vinilo decorativo japonés en pared con ilustración de tazón de carne y personajes tradicionales",
+    },
+    {
+      title: "Tienda de ropa",
+      description: "Espacio interior",
+      image: "/productos/vinilo-decorativo-lima-.4.webp",
+      alt: "Vinilo en entrada de tienda de ropa",
+    },
+    {
+      title: "Cafetería",
+      description: "Espacio interior",
+      image: "/productos/vinilo-decorativo-lima-.5.webp",
+      alt: "Vinilo en pared blanca de una cafeteria",
+    },
+    {
+      title: "Gimnasio",
+      description: "Espacio interior",
+      image: "/productos/vinilo-decorativo-lima-.6.webp",
+      alt: "Vinilo en pared blanca de un gimnasio con letras y diseño de gimnasio",
+    },
+    {
+      title: "Jugueria",
+      description: "Espacio interior",
+      image: "/productos/vinilo-decorativo-lima-.7.webp",
+      alt: "Vinilo en pared de una jugueria",
     },
   ];
   const idProducto = 6;
