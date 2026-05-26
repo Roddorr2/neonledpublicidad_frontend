@@ -51,7 +51,7 @@ export default function Home() {
       <ModalProductoScroll data={modales}/>
       <Banner
         titulo={`PIXEL\nLED`}
-        imagen="/productosIndividuales/banner/pixel-led.webp"
+        imagen="/productosIndividuales/banner/led-pixel-tunel-led-lima-publicidad.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />

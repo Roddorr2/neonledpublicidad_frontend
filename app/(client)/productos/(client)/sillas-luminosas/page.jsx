@@ -25,13 +25,13 @@ export default function Home() {
     {
       title: "Eventos",
       description: "Espacio exterior",
-      image: "/productos/sillas-led-iluminadas-para-terraza-nocturna.webp",
+      image: "/productos/sillas-luminosas-led-bar-publicidad.webp",
       alt: "Sillas LED iluminadas al aire libre sobre césped artificial en terraza nocturna",
     },
     {
       title: "Zona VIP",
       description: "Espacio interior",
-      image: "/productos/mobiliario-luminoso-para-discotecas-y-bares.webp",
+      image: "/productos/sillas-luminosas-zona-vip-publicidad-lima.webp",
       alt: "Sofás y mesas LED luminosas en discoteca con ambiente moderno",
     },
   ];

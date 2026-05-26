@@ -24,15 +24,27 @@ export default function Home() {
     { 
       title: "Eventos de temporada", 
       description: "Espacio interior",  
-      image: "/productos/holograma-navidad-arbol-publicitario.webp",
+      image: "/productos/holograma-navidad-fiestas-3d-publicidad.webp",
       alt: "Árbol de Navidad proyectado en holograma decorando terraza comercial"        
     },
     { 
       title: "Personas", 
       description: "Espacio interior",  
-      image: "/productos/presentacion-holografica-persona-3d-escenario.webp",
+      image: "/productos/holograma-3d-persona-publicidad.webp",
       alt: "Presentación holográfica de persona en escenario con sillas de audiencia"        
-    }
+    },
+    { 
+      title: "Dragón", 
+      description: "Espacio interior",  
+      image: "/productos/En-holograficos.webp",
+      alt: "Dragon holográfico"        
+    },
+    { 
+      title: "Eventos de temporada", 
+      description: "Espacio interior",  
+      image: "/productos/Evento-Holografico.webp",
+      alt: "Evento holográfico"        
+    },
   ];
 
   const idProducto = 11;
