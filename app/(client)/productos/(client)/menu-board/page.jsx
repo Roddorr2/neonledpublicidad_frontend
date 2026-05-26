@@ -21,7 +21,7 @@ export default function Home() {
       alt: "Pantallas digitales con menú de bebidas, espresso y sándwiches en cafetería Gloria Jean's",
     },
     {
-      title: "Establecimiento",
+      title: "Fast Food",
       description: "Espacio interior",
       image: "/productos/menu-digital-fast-food-colleccion-del-rey.webp",
       alt: "Menú digital iluminado de comida rápida con hamburguesas, combos y pollo frito de la Colección del Rey",

@@ -44,7 +44,7 @@ export default function Home() {
       />
       <Banner
         titulo={`LETRAS PINTADAS\nEN MDF`}
-        imagen="/productosIndividuales/banner/letras-pintadas.webp"
+        imagen="/productosIndividuales/banner/1920x1080.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
