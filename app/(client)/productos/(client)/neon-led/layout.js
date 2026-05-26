@@ -86,7 +86,7 @@ export default function NeonLedLayout({ children }) {
     name: "Las Luces en Neón Led",
     image: [
       "https://ledneonpublicidad.com/productosIndividuales/letras_de_neon_ledneonpublicidad.webp",
-      "https://ledneonpublicidad.com/productosIndividuales/banner/neon-led.png",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/neon-led-banner.webp",
       "https://ledneonpublicidad.com/productos/anuncio_neon_led_ledneonpublicidad.webp",
       "https://ledneonpublicidad.com/productos/letrero_barber_shop_neon_rojo_interior.webp",
       "https://ledneonpublicidad.com/productos/letreros_neon_en_sala_de_juegos_arcade.webp",

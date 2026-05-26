@@ -91,7 +91,7 @@ function Producto({
 
     </Link>
   );
-}
+};
 
 export default Producto;
 

@@ -216,8 +216,8 @@ export default function Productos() {
         route: "/productos/letras-doradas",
       },
       {
-        imgSrc: "/productosPrincipal/letras-aluminio-plateadas.jpg",
-        imgSrcMobile: "/productosPrincipal/letras-aluminio-plateadas.jpg",
+        imgSrc: "/productosPrincipal/letras-aluminio-plateadas.webp",
+        imgSrcMobile: "/productosPrincipal/letras-aluminio-plateadas.webp",
         altText:
           "Logotipo de Yava iluminado con letras plateadas sobre pared clara",
         description: "LETRAS DE ALUMINIO PLATEADAS 3D",
@@ -236,13 +236,13 @@ export default function Productos() {
 
     [
       {
-        imgSrcMobile: "/productosPrincipal/5letrasDeNeon.png",
+        imgSrcMobile: "/productosPrincipal/5letrasDeNeon.webp",
         altText: "Producto 5",
         description: "NEÓN LED",
         route: "/productos/neon-led",
       },
       {
-        imgSrcMobile: "/productosPrincipal/6impresionEnVinilo.png",
+        imgSrcMobile: "/productosPrincipal/6impresionEnVinilo.webp",
         altText: "Producto 6",
         description: "IMPRESIÓN EN VINILO",
         route: "/productos/impresion-vinilo",
@@ -254,7 +254,7 @@ export default function Productos() {
         route: "/productos/menu-board",
       },
       {
-        imgSrcMobile: "/productosPrincipal/8burnout.jpg",
+        imgSrcMobile: "/productosPrincipal/8burnout.webp",
         altText: "Producto 8",
         description: "LETRAS PINTADAS EN MDF",
         route: "/productos/letras-pintadas",
@@ -263,25 +263,25 @@ export default function Productos() {
 
     [
       {
-        imgSrcMobile: "/productosPrincipal/monitores_tactiles.jpg",
+        imgSrcMobile: "/productosPrincipal/monitores_tactiles.webp",
         altText: "Producto 9",
         description: "MONITORES DE PUBLICIDAD",
         route: "/productos/displays",
       },
       {
-        imgSrcMobile: "/productosPrincipal/Pantallas_led.jpg",
+        imgSrcMobile: "/productosPrincipal/Pantallas_led.webp",
         altText: "Producto 10",
         description: "PANTALLAS LED",
         route: "/productos/pantalla-led",
       },
       {
-        imgSrcMobile: "/productosPrincipal/holograma_3d_1.png",
+        imgSrcMobile: "/productosPrincipal/holograma_3d_1.webp",
         altText: "Producto 11",
         description: "HOLOGRÁFICO",
         route: "/productos/holografico",
       },
       {
-        imgSrcMobile: "/productosPrincipal/pixel_led_1.png",
+        imgSrcMobile: "/productosPrincipal/pixel_led_1.webp",
         altText: "Producto 12",
         description: "PIXEL LED",
         route: "/productos/pixel-led",
@@ -290,13 +290,13 @@ export default function Productos() {
 
     [
       {
-        imgSrcMobile: "/productosPrincipal/sillas_luminosas_1.png",
+        imgSrcMobile: "/productosPrincipal/sillas_luminosas_1.webp",
         altText: "Producto 13",
         description: "SILLAS LUMINOSAS",
         route: "/productos/sillas-luminosas",
       },
       {
-        imgSrcMobile: "/productosPrincipal/luces_led_techo_1.png",
+        imgSrcMobile: "/productosPrincipal/luces_led_techo_1.webp",
         altText: "Producto 14",
         description: "TECHOS LED",
         route: "/productos/techos-led",

@@ -1,22 +1,18 @@
 "use client";
-import ServicePopup from '../components/ServicePopup';
 import Banner from "../components/Banner";
 import CardSlider from "../components/CardSlider";
 import Datos from "../components/Datos";
-import ModalProductoScroll from "../components/section2/ModalProductoScroll";
 import Section2 from "../components/section2/Section2";
+import ServicePopup from "../components/ServicePopup";
 
 export default function Home() {
   const cards = [
     {
       title: "LETRAS DE ACRÍLICO",
-      description:
-        "Le mostramos la implementación de las letras de acrílico en diversos espacios.",
-      bgColor:
-        "bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
+      description: "Le mostramos la implementación de las letras de acrílico en diversos espacios.",
+      bgColor: "bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
       glow: "text-white-400 text-3xl font-bold tracking-wide mb-4",
-      textStyle:
-        "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line",
+      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line",
     },
     {
       title: "Cafetería",
@@ -45,25 +41,12 @@ export default function Home() {
   ];
   const idProducto = 1;
 
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/LetrasDeAcrilico.webp",
-      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "1",
-      width: 256,
-      height: 144,
-    },
-  };
-
   return (
     <>
-      <ModalProductoScroll data={modales} />
-      <ServicePopup idProducto={1} productoName="LETRAS DE ACRÍLICO" />
-
+      <ServicePopup idProducto={idProducto} productoName="LETRAS DE ACRÍLICO" />
       <Banner
         titulo={`LETRAS DE\nACRÍLICO`}
-        imagen="/productosIndividuales/banner/LETRAS_ACRILICO.webp"
+        imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad_mejorada.webp"
         alt="Letras corporeas rojas con la marca Kawasaki acompañado por debajo con un eslogan de letras pequeñas en color blanco."
       />
       <Section2 idProducto={idProducto} />

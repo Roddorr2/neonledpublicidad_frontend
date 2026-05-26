@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import NuestrosProductos from "./productos/components/NuestrosProductos";
 import dynamic from "next/dynamic";
+import Testimonials  from "./nosotros/components/Testimonials";
 
 const Slider = dynamic(() => import("./components/slider/Slider"), {
   ssr: false,
@@ -195,6 +196,7 @@ export default function Home() {
       >
         <Slider2 slides={clientLogos} />
       </section>
+      <Testimonials />
     </div>
   );
 }

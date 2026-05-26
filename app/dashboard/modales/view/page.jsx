@@ -35,33 +35,42 @@ export default function Page() {
   }, []);
 
   async function fetchProducts() {
-    setProductsLoading(true);
-    try {
-      const res = await axios.get(PRODUCTS_URL, {
-        headers: { Authorization: `Bearer ${getCookie("token")}` },
-      });
-
+  setProductsLoading(true);
+  try {
+    const headers = { Authorization: `Bearer ${getCookie("token")}` };
+    const map = {};
+    let page = 1;
+    let lastPage = 1;
+ 
+    do {
+      const res = await axios.get(`${PRODUCTS_URL}?page=${page}`, { headers });
+      // Nota: esta página usa PRODUCTS_URL (con S), no PRODUCTOS_URL
       const payload = res.data;
-
+ 
       const list =
         Array.isArray(payload) ? payload :
         Array.isArray(payload?.data) ? payload.data :
         Array.isArray(payload?.data?.data) ? payload.data.data :
         Array.isArray(payload?.productos) ? payload.productos :
         [];
-
-      const map = {};
+ 
+      const meta = payload?.data ?? payload;
+      lastPage = meta?.last_page ?? meta?.meta?.last_page ?? 1;
+ 
       for (const p of list) {
         map[p.id_producto] = p.nombre;
       }
-      setProductsById(map);
-    } catch (error) {
-      console.error("Error al obtener productos:", error?.message);
-      setProductsById({});
-    } finally {
-      setProductsLoading(false);
-    }
+      page++;
+    } while (page <= lastPage);
+ 
+    setProductsById(map);
+  } catch (error) {
+    console.error("Error al obtener productos:", error?.message);
+    setProductsById({});
+  } finally {
+    setProductsLoading(false);
   }
+}
 
   const productName = useMemo(() => {
     if (!modal) return "No asignado"
