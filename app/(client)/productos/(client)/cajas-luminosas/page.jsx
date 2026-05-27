@@ -4,7 +4,7 @@ import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-import ServicePopup from '../components/ServicePopup';
+import ServicePopup from "../components/ServicePopup";
 
 export default function Home() {
   const cards = [
@@ -39,14 +39,9 @@ export default function Home() {
   ];
   const idProducto = 16;
 
-  
-
   return (
     <>
-     
       <ServicePopup idProducto={idProducto} productoName="CAJAS LUMINOSAS" />
-
-      <ServicePopup idProducto={16} productoName="CAJAS LUMINOSAS" />
 
       <Banner
         titulo={`CAJAS\nLUMINOSAS`}
