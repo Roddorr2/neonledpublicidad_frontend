@@ -18,19 +18,19 @@ export default function Home() {
     { 
       title: "Tienda de ropa", 
       description: "Espacio exterior", 
-      image: "/productos/monitor-publicitario-interactivo-tienda-ropa.webp",
+      image: "/productos/monitores-de-publicidad-digital-lima 1.webp",
       alt: "Pantalla digital interactiva de publicidad en tienda de ropa con cliente usando el sistema táctil"  
     },
     { 
-      title: "Comida rapida", 
+      title: "Centro comercial", 
       description: "Espacio interior",  
-      image: "/productos/monitores-publicidad-drive-thru-menu-digital.webp",
+      image: "/productos/monitores-de-publicidad-digital-lima 2.webp",
       alt: "Monitores publicitarios en drive-thru con menú digital y señalización de autoservicio"       
     },
     { 
-      title: "Zapatería", 
+      title: "Tienda de calzado", 
       description: "Espacio interior",  
-      image: "/productos/pantalla-publicitaria-digital-tienda-zapatillas.webp",
+      image: "/productos/monitores-de-publicidad-digital-lima 3.webp",
       alt: "Pantalla publicitaria en tienda de zapatillas mostrando información del producto al cliente"       
     }
   ];
@@ -43,7 +43,7 @@ export default function Home() {
 
       <Banner
         titulo={`MONITORES DE\nPUBLICIDAD DIGITAL`}
-        imagen="/productosIndividuales/banner/monitores_tactiles4.jpg"
+        imagen="/productosIndividuales/banner/monitores-publicidad-digital-portada.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards}/>
