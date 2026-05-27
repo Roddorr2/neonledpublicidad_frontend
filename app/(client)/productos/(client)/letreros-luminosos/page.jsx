@@ -22,12 +22,22 @@ export default function Home() {
     {
       title: "Restaurante",
       description: "Espacio exterior",
-      image: "/productos/letrero_luminoso2_2.png",
+      image: "/productos/letreros-luminosos-lima .2.webp",
     },
     {
-      title: "Cafeteria",
+      title: "Farmacias",
       description: "Espacio exterior",
-      image: "/productos/letrero_luminoso3.jpg",
+      image: "/productos/letreros-luminosos-lima .3.webp",
+    },
+    {
+      title: "Cafetería",
+      description: "Espacio exterior",
+      image: "/productos/letreros-luminosos-lima .4.webp",
+    },
+     {
+      title: "Hoteles",
+      description: "Espacio exterior",
+      image: "/productos/letreros-luminosos-lima .5.webp",
     },
   ];
   const idProducto = 4;

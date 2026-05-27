@@ -20,20 +20,26 @@ export default function Home() {
     {
       title: "Tienda de ropa",
       description: "Espacio interior",
-      image: "/productos/pantalla-led-programa-kelly-clarkson-show.webp",
+      image: "/productos/pantallas-led-lima-.1.webp",
       alt: "Pantalla LED en set de televisión mostrando el logo del programa The Kelly Clarkson Show",
     },
     {
-      title: "Tienda de calzado",
+      title: "Evento",
       description: "Espacio interior",
-      image: "/productos/pantalla-led-publicitaria-tienda-zapatos-mujer.webp",
+      image: "/productos/pantallas-led-lima-.2.webp",
       alt: "Pantalla LED vertical en tienda de calzado mostrando publicidad de moda femenina",
     },
     {
       title: "Centro comercial",
       description: "Espacio interior",
-      image: "/productos/pantalla-led-gigante-publicidad-20th-century-fox.webp",
+      image: "/productos/pantallas-led-lima .3.webp",
       alt: "Pantalla LED gigante en interior transmitiendo animación de 20th Century Fox",
+    },
+     {
+      title: "Fast food",
+      description: "Espacio interior",
+      image: "/productos/pantalla-led-lima 4.webp",
+      alt: "Fast food pizzería Bella",
     },
   ];
   const idProducto = 10;
@@ -41,10 +47,7 @@ export default function Home() {
   return (
     <>
       <ServicePopup idProducto={idProducto} productoName="PANTALLAS LED" />
-      <Banner
-        titulo={`PANTALLAS\nLED`}
-        imagen="/productosIndividuales/banner/pantalla-led.webp"
-      />
+      <Banner titulo={`PANTALLAS\nLED`} imagen="/productosIndividuales/banner/Pantalla-led-portada.webp" />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
       <Datos idProducto={idProducto} />
