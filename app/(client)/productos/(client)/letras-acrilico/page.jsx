@@ -38,6 +38,30 @@ export default function Home() {
         "/productos/letras-acrilico-lima.webp",
       alt: "Letrero de cafetería con letras de acrílico",
     },
+    {
+      title: "Hoteles recepciones",
+      description: "Espacio interior",
+      image: 
+        //"/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp",
+        "/productos/letras-acrilico-lima-2.webp",
+      alt: "Letrero de cafetería con letras de acrílico",
+    },
+    {
+      title: "Barberias",
+      description: "Espacio exterior",
+      image: 
+        //"/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp",
+        "/productos/letras-acrilico-lima-3.webp",
+      alt: "Letrero de cafetería con letras de acrílico",
+    },
+    {
+      title: "Oficinas",
+      description: "Espacio interior",
+      image: 
+        //"/productos/letras_iluminadas_de_acrilico_ledneonpublicidad.webp",
+        "/productos/letras-acrilico-lima-7.webp",
+      alt: "Letrero de cafetería con letras de acrílico",
+    },
   ];
   const idProducto = 1;
 

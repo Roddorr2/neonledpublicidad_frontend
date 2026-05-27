@@ -32,6 +32,12 @@ export default function Home() {
       image: "/productos/pantallas-menu-digital-con-desayuno-y-hamburguesas.webp",
       alt: "Pantallas digitales de menú con desayuno, hamburguesas y acompañamientos en restaurante de comida rápida",
     },
+    {
+      title: "Heladerias",
+      description: "Espacio interior",
+      image: "/productos/En_menu_boards.webp",
+      alt: "Pantallas digitales de menú con desayuno, hamburguesas y acompañamientos en restaurante de comida rápida",
+    }
   ];
   const idProducto = 7;
 

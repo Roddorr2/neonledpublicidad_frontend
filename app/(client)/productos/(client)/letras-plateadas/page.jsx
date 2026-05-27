@@ -36,6 +36,38 @@ export default function Home() {
         "/productos/letras-aluminio-plateada-3d-lima.webp",
       alt: "Cartel de letras plateadas",
     },
+    {
+      title: "Consultorio Dental",
+      description: "Espacio interior",
+      image: 
+        //"/productos/letra_plateada_3.png",
+        "/productos/letras-aluminio-plateada3d-lima-4.webp",
+      alt: "Cartel de letras plateadas",
+    },
+    {
+      title: "Hoteles - recepciones",
+      description: "Espacio interior",
+      image: 
+        //"/productos/letra_plateada_3.png",
+        "/productos/letras-aluminio-plateada-3d-lima-5.webp",
+      alt: "Cartel de letras plateadas",
+    },
+    {
+      title: "Barberias - exterior",
+      description: "Espacio exterior",
+      image: 
+        //"/productos/letra_plateada_3.png",
+        "/productos/letras-aluminio-plateada-3d-lima-6.webp",
+      alt: "Cartel de letras plateadas",
+    },
+    {
+      title: "Oficinas",
+      description: "Espacio interior",
+      image: 
+        //"/productos/letra_plateada_3.png",
+        "/productos/letras-aluminio-plateada-3d-lima-7.webp",
+      alt: "Cartel de letras plateadas",
+    }
   ];
   const idProducto = 3;
 
