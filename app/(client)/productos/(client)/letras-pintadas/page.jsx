@@ -33,8 +33,17 @@ export default function Home() {
       image: "/productos/letras-mdf-retroiluminadas-marks-and-spencer.webp",
       alt: "Letras pintadas en MDF retroiluminadas del letrero Marks & Spencer en tienda comercial",
     },
+    // Nueva 4ta sección agregada
+    {
+      title: "Eventos",
+      description: "Espacio interior",
+      image: "/productos/En-letras-pintadas-eventos.webp",
+      alt: "Letras pintadas en MDF para decoración de eventos",
+    },
   ];
+  
   const idProducto = 8;
+  
   const modales = {
     modalA: {
       text: cards[0].title,
@@ -45,6 +54,7 @@ export default function Home() {
       height: 144,
     },
   };
+  
   return (
     <>
       <ModalProductoScroll data={modales}/>
