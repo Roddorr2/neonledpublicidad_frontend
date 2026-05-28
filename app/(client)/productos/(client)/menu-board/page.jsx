@@ -44,7 +44,10 @@ export default function Home() {
   return (
     <>
       <ServicePopup idProducto={idProducto} productoName="MENÚ BOARDS" />
-      <Banner titulo={`MENÚ BOARDS`} imagen="/productosIndividuales/banner/menu-board.webp" />
+      <Banner titulo={`MENÚ BOARDS`}
+        //imagen="/productosIndividuales/banner/menu-board.webp"
+        video="/productos/9.mp4"
+      />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
       <Datos idProducto={idProducto} />

@@ -108,7 +108,7 @@ export default function Banner() {
           playsInline
           preload="none"
         >
-          <source src="/productos/video_banner.mp4" type="video/mp4" />
+          <source src="/productos/Video_Banner.mp4" type="video/mp4" />
         </video>
       </div>
 

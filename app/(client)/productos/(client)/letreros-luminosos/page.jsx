@@ -35,7 +35,10 @@ export default function Home() {
   return (
     <>
       <ServicePopup idProducto={idProducto} productoName="LETREROS LUMINOSOS" />
-      <Banner titulo={`LETREROS\nLUMINOSOS`} imagen="/productosIndividuales/banner/letreros-luminosos2.png" />
+      <Banner titulo={`LETREROS\nLUMINOSOS`}
+        //imagen="/productosIndividuales/banner/letreros-luminosos2.png"
+        video="/productos/7.mp4"
+      />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
       <Datos idProducto={idProducto} />

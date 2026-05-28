@@ -50,7 +50,8 @@ export default function Home() {
       />
       <Banner
         titulo={`LETRAS PINTADAS\nEN MDF`}
-        imagen="/productosIndividuales/banner/1920x1080.webp"
+        video="/productos/3.mp4"
+        //imagen="/productosIndividuales/banner/1920x1080.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />

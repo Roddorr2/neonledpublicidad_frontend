@@ -74,7 +74,10 @@ export default function Home() {
   return (
     <>
       <ServicePopup idProducto={idProducto} productoName="LETRAS DE ALUMINIO PLATEADAS 3D" />
-      <Banner titulo={`LETRAS DE ALUMINIO \n PLATEADAS 3D`} imagen="/productosIndividuales/banner/fondo-plateado.png" />
+      <Banner titulo={`LETRAS DE ALUMINIO \n PLATEADAS 3D`}
+        //imagen="/productosIndividuales/banner/fondo-plateado.png"
+        video="/productos/8.mp4"
+      />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
       <Datos idProducto={idProducto} />

@@ -70,7 +70,8 @@ export default function Home() {
       <ServicePopup idProducto={idProducto} productoName="LETRAS DE ACRÍLICO" />
       <Banner
         titulo={`LETRAS DE\nACRÍLICO`}
-        imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad_mejorada.webp"
+        video="/productos/6.mp4"
+        //imagen="/productosIndividuales/banner/letras_corpóreas_ledneonpublicidad_mejorada.webp"
         alt="Letras corporeas rojas con la marca Kawasaki acompañado por debajo con un eslogan de letras pequeñas en color blanco."
       />
       <Section2 idProducto={idProducto} />

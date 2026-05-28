@@ -46,7 +46,7 @@ export default function Home() {
       />
       <Banner
         titulo={`LETRAS DE ALUMINIO \n DORADAS 3D`}
-        imagen="/productosIndividuales/banner/letras-doradas-fondo-mejorada.png"
+        video="/productos/2.mp4"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
