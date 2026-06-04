@@ -35,29 +35,19 @@ const getBg = (c) =>
     ? `linear-gradient(${c.gradient_direction || 'to bottom'}, ${c.service_color}, ${c.service_color_2})`
     : c.service_color;
 
-/**
- * ServicePopup — Pop-up público de captación para páginas de producto NLP
- *
- * Props:
- *   idProducto   number  ID numérico del producto (ej: 8) — se usa para
- *                        llamar al endpoint /api/modales como id_producto
- *   productoName string  Nombre del producto para mostrar en la columna lateral
- */
 export default function ServicePopup({ idProducto, productoName }) {
   const [open,     setOpen]     = useState(false);
   const [config,   setConfig]   = useState(null);
   const [loading,  setLoading]  = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // ── FIX: formData usa id_producto (integer) en lugar de id_servicio (string) ──
   const [formData, setFormData] = useState({
     nombre:      '',
     telefono:    '',
     correo:      '',
-    id_producto: idProducto,   // ← número entero, coincide con lo que valida el backend
+    id_producto: idProducto,
   });
 
-  // ── Detectar mobile ────────────────────────────────────────────────────────
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
@@ -65,24 +55,19 @@ export default function ServicePopup({ idProducto, productoName }) {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  // ── Cargar config ──────────────────────────────────────────────────────────
   useEffect(() => {
-    // TODO BACKEND: cuando el endpoint público esté listo, reemplazar por (ya se descomento las lineas 71 a 76):
-     fetch(`${url}/api/public/popup-configs/producto/${idProducto}`)
-       .then(r => r.json())
-       .then(d => { if (d.success) setConfig(d.data); else setConfig(MOCK_CONFIG); })
-       .catch(() => setConfig(MOCK_CONFIG));
-    //setConfig(MOCK_CONFIG);  ← ← ← ESTA LÍNEA PISA AL FETCH (es síncrona)
+    fetch(`${url}/api/public/popup-configs/producto/${idProducto}`)
+      .then(r => r.json())
+      .then(d => { if (d.success) setConfig(d.data); else setConfig(MOCK_CONFIG); })
+      .catch(() => setConfig(MOCK_CONFIG));
   }, [idProducto]);
 
-  // ── Timer de aparición ─────────────────────────────────────────────────────
   useEffect(() => {
     if (!config) return;
     const timer = setTimeout(() => setOpen(true), config.trigger_time * 1000);
     return () => clearTimeout(timer);
   }, [config]);
 
-  // ── Handlers formulario ────────────────────────────────────────────────────
   const handleChange = (e) => {
     let { name, value } = e.target;
     if (name === 'telefono') {
@@ -101,12 +86,11 @@ export default function ServicePopup({ idProducto, productoName }) {
     }
     setLoading(true);
     try {
-      // ── FIX: enviamos id_producto como número, sin Authorization (ruta pública) ──
       const response = await axios.post(URL_API, {
         nombre:      formData.nombre,
         telefono:    formData.telefono,
         correo:      formData.correo,
-        id_producto: Number(idProducto),  // ← integer requerido por el backend
+        id_producto: Number(idProducto),
       }, {
         headers: {
           Accept: 'application/json',
@@ -132,10 +116,12 @@ export default function ServicePopup({ idProducto, productoName }) {
 
   if (!config || !open) return null;
 
-  const bg          = getBg(config);
-  const leftImg     = config.left_image_url;
-  const rightImg    = config.right_image_url;
-  const mobileImg   = config.mobile_image_url;
+  const bg        = getBg(config);
+  const leftImg   = config.left_image_url;
+  const rightImg  = config.right_image_url;
+  const mobileImg = config.mobile_image_url;
+  
+  // ── hasRightBg ahora solo indica si hay imagen de fondo en el panel del form (desktop) ──
   const hasRightBg  = !!rightImg && !isMobile;
   const hasMobileBg = !!mobileImg && isMobile;
 
@@ -144,14 +130,14 @@ export default function ServicePopup({ idProducto, productoName }) {
   const mobileAlt = config.mobile_alt || productoName || '';
 
   return (
-    <div
-      onClick={() => setOpen(false)}
-      className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/50 backdrop-blur-sm"
-    >
+      <div
+        onClick={(e) => setOpen(false)}
+        className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative flex w-[92%] md:w-[680px] rounded-2xl overflow-hidden shadow-2xl text-white"
-        style={{ background: (hasRightBg || hasMobileBg) ? 'transparent' : bg, minHeight: 300 }}
+        className="relative rounded-2xl overflow-hidden shadow-xl border border-white/10 flex items-stretch w-[680px] max-w-[92%] text-white"
+        style={{ background: bg, minHeight: 300 }}
       >
         <button
           onClick={() => setOpen(false)}
@@ -161,29 +147,15 @@ export default function ServicePopup({ idProducto, productoName }) {
           ✕
         </button>
 
-        {hasRightBg && (
-          <div className="absolute inset-0 z-0">
-            <img src={rightImg} alt={rightAlt} title={config.right_alt || ''}
-              className="w-full h-full object-cover"
-              style={{ opacity: config.right_opacity / 100 }} />
-          </div>
-        )}
-
-        {hasMobileBg && (
-          <div className="absolute inset-0 z-0">
-            <img src={mobileImg} alt={mobileAlt} title={config.mobile_alt || ''}
-              className="w-full h-full object-cover"
-              style={{ opacity: config.mobile_opacity / 100 }} />
-          </div>
-        )}
-
+        {/* ── Imagen izquierda — columna lateral ── */}
         {leftImg && !isMobile && (
           <div className="hidden md:flex relative w-56 flex-shrink-0 overflow-hidden z-10">
             <img src={leftImg} alt={leftAlt} title={config.left_alt || ''}
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ opacity: config.left_opacity / 100 }} />
+              className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-white"
+              style={{ opacity: (100 - config.left_opacity) / 100 }} />
             <div className="absolute inset-0"
-              style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)' }} />
+              style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.12) 55%, transparent 100%)' }} />
             {productoName && (
               <div className="absolute bottom-0 left-0 right-0 px-4 pb-5 z-10">
                 <p className="text-white font-extrabold uppercase leading-tight"
@@ -195,44 +167,68 @@ export default function ServicePopup({ idProducto, productoName }) {
           </div>
         )}
 
+        {/* ── Panel del form — imagen derecha es fondo SOLO de esta zona ── */}
         <div className="relative z-10 flex-1 flex flex-col justify-center gap-5 p-7">
-          <p className="text-2xl sm:text-3xl font-extrabold text-center leading-tight"
-            style={{ color: config.title_color }}>
-            {config.title_text}
-          </p>
 
-          <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-            {[
-              { name: 'nombre',   label: 'Nombre',   type: 'text',  placeholder: 'Tu nombre completo' },
-              { name: 'telefono', label: 'Teléfono', type: 'tel',   placeholder: '9 dígitos' },
-              { name: 'correo',   label: 'Correo',   type: 'email', placeholder: 'tu@correo.com' },
-            ].map(({ name, label, type, placeholder }) => (
-              <div key={name} className="flex flex-col gap-1">
-                <label className="font-semibold text-sm" style={{ color: config.title_color }}>
-                  {label}
-                </label>
-                <input
-                  name={name} type={type} value={formData[name]}
-                  onChange={handleChange} required placeholder={placeholder}
-                  className="w-full rounded-full bg-white text-slate-800 text-sm px-4 py-2.5 outline-none focus:ring-2 focus:ring-white/50 placeholder-slate-400"
-                />
-              </div>
-            ))}
+          {/* Imagen derecha: fondo absoluto solo dentro de este panel */}
+          {hasRightBg && (
+            <div className="absolute inset-0 z-0 overflow-hidden">
+              <img src={rightImg} alt={rightAlt} title={config.right_alt || ''}
+                className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-white"
+                style={{ opacity: (100 - config.right_opacity) / 100 }} />
+            </div>
+          )}
 
-            {/* ── FIX: campo oculto con id_producto (número) en lugar de id_servicio ── */}
-            <input type="hidden" name="id_producto" value={idProducto} readOnly />
+          {/* Imagen mobile: fondo absoluto solo dentro de este panel */}
+          {hasMobileBg && (
+            <div className="absolute inset-0 z-0 overflow-hidden">
+              <img src={mobileImg} alt={mobileAlt} title={config.mobile_alt || ''}
+                className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-white"
+                style={{ opacity: (100 - config.mobile_opacity) / 100 }} />
+            </div>
+          )}
 
-            <button
-              type="submit" disabled={loading}
-              className="mt-1 w-full rounded-full py-3 text-base font-extrabold text-white transition hover:brightness-110 active:scale-95"
-              style={{ backgroundColor: config.button_color }}
-            >
-              {loading
-                ? <Loader2 className="animate-spin h-5 w-5 mx-auto" />
-                : config.button_text
-              }
-            </button>
-          </form>
+          {/* Contenido encima del fondo */}
+          <div className="relative z-10 flex flex-col gap-5">
+            <p className="text-2xl font-extrabold text-center leading-tight pr-6"
+              style={{ color: config.title_color }}>
+              {config.title_text}
+            </p>
+
+            <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+              {[
+                { name: 'nombre',   label: 'Nombre',   type: 'text',  placeholder: 'Tu nombre completo' },
+                { name: 'telefono', label: 'Teléfono', type: 'tel',   placeholder: '9 dígitos' },
+                { name: 'correo',   label: 'Correo',   type: 'email', placeholder: 'tu@correo.com' },
+              ].map(({ name, label, type, placeholder }) => (
+                <div key={name} className="flex flex-col gap-1">
+                  <label className="font-semibold text-sm" style={{ color: config.title_color }}>
+                    {label}
+                  </label>
+                  <input
+                    name={name} type={type} value={formData[name]}
+                    onChange={handleChange} required placeholder={placeholder}
+                    className="w-full rounded-full bg-white text-slate-800 text-sm px-4 py-2.5 outline-none focus:ring-2 focus:ring-white/50 placeholder-slate-400"
+                  />
+                </div>
+              ))}
+
+              <input type="hidden" name="id_producto" value={idProducto} readOnly />
+
+              <button
+                type="submit" disabled={loading}
+                className="mt-1 w-full rounded-full py-3 text-base font-extrabold text-white transition hover:brightness-110 active:scale-95"
+                style={{ backgroundColor: config.button_color }}
+              >
+                {loading
+                  ? <Loader2 className="animate-spin h-5 w-5 mx-auto" />
+                  : config.button_text
+                }
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

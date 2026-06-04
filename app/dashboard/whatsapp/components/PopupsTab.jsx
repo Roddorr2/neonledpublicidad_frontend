@@ -508,6 +508,9 @@ export function PopupsTab() {
                               onDrop={(e) => handleDrop('left', e)}
                               onRemove={() => handleRemoveImage('left')}
                             />
+                            <p className="text-xs text-slate-500 mt-2">
+                              Recomendado: 224×400 px y formato WebP para mejor calidad y menor peso.
+                            </p>
                             <div>
                               <div className="flex justify-between text-xs text-slate-500 mb-0.5">
                                 <span>Opacidad</span><span>{formData.left_opacity}%</span>
@@ -527,6 +530,9 @@ export function PopupsTab() {
                               onDrop={(e) => handleDrop('right', e)}
                               onRemove={() => handleRemoveImage('right')}
                             />
+                            <p className="text-xs text-slate-500 mt-2">
+                              Recomendado: 456×400 px y formato WebP para mejor calidad y menor peso.
+                            </p>
                             <div>
                               <div className="flex justify-between text-xs text-slate-500 mb-0.5">
                                 <span>Opacidad</span><span>{formData.right_opacity}%</span>
