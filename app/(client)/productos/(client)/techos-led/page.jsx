@@ -35,17 +35,21 @@ export default function Home() {
       image: "/productos/tienda-comercial-techo-led-moderno.webp",
       alt: "Tienda comercial con diseño de techo moderno e iluminación LED cuadrada",
     },
+    // Aquí está la nueva tarjeta agregada
+    {
+      title: "Academia de danzas",
+      description: "Espacio interior",
+      image: "/productos/academia-danza-luces-led.webp",
+      alt: "Academia de danzas con iluminación LED moderna en el techo",
+    },
   ];
+
   const idProducto = 14;
 
   return (
     <>
       <ServicePopup idProducto={idProducto} productoName="TECHOS LED" />
-      <Banner
-        titulo={`TECHOS\nLED`}
-        //imagen="/productosIndividuales/banner/techos-led.png"
-        video="/productos/10.mp4"
-      />
+      <Banner titulo={`TECHOS\nLED`} video="/productos/10.mp4" />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
       <Datos idProducto={idProducto} />
