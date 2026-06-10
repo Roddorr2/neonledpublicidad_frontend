@@ -8,19 +8,19 @@ export const globalKeywords = {
  
   "letras de acrílico 3D": { 
     type: "external", 
-    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=letras-acrilicas-3d-moda" 
+    url: "https://ledneonpublicidad.com/blog/letras-acrilicas-3d-moda/" 
   },
 
 
   // Letras Doradas  
   "Letras corpóreas retroiluminadas": { 
     type: "external", 
-    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=letras-dyp-con-elegancia" 
+    url: "https://ledneonpublicidad.com/blog/letras-dyp-con-elegancia/" 
   },
 
   // Letreros Luminosos
   "letreros luminosos 3D": {     
-    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=discotecas-que-brillan" 
+    url: "https://ledneonpublicidad.com/blog/discotecas-que-brillan/" 
   },
 
   // Letras Neón en Tubos de Vidrio
@@ -35,13 +35,13 @@ export const globalKeywords = {
   // Impresión en Vinilo  
   "vinilos decorativos": { 
     type: "external", 
-    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=neon-led-para-bares-modernos" 
+    url: "https://ledneonpublicidad.com/blog/neon-led-para-bares-modernos/" 
   },
 
   // Menu Board
   "menú boards personalizados": { 
     type: "external", 
-    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=cafeterias-con-estilo" 
+    url: "https://ledneonpublicidad.com/blog/cafeterias-con-estilo/" 
   },  
 
   // Monitores de Publicidad Digital  
@@ -49,7 +49,7 @@ export const globalKeywords = {
   // Pantallas LED
   "Pantallas led para publicidad": { 
     type: "external", 
-    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=pantallas-led-para-locales" 
+    url: "https://ledneonpublicidad.com/blog/pantallas-led-para-locales/" 
   },
 
   // Holográficos
@@ -57,19 +57,19 @@ export const globalKeywords = {
   // Pixel LED
   "Pixel LED": { 
     type: "external", 
-    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=led-pixel-para-discotecas" 
+    url: "https://ledneonpublicidad.com/blog/led-pixel-para-discotecas/" 
   },
   
   //Sillas Luminosas  
   "sillas con luces LED": {
     type: "external", 
-    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=sillas-luminosas-para-eventos" 
+    url: "https://ledneonpublicidad.com/blog/sillas-luminosas-para-eventos/" 
   },
 
   // Techos LED  
   "techos decorados con led": {
     type: "external",
-    url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=techos-led-para-gimnasios"
+    url: "https://ledneonpublicidad.com/blog/techos-led-para-gimnasios/"
   },
 
   "menú digital": { 
