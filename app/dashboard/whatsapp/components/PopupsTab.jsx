@@ -4,19 +4,9 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { popupApi } from "@/api/fetchApiWhatsApp";
 import { Card, CardTitle, UploadIcon } from "./TabButton";
+import { PopupPreview } from "./PopupPreview";
 
-// ─── OPTIMIZACIÓN 1: Funciones puras fuera del componente ─────────────────────
-const getBg = (f) =>
-  f.service_color_2 && f.service_color_2 !== f.service_color
-    ? `linear-gradient(${f.gradient_direction}, ${f.service_color}, ${f.service_color_2})`
-    : f.service_color;
-
-const TIEMPOS = [
-  { value: 3, label: "3s - Muy inmediato" },
-  { value: 5, label: "5s - Rápido" },
-  { value: 8, label: "8s - Normal" },
-];
-
+// ─── UI CONSTANTS  ─────────────────────────────────────
 const GRADIENT_DIRS = [
   { value: "to bottom", label: "↓ Arriba → Abajo" },
   { value: "to top", label: "↑ Abajo → Arriba" },
@@ -26,13 +16,20 @@ const GRADIENT_DIRS = [
   { value: "to bottom left", label: "↙ Diagonal" },
 ];
 
+const TIEMPOS = [
+  { value: 3, label: "3s - Muy inmediato" },
+  { value: 5, label: "5s - Rápido" },
+  { value: 8, label: "8s - Normal" },
+];
+
 const MAX_ALT = 80;
 
+// Valores por defecto (mínimos, solo para reset)
 const DEFAULT_FORM = {
-  title_text: "¡SOLO POR HOY: ACCEDE A UNA ASESORÍA GRATIS!",
+  title_text: "",
   title_color: "#FFFFFF",
-  button_text: "HAZLO YA",
-  button_color: "#feb549", // naranja NLP
+  button_text: "",
+  button_color: "#F97316",
   service_color: "#5966f5",
   service_color_2: "#854ff4",
   gradient_direction: "to bottom",
@@ -45,229 +42,16 @@ const DEFAULT_FORM = {
   mobile_alt: "",
 };
 
-// ─── OPTIMIZACIÓN 2: PopupPreview con Lazy Loading y Decoding ────────────────
-export function PopupPreview({ formData, imagePreviews, view, productoName }) {
-  const bg = getBg(formData);
-  const hasRightBg = !!imagePreviews.right;
-  const hasMobileBg = !!imagePreviews.mobile;
-
-  if (view === "mobile") {
-    return (
-      <div className="flex justify-center">
-        <div
-          className="relative w-[200px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-600 shadow-lg flex flex-col"
-          style={{
-            background: hasMobileBg ? "transparent" : bg,
-            minHeight: 280,
-          }}
-        >
-          {hasMobileBg && (
-            <div className="absolute inset-0 z-0">
-              <img
-                src={imagePreviews.mobile}
-                alt={formData.mobile_alt || productoName || "popup mobile"}
-                title={formData.mobile_alt || ""}
-                className="w-full h-full object-cover"
-                style={{ opacity: formData.mobile_opacity / 100 }}
-                loading="lazy"
-                decoding="async" // Evita que la imagen congele el hilo principal
-              />
-            </div>
-          )}
-
-          <div className="relative z-10 flex flex-col items-center gap-2 px-4 py-5 w-full">
-            <button className="absolute top-2 right-2 w-5 h-5 rounded-full bg-white/30 flex items-center justify-center text-white text-xs font-bold">
-              ✕
-            </button>
-            <p
-              className="text-sm font-extrabold text-center leading-tight pt-3"
-              style={{ color: formData.title_color }}
-            >
-              {formData.title_text || "TÍTULO DEL POP-UP"}
-            </p>
-            <div className="w-full space-y-1.5 mt-1">
-              {["Nombre", "Teléfono", "Correo"].map((ph) => (
-                <input
-                  key={ph}
-                  readOnly
-                  placeholder={ph}
-                  className="w-full rounded-full bg-white px-3 py-1.5 text-xs text-slate-700 outline-none"
-                />
-              ))}
-            </div>
-            <button
-              className="w-full rounded-full py-1.5 text-xs font-bold"
-              style={{
-                backgroundColor: formData.button_color,
-                color: "#FFFFFF",
-              }}
-            >
-              {formData.button_text || "HAZLO YA"}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full">
-      <div
-        className="relative w-full rounded-2xl overflow-hidden shadow-xl border border-white/10 flex items-stretch"
-        style={{ background: hasRightBg ? "transparent" : bg, minHeight: 230 }}
-      >
-        {hasRightBg && (
-          <div className="absolute inset-0 z-0">
-            <img
-              src={imagePreviews.right}
-              alt={formData.right_alt || productoName || "fondo popup"}
-              title={formData.right_alt || ""}
-              className="w-full h-full object-cover"
-              style={{ opacity: formData.right_opacity / 100 }}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        )}
-
-        {imagePreviews.left && (
-          <div className="relative z-10 w-[38%] flex-shrink-0 overflow-hidden">
-            <img
-              src={imagePreviews.left}
-              alt={formData.left_alt || productoName || "columna lateral popup"}
-              title={formData.left_alt || ""}
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ opacity: formData.left_opacity / 100 }}
-              loading="lazy"
-              decoding="async"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)",
-              }}
-            />
-            {productoName && (
-              <div className="absolute bottom-0 left-0 right-0 px-3 pb-3 z-10">
-                <p
-                  className="text-white font-extrabold uppercase leading-tight"
-                  style={{
-                    fontSize: "0.7rem",
-                    letterSpacing: "0.04em",
-                    textShadow: "0 2px 8px rgba(0,0,0,0.9)",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {productoName}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center gap-2.5 px-5 py-6">
-          <button className="absolute top-2 right-2 w-5 h-5 rounded-full bg-white/30 flex items-center justify-center text-white text-xs font-bold">
-            ✕
-          </button>
-          <p
-            className="text-base font-extrabold text-center leading-tight"
-            style={{ color: formData.title_color }}
-          >
-            {formData.title_text || "TÍTULO DEL POP-UP"}
-          </p>
-          <div className="w-full space-y-1.5">
-            {["Nombre", "Teléfono", "Correo"].map((ph) => (
-              <input
-                key={ph}
-                readOnly
-                placeholder={ph}
-                className="w-full rounded-full bg-white px-3 py-1.5 text-xs text-slate-700 outline-none border border-white/50"
-              />
-            ))}
-          </div>
-          <button
-            className="w-full rounded-full py-2 text-xs font-extrabold"
-            style={{ backgroundColor: formData.button_color, color: "#FFFFFF" }}
-          >
-            {formData.button_text || "HAZLO YA"}
-          </button>
-        </div>
-      </div>
-      <p className="mt-3 text-center text-xs text-slate-400 dark:text-slate-500">
-        ⏱️ Aparece a los <strong>{formData.trigger_time}s</strong> de que el
-        usuario entra a la página
-      </p>
-    </div>
-  );
-}
-
-function ImageUploadZone({ label, preview, onFile, onDrop, onRemove }) {
-  const [fileKey, setFileKey] = useState(0);
-
-  const handleRemove = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setFileKey((k) => k + 1);
-    onRemove();
-  };
-
-  return (
-    <div>
-      <p className="mb-1 text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
-        {label}
-      </p>
-      <div className="relative">
-        <label
-          className="flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 p-4 cursor-pointer hover:border-orange-400 transition min-h-[110px]"
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={onDrop}
-        >
-          {preview ? (
-            <img
-              src={preview}
-              alt="preview"
-              className="max-h-24 max-w-full object-contain rounded-xl"
-              loading="lazy"
-              decoding="async"
-            />
-          ) : (
-            <>
-              <UploadIcon />
-              <span className="text-xs text-slate-500 dark:text-slate-400">
-                Arrastra o haz clic
-              </span>
-            </>
-          )}
-          <input
-            key={fileKey}
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            className="hidden"
-            onChange={(e) => onFile(e.target.files?.[0])}
-          />
-        </label>
-        {preview && (
-          <button
-            type="button"
-            onClick={handleRemove}
-            className="absolute -top-2 -right-2 z-10 w-6 h-6 rounded-full bg-red-500 hover:bg-red-600 text-white text-xs font-bold flex items-center justify-center shadow-md transition"
-          >
-            ✕
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ─── Componente Principal ─────────────────────────────────────────────────────
+// ─── COMPONENTE PRINCIPAL ─────────────────────────────────────────────────────
 export function PopupsTab() {
-  const [selectedProductoId, setSelectedProductoId] = useState("");
+  // Estados principales
   const [productosList, setProductosList] = useState([]);
+  const [selectedProductoId, setSelectedProductoId] = useState("");
   const [popupConfig, setPopupConfig] = useState(null);
   const [isNew, setIsNew] = useState(true);
   const [formData, setFormData] = useState({ ...DEFAULT_FORM });
+
+  // Estados de imágenes
   const [imageFiles, setImageFiles] = useState({
     left: null,
     right: null,
@@ -278,55 +62,70 @@ export function PopupsTab() {
     right: null,
     mobile: null,
   });
+
+  // Estados UI
   const [view, setView] = useState("desktop");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [seoOpen, setSeoOpen] = useState(false);
 
+  // ─── CARGAR PRODUCTOS DESDE BACKEND ─────────────────────────────────────────
   useEffect(() => {
     const fetchProductos = async () => {
       try {
         const res = await popupApi.getProductos();
-        if (res?.data) {
-          const arr = res.data?.data || res.data || [];
-          setProductosList(arr);
+
+        if (res?.status === 200 && res?.data) {
+          let productos = [];
+
+          if (res.data.data && Array.isArray(res.data.data)) {
+            productos = res.data.data;
+          } else if (Array.isArray(res.data)) {
+            productos = res.data;
+          }
+
+          setProductosList(productos);
+        } else {
+          console.error("Formato inesperado de productos:", res);
+          setProductosList([]);
         }
       } catch (err) {
-        console.error("Error fetching products", err);
+        console.error("Error fetching products:", err);
+        setProductosList([]);
       }
     };
+
     fetchProductos();
   }, []);
 
+  // ─── CARGAR CONFIGURACIÓN DEL PRODUCTO SELECCIONADO ─────────────────────────
   useEffect(() => {
     if (!selectedProductoId) {
       resetForm();
       return;
     }
-    const cargar = async () => {
+
+    const cargarConfiguracion = async () => {
       setLoading(true);
       try {
         const res = await popupApi.getByProducto(selectedProductoId);
+
         if (res?.success && res?.data) {
           const d = res.data;
           setPopupConfig(d);
           setIsNew(false);
           setFormData({
-            title_text: d.title_text || DEFAULT_FORM.title_text,
-            title_color: d.title_color || DEFAULT_FORM.title_color,
-            button_text: d.button_text || DEFAULT_FORM.button_text,
-            button_color: d.button_color || DEFAULT_FORM.button_color,
-            service_color: d.service_color || DEFAULT_FORM.service_color,
-            service_color_2:
-              d.service_color_2 ||
-              d.service_color ||
-              DEFAULT_FORM.service_color_2,
-            gradient_direction:
-              d.gradient_direction || DEFAULT_FORM.gradient_direction,
-            trigger_time: d.trigger_time || DEFAULT_FORM.trigger_time,
-            left_opacity: d.left_opacity ?? DEFAULT_FORM.left_opacity,
-            right_opacity: d.right_opacity ?? DEFAULT_FORM.right_opacity,
-            mobile_opacity: d.mobile_opacity ?? DEFAULT_FORM.mobile_opacity,
+            title_text: d.title_text || "",
+            title_color: d.title_color || "#FFFFFF",
+            button_text: d.button_text || "",
+            button_color: d.button_color || "#F97316",
+            service_color: d.service_color || "#5966f5",
+            service_color_2: d.service_color_2 || d.service_color || "#854ff4",
+            gradient_direction: d.gradient_direction || "to bottom",
+            trigger_time: d.trigger_time || 8,
+            left_opacity: d.left_opacity ?? 85,
+            right_opacity: d.right_opacity ?? 100,
+            mobile_opacity: d.mobile_opacity ?? 100,
             left_alt: d.left_alt || "",
             right_alt: d.right_alt || "",
             mobile_alt: d.mobile_alt || "",
@@ -340,18 +139,19 @@ export function PopupsTab() {
         } else {
           resetForm();
         }
-      } catch {
+      } catch (error) {
+        Swal.fire("Error", "No se pudo cargar la configuración", "error");
         resetForm();
       } finally {
         setLoading(false);
       }
     };
-    cargar();
+
+    cargarConfiguracion();
   }, [selectedProductoId]);
 
-  // ─── OPTIMIZACIÓN 3: Limpieza de memoria ─────────────────────────────────────
+  // ─── LIMPIEZA DE MEMORIA ───────────────────────────────────────────────────
   useEffect(() => {
-    // Al desmontar, liberamos memoria de los ObjectURLs para evitar fugas
     return () => {
       if (imagePreviews.left && imagePreviews.left.startsWith("blob:"))
         URL.revokeObjectURL(imagePreviews.left);
@@ -360,8 +160,9 @@ export function PopupsTab() {
       if (imagePreviews.mobile && imagePreviews.mobile.startsWith("blob:"))
         URL.revokeObjectURL(imagePreviews.mobile);
     };
-  }, []);
+  }, [imagePreviews]);
 
+  // ─── FUNCIONES DE RESET ────────────────────────────────────────────────────
   const resetForm = () => {
     setPopupConfig(null);
     setIsNew(true);
@@ -370,7 +171,7 @@ export function PopupsTab() {
     setImageFiles({ left: null, right: null, mobile: null });
   };
 
-  // ─── OPTIMIZACIÓN 4: Cambio de FileReader a URL.createObjectURL ─────────────
+  // ─── MANEJO DE IMÁGENES ────────────────────────────────────────────────────
   const handleImageChange = (slot, file) => {
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
@@ -381,12 +182,10 @@ export function PopupsTab() {
       Swal.fire("Formato no permitido", "Usa JPG, PNG o WEBP.", "warning");
       return;
     }
-    setImageFiles((p) => ({ ...p, [slot]: file }));
 
-    // Crear URL en memoria en 1 milisegundo (FileReader tarda cientos y congela la UI)
+    setImageFiles((p) => ({ ...p, [slot]: file }));
     const objectUrl = URL.createObjectURL(file);
     setImagePreviews((p) => {
-      // Liberar memoria de la imagen anterior si era un blob local
       if (p[slot] && p[slot].startsWith("blob:")) URL.revokeObjectURL(p[slot]);
       return { ...p, [slot]: objectUrl };
     });
@@ -412,6 +211,7 @@ export function PopupsTab() {
   const showColorSection =
     view === "desktop" ? !imagePreviews.right : !imagePreviews.mobile;
 
+  // ─── VALIDACIÓN Y GUARDADO ─────────────────────────────────────────────────
   const validate = () => {
     if (!selectedProductoId) {
       Swal.fire("Error", "Selecciona un producto", "warning");
@@ -443,6 +243,7 @@ export function PopupsTab() {
   const handleSave = async () => {
     if (!validate()) return;
     setSaving(true);
+
     try {
       const form = new FormData();
       if (isNew) form.append("id_producto", selectedProductoId);
@@ -460,9 +261,21 @@ export function PopupsTab() {
       form.append("left_alt", formData.left_alt);
       form.append("right_alt", formData.right_alt);
       form.append("mobile_alt", formData.mobile_alt);
-      if (imageFiles.left) form.append("left_image", imageFiles.left);
-      if (imageFiles.right) form.append("right_image", imageFiles.right);
-      if (imageFiles.mobile) form.append("mobile_image", imageFiles.mobile);
+
+      // Manejo de imágenes
+      ["left", "right", "mobile"].forEach((slot) => {
+        const imageFile = imageFiles[slot];
+        const previewNow = imagePreviews[slot];
+        const urlEnBD = !isNew
+          ? (popupConfig?.[`${slot}_image_url`] ?? null)
+          : null;
+
+        if (imageFile) {
+          form.append(`${slot}_image`, imageFile);
+        } else if (urlEnBD && !previewNow) {
+          form.append(`remove_${slot}_image`, "1");
+        }
+      });
 
       const res = isNew
         ? await popupApi.create(form)
@@ -493,6 +306,7 @@ export function PopupsTab() {
 
   const handleDelete = async () => {
     if (!popupConfig) return;
+
     const { isConfirmed } = await Swal.fire({
       title: "¿Eliminar Pop-Up?",
       text: "Se eliminarán las imágenes en Cloudinary. Esta acción no se puede deshacer.",
@@ -502,29 +316,37 @@ export function PopupsTab() {
       cancelButtonText: "Cancelar",
       confirmButtonText: "Sí, eliminar",
     });
+
     if (!isConfirmed) return;
+
     try {
       const res = await popupApi.destroy(popupConfig.id_popup_config);
       if (res?.success) {
         Swal.fire("Eliminado", "Pop-Up eliminado correctamente", "success");
         resetForm();
         setSelectedProductoId("");
-      } else Swal.fire("Error", res?.message || "No se pudo eliminar", "error");
+      } else {
+        Swal.fire("Error", res?.message || "No se pudo eliminar", "error");
+      }
     } catch {
       Swal.fire("Error", "Error de conexión al eliminar", "error");
     }
   };
 
+  // ─── UI HELPERS ───────────────────────────────────────────────────────────
   const inputCls =
     "w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-orange-400";
   const labelCls =
     "block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1";
   const counterCls = (len, max) =>
     `text-xs ${len > max * 0.9 ? "text-red-500" : "text-slate-400"}`;
-  const productoName =
-    productosList.find((s) => s.id_producto == selectedProductoId)?.nombre ||
-    "";
 
+  // ✅ OBTENER NOMBRE DEL PRODUCTO DESDE EL BACKEND (NO hardcodeado)
+  const productoName =
+    productosList.find((p) => p.id_producto === Number(selectedProductoId))
+      ?.nombre || "";
+
+  // ─── RENDER ────────────────────────────────────────────────────────────────
   return (
     <div className="space-y-6">
       <div className="grid gap-6 lg:grid-cols-12">
@@ -546,9 +368,12 @@ export function PopupsTab() {
                 }}
               >
                 <option value="">— Selecciona un producto —</option>
-                {productosList.map((s) => (
-                  <option key={s.id_producto} value={s.id_producto}>
-                    {s.nombre}
+                {productosList.map((producto) => (
+                  <option
+                    key={producto.id_producto}
+                    value={producto.id_producto}
+                  >
+                    {producto.nombre}
                   </option>
                 ))}
               </select>
@@ -580,6 +405,7 @@ export function PopupsTab() {
                 </div>
               ) : (
                 <div className="space-y-5">
+                  {/* Texto Principal */}
                   <div>
                     <div className="flex justify-between items-center mb-1">
                       <label className={labelCls.replace("mb-1", "")}>
@@ -617,6 +443,7 @@ export function PopupsTab() {
                     </div>
                   </div>
 
+                  {/* Texto del Botón */}
                   <div>
                     <div className="flex justify-between items-center mb-1">
                       <label className={labelCls.replace("mb-1", "")}>
@@ -654,6 +481,7 @@ export function PopupsTab() {
                     </div>
                   </div>
 
+                  {/* Colores de fondo */}
                   {showColorSection && (
                     <div>
                       <label className={labelCls}>
@@ -661,7 +489,9 @@ export function PopupsTab() {
                       </label>
                       <div
                         className="w-full h-8 rounded-xl mb-3 border border-slate-200 dark:border-slate-600"
-                        style={{ background: getBg(formData) }}
+                        style={{
+                          background: `linear-gradient(${formData.gradient_direction}, ${formData.service_color}, ${formData.service_color_2})`,
+                        }}
                       />
                       <div className="grid grid-cols-2 gap-3 mb-3">
                         <div>
@@ -738,6 +568,7 @@ export function PopupsTab() {
                     </div>
                   )}
 
+                  {/* Tiempo de aparición */}
                   <div>
                     <label className={labelCls}>Tiempo de Aparición</label>
                     <select
@@ -758,6 +589,7 @@ export function PopupsTab() {
                     </select>
                   </div>
 
+                  {/* Imágenes */}
                   <div>
                     <label className={labelCls}>Imágenes</label>
                     <div className="flex gap-2 mb-4">
@@ -836,31 +668,6 @@ export function PopupsTab() {
                             </div>
                           </div>
                         </div>
-                        <AltAccordion
-                          open={seoOpen}
-                          onToggle={() => setSeoOpen((p) => !p)}
-                        >
-                          <AltField
-                            label="Texto Alt — Imagen Izquierda"
-                            field="left_alt"
-                            value={formData.left_alt}
-                            onChange={setField("left_alt")}
-                            hasImage={!!imagePreviews.left}
-                            counterCls={counterCls}
-                            inputCls={inputCls}
-                            placeholder="Ej: letras de neón led personalizadas"
-                          />
-                          <AltField
-                            label="Texto Alt — Imagen Derecha"
-                            field="right_alt"
-                            value={formData.right_alt}
-                            onChange={setField("right_alt")}
-                            hasImage={!!imagePreviews.right}
-                            counterCls={counterCls}
-                            inputCls={inputCls}
-                            placeholder="Ej: letreros luminosos para negocios"
-                          />
-                        </AltAccordion>
                       </div>
                     )}
 
@@ -894,26 +701,11 @@ export function PopupsTab() {
                             />
                           </div>
                         </div>
-                        <AltAccordion
-                          open={seoOpen}
-                          onToggle={() => setSeoOpen((p) => !p)}
-                          label="Texto Alt de Imagen (SEO)"
-                        >
-                          <AltField
-                            label="Texto Alt — Imagen Mobile"
-                            field="mobile_alt"
-                            value={formData.mobile_alt}
-                            onChange={setField("mobile_alt")}
-                            hasImage={!!imagePreviews.mobile}
-                            counterCls={counterCls}
-                            inputCls={inputCls}
-                            placeholder="Ej: neon led publicidad lima peru"
-                          />
-                        </AltAccordion>
                       </div>
                     )}
                   </div>
 
+                  {/* Botones de acción */}
                   <div className="flex items-center gap-3 pt-2 border-t border-slate-100 dark:border-slate-700">
                     <button
                       type="button"
@@ -943,7 +735,7 @@ export function PopupsTab() {
           )}
         </div>
 
-        {/* PANEL DERECHO */}
+        {/* PANEL DERECHO - PREVIEW */}
         <div className="lg:col-span-5">
           <Card>
             <div className="flex items-center justify-between mb-4">
@@ -995,80 +787,62 @@ export function PopupsTab() {
   );
 }
 
-function AltAccordion({
-  open,
-  onToggle,
-  label = "Texto Alt de Imágenes (SEO)",
-  children,
-}) {
-  return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-600 overflow-hidden">
-      <button
-        type="button"
-        onClick={onToggle}
-        className="w-full flex items-center justify-between px-4 py-2.5 bg-slate-50 dark:bg-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 transition"
-      >
-        <span>{label}</span>
-        <span className="text-slate-400 text-xs">{open ? "▲" : "▶"}</span>
-      </button>
-      {open && (
-        <div className="px-4 py-3 space-y-3 bg-white dark:bg-slate-800">
-          {children}
-        </div>
-      )}
-    </div>
-  );
-}
+// ─── COMPONENTES SECUNDARIOS ─────────────────────────────────────────────────
+function ImageUploadZone({ label, preview, onFile, onDrop, onRemove }) {
+  const [fileKey, setFileKey] = useState(0);
 
-function AltField({
-  label,
-  field,
-  value,
-  onChange,
-  hasImage,
-  counterCls,
-  inputCls,
-  placeholder,
-}) {
+  const handleRemove = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFileKey((k) => k + 1);
+    onRemove();
+  };
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-1">
-        <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">
-          {label}
-        </label>
-        <span className={counterCls(value?.length ?? 0, MAX_ALT)}>
-          {value?.length ?? 0}/{MAX_ALT}
-        </span>
-      </div>
-      {!hasImage ? (
-        <div className="flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 dark:bg-amber-900/20 dark:border-amber-700 px-3 py-2">
-          <svg
-            className="w-4 h-4 text-amber-500 flex-shrink-0"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+      <p className="mb-1 text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+        {label}
+      </p>
+      <div className="relative">
+        <label
+          className="flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 p-4 cursor-pointer hover:border-orange-400 transition min-h-[110px]"
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={onDrop}
+        >
+          {preview ? (
+            <img
+              src={preview}
+              alt="preview"
+              className="max-h-24 max-w-full object-contain rounded-xl"
+              loading="lazy"
+              decoding="async"
             />
-          </svg>
-          <span className="text-xs text-amber-700 dark:text-amber-400">
-            No se ha subido imagen
-          </span>
-        </div>
-      ) : (
-        <input
-          type="text"
-          maxLength={MAX_ALT}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          className={inputCls}
-        />
-      )}
+          ) : (
+            <>
+              <UploadIcon />
+              <span className="text-xs text-slate-500 dark:text-slate-400">
+                Arrastra o haz clic
+              </span>
+            </>
+          )}
+          <input
+            key={fileKey}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="hidden"
+            onChange={(e) => onFile(e.target.files?.[0])}
+          />
+        </label>
+        {preview && (
+          <button
+            type="button"
+            onClick={handleRemove}
+            className="absolute -top-2 -right-2 z-10 w-6 h-6 rounded-full bg-red-500 hover:bg-red-600 text-white text-xs font-bold flex items-center justify-center shadow-md transition"
+          >
+            ✕
+          </button>
+        )}
+      </div>
     </div>
   );
 }

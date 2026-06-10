@@ -1,9 +1,12 @@
+
 export const metadata = {
-  title: "Diseños publicitario personalizados creativos en Perú Lima | Inspírate con Tendencias Visuales",
+  // CAMBIO: El título anterior tenía 79 caracteres → Google lo cortaba en resultados de búsqueda.
+  // Nuevo título: 58 caracteres → dentro del límite recomendado (<60 chars / <561px).
+  title: "Blog de Diseño Publicitario LED | Neón Led Publicidad",
   description:
     "Inspira tu marca con ideas creativas en diseño publicitario. Ilumina tus espacios, rompe lo convencional y marca tendencia con soluciones visuales.",
   openGraph: {
-    title: "Diseños publicitario personalizados creativos en Perú Lima | Inspírate con Tendencias Visuales",
+    title: "Blog de Diseño Publicitario LED | Neón Led Publicidad",
     description:
       "Inspira tu marca con ideas creativas en diseño publicitario. Ilumina tus espacios, rompe lo convencional y marca tendencia con soluciones visuales.",
     url: "https://ledneonpublicidad.com/blog",

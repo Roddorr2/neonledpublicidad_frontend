@@ -4,8 +4,7 @@ import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-import ModalProductoScroll from "../components/section2/ModalProductoScroll";
-import ServicePopup from "../components/ServicePopup";
+import ServicePopup from '../components/ServicePopup';
 
 export default function Home() {
   const cards = [
@@ -40,21 +39,12 @@ export default function Home() {
   ];
   const idProducto = 16;
 
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/cajas-luminosas.webp",
-      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "16",
-      width: 256,
-      height: 144,
-    },
-  };
+  
 
   return (
     <>
-      {/* Modal que se abre automáticamente después de 4 segundos */}
-      <ModalProductoScroll data={modales} />
+     
+      <ServicePopup idProducto={idProducto} productoName="CAJAS LUMINOSAS" />
 
       <ServicePopup idProducto={16} productoName="CAJAS LUMINOSAS" />
 

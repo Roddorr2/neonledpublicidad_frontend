@@ -1,11 +1,10 @@
 "use client";
 
-import ServicePopup from '../components/ServicePopup';
 import Banner from '../components/Banner';
 import Datos from '../components/Datos';
 import CardSlider from '../components/CardSlider';
 import Section2 from '../components/section2/Section2';
-import ModalProductoScroll from '../components/section2/ModalProductoScroll';
+import ServicePopup from '../components/ServicePopup';
 
 export default function Home() {
   const cards = [
@@ -14,7 +13,7 @@ export default function Home() {
       description: "Le mostramos la implementación de los monitores de publicidad digital en diversos espacios.", 
       bgColor:"bg-gray-900 text-white px-4 py-6 rounded-lg flex flex-col justify-center items-center",
       glow: "text-white-400 text-3xl font-bold tracking-wide mb-4",
-     textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
+      textStyle: "text-white text-center max-w-[50%] leading-relaxed text-lg whitespace-pre-line"
     },
     { 
       title: "Tienda de ropa", 
@@ -35,33 +34,20 @@ export default function Home() {
       alt: "Pantalla publicitaria en tienda de zapatillas mostrando información del producto al cliente"       
     }
   ];
-  const idProducto = 9;
 
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/MonitoresPublicidad.webp",
-      title: "¡Solicita una demostración gratuita!",
-      serviceName: "9",
-      width: 256,
-      height: 144,
-    }
-  }
+  const idProducto = 9;
 
   return (
     <>
-      {/* Modal que se abre automáticamente después de 4 segundos */}
-      <ModalProductoScroll data={modales} />
-
-      <ServicePopup idProducto={9} productoName="MONITORES DE PUBLICIDAD" />
+      <ServicePopup idProducto={idProducto} productoName="MONITORES DE PUBLICIDAD DIGITAL" />
 
       <Banner
         titulo={`MONITORES DE\nPUBLICIDAD DIGITAL`}
         imagen="/productosIndividuales/banner/monitores_tactiles4.jpg"
       />
       <Section2 idProducto={idProducto} />
-      <CardSlider cards={cards} />
-      <Datos idProducto={idProducto} />
+      <CardSlider cards={cards}/>
+      <Datos idProducto={idProducto}/>
     </>
   );
 }
