@@ -43,7 +43,8 @@ export default function Home() {
       <ServicePopup idProducto={idProducto} productoName="TECHOS LED" />
       <Banner
         titulo={`TECHOS\nLED`}
-        imagen="/productosIndividuales/banner/techos-led.png"
+        //imagen="/productosIndividuales/banner/techos-led.png"
+        video="/productos/10.mp4"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
