@@ -249,9 +249,10 @@ export default function Datos({ idProducto }) {
       <div className="relative text-white flex flex-col items-center justify-center py-20">
         <div className="mb-16">
           <h2 className="text-4xl font-bold mb-8 text-center">Datos sobre: </h2>
-          <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">
+          {/*Cambiado h1 a h2 para poder corregir duplicidad segun auditoria de h1 multiples */}
+          <h2 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">
             {item.producto}
-          </h1>
+          </h2>
         </div>
 
         {/* Versión móvil - Carrusel */}

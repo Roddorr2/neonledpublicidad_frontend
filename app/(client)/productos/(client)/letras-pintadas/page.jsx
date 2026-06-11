@@ -43,7 +43,6 @@ export default function Home() {
   ];
 
   const idProducto = 8;
-
   return (
     <>
       <ServicePopup
