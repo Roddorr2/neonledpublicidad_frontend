@@ -17,7 +17,9 @@ export default function Home() {
     {
       title: "Salon de belleza",
       description: "Espacio exterior",
-      image: "/productos/letra_plateada_1.png",
+      image:
+        //"/productos/letra_plateada_1.png",
+        "/productos/1(1).webp",
       alt: "Letras acrilicas plateadas en diversos tamaños, resaltando sus iniciales en la parte central y estas acompañadas de finas líneas",
     },
     {
@@ -27,18 +29,55 @@ export default function Home() {
       alt: "Cartel de letras plateadas",
     },
     {
-      title: "Cuidado capilar",
+      title: "Consultorio spa",
       description: "Espacio exterior",
-      image: "/productos/letra_plateada_3.png",
+      image: 
+        //"/productos/letra_plateada_3.png",
+        "/productos/letras-aluminio-plateada-3d-lima.webp",
       alt: "Cartel de letras plateadas",
     },
+    {
+      title: "Consultorio Dental",
+      description: "Espacio interior",
+      image: 
+        //"/productos/letra_plateada_3.png",
+        "/productos/letras-aluminio-plateada3d-lima-4.webp",
+      alt: "Cartel de letras plateadas",
+    },
+    {
+      title: "Hoteles - recepciones",
+      description: "Espacio interior",
+      image: 
+        //"/productos/letra_plateada_3.png",
+        "/productos/letras-aluminio-plateada-3d-lima-5.webp",
+      alt: "Cartel de letras plateadas",
+    },
+    {
+      title: "Barberias - exterior",
+      description: "Espacio exterior",
+      image: 
+        //"/productos/letra_plateada_3.png",
+        "/productos/letras-aluminio-plateada-3d-lima-6.webp",
+      alt: "Cartel de letras plateadas",
+    },
+    {
+      title: "Oficinas",
+      description: "Espacio interior",
+      image: 
+        //"/productos/letra_plateada_3.png",
+        "/productos/letras-aluminio-plateada-3d-lima-7.webp",
+      alt: "Cartel de letras plateadas",
+    }
   ];
   const idProducto = 3;
 
   return (
     <>
       <ServicePopup idProducto={idProducto} productoName="LETRAS DE ALUMINIO PLATEADAS 3D" />
-      <Banner titulo={`LETRAS DE ALUMINIO \n PLATEADAS 3D`} imagen="/productosIndividuales/banner/fondo-plateado.png" />
+      <Banner titulo={`LETRAS DE ALUMINIO \n PLATEADAS 3D`}
+        //imagen="/productosIndividuales/banner/fondo-plateado.png"
+        video="/productos/8.mp4"
+      />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
       <Datos idProducto={idProducto} />

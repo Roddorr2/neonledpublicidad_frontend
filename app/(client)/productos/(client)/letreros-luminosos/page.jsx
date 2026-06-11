@@ -22,12 +22,22 @@ export default function Home() {
     {
       title: "Restaurante",
       description: "Espacio exterior",
-      image: "/productos/letrero_luminoso2_2.png",
+      image: "/productos/letreros-luminosos-lima .2.webp",
     },
     {
-      title: "Cafeteria",
+      title: "Farmacias",
       description: "Espacio exterior",
-      image: "/productos/letrero_luminoso3.jpg",
+      image: "/productos/letreros-luminosos-lima .3.webp",
+    },
+    {
+      title: "Cafetería",
+      description: "Espacio exterior",
+      image: "/productos/letreros-luminosos-lima .4.webp",
+    },
+     {
+      title: "Hoteles",
+      description: "Espacio exterior",
+      image: "/productos/letreros-luminosos-lima .5.webp",
     },
   ];
   const idProducto = 4;
@@ -35,7 +45,10 @@ export default function Home() {
   return (
     <>
       <ServicePopup idProducto={idProducto} productoName="LETREROS LUMINOSOS" />
-      <Banner titulo={`LETREROS\nLUMINOSOS`} imagen="/productosIndividuales/banner/letreros-luminosos2.png" />
+      <Banner titulo={`LETREROS\nLUMINOSOS`}
+        //imagen="/productosIndividuales/banner/letreros-luminosos2.png"
+        video="/productos/7.mp4"
+      />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
       <Datos idProducto={idProducto} />

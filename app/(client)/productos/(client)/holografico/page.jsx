@@ -44,7 +44,8 @@ export default function Home() {
       <ServicePopup idProducto={idProducto} productoName="HOLOGRÁFICOS" />
       <Banner
         titulo="HOLOGRÁFICOS"
-        imagen="/productosIndividuales/banner/holografico.webp"
+        //imagen="/productosIndividuales/banner/holografico.webp"
+        video="/productos/11.mp4"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />

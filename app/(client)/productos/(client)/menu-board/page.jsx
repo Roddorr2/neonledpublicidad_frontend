@@ -21,7 +21,7 @@ export default function Home() {
       alt: "Pantallas digitales con menú de bebidas, espresso y sándwiches en cafetería Gloria Jean's",
     },
     {
-      title: "Establecimiento",
+      title: "Fast Food",
       description: "Espacio interior",
       image: "/productos/menu-digital-fast-food-colleccion-del-rey.webp",
       alt: "Menú digital iluminado de comida rápida con hamburguesas, combos y pollo frito de la Colección del Rey",
@@ -32,13 +32,22 @@ export default function Home() {
       image: "/productos/pantallas-menu-digital-con-desayuno-y-hamburguesas.webp",
       alt: "Pantallas digitales de menú con desayuno, hamburguesas y acompañamientos en restaurante de comida rápida",
     },
+    {
+      title: "Heladerias",
+      description: "Espacio interior",
+      image: "/productos/En_menu_boards.webp",
+      alt: "Pantallas digitales de menú con desayuno, hamburguesas y acompañamientos en restaurante de comida rápida",
+    }
   ];
   const idProducto = 7;
 
   return (
     <>
       <ServicePopup idProducto={idProducto} productoName="MENÚ BOARDS" />
-      <Banner titulo={`MENÚ BOARDS`} imagen="/productosIndividuales/banner/menu-board.webp" />
+      <Banner titulo={`MENÚ BOARDS`}
+        //imagen="/productosIndividuales/banner/menu-board.webp"
+        video="/productos/9.mp4"
+      />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />
       <Datos idProducto={idProducto} />
