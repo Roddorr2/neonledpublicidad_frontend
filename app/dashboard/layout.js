@@ -13,7 +13,6 @@ import {
   LogOut,
   Sun,
   Moon,
-  ChevronRight,
   Home,
   Users,
   MessageSquare,
@@ -37,25 +36,70 @@ export default function RootLayout({ children }) {
   const empleadoData = safeJsonParse(getCookie("empleado"), null);
 
   const [displayName, setDisplayName] = useState(
-    empleadoData?.nombre || userData?.name || "Usuario"
+    empleadoData?.nombre || userData?.name || "Usuario",
   );
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-  // Estado simplificado para el Dark Mode
   const [darkMode, setDarkMode] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(true);
 
-  // Efecto simplificado para el tema
+  // Mapa de rutas con roles permitidos
+  const routeRolesMap = {
+    "/dashboard/empleados": ["administrador"],
+    "/dashboard/role-permission": ["administrador"],
+    "/dashboard/productos": ["administrador"],
+    "/dashboard/contactos": ["administrador", "marketing"],
+    "/dashboard/modales": ["administrador", "marketing"],
+    "/dashboard/reclamaciones": ["administrador", "marketing", "ventas"],
+    "/dashboard/blogs": ["administrador", "marketing"],
+    "/dashboard/metrics": ["administrador", "marketing"],
+    "/dashboard/clientes": ["administrador", "marketing", "ventas"],
+    "/dashboard/propuestas": ["administrador", "marketing", "ventas"],
+    "/dashboard/whatsapp": ["administrador", "marketing", "ventas"],
+    "/dashboard/user-client": ["cliente"],
+  };
+
+  // Verificar si puede acceder a la ruta actual
   useEffect(() => {
-    // Recuperar preferencia guardada
+    const currentRole = auth_service.getCurrentRole()?.toLowerCase();
+
+    // Admin puede todo
+    if (currentRole === "administrador") {
+      setIsAuthorized(true);
+      return;
+    }
+
+    // Verificar si la ruta actual requiere algún rol específico
+    let requiredRoles = null;
+    for (const [route, roles] of Object.entries(routeRolesMap)) {
+      if (pathname.startsWith(route)) {
+        requiredRoles = roles;
+        break;
+      }
+    }
+
+    // Si no requiere roles específicos, permitir acceso
+    if (!requiredRoles) {
+      setIsAuthorized(true);
+      return;
+    }
+
+    // Verificar si el usuario tiene alguno de los roles requeridos
+    if (!requiredRoles.includes(currentRole)) {
+      setIsAuthorized(false);
+      router.push("/dashboard/main");
+    } else {
+      setIsAuthorized(true);
+    }
+  }, [pathname, router]);
+
+  // Efecto para el tema
+  useEffect(() => {
     const savedMode = localStorage.getItem("darkMode") === "true";
     setDarkMode(savedMode);
-
-    // Aplicar tema inmediatamente
     document.documentElement.classList.toggle("dark", savedMode);
   }, []);
 
-  // Manejar cambios de tema
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
     localStorage.setItem("darkMode", darkMode.toString());
@@ -76,7 +120,6 @@ export default function RootLayout({ children }) {
     }
   };
 
-  // Get current section name
   const getSectionName = () => {
     if (pathname === "/dashboard/main") return "Panel Principal";
     const section = pathname.slice(pathname.indexOf("/", 1) + 1);
@@ -84,6 +127,38 @@ export default function RootLayout({ children }) {
       section.charAt(0).toUpperCase() + section.slice(1).replace(/-/g, " ")
     );
   };
+
+  // Función para verificar si un link debe mostrarse según el rol
+  const shouldShowLink = (link) => {
+    const currentRole = auth_service.getCurrentRole()?.toLowerCase();
+
+    // Si tiene roles definidos (nuevo formato)
+    if (link.roles) {
+      return link.roles.includes(currentRole);
+    }
+
+    // Si tiene role (formato antiguo)
+    if (link.role && !auth_service.hasRole(link.role)) {
+      return false;
+    }
+
+    // Si tiene permission
+    if (link.permission && !auth_service.hasPermission(link.permission)) {
+      return false;
+    }
+
+    // Si requiere cuenta verificada
+    if (link.requiresVerifiedAccount && !auth_service.isVerifiedAccount()) {
+      return false;
+    }
+
+    return true;
+  };
+
+  // Si no está autorizado, no renderizar nada mientras redirige
+  if (!isAuthorized) {
+    return null;
+  }
 
   return (
     <DisplayNameContext.Provider
@@ -125,19 +200,7 @@ export default function RootLayout({ children }) {
             <nav className="flex-1 overflow-y-auto py-4 px-3">
               <ul className="space-y-1 whitespace-nowrap">
                 {dashboardLinks.map((link) => {
-                  if (
-                    link.permission &&
-                    !auth_service.hasPermission(link.permission)
-                  )
-                    return null;
-                  if (link.role && !auth_service.hasRole(link.role))
-                    return null;
-
-                  if (
-                    link.requiresVerifiedAccount &&
-                    !auth_service.isVerifiedAccount()
-                  )
-                    return null;
+                  if (!shouldShowLink(link)) return null;
 
                   const Icon = link.icon;
 
@@ -305,7 +368,7 @@ export default function RootLayout({ children }) {
   );
 }
 
-// Navigation link component simplificado
+// Navigation link component
 function NavLink({ href, title, icon, isActive, isCollapsed }) {
   return (
     <li>
