@@ -1,67 +1,81 @@
-"use client"
-import { useEffect, useState } from "react"
-import { getCookie, deleteCookie, setCookie } from "cookies-next"
-import { useSearchParams, useRouter } from "next/navigation"
-import { User, Mail, Phone, BadgeIcon, Shield, ArrowLeft, Edit, KeyRound, Loader2 } from "lucide-react"
+"use client";
+import { useEffect, useState } from "react";
+import { getCookie, deleteCookie, setCookie } from "cookies-next";
+import { useSearchParams, useRouter } from "next/navigation";
+import {
+  User,
+  Mail,
+  Phone,
+  BadgeIcon,
+  Shield,
+  ArrowLeft,
+  Edit,
+  KeyRound,
+  Loader2,
+} from "lucide-react";
 
-import ModalEmpleado from "../empleados/components/modal_empleado"
-import ModalCliente from "../user-client/components/modal_cliente"
+import ModalEmpleado from "../empleados/components/modal_empleado";
+import ModalCliente from "../user-client/components/modal_cliente";
 
-import ModalUpdatePass from "../empleados/components/modal_update_password"
-import ProfileImageUpload from "../empleados/components/profile_image_upload"
+import ModalUpdatePass from "../empleados/components/modal_update_password";
+import ProfileImageUpload from "../empleados/components/profile_image_upload";
 
-import Swal from "sweetalert2"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { CldImage } from "next-cloudinary"
+import Swal from "sweetalert2";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { CldImage } from "next-cloudinary";
 
-import url from "@/api/url"
-import { safeJsonParse } from "@/lib/safe-json"
+import url from "@/api/url";
+import { safeJsonParse } from "@/lib/safe-json";
+
 export default function Page() {
-  const [userData, setUserData] = useState(null)
-  const [empleadoData, setEmpleadoData] = useState(null)
-  const [userRole, setUserRole] = useState("Usuario")
-  const [isClient, setIsClient] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [showEditModal, setShowEditModal] = useState(false)
-  const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [userData, setUserData] = useState(null);
+  const [empleadoData, setEmpleadoData] = useState(null);
+  const [userRole, setUserRole] = useState("Usuario");
+  const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
+  const [imageUrl, setImageUrl] = useState(null);
 
-  const [imageUrl, setImageUrl] = useState(null)
-  const [imageVersion, setImageVersion] = useState(null)
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const empleadoId = searchParams.get("id_empleado");
+  const api_url = `${url}/api/empleados`;
 
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const empleadoId = searchParams.get("id_empleado")
-  const api_url = `${url}/api/empleados`
-
-  const [showEditModalCliente, setShowEditModalCliente] = useState(false)
-
+  const [showEditModalCliente, setShowEditModalCliente] = useState(false);
 
   useEffect(() => {
-    setIsClient(true)
+    setIsClient(true);
 
     const loadData = async () => {
-      console.log(empleadoId)
+      //console.log(empleadoId);
+
+      // ============================================================
+      // CASO 1: Hay un id_empleado en la URL
+      // Esto significa que un ADMIN está viendo el perfil de OTRO empleado
+      // Aquí SÍ se necesita fetch y SÍ debe validar que sea admin
+      // ============================================================
       if (empleadoId) {
-        const userRole = getCookie("rol")
+        const userRole = getCookie("rol");
         if (userRole !== "administrador") {
           Swal.fire({
             icon: "error",
             title: "Acceso denegado",
             text: "No tienes permiso para ver este perfil.",
             confirmButtonColor: "var(--azul_cobalto)",
-          })
-          setIsLoading(false)
-          return
+          });
+          setIsLoading(false);
+          return;
         }
 
         try {
-          const token = getCookie("token")
+          const token = getCookie("token");
           if (!token) {
-            throw new Error("No se encontró el token de autenticación")
+            throw new Error("No se encontró el token de autenticación");
           }
 
           const response = await fetch(`${api_url}/${empleadoId}`, {
@@ -70,138 +84,112 @@ export default function Page() {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
-          })
+          });
 
           if (!response.ok) {
             if (response.status === 401) {
-              deleteCookie("token")
-              router.push("/login")
+              deleteCookie("token");
+              router.push("/login");
             }
-            throw new Error(`Error ${response.status}: ${response.statusText}`)
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
           }
 
-          const data = await response.json()
+          const data = await response.json();
 
           if (data.status === 200) {
-            setEmpleadoData(data.data)
-            setUserRole(data.data.rol?.nombre || "Usuario")
+            setEmpleadoData(data.data);
+            setUserRole(data.data.rol?.nombre || "Usuario");
             setImageUrl(
               data.data.imagen_perfil_url ||
                 "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
-            )
+            );
           } else {
-            console.error("Empleado no encontrado:", data.message)
+            console.error("Empleado no encontrado:", data.message);
           }
         } catch (error) {
-          console.error("Error API:", error)
+          console.error("Error API:", error);
           Swal.fire({
             icon: "error",
             title: "Error",
             text: "Hubo un error al cargar el perfil del empleado.",
             confirmButtonColor: "var(--azul_cobalto)",
-          })
+          });
         } finally {
-          setIsLoading(false)
-        }
-      } else {
-
-        try {
-          const token = getCookie("token")
-          if (!token) {
-            throw new Error("No se encontró el token de autenticación")
-          }
-
-          const empleadoCookie = getCookie("empleado")
-          const clienteCookie = getCookie("cliente")
-          if (empleadoCookie && empleadoCookie!=="null") {
-            const empleado = safeJsonParse(empleadoCookie, null)
-            if (!empleado) throw new Error("No se pudo interpretar la cookie de empleado")
-            const idEmpleado = empleado.id_empleado
-
-            if (idEmpleado) {
-              const response = await fetch(`${api_url}/${idEmpleado}`, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                },
-              })
-
-              if (!response.ok) {
-                if (response.status === 401) {
-                  deleteCookie("token")
-                  router.push("/login")
-                }
-                throw new Error(`Error ${response.status}: ${response.statusText}`)
-              }
-
-              const data = await response.json()
-
-              if (data.status === 200) {
-                setEmpleadoData(data.data)
-                setUserRole(data.data.rol?.nombre || "Usuario")
-                setImageUrl(
-                  data.data.imagen_perfil_url ||
-                    "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
-                )
-
-                setCookie("empleado", JSON.stringify(data.data))
-              } else {
-                console.error("Error al obtener datos del empleado:", data.message)
-                setEmpleadoData(empleado)
-                setImageUrl(empleado.imagen_perfil_url)
-              }
-            }
-          }
-
-          const userCookie = getCookie("user")
-          const rolCookie = getCookie("rol")
-          if (userCookie) setUserData(safeJsonParse(userCookie, null))
-          // if (rolCookie && !userRole) setUserRole(rolCookie)
-          if (rolCookie) setUserRole(rolCookie)
-          if (clienteCookie && clienteCookie !== "null") {
-            setUserData(safeJsonParse(clienteCookie, null));
-          }
-
-  
-
-        } catch (error) {
-          console.error("Error al cargar datos del usuario:", error)
-
-          const userCookie = getCookie("user")
-          const empleadoCookie = getCookie("empleado")
-          const rolCookie = getCookie("rol")
-
-          if (empleadoCookie) {
-            const empleado = safeJsonParse(empleadoCookie, null)
-            if (empleado) {
-              setEmpleadoData(empleado)
-              setImageUrl(empleado.imagen_perfil_url)
-            }
-          }
-
-          if (userCookie) setUserData(safeJsonParse(userCookie, null))
-          if (rolCookie) setUserRole(rolCookie)
-        } finally {
-          setIsLoading(false)
+          setIsLoading(false);
         }
       }
-    }
+      // ============================================================
+      // CASO 2: NO hay id_empleado en la URL
+      // Esto significa que un usuario está viendo SU PROPIO perfil
+      // ANTES: Hacía fetch a /api/empleados/{id} y daba 403 si no era admin
+      // AHORA: Usa SOLO los datos de las cookies (sin fetch)
+      // ============================================================
+      else {
+        try {
+          // Obtener datos directamente de las cookies
+          const empleadoCookie = getCookie("empleado");
+          const clienteCookie = getCookie("cliente");
+          const userCookie = getCookie("user");
+          const rolCookie = getCookie("rol");
 
-    loadData()
-  }, [empleadoId, router])
+          // 🔥 CAMBIO IMPORTANTE: Ya NO se hace fetch a /api/empleados/{id}
+          // Se usan los datos que ya están guardados en la cookie desde el login
+
+          // Cargar datos de empleado desde cookie
+          if (empleadoCookie && empleadoCookie !== "null") {
+            const empleado = safeJsonParse(empleadoCookie, null);
+            if (empleado) {
+              setEmpleadoData(empleado);
+              setUserRole(empleado.rol?.nombre || rolCookie || "Usuario");
+              setImageUrl(
+                empleado.imagen_perfil_url ||
+                  "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
+              );
+            }
+          }
+
+          // Cargar datos de cliente desde cookie
+          if (clienteCookie && clienteCookie !== "null") {
+            const cliente = safeJsonParse(clienteCookie, null);
+            if (cliente) {
+              setUserData(cliente);
+            }
+          }
+
+          // Cargar user y rol desde cookies
+          if (userCookie) setUserData(safeJsonParse(userCookie, null));
+          if (rolCookie) setUserRole(rolCookie);
+        } catch (error) {
+          console.error("Error al cargar datos del usuario:", error);
+
+          // Fallback: intentar cargar desde cookies nuevamente
+          const empleadoCookie = getCookie("empleado");
+          const userCookie = getCookie("user");
+          const rolCookie = getCookie("rol");
+
+          if (empleadoCookie) {
+            const empleado = safeJsonParse(empleadoCookie, null);
+            if (empleado) {
+              setEmpleadoData(empleado);
+              setImageUrl(empleado.imagen_perfil_url);
+            }
+          }
+
+          if (userCookie) setUserData(safeJsonParse(userCookie, null));
+          if (rolCookie) setUserRole(rolCookie);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadData();
+  }, [empleadoId, router]);
 
   const handleUpdateSuccess = (updatedData) => {
-    setEmpleadoData(updatedData)
-    setImageUrl(updatedData.imagen_perfil_url)
-  }
-
-  const getVersionedImageUrl = (rawUrl) => {
-    if (!rawUrl) return rawUrl
-    if (!imageVersion) return rawUrl
-    const separator = rawUrl.includes("?") ? "&" : "?"
-    return `${rawUrl}${separator}v=${imageVersion}`
-  }
+    setEmpleadoData(updatedData);
+    setImageUrl(updatedData.imagen_perfil_url);
+  };
 
   const handleDeleteProfileImage = async () => {
     try {
@@ -214,12 +202,12 @@ export default function Page() {
         cancelButtonColor: "#d33",
         confirmButtonText: "Sí, eliminar",
         cancelButtonText: "Cancelar",
-      })
+      });
 
-      if (!confirmResult.isConfirmed) return
+      if (!confirmResult.isConfirmed) return;
 
-      const token = getCookie("token")
-      const empleadoIdToUpdate = empleadoId || empleadoData?.id_empleado
+      const token = getCookie("token");
+      const empleadoIdToUpdate = empleadoId || empleadoData?.id_empleado;
 
       const response = await fetch(`${api_url}/${empleadoIdToUpdate}/image`, {
         method: "DELETE",
@@ -227,36 +215,35 @@ export default function Page() {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
-      })
+      });
 
-      if (!response.ok) throw new Error(`Error ${response.status}`)
+      if (!response.ok) throw new Error(`Error ${response.status}`);
 
       setImageUrl(
         "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
-      )
-      setImageVersion(Date.now())
+      );
       setEmpleadoData((prev) => ({
         ...prev,
         imagen_perfil: null,
         imagen_perfil_url: null,
-      }))
+      }));
 
       Swal.fire({
         icon: "success",
         title: "Foto eliminada",
         text: "La foto de perfil se ha eliminado correctamente",
         confirmButtonColor: "var(--azul_cobalto)",
-      })
+      });
     } catch (error) {
-      console.error("Error al eliminar:", error)
+      console.error("Error al eliminar:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
         text: "No se pudo eliminar la foto de perfil",
         confirmButtonColor: "var(--azul_cobalto)",
-      })
+      });
     }
-  }
+  };
 
   if (isLoading) {
     return (
@@ -264,39 +251,52 @@ export default function Page() {
         <Loader2 className="h-10 w-10 text-[#1056d2] animate-spin mb-3" />
         <p className="text-[#1056d2] font-medium text-sm">Cargando perfil...</p>
       </div>
-    )
+    );
   }
 
-console.log(userData)
-  const nombre = empleadoData?.nombre || userData?.nombre || "No disponible"
-  const apellido = empleadoData?.apellido || userData?.apellido || "No disponible"
-  const dni = empleadoData?.dni || userData?.dni || "No disponible"
-  const displayName = `${nombre} ${apellido}`
-  const email = empleadoData?.email || userData?.email || "No disponible"
-  const telefono = empleadoData?.telefono || userData?.telefono || "No disponible"
+  //console.log(userData);
+  const nombre = empleadoData?.nombre || userData?.nombre || "No disponible";
+  const apellido =
+    empleadoData?.apellido || userData?.apellido || "No disponible";
+  const dni = empleadoData?.dni || userData?.dni || "No disponible";
+  const displayName = `${nombre} ${apellido}`;
+  const email = empleadoData?.email || userData?.email || "No disponible";
+  const telefono =
+    empleadoData?.telefono || userData?.telefono || "No disponible";
 
   const getRolePermissions = (role) => {
     switch (role.toLowerCase()) {
       case "administrador":
-        return ["Acceso Total", "Gestión de Empleados", "Reportes", "Configuración"]
+        return [
+          "Acceso Total",
+          "Gestión de Empleados",
+          "Reportes",
+          "Configuración",
+        ];
       case "marketing":
-        return ["Gestión de Contenido", "Campañas", "Análisis"]
+        return ["Gestión de Contenido", "Campañas", "Análisis"];
       case "ventas":
-        return ["Registro de Ventas", "Clientes", "Cotizaciones"]
+        return ["Registro de Ventas", "Clientes", "Cotizaciones"];
       default:
-        return ["Acceso Básico"]
+        return ["Acceso Básico"];
     }
-  }
+  };
 
-  const permissions = getRolePermissions(userRole)
+  const permissions = getRolePermissions(userRole);
 
   return (
     <div className="container mx-auto py-6 px-4 max-w-5xl">
       <Card className="overflow-hidden border-none shadow-md dark:bg-gray-800/95 dark:border dark:border-gray-700">
         <div className="bg-[#1056d2] p-4 text-white">
           <div className="flex justify-between items-center">
-            {empleadoId && <h1 className="text-xl md:text-2xl font-bold">Perfil del Empleado</h1>}
-            {!empleadoId && <h1 className="text-xl md:text-2xl font-bold">Mi Perfil</h1>}
+            {empleadoId && (
+              <h1 className="text-xl md:text-2xl font-bold">
+                Perfil del Empleado
+              </h1>
+            )}
+            {!empleadoId && (
+              <h1 className="text-xl md:text-2xl font-bold">Mi Perfil</h1>
+            )}
             {empleadoId && (
               <Button
                 variant="secondary"
@@ -317,29 +317,22 @@ console.log(userData)
             <div className="md:w-1/3">
               <div className="flex flex-col items-center">
                 <div className="relative">
-                  {(empleadoData?.imagen_perfil_url || empleadoData?.imagen_perfil) ? (
+                  {empleadoData?.imagen_perfil_url &&
+                  empleadoData?.imagen_perfil ? (
                     <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-[#03c4ff] shadow-md">
-                      {empleadoData?.imagen_perfil_url?.startsWith("http") ? (
-                        <img
-                          src={getVersionedImageUrl(empleadoData.imagen_perfil_url)}
-                          alt={`${nombre} ${apellido}`}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <CldImage
-                          width={280}
-                          height={280}
-                          src={empleadoData.imagen_perfil || empleadoData.imagen_perfil_url}
-                          alt={`${nombre} ${apellido}`}
-                          className="w-full h-full object-cover"
-                          priority
-                          crop="fill"
-                          gravity="faces"
-                          quality="auto"
-                          fetchPriority="high"
-                          sizes="(max-width: 768px) 100vw, 280px"
-                        />
-                      )}
+                      <CldImage
+                        width={280}
+                        height={280}
+                        src={empleadoData.imagen_perfil}
+                        alt={`${nombre} ${apellido}`}
+                        className="w-full h-full object-cover"
+                        priority
+                        crop="fill"
+                        gravity="faces"
+                        quality="auto"
+                        fetchPriority="high"
+                        sizes="(max-width: 768px) 100vw, 280px"
+                      />
                     </div>
                   ) : (
                     <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-[#1056d2] flex items-center justify-center text-white text-3xl font-bold shadow-md border-2 border-[#03c4ff]">
@@ -351,38 +344,40 @@ console.log(userData)
                     {userRole.charAt(0).toUpperCase() + userRole.slice(1)}
                   </Badge>
 
-                  {!empleadoId &&  userRole !== "cliente" &&(
+                  {!empleadoId && userRole !== "cliente" && (
                     <div className="mt-2">
                       <ProfileImageUpload
                         empleadoId={empleadoData?.id_empleado}
-                        onImageUpload={(url, publicId, version) => {
-                          setImageUrl(url)
-                          setImageVersion(version || Date.now())
+                        onImageUpload={(url, publicId) => {
+                          setImageUrl(url);
                           setEmpleadoData((prev) => ({
                             ...prev,
                             imagen_perfil: publicId,
                             imagen_perfil_url: url,
-                          }))
+                          }));
                         }}
                       />
                     </div>
                   )}
                 </div>
 
-                <h2 className="mt-3 text-xl font-bold text-gray-800 dark:text-white">{displayName}</h2>
-                <p className="text-gray-500 text-sm dark:text-gray-300">{email}</p>
+                <h2 className="mt-3 text-xl font-bold text-gray-800 dark:text-white">
+                  {displayName}
+                </h2>
+                <p className="text-gray-500 text-sm dark:text-gray-300">
+                  {email}
+                </p>
 
                 {!empleadoId && (
                   <div className="mt-4 w-full space-y-2">
                     <div className="flex w-full gap-2">
                       <Button
                         variant="outline"
-                        // onClick={() => setShowEditModal(true)}
-                          onClick={() =>
-                            userRole === "cliente"
-                              ? setShowEditModalCliente(true)
-                              : setShowEditModal(true)
-                          }
+                        onClick={() =>
+                          userRole === "cliente"
+                            ? setShowEditModalCliente(true)
+                            : setShowEditModal(true)
+                        }
                         className="flex-1 text-sm dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
                       >
                         <Edit className="mr-1.5 h-3.5 w-3.5" />
@@ -396,11 +391,23 @@ console.log(userData)
                         title="Eliminar foto de perfil"
                         disabled={!empleadoData?.imagen_perfil}
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 48 48"
+                        >
                           <defs>
                             <mask id="ipTPeopleDeleteOne0">
-                              <g fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4">
-                                <path fill="#555555" d="M19 20a7 7 0 1 0 0-14a7 7 0 0 0 0 14" />
+                              <g
+                                fill="none"
+                                stroke="#fff"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="4"
+                              >
+                                <path
+                                  fill="#555555"
+                                  d="M19 20a7 7 0 1 0 0-14a7 7 0 0 0 0 14"
+                                />
                                 <path d="m42 15l-8 8m0-8l8 8" />
                                 <path
                                   fill="#555555"
@@ -409,7 +416,11 @@ console.log(userData)
                               </g>
                             </mask>
                           </defs>
-                          <path fill="#03c4ff" d="M0 0h48v48H0z" mask="url(#ipTPeopleDeleteOne0)" />
+                          <path
+                            fill="#03c4ff"
+                            d="M0 0h48v48H0z"
+                            mask="url(#ipTPeopleDeleteOne0)"
+                          />
                         </svg>
                       </Button>
                     </div>
@@ -430,38 +441,56 @@ console.log(userData)
             <div className="md:w-2/3 ">
               <Card className="border border-gray-200 dark:border-gray-700 dark:bg-gray-800/80">
                 <CardHeader className="py-3 px-4 ">
-                  <CardTitle className="text-base text-[#1056d2] dark:text-[#03c4ff]">Información Personal</CardTitle>
+                  <CardTitle className="text-base text-[#1056d2] dark:text-[#03c4ff]">
+                    Información Personal
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="py-1 px-4">
                   <div className="flex items-center">
                     <User className="h-4 w-4 text-[#1056d2] dark:text-[#03c4ff] mr-2.5" />
                     <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Nombre Completo</p>
-                      <p className="font-medium text-sm dark:text-gray-200">{displayName}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Nombre Completo
+                      </p>
+                      <p className="font-medium text-sm dark:text-gray-200">
+                        {displayName}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex items-center">
                     <BadgeIcon className="h-4 w-4 text-[#1056d2] dark:text-[#03c4ff] mr-2.5" />
                     <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">DNI</p>
-                      <p className="font-medium text-sm dark:text-gray-200">{dni}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        DNI
+                      </p>
+                      <p className="font-medium text-sm dark:text-gray-200">
+                        {dni}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex items-center">
                     <Mail className="h-4 w-4 text-[#1056d2] dark:text-[#03c4ff] mr-2.5" />
                     <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Correo Electrónico</p>
-                      <p className="font-medium text-sm dark:text-gray-200">{email}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Correo Electrónico
+                      </p>
+                      <p className="font-medium text-sm dark:text-gray-200">
+                        {email}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex items-center">
                     <Phone className="h-4 w-4 text-[#1056d2] dark:text-[#03c4ff] mr-2.5" />
                     <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Teléfono</p>
-                      <p className="font-medium text-sm dark:text-gray-200">{telefono}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Teléfono
+                      </p>
+                      <p className="font-medium text-sm dark:text-gray-200">
+                        {telefono}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -469,7 +498,9 @@ console.log(userData)
 
               <Card className="mt-4 border border-gray-200 dark:border-gray-700 dark:bg-gray-800/80">
                 <CardHeader className="py-3 px-4">
-                  <CardTitle className="text-base text-[#1056d2] dark:text-[#03c4ff]">Acceso al Sistema</CardTitle>
+                  <CardTitle className="text-base text-[#1056d2] dark:text-[#03c4ff]">
+                    Acceso al Sistema
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="py-1 px-2">
                   <div className="flex items-center">
@@ -477,15 +508,21 @@ console.log(userData)
                       <Shield className="h-4 w-4 text-[#1056d2] dark:text-[#03c4ff]" />
                     </div>
                     <div className="ml-3">
-                      <h3 className="text-sm font-medium dark:text-gray-300">Rol de Usuario</h3>
-                      <p className="text-[#1056d2] dark:text-[#03c4ff] font-semibold text-sm">{userRole}</p>
+                      <h3 className="text-sm font-medium dark:text-gray-300">
+                        Rol de Usuario
+                      </h3>
+                      <p className="text-[#1056d2] dark:text-[#03c4ff] font-semibold text-sm">
+                        {userRole}
+                      </p>
                     </div>
                   </div>
 
                   <Separator className="my-3" />
 
                   <div>
-                    <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Permisos</h4>
+                    <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+                      Permisos
+                    </h4>
                     <div className="flex flex-wrap gap-1.5">
                       {permissions.map((permission, index) => (
                         <Badge
@@ -528,7 +565,10 @@ console.log(userData)
         />
       )}
       {showPasswordModal && (
-        <ModalUpdatePass isVisible={showPasswordModal} onClose={() => setShowPasswordModal(false)} />
+        <ModalUpdatePass
+          isVisible={showPasswordModal}
+          onClose={() => setShowPasswordModal(false)}
+        />
       )}
 
       {showEditModalCliente && (
@@ -537,11 +577,10 @@ console.log(userData)
           onClose={() => setShowEditModalCliente(false)}
           data={userData}
           onUpdateSuccessClient={(updatedClient) => {
-            setUserData(updatedClient); 
+            setUserData(updatedClient);
           }}
         />
       )}
     </div>
-  )
+  );
 }
-

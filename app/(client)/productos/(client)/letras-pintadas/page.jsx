@@ -3,7 +3,7 @@ import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+import ServicePopup from "../components/ServicePopup";
 
 export default function Home() {
   const cards = [
@@ -33,24 +33,26 @@ export default function Home() {
       image: "/productos/letras-mdf-retroiluminadas-marks-and-spencer.webp",
       alt: "Letras pintadas en MDF retroiluminadas del letrero Marks & Spencer en tienda comercial",
     },
-  ];
-  const idProducto = 8;
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/LetrasMDF.webp",
-      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "8",
-      width: 256,
-      height: 144,
+    // Nueva 4ta sección agregada
+    {
+      title: "Eventos",
+      description: "Espacio interior",
+      image: "/productos/En-letras-pintadas-eventos.webp",
+      alt: "Letras pintadas en MDF para decoración de eventos",
     },
-  };
+  ];
+
+  const idProducto = 8;
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ServicePopup
+        idProducto={idProducto}
+        productoName="LETRAS PINTADAS EN MDF"
+      />
       <Banner
         titulo={`LETRAS PINTADAS\nEN MDF`}
-        imagen="/productosIndividuales/banner/letras-pintadas.webp"
+        video="/productos/3.mp4"
+        //imagen="/productosIndividuales/banner/1920x1080.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />

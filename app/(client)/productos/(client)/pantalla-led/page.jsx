@@ -3,7 +3,8 @@ import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+import ServicePopup from "../components/ServicePopup";
+
 export default function Home() {
   const cards = [
     {
@@ -19,39 +20,36 @@ export default function Home() {
     {
       title: "Tienda de ropa",
       description: "Espacio interior",
-      image: "/productos/pantalla-led-programa-kelly-clarkson-show.webp",
+      image: "/productos/pantallas-led-lima-.1.webp",
       alt: "Pantalla LED en set de televisión mostrando el logo del programa The Kelly Clarkson Show",
     },
     {
-      title: "Tienda de calzado",
+      title: "Evento",
       description: "Espacio interior",
-      image: "/productos/pantalla-led-publicitaria-tienda-zapatos-mujer.webp",
+      image: "/productos/pantallas-led-lima-.2.webp",
       alt: "Pantalla LED vertical en tienda de calzado mostrando publicidad de moda femenina",
     },
     {
       title: "Centro comercial",
       description: "Espacio interior",
-      image: "/productos/pantalla-led-gigante-publicidad-20th-century-fox.webp",
+      image: "/productos/pantallas-led-lima .3.webp",
       alt: "Pantalla LED gigante en interior transmitiendo animación de 20th Century Fox",
+    },
+    {
+      title: "Fast food",
+      description: "Espacio interior",
+      image: "/productos/pantalla-led-lima 4.webp",
+      alt: "Fast food pizzería Bella",
     },
   ];
   const idProducto = 10;
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/PantallasLed.webp",
-      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "10",
-      width: 256,
-      height: 144,
-    },
-  };
+
   return (
     <>
-      <ModalProductoScroll data={modales} />
+      <ServicePopup idProducto={idProducto} productoName="PANTALLAS LED" />
       <Banner
         titulo={`PANTALLAS\nLED`}
-        imagen="/productosIndividuales/banner/pantalla-led.webp"
+        imagen="/productosIndividuales/banner/Pantalla-led-portada.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />

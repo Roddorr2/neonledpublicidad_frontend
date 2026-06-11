@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { User, Lock, ArrowLeft, AlertCircle } from "lucide-react";
+import { User, Lock, ArrowLeft, AlertCircle, Sun, Moon } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import Header from "../../(client)/components/header/Header";
 import Footer from "../../(client)/components/footer/Footer";
 import { useAuth } from "@/app/context/AutContext";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { keyframes } from "framer-motion";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -19,6 +20,7 @@ export default function LoginPage() {
   const [turnstileToken, setTurnstileToken] = useState(null);
   const [cooldownTime, setCooldownTime] = useState(0);
   const [errorType, setErrorType] = useState("credentials");
+  const [darkMode, setDarkMode] = useState(true);
   const turnstileRef = useRef(null);
   const { login } = useAuth();
   const router = useRouter();
@@ -43,7 +45,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     if (cooldownTime > 0) {
-      setErrorType(true);
+      setError(true);
       setErrorType("rate_limit");
       setErrorMessage(
         `Por favor, espera ${cooldownTime} segundos antes de intentar nuevamente.`,
@@ -57,10 +59,11 @@ export default function LoginPage() {
     setErrorType("credentials");
 
     if (!turnstileToken) {
-      setErrorType(true);
+      setError(true);
       setErrorType("captcha");
       setErrorMessage("Por favor completa la verificación de seguridad");
       setLoadingForm(false);
+      return;
     }
 
     try {
@@ -92,13 +95,12 @@ export default function LoginPage() {
       case 429:
         setErrorType("rate_limit");
         setErrorMessage(message);
-
         const minutosMatch = message.match(/(\d+)\s*minutos?/);
         if (minutosMatch) {
           const minutos = parseInt(minutosMatch[1]);
           setCooldownTime(minutos * 60);
         } else {
-          setColldownTime(60);
+          setCooldownTime(60);
         }
         break;
 
@@ -106,13 +108,14 @@ export default function LoginPage() {
         setErrorType("captcha");
         setErrorMessage(
           message ||
-            "Error de verificación de seguridad. Inténtalo nuevamnete.",
+            "Error de verificación de seguridad. Inténtalo nuevamente.",
         );
         break;
 
       case 401:
         setErrorType("credentials");
         setErrorMessage(message || "Usuario o contraseña incorrectos");
+        break;
 
       default:
         setErrorType("credentials");
@@ -129,32 +132,77 @@ export default function LoginPage() {
   const renderErrorMessage = () => {
     if (!error) return null;
 
-    const styles = {
-      credentials: "bg-red-50 border-1-4 border-red-500",
-      rate_limit: "bg-orange-50 border-1-4 border-orange-500",
-      captcha: "bg-yellow-50 border-1-4 border-yellow-500",
+    const config = {
+      credentials: {
+        container: darkMode
+          ? "bg-red-500/10 border-red-500/30"
+          : "bg-red-50 border-red-200",
+        text: darkMode ? "text-red-200" : "text-red-700",
+        icon: darkMode ? "text-red-300" : "text-red-500",
+      },
+
+      rate_limit: {
+        container: darkMode
+          ? "bg-orange-500/10 border-orange-500/30"
+          : "bg-orange-50 border-orange-200",
+        text: darkMode ? "text-orange-200" : "text-orange-700",
+        icon: darkMode ? "text-orange-300" : "text-orange-500",
+      },
+
+      captcha: {
+        container: darkMode
+          ? "bg-yellow-500/10 border-yellow-500/30"
+          : "bg-yellow-50 border-yellow-200",
+        text: darkMode ? "text-yellow-200" : "text-yellow-700",
+        icon: darkMode ? "text-yellow-300" : "text-yellow-500",
+      },
     };
 
-    const icons = {
-      credentials: <AlertCircle className="w-5 h-5 text-red-500" />,
-      rate_limit: <AlertCircle className="w-5 h-5 text-orange-500" />,
-      captcha: <AlertCircle className="w-5 h-5 text-yellow-500" />,
-    };
+    const current = config[errorType];
 
     return (
-      <div className={`${styles[errorType]} p-4 mb-6 rounded-r`}>
+      <div
+        className={`
+        mb-5
+        rounded-xl
+        border
+        backdrop-blur-sm
+        px-4
+        py-3
+        animate-in
+        fade-in
+        slide-in-from-top-1
+        duration-300
+        ${current.container}
+      `}
+      >
         <div className="flex items-start gap-3">
-          {icons[errorType]}
-          <p
-            className={`text-sm ${
-              errorType === "credentials"
-                ? "text-red-700"
-                : errorType === "rate_limit"
-                  ? "text-orange-700"
-                  : "text-yellow-700"
-            }`}>
-            {errorMessage}
-          </p>
+          <div
+            className={`
+            flex-shrink-0
+            mt-0.5
+            ${current.icon}
+          `}
+          >
+            <AlertCircle className="w-4 h-4" />
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <p
+              title={errorMessage}
+              className={`
+    text-[13px]
+    leading-5
+    whitespace-nowrap
+    overflow-hidden
+    text-ellipsis
+    pr-1
+    ${current.text}
+  `}
+            >
+              {errorMessage}
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -162,155 +210,220 @@ export default function LoginPage() {
 
   return (
     <>
-      <Header />
-      <div
-        className="min-h-screen flex flex-col items-center justify-center relative bg-black text-white px-4 py-12 md:py-24 lg:py-0"
-        style={{
-          backgroundImage:
-            "url('/login/fondo.web.Neon.Led.Publicidad (1).webp')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}>
-        <Link
-          href="/"
-          className="absolute top-6 left-6 md:left-auto md:right-6">
-          <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-black/60 hover:bg-black/80 transition-all border border-white text-white">
-            <ArrowLeft className="w-4 h-4" />
-            Regresar
-          </button>
-        </Link>
+      {/* <Header /> */}
 
-        <div className="flex flex-col lg:flex-row w-full max-w-[1800px] items-center justify-center gap-14">
-          <div className="flex flex-col items-center text-center lg:w-1/2 p-6 md:p-0">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+      <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#07152d]">
+        {/* PANEL IZQUIERDO */}
+        <div
+          className="w-full h-[55vh] min-h-[420px] lg:h-auto lg:w-1/2 relative flex items-center justify-center overflow-hidden"
+          style={{
+            backgroundImage:
+              "url('/login/fondo.web.Neon.Led.Publicidad (1).webp')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/55" />
+
+          <div className="relative z-10 flex flex-col items-center text-center px-8 sm:px-12 max-w-2xl">
+            <h1 className="text-3xl xl:text-4xl font-bold text-white mb-5">
               ¡Bienvenido!
             </h1>
-            <p className="text-base md:text-lg text-gray-200 mb-6 md:mb-10">
+
+            <p className="text-base xl:text-lg text-gray-200 leading-relaxed">
               Accede a tu cuenta para gestionar tus recursos y servicios
             </p>
+
             <img
               src="/login/login.Neon.Led.Publicidad.webp"
-              alt="Ilustración de inicio de sesión"
-              className="w-full max-w-[400px] h-auto animate-float"
+              alt="Login"
+              className="w-full max-w-[220px] sm:max-w-[260px] xl:max-w-[300px] mt-8 lg:mt-10 animate-float"
             />
-          </div>
-
-          <div className="flex flex-col items-center w-full mt-8 lg:mt-0 lg:w-1/2">
-            <div className="bg-white text-gray-900 rounded-2xl shadow-2xl p-6 md:p-10 max-w-md w-full lg:h-auto">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <User className="w-8 h-8 text-black-600" />
-                </div>
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Iniciar Sesión
-                </h2>
-                <p className="text-gray-500 mt-2">
-                  Ingresa tus credenciales para continuar
-                </p>
-              </div>
-
-              {renderErrorMessage()}
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700">
-                    Usuario
-                  </label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                    <input
-                      type="text"
-                      id="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Ingresa tu usuario"
-                      className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      required
-                      disabled={cooldownTime > 0}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between items-center">
-                    <label
-                      htmlFor="password"
-                      className="block text-sm font-medium text-gray-700">
-                      Contraseña
-                    </label>
-                    <Link
-                      href="./email/"
-                      className="text-sm text-blue-500 hover:underline">
-                      ¿Olvidaste tu contraseña?
-                    </Link>
-                  </div>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                    <input
-                      type="password"
-                      id="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="Ingresa tu contraseña"
-                      className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      required
-                      disabled={cooldownTime > 0}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-center">
-                  <Turnstile
-                    ref={turnstileRef}
-                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-                    onSuccess={(token) => setTurnstileToken(token)}
-                    onExpire={() => setTurnstileToken(null)}
-                    onError={() => setTurnstileToken(null)}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loadingForm}
-                  className={`w-full py-3 rounded-lg font-semibold transition-all ${
-                    loadingForm || cooldownTime > 0
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue-600 hover:bg-blue-700"
-                  } text-white`}>
-                  {loadingForm
-                    ? "Iniciando sesión..."
-                    : cooldownTime > 0
-                      ? `Esperar ${cooldownTime} segundos`
-                      : "Iniciar sesión"}
-                </button>
-              </form>
-            </div>
-
-            <div className="text-center text-sm text-white mt-8">
-              © {new Date().getFullYear()} Neon Led Publicidad. Todos los
-              derechos reservados.
-            </div>
           </div>
         </div>
 
-        <style jsx>{`
-          @keyframes float {
-            0%,
-            100% {
-              transform: translateY(0);
-            }
-            50% {
-              transform: translateY(-20px);
-            }
-          }
-          .animate-float {
-            animation: float 6s ease-in-out infinite;
-          }
-        `}</style>
+        {/* PANEL DERECHO */}
+        <div className="relative w-full lg:w-1/2 flex items-start lg:items-center justify-center px-6 py-8">
+          {/* BOTÓN REGRESAR */}
+          <div className="absolute top-5 left-5 z-30">
+            <Link href="/">
+              <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all bg-[#13233f] hover:bg-[#1c3157] text-white shadow-lg">
+                <ArrowLeft className="w-5 h-5" />
+                Regresar
+              </button>
+            </Link>
+          </div>
+
+          {/* BOTÓN DARK MODE */}
+          <div className="absolute top-6 right-6 z-20">
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="w-11 h-11 rounded-lg flex items-center justify-center transition-all bg-[#13233f] hover:bg-[#1c3157] shadow-lg"
+            >
+              {darkMode ? (
+                <Moon className="w-5 h-5 text-white" />
+              ) : (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              )}
+            </button>
+          </div>
+
+          {/* FORMULARIO */}
+          <div
+            className={`w-full max-w-[380px] mt-10 lg:mt-0 rounded-2xl border p-5 md:p-6 shadow-2xl transition-all duration-300 ${
+              darkMode
+                ? "bg-[#13233f] border-[#22385f]"
+                : "bg-white border-gray-200"
+            }`}
+          >
+            <div className="text-center mb-6">
+              <div
+                className={`w-14 h-14 mx-auto rounded-full flex items-center justify-center mb-6 ${
+                  darkMode ? "bg-blue-500/20" : "bg-blue-100"
+                }`}
+              >
+                <User
+                  className={`w-7 h-7 ${
+                    darkMode ? "text-blue-300" : "text-blue-600"
+                  }`}
+                />
+              </div>
+
+              <h2
+                className={`text-2xl md:text-3xl font-bold ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
+                Iniciar Sesión
+              </h2>
+
+              <p
+                className={`mt-2 text-sm ${
+                  darkMode ? "text-gray-400" : "text-gray-500"
+                }`}
+              >
+                Ingresa tus credenciales para continuar
+              </p>
+            </div>
+
+            {renderErrorMessage()}
+
+            <form onSubmit={handleSubmit} className="space-y-7">
+              <div>
+                <label
+                  htmlFor="email"
+                  className={`block text-sm mb-2 font-medium ${
+                    darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
+                  Usuario
+                </label>
+
+                <div className="relative">
+                  <User className="absolute left-4 top-4 w-5 h-5 text-gray-400" />
+
+                  <input
+                    type="text"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Ingresa tu usuario"
+                    className={`w-full h-11 pl-12 pr-4 rounded-md border transition-all focus:ring-2 focus:ring-blue-500 outline-none ${
+                      darkMode
+                        ? "bg-[#0d1b33] border-[#31486d] text-white placeholder-gray-500"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
+                    required
+                    disabled={cooldownTime > 0}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label
+                    htmlFor="password"
+                    className={`block text-sm font-medium ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
+                  >
+                    Contraseña
+                  </label>
+
+                  <Link
+                    href="./email/"
+                    className="text-sm text-blue-400 hover:text-blue-300"
+                  >
+                    ¿Olvidaste tu contraseña?
+                  </Link>
+                </div>
+
+                <div className="relative">
+                  <Lock className="absolute left-4 top-4 w-5 h-5 text-gray-400" />
+
+                  <input
+                    type="password"
+                    id="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Ingresa tu contraseña"
+                    className={`w-full h-11 pl-12 pr-4 rounded-md border transition-all focus:ring-2 focus:ring-blue-500 outline-none ${
+                      darkMode
+                        ? "bg-[#0d1b33] border-[#31486d] text-white placeholder-gray-500"
+                        : "bg-white border-gray-300 text-gray-900"
+                    }`}
+                    required
+                    disabled={cooldownTime > 0}
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-center pt-2">
+                <Turnstile
+                  ref={turnstileRef}
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onExpire={() => setTurnstileToken(null)}
+                  onError={() => setTurnstileToken(null)}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loadingForm || cooldownTime > 0}
+                className={`w-full h-11 text-base rounded-md font-semibold transition-all ${
+                  loadingForm || cooldownTime > 0
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700"
+                } text-white`}
+              >
+                {loadingForm
+                  ? "Iniciando sesión..."
+                  : cooldownTime > 0
+                    ? `Esperar ${cooldownTime} segundos`
+                    : "Iniciar sesión"}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-      <Footer />
+      <style jsx>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+      `}</style>
+
+      {/* <Footer /> */}
     </>
   );
 }

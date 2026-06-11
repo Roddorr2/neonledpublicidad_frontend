@@ -15,7 +15,7 @@ const productosInfo = [
     keywords: {
       "letras de acrílico 3D": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=letras-acrilicas-3d-moda",
+        url: "https://ledneonpublicidad.com/blog/letras-acrilicas-3d-moda/",
       },
     },
   },
@@ -28,7 +28,7 @@ const productosInfo = [
     keywords: {
       "Letras corpóreas retroiluminadas": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=letras-dyp-con-elegancia",
+        url: "https://ledneonpublicidad.com/blog/letras-dyp-con-elegancia/",
       },
     },
   },
@@ -41,7 +41,7 @@ const productosInfo = [
     keywords: {
       "Letras corpóreas retroiluminadas": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=letras-dyp-con-elegancia",
+        url: "https://ledneonpublicidad.com/blog/letras-dyp-con-elegancia/",
       },
     },
   },
@@ -54,7 +54,7 @@ const productosInfo = [
     keywords: {
       "letreros luminosos 3D": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=discotecas-que-brillan",
+        url: "https://ledneonpublicidad.com/blog/discotecas-que-brillan/",
       },
     },
   },
@@ -68,7 +68,7 @@ const productosInfo = [
     keywords: {
       "letras de neón": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=neon-led-para-bares-modernos",
+        url: "https://ledneonpublicidad.com/blog/neon-led-para-bares-modernos/",
       },
     },
   },
@@ -82,8 +82,8 @@ const productosInfo = [
     keywords: {
       "vinilos decorativos": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=neon-led-para-bares-modernos",
-      }, 
+        url: "https://ledneonpublicidad.com/blog/neon-led-para-bares-modernos/",
+      },
     },
   },
   {
@@ -97,7 +97,7 @@ const productosInfo = [
     keywords: {
       "menú boards personalizados": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=cafeterias-con-estilo",
+        url: "https://ledneonpublicidad.com/blog/cafeterias-con-estilo/",
       },
     },
   },
@@ -127,7 +127,7 @@ const productosInfo = [
     keywords: {
       "Pantallas led para publicidad": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=pantallas-led-para-locales",
+        url: "https://ledneonpublicidad.com/blog/pantallas-led-para-locales/",
       },
     },
   },
@@ -149,7 +149,7 @@ const productosInfo = [
     keywords: {
       "Pixel LED": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=led-pixel-para-discotecas",
+        url: "https://ledneonpublicidad.com/blog/led-pixel-para-discotecas/",
       },
     },
   },
@@ -163,7 +163,7 @@ const productosInfo = [
     keywords: {
       "sillas con luces LED": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=sillas-luminosas-para-eventos",
+        url: "https://ledneonpublicidad.com/blog/sillas-luminosas-para-eventos/",
       },
     },
   },
@@ -177,7 +177,7 @@ const productosInfo = [
     keywords: {
       "techos decorados con led": {
         type: "external",
-        url: "https://ledneonpublicidad.com/blog/plantilla2/?blog=techos-led-para-gimnasios",
+        url: "https://ledneonpublicidad.com/blog/techos-led-para-gimnasios/",
       },
     },
   },
@@ -188,6 +188,14 @@ const productosInfo = [
       "Tubos de vidrio se adaptan cualquier forma, creando letras de neón que se pueden personalizar según las preferencias del cliente. Además estos letreros neón pueden ser elementos decorativos o publicitarios que se caracterizan por su luminosidad y estética definitiva.",
     image: "letras_neon_de_vidrio_ledneonpublicidad.webp",
     alt: "laptop con fondo de pantalla de letras neón en tubo de vidrio",
+  },
+  {
+    id: 16,
+    title: "CAJAS LUMINOSAS",
+    description:
+      "Nuestras cajas luminosas son una solución de publicidad visual de alto impacto, que integra sistemas de retroiluminación LED de última generación para ofrecer una exhibición de marca nítida y brillante. Estas cajas de luz no solo optimizan la visibilidad de tu negocio las 24 horas, sino que también garantizan un consumo energético eficiente con un diseño moderno y minimalista.",
+    image: "cajas-luminosas-cafeteria-restaurante.webp",
+    alt: "Caja luminosa LED instalada en fachada comercial con alta visibilidad nocturna",
   },
 ];
 

@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build-prod": "set NODE_ENV=production && next build",
+    "clean-build": "(if exist .next rmdir /s /q .next) && npm run build",
+    "clean-build-prod": "(if exist .next rmdir /s /q .next) && npm run build-prod",
     "start": "next start",
     "lint": "next lint"
   },
@@ -19,7 +22,7 @@
     "@fortawesome/react-fontawesome": "github:fortawesome/react-fontawesome",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^4.1.3",
-    "@marsidev/react-turnstile": "^1.4.2",
+    "@marsidev/react-turnstile": "^1.5.2",
     "@mui/icons-material": "^7.0.0",
     "@mui/material": "^7.0.0",
     "@radix-ui/react-alert-dialog": "^1.1.14",
@@ -57,6 +60,7 @@
     "swiper": "^11.2.10",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
+    "web-vitals": "^5.2.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -68,5 +72,11 @@
     "eslint-config-next": "15.1.4",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17"
-  }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 0.3%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

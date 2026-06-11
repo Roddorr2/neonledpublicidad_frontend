@@ -65,7 +65,7 @@ export default function TechosLedLayout({ children }) {
     name: "Los Techos Led",
     image: [
       "https://ledneonpublicidad.com/productosIndividuales/taller-autos-iluminacion-led.webp",
-      "https://ledneonpublicidad.com/productosIndividuales/banner/techos-led.png",
+      "https://ledneonpublicidad.com/productosIndividuales/banner/techos-led.webp",
       "https://ledneonpublicidad.com/productos/centro-detallado-autos-iluminacion-led.webp",
       "https://ledneonpublicidad.com/productos/casino-techo-luces-led-rgb.webp",
       "https://ledneonpublicidad.com/productos/tienda-comercial-techo-led-moderno.webp",

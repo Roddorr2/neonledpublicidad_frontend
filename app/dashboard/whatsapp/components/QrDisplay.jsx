@@ -17,6 +17,7 @@ export const QrDisplay = ({ qrData, isConnected, loading, connectionState }) => 
     );
   }
 
+  // Renderizar el QR
   return (
     <div className="p-4 border rounded-xl bg-white shadow-lg text-center dark:border-slate-700 dark:bg-slate-900">
       <h3 className="text-lg font-bold mb-4 text-slate-900 dark:text-slate-100">Escanea el código QR</h3>

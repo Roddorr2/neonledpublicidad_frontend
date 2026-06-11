@@ -11,6 +11,8 @@ import { TestSendTab } from './components/TestSendTab';
 import { PlantillasTab } from './components/PlantillasTab';
 import { CampaignProgressMonitor } from './components/CampaignProgressMonitor';
 import { CampaignQueuePanel } from './components/CampaignQueuePanel';
+import { PopupsTab } from './components/PopupsTab'; // ← AGREGAR
+
 import Swal from 'sweetalert2';
 import servicesList from './data/servicesList';
 
@@ -161,6 +163,12 @@ export default function WhatsAppPage() {
                   onClick={() => setTab('plantillas')}
                   label="Plantillas"
                 />
+                {/* ← agregamos esto */}
+                 <TabButton
+                 active={tab === 'popups'}
+                 onClick={() => setTab('popups')}
+                label="Pop-Ups"
+                />
               </div>
             </div>
           </div>
@@ -268,6 +276,8 @@ export default function WhatsAppPage() {
               )}
 
               {!isAuthLoading && tab === 'plantillas' && <PlantillasTab />}
+              {/* ← agregamos esto */}
+              {!isAuthLoading && tab === 'popups' && <PopupsTab />}
             </>
           )}
         </div>

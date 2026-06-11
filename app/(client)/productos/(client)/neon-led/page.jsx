@@ -3,7 +3,8 @@ import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+import ServicePopup from "../components/ServicePopup";
+
 export default function Home() {
   const cards = [
     {
@@ -29,29 +30,39 @@ export default function Home() {
       alt: "Letrero neón rojo Barber Shop en la pared de una barbería",
     },
     {
-      title: "Espacio de entretenimiento",
+      title: "Espacio de ocio",
       description: "Espacio interior",
-      image: "/productos/letreros_neon_en_sala_de_juegos_arcade.webp",
-      alt: "Sala de juegos arcade decorada con múltiples letreros neón en techo y paredes",
+      image: "/productos/neon-led-lima 3_jpg.webp",
+      alt: "Silla con letrero de neon 'good vibes' ",
+    },
+    {
+      title: "Estudio de tatuajes",
+      description: "Espacio interior",
+      image: "/productos/neon-led-lima .4.webp",
+      alt: "Estudio de tatuajes con letrero de neon 'tattoo time'",
+    },
+    {
+      title: "Karaokes",
+      description: "Espacio interior",
+      image: "/productos/neon-led-lima .5.webp",
+      alt: "Letrero de neon con la palabra Karaoke en una pared",
+    },
+    {
+      title: "Baby Shower",
+      description: "Espacio interior",
+      image: "/productos/neon-led-lima .6.webp",
+      alt: "Letrero neón boy or girl? en la pared junto a globos",
     },
   ];
   const idProducto = 5;
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/LetrasNeon.webp",
-      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "5",
-      width: 256,
-      height: 144,
-    },
-  };
+
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ServicePopup idProducto={idProducto} productoName="LETRAS DE NEÓN LED" />
       <Banner
         titulo={`LETRAS DE\nNEÓN LED`}
-        imagen="/productosIndividuales/banner/neon-led.png"
+        video="/productos/4.mp4"
+        //imagen="/productosIndividuales/banner/neon-led-banner.webp"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />

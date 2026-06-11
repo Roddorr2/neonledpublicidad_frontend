@@ -3,7 +3,8 @@ import Banner from "../components/Banner";
 import Datos from "../components/Datos";
 import CardSlider from "../components/CardSlider";
 import Section2 from "../components/section2/Section2";
-import ModalProductoScroll from "../components/section2/ModalProductoScroll";
+import ServicePopup from "../components/ServicePopup";
+
 export default function Home() {
   const cards = [
     {
@@ -19,7 +20,7 @@ export default function Home() {
     {
       title: "Salon de belleza",
       description: "Espacio exterior",
-      image: "/productos/letras_doradas_ledneonpublicidad.webp",
+      image: "/productos/letras-aluminio-doradas-3d-lima 1.webp",
       alt: "Letras acrilicas doradas en diversos tamaños, resaltando sus iniciales en la parte central y estas acompañadas de finas líneas",
     },
     {
@@ -29,31 +30,41 @@ export default function Home() {
       alt: "Cartel de letras doradas",
     },
     {
-      title: "Cuidado capilar",
+      title: "Living",
       description: "Espacio exterior",
-      image: "/productos/letra_dorada_3.png",
+      image: "/productos/letras-aluminio-doradas-3d-lima 3.webp",
       alt: "Cartel de letras doradas",
     },
-  ];
+   {
+    title: "Oficinas",
+    description: "Espacio interior",
+    image: "/productos/letras-aluminio-doradas-3d-lima 4 .webp",
+    alt: "Letras doradas oficinas interior",
+  },
+  {
+    title: "Restaurantes",
+    description: "Espacio interior",
+    image: "/productos/letras-aluminio-doradas-3d-lima 5 .webp",
+    alt: "Letras doradas restaurante interior",
+  },
+  {
+    title: "Hospedajes",
+    description: "Espacio interior",
+    image: "/productos/letras-aluminio-doradas-3d-lima 6 .webp",
+    alt: "Letras doradas hospedaje interior",
+  },
+];
   const idProducto = 2;
-
-  const modales = {
-    modalA: {
-      text: cards[0].title,
-      fondo: "/pop_ups/LetrasDoradas.webp",
-      title: "SOLO POR HOY \n ACCEDE A UNA \n !ASESORÍA GRATIS!",
-      serviceName: "2",
-      width: 256,
-      height: 144,
-    },
-  };
 
   return (
     <>
-      <ModalProductoScroll data={modales}/>
+      <ServicePopup
+        idProducto={idProducto}
+        productoName="LETRAS DE ALUMINIO DORADAS 3D"
+      />
       <Banner
         titulo={`LETRAS DE ALUMINIO \n DORADAS 3D`}
-        imagen="/productosIndividuales/banner/letras-doradas-fondo-mejorada.png"
+        video="/productos/2.mp4"
       />
       <Section2 idProducto={idProducto} />
       <CardSlider cards={cards} />

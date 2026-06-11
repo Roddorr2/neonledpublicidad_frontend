@@ -153,17 +153,24 @@ export default function Body2({ id_blog_body, fecha }) {
             </div>
 
             <div className="relative h-[300px] md:h-[400px] overflow-hidden">
+                {/* CAMBIO: fetchPriority="high" → esta es la imagen más importante del artículo (LCP).
+                    width/height → evitan CLS. Sin loading="lazy" porque está above the fold. */}
                 <img
-                    // src={data.public_image1}
-                    // alt={data.titulo || "Imagen principal"}
                     src={getImageUrl(data.public_image1, "/blog/blog-4.jpg")}
                     alt={data.alt_image1 || data.titulo}
                     title={data.title_image1}
+                    width={1200}
+                    height={400}
+                    fetchPriority="high"
+                    decoding="async"
                     className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">{data.titulo}</h1>
+                {/* CAMBIO: Era <h1> pero el Header ya tiene el <h1> principal.
+                    Cambiado a <h2> para evitar múltiples h1 por página (auditoría: H1 múltiple).
+                    Visualmente idéntico, semánticamente correcto. */}
+                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">{data.titulo}</h2>
                     <div className="w-16 h-1 bg-yellow-500 mb-4"></div>
                 </div>
             </div>
@@ -263,11 +270,16 @@ export default function Body2({ id_blog_body, fecha }) {
                                 },
                             ].map((image, index) => (
                                 <div key={index} className="group relative rounded-xl overflow-hidden shadow-md">
+                                    {/* CAMBIO: width/height evitan CLS. loading="lazy" porque
+                                        estas imágenes están below the fold en móvil. */}
                                     <img
                                         src={image.src}
-                                        // alt={`Imagen ${index + 1} del artículo`}
                                         alt={image.alt}
                                         title={image.title}
+                                        width={600}
+                                        height={256}
+                                        loading="lazy"
+                                        decoding="async"
                                         className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
                                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

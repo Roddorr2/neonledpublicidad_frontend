@@ -213,6 +213,20 @@ const data = [
     durabilidad:
       "Pueden instalarse tanto fuera como dentro, ya que su alta resistencia a la intemperie los hace aptos para cualquier estación durante todo el año.",
   },
+  {
+    id: 16,
+    producto: "CAJAS LUMINOSAS",
+    caracteristica:
+      "Estructuras versátiles con perfiles de aluminio y frontales de acrílico o lona traslúcida. Permiten una rotulación personalizada mediante impresión digital de alta resolución, adaptándose a cualquier diseño gráfico, logotipo o mensaje publicitario específico.",
+    ventaja:
+      "Su diseño ligero facilita la instalación en fachadas, paredes interiores o techos. Ofrecen una difusión de luz uniforme que elimina sombras, garantizando que tu marca sea totalmente legible y atractiva desde cualquier ángulo de visión.",
+    consumo_energetico:
+      "Equipadas con módulos LED de alta eficiencia que operan con bajo voltaje. Este sistema permite un ahorro eléctrico de hasta el 80% en comparación con fluorescentes tradicionales, manteniendo un brillo intenso con mínimo impacto económico.",
+    iluminacion:
+      "Cuentan con tecnología de retroiluminación uniforme que resalta los colores corporativos con nitidez. La intensidad lumínica está calibrada para evitar deslumbramientos, asegurando una presencia elegante y profesional tanto en entornos diurnos como nocturnos.",
+    durabilidad:
+      "Fabricadas con materiales resistentes a la corrosión y componentes LED de larga vida útil (hasta 50,000 horas). Su estructura sellada protege el sistema interno del polvo y la humedad, asegurando un funcionamiento impecable por años.",
+  },
 ];
 
 export default function Datos({ idProducto }) {
@@ -235,9 +249,10 @@ export default function Datos({ idProducto }) {
       <div className="relative text-white flex flex-col items-center justify-center py-20">
         <div className="mb-16">
           <h2 className="text-4xl font-bold mb-8 text-center">Datos sobre: </h2>
-          <h1 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">
+          {/*Cambiado h1 a h2 para poder corregir duplicidad segun auditoria de h1 multiples */}
+          <h2 className="text-4xl font-bold mb-8 text-center text-cyan-400 neon-text">
             {item.producto}
-          </h1>
+          </h2>
         </div>
 
         {/* Versión móvil - Carrusel */}

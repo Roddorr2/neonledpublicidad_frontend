@@ -31,9 +31,9 @@ export function PlantillasList({
               return (
                 <div
                   key={servicio.id}
-                  className="rounded-lg border border-slate-200 bg-slate-50 p-3"
+                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3"
                 >
-                  <h3 className="mb-2 text-sm font-semibold text-slate-700">
+                  <h3 className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
                     {servicio.nombre}
                   </h3>
                   <div className="space-y-1">
@@ -56,8 +56,8 @@ export function PlantillasList({
                             isSelected
                               ? 'bg-azul-principal text-white'
                               : plantilla
-                                ? 'bg-white text-slate-600 hover:bg-slate-100'
-                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                ? 'bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600'
+                                : 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed'
                           }`}
                         >
                           {getTiempoEnvio(numero)}

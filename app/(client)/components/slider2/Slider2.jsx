@@ -1,9 +1,20 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 const Slider2 = ({ slides }) => {
   const sliderRef = useRef(null);
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  useEffect(() => {
+    const updateVisible = () => {
+      setVisibleCount(window.innerWidth >= 768 ? slides.length : 3);
+    };
+    updateVisible();
+    window.addEventListener("resize", updateVisible);
+    return () => window.removeEventListener("resize", updateVisible);
+  }, [slides.length]);
+
   const duplicatedSlides = [...slides, ...slides].map((slide, index) => ({
     ...slide,
     duplicateGroup: index < slides.length ? "first" : "second",
@@ -11,10 +22,11 @@ const Slider2 = ({ slides }) => {
 
   useEffect(() => {
     const slider = sliderRef.current;
-    const slideWidth = slider.children[0].offsetWidth;
 
     const moveSlider = () => {
       const firstSlide = slider.children[0];
+      const slideWidth = firstSlide.offsetWidth;
+
       slider.style.transition = "transform 0.8s ease-in-out";
       slider.style.transform = `translateX(-${slideWidth}px)`;
 
@@ -41,14 +53,17 @@ const Slider2 = ({ slides }) => {
       </div>
       <div className="w-full overflow-hidden">
         <div
-          className="p-1 rounded-[2.5rem] bg-gradient-to-r from-orange-500 via-blue-500 to-fuchsia-500 relative left-1/2 -translate-x-1/2"
-          style={{ width: `${slides.length * 192 + 2}px` }}>
+          className="p-1 rounded-[2.5rem] bg-gradient-to-r from-orange-500 via-blue-500 to-fuchsia-500 mx-auto"
+          style={{ width: `${visibleCount * 192}px`, maxWidth: "100%" }}
+        >
           <div className="overflow-hidden rounded-[2.5rem]">
             <div ref={sliderRef} className="flex">
               {duplicatedSlides.map((slide) => (
                 <div
                   key={`${slide.imgSrc}-${slide.altText}-${slide.duplicateGroup}`}
-                  className="flex-shrink-0 w-48">
+                  className="flex-shrink-0"
+                  style={{ width: `${100 / visibleCount}%` }}
+                >
                   <img
                     src={slide.imgSrc}
                     alt={slide.altText}
@@ -72,7 +87,7 @@ Slider2.propTypes = {
       imgSrc: PropTypes.string.isRequired,
       altText: PropTypes.string,
       title: PropTypes.string,
-    })
+    }),
   ).isRequired,
 };
 

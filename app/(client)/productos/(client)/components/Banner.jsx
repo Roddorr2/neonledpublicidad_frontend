@@ -1,8 +1,18 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useRef } from "react";
 
-export default function Banner({ titulo, imagen, alt }) {
+export default function Banner({ titulo, video }) {
+  const videoRef = useRef(null);
+
+  // Asegura la reproducción en navegadores estrictos tras la hidratación de Next.js
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.play().catch((err) => console.log("Autoplay demorado:", err));
+    }
+  }, [video]);
+
   const handleArrowClick = () => {
-    // Cambia este id por el de tu sección destino
     document.getElementById("banner-contenido")?.scrollIntoView({
       behavior: "smooth",
     });
@@ -10,33 +20,33 @@ export default function Banner({ titulo, imagen, alt }) {
 
   return (
     <section className="w-full">
-      {/* FILA 1: Imagen (solo imagen) */}
-      <div className="relative h-[45vh] sm:h-[50vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden">
-        <Image
-          src={imagen}
-          alt={alt ? alt : titulo}
-          fill
-          sizes="100vw"
-          quality={85}
-          priority
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-          className="object-cover select-none"
-          draggable={false}
-        />
+      {/* FILA 1: Video (Ocupa exactamente el mismo espacio que ocupaba tu imagen) */}
+      <div className="relative h-[45vh] sm:h-[50vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden bg-black">
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover select-none"
+          loop
+          muted
+          playsInline
+          preload="auto"
+          controls={false}
+        >
+          <source src={video} type="video/mp4" />
+          Tu navegador no soporta videos.
+        </video>
 
-        {/* Overlay sutil (opcional) */}
-        <div className="absolute inset-0 bg-black/20"></div>
+        {/* Overlay sutil sobre el video */}
+        <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
       </div>
 
-      {/* FILA 2: Franja separada con texto */}
+      {/* FILA 2: Franja separada con texto (Se mantiene idéntica a tu original) */}
       <div className="bg-gradient-to-b from-[#0b0b3a] to-[#1f1d77] text-white">
         <div className="max-w-6xl mx-auto px-4 md:px-8 py-10 md:py-12 text-center">
           <p className="text-xs md:text-sm tracking-widest font-semibold opacity-90 font-inter">
             CONOCE MÁS SOBRE NUESTROS
           </p>
 
-          <h1 className="mt-2 font-inter font-extrabold uppercase text-lg sm:text-2xl md:text-3xl">
+          <h1 className="mt-2 font-inter font-extrabold uppercase text-lg sm:text-2xl md:text-3xl whitespace-pre-line">
             {titulo}
           </h1>
 
@@ -64,8 +74,9 @@ export default function Banner({ titulo, imagen, alt }) {
         </div>
       </div>
 
-      {/* ANCLA destino del scroll (ponlo donde quieras que baje) */}
+      {/* ANCLA destino del scroll */}
       <div id="banner-contenido" />
     </section>
   );
 }
+
