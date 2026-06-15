@@ -16,14 +16,6 @@ const GRADIENT_DIRS = [
   { value: "to bottom left", label: "↙ Diagonal" },
 ];
 
-const TIEMPOS = [
-  { value: 3, label: "3s - Muy inmediato" },
-  { value: 5, label: "5s - Rápido" },
-  { value: 8, label: "8s - Normal" },
-];
-
-const MAX_ALT = 80;
-
 // Valores por defecto (mínimos, solo para reset)
 const DEFAULT_FORM = {
   title_text: "",
@@ -570,23 +562,47 @@ export function PopupsTab() {
 
                   {/* Tiempo de aparición */}
                   <div>
-                    <label className={labelCls}>Tiempo de Aparición</label>
-                    <select
-                      className={inputCls}
+                    <label className={labelCls}>
+                      Tiempo de Aparición (segundos)
+                    </label>
+
+                    <input
+                      type="number"
+                      min="1"
+                      max="100"
+                      step="1"
                       value={formData.trigger_time}
                       onChange={(e) =>
                         setFormData((p) => ({
                           ...p,
-                          trigger_time: Number(e.target.value),
+                          trigger_time: e.target.value,
                         }))
                       }
-                    >
-                      {TIEMPOS.map((t) => (
-                        <option key={t.value} value={t.value}>
-                          {t.label}
-                        </option>
-                      ))}
-                    </select>
+                      className={inputCls}
+                    />
+
+                    {formData.trigger_time !== "" &&
+                      Number(formData.trigger_time) < 1 && (
+                        <p className="mt-1 text-xs text-red-500">
+                          El tiempo mínimo permitido es 1 segundo.
+                        </p>
+                      )}
+
+                    {formData.trigger_time !== "" &&
+                      Number(formData.trigger_time) > 100 && (
+                        <p className="mt-1 text-xs text-red-500">
+                          El tiempo máximo permitido es 100 segundos.
+                        </p>
+                      )}
+
+                    {formData.trigger_time !== "" &&
+                      Number(formData.trigger_time) >= 1 &&
+                      Number(formData.trigger_time) <= 100 && (
+                        <p className="mt-1 text-xs text-slate-500">
+                          Ingresa el tiempo en segundos antes de mostrar el
+                          pop-up.
+                        </p>
+                      )}
                   </div>
 
                   {/* Imágenes */}
