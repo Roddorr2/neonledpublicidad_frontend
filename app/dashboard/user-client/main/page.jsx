@@ -3,19 +3,26 @@ import { useEffect, useRef, useState } from "react";
 import { Calendar, Eye } from "lucide-react";
 import Slider from "./components/slider/SliderPropuesta";
 import propuesta_cliente_service from "../services/propuesta.service";
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import { safeJsonParse } from "@/lib/safe-json";
 
 export default function Page() {
   const [propuestas, setPropuestas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [nombreCliente, setNombreCliente] = useState("Cliente");
 
   const router = useRouter();
 
   useEffect(() => {
     fetchPropuestas();
+
+    const cliente = safeJsonParse(getCookie("cliente"), null);
+    const user = safeJsonParse(getCookie("user"), null);
+    const nombre = cliente?.nombre || user?.name;
+    if (nombre) setNombreCliente(nombre);
   }, []);
 
   const fetchPropuestas = async () => {
@@ -39,7 +46,7 @@ export default function Page() {
       {/* Header */}
       <div className="bg-[#CECECE4D] dark:bg-[#1E293B4D] rounded-3xl p-8 text-center max-w-xl mx-auto border-azul-principal border-2">
         <h2 className="text-2xl lg:text-4xl font-bold text-azul-principal">
-          Bienvenido, Cliente
+          Bienvenido, {nombreCliente}
         </h2>
         <p className="mt-2 text-xs md:text-sm dark:text-white">
           Descubre las propuestas de decoración personalizadas que hemos creado
@@ -58,6 +65,15 @@ export default function Page() {
             <div className="flex justify-center items-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-primary"></div>
               <p className="ml-4 text-blue-primary">Cargando propuestas...</p>
+            </div>
+          ) : propuestas.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <p className="text-slate-500 dark:text-gray-300 font-medium">
+                No se encontraron propuestas
+              </p>
+              <p className="text-slate-400 dark:text-gray-400 text-sm mt-1">
+                Todavía no tienes propuestas de decoración asignadas.
+              </p>
             </div>
           ) : (
           <Swiper

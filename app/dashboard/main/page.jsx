@@ -155,15 +155,21 @@ export default function Page() {
 
           const userCookie = getCookie("user")
           const rolCookie = getCookie("rol")
-          if (userCookie) setUserData(safeJsonParse(userCookie, null))
-          // if (rolCookie && !userRole) setUserRole(rolCookie)
-          if (rolCookie) setUserRole(rolCookie)
-          if (clienteCookie && clienteCookie !== "null") {
-            setUserData(safeJsonParse(clienteCookie, null));
+
+          // Cargar datos de cliente desde cookie (tiene prioridad: incluye
+          // nombre, apellido, telefono; la cookie "user" solo trae id/name/email)
+          const cliente =
+            clienteCookie && clienteCookie !== "null"
+              ? safeJsonParse(clienteCookie, null)
+              : null
+
+          if (cliente) {
+            setUserData(cliente)
+          } else if (userCookie) {
+            setUserData(safeJsonParse(userCookie, null))
           }
 
-  
-
+          if (rolCookie) setUserRole(rolCookie)
         } catch (error) {
           console.error("Error al cargar datos del usuario:", error)
 

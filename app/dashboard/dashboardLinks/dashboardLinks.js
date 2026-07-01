@@ -8,6 +8,7 @@ import {
   MessageSquare,
   FileText,
   Settings,
+  User,
 } from 'lucide-react';
 
 export const dashboardLinks = [
@@ -16,6 +17,12 @@ export const dashboardLinks = [
     title: 'Sección Principal',
     icon: Home,
     role: 'administrador',
+  },
+  {
+    href: '/dashboard/main',
+    title: 'Mi Perfil',
+    icon: User,
+    role: 'cliente',
   },
   {
     href: '/dashboard/user-client/main',

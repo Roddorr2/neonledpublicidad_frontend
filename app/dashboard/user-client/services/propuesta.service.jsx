@@ -31,14 +31,14 @@ const propuesta_cliente_service = {
         }
       );
 
+      // El backend responde 404 cuando el cliente simplemente no tiene
+      // propuestas todavía: es un estado vacío normal, no un error.
+      if (response.status === 404) {
+        return [];
+      }
+
       const data = await handleResponse(response);
-      console.log(data);
-      let propuestas = [];
-
-      propuestas = data.message;
-
-      console.log("propuestas obtenidos:", propuestas);
-      return propuestas;
+      return Array.isArray(data.message) ? data.message : [];
     } catch (error) {
       console.error("Error al obtener propuestas:", error);
       return [];
