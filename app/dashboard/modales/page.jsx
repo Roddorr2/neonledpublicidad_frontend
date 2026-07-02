@@ -31,11 +31,17 @@ const PRODUCTOS_URL = `${url}/api/productos`;
 const ITEMS_PER_PAGE = 5;
 
 export default function Page() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page") || 1;
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoadingModals, setIsLoadingModals] = useState(false);
+  const [productsById, setProductsById] = useState({});
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // PROBLEMA: fetchProducts solo cargaba la página 1 (7 productos).
   // Los productos del 8 al 15 no estaban en el mapa → mostraban "No asignado".
@@ -45,6 +51,7 @@ export default function Page() {
   // ══════════════════════════════════════════════════════════════════════════════
 
   async function fetchProducts() {
+    setIsLoadingProducts(true);
     try {
       const headers = { Authorization: `Bearer ${getCookie("token")}` };
       const map = {};
@@ -84,6 +91,8 @@ export default function Page() {
     } catch (error) {
       console.error("Error al obtener productos:", error?.message);
       setProductsById({});
+    } finally {
+      setIsLoadingProducts(false);
     }
   }
 
@@ -92,8 +101,12 @@ export default function Page() {
   // la página de modales — completamente aceptable.
   // ══════════════════════════════════════════════════════════════════════════════
 
-  async function fetchModals(page = 1) {
-    setIsLoadingModals(true);
+  async function fetchModals(page = 1, isManualRefresh = false) {
+    if (isManualRefresh) {
+      setIsRefreshing(true);
+    } else {
+      setIsLoadingModals(true);
+    }
 
     try {
       const response = await axios.get(`${API_BASE_URL}?page=${page}`, {
@@ -110,7 +123,11 @@ export default function Page() {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoadingModals(false);
+      if (isManualRefresh) {
+        setIsRefreshing(false);
+      } else {
+        setIsLoadingModals(false);
+      }
     }
   }
 
@@ -341,7 +358,7 @@ export default function Page() {
       modal.id_modalservicio,
       modal.nombre,
       modal.correo,
-      productosById[modal.id_producto] || "No asignado",
+      productsById[modal.id_producto] || "No asignado",
       modal.estado ? "Activo" : "Inactivo",
     ]);
 
@@ -491,7 +508,7 @@ export default function Page() {
               </button>
 
               <button
-                onClick={() => fetchModals(currentPage)}
+                onClick={() => fetchModals(currentPage, true)}
                 disabled={isRefreshing}
                 className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors dark:bg-blue-900/20 dark:text-blue-400 ${
                   isRefreshing ? "opacity-70 cursor-not-allowed" : ""
