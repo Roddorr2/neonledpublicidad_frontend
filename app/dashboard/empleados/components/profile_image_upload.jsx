@@ -86,12 +86,10 @@ export default function ProfileImageUpload({ empleadoId, onImageUpload }) {
       setUploading(false);
     }
   };
-
   return (
     <CldUploadWidget
-    //NO cambiar de nombre (Este es el identificador usado en Cloudinary)
-    //(Opcional a futuro) Crear otro Preset en Cloudinary y cambiar nombre nada más
-      uploadPreset="nextjs_digimedia_unsigned"
+      // Lee el preset desde la variable de entorno, con fallback al creado para local
+      uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "neonled_unsigned"}
       options={{
         folder: `empleados/perfiles/${empleadoId}`,
         resourceType: "image",
