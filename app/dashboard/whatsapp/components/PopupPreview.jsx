@@ -2,34 +2,45 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const getBg = (f) =>
-  f.service_color_2 && f.service_color_2 !== f.service_color
-    ? `linear-gradient(${f.gradient_direction}, ${f.service_color}, ${f.service_color_2})`
-    : f.service_color;
+// Construye el background según la vista
+const getBg = (f, isMobile) =>
+  isMobile
+    ? (f.mobile_service_color_2 && f.mobile_service_color_2 !== f.mobile_service_color
+        ? `linear-gradient(${f.mobile_gradient_direction}, ${f.mobile_service_color}, ${f.mobile_service_color_2})`
+        : f.mobile_service_color)
+    : (f.service_color_2 && f.service_color_2 !== f.service_color
+        ? `linear-gradient(${f.gradient_direction}, ${f.service_color}, ${f.service_color_2})`
+        : f.service_color);
 
 export function PopupPreview({ formData, imagePreviews, view, productoName, forceRealWidth = false }) {
-  const bg          = getBg(formData);
+  const isM = view === 'mobile';
+  const bg  = getBg(formData, isM);
+
+  // Colores independientes por vista
+  const titleColor  = isM ? formData.mobile_title_color  : formData.title_color;
+  const buttonColor = isM ? formData.mobile_button_color : formData.button_color;
+  const triggerTime = isM ? formData.mobile_trigger_time : formData.trigger_time;
+
   const hasRightBg  = !!imagePreviews.right;
   const hasMobileBg = !!imagePreviews.mobile;
 
-  const containerRef = useRef(null);
-  const popupRef     = useRef(null);
-  const [scale,      setScale]      = useState(1);
+  const containerRef  = useRef(null);
+  const popupRef      = useRef(null);
+  const [scale,       setScale]       = useState(1);
   const [popupHeight, setPopupHeight] = useState(300);
 
   useEffect(() => {
     if (view !== 'desktop') return;
 
     const recalc = () => {
-      const containerW = containerRef.current?.offsetWidth  || 680;
-      const popupH     = popupRef.current?.offsetHeight     || 300;
+      const containerW = containerRef.current?.offsetWidth || 680;
+      const popupH     = popupRef.current?.offsetHeight   || 300;
       const s = forceRealWidth ? 1 : Math.min(1, containerW / 680);
       setScale(s);
       setPopupHeight(popupH);
     };
 
     recalc();
-
     const ro = new ResizeObserver(recalc);
     if (containerRef.current) ro.observe(containerRef.current);
     if (popupRef.current)     ro.observe(popupRef.current);
@@ -37,7 +48,7 @@ export function PopupPreview({ formData, imagePreviews, view, productoName, forc
   }, [view, formData, imagePreviews, forceRealWidth]);
 
   // ── MOBILE ────────────────────────────────────────────────────────────────
-  if (view === 'mobile') {
+  if (isM) {
     return (
       <div className="flex justify-center">
         <div
@@ -49,14 +60,18 @@ export function PopupPreview({ formData, imagePreviews, view, productoName, forc
           <div className="relative flex flex-col justify-center gap-3 px-4 py-5 flex-1">
             {hasMobileBg && (
               <div className="absolute inset-0 z-0 overflow-hidden rounded-2xl">
-                <img src={imagePreviews.mobile} alt={formData.mobile_alt || productoName || 'popup mobile'}
-                  className="w-full h-full object-cover" />
+                <img
+                  src={imagePreviews.mobile}
+                  alt={formData.mobile_alt || productoName || 'popup mobile'}
+                  className="w-full h-full object-cover"
+                />
                 <div className="absolute inset-0 bg-white"
                   style={{ opacity: (100 - formData.mobile_opacity) / 100 }} />
               </div>
             )}
             <div className="relative z-10 flex flex-col gap-3 pt-2">
-              <p className="text-sm font-extrabold text-center leading-tight" style={{ color: formData.title_color }}>
+              <p className="text-sm font-extrabold text-center leading-tight"
+                style={{ color: titleColor }}>
                 {formData.title_text || 'TÍTULO DEL POP-UP'}
               </p>
               <div className="flex flex-col gap-2">
@@ -66,19 +81,23 @@ export function PopupPreview({ formData, imagePreviews, view, productoName, forc
                   { label: 'Correo',   placeholder: 'tu@correo.com' },
                 ].map(({ label, placeholder }) => (
                   <div key={label} className="flex flex-col gap-0.5">
-                    <span className="text-[10px] font-semibold" style={{ color: formData.title_color }}>{label}</span>
+                    <span className="text-[10px] font-semibold" style={{ color: titleColor }}>{label}</span>
                     <input readOnly autoComplete="off" placeholder={placeholder}
                       className="w-full rounded-full bg-white px-3 py-1.5 text-[10px] text-slate-700 outline-none" />
                   </div>
                 ))}
               </div>
               <button className="w-full rounded-full py-1.5 text-xs font-extrabold text-white"
-                style={{ backgroundColor: formData.button_color }}>
+                style={{ backgroundColor: buttonColor }}>
                 {formData.button_text || 'HAZLO YA'}
               </button>
             </div>
           </div>
         </div>
+
+        <p className="mt-3 text-center text-xs text-slate-400 dark:text-slate-500 absolute bottom-2 w-full">
+          Aparece a los <strong>{triggerTime}s</strong>
+        </p>
       </div>
     );
   }
@@ -86,19 +105,11 @@ export function PopupPreview({ formData, imagePreviews, view, productoName, forc
   // ── DESKTOP ───────────────────────────────────────────────────────────────
   return (
     <div className="w-full">
-      {/* Contenedor exterior: mide el ancho disponible y ajusta su alto al popup escalado */}
       <div
         ref={containerRef}
-        style={{
-          width: '100%',
-          overflow: 'hidden',
-          height: `${popupHeight * scale}px`,   // ← alto real × escala
-        }}
+        style={{ width: '100%', overflow: 'hidden', height: `${popupHeight * scale}px` }}
       >
-        {/* Popup a 680px reales, escalado para caber */}
         <div style={{ width: '680px', transformOrigin: 'top left', transform: `scale(${scale})` }}>
-
-          {/* ref aquí para medir el alto real del popup */}
           <div
             ref={popupRef}
             className="relative rounded-2xl overflow-hidden shadow-xl border border-white/10 flex items-stretch"
@@ -139,7 +150,7 @@ export function PopupPreview({ formData, imagePreviews, view, productoName, forc
                 <button className="absolute top-0 right-0 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-sm font-bold">✕</button>
 
                 <p className="text-2xl font-extrabold text-center leading-tight pr-6"
-                  style={{ color: formData.title_color }}>
+                  style={{ color: titleColor }}>
                   {formData.title_text || 'TÍTULO DEL POP-UP'}
                 </p>
 
@@ -150,7 +161,7 @@ export function PopupPreview({ formData, imagePreviews, view, productoName, forc
                     { label: 'Correo',   placeholder: 'tu@correo.com' },
                   ].map(({ label, placeholder }) => (
                     <div key={label} className="flex flex-col gap-1">
-                      <span className="font-semibold text-sm" style={{ color: formData.title_color }}>{label}</span>
+                      <span className="font-semibold text-sm" style={{ color: titleColor }}>{label}</span>
                       <input readOnly autoComplete="off" placeholder={placeholder}
                         className="w-full rounded-full bg-white px-4 py-2.5 text-sm text-slate-800 outline-none border border-white/50 placeholder-slate-400" />
                     </div>
@@ -158,18 +169,17 @@ export function PopupPreview({ formData, imagePreviews, view, productoName, forc
                 </div>
 
                 <button className="mt-1 w-full rounded-full py-3 text-base font-extrabold text-white"
-                  style={{ backgroundColor: formData.button_color }}>
+                  style={{ backgroundColor: buttonColor }}>
                   {formData.button_text || 'HAZLO YA'}
                 </button>
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
       <p className="mt-3 text-center text-xs text-slate-400 dark:text-slate-500">
-        Aparece a los <strong>{formData.trigger_time}s</strong> de que el usuario entra a la página
+        Aparece a los <strong>{triggerTime}s</strong> de que el usuario entra a la página
       </p>
     </div>
   );

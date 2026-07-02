@@ -3,17 +3,18 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { getCookie } from 'cookies-next';
 import { Loader2 } from 'lucide-react';
 import url from '@/api/url';
 
 const URL_API = `${url}/api/modales`;
 
-// ─── MOCK temporal ────────────────────────────────────────────────────────────
+// MOCK con todos los campos (desktop + mobile independientes)
 const MOCK_CONFIG = {
   title_text:         'OBTÉN UNA COTIZACIÓN ¡GRATIS!',
-  title_color:        '#FFFFFF',
   button_text:        'HAZLO YA',
+
+  // Desktop
+  title_color:        '#FFFFFF',
   button_color:       '#F97316',
   service_color:      '#1E3A5F',
   service_color_2:    '#0F2340',
@@ -25,20 +26,32 @@ const MOCK_CONFIG = {
   right_image_url:    null,
   right_opacity:      100,
   right_alt:          '',
-  mobile_image_url:   null,
-  mobile_opacity:     100,
-  mobile_alt:         '',
+
+  // Mobile
+  mobile_title_color:        '#FFFFFF',
+  mobile_button_color:       '#F97316',
+  mobile_service_color:      '#1E3A5F',
+  mobile_service_color_2:    '#0F2340',
+  mobile_gradient_direction: 'to bottom',
+  mobile_trigger_time:       8,
+  mobile_image_url:          null,
+  mobile_opacity:            100,
+  mobile_alt:                '',
 };
 
-const getBg = (c) =>
-  c.service_color_2 && c.service_color_2 !== c.service_color
-    ? `linear-gradient(${c.gradient_direction || 'to bottom'}, ${c.service_color}, ${c.service_color_2})`
-    : c.service_color;
+const getBg = (c, isMobile) =>
+  isMobile
+    ? (c.mobile_service_color_2 && c.mobile_service_color_2 !== c.mobile_service_color
+        ? `linear-gradient(${c.mobile_gradient_direction || 'to bottom'}, ${c.mobile_service_color}, ${c.mobile_service_color_2})`
+        : c.mobile_service_color)
+    : (c.service_color_2 && c.service_color_2 !== c.service_color
+        ? `linear-gradient(${c.gradient_direction || 'to bottom'}, ${c.service_color}, ${c.service_color_2})`
+        : c.service_color);
 
 export default function ServicePopup({ idProducto, productoName }) {
-  const [open,     setOpen]     = useState(false);
-  const [config,   setConfig]   = useState(null);
-  const [loading,  setLoading]  = useState(false);
+  const [open,    setOpen]    = useState(false);
+  const [config,  setConfig]  = useState(null);
+  const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -48,6 +61,7 @@ export default function ServicePopup({ idProducto, productoName }) {
     id_producto: idProducto,
   });
 
+  // Detectar mobile
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
@@ -55,6 +69,7 @@ export default function ServicePopup({ idProducto, productoName }) {
     return () => window.removeEventListener('resize', check);
   }, []);
 
+  // Cargar configuración
   useEffect(() => {
     fetch(`${url}/api/public/popup-configs/producto/${idProducto}`)
       .then(r => r.json())
@@ -62,11 +77,15 @@ export default function ServicePopup({ idProducto, productoName }) {
       .catch(() => setConfig(MOCK_CONFIG));
   }, [idProducto]);
 
+  // Timer de aparición — usa trigger_time independiente según dispositivo
   useEffect(() => {
     if (!config) return;
-    const timer = setTimeout(() => setOpen(true), config.trigger_time * 1000);
+    const tiempo = isMobile
+      ? (config.mobile_trigger_time ?? config.trigger_time ?? 8)
+      : (config.trigger_time ?? 8);
+    const timer = setTimeout(() => setOpen(true), tiempo * 1000);
     return () => clearTimeout(timer);
-  }, [config]);
+  }, [config, isMobile]);
 
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -92,10 +111,7 @@ export default function ServicePopup({ idProducto, productoName }) {
         correo:      formData.correo,
         id_producto: Number(idProducto),
       }, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       });
 
       setOpen(false);
@@ -116,13 +132,16 @@ export default function ServicePopup({ idProducto, productoName }) {
 
   if (!config || !open) return null;
 
-  const bg        = getBg(config);
+  // Colores independientes según dispositivo
+  const titleColor  = isMobile ? (config.mobile_title_color  || config.title_color)  : config.title_color;
+  const buttonColor = isMobile ? (config.mobile_button_color || config.button_color)  : config.button_color;
+  const bg          = getBg(config, isMobile);
+
   const leftImg   = config.left_image_url;
   const rightImg  = config.right_image_url;
   const mobileImg = config.mobile_image_url;
-  
-  // ── hasRightBg ahora solo indica si hay imagen de fondo en el panel del form (desktop) ──
-  const hasRightBg  = !!rightImg && !isMobile;
+
+  const hasRightBg  = !!rightImg  && !isMobile;
   const hasMobileBg = !!mobileImg && isMobile;
 
   const leftAlt   = config.left_alt   || productoName || '';
@@ -130,10 +149,10 @@ export default function ServicePopup({ idProducto, productoName }) {
   const mobileAlt = config.mobile_alt || productoName || '';
 
   return (
-      <div
-        onClick={(e) => setOpen(false)}
-        className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/50 backdrop-blur-sm"
-      >
+    <div
+      onClick={() => setOpen(false)}
+      className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+    >
       <div
         onClick={(e) => e.stopPropagation()}
         className="relative rounded-2xl overflow-hidden shadow-xl border border-white/10 flex items-stretch w-[680px] max-w-[92%] text-white"
@@ -147,7 +166,7 @@ export default function ServicePopup({ idProducto, productoName }) {
           ✕
         </button>
 
-        {/* ── Imagen izquierda — columna lateral ── */}
+        {/* Imagen izquierda — solo desktop */}
         {leftImg && !isMobile && (
           <div className="hidden md:flex relative w-56 flex-shrink-0 overflow-hidden z-10">
             <img src={leftImg} alt={leftAlt} title={config.left_alt || ''}
@@ -167,10 +186,10 @@ export default function ServicePopup({ idProducto, productoName }) {
           </div>
         )}
 
-        {/* ── Panel del form — imagen derecha es fondo SOLO de esta zona ── */}
+        {/* Panel del form */}
         <div className="relative z-10 flex-1 flex flex-col justify-center gap-5 p-7">
 
-          {/* Imagen derecha: fondo absoluto solo dentro de este panel */}
+          {/* Fondo imagen desktop (derecha) */}
           {hasRightBg && (
             <div className="absolute inset-0 z-0 overflow-hidden">
               <img src={rightImg} alt={rightAlt} title={config.right_alt || ''}
@@ -180,7 +199,7 @@ export default function ServicePopup({ idProducto, productoName }) {
             </div>
           )}
 
-          {/* Imagen mobile: fondo absoluto solo dentro de este panel */}
+          {/* Fondo imagen mobile */}
           {hasMobileBg && (
             <div className="absolute inset-0 z-0 overflow-hidden">
               <img src={mobileImg} alt={mobileAlt} title={config.mobile_alt || ''}
@@ -190,10 +209,10 @@ export default function ServicePopup({ idProducto, productoName }) {
             </div>
           )}
 
-          {/* Contenido encima del fondo */}
+          {/* Contenido */}
           <div className="relative z-10 flex flex-col gap-5">
             <p className="text-2xl font-extrabold text-center leading-tight pr-6"
-              style={{ color: config.title_color }}>
+              style={{ color: titleColor }}>
               {config.title_text}
             </p>
 
@@ -204,7 +223,7 @@ export default function ServicePopup({ idProducto, productoName }) {
                 { name: 'correo',   label: 'Correo',   type: 'email', placeholder: 'tu@correo.com' },
               ].map(({ name, label, type, placeholder }) => (
                 <div key={name} className="flex flex-col gap-1">
-                  <label className="font-semibold text-sm" style={{ color: config.title_color }}>
+                  <label className="font-semibold text-sm" style={{ color: titleColor }}>
                     {label}
                   </label>
                   <input
@@ -220,7 +239,7 @@ export default function ServicePopup({ idProducto, productoName }) {
               <button
                 type="submit" disabled={loading}
                 className="mt-1 w-full rounded-full py-3 text-base font-extrabold text-white transition hover:brightness-110 active:scale-95"
-                style={{ backgroundColor: config.button_color }}
+                style={{ backgroundColor: buttonColor }}
               >
                 {loading
                   ? <Loader2 className="animate-spin h-5 w-5 mx-auto" />

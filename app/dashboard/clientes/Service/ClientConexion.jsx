@@ -1,8 +1,10 @@
 import url from "../../../../api/url";
 import { getCookie } from "cookies-next";
 
+const getToken = () => getCookie("token") || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
+
 const fetchApi = async (endpoint, method = "GET", body = null) => {
-  const token = getCookie("token");
+  const token = getToken();
   const response = await fetch(`${url}/api${endpoint}`, {
     method,
     headers: {
@@ -44,7 +46,7 @@ export const getCustomers = async (page = 1, searchTerm = "") => {
 };
 
 export const createCustomer = async (customerData) => {
-  const token = getCookie("token");
+  const token = getToken();
   const response = await fetch(`${url}/api/cliente`, {
     method: "POST",
     headers: {
