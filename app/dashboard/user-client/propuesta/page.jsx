@@ -118,6 +118,15 @@ export default function Page() {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-primary"></div>
               <p className="ml-4 text-blue-primary">Cargando propuestas...</p>
             </div>
+          ) : propuestas.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <p className="text-slate-500 dark:text-gray-300 font-medium">
+                No se encontraron propuestas
+              </p>
+              <p className="text-slate-400 dark:text-gray-400 text-sm mt-1">
+                Todavía no tienes propuestas de decoración asignadas.
+              </p>
+            </div>
           ) : (
             <>
               <div className="bg-white dark:bg-[#00000040] rounded-xl shadow-sm overflow-hidden mb-6">
