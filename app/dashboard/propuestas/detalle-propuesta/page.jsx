@@ -511,7 +511,8 @@ export default function DetallePropuestaPage() {
                   alt={`Imagen ${index + 1}`}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.target.src = "/placeholder-image.jpg";
+                    e.target.onerror = null;
+                    e.target.src = "/placeholder-image.svg";
                   }}
                 />
               </div>
@@ -573,7 +574,8 @@ export default function DetallePropuestaPage() {
                   className="max-h-full max-w-full object-contain"
                   alt={`Imagen ${currentImageIndex + 1}`}
                   onError={(e) => {
-                    e.target.src = "/placeholder-image.jpg";
+                    e.target.onerror = null;
+                    e.target.src = "/placeholder-image.svg";
                   }}
                 />
 
