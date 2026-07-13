@@ -253,11 +253,18 @@ export default function Page() {
       setImageUrl(
         "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
       );
-      setEmpleadoData((prev) => ({
-        ...prev,
-        imagen_perfil: null,
-        imagen_perfil_url: null,
-      }));
+      setEmpleadoData((prev) => {
+        const updated = {
+          ...prev,
+          imagen_perfil: null,
+          imagen_perfil_url: null,
+        };
+        setCookie("empleado", JSON.stringify(updated), {
+          maxAge: 30 * 24 * 60 * 60,
+          path: "/",
+        });
+        return updated;
+      });
 
       Swal.fire({
         icon: "success",
@@ -381,11 +388,18 @@ export default function Page() {
                         empleadoId={empleadoData?.id_empleado}
                         onImageUpload={(url, publicId) => {
                           setImageUrl(url);
-                          setEmpleadoData((prev) => ({
-                            ...prev,
-                            imagen_perfil: publicId,
-                            imagen_perfil_url: url,
-                          }));
+                          setEmpleadoData((prev) => {
+                            const updated = {
+                              ...prev,
+                              imagen_perfil: publicId,
+                              imagen_perfil_url: url,
+                            };
+                            setCookie("empleado", JSON.stringify(updated), {
+                              maxAge: 30 * 24 * 60 * 60,
+                              path: "/",
+                            });
+                            return updated;
+                          });
                         }}
                       />
                     </div>
