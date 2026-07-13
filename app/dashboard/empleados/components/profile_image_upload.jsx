@@ -86,13 +86,26 @@ export default function ProfileImageUpload({ empleadoId, onImageUpload }) {
       setUploading(false);
     }
   };
+  const handleUploadSignature = (callback, paramsToSign) => {
+    fetch(`${url}/api/cloudinary/sign-params`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getCookie("token")}`,
+      },
+      body: JSON.stringify({ paramsToSign }),
+    })
+      .then((res) => res.json())
+      .then((data) => callback(data.signature))
+      .catch((error) => console.error("Error al firmar la subida:", error));
+  };
 
   return (
     <CldUploadWidget
-    //NO cambiar de nombre (Este es el identificador usado en Cloudinary)
-    //(Opcional a futuro) Crear otro Preset en Cloudinary y cambiar nombre nada más
-      uploadPreset="nextjs_digimedia_unsigned"
+      signatureEndpoint={handleUploadSignature}
       options={{
+        cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+        apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
         folder: `empleados/perfiles/${empleadoId}`,
         resourceType: "image",
         clientAllowedFormats: ["jpg", "png", "webp"],
