@@ -4,12 +4,10 @@ import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { User, Lock } from "lucide-react";
-import { api_url } from "@/app/dashboard/users/services/user.service";
+import auth_service from "@/app/dashboard/users/services/auth.service";
 import Link from "next/link";
 
 export const FormLogin = () => {
-  const URL = `${api_url}/login`;
-
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -21,21 +19,10 @@ export const FormLogin = () => {
     setError(false);
 
     try {
-      const response = await fetch(URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const data = await auth_service.login(formData);
 
-      const data = await response.json(); // Convertir la respuesta a JSON
-
-      if (response.ok) {
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-          router.push("/dashboard/contactos");
-        } else {
-          setError(true);
-        }
+      if (data.token) {
+        router.push("/dashboard/contactos");
       } else {
         setError(true);
       }

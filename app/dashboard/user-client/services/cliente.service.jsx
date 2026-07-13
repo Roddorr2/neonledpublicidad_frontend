@@ -19,7 +19,7 @@ const cliente_service = {
   updateMiPerfil: async (formData) => {
     try {
       const response = await fetch(
-        `${api_url_client}/mi-perfil`,
+        `${api_url_client}/mi-perfil/cliente`,
         {
           method: "PUT",
           headers: {

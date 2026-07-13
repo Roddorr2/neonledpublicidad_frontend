@@ -121,8 +121,22 @@ export default function RootLayout({ children }) {
   };
 
   const getSectionName = () => {
-    if (pathname === "/dashboard/main") return "Panel Principal";
-    const section = pathname.slice(pathname.indexOf("/", 1) + 1);
+    // next.config.mjs tiene trailingSlash: true, así que usePathname()
+    // devuelve rutas con "/" al final (ej. "/dashboard/main/")
+    const normalizedPathname =
+      pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname;
+
+    const matchedLink = dashboardLinks.find(
+      (link) =>
+        link.href === normalizedPathname &&
+        (!link.role || link.role === userRole)
+    );
+    if (matchedLink) return matchedLink.title;
+
+    if (normalizedPathname === "/dashboard/main") return "Panel Principal";
+    const section = normalizedPathname.slice(
+      normalizedPathname.indexOf("/", 1) + 1
+    );
     return (
       section.charAt(0).toUpperCase() + section.slice(1).replace(/-/g, " ")
     );
