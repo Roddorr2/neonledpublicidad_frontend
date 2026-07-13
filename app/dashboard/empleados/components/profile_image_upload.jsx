@@ -86,26 +86,12 @@ export default function ProfileImageUpload({ empleadoId, onImageUpload }) {
       setUploading(false);
     }
   };
-  const handleUploadSignature = (callback, paramsToSign) => {
-    fetch(`${url}/api/cloudinary/sign-params`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getCookie("token")}`,
-      },
-      body: JSON.stringify({ paramsToSign }),
-    })
-      .then((res) => res.json())
-      .then((data) => callback(data.signature))
-      .catch((error) => console.error("Error al firmar la subida:", error));
-  };
 
   return (
     <CldUploadWidget
-      signatureEndpoint={handleUploadSignature}
+      uploadPreset="nextjs_digimedia_unsigned"
       options={{
         cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-        apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
         folder: `empleados/perfiles/${empleadoId}`,
         resourceType: "image",
         clientAllowedFormats: ["jpg", "png", "webp"],
