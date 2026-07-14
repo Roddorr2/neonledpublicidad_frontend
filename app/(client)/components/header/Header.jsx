@@ -15,6 +15,7 @@ export default function Header() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [menuInitialized, setMenuInitialized] = useState(false);
   const [currentMenu, setCurrentMenu] = useState("main");
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -77,6 +78,14 @@ export default function Header() {
   }, [menuActive]);
 
   useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
 
@@ -120,6 +129,7 @@ export default function Header() {
 
   return (
     <>
+      {isScrolled && <div className="h-[100px]" />}
       <div
         className={`bg-[#000017] relative ${
           menuActive ? "h-screen overflow-hidden" : "h-auto overflow-visible"
@@ -127,7 +137,7 @@ export default function Header() {
       >
         <header
           className={`h-[100px] bg-[#000017] flex items-center relative z-[1000] ${
-            menuActive ? "fixed top-0 left-0 right-0" : "static"
+            menuActive || isScrolled ? "fixed top-0 left-0 right-0" : "static"
           } ${
             isSmallScreen
               ? "justify-between px-4"
