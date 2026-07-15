@@ -80,6 +80,8 @@ export const AuthProvider = ({ children }) => {
           success: false,
           status: result.status,
           message: result.message,
+          // Importante: conserva remaining_attempts, retry_after, etc.
+          data: result.data || {},
         };
       }
 
@@ -150,7 +152,8 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, user, login, logout, hasPermission }}>
+      value={{ isAuthenticated, user, login, logout, hasPermission }}
+    >
       {children}
     </AuthContext.Provider>
   );
