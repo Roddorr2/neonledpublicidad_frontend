@@ -86,11 +86,12 @@ export default function ProfileImageUpload({ empleadoId, onImageUpload }) {
       setUploading(false);
     }
   };
+
   return (
     <CldUploadWidget
-      // Lee el preset desde la variable de entorno, con fallback al creado para local
-      uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "neonled_unsigned"}
+      uploadPreset="nextjs_digimedia_unsigned"
       options={{
+        cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
         folder: `empleados/perfiles/${empleadoId}`,
         resourceType: "image",
         clientAllowedFormats: ["jpg", "png", "webp"],

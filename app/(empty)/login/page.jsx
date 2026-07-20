@@ -1,16 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { User, Lock, ArrowLeft, AlertCircle, Sun, Moon } from "lucide-react";
-import auth_service from "@/app/dashboard/users/services/auth.service";
-import { setCookie } from "cookies-next";
 import Link from "next/link";
-import Header from "../../(client)/components/header/Header";
-import Footer from "../../(client)/components/footer/Footer";
 import { useAuth } from "@/app/context/AutContext";
 import { Turnstile } from "@marsidev/react-turnstile";
-import { keyframes } from "framer-motion";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -21,9 +15,16 @@ export default function LoginPage() {
   const [cooldownTime, setCooldownTime] = useState(0);
   const [errorType, setErrorType] = useState("credentials");
   const [darkMode, setDarkMode] = useState(true);
+  const [showAttemptsPopup, setShowAttemptsPopup] = useState(false);
+  const [remainingAttempts, setRemainingAttempts] = useState(null);
+  const [lockPopup, setLockPopup] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({
+    email: "",
+    password: "",
+  });
+  const [emailSuggestion, setEmailSuggestion] = useState("");
   const turnstileRef = useRef(null);
   const { login } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     let interval;
@@ -41,6 +42,60 @@ export default function LoginPage() {
     return () => clearInterval(interval);
   }, [cooldownTime]);
 
+  const validateEmail = (value) => {
+    const email = value.trim();
+
+    if (!email) {
+      return "El correo electrónico es obligatorio.";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    if (!emailRegex.test(email)) {
+      return "Ingresa un correo electrónico válido.";
+    }
+
+    return "";
+  };
+
+  const detectEmailTypo = (value) => {
+    const email = value.trim().toLowerCase();
+    const parts = email.split("@");
+
+    if (parts.length !== 2 || !parts[0] || !parts[1]) {
+      return "";
+    }
+
+    const [username, domain] = parts;
+    const commonDomainCorrections = {
+      "gmail.co": "gmail.com",
+      "gmai.com": "gmail.com",
+      "gmial.com": "gmail.com",
+      "gmail.con": "gmail.com",
+      "gmail.om": "gmail.com",
+      "hotmail.co": "hotmail.com",
+      "hotmai.com": "hotmail.com",
+      "hotmail.con": "hotmail.com",
+      "outlook.co": "outlook.com",
+      "outlok.com": "outlook.com",
+      "outlook.con": "outlook.com",
+    };
+
+    const correctedDomain = commonDomainCorrections[domain];
+
+    return correctedDomain ? `${username}@${correctedDomain}` : "";
+  };
+
+  const validateForm = () => {
+    const errors = {
+      email: validateEmail(formData.email),
+      password: formData.password ? "" : "La contraseña es obligatoria.",
+    };
+
+    setFieldErrors(errors);
+    return !errors.email && !errors.password;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -50,6 +105,12 @@ export default function LoginPage() {
       setErrorMessage(
         `Por favor, espera ${cooldownTime} segundos antes de intentar nuevamente.`,
       );
+      return;
+    }
+
+    if (!validateForm()) {
+      setError(false);
+      setErrorMessage("");
       return;
     }
 
@@ -73,7 +134,7 @@ export default function LoginPage() {
       });
 
       if (!result.success) {
-        handleLoginError(result.status, result.message);
+        handleLoginError(result.status, result.message, result.data);
         turnstileRef.current?.reset();
         setTurnstileToken(null);
       }
@@ -88,36 +149,67 @@ export default function LoginPage() {
     }
   };
 
-  const handleLoginError = (status, message) => {
-    setError(true);
-
+  const handleLoginError = (status, message, data) => {
     switch (status) {
-      case 429:
+      case 429: {
+        const retryAfter = Number(data?.retry_after) || 5 * 60;
+
+        setError(true);
         setErrorType("rate_limit");
-        setErrorMessage(message);
-        const minutosMatch = message.match(/(\d+)\s*minutos?/);
-        if (minutosMatch) {
-          const minutos = parseInt(minutosMatch[1]);
-          setCooldownTime(minutos * 60);
+        setErrorMessage(
+          message || "Cuenta temporalmente bloqueada durante 5 minutos.",
+        );
+        setCooldownTime(retryAfter);
+        setRemainingAttempts(0);
+        setLockPopup(true);
+        setShowAttemptsPopup(true);
+        break;
+      }
+
+      case 422: {
+        const validationErrors = data?.errors || {};
+        const emailValidation = validationErrors.email?.[0] || "";
+        const passwordValidation = validationErrors.password?.[0] || "";
+        const turnstileValidation =
+          validationErrors.turnstile_token?.[0] || "";
+
+        if (emailValidation || passwordValidation) {
+          setError(false);
+          setErrorMessage("");
+          setFieldErrors({
+            email: emailValidation,
+            password: passwordValidation,
+          });
         } else {
-          setCooldownTime(60);
+          setError(true);
+          setErrorType("captcha");
+          setErrorMessage(
+            turnstileValidation ||
+              message ||
+              "Error de verificación de seguridad. Inténtalo nuevamente.",
+          );
+        }
+        break;
+      }
+
+      case 401:
+        setError(true);
+        setErrorType("credentials");
+        setErrorMessage(message || "Usuario o contraseña incorrectos");
+
+        if (
+          data &&
+          typeof data.remaining_attempts === "number" &&
+          data.remaining_attempts > 0
+        ) {
+          setRemainingAttempts(data.remaining_attempts);
+          setLockPopup(false);
+          setShowAttemptsPopup(true);
         }
         break;
 
-      case 422:
-        setErrorType("captcha");
-        setErrorMessage(
-          message ||
-            "Error de verificación de seguridad. Inténtalo nuevamente.",
-        );
-        break;
-
-      case 401:
-        setErrorType("credentials");
-        setErrorMessage(message || "Usuario o contraseña incorrectos");
-        break;
-
       default:
+        setError(true);
         setErrorType("credentials");
         setErrorMessage(
           message || "Error al iniciar sesión. Intenta nuevamente.",
@@ -126,7 +218,26 @@ export default function LoginPage() {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+
+    setFieldErrors((prev) => ({
+      ...prev,
+      [id]: "",
+    }));
+
+    if (id === "email") {
+      setEmailSuggestion(detectEmailTypo(value));
+    }
+
+    if (errorType === "credentials") {
+      setError(false);
+      setErrorMessage("");
+    }
   };
 
   const renderErrorMessage = () => {
@@ -189,16 +300,19 @@ export default function LoginPage() {
 
           <div className="min-w-0 flex-1">
             <p
-              title={errorMessage}
+              role="alert"
+              aria-live="polite"
               className={`
-    text-[13px]
-    leading-5
-    whitespace-nowrap
-    overflow-hidden
-    text-ellipsis
-    pr-1
-    ${current.text}
-  `}
+                w-full
+                text-[13px]
+                sm:text-sm
+                leading-5
+                whitespace-normal
+                break-words
+                [overflow-wrap:anywhere]
+                pr-1
+                ${current.text}
+              `}
             >
               {errorMessage}
             </p>
@@ -309,7 +423,7 @@ export default function LoginPage() {
 
             {renderErrorMessage()}
 
-            <form onSubmit={handleSubmit} className="space-y-7">
+            <form onSubmit={handleSubmit} className="space-y-7" noValidate>
               <div>
                 <label
                   htmlFor="email"
@@ -317,27 +431,85 @@ export default function LoginPage() {
                     darkMode ? "text-gray-300" : "text-gray-700"
                   }`}
                 >
-                  Usuario
+                  Correo electrónico
                 </label>
 
                 <div className="relative">
                   <User className="absolute left-4 top-4 w-5 h-5 text-gray-400" />
 
                   <input
-                    type="text"
+                    type="email"
                     id="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="Ingresa tu usuario"
-                    className={`w-full h-11 pl-12 pr-4 rounded-md border transition-all focus:ring-2 focus:ring-blue-500 outline-none ${
-                      darkMode
-                        ? "bg-[#0d1b33] border-[#31486d] text-white placeholder-gray-500"
-                        : "bg-white border-gray-300 text-gray-900"
+                    onBlur={() => {
+                      const emailError = validateEmail(formData.email);
+
+                      setFieldErrors((prev) => ({
+                        ...prev,
+                        email: emailError,
+                      }));
+
+                      setEmailSuggestion(detectEmailTypo(formData.email));
+                    }}
+                    placeholder="nombre@correo.com"
+                    autoComplete="email"
+                    inputMode="email"
+                    aria-invalid={Boolean(fieldErrors.email)}
+                    aria-describedby={
+                      fieldErrors.email
+                        ? "email-error"
+                        : emailSuggestion
+                          ? "email-suggestion"
+                          : undefined
+                    }
+                    className={`w-full h-11 pl-12 pr-4 rounded-md border transition-all focus:ring-2 outline-none ${
+                      fieldErrors.email
+                        ? "border-red-500 focus:ring-red-500"
+                        : darkMode
+                          ? "bg-[#0d1b33] border-[#31486d] text-white placeholder-gray-500 focus:ring-blue-500"
+                          : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500"
                     }`}
-                    required
                     disabled={cooldownTime > 0}
                   />
                 </div>
+
+                {fieldErrors.email && (
+                  <p
+                    id="email-error"
+                    role="alert"
+                    className="mt-2 text-sm text-red-400"
+                  >
+                    {fieldErrors.email}
+                  </p>
+                )}
+
+                {!fieldErrors.email && emailSuggestion && (
+                  <p
+                    id="email-suggestion"
+                    className="mt-2 text-sm text-yellow-300"
+                  >
+                    ¿Quisiste decir{" "}
+                    <button
+                      type="button"
+                      className="font-semibold underline hover:text-yellow-200"
+                      onClick={() => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          email: emailSuggestion,
+                        }));
+                        setEmailSuggestion("");
+                        setFieldErrors((prev) => ({
+                          ...prev,
+                          email: "",
+                        }));
+                      }}
+                    >
+                      {emailSuggestion}
+                    </button>
+                    ?
+                  </p>
+                )}
               </div>
 
               <div>
@@ -367,16 +539,40 @@ export default function LoginPage() {
                     id="password"
                     value={formData.password}
                     onChange={handleChange}
+                    onBlur={() => {
+                      setFieldErrors((prev) => ({
+                        ...prev,
+                        password: formData.password
+                          ? ""
+                          : "La contraseña es obligatoria.",
+                      }));
+                    }}
                     placeholder="Ingresa tu contraseña"
-                    className={`w-full h-11 pl-12 pr-4 rounded-md border transition-all focus:ring-2 focus:ring-blue-500 outline-none ${
-                      darkMode
-                        ? "bg-[#0d1b33] border-[#31486d] text-white placeholder-gray-500"
-                        : "bg-white border-gray-300 text-gray-900"
+                    autoComplete="current-password"
+                    aria-invalid={Boolean(fieldErrors.password)}
+                    aria-describedby={
+                      fieldErrors.password ? "password-error" : undefined
+                    }
+                    className={`w-full h-11 pl-12 pr-4 rounded-md border transition-all focus:ring-2 outline-none ${
+                      fieldErrors.password
+                        ? "border-red-500 focus:ring-red-500"
+                        : darkMode
+                          ? "bg-[#0d1b33] border-[#31486d] text-white placeholder-gray-500 focus:ring-blue-500"
+                          : "bg-white border-gray-300 text-gray-900 focus:ring-blue-500"
                     }`}
-                    required
                     disabled={cooldownTime > 0}
                   />
                 </div>
+
+                {fieldErrors.password && (
+                  <p
+                    id="password-error"
+                    role="alert"
+                    className="mt-2 text-sm text-red-400"
+                  >
+                    {fieldErrors.password}
+                  </p>
+                )}
               </div>
 
               <div className="flex justify-center pt-2">
@@ -401,13 +597,64 @@ export default function LoginPage() {
                 {loadingForm
                   ? "Iniciando sesión..."
                   : cooldownTime > 0
-                    ? `Esperar ${cooldownTime} segundos`
+                    ? `Esperar ${Math.floor(cooldownTime / 60)}:${String(
+                        cooldownTime % 60,
+                      ).padStart(2, "0")}`
                     : "Iniciar sesión"}
               </button>
             </form>
           </div>
         </div>
       </div>
+      {/* POP-UP DE INTENTOS FALLIDOS / CUENTA BLOQUEADA */}
+      {showAttemptsPopup && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+          onClick={() => setShowAttemptsPopup(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl bg-[#13233f] border border-[#22385f] shadow-2xl p-6 text-center animate-in fade-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-14 h-14 mx-auto rounded-full bg-orange-500/20 flex items-center justify-center mb-4">
+              <AlertCircle className="w-7 h-7 text-orange-300" />
+            </div>
+
+            <h3 className="text-lg font-bold text-white mb-2">
+              {lockPopup ? "Cuenta bloqueada" : "Intento fallido"}
+            </h3>
+
+            {lockPopup ? (
+              <p className="text-sm text-gray-300 mb-6">
+                Alcanzaste los 5 intentos permitidos. Podrás volver a intentar
+                en{" "}
+                <span className="font-bold text-orange-300">
+                  {Math.floor(cooldownTime / 60)}:
+                  {String(cooldownTime % 60).padStart(2, "0")}
+                </span>
+                .
+              </p>
+            ) : (
+              <p className="text-sm text-gray-300 mb-6">
+                Te quedan{" "}
+                <span className="font-bold text-orange-300">
+                  {remainingAttempts}
+                </span>{" "}
+                intento{remainingAttempts === 1 ? "" : "s"} restante
+                {remainingAttempts === 1 ? "" : "s"}.
+              </p>
+            )}
+
+            <button
+              onClick={() => setShowAttemptsPopup(false)}
+              className="w-full h-10 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
+
       <style jsx>{`
         @keyframes float {
           0%,
