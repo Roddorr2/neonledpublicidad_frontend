@@ -6,6 +6,9 @@ import Link from "next/link";
 import { useAuth } from "@/app/context/AutContext";
 import { Turnstile } from "@marsidev/react-turnstile";
 
+const LOCKOUT_STORAGE_KEY = "login_lockout_expiry";
+const ATTEMPTS_STORAGE_KEY = "login_remaining_attempts";
+
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loadingForm, setLoadingForm] = useState(false);
@@ -26,6 +29,46 @@ export default function LoginPage() {
   const turnstileRef = useRef(null);
   const { login } = useAuth();
 
+  // Restaurar estado de bloqueo desde localStorage al cargar la página
+  useEffect(() => {
+    try {
+      const storedExpiry = localStorage.getItem(LOCKOUT_STORAGE_KEY);
+      if (storedExpiry) {
+        const expiryTime = parseInt(storedExpiry, 10);
+        const now = Math.floor(Date.now() / 1000);
+        const remaining = expiryTime - now;
+
+        if (remaining > 0) {
+          setCooldownTime(remaining);
+          setError(true);
+          setErrorType("rate_limit");
+          setErrorMessage(
+            `Cuenta temporalmente bloqueada. Intenta de nuevo en ${Math.ceil(remaining / 60)} minuto(s).`
+          );
+          setRemainingAttempts(0);
+          setLockPopup(true);
+          setShowAttemptsPopup(true);
+        } else {
+          localStorage.removeItem(LOCKOUT_STORAGE_KEY);
+          
+          // Restaurar intentos fallidos si no hay bloqueo
+          const storedAttempts = localStorage.getItem(ATTEMPTS_STORAGE_KEY);
+          if (storedAttempts) {
+            setRemainingAttempts(parseInt(storedAttempts, 10));
+          }
+        }
+      } else {
+        // Restaurar intentos si no hay expiración guardada
+        const storedAttempts = localStorage.getItem(ATTEMPTS_STORAGE_KEY);
+        if (storedAttempts) {
+          setRemainingAttempts(parseInt(storedAttempts, 10));
+        }
+      }
+    } catch (e) {
+      // localStorage no disponible, ignorar
+    }
+  }, []);
+
   useEffect(() => {
     let interval;
     if (cooldownTime > 0) {
@@ -33,6 +76,12 @@ export default function LoginPage() {
         setCooldownTime((prev) => {
           if (prev <= 1) {
             clearInterval(interval);
+            // Limpiar localStorage cuando el bloqueo expira
+            try {
+              localStorage.removeItem(LOCKOUT_STORAGE_KEY);
+            } catch (e) {
+              // ignorar
+            }
             return 0;
           }
           return prev - 1;
@@ -137,6 +186,10 @@ export default function LoginPage() {
         handleLoginError(result.status, result.message, result.data);
         turnstileRef.current?.reset();
         setTurnstileToken(null);
+      } else {
+        try {
+          localStorage.removeItem(ATTEMPTS_STORAGE_KEY);
+        } catch (e) {}
       }
     } catch (error) {
       setError(true);
@@ -153,6 +206,15 @@ export default function LoginPage() {
     switch (status) {
       case 429: {
         const retryAfter = Number(data?.retry_after) || 5 * 60;
+
+        // Persistir la hora de expiración del bloqueo en localStorage
+        try {
+          const expiryTimestamp = Math.floor(Date.now() / 1000) + retryAfter;
+          localStorage.setItem(LOCKOUT_STORAGE_KEY, String(expiryTimestamp));
+          localStorage.removeItem(ATTEMPTS_STORAGE_KEY);
+        } catch (e) {
+          // localStorage no disponible, ignorar
+        }
 
         setError(true);
         setErrorType("rate_limit");
@@ -202,6 +264,9 @@ export default function LoginPage() {
           typeof data.remaining_attempts === "number" &&
           data.remaining_attempts > 0
         ) {
+          try {
+            localStorage.setItem(ATTEMPTS_STORAGE_KEY, String(data.remaining_attempts));
+          } catch(e) {}
           setRemainingAttempts(data.remaining_attempts);
           setLockPopup(false);
           setShowAttemptsPopup(true);
