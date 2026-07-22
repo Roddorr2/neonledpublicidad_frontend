@@ -117,47 +117,78 @@ export default function Page() {
         } finally {
           setIsLoading(false);
         }
-      }
-      // ============================================================
-      // CASO 2: NO hay id_empleado en la URL
-      // Esto significa que un usuario está viendo SU PROPIO perfil
-      // ANTES: Hacía fetch a /api/empleados/{id} y daba 403 si no era admin
-      // AHORA: Usa SOLO los datos de las cookies (sin fetch)
-      // ============================================================
-      else {
+      } else {
         try {
-          // Obtener datos directamente de las cookies
+          const token = getCookie("token");
+          if (!token) {
+            throw new Error("No se encontró el token de autenticación");
+          }
+
           const empleadoCookie = getCookie("empleado");
           const clienteCookie = getCookie("cliente");
+          if (empleadoCookie && empleadoCookie !== "null") {
+            const empleado = safeJsonParse(empleadoCookie, null);
+            if (!empleado)
+              throw new Error("No se pudo interpretar la cookie de empleado");
+            const idEmpleado = empleado.id_empleado;
+
+            if (idEmpleado) {
+              const response = await fetch(`${api_url}/${idEmpleado}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              });
+
+              if (!response.ok) {
+                if (response.status === 401) {
+                  deleteCookie("token");
+                  router.push("/login");
+                }
+                throw new Error(
+                  `Error ${response.status}: ${response.statusText}`,
+                );
+              }
+
+              const data = await response.json();
+
+              if (data.status === 200) {
+                setEmpleadoData(data.data);
+                setUserRole(data.data.rol?.nombre || "Usuario");
+                setImageUrl(
+                  data.data.imagen_perfil_url ||
+                    "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
+                );
+
+                setCookie("empleado", JSON.stringify(data.data));
+              } else {
+                console.error(
+                  "Error al obtener datos del empleado:",
+                  data.message,
+                );
+                setEmpleadoData(empleado);
+                setImageUrl(empleado.imagen_perfil_url);
+              }
+            }
+          }
+
           const userCookie = getCookie("user");
           const rolCookie = getCookie("rol");
 
-          // 🔥 CAMBIO IMPORTANTE: Ya NO se hace fetch a /api/empleados/{id}
-          // Se usan los datos que ya están guardados en la cookie desde el login
+          // Cargar datos de cliente desde cookie (tiene prioridad: incluye
+          // nombre, apellido, telefono; la cookie "user" solo trae id/name/email)
+          const cliente =
+            clienteCookie && clienteCookie !== "null"
+              ? safeJsonParse(clienteCookie, null)
+              : null;
 
-          // Cargar datos de empleado desde cookie
-          if (empleadoCookie && empleadoCookie !== "null") {
-            const empleado = safeJsonParse(empleadoCookie, null);
-            if (empleado) {
-              setEmpleadoData(empleado);
-              setUserRole(empleado.rol?.nombre || rolCookie || "Usuario");
-              setImageUrl(
-                empleado.imagen_perfil_url ||
-                  "https://images.rawpixel.com/image_png_social_square/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png",
-              );
-            }
+          if (cliente) {
+            setUserData(cliente);
+          } else if (userCookie) {
+            setUserData(safeJsonParse(userCookie, null));
           }
 
-          // Cargar datos de cliente desde cookie
-          if (clienteCookie && clienteCookie !== "null") {
-            const cliente = safeJsonParse(clienteCookie, null);
-            if (cliente) {
-              setUserData(cliente);
-            }
-          }
-
-          // Cargar user y rol desde cookies
-          if (userCookie) setUserData(safeJsonParse(userCookie, null));
           if (rolCookie) setUserRole(rolCookie);
         } catch (error) {
           console.error("Error al cargar datos del usuario:", error);

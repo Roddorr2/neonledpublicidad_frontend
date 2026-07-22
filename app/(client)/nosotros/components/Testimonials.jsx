@@ -43,6 +43,57 @@ function mapTestimonio(t) {
   };
 }
 
+const FALLBACK_TESTIMONIOS = [
+  {
+    id: 'fb-1',
+    name: 'Hannah Bernal',
+    text: 'Pedí un cartel de "Abierto" y otro con el logo de mi tienda. Llegó todo súper bien embalado (me preocupaba que se rompiera durante el envío). La instalación fue súper fácil, vino con todo listo. Muy buen servicio. Volvería a pedir aquí.',
+    rating: 5,
+    avatar: null,
+    date: 'Hace 5 meses',
+  },
+  {
+    id: 'fb-2',
+    name: 'Breitner Alcántara',
+    text: 'Le compramos un diseño gamer a mi hermanito para su cuarto y le ha encantado. La iluminación es buena y los colores son bien intensos. El envío fue rápido, lo bueno que pudimos coordinar todo por WhatsApp.',
+    rating: 5,
+    avatar: null,
+    date: 'Hace 4 meses',
+  },
+  {
+    id: 'fb-3',
+    name: 'Jgonzalo Tbejarano',
+    text: 'Realizamos las iniciales para la boda con ellos, la cual fue un éxito masivo. Todos están tomándose fotos dentro de la zona del néon. Soportó toda la fiesta prendido y sin problemas. Ahora lo tenemos de adorno en la casa y está genial.',
+    rating: 5,
+    avatar: null,
+    date: 'Hace 5 meses',
+  },
+  {
+    id: 'fb-4',
+    name: 'Francesco Cortez',
+    text: 'Todo bien, el neón llegó exacto para el cumple y quedó bien chévere. Lo del control para bajar la luz es un golazo para que no fastidie si quieres algo más tranqui. La caja vino con un golpe del courier, pero por suerte el neón estaba intacto.',
+    rating: 5,
+    avatar: null,
+    date: 'Hace 4 meses',
+  },
+  {
+    id: 'fb-5',
+    name: 'Fabrizio Benites',
+    text: 'Me ha sorprendido la calidad del acrílico, se nota que está bien cortado y pulido. La luz es pareja, no se ven esos puntitos led que se notan en los chinos o bamba. Un trabajo bien fino, la verdad.',
+    rating: 5,
+    avatar: null,
+    date: 'Hace 4 meses',
+  },
+  {
+    id: 'fb-6',
+    name: 'Alejandro Urbina',
+    text: 'Realicé un pedido para un cartel y ha quedado lindo la fachada. El servicio de instalación demoró un poco en contestarme al primer correo pero lo demás todo bien. Muy contento con sus servicios.',
+    rating: 4,
+    avatar: null,
+    date: 'Hace 5 meses',
+  },
+];
+
 function TestimonialCard({ review, ...rest }) {
   return (
     <div
@@ -52,8 +103,8 @@ function TestimonialCard({ review, ...rest }) {
     >
       <div className="flex items-center mb-5">
         <img
-          src={review.avatar}
-          onError={(e) => { e.target.src = 'https://ui-avatars.com/api/?name=' + review.name + '&background=random' }}
+          src={review.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(review.name)}&background=7c3aed&color=fff&bold=true`}
+          onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(review.name)}&background=7c3aed&color=fff&bold=true` }}
           alt={`Foto de perfil de ${review.name}`}
           loading="lazy"
           className="w-12 h-12 rounded-full object-cover mr-4 shrink-0 shadow-sm border border-gray-200"
@@ -115,11 +166,16 @@ export default function Testimonials() {
       try {
         const res = await fetch(`${API_URL}/testimonios`);
         const data = await res.json();
-        if (activo && Array.isArray(data.data)) {
-          setTestimonios(data.data.map(mapTestimonio));
+        if (activo) {
+          if (Array.isArray(data.data) && data.data.length > 0) {
+            setTestimonios(data.data.map(mapTestimonio));
+          } else {
+            setTestimonios(FALLBACK_TESTIMONIOS);
+          }
         }
       } catch (err) {
         console.error('No se pudieron cargar los testimonios:', err);
+        if (activo) setTestimonios(FALLBACK_TESTIMONIOS);
       } finally {
         if (activo) setLoading(false);
       }
@@ -172,7 +228,7 @@ export default function Testimonials() {
           onClick={() => scrollByCard(-1)}
           disabled={!canScrollPrev}
           aria-label="Testimonio anterior"
-          className="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 items-center justify-center rounded-full bg-[#0a0f1c] border border-purple-500/40 text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]"
+          className="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-11 h-11 items-center justify-center rounded-full bg-[#0a0f1c] border border-purple-500/40 text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -201,7 +257,7 @@ export default function Testimonials() {
           onClick={() => scrollByCard(1)}
           disabled={!canScrollNext}
           aria-label="Siguiente testimonio"
-          className="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 items-center justify-center rounded-full bg-[#0a0f1c] border border-purple-500/40 text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]"
+          className="hidden md:flex absolute -right-10 top-1/2 -translate-y-1/2 z-10 w-11 h-11 items-center justify-center rounded-full bg-[#0a0f1c] border border-purple-500/40 text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
