@@ -9,6 +9,7 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
+  preload: true,
 });
 
 const leagueGothic = League_Gothic({
@@ -16,7 +17,13 @@ const leagueGothic = League_Gothic({
   weight: ["400"],
   display: "swap",
   variable: "--font-league-gothic",
+  preload: true,
 });
+
+const criticalCSS = `
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+`;
 
 export const metadata = {
   metadataBase: new URL("https://ledneonpublicidad.com"),
@@ -49,6 +56,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es-PE">
       <head>
+        <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
+        <link rel="preconnect" href="https://back.ledneonpublicidad.com" />
+        <link rel="preconnect" href="https://ui-avatars.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
         <meta
           name="google-site-verification"
           content="GmKy-G0PSdvQqMQB1OXQMRRR-MImNAtg1dkxxtvCUug"

@@ -45,6 +45,8 @@ const FilaProductosModificado = ({ productos }) => {
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover object-center transition-transform duration-300 hover:scale-105"
+                  loading="lazy"
+                  fetchPriority="low"
                 />
               </div>
 
