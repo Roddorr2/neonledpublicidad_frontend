@@ -8,6 +8,32 @@ import { Turnstile } from "@marsidev/react-turnstile";
 
 const LOCKOUT_STORAGE_KEY = "login_lockout_expiry";
 const ATTEMPTS_STORAGE_KEY = "login_remaining_attempts";
+const LOGIN_ATTEMPT_STORAGE_KEY = "login_attempt_state";
+
+const normalizeEmail = (email) => email.trim().toLowerCase();
+
+const saveLoginAttemptState = (state) => {
+  if (typeof window === "undefined") return;
+
+  sessionStorage.setItem(LOGIN_ATTEMPT_STORAGE_KEY, JSON.stringify(state));
+};
+
+const readLoginAttemptState = () => {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const rawState = sessionStorage.getItem(LOGIN_ATTEMPT_STORAGE_KEY);
+    return rawState ? JSON.parse(rawState) : null;
+  } catch {
+    sessionStorage.removeItem(LOGIN_ATTEMPT_STORAGE_KEY);
+    return null;
+  }
+};
+
+const clearLoginAttemptState = () => {
+  if (typeof window === "undefined") return;
+  sessionStorage.removeItem(LOGIN_ATTEMPT_STORAGE_KEY);
+};
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -16,6 +42,7 @@ export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [turnstileToken, setTurnstileToken] = useState(null);
   const [cooldownTime, setCooldownTime] = useState(0);
+  const [blockedUntil, setBlockedUntil] = useState(null);
   const [errorType, setErrorType] = useState("credentials");
   const [darkMode, setDarkMode] = useState(true);
   const [showAttemptsPopup, setShowAttemptsPopup] = useState(false);
@@ -29,67 +56,87 @@ export default function LoginPage() {
   const turnstileRef = useRef(null);
   const { login } = useAuth();
 
-  // Restaurar estado de bloqueo desde localStorage al cargar la página
+  // Recupera el último estado visual después de presionar F5.
+  // La seguridad real continúa en la caché del backend.
   useEffect(() => {
-    try {
-      const storedExpiry = localStorage.getItem(LOCKOUT_STORAGE_KEY);
-      if (storedExpiry) {
-        const expiryTime = parseInt(storedExpiry, 10);
-        const now = Math.floor(Date.now() / 1000);
-        const remaining = expiryTime - now;
+    const savedState = readLoginAttemptState();
 
-        if (remaining > 0) {
-          setCooldownTime(remaining);
-          setError(true);
-          setErrorType("rate_limit");
-          setErrorMessage(
-            `Cuenta temporalmente bloqueada. Intenta de nuevo en ${Math.ceil(remaining / 60)} minuto(s).`
-          );
-          setRemainingAttempts(0);
-          setLockPopup(true);
-          setShowAttemptsPopup(true);
-        } else {
-          localStorage.removeItem(LOCKOUT_STORAGE_KEY);
-          
-          // Restaurar intentos fallidos si no hay bloqueo
-          const storedAttempts = localStorage.getItem(ATTEMPTS_STORAGE_KEY);
-          if (storedAttempts) {
-            setRemainingAttempts(parseInt(storedAttempts, 10));
-          }
-        }
-      } else {
-        // Restaurar intentos si no hay expiración guardada
-        const storedAttempts = localStorage.getItem(ATTEMPTS_STORAGE_KEY);
-        if (storedAttempts) {
-          setRemainingAttempts(parseInt(storedAttempts, 10));
-        }
-      }
-    } catch (e) {
-      // localStorage no disponible, ignorar
+    if (!savedState || typeof savedState !== "object") return;
+
+    const savedEmail =
+      typeof savedState.email === "string" ? savedState.email : "";
+    const savedRemainingAttempts = Number(savedState.remainingAttempts);
+    const savedBlockedUntil = Number(savedState.blockedUntil);
+
+    if (savedEmail) {
+      setFormData((prev) => ({
+        ...prev,
+        email: savedEmail,
+      }));
     }
+
+    if (Number.isFinite(savedBlockedUntil) && savedBlockedUntil > Date.now()) {
+      const secondsLeft = Math.max(
+        1,
+        Math.ceil((savedBlockedUntil - Date.now()) / 1000),
+      );
+
+      setBlockedUntil(savedBlockedUntil);
+      setCooldownTime(secondsLeft);
+      setRemainingAttempts(0);
+      setLockPopup(true);
+      setShowAttemptsPopup(true);
+      setError(true);
+      setErrorType("rate_limit");
+      setErrorMessage(
+        "Cuenta temporalmente bloqueada. Espera a que termine el contador.",
+      );
+      return;
+    }
+
+    if (
+      Number.isInteger(savedRemainingAttempts) &&
+      savedRemainingAttempts > 0 &&
+      savedRemainingAttempts < 5
+    ) {
+      setRemainingAttempts(savedRemainingAttempts);
+      setLockPopup(false);
+      setShowAttemptsPopup(true);
+      return;
+    }
+
+    clearLoginAttemptState();
   }, []);
 
+  // El bloqueo se calcula con una fecha absoluta para que continúe tras F5
+  // y no se reinicie si la pestaña queda en segundo plano.
   useEffect(() => {
-    let interval;
-    if (cooldownTime > 0) {
-      interval = setInterval(() => {
-        setCooldownTime((prev) => {
-          if (prev <= 1) {
-            clearInterval(interval);
-            // Limpiar localStorage cuando el bloqueo expira
-            try {
-              localStorage.removeItem(LOCKOUT_STORAGE_KEY);
-            } catch (e) {
-              // ignorar
-            }
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
+    if (!blockedUntil) return undefined;
+
+    const updateCooldown = () => {
+      const secondsLeft = Math.max(
+        0,
+        Math.ceil((blockedUntil - Date.now()) / 1000),
+      );
+
+      setCooldownTime(secondsLeft);
+
+      if (secondsLeft <= 0) {
+        setBlockedUntil(null);
+        setRemainingAttempts(null);
+        setLockPopup(false);
+        setShowAttemptsPopup(false);
+        setError(false);
+        setErrorMessage("");
+        clearLoginAttemptState();
+      }
+    };
+
+    updateCooldown();
+    const interval = setInterval(updateCooldown, 1000);
+
     return () => clearInterval(interval);
-  }, [cooldownTime]);
+  }, [blockedUntil]);
 
   const validateEmail = (value) => {
     const email = value.trim();
@@ -187,9 +234,11 @@ export default function LoginPage() {
         turnstileRef.current?.reset();
         setTurnstileToken(null);
       } else {
-        try {
-          localStorage.removeItem(ATTEMPTS_STORAGE_KEY);
-        } catch (e) {}
+        clearLoginAttemptState();
+        setRemainingAttempts(null);
+        setBlockedUntil(null);
+        setCooldownTime(0);
+        setShowAttemptsPopup(false);
       }
     } catch (error) {
       setError(true);
@@ -205,7 +254,11 @@ export default function LoginPage() {
   const handleLoginError = (status, message, data) => {
     switch (status) {
       case 429: {
-        const retryAfter = Number(data?.retry_after) || 5 * 60;
+        const retryAfter = Math.max(
+          1,
+          Math.ceil(Number(data?.retry_after) || 5 * 60),
+        );
+        const lockExpiration = Date.now() + retryAfter * 1000;
 
         // Persistir la hora de expiración del bloqueo en localStorage
         try {
@@ -221,10 +274,17 @@ export default function LoginPage() {
         setErrorMessage(
           message || "Cuenta temporalmente bloqueada durante 5 minutos.",
         );
+        setBlockedUntil(lockExpiration);
         setCooldownTime(retryAfter);
         setRemainingAttempts(0);
         setLockPopup(true);
         setShowAttemptsPopup(true);
+
+        saveLoginAttemptState({
+          email: normalizeEmail(formData.email),
+          remainingAttempts: 0,
+          blockedUntil: lockExpiration,
+        });
         break;
       }
 
@@ -232,8 +292,7 @@ export default function LoginPage() {
         const validationErrors = data?.errors || {};
         const emailValidation = validationErrors.email?.[0] || "";
         const passwordValidation = validationErrors.password?.[0] || "";
-        const turnstileValidation =
-          validationErrors.turnstile_token?.[0] || "";
+        const turnstileValidation = validationErrors.turnstile_token?.[0] || "";
 
         if (emailValidation || passwordValidation) {
           setError(false);
@@ -270,6 +329,12 @@ export default function LoginPage() {
           setRemainingAttempts(data.remaining_attempts);
           setLockPopup(false);
           setShowAttemptsPopup(true);
+
+          saveLoginAttemptState({
+            email: normalizeEmail(formData.email),
+            remainingAttempts: data.remaining_attempts,
+            blockedUntil: null,
+          });
         }
         break;
 
@@ -297,6 +362,23 @@ export default function LoginPage() {
 
     if (id === "email") {
       setEmailSuggestion(detectEmailTypo(value));
+
+      const savedState = readLoginAttemptState();
+      const savedEmail =
+        typeof savedState?.email === "string" ? savedState.email : "";
+
+      // Evita mostrar los intentos de un correo cuando el usuario escribe otro.
+      // Esto solo limpia la interfaz; el contador real del backend no se altera.
+      if (
+        savedEmail &&
+        normalizeEmail(value) !== normalizeEmail(savedEmail) &&
+        cooldownTime <= 0
+      ) {
+        clearLoginAttemptState();
+        setRemainingAttempts(null);
+        setShowAttemptsPopup(false);
+        setLockPopup(false);
+      }
     }
 
     if (errorType === "credentials") {
