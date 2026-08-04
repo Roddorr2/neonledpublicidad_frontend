@@ -5,11 +5,11 @@ import React from "react";
 export const SliderContent = () => {
   return (
     <div 
-      className="absolute inset-0 flex flex-col justify-end text-left z-10 px-4 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-20 md:justify-center md:translate-y-24"
-      style={{ contain: "layout style" }}
+      className="absolute inset-0 flex flex-col justify-end text-left z-10 px-4 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-20 md:justify-center md:translate-y-24 overflow-hidden"
+      style={{ contain: "layout style", willChange: "transform" }}
     >
       <div className="text-white relative">
-        <div className="absolute left-0 top-2 w-1.5 h-32 sm:h-44 bg-gradient-to-b from-sky-400 to-blue-600 rounded-full shadow-md" />
+        <div className="absolute left-0 top-2 w-1.5 h-32 sm:h-44 bg-gradient-to-b from-sky-400 to-blue-600 rounded-full shadow-md flex-shrink-0" />
 
         <div className="pl-8 sm:pl-10">
           <h1 className="text-lg sm:text-3xl font-medium tracking-wide mb-1 sm:mb-2">
@@ -22,7 +22,7 @@ export const SliderContent = () => {
           </h1>
 
           <div className="inline-block">
-            <h2 className="text-2xl sm:text-5xl lg:text-7xl font-extrabold leading-tight mb-2 sm:mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+            <h2 className="text-2xl sm:text-5xl lg:text-7xl font-extrabold leading-tight mb-2 sm:mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]" style={{ anchorName: "--slider-title" }}>
               HAZ BRILLAR <br />
               TU MARCA
             </h2>

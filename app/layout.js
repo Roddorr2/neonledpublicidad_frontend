@@ -10,6 +10,7 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
   preload: true,
+  icons: false,
 });
 
 const leagueGothic = League_Gothic({
@@ -18,16 +19,30 @@ const leagueGothic = League_Gothic({
   display: "swap",
   variable: "--font-league-gothic",
   preload: true,
+  icons: false,
 });
 
 const criticalCSS = `
   * { box-sizing: border-box; }
-  body { margin: 0; }
+  body { 
+    margin: 0; 
+    font-family: 'Inter', 'League Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  }
+  html { 
+    font-size: 16px;
+    font-family: 'Inter', 'League Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  @media (max-width: 768px) { 
+    html { font-size: 14px; } 
+  }
+  :root {
+    --font-inter: 'Inter', 'League Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-league-gothic: 'League Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
 `;
 
 export const metadata = {
   metadataBase: new URL("https://ledneonpublicidad.com"),
-
   robots: {
     index: true,
     follow: true,
@@ -39,12 +54,10 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
-
   applicationName: "LedNeonPublicidad",
   authors: [{ name: "LedNeonPublicidad" }],
   creator: "LedNeonPublicidad",
   publisher: "LedNeonPublicidad",
-
   formatDetection: {
     email: false,
     address: false,
@@ -57,31 +70,23 @@ export default function RootLayout({ children }) {
     <html lang="es-PE">
       <head>
         <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
-        <link rel="preconnect" href="https://back.ledneonpublicidad.com" />
-        <link rel="preconnect" href="https://ui-avatars.com" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfMZg.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=League+Gothic:wght@400&display=swap" rel="stylesheet" />
         <meta
           name="google-site-verification"
           content="GmKy-G0PSdvQqMQB1OXQMRRR-MImNAtg1dkxxtvCUug"
         />
-        {/* Google Tag Manager */}
         <Script id="gtm-script" strategy="lazyOnload">
-          {`
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-TX8GKPRZ');
-          `}
+          {`$\\(function(w,d,s,l,i){w[l]=w[l]=[];w[l].push({\'gtm.start\':new Date().getTime(),event:\'gtm.js\'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!=\'dataLayer\'?\'&l=\'+l:\'\';j.async=true;j.src=\'https://www.googletagmanager.com/gtm.js?id=\'+i+dl;f.parentNode.insertBefore(j,f);}\\)(window,document,\'script\',\'dataLayer\',\'GTM-TX8GKPRZ\');`}
         </Script>
-        {/* End Google Tag Manager */}
       </head>
 
       <body
         className={`${inter.variable} ${leagueGothic.variable} font-sans antialiased bg-[#05070D] min-h-screen m-0 p-0`}
       >
         <AuthProvider>{children}</AuthProvider>
-        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-TX8GKPRZ"

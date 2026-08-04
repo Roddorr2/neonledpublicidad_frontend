@@ -97,9 +97,9 @@ export default function NuestrosProductos() {
 
           <motion.h2
             className="text-2xl font-bold text-white tracking-wide"
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.1 }}
             style={{ transform: "translateZ(0)" }}
           >
             NUESTROS PRODUCTOS
@@ -107,17 +107,17 @@ export default function NuestrosProductos() {
 
           <motion.div
             className="h-1 w-20 bg-gradient-to-r from-[#44b0f8] to-[#2563eb] rounded-full"
-            initial={{ opacity: 0, scaleX: 0 }}
+            initial={{ opacity: 1, scaleX: 1 }}
             animate={{ opacity: 1, scaleX: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.1, delay: 0.1 }}
             style={{ transformOrigin: "left", transform: "translateZ(0)" }}
           />
 
           <motion.p
             className="text-base text-gray-200 max-w-2xl leading-relaxed"
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.1, delay: 0.2 }}
             style={{ transform: "translateZ(0)" }}
           >
             Ofrecemos una gran variedad de letreros para tu negocio tanto
@@ -130,9 +130,9 @@ export default function NuestrosProductos() {
 
           <motion.h2
             className="text-2xl font-bold text-white tracking-wide whitespace-nowrap"
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 1, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.1 }}
             style={{ transform: "translateZ(0)" }}
           >
             NUESTROS PRODUCTOS
@@ -140,17 +140,17 @@ export default function NuestrosProductos() {
 
           <motion.div
             className="h-20 rounded-full bg-orange-500 w-1"
-            initial={{ opacity: 0, scaleY: 0 }}
+            initial={{ opacity: 1, scaleY: 1 }}
             animate={{ opacity: 1, scaleY: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.1, delay: 0.1 }}
             style={{ transformOrigin: "top", transform: "translateZ(0)" }}
           />
 
           <motion.p
             className="text-xl lg:text-2xl text-white max-w-2xl leading-relaxed"
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 1, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.1, delay: 0.2 }}
             style={{ transform: "translateZ(0)" }}
           >
             Ofrecemos una gran variedad de letreros para tu negocio tanto
