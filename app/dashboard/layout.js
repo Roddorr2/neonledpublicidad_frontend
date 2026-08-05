@@ -360,9 +360,13 @@ export default function RootLayout({ children }) {
 
           {/* Main content */}
           <div
-            className={`flex-1 flex flex-col ${
-              isSidebarOpen ? "ml-64" : "ml-20"
-            } transition-all duration-300`}
+            className={`
+              flex flex-col transition-all duration-300
+              ${isSidebarOpen
+                ? "ml-64 w-[calc(100%-16rem)]"
+                : "ml-20 w-[calc(100%-5rem)]"
+              }
+            `}
           >
             {/* Header */}
             <header className="z-10 h-16 flex items-center justify-between px-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
@@ -372,7 +376,7 @@ export default function RootLayout({ children }) {
             </header>
 
             {/* Page content */}
-            <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 p-0">
+            <main className="flex-1 overflow-y-auto overflow-x-hidden bg-gray-50 dark:bg-gray-900 p-0">
               {children}
             </main>
           </div>

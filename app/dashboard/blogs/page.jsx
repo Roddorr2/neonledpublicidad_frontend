@@ -427,7 +427,7 @@ export default function Page() {
                 </div>
             ) : (
                 <>
-                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-y-auto mb-6">
+                    <div className="hidden lg:block bg-white dark:bg-slate-800 rounded-xl shadow-sm mb-6">
                         <div className="overflow-x-auto">
 
                             <table className="w-full">
