@@ -9,8 +9,7 @@
     "clean-build": "(if exist .next rmdir /s /q .next) && npm run build",
     "clean-build-prod": "(if exist .next rmdir /s /q .next) && npm run build-prod",
     "start": "next start",
-    "lint": "next lint",
-    "optimize-images": "node scripts/optimize-images.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.12",
