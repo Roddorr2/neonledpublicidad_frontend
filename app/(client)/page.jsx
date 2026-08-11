@@ -6,10 +6,10 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import NuestrosProductos from "./productos/components/NuestrosProductos";
 import dynamic from "next/dynamic";
 import Testimonials  from "./nosotros/components/Testimonials";
-
-const Slider = dynamic(() => import("./components/slider/Slider"), {
-  ssr: false,
-});
+import Slider from "./components/slider/Slider"
+// const Slider = dynamic(() => import("./components/slider/Slider"), {
+//   ssr: false,
+// });
 const Slider2 = dynamic(() => import("./components/slider2/Slider2"), {
   ssr: false,
 });

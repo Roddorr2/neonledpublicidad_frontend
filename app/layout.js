@@ -70,16 +70,12 @@ export default function RootLayout({ children }) {
     <html lang="es-PE">
       <head>
         <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfMZg.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=League+Gothic:wght@400&display=swap" rel="stylesheet" />
         <meta
           name="google-site-verification"
           content="GmKy-G0PSdvQqMQB1OXQMRRR-MImNAtg1dkxxtvCUug"
         />
         <Script id="gtm-script" strategy="lazyOnload">
-          {`$\\(function(w,d,s,l,i){w[l]=w[l]=[];w[l].push({\'gtm.start\':new Date().getTime(),event:\'gtm.js\'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!=\'dataLayer\'?\'&l=\'+l:\'\';j.async=true;j.src=\'https://www.googletagmanager.com/gtm.js?id=\'+i+dl;f.parentNode.insertBefore(j,f);}\\)(window,document,\'script\',\'dataLayer\',\'GTM-TX8GKPRZ\');`}
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TX8GKPRZ');`}
         </Script>
       </head>
 
