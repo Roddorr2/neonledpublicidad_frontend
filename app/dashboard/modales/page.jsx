@@ -723,7 +723,7 @@ export default function Page() {
             <Pagination1
               filteredData={filteredData}
               currentPage={currentPage}
-              totalPages={totalPages}
+              totalPages={200}
               itemsPerPage={ITEMS_PER_PAGE}
             />
           </>

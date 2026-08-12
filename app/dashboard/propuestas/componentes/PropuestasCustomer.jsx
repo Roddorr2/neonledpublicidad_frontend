@@ -166,13 +166,13 @@ const PropuestasCustomer = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-3 sm:p-4 md:p-6 lg:p-8">
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         {/* Header */}
         <div className="bg-blue-600 rounded-lg px-6 py-6 mb-6">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
             <div>
-              <h1 className="text-2xl font-bold mb-2 flex items-center gap-2 text-white">
+              <h1 className="text-2xl font-bold mb-2 flex flex-col sm:flex-row items-center gap-2 text-white">
                 <BookText size={24} />
                 Gestión de Propuestas
               </h1>
