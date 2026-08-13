@@ -147,7 +147,7 @@ export default function WhatsAppPage() {
 
             {/* Tabs */}
             <div className="mt-4">
-              <div className="flex gap-6 border-b border-slate-200 dark:border-slate-700">
+              <div className="flex gap-6 border-b border-slate-200 dark:border-slate-700 overflow-scroll sm:overflow-hidden">
                 <TabButton
                   active={tab === 'conexion'}
                   onClick={() => setTab('conexion')}
