@@ -64,7 +64,7 @@ const PropuestasCustomer = () => {
     }
   };
 
-    useEffect(() => {
+  useEffect(() => {
     const abortController = new AbortController();
     loadData(abortController.signal);
 
@@ -89,7 +89,7 @@ const PropuestasCustomer = () => {
       const filtered = customers.filter((cliente) =>
         `${cliente.nombre} ${cliente.apellido} ${cliente.email}`
           .toLowerCase()
-          .includes(customerSearchTerm.toLowerCase())
+          .includes(customerSearchTerm.toLowerCase()),
       );
       setFilteredCustomers(filtered);
     } else {
@@ -169,23 +169,27 @@ const PropuestasCustomer = () => {
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8">
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         {/* Header */}
-        <div className="bg-blue-600 rounded-lg px-6 py-6 mb-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold mb-2 flex items-center gap-2 text-white">
-                <BookText size={24} />
-                Gestión de Propuestas
+
+        <div className="bg-blue-600 rounded-lg p-4 sm:p-6 mb-6 text-white shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            {/* Título y Descripción */}
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2 text-white">
+                <BookText size={24} className="shrink-0" />
+                <span className="break-words">Gestión de Propuestas</span>
               </h1>
-              <p className="text-blue-100">
+              <p className="text-blue-100 text-sm mt-1">
                 Administra las propuestas de decoración para clientes
               </p>
             </div>
+
+            {/* Botón "+ Nueva Propuesta" */}
             <Link
               href="/dashboard/propuestas/crear"
-              className="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors flex items-center gap-2"
+              className="w-full sm:w-auto bg-white text-blue-600 px-4 py-2.5 rounded-lg font-medium hover:bg-blue-50 transition-colors flex items-center justify-center gap-2 text-sm shrink-0 shadow-sm"
             >
               <Plus size={16} />
-              Nueva Propuesta
+              <span>Nueva Propuesta</span>
             </Link>
           </div>
         </div>
@@ -291,7 +295,7 @@ const PropuestasCustomer = () => {
             <div className="flex justify-end items-center">
               <button
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50"
-                onClick={() => loadData()} 
+                onClick={() => loadData()}
                 disabled={loading}
               >
                 <RefreshCw
@@ -388,7 +392,7 @@ const PropuestasCustomer = () => {
                                 onClick={() =>
                                   router.push(
                                     "/dashboard/propuestas/detalle-propuesta?id=" +
-                                      proposal.id
+                                      proposal.id,
                                   )
                                 }
                               >
@@ -398,7 +402,7 @@ const PropuestasCustomer = () => {
                                 className="p-2 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-full transition-colors"
                                 onClick={() =>
                                   router.push(
-                                    `/dashboard/propuestas/editar-propuesta?id=${proposal.id}`
+                                    `/dashboard/propuestas/editar-propuesta?id=${proposal.id}`,
                                   )
                                 }
                               >
