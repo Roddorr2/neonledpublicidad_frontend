@@ -144,7 +144,16 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
       .create(form)
       .then((response) => {
         if (response.error) {
-          setError({ status: true, message: "Hubo un error al crear el empleado" })
+          const backendMessage = response.message || ""
+          const isDuplicateEmail =
+            response.status === 409 ||
+            (/email|correo/i.test(backendMessage) && /taken|registrad|existe|use/i.test(backendMessage))
+          setError({
+            status: true,
+            message: isDuplicateEmail
+              ? "Ya existe un empleado registrado con ese correo"
+              : backendMessage || "Hubo un error al crear el empleado",
+          })
           setButtonStatus(true)
         } else {
           if (response.status === 200) {
