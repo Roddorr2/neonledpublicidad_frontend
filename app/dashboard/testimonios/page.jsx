@@ -611,7 +611,7 @@ export default function TestimoniosPage() {
         </div>
 
         {/* Stats */}
-        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="mt-6 gap-3 flex flex-wrap justify-between">
           <StatCard
             icon={Users}
             label="Total"
