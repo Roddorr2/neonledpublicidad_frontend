@@ -57,7 +57,7 @@ import auth_service from "../users/services/auth.service";
 // Componente Card para móvil
 const EmployeeCard = ({ employee, onShow, onUpdate, onDelete }) => (
   <div className="bg-white rounded-lg shadow-md p-4 mb-3 border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
-    <div className="flex justify-between items-start mb-3">
+    <div className="flex flex-wrap-reverse justify-center gap-2 items-center mb-3">
       <div className="flex items-center gap-2">
         <div className="bg-blue-100 rounded-full p-2 dark:bg-blue-900">
           <User className="h-4 w-4 text-blue-600 dark:text-blue-300" />
@@ -67,7 +67,7 @@ const EmployeeCard = ({ employee, onShow, onUpdate, onDelete }) => (
         </span>
       </div>
       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-        {employee.rol_nombre || employee.rol?.nombre || "Sin rol"}
+        {employee.rol || employee.rol?.nombre || "Sin rol"}
       </span>
     </div>
 
