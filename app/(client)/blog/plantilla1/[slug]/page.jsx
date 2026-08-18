@@ -29,7 +29,7 @@ export async function generateMetadata({ params }) {
     data?.meta_descripcion ||
     "Bienvenido a mi blog meta";
   
-    const canonicalUrl = `https://www.ledneonpublicidad.com/blog/plantilla1/${slug}`
+    const canonicalUrl = `https://ledneonpublicidad.com/blog/plantilla1/${slug}`
 
 
     return {
