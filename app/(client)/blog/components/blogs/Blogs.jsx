@@ -166,7 +166,7 @@ const Blogs = () => {
 
         <div>
           <Link
-            href={`./plantilla${dato.id_plantilla}?blog=${dato.blog.link}`}
+            href={`/blog/plantilla${dato.id_plantilla}/${dato.blog.link}`}
           >
             <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/50">
               SABER MÁS
