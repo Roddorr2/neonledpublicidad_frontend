@@ -373,7 +373,7 @@ export default function DetallePropuestaPage() {
       </button>
 
       <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
-        <div className="flex justify-between items-start mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
           <div>
             <h1 className="text-2xl font-bold text-blue-600 mb-2">
               {proposalData.nombre || "Nombre de la Propuesta"}
@@ -427,7 +427,7 @@ export default function DetallePropuestaPage() {
               <h2 className="text-lg font-semibold dark:text-white mb-1">
                 {proposalData.cliente.nombre} {proposalData.cliente.apellido}
               </h2>
-              <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-white">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-600 dark:text-white">
                 {proposalData.cliente.email && (
                   <div className="flex items-center gap-1">
                     <span className="mr-1">📧</span>
@@ -463,7 +463,7 @@ export default function DetallePropuestaPage() {
       </div>
 
       <div className="bg-gray-100 rounded-lg p-6 dark:bg-gray-800">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
           <div className="flex items-center gap-2">
             <div className="w-1 h-6 bg-blue-600 rounded"></div>
             <h3 className="text-xl font-semibold text-blue-600">
@@ -617,7 +617,7 @@ export default function DetallePropuestaPage() {
 
       {/* Galería de videos */}
       <div className="bg-gray-100 rounded-lg p-6 dark:bg-gray-800">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 w-full">
           <div className="flex items-center gap-2">
             <div className="w-1 h-6 bg-blue-600 rounded"></div>
             <h3 className="text-xl font-semibold text-blue-600">
