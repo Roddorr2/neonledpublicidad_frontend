@@ -643,15 +643,15 @@ const Contacto = () => {
                         Detalle de reclamación*
                       </option>
 
-                      <option value="consulta">
+                      <option value="CONSULTA">
                         Consulta
                       </option>
 
-                      <option value="reclamo">
+                      <option value="RECLAMO">
                         Reclamo
                       </option>
 
-                      <option value="sugerencia">
+                      <option value="SUGERENCIA">
                         Sugerencia
                       </option>
                     </select>
@@ -697,4 +697,3 @@ const Contacto = () => {
 }
 
 export default Contacto
-

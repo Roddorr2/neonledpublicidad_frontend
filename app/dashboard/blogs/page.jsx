@@ -243,7 +243,7 @@ export default function Page() {
 
     // Componente para la vista de tarjetas (móvil)
     const BlogCard = ({ blog }) => (
-        <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 rounded-lg p-4 space-y-3">
             <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
@@ -251,8 +251,8 @@ export default function Page() {
                             ID: {blog.id_card}
                         </span>
                     </div>
-                    <h3 className="font-medium text-slate-900 mb-1 line-clamp-2">{blog.titulo}</h3>
-                    <p className="text-sm text-slate-600 line-clamp-2 mb-2">{blog.descripcion}</p>
+                    <h3 className="font-medium mb-1 line-clamp-2">{blog.titulo}</h3>
+                    <p className="text-sm line-clamp-2 mb-2">{blog.descripcion}</p>
                 </div>
                 <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 ml-3 flex-shrink-0">
                     <img
@@ -265,7 +265,7 @@ export default function Page() {
 
             <div className="pt-2 border-t border-slate-100">
                 <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-slate-600">
+                    <span className="text-sm ">
                         <span className="font-medium">Autor:</span> {blog.empleado?.nombre || "Desconocido"}
                     </span>
                 </div>
@@ -279,7 +279,7 @@ export default function Page() {
                         title="Ver blog"
                     >
                         <Eye className="w-4 h-4" />
-                        Ver
+                        
                     </Link>
                     <Link
                         href={`/edition?mode=edit&id=${blog.id_blog}`}
@@ -287,7 +287,7 @@ export default function Page() {
                         title="Editar blog"
                     >
                         <Pencil className="w-4 h-4" />
-                        Editar
+                        
                     </Link>
                     {auth_service.hasRole("administrador") && (
                         <button
@@ -427,7 +427,7 @@ export default function Page() {
                 </div>
             ) : (
                 <>
-                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-y-auto mb-6">
+                    <div className="hidden lg:block bg-white dark:bg-slate-800 rounded-xl shadow-sm mb-6">
                         <div className="overflow-x-auto">
 
                             <table className="w-full">

@@ -124,7 +124,6 @@ export default function Page() {
   const searchParams = useSearchParams();
   const currentPage = searchParams.get("page") || 1;
   const [data, setData] = useState([]);
-  const [count, setCount] = useState(0);
   const [modal, setModal] = useState(false);
   const [dataUpd, setDataUpdate] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -158,10 +157,11 @@ export default function Page() {
     }
   };
 
-  async function setEmpleados(page) {
+  async function setEmpleados() {
     setIsLoading(true);
     try {
-      const response = await empleado_service.empleadosByPage(page, 5);
+      const itemsPerPage = 5;
+      const response = await empleado_service.empleadosByPage(1, itemsPerPage);
       if (response.status === 401) {
         Swal.fire({
           icon: "error",
@@ -178,16 +178,34 @@ export default function Page() {
       }
 
       if (Number.parseInt(response.status) === 200) {
-        if (response.total > 0) {
-          const transformedData = response.data.map((item) => ({
-            ...item,
-            id: item.id_empleado,
-            id_rol: item.rol?.id_rol || "",
-            rol_nombre: item.rol?.nombre || "Sin rol",
-          }));
-          setData(transformedData);
-          setCount(response.total);
+        const totalPages = Math.ceil(response.total / itemsPerPage);
+        const remainingResponses = await Promise.all(
+          Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) =>
+            empleado_service.empleadosByPage(index + 2, itemsPerPage),
+          ),
+        );
+        if (
+          remainingResponses.some(
+            (pageResponse) => Number.parseInt(pageResponse.status) !== 200,
+          )
+        ) {
+          throw new Error("No se pudieron cargar todos los empleados");
         }
+        const allEmployees = [
+          ...(response.data || []),
+          ...remainingResponses.flatMap((pageResponse) =>
+            Number.parseInt(pageResponse.status) === 200
+              ? pageResponse.data || []
+              : [],
+          ),
+        ];
+        const transformedData = allEmployees.map((item) => ({
+          ...item,
+          id: item.id_empleado,
+          id_rol: item.rol?.id_rol || "",
+          rol_nombre: item.rol?.nombre || "Sin rol",
+        }));
+        setData(transformedData);
       }
     } catch (error) {
       console.error("Error al obtener los datos:", error);
@@ -276,22 +294,30 @@ export default function Page() {
   };
 
   const fetchEmpleados = async () => {
-    if (isNaN(currentPage)) {
-      await setEmpleados(1);
-      return;
-    }
-    await setEmpleados(Number.parseInt(currentPage));
+    await setEmpleados();
   };
 
   const filteredData = data.filter((item) => {
+    const normalizeRole = (value) => value?.trim().toLowerCase() || "";
     const matchesSearch =
       item.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.apellido?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.dni?.toLowerCase().includes(searchTerm.toLowerCase());
 
+    const selectedRoleData = roles.find(
+      (role) => String(role.id_rol) === String(selectedRole),
+    );
+    const employeeRoleId = item.id_rol || item.rol?.id_rol;
+    const employeeRoleName =
+      typeof item.rol === "string"
+        ? item.rol
+        : item.rol?.nombre || item.rol_nombre;
     const matchesRole =
-      selectedRole === "all" || String(item.id_rol) === String(selectedRole);
+      selectedRole === "all" ||
+      String(employeeRoleId) === String(selectedRole) ||
+      normalizeRole(employeeRoleName) ===
+        normalizeRole(selectedRoleData?.nombre);
 
     return matchesSearch && matchesRole;
   });
@@ -299,7 +325,7 @@ export default function Page() {
   useEffect(() => {
     fetchEmpleados();
     fetchRoles();
-  }, [currentPage]);
+  }, []);
 
   const formatRoleName = (name) => {
     if (!name) return "";
@@ -311,9 +337,17 @@ export default function Page() {
 
   // Paginación manual para cards
   const itemsPerPage = 5;
+  const filteredPageCount = Math.max(
+    1,
+    Math.ceil(filteredData.length / itemsPerPage),
+  );
+  const activePage = Math.min(
+    Math.max(1, Number(currentPage) || 1),
+    filteredPageCount,
+  );
   const paginatedData = filteredData.slice(
-    (Number(currentPage) - 1) * itemsPerPage,
-    Number(currentPage) * itemsPerPage,
+    (activePage - 1) * itemsPerPage,
+    activePage * itemsPerPage,
   );
 
   return (
@@ -446,7 +480,7 @@ export default function Page() {
                 {auth_service.hasPermission("ver-empleados") && (
                   <Table
                     headers={headers}
-                    data={filteredData}
+                    data={paginatedData}
                     onDelete={onDelete}
                     onUpdate={onUpdate}
                     onShow={handleShow}
@@ -464,7 +498,7 @@ export default function Page() {
 
               {filteredData.length > 0 && (
                 <div className="mt-4">
-                  <Pagination count={count} />
+                  <Pagination count={filteredData.length} />
                 </div>
               )}
             </>

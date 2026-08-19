@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
-export default function Banner({ titulo, video }) {
+export default function Banner({ titulo, video, imagen }) {
   const videoRef = useRef(null);
 
   // Asegura la reproducción en navegadores estrictos tras la hidratación de Next.js
   useEffect(() => {
-    if (videoRef.current) {
+    if (video && videoRef.current) {
       videoRef.current.muted = true;
       videoRef.current.play().catch((err) => console.log("Autoplay demorado:", err));
     }
@@ -20,22 +21,33 @@ export default function Banner({ titulo, video }) {
 
   return (
     <section className="w-full">
-      {/* FILA 1: Video (Ocupa exactamente el mismo espacio que ocupaba tu imagen) */}
+      {/* FILA 1: Video o imagen (Ocupa exactamente el mismo espacio que ocupaba tu imagen) */}
       <div className="relative h-[45vh] sm:h-[50vh] md:h-[calc(60vh-120px)] lg:h-[calc(80vh-100px)] xl:h-[calc(90vh-80px)] overflow-hidden bg-black">
-        <video
-          ref={videoRef}
-          className="w-full h-full object-cover select-none"
-          loop
-          muted
-          playsInline
-          preload="auto"
-          controls={false}
-        >
-          <source src={video} type="video/mp4" />
-          Tu navegador no soporta videos.
-        </video>
+        {video ? (
+          <video
+            ref={videoRef}
+            className="w-full h-full object-cover select-none"
+            loop
+            muted
+            playsInline
+            preload="auto"
+            controls={false}
+          >
+            <source src={video} type="video/mp4" />
+            Tu navegador no soporta videos.
+          </video>
+        ) : imagen ? (
+          <Image
+            src={imagen}
+            alt={typeof titulo === "string" ? titulo : "Banner"}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover select-none"
+          />
+        ) : null}
 
-        {/* Overlay sutil sobre el video */}
+        {/* Overlay sutil sobre el video/imagen */}
         <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
       </div>
 

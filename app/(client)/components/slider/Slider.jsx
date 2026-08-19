@@ -58,6 +58,7 @@ const Slider = ({ slides }) => {
   return (
     <div
       className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] touch-pan-y select-none z-0"
+      style={{ contain: "layout style" }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
@@ -66,7 +67,7 @@ const Slider = ({ slides }) => {
       <SliderContent />
 
       {/* Contenedor principal del slide */}
-      <div className="relative w-full h-full pointer-events-none">
+      <div className="relative w-full h-full pointer-events-none" style={{ contain: "layout style" }}>
         <SlideItem slides={slides} current={current} />
 
         {/* Controles inferiores para móvil - en una sola fila */}

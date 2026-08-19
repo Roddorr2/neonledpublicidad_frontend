@@ -77,7 +77,7 @@ export default function Banner() {
       {/* Imagen móvil */}
       <div className="absolute inset-0 md:hidden">
         <Image
-          src="/productos/banner-mobile.webp"
+          src="/productosIndividuales/banner/Pantalla-led-portada.webp"
           alt="Catálogo de productos LED y neón"
           fill
           priority

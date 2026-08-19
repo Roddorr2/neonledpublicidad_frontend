@@ -89,7 +89,7 @@ import { motion } from "framer-motion";
 
 export default function NuestrosProductos() {
   return (
-    <section className="w-full py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+    <section className="w-full py-12 md:py-16 px-4 sm:px-6 lg:px-8" style={{ contain: "layout style" }}>
       <div className="max-w-6xl mx-auto">
 
         {/* Mobile */}
@@ -97,28 +97,28 @@ export default function NuestrosProductos() {
 
           <motion.h2
             className="text-2xl font-bold text-white tracking-wide"
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.1 }}
+            style={{ transform: "translateZ(0)" }}
           >
             NUESTROS PRODUCTOS
           </motion.h2>
 
           <motion.div
             className="h-1 w-20 bg-gradient-to-r from-[#44b0f8] to-[#2563eb] rounded-full"
-            initial={{ opacity: 0, scaleX: 0 }}
-            whileInView={{ opacity: 1, scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={{ opacity: 1, scaleX: 1 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 0.1, delay: 0.1 }}
+            style={{ transformOrigin: "left", transform: "translateZ(0)" }}
           />
 
           <motion.p
             className="text-base text-gray-200 max-w-2xl leading-relaxed"
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.1, delay: 0.2 }}
+            style={{ transform: "translateZ(0)" }}
           >
             Ofrecemos una gran variedad de letreros para tu negocio tanto
             exterior como interior.
@@ -130,28 +130,28 @@ export default function NuestrosProductos() {
 
           <motion.h2
             className="text-2xl font-bold text-white tracking-wide whitespace-nowrap"
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.1 }}
+            style={{ transform: "translateZ(0)" }}
           >
             NUESTROS PRODUCTOS
           </motion.h2>
 
           <motion.div
             className="h-20 rounded-full bg-orange-500 w-1"
-            initial={{ opacity: 0, scaleY: 0 }}
-            whileInView={{ opacity: 1, scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={{ opacity: 1, scaleY: 1 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            transition={{ duration: 0.1, delay: 0.1 }}
+            style={{ transformOrigin: "top", transform: "translateZ(0)" }}
           />
 
           <motion.p
             className="text-xl lg:text-2xl text-white max-w-2xl leading-relaxed"
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            initial={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.1, delay: 0.2 }}
+            style={{ transform: "translateZ(0)" }}
           >
             Ofrecemos una gran variedad de letreros para tu negocio tanto
             exterior como interior.

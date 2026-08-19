@@ -6,15 +6,15 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import NuestrosProductos from "./productos/components/NuestrosProductos";
 import dynamic from "next/dynamic";
 import Testimonials  from "./nosotros/components/Testimonials";
-
-const Slider = dynamic(() => import("./components/slider/Slider"), {
-  ssr: false,
-});
+import Slider from "./components/slider/Slider"
+// const Slider = dynamic(() => import("./components/slider/Slider"), {
+//   ssr: false,
+// });
 const Slider2 = dynamic(() => import("./components/slider2/Slider2"), {
   ssr: false,
 });
 
-const FilaProductosModificado = ({ productos }) => {
+const FilaProductosModificado = ({ productos, isFirstRow = false }) => {
   const router = useRouter();
   const isMobile = useIsMobile(768);
 
@@ -27,17 +27,27 @@ const FilaProductosModificado = ({ productos }) => {
       {productos.map((producto, index) => {
         const imageSrc =
           (isMobile || isMobile === undefined) && producto.imgSrcMobile
-            ? producto.imgSrcMobile
-            : producto.imgSrc;
+          ? producto.imgSrcMobile
+          : producto.imgSrc;
+
+        const isFirstProduct = isFirstRow && index === 0;
 
         return (
           <div
             key={index}
             onClick={() => handleRedirect(producto.route)}
             className="bg-white rounded-3xl p-1 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer w-full max-w-[320px] flex flex-col"
+            style={{ contain: "layout style" }}
           >
             <div className="rounded-2xl overflow-hidden flex flex-col h-full">
-              <div className="relative w-full aspect-[4/3] overflow-hidden flex-shrink-0">
+              <div 
+                className="relative w-full" 
+                style={{ 
+                  aspectRatio: "4/3",
+                  overflow: "hidden",
+                  flexShrink: 0
+                }}
+              >
                 <Image
                   src={imageSrc}
                   alt={producto.altText}
@@ -45,6 +55,9 @@ const FilaProductosModificado = ({ productos }) => {
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover object-center transition-transform duration-300 hover:scale-105"
+                  loading={isFirstProduct ? "eager" : "lazy"}
+                  fetchPriority={isFirstProduct ? "high" : "low"}
+                  quality={75}
                 />
               </div>
 
@@ -108,17 +121,17 @@ export default function Home() {
 
   const slidesData = [
     {
-      imgSrc: "/home/imagen_subway_HD_final_2560x1532.png",
+      imgSrc: "/home/imagen_subway.webp",
       imgSrcMobile: "/home/imagen_subway_mobile.webp",
-      imgSrcIcon: "/home/imagen_subway_HD_final_2560x1532.png",
+      imgSrcIcon: "/home/imagen_subway_icon.webp",
       altText:
         "Letras grandes corpóreas doradas con iluminación y fondo blanco",
       title: "Letras corporeas doradas con iluminación",
     },
     {
-      imgSrc: "/home/imagen_mario_dalmasi_HD.png",
-      imgSrcMobile: "/home/imagen_mario_dalmasi_mobile_HD.png",
-      imgSrcIcon: "/home/imagen_mario_dalmasi_HD.png",
+      imgSrc: "/home/imagen_mario_dalmasi.webp",
+      imgSrcMobile: "/home/imagen_mario_dalmasi_mobile.webp",
+      imgSrcIcon: "/home/imagen_mario_dalmasi_icon.webp",
       altText: "Letras corporeas con gran iluminación de la marca Bembos",
       title: "Letras Bembos con iluminación led",
     },
@@ -131,9 +144,9 @@ export default function Home() {
       title: "Letrero led tattoo para estudio de tatuaje",
     },
     {
-      imgSrc: "/home/imagen_deltaco_final_2560x1532.png",
-      imgSrcMobile: "/home/imagen_deltaco_mobile_2560x1532.png",
-      imgSrcIcon: "/home/imagen_deltaco_final_2560x1532.png",
+      imgSrc: "/home/imagen_deltaco.webp",
+      imgSrcMobile: "/home/imagen_deltaco_mobile.webp",
+      imgSrcIcon: "/home/imagen_deltaco_icon.webp",
       altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta",
       title: "Letrero luminoso de la marca Tambo Perú",
     },
@@ -174,10 +187,11 @@ export default function Home() {
       <section
         className="px-4 lg:px-8 mt-12 md:mt-20 mb-12 md:mb-24"
         aria-labelledby="productos-heading"
+        style={{ contain: "layout style" }}
       >
         <NuestrosProductos />
         <div className="mt-8">
-          <FilaProductosModificado productos={fila1} />
+          <FilaProductosModificado productos={fila1} isFirstRow={true} />
         </div>
       </section>
 
@@ -193,6 +207,7 @@ export default function Home() {
       <section
         className="flex justify-center mt-12 md:mt-20 mb-12 md:mb-24"
         aria-label="Nuestros clientes"
+        style={{ contain: "layout style" }}
       >
         <Slider2 slides={clientLogos} />
       </section>

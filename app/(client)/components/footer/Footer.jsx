@@ -28,7 +28,7 @@ export default function Footer() {
               </p>
 
               {/* Redes sociales */}
-              <div className="justify-center items-center 2xl:pr-10 mb-4">
+              <div className="justify-center items-center 2xl:pr-10 mb-8">
                 <SocialMedia />
               </div>
             </div>

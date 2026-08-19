@@ -83,12 +83,14 @@ const empleado_service = {
                 body: JSON.stringify(form)
             });
 
+            const data = await response.json().catch(() => ({}));
+
             if (!response.ok) {
-                return { status: response.status, error: true };
+                const message = data.errors?.email?.[0] || data.message;
+                return { status: response.status, error: true, message };
             }
 
-            const data = await response.json();
-            return data; 
+            return data;
         } catch (error) {
             console.error("Error al crear empleado:", error);
             return { status: 500, error: true, message: error.message };

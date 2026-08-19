@@ -234,7 +234,7 @@ export default function RolePermissionManager() {
   return (
     <Card className="border-none shadow-md dark:bg-gray-800/95 dark:border dark:border-gray-700">
       <CardHeader className="bg-gradient-to-r from-[rgb(17,87,211)] to-[rgb(14,70,170)] text-white pb-4">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col-reverse gap-2 justify-center items-center text-center">
           <div>
             <CardTitle className="text-xl md:text-2xl font-bold">
               Gestión de Roles y Permisos
@@ -250,8 +250,8 @@ export default function RolePermissionManager() {
       </CardHeader>
 
       <CardContent className="p-6">
-        <div className="grid gap-6">
-          <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col md:flex-row gap-4 justify-center">
             <div className="w-full md:w-1/3">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 block">
                 Seleccionar Rol
