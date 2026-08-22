@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import BlogContentClient from "../../components/content/BlogContentClient";
 import Fetch from "../../services/fetch";
 import url from "@/api/url";
