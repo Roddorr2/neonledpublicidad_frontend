@@ -663,21 +663,21 @@ export default function FormMain({
   return (
     <div className={`max-w-7xl mx-auto mt-8 ${className}`}>
       {/* Panel superior */}
-      <div className="mb-8 bg-white rounded-lg shadow-sm border p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+      <div className="mb-8 bg-white rounded-lg shadow-sm border p-3 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-2xl font-bold text-gray-900">
               {isCreateMode ? "Crear Nuevo Blog" : "Editar Blog"}
             </h1>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-500">Plantilla:</span>
-              <span className="px-2 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium">
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium whitespace-nowrap">
                 {plantillaConfig.name}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-wrap items-center gap-2">
             {/* Switch de Publicación */}
             <div className="flex items-center gap-3 px-4 py-2 bg-white border rounded-xl shadow-sm">
               <span
@@ -771,7 +771,7 @@ export default function FormMain({
 
       {/* Tabs */}
       <div className="mb-8 bg-white rounded-lg shadow-sm border">
-        <div className="flex border-b border-gray-200">
+        <div className="flex flex-col sm:flex-row border-b border-gray-200">
           <button
             onClick={() => setViewMode("edit")}
             className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
