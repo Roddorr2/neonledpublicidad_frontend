@@ -4,13 +4,24 @@ import Fetch from "../../services/fetch";
 import url from "@/api/url";
 
 export async function generateStaticParams() {
-  const res = await fetch(`${url}/api/blogs`)
+  const apiUrl = url.replace(/\/+$/, "")
+  const res = await fetch(`${apiUrl}/api/blogs`)
+
   const blogs = await res.json();
 
-  return blogs.map((blog) => ({
-    slug: blog.link
-  }))
+  const filteredBlogs = blogs
+    .filter((blog) => blog.card?.id_plantilla === 3)
+    .filter((blog) => blog.card?.estado_publicacion === 1)
+    .filter((blog) => typeof blog.link == "string" && blog.link.trim() != "")
+    .map((blog) => ({ slug: blog.link }))
+
+  if (filteredBlogs.length === 0){
+    return [{slug: "404"}]
+  }
+  
+  return filteredBlogs
 }
+
 
 
 export async function generateMetadata({ params }) {
@@ -29,31 +40,31 @@ export async function generateMetadata({ params }) {
     data?.head?.meta_descripcion ||
     data?.meta_descripcion ||
     "Bienvenido a mi blog meta";
-  
-    const canonicalUrl = `https://ledneonpublicidad.com/blog/plantilla1/${slug}`
+
+  const canonicalUrl = `https://ledneonpublicidad.com/blog/plantilla1/${slug}`
 
 
-    return {
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl
+    },
+    openGraph: {
       title,
       description,
-      alternates: {
-        canonical: canonicalUrl
-      },
-      openGraph: {
-        title,
-        description,
-        url: canonicalUrl
-      }
+      url: canonicalUrl
     }
+  }
 }
 
-export default async function Page ({params}){
+export default async function Page({ params }) {
   const { slug } = await params
   const data = await Fetch.fetchBlogByLink(slug);
 
-  if (!data){
+  if (!data) {
     notFound();
   }
 
-  return <BlogContentClient data={data}/>
+  return <BlogContentClient data={data} />
 }
