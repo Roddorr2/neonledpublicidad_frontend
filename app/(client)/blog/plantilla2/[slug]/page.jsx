@@ -7,25 +7,34 @@ export async function generateStaticParams() {
   const apiUrl = url.replace(/\/+$/, "")
   const res = await fetch(`${apiUrl}/api/blogs`)
 
+  if (!res.ok){
+    console.error(`Error ${res.status} al obtener blogs`)
+    return [{slug: '__sin_contenido__'}]
+  }
+
   const blogs = await res.json();
 
-  const filteredBlogs = blogs
-    .filter((blog) => blog.card?.id_plantilla === 3)
-    .filter((blog) => blog.card?.estado_publicacion === 1)
-    .filter((blog) => typeof blog.link == "string" && blog.link.trim() != "")
-    .map((blog) => ({ slug: blog.link }))
-
-  if (filteredBlogs.length === 0){
-    return [{slug: "404"}]
-  }
+  const filtered = blogs
+      .filter((blog) => blog.card?.id_plantilla === 2)
+      .filter((blog) => blog.card?.estado_publicacion === 1)
+      .filter((blog) => typeof blog.link == "string" && blog.link.trim() != "")
+      .map((blog) => ({ slug: blog.link }))
   
-  return filteredBlogs
+    return filtered.length > 0 ? filtered : [{ slug: '__sin_contenido__' }]
+
 }
 
 
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+
+  if (slug === '__sin_contenido__'){
+    return {
+      title: "Blog no encontrado | Neon Led Publicidad"
+    }
+  }
+
   const data = await Fetch.fetchBlogByLink(slug);
 
   if (!data) {
@@ -60,6 +69,11 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
   const { slug } = await params
+
+  if (slug === '__sin_contenido__'){
+    notFound();
+  }
+
   const data = await Fetch.fetchBlogByLink(slug);
 
   if (!data) {
