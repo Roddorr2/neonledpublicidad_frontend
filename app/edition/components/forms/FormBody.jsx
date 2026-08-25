@@ -106,24 +106,24 @@ export default function FormBody({
   // ✅ Garantizar que el título de consejos tenga valor por defecto
   // El backend requiere el campo "titulo" en commend_tarjeta
   useEffect(() => {
-  if (
-    plantillaId !== 2 &&
-    formCommendBody &&
-    formCommendBody.titulo === undefined
-  ) {
-    setFormCommendBody?.((prev) => ({
-      ...prev,
-      titulo: "Consejos Importantes",
-    }));
-  }
-}, []);
+    if (
+      plantillaId !== 2 &&
+      formCommendBody &&
+      formCommendBody.titulo === undefined
+    ) {
+      setFormCommendBody?.((prev) => ({
+        ...prev,
+        titulo: "Consejos Importantes",
+      }));
+    }
+  }, []);
 
   // Manejar cambio de tab activo cuando se deshabilitan secciones
   useEffect(() => {
     if (layoutType === "tabs") {
       const currentTabVisible =
         (activeTab === "tips" && sectionsVisibility.consejos) ||
-        (activeTab === "info" && sectionsVisibility.informacion) ||      
+        (activeTab === "info" && sectionsVisibility.informacion) ||
         (activeTab === "gallery" && sectionsVisibility.galeria);
 
       if (!currentTabVisible) {
@@ -192,7 +192,7 @@ export default function FormBody({
         message: `${trimmedValue.length}/${config.max} caracteres`,
       };
     },
-    [finalValidationConfig]
+    [finalValidationConfig],
   );
 
   // Adaptar handleChange original - compatible con los setters existentes
@@ -217,7 +217,7 @@ export default function FormBody({
         // Notificar al componente padre si existe callback
         onChange?.({ fieldName: name, value, validation });
       },
-    [validateField, onChange]
+    [validateField, onChange],
   );
 
   // Handler para controlar flags de visibilidad de secciones
@@ -270,7 +270,7 @@ export default function FormBody({
                 descripcion: "",
                 keyword: "",
                 link: "",
-              }))
+              })),
             );
             break;
         }
@@ -289,7 +289,7 @@ export default function FormBody({
       setFormGaleryBody,
       setFormInfoBody,
       onChange,
-    ]
+    ],
   );
 
   // Manejar cambios en arrays (formInfoBody)
@@ -327,7 +327,7 @@ export default function FormBody({
         validation,
       });
     },
-    [validateField, setFormInfoBody, onChange]
+    [validateField, setFormInfoBody, onChange],
   );
 
   // Manejar carga de imagen - compatible con sistema original
@@ -366,7 +366,7 @@ export default function FormBody({
         setUploading(false);
       }
     },
-    [onImageChange, setFormEncabezadoBody, setFileBodyHeader]
+    [onImageChange, setFormEncabezadoBody, setFileBodyHeader],
   );
 
   // Manejar imágenes de galería
@@ -410,7 +410,7 @@ export default function FormBody({
         setUploading(false);
       }
     },
-    [onImageChange, setFormGaleryBody, setFileBodyFile1, setFileBodyFile2]
+    [onImageChange, setFormGaleryBody, setFileBodyFile1, setFileBodyFile2],
   );
 
   // Limpiar blob URLs al desmontar el componente
@@ -441,8 +441,8 @@ export default function FormBody({
       index !== null
         ? `informacion.${index}.${fieldName}`
         : context
-        ? `${context}.${fieldName}`
-        : fieldName;
+          ? `${context}.${fieldName}`
+          : fieldName;
     const validation = fieldValidations[fullFieldName];
     if (!validation) return null;
 
@@ -452,8 +452,8 @@ export default function FormBody({
           validation.isValid === null
             ? "text-gray-400"
             : validation.isValid
-            ? "text-green-400"
-            : "text-red-500"
+              ? "text-green-400"
+              : "text-red-500"
         }`}
       >
         {validation.message}
@@ -685,7 +685,7 @@ export default function FormBody({
                   {renderDescripcion(
                     section.descripcion,
                     section.keyword,
-                    section.link
+                    section.link,
                   )}
                 </p>
               </div>
@@ -711,7 +711,7 @@ export default function FormBody({
                 {renderDescripcion(
                   section.descripcion,
                   section.keyword,
-                  section.link
+                  section.link,
                 )}
               </p>
             </div>
@@ -999,10 +999,7 @@ export default function FormBody({
                   <label className={mergedStyles.label}>
                     <Type className="w-4 h-4 mr-2 text-purple-400" />
                     Título de la sección
-                    <ValidationMessage
-                      fieldName="titulo"
-                      context="consejos"
-                    />
+                    <ValidationMessage fieldName="titulo" context="consejos" />
                   </label>
                   <input
                     type="text"
@@ -1048,7 +1045,7 @@ export default function FormBody({
                               value={data.consejos[campo] || ""}
                               onChange={handleChange(
                                 setFormCommendBody,
-                                "consejos"
+                                "consejos",
                               )}
                               className={mergedStyles.input}
                               placeholder={`Consejo ${index + 1}`}
@@ -1175,7 +1172,7 @@ export default function FormBody({
                             value={data.galeria[`alt_image${index + 2}`] || ""}
                             onChange={handleChange(
                               setFormGaleryBody,
-                              "galeria"
+                              "galeria",
                             )}
                             className={mergedStyles.input}
                             placeholder={`Descripción de la imagen ${
@@ -1203,7 +1200,7 @@ export default function FormBody({
                             }
                             onChange={handleChange(
                               setFormGaleryBody,
-                              "galeria"
+                              "galeria",
                             )}
                             className={mergedStyles.input}
                             placeholder={`Título imagen ${index + 2}`}
@@ -1273,7 +1270,7 @@ export default function FormBody({
                 Tarjetas de Información (
                 {mergedSectionsConfig.informacion.maxItems} máximo)
               </h4>
-              
+
               {/* Título general de la sección de tarjetas */}
               <div className="mb-4">
                 <label className={mergedStyles.label}>
@@ -1391,13 +1388,14 @@ export default function FormBody({
                                 index={index}
                               />
                             </div>
-                            
+
                             <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 mt-4">
                               <p className="text-xs text-gray-400">
-                                💡 El enlace solo se asocia con texto existente en la descripcion
+                                💡 El enlace solo se asocia con texto existente
+                                en la descripcion
                               </p>
                             </div>
-                            
+
                             <p className="text-xs text-gray-400 mt-3 text-center">
                               Tarjeta {index + 1} de{" "}
                               {mergedSectionsConfig.informacion.maxItems}
@@ -1405,7 +1403,7 @@ export default function FormBody({
                           </div>
                         </SwiperSlide>
                       );
-                    }
+                    },
                   )}
                 </Swiper>
 
@@ -1440,7 +1438,8 @@ export default function FormBody({
     );
   };
 
-  // Renderizar contenido principal
+ // Renderizar contenido principal 
+// Renderizar contenido principal
   const renderMainContent = () => {
     const containerClass =
       layoutType === "linear"
@@ -1449,20 +1448,18 @@ export default function FormBody({
 
     if (layoutType === "linear") {
       return (
-        <div className={`${className}`}>
-          {/* Controles de secciones - por encima de todo */}
+        <div className={`${className} w-full max-w-full overflow-x-hidden`}>
           <div className="w-full mb-6">{renderSectionControls()}</div>
 
-          {/* Contenido en dos columnas: preview + forms */}
-          <div className={containerClass}>
-            <div className={mergedStyles.previewArea}>
+          {/* Forzamos columna en celular (!flex-col) y fila en escritorio (lg:!flex-row) */}
+          <div className={`${containerClass} !flex !flex-col lg:!flex-row gap-6 w-full max-w-full`}>
+            <div className={`${mergedStyles.previewArea} w-full lg:w-1/2 !max-w-full`}>
               {renderHeaderSection()}
-              
-              {/* Descripción del header */}
-              <div className="bg-white px-6 py-5 text-base text-gray-700 leading-relaxed border-b border-gray-200">
+
+              <div className="bg-white px-4 sm:px-6 py-5 text-base text-gray-700 leading-relaxed border-b border-gray-200">
                 {data.header.descripcion}
               </div>
-              
+
               <div className={mergedStyles.previewContent}>
                 {mergedSectionsConfig.consejos.enabled &&
                   sectionsVisibility.consejos &&
@@ -1475,91 +1472,88 @@ export default function FormBody({
                   renderInformacionSection()}
               </div>
             </div>
-            {renderEditForms()}
+
+            <div className="w-full lg:w-1/2 max-w-full">
+              {renderEditForms()}
+            </div>
           </div>
         </div>
       );
     }
 
     return (
-      <div className={`${className}`}>
-        {/* Controles de secciones - por encima de todo */}
+      <div className={`${className} w-full max-w-full overflow-x-hidden`}>
         <div className="w-full mb-6">{renderSectionControls()}</div>
 
-        {/* Layout principal: Preview (izquierda) + Forms (derecha) con anchos fijos */}
-        <div className={containerClass}>
-          <div className="flex gap-6 justify-center">
-            {/* Columna IZQUIERDA: Preview con Header + Tabs */}
-            <div className={mergedStyles.previewArea}>
-              <div className="sticky top-4">
-                {/* Header con controles */}
-                <div className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center rounded-t-lg">
-                  <div className="flex items-center space-x-2 text-gray-500 text-sm">
-                    <Clock className="w-4 h-4" />
-                    <span>{data.header.fecha}</span>
-                  </div>
-                  <div className="flex space-x-3">
-                    <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                      <Bookmark className="w-5 h-5 text-teal-600" />
+        {/* Forzamos columna en celular (!flex-col) y fila en escritorio (lg:!flex-row) */}
+        <div className={`${containerClass} !flex !flex-col lg:!flex-row gap-6 items-start w-full max-w-full`}>
+          {/* Preview abajo en celular o arriba según prefieras, aquí queda arriba */}
+          <div className={`${mergedStyles.previewArea} w-full lg:w-1/2 !max-w-full`}>
+            <div className="lg:sticky lg:top-4 w-full">
+              <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4 flex justify-between items-center rounded-t-lg">
+                <div className="flex items-center space-x-2 text-gray-500 text-sm">
+                  <Clock className="w-4 h-4" />
+                  <span>{data.header.fecha}</span>
+                </div>
+                <div className="flex space-x-3">
+                  <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <Bookmark className="w-5 h-5 text-teal-600" />
+                  </button>
+                  <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <Share2 className="w-5 h-5 text-teal-600" />
+                  </button>
+                </div>
+              </div>
+
+              {renderHeaderSection()}
+
+              <div className="bg-white px-4 sm:px-6 py-5 text-base text-gray-700 leading-relaxed">
+                {data.header.descripcion}
+              </div>
+
+              <div className={`${mergedStyles.tabsContainer} bg-white px-4 sm:px-6 flex-wrap`}>
+                {["info", "tips", "gallery"]
+                  .filter((tab) => {
+                    if (tab === "tips") return sectionsVisibility.consejos;
+                    if (tab === "info") return sectionsVisibility.informacion;
+                    if (tab === "gallery") return sectionsVisibility.galeria;
+                    return true;
+                  })
+                  .map((tab) => (
+                    <button
+                      key={tab}
+                      className={
+                        activeTab === tab
+                          ? mergedStyles.activeTab
+                          : mergedStyles.inactiveTab
+                      }
+                      onClick={() => setActiveTab(tab)}
+                    >
+                      {tab === "tips" && "Consejos"}
+                      {tab === "info" && "Información"}
+                      {tab === "gallery" && "Galería"}
                     </button>
-                    <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                      <Share2 className="w-5 h-5 text-teal-600" />
-                    </button>
-                  </div>
-                </div>
+                  ))}
+              </div>
 
-                {/* Imagen de header */}
-                {renderHeaderSection()}
-
-                {/* Descripción */}
-                <div className="bg-white px-6 py-5 text-base text-gray-700 leading-relaxed">
-                  {data.header.descripcion}
-                </div>
-
-                {/* Tabs navigation */}
-                <div className={`${mergedStyles.tabsContainer} bg-white px-6`}>
-                  {["info", "tips", "gallery"]
-                    .filter((tab) => {
-                      if (tab === "tips") return sectionsVisibility.consejos;
-                      if (tab === "info") return sectionsVisibility.informacion;                      
-                      if (tab === "gallery") return sectionsVisibility.galeria;
-                      return true;
-                    })
-                    .map((tab) => (
-                      <button
-                        key={tab}
-                        className={
-                          activeTab === tab
-                            ? mergedStyles.activeTab
-                            : mergedStyles.inactiveTab
-                        }
-                        onClick={() => setActiveTab(tab)}
-                      >
-                        {tab === "tips" && "Consejos"}
-                        {tab === "info" && "Información"}                        
-                        {tab === "gallery" && "Galería"}
-                      </button>
-                    ))}
-                </div>
-
-                {/* Tabs content - sin límite de altura */}
-                <div className="bg-white rounded-b-lg shadow-sm">
-                  <div className="p-6">
-                    {activeTab === "tips" && sectionsVisibility.consejos && (
-                      <div key="tips-content">{renderConsejosSection()}</div>
-                    )}
-                    {activeTab === "info" && sectionsVisibility.informacion && (
-                      <div key="info-content">{renderInformacionSection()}</div>
-                    )}                    
-                    {activeTab === "gallery" && sectionsVisibility.galeria && (
-                      <div key="gallery-content">{renderGaleriaSection()}</div>
-                    )}
-                  </div>
+              <div className="bg-white rounded-b-lg shadow-sm">
+                <div className="p-4 sm:p-6">
+                  {activeTab === "tips" && sectionsVisibility.consejos && (
+                    <div key="tips-content">{renderConsejosSection()}</div>
+                  )}
+                  {activeTab === "info" && sectionsVisibility.informacion && (
+                    <div key="info-content">{renderInformacionSection()}</div>
+                  )}
+                  {activeTab === "gallery" && sectionsVisibility.galeria && (
+                    <div key="gallery-content">{renderGaleriaSection()}</div>
+                  )}
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Columna DERECHA: Formularios de edición */}
+          {/* Formulario que pasa a ocupar todo el ancho en móvil */}
+          <div className="w-full lg:w-1/2 max-w-full">
             {renderEditForms()}
           </div>
         </div>
@@ -1640,7 +1634,7 @@ export default function FormBody({
       const tituloValidation = validateFieldInline(
         "titulo",
         formCommendBody.titulo || "",
-        "consejos"
+        "consejos",
       );
       initialValidations["consejos.titulo"] = tituloValidation;
 
@@ -1679,7 +1673,7 @@ export default function FormBody({
           const validation = validateFieldInline(
             fieldName,
             value,
-            "informacion"
+            "informacion",
           );
           initialValidations[`informacion.${index}.${fieldName}`] = validation;
         });
@@ -1687,7 +1681,7 @@ export default function FormBody({
     }
 
     setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
-  }, [    
+  }, [
     formEncabezadoBody?.titulo,
     formEncabezadoBody?.descripcion,
     formEncabezadoBody?.alt_image1,
@@ -1707,7 +1701,7 @@ export default function FormBody({
     sectionsVisibility.galeria,
     sectionsVisibility.informacion,
     finalValidationConfig,
-    plantillaId,    
+    plantillaId,
   ]);
 
   // Validación unificada - compatible con setValidacionBody original

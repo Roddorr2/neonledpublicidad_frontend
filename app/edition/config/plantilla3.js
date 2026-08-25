@@ -4,20 +4,20 @@
 export const PLANTILLA3_STYLES = {
   // Layout general
   container:
-    "relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden my-5",
+    "w-full max-w-full relative text-black rounded-lg shadow-lg overflow-x-hidden my-5 flex flex-col items-center",
 
   // Layouts específicos - Plantilla 3 usa layout lineal
   linearLayout: "flex flex-row justify-center",
 
   // Preview area
-  previewArea: "w-[600px]",
+  previewArea: "w-full lg:w-[600px] max-w-full overflow-hidden", // Ajuste para que sea responsive y no se corte en pantallas pequeñas
   previewHeader: "relative h-[400px] overflow-hidden",
   previewContent: "bg-black/5 p-8",
 
   // Form panel
-  formPanel: "w-[420px] flex flex-col justify-center gap-5 p-5",
+  formPanel: "w-full max-w-[420px] mx-auto flex flex-col justify-center gap-5 p-3 sm:p-5",
   formCard:
-    "bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
+    "bg-black/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
 
   // Sections - Plantilla 3 específicos (similar a Plantilla 1 pero con diferencias sutiles)
   consejosSection:
