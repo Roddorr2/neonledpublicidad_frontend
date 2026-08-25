@@ -16,9 +16,9 @@ export const PLANTILLA2_STYLES = {
   previewContent: "bg-black/5 p-8",
 
   // Form panel - Mismo ancho que plantillas 1 y 3 para consistencia
-  formPanel: "w-[420px] flex flex-col justify-center gap-5 p-5",
+  formPanel: "w-full max-w-[420px] mx-auto flex flex-col justify-center gap-5 p-3 sm:p-5",
   formCard:
-    "bg-black/5 backdrop-blur-md rounded-2xl p-6 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
+    "bg-black/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
 
   // Tabs específicos
   tabsContainer: "flex border-b border-gray-200 mb-8",
