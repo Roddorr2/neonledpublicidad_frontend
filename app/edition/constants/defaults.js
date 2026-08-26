@@ -129,6 +129,16 @@ export const DEFAULT_IMAGES = {
   },
 };
 
+/**
+ * Medidas recomendadas de imágenes para cada sección del blog
+ */
+export const RECOMMENDED_IMAGE_SIZES = {
+  header: "1080x520 píxeles",
+  bodyMain: "800x450 píxeles",
+  bodyGallery: "600x400 píxeles",
+  footer: "200x170 píxeles",
+};
+
 
 /**
  * Número máximo de tarjetas de información (igual para todas las plantillas)
@@ -173,6 +183,7 @@ export default {
   TARJETAS_INFO_DEFAULTS,
   BODY_FLAGS_DEFAULTS,
   DEFAULT_IMAGES,
+  RECOMMENDED_IMAGE_SIZES,
   MAX_INFO_TARJETAS,
   getMaxConsejosByPlantilla,
   getConsejosFieldsByPlantilla,
