@@ -20,8 +20,8 @@ import "swiper/css/pagination";
 import BotonAnadirLink from "./BotonAnadirLink"; 
 
 // Configuración centralizada
-// import { DEFAULT_FOOTER_VALIDATION_CONFIG } from "../../config/index";
 import { DEFAULT_FOOTER_VALIDATION_CONFIG, DEFAULT_SERVICIOS } from "../../config/index";
+import { RECOMMENDED_IMAGE_SIZES } from "../../constants/defaults";
 
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
@@ -88,7 +88,7 @@ export default function FormFooter({
 
   // Props adicionales
   className = "",
-  imageRecommendedSize = "200x170 píxeles",
+  imageRecommendedSize = RECOMMENDED_IMAGE_SIZES.footer,
 }) {
   // Estados internos
   const [uploading, setUploading] = useState(isUploading);
@@ -623,7 +623,6 @@ export default function FormFooter({
                   <label className={mergedStyles.label}>
                     <Image className={mergedStyles.icon} />
                     Imágenes del Footer
-                    <span className="ml-3 text-xs">{imageRecommendedSize}</span>
                   </label>
 
                   {/* Swiper para imágenes del footer */}
@@ -649,7 +648,7 @@ export default function FormFooter({
                         const altFieldName = `alt_image${imageNumber}`;
                         const titleFieldName = `title_image${imageNumber}`;
                         const hasImage = imagesPreviews.some(
-                          (img) => img.id === imageNumber
+                           (img) => img.id === imageNumber
                         );
                         const imagePreview = imagesPreviews.find(
                           (img) => img.id === imageNumber
@@ -669,6 +668,9 @@ export default function FormFooter({
                                   <label className={mergedStyles.label}>
                                     <IconImage className="w-4 h-4 mr-2 text-yellow-400" />
                                     Subir imagen
+                                    <span className="ml-3 text-xs text-gray-400 font-normal">
+                                      ({imageRecommendedSize})
+                                    </span>
                                   </label>
                                   <label
                                     className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${

@@ -12,11 +12,11 @@ import {
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 
-// Configuración centralizada
 import {
   getPlantillaConfig,
   DEFAULT_HEADER_VALIDATION_CONFIG,
 } from "../../config/index";
+import { RECOMMENDED_IMAGE_SIZES } from "../../constants/defaults";
 
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
@@ -77,7 +77,7 @@ export default function FormHeader({
 
   // Props adicionales
   className = "",
-  imageRecommendedSize = "1080x520 píxeles",
+  imageRecommendedSize = RECOMMENDED_IMAGE_SIZES.header,
 }) {
   // Estados internos
   const [uploading, setUploading] = useState(isUploading);
@@ -471,8 +471,8 @@ export default function FormHeader({
                 <label className={mergedStyles.label}>
                   <IconImage className={mergedStyles.icon} />
                   Imagen Principal
-                  <span className="ml-3 text-xs text-gray-400">
-                    {imageRecommendedSize}
+                  <span className="ml-3 text-xs text-gray-400 font-normal">
+                    ({imageRecommendedSize})
                   </span>
                 </label>
                 <div className="relative flex flex-row">
