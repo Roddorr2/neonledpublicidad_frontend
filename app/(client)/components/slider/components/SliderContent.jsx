@@ -5,7 +5,7 @@ import React from "react";
 export const SliderContent = () => {
   return (
     <div 
-      className="absolute inset-0 flex flex-col justify-end text-left z-10 px-4 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-20 md:justify-center md:translate-y-24 overflow-hidden"
+      className="absolute inset-0 flex flex-col justify-end text-left z-10 px-4 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-20 md:justify-center md:translate-y-24 overflow-hidden pointer-events-none"
       style={{ contain: "layout style", willChange: "transform" }}
     >
       <div className="text-white relative">
