@@ -125,7 +125,7 @@ export default function FormMain({
   const [autoSaveTimer, setAutoSaveTimer] = useState(null);
   // Estado del switch de publicación
   const [isPublicado, setIsPublicado] = useState(
-    formEncabezadoFooter?.estado_publicacion === 1
+    formEncabezadoFooter?.estado_publicacion === 1,
   );
 
   // Sincroniza el switch con los datos del blog cuando formEncabezadoFooter cambia
@@ -265,10 +265,10 @@ export default function FormMain({
         section === "header"
           ? headerRef
           : section === "body"
-          ? bodyRef
-          : section === "footer"
-          ? footerRef
-          : null;
+            ? bodyRef
+            : section === "footer"
+              ? footerRef
+              : null;
 
       if (sectionRef?.current) {
         sectionRef.current.scrollIntoView({
@@ -291,7 +291,7 @@ export default function FormMain({
         setFormEncabezadoHeader((prev) => ({ ...prev, [name]: value }));
       }
     },
-    [setFormEncabezadoHeader, setFormImagenHeader]
+    [setFormEncabezadoHeader, setFormImagenHeader],
   );
 
   const handleHeaderImageChange = useCallback(
@@ -313,7 +313,7 @@ export default function FormMain({
         setLoading(false);
       }
     },
-    [setFormImagenHeader, setFileHeader, setLoading, setError]
+    [setFormImagenHeader, setFileHeader, setLoading, setError],
   );
 
   const handleHeaderImageDelete = useCallback(async () => {
@@ -339,7 +339,7 @@ export default function FormMain({
         setFormEncabezadoFooter((prev) => ({ ...prev, [name]: value }));
       }
     },
-    [setFormEncabezadoFooter, setFormImagenFooter]
+    [setFormEncabezadoFooter, setFormImagenFooter],
   );
 
   // NOTA: handleFooterImagesChange y handleFooterImageDelete fueron eliminados
@@ -391,7 +391,7 @@ export default function FormMain({
                 descripcion: "",
                 keyword: "",
                 link: "",
-              }))
+              })),
             );
             break;
         }
@@ -402,13 +402,13 @@ export default function FormMain({
       setFormCommendBody,
       setFormGaleryBody,
       setFormInfoBody,
-    ]
+    ],
   );
   const handleFooterValidation = useCallback(
     (isValid) => {
       setValidacionFooter(isValid);
     },
-    [setValidacionFooter]
+    [setValidacionFooter],
   );
 
   const saveBlogRef = useRef(saveBlog);
@@ -484,7 +484,7 @@ export default function FormMain({
   const handleCancel = useCallback(() => {
     if (isDirty) {
       const confirm = window.confirm(
-        "¿Estás seguro? Los cambios no guardados se perderán."
+        "¿Estás seguro? Los cambios no guardados se perderán.",
       );
       if (!confirm) return;
     }
@@ -507,7 +507,7 @@ export default function FormMain({
       setShowTemplateSelector(false);
       setViewMode("edit");
     },
-    [selectedPlantilla, isCreateMode, onPlantillaChange]
+    [selectedPlantilla, isCreateMode, onPlantillaChange],
   );
 
   const handleShowTemplateSelector = useCallback(() => {
@@ -792,8 +792,8 @@ export default function FormMain({
               viewMode === "preview"
                 ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
                 : !isFormValid
-                ? "text-gray-400 cursor-not-allowed"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  ? "text-gray-400 cursor-not-allowed"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
             }`}
           >
             <div className="flex items-center justify-center space-x-2">
@@ -906,12 +906,12 @@ export default function FormMain({
 
       {/* PANEL FINAL DE ACCIONES */}
       <div className="mt-12 bg-white rounded-lg shadow-sm border p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             {showCancel && (
               <button
                 onClick={handleCancel}
-                className="flex items-center space-x-2 px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center justify-center space-x-2 w-full sm:w-auto px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                 disabled={loading || isSaving}
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -922,7 +922,7 @@ export default function FormMain({
             {showPreview && (
               <button
                 onClick={handlePreview}
-                className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
+                className={`flex items-center justify-center space-x-2 w-full sm:w-auto px-4 py-2 border rounded-lg transition-colors ${
                   viewMode === "preview"
                     ? "text-blue-700 border-blue-300 bg-blue-50"
                     : "text-blue-700 border-blue-300 hover:bg-blue-50"
@@ -939,7 +939,7 @@ export default function FormMain({
             {isCreateMode && showTemplateSelectorProp && (
               <button
                 onClick={handleShowTemplateSelector}
-                className="flex items-center space-x-2 px-4 py-2 text-purple-700 border border-purple-300 rounded-lg hover:bg-purple-50 transition-colors"
+                className="flex items-center justify-center space-x-2 w-full sm:w-auto px-4 py-2 text-purple-700 border border-purple-300 rounded-lg hover:bg-purple-50 transition-colors"
                 disabled={loading || isSaving}
               >
                 <span>🎨</span>
@@ -948,7 +948,7 @@ export default function FormMain({
             )}
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto justify-end">
             {autoSave && isDirty && (
               <span className="text-sm text-gray-500">
                 Auto-guardado en {Math.round(autoSaveInterval / 1000)}s
@@ -963,7 +963,7 @@ export default function FormMain({
               }}
               onClick={handleSave}
               disabled={loading || isSaving || !isFormValid}
-              className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${
+              className={`flex items-center justify-center space-x-2 w-full sm:w-auto px-6 py-2 rounded-lg font-medium transition-all ${
                 isFormValid && !loading && !isSaving
                   ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
