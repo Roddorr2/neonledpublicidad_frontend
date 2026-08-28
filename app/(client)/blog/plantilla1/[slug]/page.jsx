@@ -3,6 +3,13 @@ import BlogContentClient from "../../components/content/BlogContentClient";
 import Fetch from "../../services/fetch";
 import url from "@/api/url";
 
+import { cache } from "react";
+
+const getBlogData = cache(async (slug) => {
+  return await Fetch.fetchBlogByLink(slug)
+})
+
+
 export async function generateStaticParams() {
   const apiUrl = url.replace(/\/+$/, "")
   const res = await fetch(`${apiUrl}/api/blogs`)
@@ -35,7 +42,7 @@ export async function generateMetadata({ params }) {
     }
   }
 
-  const data = await Fetch.fetchBlogByLink(slug);
+  const data = await getBlogData(slug);
 
   if (!data) {
     return {
@@ -74,7 +81,7 @@ export default async function Page({ params }) {
     notFound();
   }
 
-  const data = await Fetch.fetchBlogByLink(slug);
+  const data = await getBlogData(slug);
 
   if (!data) {
     notFound();

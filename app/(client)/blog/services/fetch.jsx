@@ -115,7 +115,7 @@ const Fetch = {
             }
         }
         catch (error) {
-            console.log(response.data.error);
+            console.log(error.response?.data?.error || error.message);
             return error;
         }
     },
