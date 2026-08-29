@@ -29,6 +29,7 @@ import {
   DEFAULT_BODY_VALIDATION_CONFIG,
   DEFAULT_SERVICIOS,
 } from "../../config/index.js";
+import { RECOMMENDED_IMAGE_SIZES } from "../../constants/defaults.js";
 import BotonAnadirLink from "./BotonAnadirLink.jsx";
 
 export default function FormBody({
@@ -68,6 +69,8 @@ export default function FormBody({
 
   // Props adicionales
   className = "",
+  mainImageRecommendedSize = RECOMMENDED_IMAGE_SIZES.bodyMain,
+  galleryImageRecommendedSize = RECOMMENDED_IMAGE_SIZES.bodyGallery,
 }) {
   // Estados internos
   const [activeTab, setActiveTab] = useState("info");
@@ -919,6 +922,9 @@ export default function FormBody({
               <label className={mergedStyles.label}>
                 <IconImage className="w-4 h-4 mr-2 text-purple-400" />
                 Imagen Principal
+                <span className="ml-3 text-xs text-gray-400 font-normal">
+                  ({mainImageRecommendedSize})
+                </span>
               </label>
               <label
                 className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
@@ -1128,6 +1134,9 @@ export default function FormBody({
                           <label className={mergedStyles.label}>
                             <IconImage className="w-4 h-4 mr-2 text-purple-400" />
                             Subir imagen
+                            <span className="ml-3 text-xs text-gray-400 font-normal">
+                              ({galleryImageRecommendedSize})
+                            </span>
                           </label>
                           <label
                             className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
