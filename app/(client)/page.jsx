@@ -121,7 +121,7 @@ export default function Home() {
 
   const slidesData = [
     {
-      imgSrc: "/home/imagen_subway.webp",
+      imgSrc: "/home/imagen_subway_HD_final_2560x1532.webp",
       imgSrcMobile: "/home/imagen_subway_mobile.webp",
       imgSrcIcon: "/home/imagen_subway_icon.webp",
       altText:
@@ -129,7 +129,7 @@ export default function Home() {
       title: "Letras corporeas doradas con iluminación",
     },
     {
-      imgSrc: "/home/imagen_mario_dalmasi.webp",
+      imgSrc: "/home/imagen_mario_dalmasi_HD.webp",
       imgSrcMobile: "/home/imagen_mario_dalmasi_mobile.webp",
       imgSrcIcon: "/home/imagen_mario_dalmasi_icon.webp",
       altText: "Letras corporeas con gran iluminación de la marca Bembos",
@@ -144,7 +144,7 @@ export default function Home() {
       title: "Letrero led tattoo para estudio de tatuaje",
     },
     {
-      imgSrc: "/home/imagen_deltaco.webp",
+      imgSrc: "/home/imagen_deltaco_final_2560x1532.webp",
       imgSrcMobile: "/home/imagen_deltaco_mobile.webp",
       imgSrcIcon: "/home/imagen_deltaco_icon.webp",
       altText: "Letrero luminoso de Tambo con fondo amarillo y letras magenta",
