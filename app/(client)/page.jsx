@@ -5,8 +5,9 @@ import Image from "next/image";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import NuestrosProductos from "./productos/components/NuestrosProductos";
 import dynamic from "next/dynamic";
-import Testimonials  from "./nosotros/components/Testimonials";
-import Slider from "./components/slider/Slider"
+import Testimonials from "./nosotros/components/Testimonials";
+import Slider from "./components/slider/Slider";
+import WhyUs from "./components/whyUs/WhyUs";
 // const Slider = dynamic(() => import("./components/slider/Slider"), {
 //   ssr: false,
 // });
@@ -27,8 +28,8 @@ const FilaProductosModificado = ({ productos, isFirstRow = false }) => {
       {productos.map((producto, index) => {
         const imageSrc =
           (isMobile || isMobile === undefined) && producto.imgSrcMobile
-          ? producto.imgSrcMobile
-          : producto.imgSrc;
+            ? producto.imgSrcMobile
+            : producto.imgSrc;
 
         const isFirstProduct = isFirstRow && index === 0;
 
@@ -40,12 +41,12 @@ const FilaProductosModificado = ({ productos, isFirstRow = false }) => {
             style={{ contain: "layout style" }}
           >
             <div className="rounded-2xl overflow-hidden flex flex-col h-full">
-              <div 
-                className="relative w-full" 
-                style={{ 
+              <div
+                className="relative w-full"
+                style={{
                   aspectRatio: "4/3",
                   overflow: "hidden",
-                  flexShrink: 0
+                  flexShrink: 0,
                 }}
               >
                 <Image
@@ -211,6 +212,10 @@ export default function Home() {
       >
         <Slider2 slides={clientLogos} />
       </section>
+
+      {/* COMPONENTE RENDERIZADO DEBAJO DEL SLIDER DE CLIENTES */}
+      <WhyUs />
+
       <Testimonials />
     </div>
   );

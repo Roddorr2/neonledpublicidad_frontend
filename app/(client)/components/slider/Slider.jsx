@@ -71,7 +71,7 @@ const Slider = ({ slides }) => {
         <SlideItem slides={slides} current={current} />
 
         {/* Controles inferiores para móvil - en una sola fila */}
-        <div className="md:hidden absolute bottom-8 left-0 right-0 z-10 pointer-events-auto">
+        <div className="md:hidden absolute bottom-8 left-0 right-0 z-20 pointer-events-auto">
           <div className="flex items-center justify-between px-6">
             {/* Botón Anterior */}
             <button
@@ -112,7 +112,9 @@ const Slider = ({ slides }) => {
         </div>
 
         {/* Botones de navegación centrados para desktop */}
-        <div className="hidden md:flex absolute bottom-8 left-1/2 transform -translate-x-1/2 gap-4 z-10 pointer-events-auto">
+        <div className="hidden md:flex absolute bottom-8 left-1/2 transform -translate-x-1/2 gap-16 z-20 pointer-events-auto">
+          
+          {/* Botón Anterior */}
           <button
             onClick={prevSlide}
             className="bg-white/30 p-2 rounded-full backdrop-blur-sm hover:bg-white/40 transition-colors"
@@ -123,6 +125,21 @@ const Slider = ({ slides }) => {
             </span>
           </button>
 
+          {/* Indicadores */}
+          <div className="flex items-center gap-1.5">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrent(index)}
+                aria-label={`Ir a la diapositiva ${index + 1}`}
+                className={`h-1.5 rounded-full transition-all ${
+                  index === current ? "bg-white w-6" : "bg-white/50 w-1.5"
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Botón Siguiente */}
           <button
             onClick={nextSlide}
             className="bg-white/30 p-2 rounded-full backdrop-blur-sm hover:bg-white/40 transition-colors"
