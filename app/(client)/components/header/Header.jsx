@@ -9,6 +9,17 @@ import { ChevronDown } from "lucide-react";
 import { getCookie } from "cookies-next";
 import { safeJsonParse } from "@/lib/safe-json";
 import styles from "./Header.module.css";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../../../components/ui/dialog";
+import { LogOut } from "lucide-react";
+import { Button } from "../../../../components/ui/button";
+
 export default function Header() {
   const [menuActive, setMenuActive] = useState(false);
   const [containerFullHeight, setContainerFullHeight] = useState(false);
@@ -22,6 +33,7 @@ export default function Header() {
   const [logoSrc, setLogoSrc] = useState(
     "/header_footer/Logo.oficial.Neon.Led.Publicidad.webp",
   );
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
   // Filtrado de los links segun permisos y roles del usuario
   const filterLinks = dashboardLinks.filter((item) => {
@@ -294,8 +306,8 @@ export default function Header() {
                       <a
                         href="#"
                         className="block"
-                        onClick={() => {
-                          logout();
+                        onClick={(e) => {
+                          setLogoutDialogOpen(true);
                           setIsPanelOpen(false);
                         }}
                       >
@@ -613,6 +625,48 @@ export default function Header() {
           </div>
         </div>
       </div>
+      <>
+        <Dialog open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
+          <DialogContent>
+            <div className="flex justify-center mb-3">
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-100">
+                <LogOut className="w-7 h-7 text-red-600" />
+              </div>
+            </div>
+
+            <DialogHeader className="items-center text-center">
+              <DialogTitle>
+                ¿Estás seguro de que deseas cerrar sesión?
+              </DialogTitle>
+
+              <DialogDescription>
+                Tendrás que volver a iniciar sesión para acceder al panel.
+              </DialogDescription>
+            </DialogHeader>
+
+            <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-center sm:gap-0">
+              <Button
+                variant="outline"
+                onClick={() => setLogoutDialogOpen(false)}
+                className="w-full sm:w-auto"
+              >
+                Cancelar
+              </Button>
+
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setLogoutDialogOpen(false);
+                  handleLogout();
+                }}
+                className="w-full sm:w-auto"
+              >
+                Cerrar sesión
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </>
     </>
   );
 }
