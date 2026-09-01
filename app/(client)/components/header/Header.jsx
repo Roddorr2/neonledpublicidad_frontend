@@ -8,7 +8,7 @@ import { dashboardLinks } from "@/app/dashboard/dashboardLinks/dashboardLinks";
 import { ChevronDown } from "lucide-react";
 import { getCookie } from "cookies-next";
 import { safeJsonParse } from "@/lib/safe-json";
-
+import styles from "./Header.module.css";
 export default function Header() {
   const [menuActive, setMenuActive] = useState(false);
   const [containerFullHeight, setContainerFullHeight] = useState(false);
@@ -268,7 +268,13 @@ export default function Header() {
                 </p>
 
                 {isPanelOpen && (
-                  <ul className="absolute right-0 mt-2 bg-[#000017] rounded-lg shadow-lg text-white w-56 z-[99999]">
+                  <ul
+                    className={`${styles.minimalscrollbar}
+                    absolute right-0 mt-2 bg-[#000017] rounded-lg shadow-lg text-white w-56 z-[99999]
+                    max-h-[80vh]
+                    overflow-y-auto
+                    overflow-x-hidden `}
+                  >
                     {filterLinks.map((link) => (
                       <li
                         key={link.href}
