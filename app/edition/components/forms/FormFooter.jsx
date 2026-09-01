@@ -513,8 +513,8 @@ export default function FormFooter({
       </div>
 
       {/* Panel de edición */}
-      <div className={mergedStyles.panel}>
-        <div className={mergedStyles.form}>
+      <div className={`${mergedStyles.panel} w-full flex justify-center px-1`}>
+        <div className={`${mergedStyles.form} w-[100%] mx-auto p-3`}>
           <h1 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 mb-4">
             Editar Pie de Página
           </h1>
