@@ -240,8 +240,8 @@ const Blogs = () => {
     blogPost: data.map((blog) => ({
       "@type": "BlogPosting",
       name: blog.titulo,
-      url: `https://ledneonpublicidad.com/blog/plantilla/${blog.id_plantilla}?blog=${blog.blog.link}`,
-      image: `https://ledneonpublicidad.com/${blog.url_image}`,
+      url: `https://ledneonpublicidad.com/blog/plantilla${blog.id_plantilla}/${blog.blog.link}`,
+      image: blog.url_image ? `https://ledneonpublicidad.com/${blog.url_image}`: undefined,
       datePublished: blog.blog.fecha,
       author: {
         "@type": "Organization",
