@@ -154,27 +154,37 @@ export default function Home() {
 
   const clientLogos = [
     {
-      imgSrc: "/home/Jockeyplaza_Logo_ledneonpublicidad.webp",
+      imgSrc: "/home/Jockeyplaza_Logo_transparent2.png",
+      width: 275,
+      height: 194,
       altText: "Logo Jockey Plaza",
       title: "Logo Jockey Plaza",
     },
     {
-      imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad2.webp",
+      imgSrc: "/home/Malldelsur_Logo_transparent2.png",
+      width: 2005,
+      height: 454,
       altText: "Logo Mall del Sur",
       title: "Logo Mall del Sur",
     },
     {
-      imgSrc: "/home/logo_lk_constructora_e_inversiones.webp",
-      altText: "Logo L&K",
-      title: "Logo L&K",
+      imgSrc: "/home/logo_lk_transparent2.webp",
+      width: 266,
+      height: 117,
+      altText: "Logo L&K Constructora e Inversiones",
+      title: "Logo L&K Constructora e Inversiones",
     },
     {
-      imgSrc: "/home/Crisol_Logo_ledneopublicidad2.webp",
+      imgSrc: "/home/Crisol_Logo_transparent2.png",
+      width: 218,
+      height: 88,
       altText: "Logo Crisol",
       title: "Logo Crisol",
     },
     {
-      imgSrc: "/home/BancodelaNación_ledneonpublicidad2.webp",
+      imgSrc: "/home/BancodelaNacion_Logo_transparent2.png",
+      width: 1003,
+      height: 352,
       altText: "Logo Banco de la Nación",
       title: "Logo Banco de la Nación",
     },
@@ -204,13 +214,9 @@ export default function Home() {
         </a>
       </section>
 
-      <section
-        className="flex justify-center mt-12 md:mt-20 mb-12 md:mb-24"
-        aria-label="Nuestros clientes"
-        style={{ contain: "layout style" }}
-      >
+      <div className="mt-12 md:mt-20 mb-12 md:mb-24">
         <Slider2 slides={clientLogos} />
-      </section>
+      </div>
       <Testimonials />
     </div>
   );
