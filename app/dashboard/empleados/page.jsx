@@ -54,20 +54,53 @@ const headers = [
 
 import auth_service from "../users/services/auth.service";
 
+const getEmployeeRoleName = (employee) => {
+  const role =
+    employee?.rol?.nombre ??
+    employee?.rol?.name ??
+    employee?.role?.nombre ??
+    employee?.role?.name ??
+    employee?.rol ??
+    employee?.role ??
+    employee?.rol_nombre ??
+    employee?.nombreRol ??
+    employee?.userRole;
+
+  return typeof role === "string" && role.trim() ? role.trim() : "Sin rol";
+};
+
+const normalizeEmployee = (employee) => {
+  const roleName = getEmployeeRoleName(employee);
+
+  return {
+    ...employee,
+    id: employee.id_empleado,
+    id_rol:
+      employee.id_rol ??
+      employee.rol?.id_rol ??
+      employee.role?.id_rol ??
+      employee.role?.id ??
+      "",
+    // La tabla y la card consumen el mismo valor normalizado.
+    rol: roleName,
+    rol_nombre: roleName,
+  };
+};
+
 // Componente Card para móvil
 const EmployeeCard = ({ employee, onShow, onUpdate, onDelete }) => (
   <div className="bg-white rounded-lg shadow-md p-4 mb-3 border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
-    <div className="flex justify-between items-start mb-3">
-      <div className="flex items-center gap-2">
-        <div className="bg-blue-100 rounded-full p-2 dark:bg-blue-900">
+    <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
+      <div className="flex min-w-0 flex-1 items-center gap-2">
+        <div className="shrink-0 bg-blue-100 rounded-full p-2 dark:bg-blue-900">
           <User className="h-4 w-4 text-blue-600 dark:text-blue-300" />
         </div>
-        <span className="font-bold text-gray-900 dark:text-white">
+        <span className="min-w-0 break-words font-bold text-gray-900 dark:text-white">
           {employee.nombre} {employee.apellido}
         </span>
       </div>
-      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-        {employee.rol_nombre || employee.rol?.nombre || "Sin rol"}
+      <span className="inline-flex max-w-full shrink-0 items-center break-words px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+        {getEmployeeRoleName(employee)}
       </span>
     </div>
 
@@ -199,12 +232,7 @@ export default function Page() {
               : [],
           ),
         ];
-        const transformedData = allEmployees.map((item) => ({
-          ...item,
-          id: item.id_empleado,
-          id_rol: item.rol?.id_rol || "",
-          rol_nombre: item.rol?.nombre || "Sin rol",
-        }));
+        const transformedData = allEmployees.map(normalizeEmployee);
         setData(transformedData);
       }
     } catch (error) {
@@ -287,7 +315,7 @@ export default function Page() {
     setData((prevData) =>
       prevData.map((item) =>
         item.id === updatedData.id_empleado
-          ? { ...item, ...updatedData }
+          ? normalizeEmployee({ ...item, ...updatedData })
           : item,
       ),
     );

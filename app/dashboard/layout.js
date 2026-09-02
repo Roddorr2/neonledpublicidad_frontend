@@ -7,6 +7,15 @@ import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
 import { DisplayNameContext } from "./components/DisplayNameContext";
 import { safeJsonParse } from "@/lib/safe-json";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../components/ui/dialog";
+import { Button } from "../../components/ui/button";
 
 import {
   User,
@@ -42,6 +51,8 @@ export default function RootLayout({ children }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(true);
+
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
   // Mapa de rutas con roles permitidos
   const routeRolesMap = {
@@ -129,13 +140,13 @@ export default function RootLayout({ children }) {
     const matchedLink = dashboardLinks.find(
       (link) =>
         link.href === normalizedPathname &&
-        (!link.role || link.role === userRole)
+        (!link.role || link.role === userRole),
     );
     if (matchedLink) return matchedLink.title;
 
     if (normalizedPathname === "/dashboard/main") return "Panel Principal";
     const section = normalizedPathname.slice(
-      normalizedPathname.indexOf("/", 1) + 1
+      normalizedPathname.indexOf("/", 1) + 1,
     );
     return (
       section.charAt(0).toUpperCase() + section.slice(1).replace(/-/g, " ")
@@ -266,7 +277,7 @@ export default function RootLayout({ children }) {
                     </button>
 
                     <button
-                      onClick={handleLogout}
+                      onClick={() => setLogoutDialogOpen(true)}
                       disabled={isLoggingOut}
                       className="btn-safe flex items-center justify-center px-3 py-2 text-sm font-medium rounded-md text-white bg-blue-primary hover:bg-blue-dark transition-colors disabled:opacity-70"
                       type="button"
@@ -323,7 +334,7 @@ export default function RootLayout({ children }) {
                   </button>
 
                   <button
-                    onClick={handleLogout}
+                    onClick={() => setLogoutDialogOpen(true)}
                     disabled={isLoggingOut}
                     className="btn-safe p-2 rounded-md text-white bg-blue-primary hover:bg-blue-dark transition-colors disabled:opacity-70"
                     type="button"
@@ -359,9 +370,7 @@ export default function RootLayout({ children }) {
           </aside>
 
           {/* Main content */}
-          <div
-            className="flex flex-col flex-1 min-w-0 ml-20 transition-all duration-300"
-          >
+          <div className="flex flex-col flex-1 min-w-0 ml-20 transition-all duration-300">
             {/* Header */}
             <header className="z-10 h-16 flex items-center justify-between px-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
               <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
@@ -375,6 +384,46 @@ export default function RootLayout({ children }) {
             </main>
           </div>
         </div>
+        <Dialog open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
+          <DialogContent>
+            <DialogHeader className="items-center text-center">
+              <div className="flex justify-center mb-3">
+                <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-100">
+                  <LogOut className="w-7 h-7 text-red-600" />
+                </div>
+              </div>
+
+              <DialogTitle>
+                ¿Estás seguro de que deseas cerrar sesión?
+              </DialogTitle>
+
+              <DialogDescription>
+                Tendrás que volver a iniciar sesión para acceder al panel.
+              </DialogDescription>
+            </DialogHeader>
+
+            <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-center sm:gap-0">
+              <Button
+                variant="outline"
+                onClick={() => setLogoutDialogOpen(false)}
+                className="w-full sm:w-auto"
+              >
+                Cancelar
+              </Button>
+
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setLogoutDialogOpen(false);
+                  handleLogout();
+                }}
+                className="w-full sm:w-auto"
+              >
+                Cerrar sesión
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </AuthGuard>
     </DisplayNameContext.Provider>
   );
