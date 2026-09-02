@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import DropdownLink from "./components/DropdownLink";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AutContext";
 import auth_service from "@/app/dashboard/users/services/auth.service";
 import { dashboardLinks } from "@/app/dashboard/dashboardLinks/dashboardLinks";
@@ -29,6 +29,8 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [logoSrc, setLogoSrc] = useState(
     "/header_footer/Logo.oficial.Neon.Led.Publicidad.webp",
@@ -129,6 +131,17 @@ export default function Header() {
     if (href === "/" && pathname === "/") return true;
     if (href !== "/" && pathname.startsWith(href)) return true;
     return false;
+  };
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await auth_service.logout();
+      setTimeout(() => auth_service.logoutClient(router), 350);
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      setTimeout(() => auth_service.logoutClient(router), 1000);
+    }
   };
 
   return (
