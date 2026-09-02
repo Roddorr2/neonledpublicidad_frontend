@@ -1,13 +1,24 @@
 "use client";
 import { useState, useEffect } from "react";
 import DropdownLink from "./components/DropdownLink";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AutContext";
 import auth_service from "@/app/dashboard/users/services/auth.service";
 import { dashboardLinks } from "@/app/dashboard/dashboardLinks/dashboardLinks";
 import { ChevronDown } from "lucide-react";
 import { getCookie } from "cookies-next";
 import { safeJsonParse } from "@/lib/safe-json";
+import styles from "./Header.module.css";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../../../components/ui/dialog";
+import { LogOut } from "lucide-react";
+import { Button } from "../../../../components/ui/button";
 
 export default function Header() {
   const [menuActive, setMenuActive] = useState(false);
@@ -18,10 +29,13 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [logoSrc, setLogoSrc] = useState(
     "/header_footer/Logo.oficial.Neon.Led.Publicidad.webp",
   );
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
   // Filtrado de los links segun permisos y roles del usuario
   const filterLinks = dashboardLinks.filter((item) => {
@@ -117,6 +131,17 @@ export default function Header() {
     if (href === "/" && pathname === "/") return true;
     if (href !== "/" && pathname.startsWith(href)) return true;
     return false;
+  };
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await auth_service.logout();
+      setTimeout(() => auth_service.logoutClient(router), 350);
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      setTimeout(() => auth_service.logoutClient(router), 1000);
+    }
   };
 
   return (
@@ -268,7 +293,13 @@ export default function Header() {
                 </p>
 
                 {isPanelOpen && (
-                  <ul className="absolute right-0 mt-2 bg-[#000017] rounded-lg shadow-lg text-white w-56 z-[99999]">
+                  <ul
+                    className={`${styles.minimalscrollbar}
+                    absolute right-0 mt-2 bg-[#000017] rounded-lg shadow-lg text-white w-56 z-[99999]
+                    max-h-[80vh]
+                    overflow-y-auto
+                    overflow-x-hidden `}
+                  >
                     {filterLinks.map((link) => (
                       <li
                         key={link.href}
@@ -288,8 +319,8 @@ export default function Header() {
                       <a
                         href="#"
                         className="block"
-                        onClick={() => {
-                          logout();
+                        onClick={(e) => {
+                          setLogoutDialogOpen(true);
                           setIsPanelOpen(false);
                         }}
                       >
@@ -607,6 +638,48 @@ export default function Header() {
           </div>
         </div>
       </div>
+      <>
+        <Dialog open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
+          <DialogContent>
+            <div className="flex justify-center mb-3">
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-100">
+                <LogOut className="w-7 h-7 text-red-600" />
+              </div>
+            </div>
+
+            <DialogHeader className="items-center text-center">
+              <DialogTitle>
+                ¿Estás seguro de que deseas cerrar sesión?
+              </DialogTitle>
+
+              <DialogDescription>
+                Tendrás que volver a iniciar sesión para acceder al panel.
+              </DialogDescription>
+            </DialogHeader>
+
+            <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-center sm:gap-0">
+              <Button
+                variant="outline"
+                onClick={() => setLogoutDialogOpen(false)}
+                className="w-full sm:w-auto"
+              >
+                Cancelar
+              </Button>
+
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setLogoutDialogOpen(false);
+                  handleLogout();
+                }}
+                className="w-full sm:w-auto"
+              >
+                Cerrar sesión
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </>
     </>
   );
 }
