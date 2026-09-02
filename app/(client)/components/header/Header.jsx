@@ -442,16 +442,26 @@ export default function Header() {
                 setContainerFullHeight(false);
               }}
             />
-            <DropdownLink
-              text={"Login"}
-              link={"/login"}
-              isInicio={false}
-              final={false}
-              closeMenu={() => {
-                setMenuActive(false);
-                setContainerFullHeight(false);
-              }}
-            />
+            {!isAuthenticated ? (
+              <DropdownLink
+                text={"Login"}
+                link={"/login"}
+                isInicio={false}
+                final={false}
+                closeMenu={() => {
+                  setMenuActive(false);
+                  setContainerFullHeight(false);
+                }}
+              />
+            ) : (
+              <DropdownLink
+                text={"Panel"}
+                link={"#"}
+                isInicio={false}
+                final={false}
+                onClick={() => goToSubMenu("panel")}
+              />
+            )}
           </>
         )}
         {currentMenu === "productos" && (
@@ -630,6 +640,49 @@ export default function Header() {
                 setMenuActive(false);
                 setContainerFullHeight(false);
                 setCurrentMenu("main");
+              }}
+            />
+          </>
+        )}
+        {currentMenu === "panel" && (
+          <>
+            <DropdownLink
+              text={"Panel"}
+              link={"/dashboard/main"}
+              isInicio={true}
+              final={false}
+              closeMenu={() => {
+                setMenuActive(false);
+                setContainerFullHeight(false);
+                setCurrentMenu("main");
+              }}
+            />
+
+            {filterLinks.map((link, index) => (
+              <DropdownLink
+                key={link.href}
+                text={link.title}
+                link={link.href}
+                isInicio={false}
+                final={false}
+                closeMenu={() => {
+                  setMenuActive(false);
+                  setContainerFullHeight(false);
+                  setCurrentMenu("main");
+                }}
+              />
+            ))}
+
+            <DropdownLink
+              text={"Cerrar sesión"}
+              link={"#"}
+              isInicio={false}
+              final={true}
+              onClick={() => {
+                setMenuActive(false);
+                setContainerFullHeight(false);
+                setCurrentMenu("main");
+                setLogoutDialogOpen(true);
               }}
             />
           </>
