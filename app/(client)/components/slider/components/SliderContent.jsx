@@ -5,7 +5,7 @@ import React from "react";
 export const SliderContent = () => {
   return (
     <div
-      className="absolute inset-0 flex flex-col justify-end text-left z-10 px-4 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-20 md:justify-center md:translate-y-24 overflow-hidden "
+      className="absolute inset-0 flex flex-col justify-end text-left z-10 px-4 sm:px-8 md:px-12 lg:px-16 pb-24 sm:pb-20 md:justify-center md:translate-y-24 overflow-hidden pointer-events-none "
       style={{ contain: "layout style", willChange: "transform" }}
     >
       <div className="text-white relative">
@@ -18,7 +18,7 @@ export const SliderContent = () => {
               href="https://wa.me/+51994078320?text=Hola,%20quisiera%20más%20información%20de%20sus%20productos"
               target="_blank"
               rel="noopener noreferrer"
-              className=" underline underline-offset-4 hover:text-blue-600 font-semibold transition-colors"
+              className="pointer-events-auto underline underline-offset-4 hover:text-blue-600 font-semibold transition-colors"
             >
               Cotiza hoy
             </a>
