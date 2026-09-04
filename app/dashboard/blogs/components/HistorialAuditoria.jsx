@@ -94,49 +94,111 @@ export default function HistorialAuditoria() {
         </p>
       ) : (
         <>
-          <div className="overflow-x-auto mt-4">
-            <table className="w-full text-sm">
-              <thead className="bg-slate-50 dark:bg-slate-700">
-                <tr className="text-left text-slate-600 dark:text-slate-300">
-                  <th className="py-2 px-3">Acción</th>
-                  <th className="py-2 px-3">Empleado</th>
-                  <th className="py-2 px-3">Blog</th>
-                  <th className="py-2 px-3">Fecha y hora</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {items.map((a) => (
-                  <tr
-                    key={
-                      a.id_blog_auditoria ??
-                      `${a.id_blog}-${a.fecha_hora}-${a.accion}`
-                    }
-                    className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/40"
-                  >
-                    <td className="py-2 px-3 text-sky-600 dark:text-sky-400 font-medium">
-                      {a.accion}
-                    </td>
-
-                    <td className="py-2 px-3">
-                      {a.empleado
-                        ? `${a.empleado.nombre} ${a.empleado.apellido}`
-                        : "Desconocido"}
-                    </td>
-
-                    <td className="py-2 px-3">{a.id_blog || "-"}</td>
-
-                    <td className="py-2 px-3 text-slate-500 dark:text-slate-400">
-                      {a.fecha_hora
-                        ? new Date(a.fecha_hora).toLocaleString()
-                        : "-"}
-                    </td>
+          <div className="hidden md:block mt-4">
+            <div className="overflow-x-auto mt-4">
+              <table className="w-full text-sm">
+                <thead className="bg-slate-50 dark:bg-slate-700">
+                  <tr className="text-left text-slate-600 dark:text-slate-300">
+                    <th className="py-2 px-3">Acción</th>
+                    <th className="py-2 px-3">Empleado</th>
+                    <th className="py-2 px-3">Blog</th>
+                    <th className="py-2 px-3">Fecha y hora</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                <tbody>
+                  {items.map((a) => (
+                    <tr
+                      key={
+                        a.id_blog_auditoria ??
+                        `${a.id_blog}-${a.fecha_hora}-${a.accion}`
+                      }
+                      className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/40"
+                    >
+                      <td className="py-2 px-3 text-sky-600 dark:text-sky-400 font-medium">
+                        {a.accion}
+                      </td>
+
+                      <td className="py-2 px-3">
+                        {a.empleado
+                          ? `${a.empleado.nombre} ${a.empleado.apellido}`
+                          : "Desconocido"}
+                      </td>
+
+                      <td className="py-2 px-3">{a.id_blog || "-"}</td>
+
+                      <td className="py-2 px-3 text-slate-500 dark:text-slate-400">
+                        {a.fecha_hora
+                          ? new Date(a.fecha_hora).toLocaleString()
+                          : "-"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
+          {/* MOBILE */}
+          <div className="grid grid-cols-1 gap-4 mt-4 md:hidden">
+            {items.map((a) => (
+              <div
+                key={
+                  a.id_blog_auditoria ??
+                  `${a.id_blog}-${a.fecha_hora}-${a.accion}`
+                }
+                className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3"
+              >
+                {/* Acción */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                    Acción
+                  </span>
+
+                  <span className="text-sm font-semibold text-sky-600 dark:text-sky-400">
+                    {a.accion}
+                  </span>
+                </div>
+
+                {/* Empleado */}
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                    Empleado
+                  </span>
+
+                  <span className="text-sm text-slate-700 dark:text-slate-200 text-right">
+                    {a.empleado
+                      ? `${a.empleado.nombre} ${a.empleado.apellido}`
+                      : "Desconocido"}
+                  </span>
+                </div>
+
+                {/* Blog */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                    Blog
+                  </span>
+
+                  <span className="text-sm text-slate-700 dark:text-slate-200">
+                    {a.id_blog || "-"}
+                  </span>
+                </div>
+
+                {/* Fecha */}
+                <div className="flex items-center justify-between gap-4 pt-2 border-t border-slate-100 dark:border-slate-700">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                    Fecha y hora
+                  </span>
+
+                  <span className="text-sm text-slate-500 dark:text-slate-400 text-right">
+                    {a.fecha_hora
+                      ? new Date(a.fecha_hora).toLocaleString()
+                      : "-"}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
           {/* Controles de paginación */}
           <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
             <button
@@ -231,6 +293,7 @@ export default function HistorialAuditoria() {
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
+
           <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
             <div className="flex md:hidden items-center gap-3">
               <div className="flex flex-col items-center gap-1">
