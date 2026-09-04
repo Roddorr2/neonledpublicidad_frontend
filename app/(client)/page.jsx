@@ -205,7 +205,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex justify-center items-center mb-12 md:mb-24 px-4">
+      <section className="flex justify-center items-center mb-11 md:mb-22 px-4">
         <a
           href="/contacto"
           className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold text-xl sm:text-3xl md:text-4xl py-4 sm:py-8 md:py-10 px-8 sm:px-16 md:px-20 rounded-full shadow-lg hover:scale-105 transition-transform text-center w-full sm:w-auto inline-block max-w-full"
@@ -214,9 +214,7 @@ export default function Home() {
         </a>
       </section>
 
-      <div className="mt-12 md:mt-20 mb-12 md:mb-24">
-        <Slider2 slides={clientLogos} />
-      </div>
+      <Slider2 slides={clientLogos} />
       <Testimonials />
     </div>
   );

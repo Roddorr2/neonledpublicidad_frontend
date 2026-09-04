@@ -213,7 +213,7 @@ export default function Testimonials() {
   };
 
   return (
-    <div className="mt-24 mb-24 md:mb-32 w-full max-w-7xl mx-auto px-6">
+    <div className="mt-6 md:mt-10 mb-24 md:mb-32 w-full max-w-7xl mx-auto px-6">
 
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-extrabold uppercase text-white tracking-widest drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
