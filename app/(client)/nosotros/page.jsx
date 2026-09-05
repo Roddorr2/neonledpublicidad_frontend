@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { SectionBackground } from './components/SectionBackground';
 import { Testimonials } from './components/Testimonials';
+import { useState, useEffect } from 'react';
+
 
 // 1. Datos actualizados con las imágenes de fondo, íconos y colores de borde
 const aboutCardsData = [
@@ -41,6 +43,15 @@ const Nosotros = () => {
       behavior: 'smooth',
     });
   };
+
+  const [valorIndex, setValorIndex] = useState(0);
+  const valoresList = aboutCardsData.find(c => c.title === 'Valores').description;
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setValorIndex((prev) => (prev + 1) % valoresList.length);
+  }, 4000); // cambia cada 4 segundos
+  return () => clearInterval(interval);
+}, [valoresList.length]);
 
   return (
     <section id="nosotros" className="relative overflow-hidden">
@@ -147,14 +158,36 @@ const Nosotros = () => {
                   <h3 className="text-2xl font-medium mb-4 text-gray-700 text-center">{card.title}</h3>
                   
                   {/* Lógica para renderizar los valores como viñetas o el texto normal centrado */}
+                  {/* se añadio el carrusel dentro de la card de valores */}
                   {Array.isArray(card.description) ? (
                     <ul className="text-sm md:text-base leading-relaxed text-gray-600 text-left space-y-3 w-full">
-                      {card.description.map((item, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <span className="mr-2 text-purple-600 font-bold">•</span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
+                      {Array.isArray(card.description) ? (
+                    <div className="w-full flex flex-col items-center flex-grow justify-center">
+                      <div className="min-h-[140px] flex items-center">
+                      <p className="text-sm md:text-base leading-relaxed text-gray-600 text-center">
+                        <span className="font-bold text-purple-600">{valorIndex + 1}. </span>
+                        {card.description[valorIndex]}
+                      </p>
+                    </div>
+                      {/* Puntos indicadores */}
+                      <div className="flex gap-2 mt-4">
+                        {card.description.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setValorIndex(idx)}
+                            aria-label={`Ver valor ${idx + 1}`}
+                            className={`rounded-full transition-all ${
+                              idx === valorIndex ? 'w-4 h-4 bg-purple-600' : 'w-3 h-3 bg-gray-300'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-sm md:text-base leading-relaxed text-gray-600 text-center">
+                      {card.description}
+                    </p>
+                  )}
                     </ul>
                   ) : (
                     <p className="text-sm md:text-base leading-relaxed text-gray-600 text-center">

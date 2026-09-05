@@ -473,7 +473,7 @@ export default function LoginPage() {
     <>
       {/* <Header /> */}
 
-      <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#07152d]">
+      <div className={`min-h-screen w-full flex flex-col lg:flex-row  ${darkMode ? 'bg-[#07152d]': 'bg-blue-600'}`}>
         {/* PANEL IZQUIERDO */}
         <div
           className="w-full h-[55vh] min-h-[420px] lg:h-auto lg:w-1/2 relative flex items-center justify-center overflow-hidden"
@@ -509,7 +509,7 @@ export default function LoginPage() {
           {/* BOTÓN REGRESAR */}
           <div className="absolute top-5 left-5 z-30">
             <Link href="/">
-              <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all bg-[#13233f] hover:bg-[#1c3157] text-white shadow-lg">
+              <button className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all ${darkMode ? 'bg-[#13233f] hover:bg-[#1c3157] text-white': 'bg-white text-black'}  shadow-lg`}>
                 <ArrowLeft className="w-5 h-5" />
                 Regresar
               </button>
@@ -520,12 +520,12 @@ export default function LoginPage() {
           <div className="absolute top-6 right-6 z-20">
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="w-11 h-11 rounded-lg flex items-center justify-center transition-all bg-[#13233f] hover:bg-[#1c3157] shadow-lg"
+              className={`w-11 h-11 rounded-lg flex items-center justify-center transition-all ${darkMode ? 'bg-[#13233f] hover:bg-[#1c3157]': 'bg-white'} shadow-lg`}
             >
               {darkMode ? (
                 <Moon className="w-5 h-5 text-white" />
               ) : (
-                <Sun className="w-5 h-5 text-yellow-400" />
+                <Sun className="w-5 h-5 text-yellow-600" />
               )}
             </button>
           </div>
@@ -535,34 +535,30 @@ export default function LoginPage() {
             className={`w-full max-w-[380px] mt-10 lg:mt-0 rounded-2xl border p-5 md:p-6 shadow-2xl transition-all duration-300 ${
               darkMode
                 ? "bg-[#13233f] border-[#22385f]"
-                : "bg-white border-gray-200"
+                : "bg-white border-[#3d6ec5]"
             }`}
           >
             <div className="text-center mb-6">
               <div
                 className={`w-14 h-14 mx-auto rounded-full flex items-center justify-center mb-6 ${
-                  darkMode ? "bg-blue-500/20" : "bg-blue-100"
+                  darkMode ? "bg-blue-500/20" : "bg-blue-600"
                 }`}
               >
                 <User
                   className={`w-7 h-7 ${
-                    darkMode ? "text-blue-300" : "text-blue-600"
+                    darkMode ? "text-blue-300" : "text-white"
                   }`}
                 />
               </div>
 
               <h2
-                className={`text-2xl md:text-3xl font-bold ${
-                  darkMode ? "text-white" : "text-gray-900"
-                }`}
+                className={`text-2xl md:text-3xl font-bold ${darkMode ? 'text-white' : 'text-black'}`}
               >
                 Iniciar Sesión
               </h2>
 
               <p
-                className={`mt-2 text-sm ${
-                  darkMode ? "text-gray-400" : "text-gray-500"
-                }`}
+                className={`mt-2 text-sm text-gray-400`}
               >
                 Ingresa tus credenciales para continuar
               </p>
@@ -575,7 +571,7 @@ export default function LoginPage() {
                 <label
                   htmlFor="email"
                   className={`block text-sm mb-2 font-medium ${
-                    darkMode ? "text-gray-300" : "text-gray-700"
+                    darkMode ? "text-gray-300" : "text-black"
                   }`}
                 >
                   Correo electrónico
@@ -625,7 +621,7 @@ export default function LoginPage() {
                   <p
                     id="email-error"
                     role="alert"
-                    className="mt-2 text-sm text-red-400"
+                    className={`mt-2 text-sm text-red-400`}
                   >
                     {fieldErrors.email}
                   </p>
@@ -634,12 +630,12 @@ export default function LoginPage() {
                 {!fieldErrors.email && emailSuggestion && (
                   <p
                     id="email-suggestion"
-                    className="mt-2 text-sm text-yellow-300"
+                    className={`mt-2 text-sm ${darkMode ? 'text-yellow-300': 'text-red-400'}`}
                   >
                     ¿Quisiste decir{" "}
                     <button
                       type="button"
-                      className="font-semibold underline hover:text-yellow-200"
+                      className="font-semibold underline hover:text-red-600"
                       onClick={() => {
                         setFormData((prev) => ({
                           ...prev,
@@ -664,7 +660,7 @@ export default function LoginPage() {
                   <label
                     htmlFor="password"
                     className={`block text-sm font-medium ${
-                      darkMode ? "text-gray-300" : "text-gray-700"
+                      darkMode ? "text-gray-300" : "text-black"
                     }`}
                   >
                     Contraseña
@@ -672,7 +668,7 @@ export default function LoginPage() {
 
                   <Link
                     href="./email/"
-                    className="text-sm text-blue-400 hover:text-blue-300"
+                    className={`text-sm ${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-black hover:text-blue-600'} `}
                   >
                     ¿Olvidaste tu contraseña?
                   </Link>
@@ -715,7 +711,7 @@ export default function LoginPage() {
                   <p
                     id="password-error"
                     role="alert"
-                    className="mt-2 text-sm text-red-400"
+                    className={`mt-2 text-sm text-red-400`}
                   >
                     {fieldErrors.password}
                   </p>
@@ -729,6 +725,9 @@ export default function LoginPage() {
                   onSuccess={(token) => setTurnstileToken(token)}
                   onExpire={() => setTurnstileToken(null)}
                   onError={() => setTurnstileToken(null)}
+                  options={{
+                    theme: `${darkMode ? 'dark' : 'light'}`
+                  }}
                 />
               </div>
 
@@ -738,8 +737,8 @@ export default function LoginPage() {
                 className={`w-full h-11 text-base rounded-md font-semibold transition-all ${
                   loadingForm || cooldownTime > 0
                     ? "bg-gray-500 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
-                } text-white`}
+                    : `${darkMode ? 'bg-blue-600 hover:bg-blue-700 text-white': 'bg-white hover:bg-blue-600 hover:text-white text-black border-2 border-solid border-blue-600'}`
+                }`}
               >
                 {loadingForm
                   ? "Iniciando sesión..."

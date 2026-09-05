@@ -302,7 +302,7 @@ export default function Page() {
 
         <div className="flex gap-2">
           <Link
-            href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
+            href={`/blog/plantilla${blog.id_plantilla}/${blog.blog.link}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100 transition-colors text-sm"
@@ -526,7 +526,7 @@ export default function Page() {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex justify-end gap-2">
                           <Link
-                            href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
+                            href={`/blog/plantilla${blog.id_plantilla}/${blog.blog.link}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2 bg-sky-50 dark:bg-sky-900 text-sky-600 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-800 transition-colors"
