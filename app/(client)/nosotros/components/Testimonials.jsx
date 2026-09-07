@@ -5,8 +5,6 @@ import url from '@/api/url';
 
 const API_URL = `${url}/api`;
 
-// Convierte el formato que devuelve el backend (nombre, texto, avatar_url...)
-// al formato que usa este componente (name, text, avatar...).
 // Convierte una fecha a texto relativo tipo "Hace 2 meses", "Hace 1 año", etc.
 function fechaRelativa(fechaStr) {
   if (!fechaStr) return '';
@@ -94,28 +92,74 @@ const FALLBACK_TESTIMONIOS = [
   },
 ];
 
-function TestimonialCard({ review, ...rest }) {
+function TestimonialSkeleton() {
+  return (
+    <div className="flex gap-6 md:gap-8 w-full">
+      {[1, 2, 3].map((i) => (
+        <div
+          key={i}
+          className="bg-[#0a0f1c]/80 rounded-2xl border border-purple-500/20 p-6 md:p-8 flex flex-col shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[31%] animate-pulse shadow-[0_0_15px_rgba(168,85,247,0.08)]"
+        >
+          <div className="flex items-center mb-5">
+            <div className="w-12 h-12 rounded-full bg-purple-900/30 mr-4 shrink-0" />
+            <div className="space-y-2 flex-1">
+              <div className="h-4 bg-slate-800 rounded w-3/4" />
+              <div className="h-3 bg-slate-800/60 rounded w-1/2" />
+            </div>
+          </div>
+          <div className="space-y-2.5 flex-grow">
+            <div className="h-3.5 bg-slate-800/80 rounded w-full" />
+            <div className="h-3.5 bg-slate-800/80 rounded w-5/6" />
+            <div className="h-3.5 bg-slate-800/80 rounded w-4/6" />
+          </div>
+          <div className="mt-6 pt-4 border-t border-slate-800/60 flex justify-between items-center">
+            <div className="h-3 bg-slate-800/60 rounded w-16" />
+            <div className="h-6 bg-slate-800/60 rounded w-20" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function TestimonialCard({ review, isDraggingRef, ...rest }) {
+  const handleLinkClick = (e) => {
+    // Si el usuario estuvo arrastrando el carrusel, evitamos abrir el enlace accidentalmente
+    if (isDraggingRef && isDraggingRef.current) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div
       {...rest}
-      className="bg-[#0a0f1c] text-white rounded-2xl border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.15)] hover:shadow-[0_0_25px_rgba(168,85,247,0.4)] hover:border-purple-500/60 p-6 md:p-8 flex flex-col transition-all duration-300 relative
+      className="bg-[#0a0f1c] text-white rounded-2xl border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.15)] hover:shadow-[0_0_25px_rgba(168,85,247,0.4)] hover:border-purple-500/60 p-6 md:p-8 flex flex-col transition-all duration-300 relative select-none
                  snap-center shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[31%]"
     >
+      {/* Comilla decorativa neón */}
+      <span className="absolute top-4 right-5 text-4xl font-serif text-purple-400/20 select-none pointer-events-none" aria-hidden="true">
+        “
+      </span>
+
       <div className="flex items-center mb-5">
         <img
           src={review.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(review.name)}&background=7c3aed&color=fff&bold=true`}
           onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(review.name)}&background=7c3aed&color=fff&bold=true` }}
           alt={`Foto de perfil de ${review.name}`}
           loading="lazy"
-          className="w-12 h-12 rounded-full object-cover mr-4 shrink-0 shadow-sm border border-gray-200"
+          className="w-12 h-12 rounded-full object-cover mr-4 shrink-0 shadow-sm border-2 border-purple-500/40 pointer-events-none"
         />
 
         <div>
-          <h3 className="font-bold text-gray-100 leading-tight line-clamp-1 text-lg">{review.name}</h3>
-          <div className="flex text-sm mt-1.5 drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]">
+          <h3 className="font-bold text-gray-100 leading-tight line-clamp-1 text-base md:text-lg">{review.name}</h3>
+          <div
+            className="flex text-sm mt-1.5 drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]"
+            aria-label={`Calificación de ${review.rating} sobre 5 estrellas`}
+          >
             {[...Array(5)].map((_, i) => (
               <svg
                 key={i}
+                aria-hidden="true"
                 className={`w-4 h-4 fill-current ${i < review.rating ? 'text-yellow-400' : 'text-slate-700'}`}
                 viewBox="0 0 20 20"
               >
@@ -126,7 +170,7 @@ function TestimonialCard({ review, ...rest }) {
         </div>
       </div>
 
-      <p className="text-sm md:text-base leading-relaxed text-slate-300 italic flex-grow">
+      <p className="text-sm md:text-base leading-relaxed text-slate-200 font-normal flex-grow">
         "{review.text}"
       </p>
 
@@ -136,10 +180,11 @@ function TestimonialCard({ review, ...rest }) {
           href="https://www.google.com/maps/place/Neon+LED+Publicidad+-+Letreros+Ne%C3%B3n+y+Letreros+Luminosos/@-12.0255651,-76.9445913,1708m/data=!3m1!1e3!4m8!3m7!1s0x9105c9c0370c5717:0x31763021f0f0a705!8m2!3d-12.0255704!4d-76.9420164!9m1!1b1!16s%2Fg%2F11qpz5s0m5?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Ver NeonLed Publicidad en Google Maps"
-          className="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 transition-colors px-2 py-1 rounded-md"
+          onClick={handleLinkClick}
+          aria-label="Ver reseña verificada de NeonLed Publicidad en Google Maps"
+          className="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 hover:text-white transition-colors px-2.5 py-1.5 rounded-lg border border-slate-700/50"
         >
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
@@ -152,13 +197,22 @@ function TestimonialCard({ review, ...rest }) {
   );
 }
 
-export default function Testimonials() {
+export function Testimonials() {
   const trackRef = useRef(null);
+  const isMouseDownRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const hasDraggedRef = useRef(false);
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
   const [testimonios, setTestimonios] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Carga de testimonios desde la API
   useEffect(() => {
     let activo = true;
 
@@ -185,91 +239,236 @@ export default function Testimonials() {
     return () => { activo = false; };
   }, []);
 
-  const updateScrollButtons = useCallback(() => {
+  // Actualización de estado de botones y dot activo
+  const updateScrollState = useCallback(() => {
     const el = trackRef.current;
-    if (!el) return;
+    if (!el || testimonios.length === 0) return;
+
     setCanScrollPrev(el.scrollLeft > 4);
     setCanScrollNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-  }, []);
+
+    const card = el.querySelector('[data-card]');
+    if (card) {
+      const cardWidth = card.getBoundingClientRect().width + 32; // Ancho de card + gap
+      const index = Math.round(el.scrollLeft / cardWidth);
+      setActiveIndex(Math.min(Math.max(index, 0), testimonios.length - 1));
+    }
+  }, [testimonios]);
 
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
-    updateScrollButtons();
-    el.addEventListener('scroll', updateScrollButtons, { passive: true });
-    window.addEventListener('resize', updateScrollButtons);
-    return () => {
-      el.removeEventListener('scroll', updateScrollButtons);
-      window.removeEventListener('resize', updateScrollButtons);
-    };
-  }, [updateScrollButtons, testimonios]);
 
-  const scrollByCard = (direction) => {
+    updateScrollState();
+    el.addEventListener('scroll', updateScrollState, { passive: true });
+    window.addEventListener('resize', updateScrollState);
+
+    return () => {
+      el.removeEventListener('scroll', updateScrollState);
+      window.removeEventListener('resize', updateScrollState);
+    };
+  }, [updateScrollState]);
+
+  // Navegación a un índice de tarjeta específico
+  const scrollToCardIndex = useCallback((index) => {
     const el = trackRef.current;
     if (!el) return;
     const card = el.querySelector('[data-card]');
+    if (!card) return;
+    const cardWidth = card.getBoundingClientRect().width + 32;
+    el.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+  }, []);
+
+  // Desplazamiento manual por flechas
+  const scrollByCard = (direction) => {
+    const el = trackRef.current;
+    if (!el || testimonios.length === 0) return;
+
+    const card = el.querySelector('[data-card]');
     const cardWidth = card ? card.getBoundingClientRect().width + 32 : el.clientWidth * 0.85;
+
+    // Si está al final y avanza, hace loop suave al inicio
+    if (direction === 1 && el.scrollLeft >= el.scrollWidth - el.clientWidth - 10) {
+      el.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+    // Si está al inicio y retrocede, va al final
+    if (direction === -1 && el.scrollLeft <= 5) {
+      el.scrollTo({ left: el.scrollWidth - el.clientWidth, behavior: 'smooth' });
+      return;
+    }
+
     el.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
   };
 
-  return (
-    <div className="mt-6 md:mt-10 mb-24 md:mb-32 w-full max-w-7xl mx-auto px-6">
+  // Autoplay inteligente de 7 segundos
+  useEffect(() => {
+    if (loading || testimonios.length === 0) return;
 
-      <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-extrabold uppercase text-white tracking-widest drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-          ¿Que opinan los clientes de nuestro trabajo?
+    const interval = setInterval(() => {
+      if (isPaused || isMouseDownRef.current) return;
+
+      const el = trackRef.current;
+      if (!el) return;
+
+      const card = el.querySelector('[data-card]');
+      const cardWidth = card ? card.getBoundingClientRect().width + 32 : el.clientWidth * 0.85;
+
+      // Si llegó al final, reinicia suavemente al inicio
+      if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 10) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: cardWidth, behavior: 'smooth' });
+      }
+    }, 7000);
+
+    return () => clearInterval(interval);
+  }, [isPaused, loading, testimonios]);
+
+  // Arrastre con Mouse (Drag to scroll) en Desktop
+  const handleMouseDown = (e) => {
+    const el = trackRef.current;
+    if (!el) return;
+    isMouseDownRef.current = true;
+    hasDraggedRef.current = false;
+    startXRef.current = e.pageX - el.offsetLeft;
+    scrollLeftRef.current = el.scrollLeft;
+    setIsPaused(true);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isMouseDownRef.current) return;
+    const el = trackRef.current;
+    if (!el) return;
+
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startXRef.current) * 1.3;
+
+    if (Math.abs(walk) > 6) {
+      hasDraggedRef.current = true;
+      if (!isDragging) setIsDragging(true);
+      el.scrollLeft = scrollLeftRef.current - walk;
+    }
+  };
+
+  const handleMouseUp = () => {
+    isMouseDownRef.current = false;
+    setIsDragging(false);
+    setIsPaused(false);
+    // Timeout para limpiar el ref de arrastre después del evento click
+    setTimeout(() => {
+      hasDraggedRef.current = false;
+    }, 50);
+  };
+
+  const handleMouseLeave = () => {
+    if (isMouseDownRef.current) {
+      isMouseDownRef.current = false;
+      setIsDragging(false);
+      setTimeout(() => {
+        hasDraggedRef.current = false;
+      }, 50);
+    }
+    setIsPaused(false);
+  };
+
+  return (
+    <section
+      aria-roledescription="carousel"
+      aria-label="Opiniones de clientes"
+      className="mt-20 mb-20 md:mt-28 md:mb-32 w-full max-w-7xl mx-auto px-4 sm:px-6"
+    >
+      {/* Encabezado */}
+      <div className="text-center mb-12 md:mb-16">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold uppercase text-white tracking-wider sm:tracking-widest drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+          ¿QUÉ OPINAN LOS CLIENTES DE NUESTRO TRABAJO?
         </h2>
         <div className="w-24 h-1 mx-auto mt-4 rounded-full bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.8)]"></div>
       </div>
 
-      <div className="relative">
+      <div
+        className="relative group"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+        onFocusCapture={() => setIsPaused(true)}
+        onBlurCapture={() => setIsPaused(false)}
+      >
         {/* Flecha izquierda */}
         <button
+          type="button"
           onClick={() => scrollByCard(-1)}
-          disabled={!canScrollPrev}
-          aria-label="Testimonio anterior"
-          className="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-11 h-11 items-center justify-center rounded-full bg-[#0a0f1c] border border-purple-500/40 text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]"
+          aria-label="Ver testimonio anterior"
+          className="hidden md:flex absolute -left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-[#0a0f1c]/95 border border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300 hover:border-purple-400 hover:text-white hover:shadow-[0_0_22px_rgba(168,85,247,0.7)] hover:scale-110 active:scale-95"
         >
-          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
-        {/* Carrusel */}
+        {/* Contenedor Carrusel */}
         <div
           ref={trackRef}
-          className="flex gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 -mx-1 px-1
-                     [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          className={`flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 px-2 -mx-2
+                     [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
+                     ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
         >
           {loading ? (
-            <p className="text-slate-400 text-center w-full py-10">Cargando testimonios...</p>
+            <TestimonialSkeleton />
           ) : testimonios.length === 0 ? (
             <p className="text-slate-400 text-center w-full py-10">Aún no hay testimonios para mostrar.</p>
           ) : (
             testimonios.map((review) => (
-              <TestimonialCard key={review.id} data-card review={review} />
+              <TestimonialCard
+                key={review.id}
+                data-card
+                review={review}
+                isDraggingRef={hasDraggedRef}
+              />
             ))
           )}
         </div>
 
         {/* Flecha derecha */}
         <button
+          type="button"
           onClick={() => scrollByCard(1)}
-          disabled={!canScrollNext}
-          aria-label="Siguiente testimonio"
-          className="hidden md:flex absolute -right-10 top-1/2 -translate-y-1/2 z-10 w-11 h-11 items-center justify-center rounded-full bg-[#0a0f1c] border border-purple-500/40 text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition-all duration-300 hover:border-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]"
+          aria-label="Ver siguiente testimonio"
+          className="hidden md:flex absolute -right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-[#0a0f1c]/95 border border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300 hover:border-purple-400 hover:text-white hover:shadow-[0_0_22px_rgba(168,85,247,0.7)] hover:scale-110 active:scale-95"
         >
-          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
 
-      {/* Indicador para mobile: sugiere que se puede deslizar */}
-      <p className="md:hidden text-center text-xs text-slate-500 mt-4 tracking-wide">
-        Desliza para ver más opiniones →
-      </p>
-
-    </div>
+      {/* Paginación Interactiva (Dots Neón) */}
+      {!loading && testimonios.length > 1 && (
+        <div className="flex justify-center items-center gap-2.5 mt-8">
+          {testimonios.map((_, idx) => {
+            const isActive = idx === activeIndex;
+            return (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => scrollToCardIndex(idx)}
+                aria-label={`Ir al testimonio ${idx + 1} de ${testimonios.length}`}
+                className={`transition-all duration-300 rounded-full h-2.5 ${
+                  isActive
+                    ? 'w-8 bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.9)]'
+                    : 'w-2.5 bg-slate-700 hover:bg-slate-500 hover:shadow-[0_0_6px_rgba(168,85,247,0.4)]'
+                }`}
+              />
+            );
+          })}
+        </div>
+      )}
+    </section>
   );
 }
+
+export default Testimonials;

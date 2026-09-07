@@ -1,13 +1,24 @@
 "use client";
 import { useState, useEffect } from "react";
 import DropdownLink from "./components/DropdownLink";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AutContext";
 import auth_service from "@/app/dashboard/users/services/auth.service";
 import { dashboardLinks } from "@/app/dashboard/dashboardLinks/dashboardLinks";
 import { ChevronDown } from "lucide-react";
 import { getCookie } from "cookies-next";
 import { safeJsonParse } from "@/lib/safe-json";
+import styles from "./Header.module.css";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../../../components/ui/dialog";
+import { LogOut } from "lucide-react";
+import { Button } from "../../../../components/ui/button";
 
 export default function Header() {
   const [menuActive, setMenuActive] = useState(false);
@@ -18,10 +29,13 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [logoSrc, setLogoSrc] = useState(
     "/header_footer/Logo.oficial.Neon.Led.Publicidad.webp",
   );
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
   // Filtrado de los links segun permisos y roles del usuario
   const filterLinks = dashboardLinks.filter((item) => {
@@ -95,6 +109,12 @@ export default function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setIsPanelOpen(false);
+    }
+  }, [isAuthenticated]);
+
   const toggleMenu = () => {
     if (menuActive) {
       setCurrentMenu("main");
@@ -117,6 +137,19 @@ export default function Header() {
     if (href === "/" && pathname === "/") return true;
     if (href !== "/" && pathname.startsWith(href)) return true;
     return false;
+  };
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    setIsPanelOpen(false);
+    setLogoutDialogOpen(false);
+
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      setIsLoggingOut(false);
+    }
   };
 
   return (
@@ -246,72 +279,76 @@ export default function Header() {
             BLOG
           </a>
           {/*----- Panel options -----*/}
-          <li
-            className={`relative cursor-pointer list-none ${
-              isActiveLink("/login") || isActiveLink("/dashboard/main")
-                ? "text-blue-400"
-                : "text-white hover:text-gray-300"
-            }`}
-            onClick={() => setIsPanelOpen(!isPanelOpen)}
-          >
-            {isAuthenticated ? (
-              <>
-                <p className="flex items-center gap-1">
-                  Panel{" "}
-                  <ChevronDown
-                    className="w-4 h-4"
-                    style={{
-                      display: "inline-block",
-                      verticalAlign: "middle",
-                    }}
-                  />
-                </p>
+          {isAuthenticated ? (
+            <li
+              className={`relative cursor-pointer list-none ${
+                isActiveLink("/login") || isActiveLink("/dashboard/main")
+                  ? "text-blue-400"
+                  : "text-white hover:text-gray-300"
+              }`}
+              onClick={() => setIsPanelOpen((prev) => !prev)}
+            >
+              <p className="flex items-center gap-1">
+                Panel{" "}
+                <ChevronDown
+                  className="w-4 h-4"
+                  style={{
+                    display: "inline-block",
+                    verticalAlign: "middle",
+                  }}
+                />
+              </p>
 
-                {isPanelOpen && (
-                  <ul className="absolute right-0 mt-2 bg-[#000017] rounded-lg shadow-lg text-white w-56 z-[99999]">
-                    {filterLinks.map((link) => (
-                      <li
-                        key={link.href}
-                        className="px-4 py-2 hover:bg-blue-600"
-                      >
-                        <a
-                          href={link.href}
-                          className="block"
-                          onClick={() => setIsPanelOpen(false)}
-                        >
-                          {link.title}
-                        </a>
-                      </li>
-                    ))}
-
-                    <li className="px-4 py-2 text-red-400 hover:bg-red-600 hover:text-white">
+              {isPanelOpen && (
+                <ul
+                  className={`${styles.minimalscrollbar}
+          absolute right-0 mt-2 bg-[#000017] rounded-lg shadow-lg text-white w-56 z-[99999]
+          max-h-[80vh]
+          overflow-y-auto
+          overflow-x-hidden`}
+                >
+                  {filterLinks.map((link) => (
+                    <li key={link.href} className="px-4 py-2 hover:bg-blue-600">
                       <a
-                        href="#"
+                        href={link.href}
                         className="block"
-                        onClick={() => {
-                          logout();
-                          setIsPanelOpen(false);
-                        }}
+                        onClick={() => setIsPanelOpen(false)}
                       >
-                        Cerrar sesión
+                        {link.title}
                       </a>
                     </li>
-                  </ul>
-                )}
-              </>
-            ) : (
-              <a
-                href="/login"
-                className={`transition-colors ${
-                  isActiveLink("/login")
-                    ? "text-blue-400"
-                    : "text-white hover:text-gray-300"
-                }`}
-              >
-                Ingresar
-              </a>
-            )}
-          </li>
+                  ))}
+
+                  <li className="px-4 py-2 text-red-400 hover:bg-red-600 hover:text-white">
+                    <a
+                      href="#"
+                      className="block"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        setIsPanelOpen(false);
+                        setLogoutDialogOpen(true);
+                      }}
+                    >
+                      Cerrar sesión
+                    </a>
+                  </li>
+                </ul>
+              )}
+            </li>
+          ) : (
+            <a
+              href="/login"
+              className={`transition-colors ${
+                isActiveLink("/login")
+                  ? "text-blue-400"
+                  : "text-white hover:text-gray-300"
+              }`}
+            >
+              Ingresar
+            </a>
+          )}
         </nav>
 
         {isSmallScreen && (
@@ -405,16 +442,26 @@ export default function Header() {
                 setContainerFullHeight(false);
               }}
             />
-            <DropdownLink
-              text={"Login"}
-              link={"/login"}
-              isInicio={false}
-              final={false}
-              closeMenu={() => {
-                setMenuActive(false);
-                setContainerFullHeight(false);
-              }}
-            />
+            {!isAuthenticated ? (
+              <DropdownLink
+                text={"Login"}
+                link={"/login"}
+                isInicio={false}
+                final={false}
+                closeMenu={() => {
+                  setMenuActive(false);
+                  setContainerFullHeight(false);
+                }}
+              />
+            ) : (
+              <DropdownLink
+                text={"Panel"}
+                link={"#"}
+                isInicio={false}
+                final={false}
+                onClick={() => goToSubMenu("panel")}
+              />
+            )}
           </>
         )}
         {currentMenu === "productos" && (
@@ -597,6 +644,49 @@ export default function Header() {
             />
           </>
         )}
+        {currentMenu === "panel" && (
+          <>
+            <DropdownLink
+              text={"Panel"}
+              link={"/dashboard/main"}
+              isInicio={true}
+              final={false}
+              closeMenu={() => {
+                setMenuActive(false);
+                setContainerFullHeight(false);
+                setCurrentMenu("main");
+              }}
+            />
+
+            {filterLinks.map((link, index) => (
+              <DropdownLink
+                key={link.href}
+                text={link.title}
+                link={link.href}
+                isInicio={false}
+                final={false}
+                closeMenu={() => {
+                  setMenuActive(false);
+                  setContainerFullHeight(false);
+                  setCurrentMenu("main");
+                }}
+              />
+            ))}
+
+            <DropdownLink
+              text={"Cerrar sesión"}
+              link={"#"}
+              isInicio={false}
+              final={true}
+              onClick={() => {
+                setMenuActive(false);
+                setContainerFullHeight(false);
+                setCurrentMenu("main");
+                setLogoutDialogOpen(true);
+              }}
+            />
+          </>
+        )}
         <div className="flex-1 bg-gradient-to-b from-blue-500 to-blue-800 flex justify-center items-center min-h-[400px] pt-16 pb-16">
           <div className="w-32 h-32 rounded-full bg-white flex items-center justify-center shadow-lg">
             <img
@@ -607,6 +697,48 @@ export default function Header() {
           </div>
         </div>
       </div>
+      <>
+        <Dialog open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
+          <DialogContent>
+            <div className="flex justify-center mb-3">
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-red-100">
+                <LogOut className="w-7 h-7 text-red-600" />
+              </div>
+            </div>
+
+            <DialogHeader className="items-center text-center">
+              <DialogTitle>
+                ¿Estás seguro de que deseas cerrar sesión?
+              </DialogTitle>
+
+              <DialogDescription>
+                Tendrás que volver a iniciar sesión para acceder al panel.
+              </DialogDescription>
+            </DialogHeader>
+
+            <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-center sm:gap-0">
+              <Button
+                variant="outline"
+                onClick={() => setLogoutDialogOpen(false)}
+                className="w-full sm:w-auto"
+              >
+                Cancelar
+              </Button>
+
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setLogoutDialogOpen(false);
+                  handleLogout();
+                }}
+                className="w-full sm:w-auto"
+              >
+                Cerrar sesión
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </>
     </>
   );
 }
