@@ -3,7 +3,7 @@ export function TabButton({ active, onClick, label }) {
     <button
       onClick={onClick}
       className={[
-        'relative px-2 pb-3 pt-2 text-sm font-semibold transition',
+        'relative px-3 sm:px-2 pb-3 pt-2 text-xs sm:text-sm font-semibold transition shrink-0 whitespace-nowrap',
         active
           ? 'text-azul-principal dark:text-azul-claro'
           : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
@@ -23,7 +23,7 @@ export function TabButton({ active, onClick, label }) {
 
 export function Card({ children }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-7 shadow-sm dark:border-slate-700 dark:bg-slate-800/90">
+    <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-3.5 sm:p-7 shadow-sm dark:border-slate-700 dark:bg-slate-800/90 w-full min-w-0">
       {children}
     </div>
   );
