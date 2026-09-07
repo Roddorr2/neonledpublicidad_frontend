@@ -877,7 +877,7 @@ export default function FormMain({
       )}
       {/* Vista Previa */}
       {viewMode === "preview" && (
-        <div className="bg-gray-50 rounded-lg p-6 min-h-screen">
+        <div className="bg-gray-50 rounded-lg min-h-screen">
           <TemplateRenderer
             plantillaId={selectedPlantilla}
             blogData={getBlogDataForPreview()}
