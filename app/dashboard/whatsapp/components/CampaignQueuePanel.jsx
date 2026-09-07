@@ -136,19 +136,19 @@ export function CampaignQueuePanel() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden w-full min-w-0">
 
       {/* Header — degradado azul, no necesita dark */}
-      <div className="bg-gradient-to-r from-azul-intenso to-azul-principal px-6 py-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+      <div className="bg-gradient-to-r from-azul-intenso to-azul-principal px-4 sm:px-6 py-4">
+        <h3 className="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
           📋 Cola de Campañas
         </h3>
-        <p className="text-purple-100 text-sm mt-1">
+        <p className="text-purple-100 text-xs sm:text-sm mt-1">
           {activeCampaign ? '1 campaña activa' : 'Sin campañas activas'}
         </p>
       </div>
 
-      <div className="p-6 space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto">
+      <div className="p-3.5 sm:p-6 space-y-4 sm:space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto">
 
         {/* Borradores */}
         {draftCampaigns.length > 0 && (
