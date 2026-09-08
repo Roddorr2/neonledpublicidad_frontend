@@ -58,7 +58,7 @@ export default function Page() {
           </p>
           <button
             className="bg-[#8c52ff] text-white px-4 py-2 rounded-lg hover:bg-[#7b45e0] transition duration-300 flex items-center justify-center w-full"
-            onClick={() => router.push("/dashboard/reclamaciones/")}
+            onClick={() => router.push("/dashboard/reclamaciones")}
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Volver a la lista
