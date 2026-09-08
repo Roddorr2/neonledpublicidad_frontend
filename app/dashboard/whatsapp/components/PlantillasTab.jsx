@@ -324,6 +324,7 @@ export function PlantillasTab() {
           selectedPlantilla={selectedPlantilla}
           formData={formData}
           imagePreview={imagePreview}
+          className="lg:col-span-4"
         />
       </div>
     </div>
