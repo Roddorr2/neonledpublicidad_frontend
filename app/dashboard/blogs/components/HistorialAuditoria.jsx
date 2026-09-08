@@ -150,23 +150,23 @@ export default function HistorialAuditoria() {
                 className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3"
               >
                 {/* Acción */}
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                <div className="flex flex-col min-[320px]:flex-row min-[320px]:items-center min-[320px]:justify-between gap-1 min-[320px]:gap-4">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400 break-words sm:text-right">
                     Acción
                   </span>
 
-                  <span className="text-sm font-semibold text-sky-600 dark:text-sky-400">
+                  <span className="text-sm font-semibold text-sky-600 dark:text-sky-400 break-words sm:text-right">
                     {a.accion}
                   </span>
                 </div>
 
                 {/* Empleado */}
-                <div className="flex items-center justify-between gap-4">
-                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                <div className="flex flex-col min-[320px]:flex-row min-[320px]:items-center min-[320px]:justify-between gap-1 min-[320px]:gap-4">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400 shrink-0 break-words sm:text-right">
                     Empleado
                   </span>
 
-                  <span className="text-sm text-slate-700 dark:text-slate-200 text-right">
+                  <span className="text-sm text-slate-700 dark:text-slate-200 text-right min-w-0 break-words break-words sm:text-right">
                     {a.empleado
                       ? `${a.empleado.nombre} ${a.empleado.apellido}`
                       : "Desconocido"}
@@ -174,23 +174,23 @@ export default function HistorialAuditoria() {
                 </div>
 
                 {/* Blog */}
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                <div className="flex flex-col min-[320px]:flex-row min-[320px]:items-center min-[320px]:justify-between gap-1 min-[320px]:gap-4">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400 break-words sm:text-right">
                     Blog
                   </span>
 
-                  <span className="text-sm text-slate-700 dark:text-slate-200">
+                  <span className="text-sm text-slate-700 dark:text-slate-200 break-words sm:text-right">
                     {a.id_blog || "-"}
                   </span>
                 </div>
 
                 {/* Fecha */}
-                <div className="flex items-center justify-between gap-4 pt-2 border-t border-slate-100 dark:border-slate-700">
-                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                <div className="flex flex-col min-[320px]:flex-row min-[320px]:items-center min-[320px]:justify-between gap-1 min-[320px]:gap-4">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400 break-words sm:text-right">
                     Fecha y hora
                   </span>
 
-                  <span className="text-sm text-slate-500 dark:text-slate-400 text-right">
+                  <span className="text-sm text-slate-500 dark:text-slate-400 text-right break-words sm:text-right">
                     {a.fecha_hora
                       ? new Date(a.fecha_hora).toLocaleString()
                       : "-"}
