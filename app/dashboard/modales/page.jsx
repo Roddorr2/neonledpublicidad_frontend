@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Pagination1 from "../components/Pagination1";
+import PaginationMobile from "../components/PaginationMobile";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setCookie, getCookie, deleteCookie } from "cookies-next";
 import user_service from "../users/services/user.service";
@@ -722,14 +723,31 @@ export default function Page() {
               </table>
             </div>
 
-            <Pagination1
-              filteredData={filteredData}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              itemsPerPage={ITEMS_PER_PAGE}
-              entityName="modales"
-              totalItems={searchTerm.trim() !== "" ? filteredData.length : totalRecords}
-            />
+            {/* Paginación completa (tablet y escritorio) */}
+            <div className="hidden md:block">
+              <Pagination1
+                filteredData={filteredData}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                itemsPerPage={ITEMS_PER_PAGE}
+                entityName="modales"
+                totalItems={searchTerm.trim() !== "" ? filteredData.length : totalRecords}
+              />
+            </div>
+
+            {/* Paginación compacta (móvil) */}
+            {filteredData.length > 0 && (
+              <div className="md:hidden mt-6">
+                <PaginationMobile
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={(page) => router.push(`?page=${page}`)}
+                  showingCount={filteredData.length}
+                  totalCount={searchTerm.trim() !== "" ? filteredData.length : totalRecords}
+                  entityName="modales"
+                />
+              </div>
+            )}
           </>
         )}
       </div>
