@@ -6,7 +6,7 @@ import {
   ExternalLink,
   Image as ImageIcon,
 } from "lucide-react";
-
+import { Eye } from "lucide-react";
 // Configuración de plantillas
 import { getPlantillaConfig } from "../../config/index";
 
@@ -559,9 +559,15 @@ export default function TemplateRenderer({
       <div className="container mx-auto px-6 py-12">
         {/* Preview Badge */}
         {mode === "preview" && (
-          <div className="fixed top-4 mr-36 mt-1 right-4 z-50">
-            <span className="bg-yellow-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+          <div className="fixed top-4 mr-36  right-4 z-50 ">
+            {/* Texto desde 238px */}
+            <span className="bg-yellow-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg hidden min-[238px]:inline-flex">
               Vista Previa
+            </span>
+
+            {/* Solo icono por debajo de 238px */}
+            <span className="inline-flex min-[238px]:hidden items-center justify-center bg-yellow-500 text-white w-8 h-8 rounded-full shadow-lg">
+              <Eye className="w-4 h-4" />
             </span>
           </div>
         )}
