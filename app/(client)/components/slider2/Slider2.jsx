@@ -15,7 +15,7 @@ const ClientLogosShowcase = ({ slides }) => {
 
   return (
     <section
-      className="w-full py-12 md:py-16 px-4 sm:px-6 lg:px-8"
+      className="w-full py-12 md:py-16 px-8 sm:px-10 lg:px-12"
       aria-label="Nuestros clientes"
       style={{ contain: "layout style" }}
     >
@@ -36,7 +36,7 @@ const ClientLogosShowcase = ({ slides }) => {
       </motion.div>
 
       <motion.div
-        className="relative w-full overflow-hidden"
+        className="relative w-full max-w-6xl mx-auto overflow-hidden"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -46,7 +46,7 @@ const ClientLogosShowcase = ({ slides }) => {
         <div className="pointer-events-none absolute inset-y-0 right-0 w-10 sm:w-16 md:w-24 bg-gradient-to-l from-[#0e1721] to-transparent z-10" />
 
         <div
-          className="flex w-max items-center gap-10 sm:gap-14 md:gap-20 lg:gap-24 py-5 sm:py-6 md:py-7 animate-marquee [&:has(img:hover)]:[animation-play-state:paused]"
+          className="flex w-max items-center gap-10 sm:gap-14 md:gap-20 lg:gap-24 py-5 sm:py-6 md:py-7 animate-marquee"
           style={{ animationDuration: `${durationSeconds}s` }}
         >
           {track.map((slide, index) => (
