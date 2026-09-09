@@ -134,7 +134,7 @@ function TestimonialCard({ review, isDraggingRef, ...rest }) {
     <div
       {...rest}
       className="bg-[#0a0f1c] text-white rounded-2xl border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.15)] hover:shadow-[0_0_25px_rgba(168,85,247,0.4)] hover:border-purple-500/60 p-6 md:p-8 flex flex-col transition-all duration-300 relative select-none
-                 snap-center shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[31%]"
+                 snap-center md:snap-start shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[31%]"
     >
       {/* Comilla decorativa neón */}
       <span className="absolute top-4 right-5 text-4xl font-serif text-purple-400/20 select-none pointer-events-none" aria-hidden="true">
@@ -206,7 +206,9 @@ export function Testimonials() {
 
   const [isDragging, setIsDragging] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [cardsPerPage, setCardsPerPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [activePage, setActivePage] = useState(0);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
   const [testimonios, setTestimonios] = useState([]);
@@ -239,71 +241,150 @@ export function Testimonials() {
     return () => { activo = false; };
   }, []);
 
-  // Actualización de estado de botones y dot activo
-  const updateScrollState = useCallback(() => {
+  // Medición dinámica de tarjetas por pantalla y cálculo de páginas
+  const updateLayout = useCallback(() => {
     const el = trackRef.current;
     if (!el || testimonios.length === 0) return;
 
-    setCanScrollPrev(el.scrollLeft > 4);
-    setCanScrollNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-
     const card = el.querySelector('[data-card]');
-    if (card) {
-      const cardWidth = card.getBoundingClientRect().width + 32; // Ancho de card + gap
-      const index = Math.round(el.scrollLeft / cardWidth);
-      setActiveIndex(Math.min(Math.max(index, 0), testimonios.length - 1));
+    if (!card) return;
+
+    const cardWidth = card.getBoundingClientRect().width;
+    const style = window.getComputedStyle(el);
+    const gap = parseFloat(style.columnGap || style.gap || '32') || 32;
+    const stride = cardWidth + gap;
+
+    const perPage = Math.max(1, Math.floor((el.clientWidth + gap) / stride));
+    const pages = Math.max(1, Math.ceil(testimonios.length / perPage));
+
+    setCardsPerPage(perPage);
+    setTotalPages(pages);
+
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    setCanScrollPrev(el.scrollLeft > 4);
+    setCanScrollNext(el.scrollLeft < maxScroll - 4);
+
+    if (maxScroll <= 5) {
+      setActivePage(0);
+    } else {
+      const progress = Math.min(Math.max(el.scrollLeft / maxScroll, 0), 1);
+      const newPage = Math.min(Math.round(progress * (pages - 1)), pages - 1);
+      setActivePage(newPage);
     }
-  }, [testimonios]);
+  }, [testimonios.length]);
+
+  // Actualización fluida del progreso de scroll
+  const updateScrollProgress = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    setCanScrollPrev(el.scrollLeft > 4);
+    setCanScrollNext(el.scrollLeft < maxScroll - 4);
+
+    if (maxScroll <= 5) {
+      setActivePage(0);
+    } else {
+      const progress = Math.min(Math.max(el.scrollLeft / maxScroll, 0), 1);
+      const newPage = Math.min(Math.round(progress * (totalPages - 1)), totalPages - 1);
+      setActivePage(newPage);
+    }
+  }, [totalPages]);
 
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
 
-    updateScrollState();
-    el.addEventListener('scroll', updateScrollState, { passive: true });
-    window.addEventListener('resize', updateScrollState);
+    updateLayout();
+    el.addEventListener('scroll', updateScrollProgress, { passive: true });
+    window.addEventListener('resize', updateLayout);
 
     return () => {
-      el.removeEventListener('scroll', updateScrollState);
-      window.removeEventListener('resize', updateScrollState);
+      el.removeEventListener('scroll', updateScrollProgress);
+      window.removeEventListener('resize', updateLayout);
     };
-  }, [updateScrollState]);
+  }, [updateLayout, updateScrollProgress]);
 
-  // Navegación a un índice de tarjeta específico
-  const scrollToCardIndex = useCallback((index) => {
+  // Recalcular dimensiones una vez cargados los datos
+  useEffect(() => {
+    if (!loading && testimonios.length > 0) {
+      const timer = setTimeout(() => {
+        updateLayout();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [loading, testimonios, updateLayout]);
+
+  // Navegación a una página específica
+  const scrollToPage = useCallback((pageIndex) => {
     const el = trackRef.current;
     if (!el) return;
+
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) return;
+
+    if (pageIndex <= 0) {
+      el.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+    if (pageIndex >= totalPages - 1) {
+      el.scrollTo({ left: maxScroll, behavior: 'smooth' });
+      return;
+    }
+
     const card = el.querySelector('[data-card]');
     if (!card) return;
-    const cardWidth = card.getBoundingClientRect().width + 32;
-    el.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
-  }, []);
+    const style = window.getComputedStyle(el);
+    const gap = parseFloat(style.columnGap || style.gap || '32') || 32;
+    const stride = card.getBoundingClientRect().width + gap;
 
-  // Desplazamiento manual por flechas
-  const scrollByCard = (direction) => {
+    const targetLeft = Math.min(maxScroll, pageIndex * cardsPerPage * stride);
+    el.scrollTo({ left: targetLeft, behavior: 'smooth' });
+  }, [totalPages, cardsPerPage]);
+
+  // Desplazamiento manual por flechas (por pantalla completa)
+  const scrollByPage = (direction) => {
     const el = trackRef.current;
     if (!el || testimonios.length === 0) return;
 
-    const card = el.querySelector('[data-card]');
-    const cardWidth = card ? card.getBoundingClientRect().width + 32 : el.clientWidth * 0.85;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 5) return;
 
     // Si está al final y avanza, hace loop suave al inicio
-    if (direction === 1 && el.scrollLeft >= el.scrollWidth - el.clientWidth - 10) {
+    if (direction === 1 && el.scrollLeft >= maxScroll - 10) {
       el.scrollTo({ left: 0, behavior: 'smooth' });
       return;
     }
     // Si está al inicio y retrocede, va al final
     if (direction === -1 && el.scrollLeft <= 5) {
-      el.scrollTo({ left: el.scrollWidth - el.clientWidth, behavior: 'smooth' });
+      el.scrollTo({ left: maxScroll, behavior: 'smooth' });
       return;
     }
 
-    el.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+    const card = el.querySelector('[data-card]');
+    const style = window.getComputedStyle(el);
+    const gap = parseFloat(style.columnGap || style.gap || '32') || 32;
+    const stride = card ? card.getBoundingClientRect().width + gap : el.clientWidth;
+    const scrollAmount = cardsPerPage * stride;
+
+    if (direction === 1) {
+      if (el.scrollLeft + scrollAmount >= maxScroll - 10) {
+        el.scrollTo({ left: maxScroll, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    } else {
+      if (el.scrollLeft - scrollAmount <= 10) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      }
+    }
   };
 
-  // Autoplay inteligente de 7 segundos
+  // Autoplay inteligente de 7 segundos (avanza por página)
   useEffect(() => {
-    if (loading || testimonios.length === 0) return;
+    if (loading || testimonios.length === 0 || totalPages <= 1) return;
 
     const interval = setInterval(() => {
       if (isPaused || isMouseDownRef.current) return;
@@ -311,19 +392,29 @@ export function Testimonials() {
       const el = trackRef.current;
       if (!el) return;
 
-      const card = el.querySelector('[data-card]');
-      const cardWidth = card ? card.getBoundingClientRect().width + 32 : el.clientWidth * 0.85;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (maxScroll <= 5) return;
 
       // Si llegó al final, reinicia suavemente al inicio
-      if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 10) {
+      if (el.scrollLeft >= maxScroll - 10) {
         el.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
-        el.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        const card = el.querySelector('[data-card]');
+        const style = window.getComputedStyle(el);
+        const gap = parseFloat(style.columnGap || style.gap || '32') || 32;
+        const stride = card ? card.getBoundingClientRect().width + gap : el.clientWidth;
+        const scrollAmount = cardsPerPage * stride;
+
+        if (el.scrollLeft + scrollAmount >= maxScroll - 10) {
+          el.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        } else {
+          el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
       }
     }, 7000);
 
     return () => clearInterval(interval);
-  }, [isPaused, loading, testimonios]);
+  }, [isPaused, loading, testimonios, totalPages, cardsPerPage]);
 
   // Arrastre con Mouse (Drag to scroll) en Desktop
   const handleMouseDown = (e) => {
@@ -398,8 +489,8 @@ export function Testimonials() {
         {/* Flecha izquierda */}
         <button
           type="button"
-          onClick={() => scrollByCard(-1)}
-          aria-label="Ver testimonio anterior"
+          onClick={() => scrollByPage(-1)}
+          aria-label="Ver testimonios anteriores"
           className="hidden md:flex absolute -left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-[#0a0f1c]/95 border border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300 hover:border-purple-400 hover:text-white hover:shadow-[0_0_22px_rgba(168,85,247,0.7)] hover:scale-110 active:scale-95"
         >
           <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -436,8 +527,8 @@ export function Testimonials() {
         {/* Flecha derecha */}
         <button
           type="button"
-          onClick={() => scrollByCard(1)}
-          aria-label="Ver siguiente testimonio"
+          onClick={() => scrollByPage(1)}
+          aria-label="Ver siguientes testimonios"
           className="hidden md:flex absolute -right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-[#0a0f1c]/95 border border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300 hover:border-purple-400 hover:text-white hover:shadow-[0_0_22px_rgba(168,85,247,0.7)] hover:scale-110 active:scale-95"
         >
           <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -446,17 +537,17 @@ export function Testimonials() {
         </button>
       </div>
 
-      {/* Paginación Interactiva (Dots Neón) */}
-      {!loading && testimonios.length > 1 && (
+      {/* Paginación Interactiva (Dots Neón por Pantalla) */}
+      {!loading && totalPages > 1 && (
         <div className="flex justify-center items-center gap-2.5 mt-8">
-          {testimonios.map((_, idx) => {
-            const isActive = idx === activeIndex;
+          {Array.from({ length: totalPages }).map((_, idx) => {
+            const isActive = idx === activePage;
             return (
               <button
                 key={idx}
                 type="button"
-                onClick={() => scrollToCardIndex(idx)}
-                aria-label={`Ir al testimonio ${idx + 1} de ${testimonios.length}`}
+                onClick={() => scrollToPage(idx)}
+                aria-label={`Ir a la página ${idx + 1} de ${totalPages}`}
                 className={`transition-all duration-300 rounded-full h-2.5 ${
                   isActive
                     ? 'w-8 bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.9)]'
