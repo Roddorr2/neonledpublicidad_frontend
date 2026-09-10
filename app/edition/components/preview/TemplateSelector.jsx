@@ -8,7 +8,7 @@ import {
   ArrowRight,
   CheckCircle,
   Sparkles,
-  ArrowRightFromLine ,
+  ArrowRightFromLine,
   Quote,
 } from "lucide-react";
 
@@ -21,7 +21,7 @@ import {
 
 /**
  * TemplateSelector - Componente para seleccionar plantilla antes de crear blog
- * 
+ *
  * Este componente permite al usuario elegir entre las plantillas disponibles
  * mostrando una vista previa de cada una con sus características principales.
  *
@@ -60,8 +60,10 @@ export default function TemplateSelector({
   const selectedConfig = getPlantillaConfig(selectedTemplate);
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 ${className}`}>
-      <div className="container mx-auto px-6 py-12">
+    <div
+      className={`min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 ${className}`}
+    >
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-12 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
@@ -71,13 +73,14 @@ export default function TemplateSelector({
             </h1>
           </div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Elige la plantilla que mejor se adapte a tu contenido. Cada plantilla tiene
-            características únicas optimizadas para diferentes tipos de blogs.
+            Elige la plantilla que mejor se adapte a tu contenido. Cada
+            plantilla tiene características únicas optimizadas para diferentes
+            tipos de blogs.
           </p>
         </div>
 
         {/* Template Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 items-stretch">
           {PLANTILLAS_ARRAY.map((config) => {
             const isSelected = selectedTemplate === config.id;
             const isHovered = hoveredTemplate === config.id;
@@ -86,19 +89,19 @@ export default function TemplateSelector({
             return (
               <div
                 key={config.id}
-                className={`relative group cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                className={`relative group cursor-pointer transition-all duration-300 flex flex-col h-full ${
                   isSelected
-                    ? "ring-4 ring-yellow-400 shadow-2xl shadow-yellow-400/20"
-                    : "hover:shadow-xl"
+                    ? "ring-4 ring-yellow-400 shadow-2xl shadow-yellow-400/20 -translate-y-2"
+                    : "hover:-translate-y-2 hover:shadow-xl"
                 }`}
                 onClick={() => handleTemplateSelect(config.id)}
                 onMouseEnter={() => setHoveredTemplate(config.id)}
                 onMouseLeave={() => setHoveredTemplate(null)}
               >
                 {/* Template Card */}
-                <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div className="bg-white rounded-2xl overflow-hidden shadow-lg flex flex-col h-full">
                   {/* Preview Area */}
-                  <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                  <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden shrink-0">
                     {/* Mock Layout Preview */}
                     <div className="p-4 h-full">
                       {/* Header */}
@@ -117,9 +120,15 @@ export default function TemplateSelector({
                           </div>
                           {/* Content */}
                           <div className="grid grid-cols-2 gap-2">
-                            {Array.from({ length: features.consejos?.maxItems || 4 }, (_, i) => (
-                              <div key={i} className="h-12 bg-green-200 rounded"></div>
-                            ))}
+                            {Array.from(
+                              { length: features.consejos?.maxItems || 4 },
+                              (_, i) => (
+                                <div
+                                  key={i}
+                                  className="h-12 bg-green-200 rounded"
+                                ></div>
+                              ),
+                            )}
                           </div>
                         </div>
                       ) : (
@@ -138,7 +147,10 @@ export default function TemplateSelector({
                           {/* Info Cards */}
                           <div className="space-y-1">
                             {Array.from({ length: 2 }, (_, i) => (
-                              <div key={i} className="h-6 bg-teal-100 rounded"></div>
+                              <div
+                                key={i}
+                                className="h-6 bg-teal-100 rounded"
+                              ></div>
                             ))}
                           </div>
                         </div>
@@ -154,13 +166,15 @@ export default function TemplateSelector({
 
                     {/* Template Label */}
                     <div className="absolute top-2 right-2">
-                      <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                        config.layoutType === "tabs"
-                          ? "bg-teal-500 text-white"
-                          : "bg-purple-500 text-white"
-                      }`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-bold ${
+                          config.layoutType === "tabs"
+                            ? "bg-teal-500 text-white"
+                            : "bg-purple-500 text-white"
+                        }`}
+                      >
                         {config.layoutType === "tabs" ? (
-                          <ArrowRightFromLine  className="w-3 h-3 inline mr-1" />
+                          <ArrowRightFromLine className="w-3 h-3 inline mr-1" />
                         ) : (
                           <Layout className="w-3 h-3 inline mr-1" />
                         )}
@@ -170,7 +184,7 @@ export default function TemplateSelector({
                   </div>
 
                   {/* Template Info */}
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-grow">
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-xl font-bold text-gray-900">
                         {config.name}
@@ -188,15 +202,21 @@ export default function TemplateSelector({
                     <div className="space-y-2 mb-4">
                       <div className="flex items-center text-sm text-gray-700">
                         <Quote className="w-4 h-4 mr-2 text-purple-500" />
-                        <span>{features.consejos?.maxItems || 3} consejos máximo</span>
+                        <span>
+                          {features.consejos?.maxItems || 3} consejos máximo
+                        </span>
                       </div>
                       <div className="flex items-center text-sm text-gray-700">
                         <Grid3x3 className="w-4 h-4 mr-2 text-blue-500" />
-                        <span>{features.galeria?.maxImages || 2} imágenes en galería</span>
+                        <span>
+                          {features.galeria?.maxImages || 2} imágenes en galería
+                        </span>
                       </div>
                       <div className="flex items-center text-sm text-gray-700">
                         <Layers className="w-4 h-4 mr-2 text-teal-500" />
-                        <span>{features.informacion?.maxItems || 4} tarjetas de info</span>
+                        <span>
+                          {features.informacion?.maxItems || 4} tarjetas de info
+                        </span>
                       </div>
                       {features.consejos?.hasAutoGeneration && (
                         <div className="flex items-center text-sm text-gray-700">
@@ -208,7 +228,7 @@ export default function TemplateSelector({
 
                     {/* Selection Button */}
                     <button
-                      className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
+                      className={`w-full py-2 px-4 rounded-lg font-semibold transition-all mt-auto ${
                         isSelected
                           ? "bg-yellow-500 text-white shadow-lg"
                           : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -225,25 +245,33 @@ export default function TemplateSelector({
         </div>
 
         {/* Selected Template Summary */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+        <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-8 mb-8 w-full max-w-full overflow-hidden">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="w-full">
+              <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-2 break-words">
                 Plantilla Seleccionada: {selectedConfig.name}
               </h3>
-              <p className="text-gray-600 mb-4">{selectedConfig.description}</p>
-              <div className="flex items-center space-x-6 text-sm text-gray-700">
-                <div className="flex items-center">
-                  <Layout className="w-4 h-4 mr-1 text-purple-500" />
+              <p className="text-gray-600 text-sm mb-4 leading-relaxed break-words">
+                {selectedConfig.description}
+              </p>
+
+              
+              <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-gray-700">
+                <div className="flex items-center shrink-0">
+                  <Layout className="w-4 h-4 mr-1 text-purple-500 shrink-0" />
                   <span>Layout {selectedConfig.layoutType}</span>
                 </div>
-                <div className="flex items-center">
-                  <Quote className="w-4 h-4 mr-1 text-purple-500" />
-                  <span>{selectedConfig.features?.consejos?.maxItems || 3} consejos</span>
+                <div className="flex items-center shrink-0">
+                  <Quote className="w-4 h-4 mr-1 text-purple-500 shrink-0" />
+                  <span>
+                    {selectedConfig.features?.consejos?.maxItems || 3} consejos
+                  </span>
                 </div>
-                <div className="flex items-center">
-                  <Grid3x3 className="w-4 h-4 mr-1 text-blue-500" />
-                  <span>{selectedConfig.features?.galeria?.maxImages || 2} imágenes</span>
+                <div className="flex items-center shrink-0">
+                  <Grid3x3 className="w-4 h-4 mr-1 text-blue-500 shrink-0" />
+                  <span>
+                    {selectedConfig.features?.galeria?.maxImages || 2} imágenes
+                  </span>
                 </div>
               </div>
             </div>
@@ -251,7 +279,7 @@ export default function TemplateSelector({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md sm:max-w-none mx-auto">
           {showCancel && (
             <button
               onClick={handleCancel}
