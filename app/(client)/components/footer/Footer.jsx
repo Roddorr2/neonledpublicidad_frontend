@@ -42,9 +42,18 @@ export default function Footer() {
             </h2>
             <div className="mb-6">
               <p className="font-semibold mb-2">Dirección:</p>
+
+              <a
+                href="https://www.google.com/maps/place/Neon+LED+Publicidad+-+Letreros+Ne%C3%B3n+y+Letreros+Luminosos/@-12.0255704,-76.9423141,96m/data=!3m1!1e3!4m10!1m2!2m1!1sneo+led+publicidad!3m6!1s0x9105c9c0370c5717:0x31763021f0f0a705!8m2!3d-12.0255704!4d-76.9420164!15sChJuZW8gbGVkIHB1YmxpY2lkYWRaFCISbmVvIGxlZCBwdWJsaWNpZGFkkgEObmVvbl9zaWduX3Nob3CaAURDaTlEUVVsUlFVTnZaRU5vZEhsalJqbHZUMnBDVTFFeldrVlViRkpoV2xSb05GSXhaR3RsUjFvd1RsUkJlR016WXhBQuABAPoBBAgAEEc!16s%2Fg%2F11qpz5s0m5?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Ver ubicación en Google Maps"
+                className="block cursor-pointer hover:text-[#48A8FF] transition-colors duration-300"
+              >
               <p className="text-sm mb-1">Urb. Alameda La Rivera</p>
               <p className="text-sm mb-1">Mz F Lot 30</p>
               <p className="text-sm mb-1">Santa Martha. Ate</p>
+              </a>
             </div>
             <div>
               <p className="font-semibold mb-2">Celular:</p>
