@@ -25,17 +25,25 @@ import { RECOMMENDED_IMAGE_SIZES } from "../../constants/defaults";
 
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
+  
   container:
-    "relative mt-12 flex flex-col md:flex-row justify-center items-stretch max-w-5xl mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg shadow-lg overflow-hidden p-6 gap-6",
-  preview: "relative flex-1 p-6 md:p-8 min-w-0",
+    "relative mt-12 flex flex-col md:flex-row justify-center items-start max-w-5xl mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg shadow-lg overflow-hidden p-6 gap-6",
+  
+  preview: "relative flex-1 p-6 md:pb-6 min-w-0",
+  
   title:
     "text-3xl text-center font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500",
   description:
     "text-gray-100 text-base leading-relaxed max-w-full md:max-w-md mx-auto mb-6 text-center break-words overflow-hidden whitespace-normal",
-  gallery: "flex flex-col items-center gap-24 mt-16",
-  imageItem: "relative group",
+
+  /* CAMBIO PARA QUE NO SE SOBREPONGA LA IMAGEN  */
+  gallery: "flex flex-col items-center gap-14 mt-4 mb-2 w-full",
+
+  imageItem: "relative group w-full max-w-md flex justify-center",
+
   image:
-    "w-64 h-48 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10",
+    "w-full max-w-md h-56 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10",
+
   panel: "relative w-full md:w-[450px] h-auto p-6",
   form: "bg-black/75 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg",
   input:
@@ -513,8 +521,8 @@ export default function FormFooter({
       </div>
 
       {/* Panel de edición */}
-      <div className={mergedStyles.panel}>
-        <div className={mergedStyles.form}>
+      <div className={`${mergedStyles.panel} w-full flex justify-center px-1`}>
+        <div className={`${mergedStyles.form} w-[100%] mx-auto p-3`}>
           <h1 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 mb-4">
             Editar Pie de Página
           </h1>

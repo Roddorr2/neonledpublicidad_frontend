@@ -33,7 +33,7 @@ export const WhyUs = () => {
   ];
 
   return (
-    <section className="w-full py-16 px-4 sm:px-8 max-w-[1400px] mx-auto my-6">
+    <section className="w-full pt-6 pb-16 px-4 sm:px-8 max-w-[1400px] mx-auto">
       <div className="text-center mb-12">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white uppercase tracking-wider">
           ¿POR QUÉ ELEGIRNOS?

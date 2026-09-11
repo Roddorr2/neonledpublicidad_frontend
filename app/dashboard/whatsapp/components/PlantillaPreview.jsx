@@ -3,17 +3,18 @@ export function PlantillaPreview({
   selectedPlantilla,
   formData,
   imagePreview,
+  className = '',
 }) {
   return (
-    <div className="lg:col-span-4 sticky top-6">
+    <div className={`w-full min-w-0 sticky top-6 ${className}`}>
       {selectedPlantilla ? (
-        <div className="rounded-xl border border-slate-200 bg-slate-100 p-4 shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-slate-100 p-3 sm:p-4 shadow-sm w-full min-w-0">
           <p className="mb-2 text-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
             Vista Previa Final
           </p>
 
           {tipo === 'whatsapp' ? (
-            <div className="mx-auto max-w-[350px] overflow-hidden rounded-xl bg-[#efeae2] shadow-lg relative border border-slate-200 flex flex-col h-[590px]">
+            <div className="mx-auto w-full max-w-[350px] overflow-hidden rounded-xl bg-[#efeae2] shadow-lg relative border border-slate-200 flex flex-col h-[520px] sm:h-[590px]">
               {/* Header WhatsApp */}
               <div className="bg-[#075e54] px-4 py-3 flex items-center gap-3 shrink-0 z-10">
                 <div className="h-8 w-8 rounded-full bg-slate-300 flex items-center justify-center shrink-0">
@@ -51,9 +52,9 @@ export function PlantillaPreview({
                   )}
 
                   <div
-                    className="px-1 relative"
+                    className="px-1 relative break-words"
                     dangerouslySetInnerHTML={{
-                      __html: (formData.mensaje || 'Escribe un mensaje...')
+                      __html: (formData?.mensaje || 'Escribe un mensaje...')
                         .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
                         .replace(/_(.*?)_/g, '<em>$1</em>')
                         .replace(/~(.*?)~/g, '<del>$1</del>')
@@ -78,11 +79,11 @@ export function PlantillaPreview({
               </div>
             </div>
           ) : (
-            <div className="mx-auto max-w-[350px] overflow-hidden bg-white shadow-lg">
+            <div className="mx-auto w-full max-w-[350px] overflow-hidden bg-white shadow-lg rounded-xl">
               {/* Encabezado Púrpura (Igual a tu imagen) */}
               <div className="bg-[#9333ea] p-4 text-center">
-                <h2 className="text-sm font-bold text-white leading-tight">
-                  {formData.encabezado || '¿Listo para incrementar el valor?'}
+                <h2 className="text-sm font-bold text-white leading-tight break-words">
+                  {formData?.encabezado || '¿Listo para incrementar el valor?'}
                 </h2>
               </div>
 
@@ -102,11 +103,11 @@ export function PlantillaPreview({
               </div>
 
               {/* Mensaje */}
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 <div
-                  className="prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed text-slate-700 whitespace-pre-wrap"
+                  className="prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed text-slate-700 whitespace-pre-wrap break-words"
                   dangerouslySetInnerHTML={{
-                    __html: (formData.mensaje || 'Escribe un mensaje...')
+                    __html: (formData?.mensaje || 'Escribe un mensaje...')
                       .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
                       .replace(/_(.*?)_/g, '<em>$1</em>')
                       .replace(/~(.*?)~/g, '<del>$1</del>')
@@ -118,9 +119,9 @@ export function PlantillaPreview({
                 />
 
                 {/* Botón dinámico */}
-                {formData.mensaje_boton && (
+                {formData?.mensaje_boton && (
                   <div className="mt-6 text-center">
-                    <div className="inline-block rounded-md bg-[#9333ea] px-6 py-2.5 text-[11px] font-bold text-white uppercase tracking-wider">
+                    <div className="inline-block rounded-md bg-[#9333ea] px-6 py-2.5 text-[11px] font-bold text-white uppercase tracking-wider break-words">
                       {formData.mensaje_boton}
                     </div>
                   </div>
@@ -128,9 +129,9 @@ export function PlantillaPreview({
 
                 {/* Footer con Rich Text */}
                 <div
-                  className="mt-6 border-t pt-4 text-[11px] text-slate-500"
+                  className="mt-6 border-t pt-4 text-[11px] text-slate-500 break-words"
                   dangerouslySetInnerHTML={{
-                    __html: (formData.footer || '').replace(
+                    __html: (formData?.footer || '').replace(
                       /{nombre}/g,
                       '<b>[Nombre]</b>',
                     ),
@@ -141,16 +142,16 @@ export function PlantillaPreview({
               {/* Redes Sociales (Simuladas) */}
               <div className="bg-slate-50 p-4 text-center">
                 <div className="mb-2 flex justify-center gap-3 grayscale opacity-70">
-                  {formData.red_facebook && (
+                  {formData?.red_facebook && (
                     <div className="h-4 w-4 bg-blue-600 rounded-full" />
                   )}
-                  {formData.red_instagram && (
+                  {formData?.red_instagram && (
                     <div className="h-4 w-4 bg-pink-500 rounded-full" />
                   )}
-                  {formData.red_linkedin && (
+                  {formData?.red_linkedin && (
                     <div className="h-4 w-4 bg-blue-800 rounded-full" />
                   )}
-                  {formData.red_tiktok && (
+                  {formData?.red_tiktok && (
                     <div className="h-4 w-4 bg-black rounded-full" />
                   )}
                 </div>
@@ -162,7 +163,7 @@ export function PlantillaPreview({
           )}
         </div>
       ) : (
-        <div className="rounded-xl border-2 border-dashed border-slate-200 p-12 text-center text-slate-400 text-sm italic">
+        <div className="rounded-xl border-2 border-dashed border-slate-200 p-6 sm:p-12 text-center text-slate-400 text-sm italic w-full">
           Selecciona una plantilla para ver la previsualización
         </div>
       )}

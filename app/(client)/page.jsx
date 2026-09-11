@@ -155,27 +155,37 @@ export default function Home() {
 
   const clientLogos = [
     {
-      imgSrc: "/home/Jockeyplaza_Logo_ledneonpublicidad.webp",
+      imgSrc: "/home/Jockeyplaza_Logo_transparent2.png",
+      width: 275,
+      height: 194,
       altText: "Logo Jockey Plaza",
       title: "Logo Jockey Plaza",
     },
     {
-      imgSrc: "/home/Malldelsur_Logo_ledneonpublicidad2.webp",
+      imgSrc: "/home/Malldelsur_Logo_transparent2.png",
+      width: 2005,
+      height: 454,
       altText: "Logo Mall del Sur",
       title: "Logo Mall del Sur",
     },
     {
-      imgSrc: "/home/logo_lk_constructora_e_inversiones.webp",
-      altText: "Logo L&K",
-      title: "Logo L&K",
+      imgSrc: "/home/logo_lk_transparent2.webp",
+      width: 266,
+      height: 117,
+      altText: "Logo L&K Constructora e Inversiones",
+      title: "Logo L&K Constructora e Inversiones",
     },
     {
-      imgSrc: "/home/Crisol_Logo_ledneopublicidad2.webp",
+      imgSrc: "/home/Crisol_Logo_transparent2.png",
+      width: 218,
+      height: 88,
       altText: "Logo Crisol",
       title: "Logo Crisol",
     },
     {
-      imgSrc: "/home/BancodelaNación_ledneonpublicidad2.webp",
+      imgSrc: "/home/BancodelaNacion_Logo_transparent2.png",
+      width: 1003,
+      height: 352,
       altText: "Logo Banco de la Nación",
       title: "Logo Banco de la Nación",
     },
@@ -196,7 +206,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex justify-center items-center mb-12 md:mb-24 px-4">
+      <section className="flex justify-center items-center mb-11 md:mb-22 px-4">
         <a
           href="/contacto"
           className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold text-xl sm:text-3xl md:text-4xl py-4 sm:py-8 md:py-10 px-8 sm:px-16 md:px-20 rounded-full shadow-lg hover:scale-105 transition-transform text-center w-full sm:w-auto inline-block max-w-full"
@@ -205,17 +215,9 @@ export default function Home() {
         </a>
       </section>
 
-      <section
-        className="flex justify-center mt-12 md:mt-20 mb-12 md:mb-24"
-        aria-label="Nuestros clientes"
-        style={{ contain: "layout style" }}
-      >
-        <Slider2 slides={clientLogos} />
-      </section>
+      <Slider2 slides={clientLogos} />
 
-      {/* COMPONENTE RENDERIZADO DEBAJO DEL SLIDER DE CLIENTES */}
       <WhyUs />
-
       <Testimonials />
     </div>
   );

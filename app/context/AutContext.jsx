@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     verifyToken();
-  }, []);
+  }, [pathname, router]);
 
   const login = async (formData) => {
     try {
