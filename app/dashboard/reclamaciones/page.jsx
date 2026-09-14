@@ -675,6 +675,7 @@ export default function Page() {
               filteredData={filteredData}
               currentPage={currentPage}
               totalPages={totalPages}
+              entityName="reclamaciones"
             />
           </>
         )}

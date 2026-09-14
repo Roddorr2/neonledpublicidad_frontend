@@ -37,6 +37,7 @@ export default function Page() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoadingModals, setIsLoadingModals] = useState(false);
   const [productsById, setProductsById] = useState({});
@@ -119,7 +120,8 @@ export default function Page() {
 
       setData(data);
       setFilteredData(data);
-      setTotalPages(response.data.last_page); // importante
+      setTotalPages(response.data.last_page || 1); // importante
+      setTotalRecords(response.data.total ?? data?.length ?? 0);
     } catch (error) {
       console.error(error);
     } finally {
@@ -723,8 +725,10 @@ export default function Page() {
             <Pagination1
               filteredData={filteredData}
               currentPage={currentPage}
-              totalPages={200}
+              totalPages={totalPages}
               itemsPerPage={ITEMS_PER_PAGE}
+              entityName="modales"
+              totalItems={searchTerm.trim() !== "" ? filteredData.length : totalRecords}
             />
           </>
         )}

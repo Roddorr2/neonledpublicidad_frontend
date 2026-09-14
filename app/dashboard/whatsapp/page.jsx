@@ -121,33 +121,33 @@ export default function WhatsAppPage() {
 
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-700 dark:bg-slate-900/85">
-        <div className="w-full px-4 py-4">
+        <div className="w-full px-3 sm:px-4 py-3 sm:py-4">
           <div className="mx-auto w-full max-w-7xl">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                <h1 className="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-slate-100">
                   Envío de Whatsapp
                 </h1>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
                   Conecta tu cuenta y ejecuta pruebas reales de campaña.
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2.5 sm:px-3 py-1 text-xs sm:text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
                   <span
-                    className={`h-2.5 w-2.5 rounded-full ${
+                    className={`h-2.5 w-2.5 rounded-full shrink-0 ${
                       isConnected ? 'bg-emerald-500' : 'bg-rose-500'
                     }`}
                   />
-                  {statusText}
+                  <span className="truncate max-w-[200px] sm:max-w-none">{statusText}</span>
                 </span>
               </div>
             </div>
 
             {/* Tabs */}
-            <div className="mt-4">
-              <div className="flex gap-6 border-b border-slate-200 dark:border-slate-700 overflow-scroll sm:overflow-hidden">
+            <div className="mt-3 sm:mt-4">
+              <div className="flex gap-2 sm:gap-6 border-b border-slate-200 dark:border-slate-700 overflow-x-auto overflow-y-hidden scrollbar-none">
                 <TabButton
                   active={tab === 'conexion'}
                   onClick={() => setTab('conexion')}
@@ -163,11 +163,10 @@ export default function WhatsAppPage() {
                   onClick={() => setTab('plantillas')}
                   label="Plantillas"
                 />
-                {/* ← agregamos esto */}
-                 <TabButton
-                 active={tab === 'popups'}
-                 onClick={() => setTab('popups')}
-                label="Pop-Ups"
+                <TabButton
+                  active={tab === 'popups'}
+                  onClick={() => setTab('popups')}
+                  label="Pop-Ups"
                 />
               </div>
             </div>
@@ -176,8 +175,8 @@ export default function WhatsAppPage() {
       </header>
 
       {/* Content */}
-      <main className="mb-12 flex-1 w-full px-4 py-8 overflow-y-auto">
-        <div className="mx-auto w-full max-w-7xl">
+      <main className="mb-12 flex-1 w-full px-2 sm:px-4 py-4 sm:py-8 overflow-y-auto min-w-0">
+        <div className="mx-auto w-full max-w-7xl min-w-0">
           {isAuthLoading && (
             <div className="flex flex-col items-center justify-center p-20">
               <div className="h-12 w-12 animate-spin rounded-full border-4 border-azul-principal border-t-transparent" />
@@ -189,16 +188,16 @@ export default function WhatsAppPage() {
 
           {/* Monitor de Progreso de Campañas (siempre visible) */}
           {!isAuthLoading && (
-            <div className="mb-6">
+            <div className="mb-6 w-full min-w-0">
               <CampaignProgressMonitor />
             </div>
           )}
 
           {/* Layout con sidebar para pestaña Prueba */}
           {!isAuthLoading && tab === 'prueba' ? (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full min-w-0">
               {/* Columna principal (2/3) */}
-              <div className="lg:col-span-2">
+              <div className="min-w-0 w-full lg:col-span-2">
                 <TestSendTab
                   services={services}
                   isConnected={isConnected}
@@ -207,7 +206,7 @@ export default function WhatsAppPage() {
               </div>
 
               {/* Sidebar derecha (1/3) */}
-              <div className="lg:col-span-1">
+              <div className="min-w-0 w-full lg:col-span-1">
                 <CampaignQueuePanel />
               </div>
             </div>

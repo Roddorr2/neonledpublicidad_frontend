@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Blog detail pages are rendered client-side from a static shell page.
+  # Any slug that doesn't map to a real file/folder falls back to the
+  # matching plantilla's shell, which reads the real slug from the URL
+  # and fetches the blog content from the API at runtime.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^blog/plantilla1/(?!_shell/?$).*$ /blog/plantilla1/_shell/index.html [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^blog/plantilla2/(?!_shell/?$).*$ /blog/plantilla2/_shell/index.html [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^blog/plantilla3/(?!_shell/?$).*$ /blog/plantilla3/_shell/index.html [L]
+</IfModule>
