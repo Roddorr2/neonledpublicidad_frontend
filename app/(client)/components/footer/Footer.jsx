@@ -61,29 +61,44 @@ export default function Footer() {
               <p className="text-sm">9:00 a.m – 6:00 p.m</p>
             </div>
           </div>
-
-          {/* Columna 4: RECLAMACIONES */}
+          {/* Columna 4: POLITICAS */}
           <div>
-            <h2 className="text-[#48A8FF] text-xl font-bold mb-4">
-              RECLAMACIONES
-            </h2>
-            <div className="text-left">
-              <p className="mb-4">Libro de Reclamaciones</p>
-              <Link href="/reclamaciones">
-                <div className="inline-block">
-                  <img
-                    src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
-                    alt="Ilustración del libro de reclamaciones"
-                    title="Libro de Reclamaciones Perú"
-                    width="180"
-                    height="57"
-                    className="mx-auto hover:scale-105 transition-transform duration-300 will-change-transform"
-                    loading="lazy"
-                  />
+            <h2 className="text-[#48A8FF] text-xl font-bold mb-4">LEGALES</h2>
+            <ul className="flex flex-col gap-3 text-sm text-gray-300">
+              <li>
+                <Link
+                  href="/politica-privacidad"
+                  className="font-semibold mb-2 hover:text-[#48A8FF] transition-colors"
+                >
+                  Política de privacidad
+                </Link>
+              </li>
+              <li>
+                <h2 className="text-[#48A8FF] text-xl font-bold mb-4 pt-4">
+                  RECLAMACIONES
+                </h2>
+                <div className="text-left">
+                  <p className="mb-4">Libro de Reclamaciones</p>
+                  <Link href="/reclamaciones">
+                    <div className="inline-block">
+                      <img
+                        src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
+                        alt="Ilustración del libro de reclamaciones"
+                        title="Libro de Reclamaciones Perú"
+                        width="180"
+                        height="57"
+                        className="mx-auto hover:scale-105 transition-transform duration-300 will-change-transform"
+                        loading="lazy"
+                      />
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-            </div>
+              </li>
+            </ul>
           </div>
+
+          {/* Columna 5: RECLAMACIONES */}
+          <div></div>
         </div>
       </div>
     </footer>
