@@ -640,7 +640,7 @@ const Contacto = () => {
                       className="w-full p-3 bg-blue-900 border border-blue-400 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                     >
                       <option value="">
-                        Detalle de contacto*
+                        Motivo de contacto*
                       </option>
 
                       <option value="CONSULTA">
