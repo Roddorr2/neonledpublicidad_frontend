@@ -20,7 +20,7 @@ export const apiRequest = async (endpoint, options = {}) => {
   const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
   const url = `${API_URL}${cleanEndpoint}`;
 
-  console.log(`📡 (Laravel) ${url}`);
+  //console.log(`📡 (Laravel) ${url}`);
 
   const response = await fetch(url, {
     ...options,
@@ -60,7 +60,7 @@ const wsRequest = async (endpoint, options = {}) => {
   const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
   const url = `${WS_URL}${cleanEndpoint}`;
 
-  console.log(`📡 (WS) ${url}`);
+  //console.log(`📡 (WS) ${url}`);
 
   const res = await fetch(url, {
     ...options,
@@ -115,8 +115,7 @@ export const whatsappApi = {
 // ─── POP-UPS agregamos esto ─────────────────────────────────────────────
 export const popupApi = {
   // Productos (para el selector)
-  getProductos: () =>
-    apiRequest("/api/productos", { method: "GET" }),
+  getProductos: () => apiRequest("/api/productos", { method: "GET" }),
 
   // Popup Configs
   getAll: () => apiRequest("/api/popup-configs", { method: "GET" }),

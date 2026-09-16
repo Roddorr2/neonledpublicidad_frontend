@@ -6,7 +6,7 @@ import Pagination from "../components/Pagination";
 import FormModal from "../components/FormModal";
 import EditFormModal from "../components/EditFormModal";
 import { useEffect, useState } from "react";
-import API_URL from "@/api/url"
+import API_URL from "@/api/url";
 
 const headers = ["id", "nombre"];
 
@@ -24,12 +24,10 @@ function ReclamacionesPage() {
   async function setProducts(page) {
     try {
       setLoading(true);
-      const response = await fetch(
-        `${API_URL}/api/servicios?page=${page}`
-      );
+      const response = await fetch(`${API_URL}/api/servicios?page=${page}`);
       const data = await response.json();
 
-      console.log("API Response:", data);
+      //console.log("API Response:", data);
 
       if (data && Array.isArray(data.data)) {
         setData(data.data);
@@ -96,7 +94,10 @@ function ReclamacionesPage() {
       )}
 
       {showModal && (
-        <FormModal onClose={() => setShowModal(false)} onSubmit={handleCreate} />
+        <FormModal
+          onClose={() => setShowModal(false)}
+          onSubmit={handleCreate}
+        />
       )}
 
       {showEditModal && (

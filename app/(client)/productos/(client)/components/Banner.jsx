@@ -9,7 +9,7 @@ export default function Banner({ titulo, video, imagen }) {
   useEffect(() => {
     if (video && videoRef.current) {
       videoRef.current.muted = true;
-      videoRef.current.play().catch((err) => console.log("Autoplay demorado:", err));
+      //videoRef.current.play().catch((err) => console.log("Autoplay demorado:", err));
     }
   }, [video]);
 
@@ -91,4 +91,3 @@ export default function Banner({ titulo, video, imagen }) {
     </section>
   );
 }
-

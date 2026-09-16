@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
-import { AUTH_CONFIG } from '@/config/auth.config.js';
-import { safeJsonParse } from '@/lib/safe-json';
+import { useState, useEffect, useCallback } from "react";
+import { AUTH_CONFIG } from "@/config/auth.config.js";
+import { safeJsonParse } from "@/lib/safe-json";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV ;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV;
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -15,16 +14,16 @@ export const useAuth = () => {
       const response = await fetch(
         `${API_BASE_URL}${AUTH_CONFIG.ENDPOINTS.VALIDATE}`,
         {
-          method: 'GET',
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         },
       );
 
       if (response.status === 401) {
-        console.log('Token expirado o inválido');
+        //console.log('Token expirado o inválido');
         return false;
       }
 
@@ -38,15 +37,15 @@ export const useAuth = () => {
 
       return false;
     } catch (error) {
-      console.error('Error validando token:', error);
+      console.error("Error validando token:", error);
       return false;
     }
   }, []);
 
   // Verificar estado de autenticación
   const checkAuthStatus = useCallback(async () => {
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('user');
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
 
     if (!token || !userData) {
       setIsAuthenticated(false);
@@ -58,7 +57,7 @@ export const useAuth = () => {
     try {
       const parsedUser = safeJsonParse(userData, null);
       if (!parsedUser) {
-        throw new Error('Invalid user data in localStorage');
+        throw new Error("Invalid user data in localStorage");
       }
       const isValid = await validateToken(token);
 
@@ -67,16 +66,16 @@ export const useAuth = () => {
         setIsAuthenticated(true);
       } else {
         //limpiar localStorage
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setIsAuthenticated(false);
         setUser(null);
-        console.log('Sesión expirada, redirigiendo al login');
+        //console.log('Sesión expirada, redirigiendo al login');
       }
     } catch (error) {
-      console.error('Error verificando autenticación:', error);
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      console.error("Error verificando autenticación:", error);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       setIsAuthenticated(false);
       setUser(null);
     } finally {
@@ -91,8 +90,8 @@ export const useAuth = () => {
       role: loginData.role,
     };
 
-    localStorage.setItem('user', JSON.stringify(userData));
-    localStorage.setItem('token', loginData.token);
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("token", loginData.token);
 
     setUser(userData);
     setIsAuthenticated(true);
@@ -104,8 +103,8 @@ export const useAuth = () => {
     setIsAuthenticated(false);
     setUser(null);
 
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
     setTimeout(() => {
       setIsLoading(false);
@@ -119,11 +118,11 @@ export const useAuth = () => {
     // Verificar token según el intervalo configurado
     const interval = setInterval(() => {
       if (isAuthenticated) {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (token) {
           validateToken(token).then((isValid) => {
             if (!isValid) {
-              console.log('Token expirado durante verificación periódica');
+              //console.log('Token expirado durante verificación periódica');
               logout();
             }
           });
