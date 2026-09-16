@@ -1,7 +1,7 @@
-"use client"
-import { useState, useEffect } from "react"
-import Swal from "sweetalert2"
-import API_URL from "@/api/url"
+"use client";
+import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import API_URL from "@/api/url";
 
 const DEPARTAMENTOS_PERU = [
   "Amazonas",
@@ -51,11 +51,11 @@ export default function Page() {
     checkReclamoForm: false,
     aceptaPoliticaPrivacidad: false,
     estado: "Pendiente",
-  })
+  });
 
   const [errors, setErrors] = useState({})
   const [touched, setTouched] = useState({})
-  const [status, setStatus] = useState(null)
+  const [status, setStatus] = useState(null);
 
   useEffect(() => {
     const today = new Date()
@@ -306,11 +306,10 @@ export default function Page() {
       const response = await fetch(`${API_URL}/api/reclamaciones`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(formData),
       })
-
       if (response.ok) {
-        setStatus("success")
+        setStatus("success");
         setFormData({
           nombre: "",
           apellido: "",
@@ -326,9 +325,9 @@ export default function Page() {
           checkReclamoForm: false,
           aceptaPoliticaPrivacidad: false,
           estado: "Pendiente",
-        })
-        setDeclaracion(false)
-        setPolitica(false)
+        });
+        setDeclaracion(false);
+        setPolitica(false);
         setErrors({})
         setTouched({})
 
@@ -337,9 +336,9 @@ export default function Page() {
           text: "Hemos recibido tu reclamo. Se dará respuesta en un plazo no mayor a quince (15) días hábiles.",
           icon: "success",
           confirmButtonColor: "#0c1a27",
-        })
+        });
       } else {
-        setStatus("error")
+        setStatus("error");
         const errorData = await response.json().catch(() => null)
         const errorMsg =
           errorData?.message ||
@@ -353,11 +352,11 @@ export default function Page() {
           icon: "error",
           confirmButtonText: "OK",
           confirmButtonColor: "#0c1a27",
-        })
+        });
       }
     } catch (error) {
       console.error("Error al enviar reclamación:", error)
-      setStatus("error")
+      setStatus("error");
 
       Swal.fire({
         title: "Error de conexión",
@@ -365,9 +364,9 @@ export default function Page() {
         icon: "error",
         confirmButtonText: "OK",
         confirmButtonColor: "#0c1a27",
-      })
+      });
     }
-  }
+  };
 
   return (
     <>
@@ -389,7 +388,8 @@ export default function Page() {
         <div className="relative z-20 flex items-center justify-center">
           <div className="text-center md:text-left max-w-4xl px-4 mt-8 md:mt-0">
             <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <span className="text-cyan-400">COMPROMETIDOS</span> <span className="text-white">CON TU MARCA,</span>
+              <span className="text-cyan-400">COMPROMETIDOS</span>{" "}
+              <span className="text-white">CON TU MARCA,</span>
               <br />
               <span className="text-white">APASIONADOS POR EL DISEÑO</span>
             </h1>
@@ -399,12 +399,16 @@ export default function Page() {
 
       <section className="p-4 sm:p-8 text-[#b2b2b2] md:border-2 my-8 md:my-16 border-[#b2b2b2] max-w-3xl mx-auto rounded-lg">
         <h2 className="text-center text-white md:text-left text-lg md:text-xl font-semibold mb-4 text-balance">
+          
           Déjanos tus datos para poder atender tu reclamo
+        
         </h2>
 
         <form onSubmit={handleSubmit} noValidate>
           <h3 className="text-xl text-center mb-4 mt-2 text-white md:text-left font-medium">
+            
             Identidad del consumidor reclamante
+          
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -508,7 +512,9 @@ export default function Page() {
           </div>
 
           <h3 className="text-xl text-center mb-4 mt-6 text-white md:text-left font-medium">
+            
             Información del servicio
+          
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -660,7 +666,8 @@ export default function Page() {
           </div>
 
           <p className="text-xs text-gray-400 mt-4 leading-relaxed">
-            Neon Led Publicidad deberá dar respuesta al reclamo o queja en un plazo no mayor a quince (15) días hábiles.
+            Neon Led Publicidad deberá dar respuesta al reclamo o queja en un
+            plazo no mayor a quince (15) días hábiles.
           </p>
 
           <button
@@ -677,7 +684,7 @@ export default function Page() {
         </form>
       </section>
     </>
-  )
+  );
 }
 
 function Input({
@@ -725,6 +732,6 @@ function Input({
         </p>
       )}
     </div>
-  )
+  );
 }
 
