@@ -306,8 +306,9 @@ export default function Page() {
       const response = await fetch(`${API_URL}/api/reclamaciones`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
+        body: JSON.stringify(payload),
+      });
+
       if (response.ok) {
         setStatus("success");
         setFormData({
