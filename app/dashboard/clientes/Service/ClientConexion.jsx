@@ -73,8 +73,13 @@ export const updateCustomer = async (id, customerData) => {
   try {
     return await fetchApi(`/cliente/${id}`, "PUT", customerData);
   } catch (error) {
-    if (error.message.includes("email has already been taken")) {
-      throw new Error("El correo electrónico ya está en uso por otro cliente");
+    if (
+      error.message?.includes("email has already been taken") ||
+      error.errors?.email
+    ) {
+      const err = new Error("El correo electrónico ya está en uso por otro cliente");
+      err.errors = error.errors;
+      throw err;
     }
     throw error;
   }
