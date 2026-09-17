@@ -1,10 +1,16 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { Inter } from "next/font/google";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
+
 export default function PoliticaPrivacidad() {
+  const router = useRouter();
   return (
     <main
       className={`min-h-screen bg-gray-50 text-gray-800 ${inter.className}`}
@@ -14,19 +20,38 @@ export default function PoliticaPrivacidad() {
       <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16">
         {" "}
         <div className="container mx-auto px-4 max-w-5xl">
-          {" "}
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
-            {" "}
-            Política de Privacidad{" "}
-          </h1>{" "}
-          <p className="text-blue-100 text-sm md:text-base">
-            {" "}
-            Neon Led Publicidad{" "}
-          </p>{" "}
-          <p className="text-blue-200 text-sm mt-2">
-            {" "}
-            Última actualización: Septiembre de 2026{" "}
-          </p>{" "}
+          <div className="grid grid-cols-[100px_1fr] md:grid-cols-1 items-center gap-3 md:gap-0">
+            {/* Botón */}
+            <div className="md:mb-5">
+              <button
+                onClick={() => router.push("/")}
+                className="flex items-center justify-center gap-2
+          bg-white hover:bg-blue-500 hover:text-white text-blue-900
+          font-bold rounded-lg shadow-md hover:shadow-lg
+          transition-all duration-300
+          w-12 h-12 md:w-auto md:h-auto md:px-8 md:py-2"
+                aria-label="Regresar"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span className="hidden md:inline">Regresar</span>
+              </button>
+            </div>
+
+            {/* Contenido */}
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                Política de Privacidad
+              </h1>
+
+              <p className="text-blue-100 text-sm md:text-base">
+                Neon Led Publicidad
+              </p>
+
+              <p className="text-blue-200 text-sm mt-2">
+                Última actualización: Septiembre de 2026
+              </p>
+            </div>
+          </div>
         </div>{" "}
       </section>{" "}
       {/* Contenido */}{" "}
