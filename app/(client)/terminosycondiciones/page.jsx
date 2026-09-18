@@ -1,57 +1,160 @@
-export default function TerminosYCondicionesPage() {
+"use client";
+
+import { Inter } from "next/font/google";
+import Link from "next/link";
+import {
+  ArrowLeft,
+  FileText,
+  UserCheck,
+  CreditCard,
+  Palette,
+  Copyright,
+  ShieldCheck,
+  RefreshCw,
+  Scale,
+} from "lucide-react";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const sections = [
+  {
+    icon: FileText,
+    title: "1. Descripción de los Productos y Servicios",
+    content:
+      "Neon Led Publicidad se dedica a la creación y venta de diseños personalizados de publicidad luminosa, elaborados de acuerdo con el estilo, las características y las necesidades de cada cliente. Las especificaciones, medidas, diseños, materiales y demás condiciones serán previamente coordinadas con el cliente.",
+  },
+  {
+    icon: UserCheck,
+    title: "2. Responsabilidades del Cliente",
+    content:
+      "El Cliente deberá proporcionar oportunamente la información, imágenes, logotipos, textos y demás materiales necesarios para la elaboración de su diseño personalizado. Asimismo, será responsable de revisar y aprobar el diseño antes de su fabricación.",
+  },
+  {
+    icon: CreditCard,
+    title: "3. Pago y Facturación",
+    content:
+      "El Cliente se compromete a realizar los pagos a Neon Led Publicidad de acuerdo con las condiciones previamente acordadas para cada pedido. La fabricación del producto podrá iniciar una vez confirmado el pago o adelanto correspondiente, según lo establecido en la cotización.",
+  },
+  {
+    icon: Palette,
+    title: "4. Diseños Personalizados",
+    content:
+      "Debido a que los productos pueden ser elaborados de manera personalizada según las especificaciones de cada cliente, las características finales del producto estarán sujetas al diseño previamente aprobado. Cualquier modificación posterior a la aprobación podrá generar costos o cambios en el plazo de entrega.",
+  },
+  {
+    icon: Copyright,
+    title: "5. Propiedad Intelectual",
+    content:
+      "Los diseños, logotipos, imágenes y demás materiales proporcionados por el Cliente serán utilizados únicamente para la elaboración del producto solicitado. El Cliente será responsable de contar con los derechos o autorizaciones necesarios sobre los materiales que proporcione.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "6. Garantía y Responsabilidad",
+    content:
+      "Neon Led Publicidad se compromete a entregar los productos de acuerdo con las características previamente acordadas y aprobadas por el Cliente. Las condiciones específicas de garantía, instalación o mantenimiento serán informadas según el producto adquirido.",
+  },
+  {
+    icon: RefreshCw,
+    title: "7. Modificaciones en los Términos",
+    content:
+      "Neon Led Publicidad se reserva el derecho de modificar estos Términos y Condiciones en cualquier momento. Los cambios entrarán en vigencia una vez que se publiquen en nuestro sitio web.",
+  },
+  {
+    icon: Scale,
+    title: "8. Legislación Aplicable",
+    content:
+      "Estos Términos y Condiciones se regirán e interpretarán de acuerdo con las leyes de la República del Perú, y cualquier disputa estará sujeta a la jurisdicción de los tribunales competentes del Perú.",
+  },
+];
+
+export default function TerminosCondiciones() {
   return (
-    <main className="min-h-screen bg-[#0d0127] text-gray-200 py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        
-        {/* Encabezado */}
-        <div className="border-b border-purple-800/40 pb-6 text-center">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-amber-300">
-            Términos y Condiciones
-          </h1>
-          <p className="mt-2 text-sm text-gray-400">
-            Última actualización: {new Date().toLocaleDateString("es-PE", { month: "long", year: "numeric" })}
+    <main
+      className={`min-h-screen bg-[#0A0E1A] text-gray-200 ${inter.className}`}
+    >
+      {/* Encabezado */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#0B1220] to-[#0A0E1A] py-16 border-b border-white/5">
+        {/* glow decorativo */}
+        <div className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-blue-600/20 blur-[100px]" />
+        <div className="pointer-events-none absolute -bottom-24 left-0 h-72 w-72 rounded-full bg-orange-500/10 blur-[100px]" />
+
+        <div className="container mx-auto max-w-5xl px-4 relative z-10">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors mb-6"
+          >
+            <ArrowLeft size={16} />
+            Volver al inicio
+          </Link>
+
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-1.5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.6)]" />
+            <h1 className="text-3xl md:text-4xl font-bold text-white">
+              Términos y Condiciones
+            </h1>
+          </div>
+
+          <p className="text-blue-300/90 text-sm md:text-base mt-4 ml-[22px]">
+            Neon Led Publicidad
+          </p>
+          <p className="text-gray-400 text-sm mt-1 ml-[22px]">
+            Actualizado, el 18 de septiembre del 2026
           </p>
         </div>
+      </section>
 
-        {/* Contenido */}
-        <div className="space-y-6 text-sm sm:text-base leading-relaxed text-gray-300">
-          <section className="bg-purple-950/20 p-6 rounded-2xl border border-purple-900/30">
-            <h2 className="text-xl font-bold text-white mb-3">1. Generalidades</h2>
-            <p>
-              El presente documento establece los términos y condiciones generales que regulan el uso de la plataforma web de <strong className="text-purple-400">Neon LED Publicidad</strong>, así como la adquisición de nuestros productos y servicios de cartelería y luces neón personalizadas.
+      {/* Contenido */}
+      <article className="container mx-auto px-4 py-10 max-w-5xl">
+        <div className="bg-[#0F1526] border border-white/10 rounded-2xl shadow-2xl shadow-black/40 p-6 md:p-10 space-y-10">
+          {/* Introducción */}
+          <section>
+            <p className="leading-7 text-gray-300">
+              El uso del sitio web de{" "}
+              <strong className="text-white">Neon Led Publicidad</strong>{" "}
+              está sujeto a los siguientes Términos y condiciones. De no
+              estar de acuerdo con todos los puntos señalados a
+              continuación, por favor, no continúe utilizando este sitio
+              web.
             </p>
           </section>
 
-          <section className="bg-purple-950/20 p-6 rounded-2xl border border-purple-900/30">
-            <h2 className="text-xl font-bold text-white mb-3">2. Pedidos y Diseños Personalizados</h2>
-            <p>
-              Todos los proyectos personalizados requieren la aprobación del boceto final o propuesta de diseño por parte del cliente antes de iniciar la producción. Una vez aprobados los artes, no se aceptarán modificaciones sin un costo adicional.
-            </p>
-          </section>
+          {/* Secciones dinámicas */}
+          {sections.map(({ icon: Icon, title, content }) => (
+            <section key={title}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400">
+                  <Icon size={18} />
+                </div>
+                <h2 className="text-xl md:text-2xl font-bold text-white">
+                  {title}
+                </h2>
+              </div>
+              <p className="leading-7 text-gray-300 ml-12">{content}</p>
+            </section>
+          ))}
 
-          <section className="bg-purple-950/20 p-6 rounded-2xl border border-purple-900/30">
-            <h2 className="text-xl font-bold text-white mb-3">3. Precios y Pagos</h2>
-            <p>
-              Los precios cotizados están expresados en Soles (PEN) e incluyen los impuestos correspondientes salvo que se indique lo contrario. Para iniciar la fabricación de trabajos personalizados se requerirá el adelanto estipulado en la cotización.
+          {/* Contacto rápido */}
+          <div className="p-5 bg-blue-500/5 border border-blue-500/20 rounded-xl">
+            <p className="leading-7 text-gray-300">
+              Si tiene dudas o consultas sobre estos Términos y
+              Condiciones, puede escribirnos a{" "}
+              <a
+                href="mailto:Publicidadnls@gmail.com"
+                className="font-semibold text-blue-400 underline hover:text-blue-300 transition-colors"
+              >
+                publicidadnls@gmail.com
+              </a>
+              .
             </p>
-          </section>
+          </div>
 
-          <section className="bg-purple-950/20 p-6 rounded-2xl border border-purple-900/30">
-            <h2 className="text-xl font-bold text-white mb-3">4. Envíos y Entregas</h2>
-            <p>
-              Los plazos de entrega son estimados y pueden variar según la complejidad del producto y la ubicación geográfica del destinatario. La empresa no se responsabiliza por retrasos derivados de eventos de fuerza mayor o inconvenientes de agencias de transporte externas.
-            </p>
-          </section>
-
-          <section className="bg-purple-950/20 p-6 rounded-2xl border border-purple-900/30">
-            <h2 className="text-xl font-bold text-white mb-3">5. Garantía y Devoluciones</h2>
-            <p>
-              Nuestros letreros y productos LED cuentan con garantía por fallas de fabricación en el sistema eléctrico o transformadores. La garantía no cubre daños causados por mala instalación, caídas, humedad no especificada o manipulaciones por terceros.
-            </p>
-          </section>
+          {/*  botón volver */}
         </div>
-
-      </div>
+      </article>
     </main>
   );
 }
