@@ -61,6 +61,13 @@ export default function Footer() {
               <p className="text-sm">9:00 a.m – 6:00 p.m</p>
             </div>
           </div>
+          {/*TERMINOS Y CONSICIONES*/}
+          <Link 
+                href="/terminosycondiciones" 
+                className="text-sm text-gray-200 hover:text-[#48A8FF] transition-colors mb-2"
+              >
+                Términos y Condiciones
+              </Link>
 
           {/* Columna 4: RECLAMACIONES */}
           <div>
