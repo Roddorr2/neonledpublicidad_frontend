@@ -42,9 +42,18 @@ export default function Footer() {
             </h2>
             <div className="mb-6">
               <p className="font-semibold mb-2">Dirección:</p>
-              <p className="text-sm mb-1">Urb. Alameda La Rivera</p>
-              <p className="text-sm mb-1">Mz F Lot 30</p>
-              <p className="text-sm mb-1">Santa Martha. Ate</p>
+
+              <a
+                href="https://www.google.com/maps/place/Neon+LED+Publicidad+-+Letreros+Ne%C3%B3n+y+Letreros+Luminosos/@-12.0255704,-76.9423141,96m/data=!3m1!1e3!4m10!1m2!2m1!1sneo+led+publicidad!3m6!1s0x9105c9c0370c5717:0x31763021f0f0a705!8m2!3d-12.0255704!4d-76.9420164!15sChJuZW8gbGVkIHB1YmxpY2lkYWRaFCISbmVvIGxlZCBwdWJsaWNpZGFkkgEObmVvbl9zaWduX3Nob3CaAURDaTlEUVVsUlFVTnZaRU5vZEhsalJqbHZUMnBDVTFFeldrVlViRkpoV2xSb05GSXhaR3RsUjFvd1RsUkJlR016WXhBQuABAPoBBAgAEEc!16s%2Fg%2F11qpz5s0m5?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Ver ubicación en Google Maps"
+                className="block cursor-pointer hover:text-[#48A8FF] transition-colors duration-300"
+              >
+                <p className="text-sm mb-1">Urb. Alameda La Rivera</p>
+                <p className="text-sm mb-1">Mz F Lot 30</p>
+                <p className="text-sm mb-1">Santa Martha. Ate</p>
+              </a>
             </div>
             <div>
               <p className="font-semibold mb-2">Celular:</p>
@@ -61,36 +70,54 @@ export default function Footer() {
               <p className="text-sm">9:00 a.m – 6:00 p.m</p>
             </div>
           </div>
-          {/*TERMINOS Y CONSICIONES*/}
-          <Link 
-                href="/terminosycondiciones" 
-                className="text-sm text-gray-200 hover:text-[#48A8FF] transition-colors mb-2"
-              >
-                Términos y Condiciones
-              </Link>
 
-          {/* Columna 4: RECLAMACIONES */}
+          {/* Columna 4: POLITICAS */}
           <div>
-            <h2 className="text-[#48A8FF] text-xl font-bold mb-4">
-              RECLAMACIONES
-            </h2>
-            <div className="text-left">
-              <p className="mb-4">Libro de Reclamaciones</p>
-              <Link href="/reclamaciones">
-                <div className="inline-block">
-                  <img
-                    src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
-                    alt="Ilustración del libro de reclamaciones"
-                    title="Libro de Reclamaciones Perú"
-                    width="180"
-                    height="57"
-                    className="mx-auto hover:scale-105 transition-transform duration-300 will-change-transform"
-                    loading="lazy"
-                  />
+            <h2 className="text-[#48A8FF] text-xl font-bold mb-4">LEGALES</h2>
+            <ul className="flex flex-col gap-3 text-sm text-gray-300">
+              <li>
+                <Link
+                  href="/politica-privacidad"
+                  className="font-semibold mb-2 hover:text-[#48A8FF] transition-colors"
+                >
+                  Política de privacidad
+                </Link>
+              </li>
+              <li>
+                {/*COLUMNA 5 TERMINOS Y condiciones*/}
+                <Link
+                  href="/terminosycondiciones"
+                  className="text-sm text-gray-200 hover:text-[#48A8FF] transition-colors mb-2"
+                >
+                  Términos y Condiciones
+                </Link>
+              </li>
+              {/* Columna 6: RECLAMACIONES */}
+              <li>
+                <h2 className="text-[#48A8FF] text-xl font-bold mb-4 pt-4">
+                  RECLAMACIONES
+                </h2>
+                <div className="text-left">
+                  <p className="mb-4">Libro de Reclamaciones</p>
+                  <Link href="/reclamaciones">
+                    <div className="inline-block">
+                      <img
+                        src="/reclamaciones/libro.de.reclamaciones.Neon.Led.Publicidad.webp"
+                        alt="Ilustración del libro de reclamaciones"
+                        title="Libro de Reclamaciones Perú"
+                        width="180"
+                        height="57"
+                        className="mx-auto hover:scale-105 transition-transform duration-300 will-change-transform"
+                        loading="lazy"
+                      />
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-            </div>
+              </li>
+            </ul>
           </div>
+
+          <div></div>
         </div>
       </div>
     </footer>

@@ -58,22 +58,48 @@ import { getCookie } from "cookies-next";
 
 // Esquema de validación
 const clientSchema = z.object({
-  nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  apellido: z.string().min(2, "El apellido debe tener al menos 2 caracteres"),
+  nombre: z
+    .string()
+    .trim()
+    .min(2, "El nombre debe tener al menos 2 caracteres")
+    .max(50, "El nombre no puede exceder los 50 caracteres")
+    .regex(
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/,
+      "El nombre solo debe contener letras",
+    ),
+  apellido: z
+    .string()
+    .trim()
+    .min(2, "El apellido debe tener al menos 2 caracteres")
+    .max(50, "El apellido no puede exceder los 50 caracteres")
+    .regex(
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/,
+      "El apellido solo debe contener letras",
+    ),
   email: z
     .string()
-    .email("Correo electrónico no válido")
-    .refine((email) => email.includes("@"), {
-      message: "El correo debe contener @",
-    }),
+    .trim()
+    .toLowerCase()
+    .min(1, "El correo electrónico es obligatorio")
+    .regex(
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      "Ingresa un correo electrónico válido (ej. usuario@dominio.com)",
+    ),
   telefono: z
     .string()
-    .min(9, "El teléfono debe tener 9 dígitos")
-    .max(9)
-    .refine((val) => /^\d+$/.test(val), {
-      message: "El teléfono solo debe contener números",
-    }),
-  distrito: z.string().min(3, "El distrito debe tener al menos 3 caracteres"),
+    .regex(
+      /^9\d{8}$/,
+      "El teléfono debe ser un celular de 9 dígitos que comience con 9",
+    ),
+  distrito: z
+    .string()
+    .trim()
+    .min(3, "El distrito debe tener al menos 3 caracteres")
+    .max(40, "El distrito no puede exceder los 40 caracteres")
+    .regex(
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/,
+      "El distrito solo debe contener letras y espacios",
+    ),
 });
 
 // Componente de notificación
@@ -407,6 +433,7 @@ const Customer = () => {
 
   const createForm = useForm({
     resolver: zodResolver(clientSchema),
+    mode: "onBlur",
     defaultValues: {
       nombre: "",
       apellido: "",
@@ -415,7 +442,17 @@ const Customer = () => {
       distrito: "",
     },
   });
-  const editForm = useForm({ resolver: zodResolver(clientSchema) });
+  const editForm = useForm({
+    resolver: zodResolver(clientSchema),
+    mode: "onBlur",
+    defaultValues: {
+      nombre: "",
+      apellido: "",
+      email: "",
+      telefono: "",
+      distrito: "",
+    },
+  });
 
   const showAlert = (type, message, email = "") => {
     setAlert({ show: true, type, message, email });
@@ -463,11 +500,11 @@ const Customer = () => {
       showEditModal: true,
     }));
     editForm.reset({
-      nombre: customer.nombre,
-      apellido: customer.apellido,
-      email: customer.email,
-      telefono: customer.telefono.replace(/\D/g, "").slice(0, 9),
-      distrito: customer.distrito,
+      nombre: customer.nombre || "",
+      apellido: customer.apellido || "",
+      email: customer.email || "",
+      telefono: (customer.telefono || "").replace(/\D/g, "").slice(0, 9),
+      distrito: customer.distrito || "",
     });
   };
   const handleDeleteClick = (customer) =>
@@ -504,13 +541,24 @@ const Customer = () => {
       }
       await loadCustomers(state.currentPage);
     } catch (error) {
+      const activeForm = isEdit ? editForm : createForm;
       if (
-        !isEdit &&
-        error.message.includes("correo electrónico ya está en uso")
+        error.message?.includes("correo electrónico ya está en uso") ||
+        error.message?.includes("email has already been taken") ||
+        error.message?.includes("ya está en uso")
       ) {
-        createForm.setError("email", {
+        activeForm.setError("email", {
           type: "manual",
-          message: error.message,
+          message: "El correo electrónico ya está en uso por otro cliente",
+        });
+      } else if (error.errors) {
+        Object.entries(error.errors).forEach(([field, messages]) => {
+          if (messages?.[0]) {
+            activeForm.setError(field, {
+              type: "server",
+              message: messages[0],
+            });
+          }
         });
       } else {
         showAlert(
@@ -761,7 +809,8 @@ const CustomerModal = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-gray-700 dark:text-gray-300">
-                      {fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}
+                      {fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}{" "}
+                      <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input

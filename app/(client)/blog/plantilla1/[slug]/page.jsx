@@ -1,10 +1,4 @@
-<<<<<<< Updated upstream
 import BlogShellClient from "../../components/content/BlogShellClient";
-=======
-                              import { notFound } from "next/navigation";
-import BlogContentClient from "../../components/content/BlogContentClient";
-import Fetch from "../../services/fetch";
->>>>>>> Stashed changes
 
 export function generateStaticParams() {
   return [{ slug: "_shell" }];
