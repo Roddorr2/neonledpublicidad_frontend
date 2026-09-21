@@ -84,6 +84,21 @@ export default function Page() {
     setIsRefreshing(false);
   }
 
+  function formatearFecha(fecha) {
+  if (!fecha) return "-";
+  const fechaTexto = String(fecha).replace("T", " ");
+  const [parteFecha, parteHora] = fechaTexto.split(" ");
+
+  if (!parteFecha) return "-";
+  const [anio, mes, dia] = parteFecha.split("-");
+
+  if (!anio || !mes || !dia) return fecha;
+  const hora = parteHora ? parteHora.substring(0, 5) : "";
+
+  return `${dia}/${mes}/${anio}${hora ? ` ${hora}` : ""}`;
+}
+
+
   async function deleteContact(id) {
     try {
       const response = await axios.delete(`${URL_API}/${id}`, {
@@ -95,7 +110,7 @@ export default function Page() {
       if (response.status === 200) {
         Swal.fire({
           title: "Eliminado",
-          text: "El contacto ha sido eliminado exitosamente.",
+          text: "El mensaje ha sido eliminado exitosamente.",
           icon: "success",
           confirmButtonText: "OK",
         });
@@ -103,7 +118,7 @@ export default function Page() {
       } else {
         Swal.fire({
           title: "Error",
-          text: "No se pudo eliminar el contacto.",
+          text: "No se pudo eliminar el mensaje.",
           icon: "error",
           confirmButtonText: "OK",
         });
@@ -149,7 +164,7 @@ export default function Page() {
 
   function confirmarCambiarEstado(id, nuevoEstado) {
     Swal.fire({
-      title: `¿Cambiar estado de contacto a ${nuevoEstado == 0 ? "Inactivo" : "Activo"}?`,
+      title: `¿Cambiar estado de mensaje a ${nuevoEstado == 0 ? "Pendiente" : "Atendido"}?`,
       text: "¡Puedes cambiarlo después nuevamente!",
       icon: "info",
       showCancelButton: true,
@@ -180,7 +195,7 @@ export default function Page() {
       if (response.status === 200) {
         Swal.fire({
           title: "Estado Cambiado",
-          text: `El estado del contacto se cambio a ${nuevoEstado == 0 ? "Inactivo" : "Activo"}`,
+          text: `El estado del mensaje se cambio a ${nuevoEstado == 0 ? "Pendiente" : "Atendido"}`,
           icon: "success",
           confirmButtonText: "OK",
         });
@@ -188,7 +203,7 @@ export default function Page() {
       } else {
         Swal.fire({
           title: "Error",
-          text: "No se pudo cambiar el estado del contacto.",
+          text: "No se pudo cambiar el estado del mensaje.",
           icon: "error",
           confirmButtonText: "OK",
         });
@@ -274,11 +289,16 @@ export default function Page() {
     if (searchTerm.trim() === "") {
       setFilteredData(data);
     } else {
-      const filtered = data.filter(
-        (contacto) =>
-          contacto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          contacto.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          contacto.id_contactanos.toString().includes(searchTerm),
+      const termino = searchTerm.toLowerCase();  
+
+      const filtered = data.filter((contacto) =>
+        `${contacto.nombre || ""} ${contacto.apellido || ""}`
+          .toLowerCase()
+          .includes(termino) ||
+        String(contacto.detalle_reclamacion || "")
+          .toLowerCase()
+          .includes(termino) ||
+        String(contacto.id_contactanos || "").includes(termino)
       );
       setFilteredData(filtered);
     }
@@ -296,20 +316,20 @@ export default function Page() {
     }
     const headers = [
       "ID",
-      "Nombre",
-      "Apellido",
-      "Teléfono",
-      "Correo",
+      "Fecha",
+      "Cliente",
+      "Motivo de contacto",
+      "Mensaje",
       "Estado",
     ];
 
     const csvData = filteredData.map((contacto) => [
       contacto.id_contactanos,
-      contacto.nombre,
-      contacto.apellido,
-      contacto.telefono,
-      contacto.email,
-      contacto.estado ? "Activo" : "Inactivo",
+      contacto.fecha,
+      `${contacto.nombre || ""} ${contacto.apellido || ""}`.trim(),
+      contacto.detalle_reclamacion  || "-",
+      contacto.mensaje || "-",
+      contacto.estado ? "Atendido" : "Pendiente",
     ]);
 
     const csvContent = [
@@ -338,40 +358,59 @@ export default function Page() {
             </span>
           </div>
         </div>
+
         <span
           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
             contacto.estado
               ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-              : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
           }`}
         >
-          {contacto.estado ? "Activo" : "Inactivo"}
+          {contacto.estado ? "Atendido" : "Pendiente"}
         </span>
       </div>
 
-      <div className="space-y-2 mb-4">
+      <div className="space-y-3 mb-4">
         <div className="flex items-center gap-2">
           <User size={14} className="text-gray-400" />
           <span className="text-sm text-gray-600 dark:text-gray-400">
-            <span className="font-medium">Nombre:</span> {contacto.nombre}{" "}
-            {contacto.apellido}
+            <span className="font-medium">Cliente:</span>{" "}
+            {contacto.nombre} {contacto.apellido}
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <Phone size={14} className="text-gray-400" />
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            {contacto.telefono}
+
+        <div>
+          <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+            Fecha
           </span>
+          <p className="text-sm text-gray-700 dark:text-gray-200">
+            {formatearFecha(contacto.fecha_hora)}
+          </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Mail size={14} className="text-gray-400" />
-          <span className="text-sm text-gray-600 dark:text-gray-400 break-all">
-            {contacto.email}
+
+        <div>
+          <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+            Motivo de contacto
           </span>
+
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
+            {contacto.detalle_reclamacion || "-"}
+          </p>
+        </div>
+
+        <div>
+          <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+            Mensaje
+          </span>
+
+          <p className="text-sm text-gray-700 dark:text-gray-200 break-words">
+            {contacto.mensaje || "-"}
+          </p>
         </div>
       </div>
 
       <div className="flex justify-end gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+        {/* Visualizar */}
         <button
           onClick={() => visualizar(contacto.id_contactanos)}
           title="Visualizar"
@@ -379,14 +418,18 @@ export default function Page() {
         >
           <Eye size={18} />
         </button>
+
+        {/* Cambiar estado */}
         <button
           onClick={() =>
             confirmarCambiarEstado(
               contacto.id_contactanos,
-              `${contacto.estado ? 0 : 1}`,
+              contacto.estado ? 0 : 1
             )
           }
-          title={`Cambiar a ${contacto.estado ? "Inactivo" : "Activo"}`}
+          title={`Cambiar a ${
+            contacto.estado ? "Pendiente" : "Atendido"
+          }`}
           className={`p-2 rounded-lg transition-colors ${
             contacto.estado
               ? "bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400"
@@ -395,9 +438,13 @@ export default function Page() {
         >
           <ToggleLeft size={18} />
         </button>
+
+        {/* Eliminar */}
         {auth_service.hasRole("administrador") && (
           <button
-            onClick={() => confirmarEliminacion(contacto.id_contactanos)}
+            onClick={() =>
+              confirmarEliminacion(contacto.id_contactanos)
+            }
             title="Eliminar"
             className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors dark:bg-red-900/20 dark:text-red-400"
           >
@@ -418,7 +465,7 @@ export default function Page() {
       <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 dark:bg-gray-800 dark:text-white">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">
-            Gestión de Contactos
+            Gestión de Mensajes de Contacto
           </h1>
 
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
@@ -426,7 +473,7 @@ export default function Page() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Buscar por nombre, correo o ID..."
+                placeholder="Buscar por cliente, motivo o ID..."
                 className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -506,22 +553,25 @@ export default function Page() {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-[#0d6fdc] dark:bg-gray-800">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                       ID
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                      Nombres
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Fecha y hora
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                      Teléfono
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Cliente
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                      Correo
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Motivo de contacto
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Mensaje
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                       Estado
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-white uppercase tracking-wider">
+                    <th className="px-4 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
                       Acciones
                     </th>
                   </tr>
@@ -533,31 +583,39 @@ export default function Page() {
                         key={contacto.id_contactanos}
                         className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"
                       >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                        <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {contacto.id_contactanos}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                          {formatearFecha(contacto.fecha_hora)}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
                           {contacto.nombre} {contacto.apellido}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
-                          {contacto.telefono}
+                        <td className="px-4 py-4 whitespace-nowrap text-sm">
+                          {contacto.detalle_reclamacion || "-"}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
-                          {contacto.email}
+                        <td className="px-4 py-4 text-sm text-gray-700 dark:text-white max-w-xs">
+                          <span
+                            className="block truncate"
+                            title={contacto.mensaje || ""}
+                          >
+                            {contacto.mensaje || "-"}
+                          </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4 whitespace-nowrap text-left">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                               contacto.estado
                                 ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
+                                : "bg-yellow-100 text-yellow-800"
                             }`}
                           >
-                            {contacto.estado ? "Activo" : "Inactivo"}
+                            {contacto.estado ? "Atendido" : "Pendiente"}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <div className="flex justify-end gap-2">
+                        <td className="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
+                          <div className="flex justify-center gap-2">
                             <button
                               onClick={() =>
                                 visualizar(contacto.id_contactanos)
@@ -571,10 +629,10 @@ export default function Page() {
                               onClick={() =>
                                 confirmarCambiarEstado(
                                   contacto.id_contactanos,
-                                  `${contacto.estado ? 0 : 1}`,
+                                  contacto.estado ? 0 : 1,
                                 )
                               }
-                              title={`Cambiar a ${contacto.estado ? "Inactivo" : "Activo"}`}
+                              title={`Cambiar a ${contacto.estado ? "Pendiente" : "Atendido"}`}
                               className={`p-1.5 rounded-lg transition-colors ${
                                 contacto.estado
                                   ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
@@ -600,7 +658,7 @@ export default function Page() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="6" className="px-6 py-16 text-center">
+                      <td colSpan="7" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">

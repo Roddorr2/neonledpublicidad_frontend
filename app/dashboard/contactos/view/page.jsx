@@ -68,7 +68,7 @@ export default function Page() {
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold mb-1">
-                  Contacto #{contacto.id_contactanos}
+                  Mensaje de contacto #{contacto.id_contactanos}
                 </h1>
                 <p className="text-white/80 flex items-center text-sm md:text-base">
                   <Calendar className="w-4 h-4 mr-2" />
