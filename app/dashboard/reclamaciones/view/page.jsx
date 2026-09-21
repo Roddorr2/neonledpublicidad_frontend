@@ -19,18 +19,25 @@ import {
   Package,
 } from "lucide-react";
 
+const SERVICIOS = {
+  1: "Diseño Web y Desarrollo Web",
+  2: "Gestión de Redes Sociales",
+  3: "Marketing y Gestión Digital",
+  4: "Branding y Diseño",
+};
+
 export default function Page() {
   const router = useRouter();
   const [reclamacion, setReclamacion] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const infoReclamacion = getCookie("reclamacion");
-    if (infoReclamacion) {
-      setReclamacion(safeJsonParse(infoReclamacion, null));
-    }
-    setLoading(false);
-  }, []);
+ useEffect(() => {
+  const infoReclamacion = getCookie("reclamacion");
+  if (infoReclamacion) {
+    setReclamacion(safeJsonParse(infoReclamacion, null));
+  }
+  setLoading(false);
+}, []);
 
   if (loading) {
     return (
@@ -87,7 +94,7 @@ export default function Page() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-3">
           <button
-            className="bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 flex items-center shadow-sm text-sm"
+            className="bg-white dark:bg-gray-800 text-grfay-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 flex items-center shadow-sm text-sm"
             onClick={() => router.push("/dashboard/reclamaciones/")}
           >
             <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
@@ -173,9 +180,9 @@ export default function Page() {
                       Documento:
                     </span>
                   </div>
-                  <div className="flex-grow">
+                  <div className="flex">
                     <span className="text-xs text-gray-800 dark:text-gray-200">
-                      {reclamacion.documento}: {reclamacion.numeroDocumento}
+                      {reclamacion.tipoDocumento} - {reclamacion.dni}
                     </span>
                   </div>
                 </div>
@@ -187,21 +194,21 @@ export default function Page() {
                       Teléfono:
                     </span>
                   </div>
-                  <div className="flex-grow">
-                    {reclamacion.celular ? (
-                      <a
-                        href={`https://wa.me/+51${reclamacion.celular.replace(/\D/g, "")}`}
-                        className="text-xs font-medium text-[#8c52ff] hover:underline flex items-center group"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {reclamacion.celular}
-                      </a>
-                    ) : (
-                      <p className="text-xs font-medium text-gray-800 dark:text-gray-200">
-                        No proporcionado
-                      </p>
-                    )}
+                  <div className="flex">
+                    {reclamacion.telefono ? (
+                    <a
+                    href={`https://wa.me/+51${reclamacion.telefono.replace(/\D/g, "")}`}
+                    className="text-xs font-medium text-[#8c52ff] hover:underline flex items-center group"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {reclamacion.telefono}
+                  </a>
+                ) : (
+                  <p className="text-xs font-medium text-gray-800 dark:text-gray-200">
+                    No proporcionado
+                  </p>
+                )}
                   </div>
                 </div>
 
@@ -212,10 +219,10 @@ export default function Page() {
                       Dirección:
                     </span>
                   </div>
-                  <div className="flex-grow">
+                  <div className="flex">
                     <span className="text-xs text-gray-800 dark:text-gray-200">
                       {reclamacion.direccion}, {reclamacion.distrito},{" "}
-                      {reclamacion.ciudad}
+                      {reclamacion.departamento}
                     </span>
                   </div>
                 </div>
@@ -231,13 +238,13 @@ export default function Page() {
 
               <div className="space-y-2.5">
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-32">
                     <span className="text-xs font-medium text-gray-500 dark:text-gray-400 flex items-center">
                       <Calendar className="w-3 h-3 mr-1 text-gray-400" />
                       Fecha Reclamo:
                     </span>
                   </div>
-                  <div className="flex-grow">
+                  <div className="flex">
                     <span className="text-xs text-gray-800 dark:text-gray-200">
                       {reclamacion.fechaReclamo}
                     </span>
@@ -245,13 +252,13 @@ export default function Page() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 w-24">
+                  <div className="flex-shrink-0 w-32">
                     <span className="text-xs font-medium text-gray-500 dark:text-gray-400 flex items-center">
                       <Calendar className="w-3 h-3 mr-1 text-gray-400" />
                       Fecha Incidente:
                     </span>
                   </div>
-                  <div className="flex-grow">
+                  <div className="flex">
                     <span className="text-xs text-gray-800 dark:text-gray-200">
                       {reclamacion.fechaIncidente}
                     </span>
@@ -259,13 +266,13 @@ export default function Page() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 w-24">
-                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400 flex items-center">
+                  <div className="flex-shrink-0 w-32">
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400 flex items-center whitespace-nowrap">
                       <Tag className="w-3 h-3 mr-1 text-gray-400" />
                       Tipo Reclamo:
                     </span>
                   </div>
-                  <div className="flex-grow">
+                  <div className="flex">
                     <span className="text-xs text-gray-800 dark:text-gray-200">
                       {reclamacion.tipoReclamo}
                     </span>
@@ -279,9 +286,9 @@ export default function Page() {
                       Servicio:
                     </span>
                   </div>
-                  <div className="flex-grow">
+                  <div className="flex">
                     <span className="text-xs text-gray-800 dark:text-gray-200">
-                      {reclamacion.id_servicio}
+                      {SERVICIOS[reclamacion.id_servicio] ?? "No especificado"}
                     </span>
                   </div>
                 </div>
@@ -298,9 +305,9 @@ export default function Page() {
 
             <div className="bg-gray-50 dark:bg-gray-900/50 p-3 rounded-lg border border-gray-300 dark:border-gray-700 max-h-48 overflow-y-auto min-h-[60px]">
               <p className="text-xs text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
-                {reclamacion.reclamoPerson &&
-                reclamacion.reclamoPerson.trim() !== "" ? (
-                  reclamacion.reclamoPerson
+                {reclamacion.descripcionServicio &&
+                reclamacion.descripcionServicio.trim() !== "" ? (
+                  reclamacion.descripcionServicio
                 ) : (
                   <span className="text-gray-400 dark:text-gray-500 italic">
                     Sin mensaje registrado

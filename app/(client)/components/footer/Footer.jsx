@@ -50,9 +50,9 @@ export default function Footer() {
                 title="Ver ubicación en Google Maps"
                 className="block cursor-pointer hover:text-[#48A8FF] transition-colors duration-300"
               >
-              <p className="text-sm mb-1">Urb. Alameda La Rivera</p>
-              <p className="text-sm mb-1">Mz F Lot 30</p>
-              <p className="text-sm mb-1">Santa Martha. Ate</p>
+                <p className="text-sm mb-1">Urb. Alameda La Rivera</p>
+                <p className="text-sm mb-1">Mz F Lot 30</p>
+                <p className="text-sm mb-1">Santa Martha. Ate</p>
               </a>
             </div>
             <div>
@@ -70,6 +70,7 @@ export default function Footer() {
               <p className="text-sm">9:00 a.m – 6:00 p.m</p>
             </div>
           </div>
+
           {/* Columna 4: POLITICAS */}
           <div>
             <h2 className="text-[#48A8FF] text-xl font-bold mb-4">LEGALES</h2>
@@ -82,6 +83,16 @@ export default function Footer() {
                   Política de privacidad
                 </Link>
               </li>
+              <li>
+                {/*COLUMNA 5 TERMINOS Y condiciones*/}
+                <Link
+                  href="/terminosycondiciones"
+                  className="text-sm text-gray-200 hover:text-[#48A8FF] transition-colors mb-2"
+                >
+                  Términos y Condiciones
+                </Link>
+              </li>
+              {/* Columna 6: RECLAMACIONES */}
               <li>
                 <h2 className="text-[#48A8FF] text-xl font-bold mb-4 pt-4">
                   RECLAMACIONES
@@ -106,7 +117,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Columna 5: RECLAMACIONES */}
           <div></div>
         </div>
       </div>
