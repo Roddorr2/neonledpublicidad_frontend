@@ -51,7 +51,7 @@ export const dashboardLinks = [
   },
   {
     href: "/dashboard/contactos",
-    title: "Contactos",
+    title: "Mensajes de Contacto",
     icon: Mail,
     roles: ["administrador", "marketing"],
   },
