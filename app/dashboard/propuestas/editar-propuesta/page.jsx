@@ -483,6 +483,10 @@ export default function EditarPropuestaPage() {
                         src={img}
                         alt={`Imagen ${index + 1}`}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/placeholder-image.svg";
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
