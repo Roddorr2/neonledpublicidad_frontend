@@ -1,13 +1,39 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, Edit, Plus, Camera, Video, ChevronLeft, ChevronRight, Trash2, Play, X } from "lucide-react";
+import {
+  ArrowLeft,
+  Edit,
+  Plus,
+  Camera,
+  Video,
+  ChevronLeft,
+  ChevronRight,
+  Trash2,
+  Play,
+  X,
+} from "lucide-react";
 import { proposalApi } from "../Services/PropuestasConexion";
 import { useState, useEffect, useRef } from "react";
 import DeletePropuesta from "../componentes/DeletePropuesta";
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from "../../../../components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "../../../../components/ui/dialog";
 import { Button } from "../../../../components/ui/button";
 import NotificacionesPropuesta from "../componentes/NotificacionesPropuesta";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "../../../../components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../../../../components/ui/alert-dialog";
 
 export default function DetallePropuestaPage() {
   const router = useRouter();
@@ -123,7 +149,7 @@ export default function DetallePropuestaPage() {
       }
 
       const response = await proposalApi.uploadImage(id, formData);
-      console.log("Respuesta del servidor:", response);
+      //console.log("Respuesta del servidor:", response);
 
       const updatedData = await proposalApi.getById(id);
       setProposalData({
@@ -149,7 +175,6 @@ export default function DetallePropuestaPage() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-
     const filesArray = Array.from(files);
 
     const validationError = validateVideos(filesArray);
@@ -169,7 +194,7 @@ export default function DetallePropuestaPage() {
       }
 
       const response = await proposalApi.uploadVideo(id, formData);
-      console.log("Respuesta del servidor:", response);
+      //console.log("Respuesta del servidor:", response);
 
       const updatedData = await proposalApi.getById(id);
       setProposalData({
@@ -387,7 +412,7 @@ export default function DetallePropuestaPage() {
                       day: "numeric",
                       month: "long",
                       year: "numeric",
-                    }
+                    },
                   )
                 : "Fecha no disponible"}
             </p>
@@ -397,7 +422,7 @@ export default function DetallePropuestaPage() {
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
               onClick={() =>
                 router.push(
-                  `/dashboard/propuestas/editar-propuesta?id=${proposalData.id}`
+                  `/dashboard/propuestas/editar-propuesta?id=${proposalData.id}`,
                 )
               }
             >

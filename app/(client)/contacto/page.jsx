@@ -215,10 +215,10 @@
 //                   <input type="email" placeholder="Email*" name="email" value={formData.email} onChange={handleChange} required className="w-full p-3 bg-transparent border border-blue-400 rounded-md text-white placeholder:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
 
 //                   <select name="tipo_reclamo" value={formData.tipo_reclamo} onChange={handleChange} required className="w-full p-3 bg-blue-900 border border-blue-400 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-400">
-//                     <option value="">Detalle de reclamación*</option>
+//                     <option value="">Detalle de contacto*</option>
 //                     <option value="consulta">Consulta</option>
-//                     <option value="reclamo">Reclamo</option>
 //                     <option value="sugerencia">Sugerencia</option>
+//                     <option value="otros">Otros</option>
 //                   </select>
 
 //                   <textarea name="mensaje" value={formData.mensaje} onChange={handleChange} required placeholder="Escribe aquí tu mensaje detallando tus consultas o requerimientos..." rows={4} className="w-full p-3 bg-transparent border border-blue-400 rounded-md text-white placeholder:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none h-[180px]"></textarea>
@@ -640,19 +640,19 @@ const Contacto = () => {
                       className="w-full p-3 bg-blue-900 border border-blue-400 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                     >
                       <option value="">
-                        Detalle de reclamación*
+                        Motivo de contacto*
                       </option>
 
                       <option value="CONSULTA">
                         Consulta
                       </option>
 
-                      <option value="RECLAMO">
-                        Reclamo
-                      </option>
-
                       <option value="SUGERENCIA">
                         Sugerencia
+                      </option>
+
+                      <option value="OTROS">
+                        Otros
                       </option>
                     </select>
                   </div>

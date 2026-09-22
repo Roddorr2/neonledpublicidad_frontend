@@ -5,7 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-gray-800 border-t border-slate-200 ml-0 md:ml-64">
+    <footer className="bg-gray-800 border-t border-slate-200 ml-0 lg:ml-64">
       <div className="container mx-auto px-6 py-6">
         <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-2">
           <div className="flex items-center space-x-2">
@@ -15,8 +15,8 @@ export default function Footer() {
               loading="lazy"
               className="w-[25px] h-auto object-contain"
             />
-            <span className="text-slate-400 text-sm hidden md:inline-block">|</span>
-            <span className="text-slate-500 text-sm hidden md:inline-block">Plataforma de edición</span>
+            <span className="text-slate-400 text-sm hidden lg:inline-block">|</span>
+            <span className="text-slate-500 text-sm hidden lg:inline-block">Plataforma de edición</span>
           </div>
 
           <div className="mt-4 md:mt-0 flex items-center">
@@ -61,4 +61,3 @@ export default function Footer() {
     </footer>
   )
 }
-

@@ -28,7 +28,7 @@ const propuesta_cliente_service = {
             authorization: `Bearer ${getCookie("token")}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       // El backend responde 404 cuando el cliente simplemente no tiene
@@ -58,11 +58,11 @@ const propuesta_cliente_service = {
           headers: {
             authorization: `Bearer ${getCookie("token")}`,
           },
-        }
+        },
       );
 
       const data = await handleResponse(response);
-      console.log(data);
+      //console.log(data);
       return data;
     } catch (error) {
       console.error("Error al obtener propuesta por ID:", error);
@@ -81,7 +81,7 @@ const propuesta_cliente_service = {
           headers: {
             authorization: `Bearer ${getCookie("token")}`,
           },
-        }
+        },
       );
       return response;
     } catch (error) {
@@ -101,7 +101,7 @@ const propuesta_cliente_service = {
           headers: {
             authorization: `Bearer ${getCookie("token")}`,
           },
-        }
+        },
       );
       return response;
     } catch (error) {
