@@ -178,7 +178,7 @@ export default function Page() {
     try {
       const response = await axios.put(
         `${API_BASE_URL}/${id}`,
-        { estado: nuevoEstado },
+        { estadoReclamo: nuevoEstado },
         {
           headers: {
             Authorization: `Bearer ${getCookie("token")}`,
