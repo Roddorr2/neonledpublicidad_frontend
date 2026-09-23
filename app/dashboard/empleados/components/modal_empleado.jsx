@@ -38,6 +38,103 @@ export default function modal_empleado({
   const [error, setError] = useState({ status: undefined, message: "" });
   const [button, setButtonStatus] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [touched, setTouched] = useState({});
+  const [errors, setErrors] = useState({});
+
+  const validateField = (name, value) => {
+    let error = "";
+
+    // Campos obligatorios
+    const requiredFields = ["nombre", "apellido", "email", "dni", "telefono"];
+
+    // El rol es obligatorio cuando no se está editando el perfil
+    if (!isProfileEdit) {
+      requiredFields.push("id_rol");
+    }
+
+    // Validación de campos obligatorios
+    if (requiredFields.includes(name) && !String(value).trim()) {
+      return "El campo es obligatorio";
+    }
+
+    // Nombre
+    if (name === "nombre" && value) {
+      if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(value)) {
+        return "El nombre solo puede contener letras y espacios";
+      }
+
+      if (value.trim().length < 2) {
+        return "El nombre debe tener al menos 2 caracteres";
+      }
+    }
+
+    // Apellido
+    if (name === "apellido" && value) {
+      if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(value)) {
+        return "El apellido solo puede contener letras y espacios";
+      }
+
+      if (value.trim().length < 2) {
+        return "El apellido debe tener al menos 2 caracteres";
+      }
+    }
+
+    // Correo
+    if (name === "email" && value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(value)) {
+        return "Ingrese un correo electrónico válido";
+      }
+    }
+
+    // DNI
+    if (name === "dni" && value) {
+      if (!/^\d+$/.test(value)) {
+        return "El DNI solo puede contener números";
+      }
+
+      if (value.length !== 8) {
+        return "El DNI debe tener exactamente 8 dígitos";
+      }
+    }
+
+    // Teléfono
+    if (name === "telefono" && value) {
+      if (!/^\d+$/.test(value)) {
+        return "El teléfono solo puede contener números";
+      }
+
+      if (!/^9\d{8}$/.test(value)) {
+        return "El teléfono debe tener 9 dígitos y empezar con 9";
+      }
+    }
+
+    // Rol
+    if (name === "id_rol" && !isProfileEdit && value) {
+      const roleExists = roles.some(
+        (rol) => String(rol.id_rol) === String(value),
+      );
+
+      if (!roleExists) {
+        return "Seleccione un rol válido";
+      }
+    }
+
+    return error;
+  };
+
+  const isFormValid = () => {
+    const fields = ["nombre", "apellido", "email", "dni", "telefono"];
+
+    if (!isProfileEdit) {
+      fields.push("id_rol");
+    }
+
+    return fields.every(
+      (field) => validateField(field, formData[field], formData) === "",
+    );
+  };
 
   useEffect(() => {
     //console.log("updateDisplayName en ModalEmpleado:", typeof updateDisplayName);
@@ -46,9 +143,15 @@ export default function modal_empleado({
   // Resetear estados cuando el modal se cierra
   useEffect(() => {
     if (!isVisible) {
-      setError({ status: undefined, message: "" });
+      setError({
+        status: undefined,
+        message: "",
+      });
+
       setButtonStatus(true);
       setIsLoading(false);
+      setTouched({});
+      setErrors({});
     }
   }, [isVisible]);
 
@@ -116,19 +219,99 @@ export default function modal_empleado({
   // si el modal no es visible, no renderiza nada
   if (!isVisible) return null;
 
-  function handleChange(e) {
+  const handleBlur = (e) => {
+    const { id, value } = e.target;
+
+    setTouched((prev) => ({
+      ...prev,
+      [id]: true,
+    }));
+
+    const error = validateField(id, value);
+
+    setErrors((prev) => ({
+      ...prev,
+      [id]: error,
+    }));
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+
+    let newValue = value;
+
+    // Nombre y apellido: solo letras, espacios y caracteres españoles
+    if (id === "nombre" || id === "apellido") {
+      newValue = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]/g, "");
+    }
+
+    // DNI: solo números y máximo 8 caracteres
+    if (id === "dni") {
+      newValue = value.replace(/\D/g, "").slice(0, 8);
+    }
+
+    // Teléfono: solo números y máximo 9 caracteres
+    if (id === "telefono") {
+      newValue = value.replace(/\D/g, "").slice(0, 9);
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [e.target.id]: e.target.value,
+      [id]: newValue,
     }));
-  }
+
+    // Validar automáticamente si el usuario ya visitó el campo
+    if (touched[id]) {
+      const error = validateField(id, newValue);
+
+      setErrors((prev) => ({
+        ...prev,
+        [id]: error,
+      }));
+    }
+  };
 
   // Función para resetear el estado y cerrar el modal
   function handleClose() {
-    setError({ status: undefined, message: "" });
+    setError({
+      status: undefined,
+      message: "",
+    });
+
     setButtonStatus(true);
     setIsLoading(false);
-    if (typeof onClose === "function") onClose();
+    setTouched({});
+    setErrors({});
+
+    if (typeof onClose === "function") {
+      onClose();
+    }
+  }
+
+  function validateFormBeforeSubmit() {
+    const fields = ["nombre", "apellido", "email", "dni", "telefono"];
+
+    if (!isProfileEdit) {
+      fields.push("id_rol");
+    }
+
+    const newTouched = {};
+    const newErrors = {};
+
+    fields.forEach((field) => {
+      newTouched[field] = true;
+
+      const error = validateField(field, formData[field]);
+
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+
+    setTouched(newTouched);
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
   }
 
   function createEmpleado() {
@@ -291,6 +474,12 @@ export default function modal_empleado({
   }
 
   function guardarEmpleado() {
+    const isValid = validateFormBeforeSubmit();
+
+    if (!isValid) {
+      return;
+    }
+
     if (!data) {
       createEmpleado();
     } else {
@@ -345,70 +534,134 @@ export default function modal_empleado({
                 <label className="font-semibold text-sm" htmlFor="nombre">
                   Nombre
                 </label>
+
                 <input
                   id="nombre"
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   value={formData.nombre}
-                  className="dark:text-black w-full border border-gray-300 py-3 px-4 outline-none rounded-md"
+                  className={`dark:text-black w-full border py-3 px-4 outline-none rounded-md ${
+                    touched.nombre && errors.nombre
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
                   type="text"
                   placeholder="Ingrese el nombre"
                 />
+
+                {touched.nombre && errors.nombre && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    {errors.nombre}
+                  </p>
+                )}
               </fieldset>
 
-              <fieldset className="flex flex-col gap-2 ">
+              <fieldset className="flex flex-col gap-2">
                 <label className="font-semibold text-sm" htmlFor="apellido">
                   Apellido
                 </label>
+
                 <input
                   id="apellido"
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   value={formData.apellido}
-                  className="dark:text-black w-full border border-gray-300 py-3 px-4 outline-none rounded-md"
+                  className={`dark:text-black w-full border py-3 px-4 outline-none rounded-md ${
+                    touched.apellido && errors.apellido
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
                   type="text"
                   placeholder="Ingrese el apellido"
                 />
+
+                {touched.apellido && errors.apellido && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    {errors.apellido}
+                  </p>
+                )}
               </fieldset>
 
               <fieldset className="flex flex-col gap-2">
                 <label className="font-semibold text-sm" htmlFor="email">
                   Correo
                 </label>
+
                 <input
                   id="email"
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   value={formData.email}
-                  className="dark:text-black w-full border border-gray-300 py-3 px-4 outline-none rounded-md"
+                  className={`dark:text-black w-full border py-3 px-4 outline-none rounded-md ${
+                    touched.email && errors.email
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
                   type="email"
                   placeholder="Ingrese el correo"
                 />
+
+                {touched.email && errors.email && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    {errors.email}
+                  </p>
+                )}
               </fieldset>
 
               <fieldset className="flex flex-col gap-2">
                 <label className="font-semibold text-sm" htmlFor="dni">
                   DNI
                 </label>
+
                 <input
                   id="dni"
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   value={formData.dni}
-                  className="dark:text-black w-full border border-gray-300 py-3 px-4 outline-none rounded-md"
+                  className={`dark:text-black w-full border py-3 px-4 outline-none rounded-md ${
+                    touched.dni && errors.dni
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
                   type="text"
+                  inputMode="numeric"
+                  maxLength={8}
                   placeholder="Ingrese el DNI"
                 />
+
+                {touched.dni && errors.dni && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    {errors.dni}
+                  </p>
+                )}
               </fieldset>
 
               <fieldset className="flex flex-col gap-2">
                 <label className="font-semibold text-sm" htmlFor="telefono">
                   Teléfono
                 </label>
+
                 <input
                   id="telefono"
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   value={formData.telefono}
-                  className="dark:text-black w-full border border-gray-300 py-3 px-4 outline-none rounded-md"
+                  className={`dark:text-black w-full border py-3 px-4 outline-none rounded-md ${
+                    touched.telefono && errors.telefono
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
                   type="text"
+                  inputMode="numeric"
+                  maxLength={9}
                   placeholder="Ingrese el teléfono"
                 />
+
+                {touched.telefono && errors.telefono && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    {errors.telefono}
+                  </p>
+                )}
               </fieldset>
 
               {/* Solo mostramos el selector de rol cuando NO es edición de perfil */}
@@ -420,8 +673,13 @@ export default function modal_empleado({
                   <select
                     id="id_rol"
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     value={formData.id_rol}
-                    className="dark:text-black w-full border border-gray-300 py-3 px-4 outline-none rounded-md"
+                    className={`dark:text-black w-full border py-3 px-4 outline-none rounded-md ${
+                      touched.id_rol && errors.id_rol
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
                   >
                     <option value="">Seleccione un rol</option>
                     {roles.map((rol) => (
@@ -437,16 +695,26 @@ export default function modal_empleado({
                       </option>
                     ))}
                   </select>
+
+                  {touched.id_rol && errors.id_rol && (
+                    <p className="text-sm text-red-600 dark:text-red-400">
+                      {errors.id_rol}
+                    </p>
+                  )}
                 </fieldset>
               )}
             </div>
 
             <div className="flex justify-center gap-4 mt-6">
               <button
-                className="bg-blue-500 text-white py-3 px-6 rounded-lg font-bold hover:bg-blue-600 transition-colors"
+                className={`bg-blue-500 text-white py-3 px-6 rounded-lg font-bold hover:bg-blue-600 transition-colors ${
+                  isLoading || !isFormValid()
+                    ? "cursor-not-allowed bg-gray-400"
+                    : "bg-blue-600 hover:bg-blue-700"
+                }`}
                 type="button"
                 onClick={guardarEmpleado}
-                disabled={!button || isLoading}
+                disabled={!button || isLoading || !isFormValid()}
               >
                 {isLoading ? (
                   <span className="flex items-center">

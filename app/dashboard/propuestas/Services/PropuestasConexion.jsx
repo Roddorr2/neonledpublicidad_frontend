@@ -304,10 +304,17 @@ export const proposalHandlers = {
 
 // Función auxiliar URLs
 function processMediaUrl(urlPath) {
-  if (!urlPath) return "";
-  if (urlPath.startsWith("http") || urlPath.startsWith("data:")) {
+  if (!urlPath || typeof urlPath !== "string") return "";
+  if (
+    urlPath.startsWith("http://") ||
+    urlPath.startsWith("https://") ||
+    urlPath.startsWith("data:") ||
+    urlPath.startsWith("blob:")
+  ) {
     return urlPath;
   }
-  const baseUrl = url;
-  return `${baseUrl}${urlPath}`;
+  const baseUrl = (url || "").replace(/\/+$/, "");
+  const cleanPath = urlPath.startsWith("/") ? urlPath : `/${urlPath}`;
+  return `${baseUrl}${cleanPath}`;
 }
+
