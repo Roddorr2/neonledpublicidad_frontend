@@ -100,7 +100,7 @@ function TestimonialSkeleton() {
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className="bg-[#0a0f1c]/80 rounded-2xl border border-blue-500/20 p-6 md:p-8 flex flex-col shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[31%] animate-pulse shadow-[0_0_15px_rgba(117,209,240,0.08)]"
+          className="bg-[#0a0f1c]/80 rounded-2xl border border-blue-500/20 p-6 md:p-8 flex flex-col shrink-0 w-full md:w-[calc((100%-2rem)/2)] lg:w-[calc((100%-4rem)/3)] animate-pulse shadow-[0_0_15px_rgba(117,209,240,0.08)]"
         >
           <div className="flex items-center mb-5">
             <div className="w-12 h-12 rounded-full bg-blue-900/30 mr-4 shrink-0" />
@@ -136,7 +136,7 @@ function TestimonialCard({ review, isDraggingRef, ...rest }) {
     <div
       {...rest}
       className="bg-[#0a0f1c] text-white rounded-2xl border border-blue-900/40 shadow-[0_0_15px_rgba(117,209,240,0.15)] hover:shadow-[0_0_25px_rgba(117,209,240,0.4)] hover:border-blue-500/60 p-6 md:p-8 flex flex-col transition-all duration-300 relative select-none
-                 snap-center md:snap-start shrink-0 w-[85%] sm:w-[60%] md:w-[45%] lg:w-[31%]"
+                 snap-start shrink-0 w-full md:w-[calc((100%-2rem)/2)] lg:w-[calc((100%-4rem)/3)]"
     >
       {/* Comilla decorativa neón */}
       <span
@@ -284,7 +284,7 @@ export function Testimonials() {
     const gap = parseFloat(style.columnGap || style.gap || "32") || 32;
     const stride = cardWidth + gap;
 
-    const perPage = Math.max(1, Math.floor((el.clientWidth + gap) / stride));
+    const perPage = Math.max(1, Math.round((el.clientWidth + gap) / stride));
     const pages = Math.max(1, Math.ceil(testimonios.length / perPage));
 
     setCardsPerPage(perPage);
@@ -518,7 +518,7 @@ export function Testimonials() {
       </div>
 
       <div
-        className="relative group"
+        className="relative group flex items-center gap-2 sm:gap-3 md:gap-4"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={handleMouseLeave}
         onTouchStart={() => setIsPaused(true)}
@@ -531,10 +531,10 @@ export function Testimonials() {
           type="button"
           onClick={() => scrollByPage(-1)}
           aria-label="Ver testimonios anteriores"
-          className="hidden md:flex absolute -left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-[#0a0f1c]/95 border border-blue-500/50 text-purple-200 shadow-[0_0_15px_rgba(117,209,240,0.3)] transition-all duration-300 hover:border-blue-400 hover:text-white hover:shadow-[0_0_22px_rgba(117,209,240,0.7)] hover:scale-110 active:scale-95"
+          className="hidden md:flex shrink-0 z-20 w-11 h-11 lg:w-12 lg:h-12 items-center justify-center rounded-full bg-[#0a0f1c]/95 border border-blue-500/50 text-purple-200 shadow-[0_0_15px_rgba(117,209,240,0.3)] transition-all duration-300 hover:border-blue-400 hover:text-white hover:shadow-[0_0_22px_rgba(117,209,240,0.7)] hover:scale-110 active:scale-95"
         >
           <svg
-            className="w-6 h-6"
+            className="w-5 h-5 lg:w-6 lg:h-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -554,7 +554,7 @@ export function Testimonials() {
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          className={`flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 px-2 -mx-2
+          className={`flex-1 min-w-0 flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 pt-1 px-1
                      [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
                      ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
         >
@@ -581,10 +581,10 @@ export function Testimonials() {
           type="button"
           onClick={() => scrollByPage(1)}
           aria-label="Ver siguientes testimonios"
-          className="hidden md:flex absolute -right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-[#0a0f1c]/95 border border-blue-500/50 text-purple-200 shadow-[0_0_15px_rgba(117,209,240,0.3)] transition-all duration-300 hover:border-blue-400 hover:text-white hover:shadow-[0_0_22px_rgba(117,209,240,0.7)] hover:scale-110 active:scale-95"
+          className="hidden md:flex shrink-0 z-20 w-11 h-11 lg:w-12 lg:h-12 items-center justify-center rounded-full bg-[#0a0f1c]/95 border border-blue-500/50 text-purple-200 shadow-[0_0_15px_rgba(117,209,240,0.3)] transition-all duration-300 hover:border-blue-400 hover:text-white hover:shadow-[0_0_22px_rgba(117,209,240,0.7)] hover:scale-110 active:scale-95"
         >
           <svg
-            className="w-6 h-6"
+            className="w-5 h-5 lg:w-6 lg:h-6"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
