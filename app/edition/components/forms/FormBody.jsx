@@ -668,12 +668,12 @@ export default function FormBody({
 
       return (
         <div className="relative">
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
-            <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
+          <div className="w-full flex justify-center text-center mb-6">
+            <div className="inline-block px-4 py-1.5 bg-blue-500 text-white text-sm font-medium rounded-full shadow-sm text-center max-w-full">
               {data.header.titulo_tarjeta || "Información Importante"}
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-28 pt-8">
+          <div className="grid grid-cols-1 gap-6">
             {data.informacion.map((section, index) => (
               <div
                 key={index}
