@@ -87,9 +87,14 @@ const empleado_service = {
       });
 
       const data = await response.json().catch(() => ({}));
-
       if (!response.ok) {
-        const message = data.errors?.email?.[0] || data.message;
+        const message =
+          data.errors?.email?.[0] ||
+          data.errors?.dni?.[0] ||
+          data.errors?.telefono?.[0] ||
+          data.errors?.apellido?.[0] ||
+          data.errors?.nombre?.[0] ||
+          data.message;
         return { status: response.status, error: true, message };
       }
 
@@ -111,11 +116,18 @@ const empleado_service = {
         body: JSON.stringify(form),
       });
 
-      if (!response.ok) {
-        return { status: response.status, error: true };
-      }
+      const data = await response.json().catch(() => ({}));
 
-      const data = await response.json();
+      if (!response.ok) {
+        const message =
+          data.errors?.email?.[0] ||
+          data.errors?.dni?.[0] ||
+          data.errors?.telefono?.[0] ||
+          data.errors?.apellido?.[0] ||
+          data.errors?.nombre?.[0] ||
+          data.message;
+        return { status: response.status, error: true, message };
+      }
       return data;
     } catch (error) {
       console.error("Error al actualizar empleado:", error);
