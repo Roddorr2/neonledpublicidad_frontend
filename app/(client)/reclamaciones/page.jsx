@@ -1,7 +1,35 @@
-"use client"
-import { useState } from "react"
-import Swal from "sweetalert2"
-import API_URL from "@/api/url"
+"use client";
+import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import API_URL from "@/api/url";
+
+const DEPARTAMENTOS_PERU = [
+  "Amazonas",
+  "Áncash",
+  "Apurímac",
+  "Arequipa",
+  "Ayacucho",
+  "Cajamarca",
+  "Callao",
+  "Cusco",
+  "Huancavelica",
+  "Huánuco",
+  "Ica",
+  "Junín",
+  "La Libertad",
+  "Lambayeque",
+  "Lima",
+  "Loreto",
+  "Madre de Dios",
+  "Moquegua",
+  "Pasco",
+  "Piura",
+  "Puno",
+  "San Martín",
+  "Tacna",
+  "Tumbes",
+  "Ucayali",
+]
 
 const initialFormData = {
   nombre: "",
@@ -116,9 +144,8 @@ function validate(data) {
         Swal.fire({
           title: "¡Solicitud enviada con éxito!",
           icon: "success",
-          showConfirmButton: false,
-          timer: 2000,
-        })
+          confirmButtonColor: "#0c1a27",
+        });
       } else {
         setStatus("error")
         const data = await response.json().catch(() => null)
@@ -140,7 +167,8 @@ function validate(data) {
           text: primerError,
           icon: "error",
           confirmButtonText: "OK",
-        })
+          confirmButtonColor: "#0c1a27",
+        });
       }
     } catch (error) {
       setStatus("error")
@@ -149,7 +177,8 @@ function validate(data) {
         text: "Ocurrió un error al enviar el mensaje. Intenta nuevamente.",
         icon: "error",
         confirmButtonText: "OK",
-      })
+        confirmButtonColor: "#0c1a27",
+      });
     }
   }
 
@@ -168,13 +197,13 @@ function validate(data) {
             backgroundImage: "url('/reclamaciones/hero-background.png')",
           }}
         />
-        {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
 
         <div className="relative z-20 flex items-center justify-center">
           <div className="text-center md:text-left max-w-4xl px-4 mt-8 md:mt-0">
             <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <span className="text-cyan-400">COMPROMETIDOS</span> <span className="text-white">CON TU MARCA,</span>
+              <span className="text-cyan-400">COMPROMETIDOS</span>{" "}
+              <span className="text-white">CON TU MARCA,</span>
               <br />
               <span className="text-white">APASIONADOS POR EL DISEÑO</span>
             </h1>
@@ -325,6 +354,7 @@ function validate(data) {
               onChange={handleChange}
               error={errors.fechaIncidente}
             />
+
             <Input
               label="Monto reclamado"
               type="number"
@@ -401,7 +431,7 @@ function validate(data) {
         </form>
       </section>
     </>
-  )
+  );
 }
 
 function ErrorText({ children }) {

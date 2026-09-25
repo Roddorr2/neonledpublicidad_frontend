@@ -5,6 +5,64 @@ import { useRouter } from "next/navigation";
 import { Camera, Video, Search, X } from "lucide-react";
 import { proposalApi,customerApi } from "../Services/PropuestasConexion";
 
+const IMAGE_LIMITS = {
+  maxFiles: 10,
+  maxSizeMB: 5,
+  maxSizeBytes: 5 * 1024 * 1024,
+  allowedExtensions: ["jpg", "jpeg", "png"],
+};
+
+const IMAGE_MESSAGES = {
+  maxCount: `Has alcanzado el límite máximo de imágenes: ${IMAGE_LIMITS.maxFiles} archivos.`,
+  maxSize: `El tamaño máximo permitido para cada imagen es de ${IMAGE_LIMITS.maxSizeMB} MB.`,
+  invalidFormat: "El formato del archivo no es válido. Formatos permitidos: JPG, PNG.",
+};
+
+const VIDEO_LIMITS = {
+  maxFiles: 5,
+  maxSizeMB: 50,
+  maxSizeBytes: 50 * 1024 * 1024,
+  allowedExtensions: ["mp4", "mov", "avi"],
+};
+
+const VIDEO_MESSAGES = {
+  maxCount: `Has alcanzado el límite máximo de videos: ${VIDEO_LIMITS.maxFiles} archivos.`,
+  maxSize: `El tamaño máximo permitido para cada video es de ${VIDEO_LIMITS.maxSizeMB} MB.`,
+  invalidFormat: "El formato del archivo no es válido. Formatos permitidos: MP4, MOV, AVI.",
+};
+
+const getFileExtension = (fileName = "") => fileName.split(".").pop().toLowerCase();
+
+const isFormatAllowed = (file, limits) =>
+  limits.allowedExtensions.includes(getFileExtension(file.name));
+
+// Función reutilizable: valida un lote de archivos contra los límites (conteo, tamaño y formato)
+// aceptando los válidos y descartando únicamente los que incumplen algún límite.
+const filterIncomingFiles = (incomingFiles, existingCount, limits, messages) => {
+  const validFiles = [];
+  let error = null;
+  let currentCount = existingCount;
+
+  for (const file of incomingFiles) {
+    if (currentCount >= limits.maxFiles) {
+      error = messages.maxCount;
+      continue;
+    }
+    if (!isFormatAllowed(file, limits)) {
+      error = messages.invalidFormat;
+      continue;
+    }
+    if (file.size > limits.maxSizeBytes) {
+      error = messages.maxSize;
+      continue;
+    }
+    validFiles.push(file);
+    currentCount++;
+  }
+
+  return { validFiles, error };
+};
+
 export default function CrearPropuesta() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -85,66 +143,54 @@ export default function CrearPropuesta() {
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
+    if (files.length === 0) return;
 
-    if (formData.images.length + files.length > 10) {
-      setErrors((prev) => ({
+    const { validFiles, error } = filterIncomingFiles(
+      files,
+      formData.images.length,
+      IMAGE_LIMITS,
+      IMAGE_MESSAGES
+    );
+
+    if (validFiles.length > 0) {
+      setFormData((prev) => ({
         ...prev,
-        images: "El máximo de imágenes permitido es de 10",
+        images: [...prev.images, ...validFiles].slice(0, IMAGE_LIMITS.maxFiles),
       }));
-      return;
     }
 
-    if (files.some((file) => file.size > 5 * 1024 * 1024)) {
-      setErrors((prev) => ({
-        ...prev,
-        images: "El tamaño máximo por imagen es 5MB",
-      }));
-      return;
-    }
-
-    setFormData((prev) => ({
-      ...prev,
-      images: [...prev.images, ...files].slice(0, 10),
-    }));
-
-    if (errors.images) {
-      setErrors((prev) => ({ ...prev, images: undefined }));
-    }
+    setErrors((prev) => ({ ...prev, images: error || undefined }));
+    e.target.value = "";
   };
 
   const handleVideoUpload = async (e) => {
     const files = Array.from(e.target.files);
+    if (files.length === 0) return;
 
-    if (formData.videos.length + files.length > 5) {
-      setErrors((prev) => ({
-        ...prev,
-        videos: "El máximo de videos permitido es de 5",
-      }));
-      return;
-    }
-
-    if (files.some((file) => file.size > 50 * 1024 * 1024)) {
-      setErrors((prev) => ({
-        ...prev,
-        videos: "El tamaño máximo por video es 50MB",
-      }));
-      return;
-    }
-
-    const thumbnails = await Promise.all(
-      files.map((file) => generateVideoThumbnail(file))
+    const { validFiles, error } = filterIncomingFiles(
+      files,
+      formData.videos.length,
+      VIDEO_LIMITS,
+      VIDEO_MESSAGES
     );
 
-    setVideoThumbnails((prev) => [...prev, ...thumbnails].slice(0, 5));
+    if (validFiles.length > 0) {
+      const thumbnails = await Promise.all(
+        validFiles.map((file) => generateVideoThumbnail(file))
+      );
 
-    setFormData((prev) => ({
-      ...prev,
-      videos: [...prev.videos, ...files].slice(0, 5),
-    }));
+      setVideoThumbnails((prev) =>
+        [...prev, ...thumbnails].slice(0, VIDEO_LIMITS.maxFiles)
+      );
 
-    if (errors.videos) {
-      setErrors((prev) => ({ ...prev, videos: undefined }));
+      setFormData((prev) => ({
+        ...prev,
+        videos: [...prev.videos, ...validFiles].slice(0, VIDEO_LIMITS.maxFiles),
+      }));
     }
+
+    setErrors((prev) => ({ ...prev, videos: error || undefined }));
+    e.target.value = "";
   };
   const removeImage = (index) => {
     URL.revokeObjectURL(formData.images[index]);
