@@ -602,7 +602,7 @@ export default function FormBody({
           {images.map((image, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-xl shadow-xl"
+              className="group relative isolate overflow-hidden rounded-xl shadow-xl"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
               <img

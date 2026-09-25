@@ -39,7 +39,7 @@ const DEFAULT_STYLES = {
   /* CAMBIO PARA QUE NO SE SOBREPONGA LA IMAGEN  */
   gallery: "flex flex-col items-center gap-14 mt-4 mb-2 w-full",
 
-  imageItem: "relative group w-full max-w-md flex justify-center",
+  imageItem: "relative group isolate w-full max-w-md flex justify-center",
 
   image:
     "w-full max-w-md h-56 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10",
