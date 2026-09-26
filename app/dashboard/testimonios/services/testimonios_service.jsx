@@ -11,7 +11,14 @@ const handleResponse = async (response) => {
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new Error(data.message || `Error: ${response.status}`);
+    let errorMsg = data.message;
+    if (data.errors) {
+      const firstError = Object.values(data.errors).flat()[0];
+      if (firstError) {
+        errorMsg = firstError;
+      }
+    }
+    throw new Error(errorMsg || `Error: ${response.status}`);
   }
 
   return data;
