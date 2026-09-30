@@ -313,7 +313,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                      Imagen <span className="text-rose-500">*</span>
+                      Imagen <span className="text-rose-500">(obligatorio)</span>
                     </p>
                     <p className="text-xs text-slate-500 dark:text-slate-400">
                       JPG/PNG/WEBP - máximo 2MB.
