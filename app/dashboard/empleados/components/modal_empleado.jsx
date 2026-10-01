@@ -315,25 +315,6 @@ export default function modal_empleado({
   }
 
   function createEmpleado() {
-    if (formData.nombre.length <= 2)
-      return setError({
-        status: true,
-        message: "Ingresar correctamente el nombre",
-      });
-    if (formData.apellido.length <= 2)
-      return setError({
-        status: true,
-        message: "Ingresar correctamente el apellido",
-      });
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!regex.test(formData.email))
-      return setError({
-        status: true,
-        message: "Ingresar correctamente el email",
-      });
-    if (formData.dni.length < 8)
-      return setError({ status: true, message: "DNI inválido" });
-
     const form = {
       nombre: formData.nombre,
       apellido: formData.apellido,
@@ -450,11 +431,13 @@ export default function modal_empleado({
               handleClose();
             }, 1000);
 
-            console.log("Datos actualizados:", data);
+            //console.log("Datos actualizados:", data);
           } else {
+            const backendMessage = response.message || "";
             setError({
               status: true,
-              message: "Hubo un error al actualizar la información",
+              message:
+                backendMessage || "Hubo un error al actualizar la información",
             });
             setButtonStatus(true);
           }
@@ -464,7 +447,7 @@ export default function modal_empleado({
         console.error("Error al actualizar información:", error);
         setError({
           status: true,
-          message: "Hubo un error al actualizar la información",
+          message: error,
         });
         setButtonStatus(true);
       })
