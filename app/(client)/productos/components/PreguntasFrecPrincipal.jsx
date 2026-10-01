@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import PreguntasFrecIndividual from "./PreguntasFrecIndividual";
+
+const linkStyles =
+  "text-cyan-400 hover:text-cyan-300 underline underline-offset-4 font-semibold transition-colors";
 
 const faqData = [
   {
@@ -10,39 +14,100 @@ const faqData = [
     items: [
       {
         question: "¿Hacen diseños personalizados?",
-        answer:
-          "¡Sí! Somos especialistas en fabricar letreros personalizados. Adaptamos cualquier idea, frase o logotipo a la tecnología Neón LED según tus requerimientos.",
+        answer: (
+          <>
+            ¡Sí! Somos especialistas en fabricar{" "}
+            <Link href="/productos/letreros-luminosos" className={linkStyles}>
+              letreros personalizados
+            </Link>
+            . Adaptamos cualquier idea, frase o logotipo a la tecnología{" "}
+            <Link href="/productos/neon-led" className={linkStyles}>
+              Neón LED
+            </Link>{" "}
+            según tus requerimientos.
+          </>
+        ),
       },
       {
         question: "¿Qué tipo de letrero conviene para mi negocio?",
-        answer:
-          "Depende de tu rubro: para restaurantes recomendamos neones cálidos y vibrantes; para oficinas, logotipos en acrílico y aluminio plateado 3D para proyectar elegancia y seriedad.",
+        answer: (
+          <>
+            Depende de tu rubro: para restaurantes recomendamos neones cálidos y vibrantes; para oficinas,{" "}
+            <Link href="/productos/letras-acrilico" className={linkStyles}>
+              logotipos en acrílico
+            </Link>{" "}
+            y{" "}
+            <Link href="/productos/letras-plateadas" className={linkStyles}>
+              aluminio plateado 3D
+            </Link>{" "}
+            para proyectar elegancia y seriedad.
+          </>
+        ),
       },
       {
         question: "¿Qué es un letrero de neón LED?",
-        answer:
-          "Es una solución de iluminación moderna que utiliza mangueras de silicona flexible y diodos LED para replicar el brillo del neón clásico de forma segura y ecológica.",
+        answer: (
+          <>
+            Es una solución de iluminación moderna que utiliza mangueras de silicona flexible y diodos LED para replicar el brillo del{" "}
+            <Link href="/productos/neon-led" className={linkStyles}>
+              neón clásico
+            </Link>{" "}
+            de forma segura y ecológica.
+          </>
+        ),
       },
       {
         question:
           "¿Cuál es la diferencia entre el Neón LED y el Neón en tubo de vidrio tradicional?",
-        answer:
-          "El Neón LED es irrompible, consume hasta un 70% menos energía, no emite calor ni gases tóxicos y tiene un costo de mantenimiento mucho menor que el vidrio.",
+        answer: (
+          <>
+            El{" "}
+            <Link href="/productos/neon-led" className={linkStyles}>
+              Neón LED
+            </Link>{" "}
+            es irrompible, consume hasta un 70% menos energía, no emite calor ni gases tóxicos y tiene un costo de mantenimiento mucho menor que el{" "}
+            <Link href="/productos/letras-neon" className={linkStyles}>
+              Neón en tubo de vidrio tradicional
+            </Link>
+            .
+          </>
+        ),
       },
       {
         question: "¿Los letreros pueden ir en exteriores?",
-        answer:
-          "Sí. Fabricamos letreros con protección IP65 (sellado especial para intemperie) que resisten lluvia y polvo.",
+        answer: (
+          <>
+            Sí. Fabricamos{" "}
+            <Link href="/productos/letreros-luminosos" className={linkStyles}>
+              letreros luminosos
+            </Link>{" "}
+            con protección IP65 (sellado especial para intemperie) que resisten lluvia y polvo.
+          </>
+        ),
       },
       {
         question: "¿Qué materiales usan?",
-        answer:
-          "Utilizamos bases de acrílico de alta densidad, mangueras LED de silicona de primera calidad y transformadores certificados.",
+        answer: (
+          <>
+            Utilizamos bases de{" "}
+            <Link href="/productos/letras-acrilico" className={linkStyles}>
+              acrílico
+            </Link>{" "}
+            de alta densidad, mangueras LED de silicona de primera calidad y transformadores certificados.
+          </>
+        ),
       },
       {
         question: "¿Cuál es la duración de un neón LED?",
-        answer:
-          "Tienen una vida útil de hasta 50,000 horas (aproximadamente 5 a 10 años).",
+        answer: (
+          <>
+            Nuestros productos de{" "}
+            <Link href="/productos/neon-led" className={linkStyles}>
+              neón LED
+            </Link>{" "}
+            tienen una vida útil de hasta 50,000 horas (aproximadamente 5 a 10 años).
+          </>
+        ),
       },
       {
         question: "¿Los letreros de neón LED son seguros?",
@@ -61,8 +126,20 @@ const faqData = [
       },
       {
         question: "¿Se puede cotizar por WhatsApp?",
-        answer:
-          "Sí, puedes escribirnos al +51 994 078 320 para recibir atención personalizada.",
+        answer: (
+          <>
+            Sí, puedes escribirnos al{" "}
+            <a
+              href="https://wa.me/51994078320"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkStyles}
+            >
+              +51 994 078 320
+            </a>{" "}
+            para recibir atención personalizada.
+          </>
+        ),
       },
       {
         question: "¿Pueden replicar mi logotipo exactamente igual?",
@@ -171,8 +248,6 @@ export default function PreguntasFrecPrincipal() {
         </div>
 
         {faqData.map((section, sectionIndex) => {
-          const isLeft = sectionIndex % 2 === 0;
-
           return (
             <div
               key={section.category}
@@ -189,6 +264,7 @@ export default function PreguntasFrecPrincipal() {
                   return (
                     <PreguntasFrecIndividual
                       key={currentIndex}
+                      id={currentIndex}
                       question={item.question}
                       answer={item.answer}
                       isOpen={activeIndex === currentIndex}
@@ -204,4 +280,3 @@ export default function PreguntasFrecPrincipal() {
     </section>
   );
 }
-
