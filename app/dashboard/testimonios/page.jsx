@@ -137,14 +137,44 @@ function TestimonioFormModal({ initialData, onClose, onSaved }) {
     e.preventDefault();
     setError("");
 
-    if (!nombre.trim() || !texto.trim()) {
+    const nombreLimpio = nombre.trim();
+    const textoLimpio = texto.trim();
+
+    if (!nombreLimpio || !textoLimpio) {
       setError("Nombre y texto del testimonio son obligatorios.");
+      return;
+    }
+
+    if (nombreLimpio.length < 2) {
+      setError("El nombre del cliente debe tener al menos 2 caracteres.");
+      return;
+    }
+
+    // Debe contener al menos una letra y solo caracteres válidos para nombres
+    const nombreRegex = /^(?=.*[\p{L}])[\p{L}\p{N}\s.,'\-&/]+$/u;
+    if (!nombreRegex.test(nombreLimpio)) {
+      setError(
+        "El nombre contiene caracteres inválidos o no incluye ninguna letra válida."
+      );
+      return;
+    }
+
+    const hoy = new Date().toISOString().slice(0, 10);
+    if (fecha && fecha > hoy) {
+      setError("La fecha a mostrar no puede ser posterior a hoy.");
       return;
     }
 
     setSaving(true);
     try {
-      const payload = { nombre, texto, rating, fecha, activo, avatarFile };
+      const payload = {
+        nombre: nombreLimpio,
+        texto: textoLimpio,
+        rating,
+        fecha,
+        activo,
+        avatarFile,
+      };
 
       if (isEdit) {
         await testimonios_service.update(initialData.id, payload);
@@ -243,6 +273,7 @@ function TestimonioFormModal({ initialData, onClose, onSaved }) {
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
+              minLength={2}
               maxLength={150}
               placeholder="Ej: María Gonzáles"
               className="w-full rounded-lg border border-gray-200 p-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#8c52ff] dark:border-gray-600 dark:bg-gray-900 dark:text-white"
@@ -287,12 +318,13 @@ function TestimonioFormModal({ initialData, onClose, onSaved }) {
             <input
               type="date"
               value={fecha}
+              max={new Date().toISOString().slice(0, 10)}
               onChange={(e) => setFecha(e.target.value)}
               className="w-full rounded-lg border border-gray-200 p-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#8c52ff] dark:border-gray-600 dark:bg-gray-900 dark:text-white"
             />
             <p className="mt-1 text-xs text-gray-400">
-              En el carrusel se muestra como texto relativo (ej. "Hace 2
-              meses").
+              Máximo la fecha de hoy. En el carrusel se muestra como texto
+              relativo (ej. "Hace 2 meses").
             </p>
           </div>
 

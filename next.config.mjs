@@ -7,20 +7,23 @@ const nextConfig = {
         formats: ['image/webp'],
         remotePatterns: [
             {
-                protocol: 'https',
-                hostname: '**.githubusercontent.com',
+                source: '/blog/letras-acrilicas-3d-moda',
+                destination: '/productos/letras-acrilico',
+                permanent: true,
             },
             {
-                protocol: 'https',
-                hostname: 'ui-avatars.com',
+                source: '/blog/cafeterias-con-estilo',
+                destination: '/productos/menu-board',
+                permanent: true,
             },
             {
                 protocol: 'https',
                 hostname: 'avatars.google.com',
             },
             {
-                protocol: 'https',
-                hostname: 'images.unsplash.com',
+                source: '/blog/neon-led-para-bares-modernos',
+                destination: '/productos/neon-led',
+                permanent: true,
             },
         ],
     },

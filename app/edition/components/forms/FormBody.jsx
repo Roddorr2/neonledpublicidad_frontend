@@ -602,7 +602,7 @@ export default function FormBody({
           {images.map((image, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-xl shadow-xl"
+              className="group relative isolate overflow-hidden rounded-xl shadow-xl"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
               <img
@@ -668,12 +668,12 @@ export default function FormBody({
 
       return (
         <div className="relative">
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
-            <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
+          <div className="w-full flex justify-center text-center mb-6">
+            <div className="inline-block px-4 py-1.5 bg-blue-500 text-white text-sm font-medium rounded-full shadow-sm text-center max-w-full">
               {data.header.titulo_tarjeta || "Información Importante"}
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-28 pt-8">
+          <div className="grid grid-cols-1 gap-6">
             {data.informacion.map((section, index) => (
               <div
                 key={index}
