@@ -4,6 +4,13 @@ import { useRouter } from 'next/navigation';
 import { getCookie, setCookie } from 'cookies-next';
 import auth_service from '../users/services/auth.service';
 
+// Quita rol y permisos antes de guardar user en cookie
+const sinAutorizacion = (user) => {
+  if (!user || typeof user !== 'object') return user;
+  const { rol, permisos, ...resto } = user;
+  return resto;
+};
+
 export default function AuthGuard({ children, requiredRole = null }) {
   const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
@@ -20,24 +27,20 @@ export default function AuthGuard({ children, requiredRole = null }) {
 
     const checkUser = async () => {
       try {
-        // info del user
+        // info del user (me() también llena rol y permisos en memoria)
         const userData = await auth_service.me();
         
-        if (userData.error) {
+        if (!userData || userData.error) {
           throw new Error('Error al obtener información del usuario');
         }
         
-        // info de cookies
-        if (!getCookie('user')) {
-          setCookie("user", JSON.stringify(userData.user), { maxAge: 30 * 24 * 60 * 60, path: "/" });
+        // info de cookies (solo identidad, nunca rol ni permisos)
+        if (!getCookie('user') && userData.user) {
+          setCookie("user", JSON.stringify(sinAutorizacion(userData.user)), { maxAge: 30 * 24 * 60 * 60, path: "/" });
         }
         
-        if (!getCookie('empleado')) {
+        if (!getCookie('empleado') && userData.empleado) {
           setCookie("empleado", JSON.stringify(userData.empleado), { maxAge: 30 * 24 * 60 * 60, path: "/" });
-        }
-        
-        if (!getCookie('rol')) {
-          setCookie("rol", userData.rol, { maxAge: 30 * 24 * 60 * 60, path: "/" });
         }
         
         // verificar uno o varios roles
@@ -48,6 +51,7 @@ export default function AuthGuard({ children, requiredRole = null }) {
           : requiredRole ? [requiredRole] : [];
             
           // verifica si el usuario tiene al menos uno de los roles requeridos
+          // (hasRole lee la memoria, ya llenada por me() arriba)
           const hasRequiredRole = rolesArray.some(role => 
             auth_service.hasRole(role)
           );
