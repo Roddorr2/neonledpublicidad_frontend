@@ -104,7 +104,7 @@ export function PopupPreview({ formData, imagePreviews, view, productoName, forc
 
   // ── DESKTOP ───────────────────────────────────────────────────────────────
   return (
-    <div className="w-full">
+    <div className="w-full min-w-0 overflow-hidden">
       <div
         ref={containerRef}
         style={{ width: '100%', overflow: 'hidden', height: `${popupHeight * scale}px` }}
