@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  poweredByHeader: false,
   images: {
     unoptimized: true,
     formats: ["image/webp"],
@@ -14,7 +15,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: " avatars.google.com",
+        hostname: "avatars.google.com",
       },
       {
         protocol: "https",
