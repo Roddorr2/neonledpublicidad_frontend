@@ -4,11 +4,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import auth_service from "../dashboard/users/services/auth.service";
-import { safeJsonParse } from "@/lib/safe-json";
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
+
+// Quita rol y permisos del objeto user antes de guardarlo en la cookie
+const sinAutorizacion = (user) => {
+  if (!user || typeof user !== "object") return user;
+  const { rol, permisos, ...resto } = user;
+  return resto;
+};
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -30,26 +36,23 @@ export const AuthProvider = ({ children }) => {
         const res = await auth_service.me();
 
         if (res && res.user) {
-          const rolUsuario = res.rol || getCookie("rol") || "cliente"; // rol por defecto
+          // rol solo viene del backend 
+          const rolUsuario = res.rol || "cliente"; // rol por defecto
           const usuarioConRol = {
             ...res.user,
             rol: rolUsuario,
             permisos: res.permisos || [],
           };
 
+          // El estado de React sí lleva rol y permisos (en memoria)
           setIsAuthenticated(true);
           setUser(usuarioConRol);
 
-          // Guardar cookies
-          setCookie("user", JSON.stringify(usuarioConRol), {
+          // La cookie user no lleva rol ni permisos
+          setCookie("user", JSON.stringify(sinAutorizacion(res.user)), {
             maxAge: 300 * 60,
             path: "/",
           });
-          setCookie("permisos", JSON.stringify(res.permisos || []), {
-            maxAge: 300 * 60,
-            path: "/",
-          });
-          setCookie("rol", rolUsuario, { maxAge: 300 * 60, path: "/" });
 
           if (pathname === "/login/") {
             router.replace("/dashboard/main");
@@ -93,17 +96,15 @@ export const AuthProvider = ({ children }) => {
         permisos,
       };
 
+      // estado de react con rol y permisos
       setUser(usuarioConRol);
+
       setCookie("token", result.token, { maxAge: 300 * 60, path: "/" });
-      setCookie("user", JSON.stringify(usuarioConRol), {
+      // cookie user , sin rol ni permiso
+      setCookie("user", JSON.stringify(sinAutorizacion(result.user)), {
         maxAge: 300 * 60,
         path: "/",
       });
-      setCookie("permisos", JSON.stringify(permisos), {
-        maxAge: 300 * 60,
-        path: "/",
-      });
-      setCookie("rol", rolUsuario, { maxAge: 300 * 60, path: "/" });
 
       setIsAuthenticated(true);
       router.replace("/dashboard/main");
@@ -139,11 +140,12 @@ export const AuthProvider = ({ children }) => {
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/\s+/g, "-");
 
+  // Solo usa el estado en memoria (sin leer cookies)
   const hasPermission = (permiso) => {
-    const rol = user?.rol || getCookie("rol");
+    const rol = user?.rol;
     if (rol === "administrador") return true;
 
-    const permisos = user?.permisos || safeJsonParse(getCookie("permisos"), []);
+    const permisos = user?.permisos;
     if (!Array.isArray(permisos)) return false;
 
     const normalizados = permisos.map((p) => normalize(p));

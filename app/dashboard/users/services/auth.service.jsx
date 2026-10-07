@@ -5,6 +5,26 @@ import { safeJsonParse } from "@/lib/safe-json";
 
 const api_url = `${url}/api`;
 
+// ─── Estado de autorización EN MEMORIA ─────────────────────────────
+// rol y permisos NO se guardan en cookies ni en localStorage.
+// Solo se llenan con la respuesta de /login y /me.
+let _authState = { rol: null, permisos: [] };
+
+const setAuthState = (data) => {
+  _authState = {
+    rol: data?.rol ?? null,
+    // Si /me no trae permisos, se conservan los que ya había en memoria
+    permisos: Array.isArray(data?.permisos)
+      ? data.permisos
+      : _authState.permisos,
+  };
+};
+
+const resetAuthState = () => {
+  _authState = { rol: null, permisos: [] };
+};
+// ───────────────────────────────────────────────────────────────────
+
 const setAuthCookie = (name, value, options = {}) => {
   const cookieOptions = {
     path: "/",
@@ -58,7 +78,9 @@ const auth_service = {
       }
 
       if (data.user) {
-        setCookie("user", JSON.stringify(data.user), { maxAge: 60 * 60 * 24 });
+        // Antes: setCookie("user", JSON.stringify(data.user)) con el objeto completo.
+        // Ahora pasa por el filtro de setAuthCookie (solo id, name, email).
+        setAuthCookie("user", data.user);
       }
 
       return data;
@@ -100,13 +122,8 @@ const auth_service = {
         setAuthCookie("cliente", data.cliente);
       }
 
-      if (data.rol) {
-        setAuthCookie("rol", data.rol);
-      }
-
-      if (data.permisos) {
-        setAuthCookie("permisos", data.permisos);
-      }
+      // rol y permisos: solo en memoria
+      setAuthState(data);
 
       return data;
     } catch (error) {
@@ -180,9 +197,8 @@ const auth_service = {
         setAuthCookie("empleado", data.empleado);
       }
 
-      if (data.rol) {
-        setAuthCookie("rol", data.rol);
-      }
+      // rol y permisos: solo en memoria
+      setAuthState(data);
 
       return data;
     } catch (error) {
@@ -202,9 +218,11 @@ const auth_service = {
     deleteCookie("token");
     deleteCookie("user");
     deleteCookie("empleado");
+    // Se siguen borrando para limpiar sesiones viejas que aún las tengan
     deleteCookie("rol");
     deleteCookie("permisos");
     deleteCookie("cliente");
+    resetAuthState();
   },
 
   getCurrentUser: () => {
@@ -218,12 +236,11 @@ const auth_service = {
   },
 
   getCurrentRole: () => {
-    return getCookie("rol") || null;
+    return _authState.rol;
   },
 
   getCurrentPermissions: () => {
-    const permisos = getCookie("permisos");
-    return safeJsonParse(permisos, []);
+    return _authState.permisos;
   },
 
   getToken: () => {
