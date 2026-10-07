@@ -63,12 +63,15 @@ const setAuthCookie = (name, value, options = {}) => {
 const auth_service = {
   register: async (form) => {
     try {
+      // VUL01: el rol lo asigna siempre el backend, nunca se envía desde el cliente
+      const { id_rol, ...safeForm } = form || {};
+
       const response = await fetch(`${api_url}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(safeForm),
       });
 
       const data = await response.json();
