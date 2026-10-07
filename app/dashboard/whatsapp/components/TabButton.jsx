@@ -23,7 +23,7 @@ export function TabButton({ active, onClick, label }) {
 
 export function Card({ children }) {
   return (
-    <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-3.5 sm:p-7 shadow-sm dark:border-slate-700 dark:bg-slate-800/90 w-full min-w-0">
+    <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-3.5 sm:p-7 shadow-sm dark:border-slate-700 dark:bg-slate-800/90 w-full min-w-0 overflow-hidden">
       {children}
     </div>
   );

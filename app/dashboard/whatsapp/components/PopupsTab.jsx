@@ -344,7 +344,7 @@ export function PopupsTab() {
       <div className="grid gap-6 lg:grid-cols-12">
 
         {/* ── PANEL IZQUIERDO ───────────────────────────────────────────── */}
-        <div className="lg:col-span-7 space-y-5">
+        <div className="lg:col-span-7 space-y-5 min-w-0">
           <Card>
             <CardTitle>Editor de Pop-Ups</CardTitle>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
@@ -431,7 +431,7 @@ export function PopupsTab() {
                         </div>
 
                         {/* Color texto + botón */}
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                           <ColorPickerField
                             label="Color del Texto"
                             value={formData.title_color}
@@ -532,7 +532,7 @@ export function PopupsTab() {
                         </div>
 
                         {/* Color texto + botón */}
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                           <ColorPickerField
                             label="Color del Texto"
                             value={formData.mobile_title_color}
@@ -593,7 +593,7 @@ export function PopupsTab() {
                   </div>
 
                   {/* ── BOTONES DE ACCIÓN ────────────────────────────── */}
-                  <div className="flex items-center gap-3 pt-2 border-t border-slate-100 dark:border-slate-700">
+                  <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-100 dark:border-slate-700">
                     <button
                       type="button"
                       onClick={handleSave}
@@ -619,7 +619,7 @@ export function PopupsTab() {
         </div>
 
         {/* ── PANEL DERECHO - PREVIEW ──────────────────────────────────────── */}
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 min-w-0">
           <Card>
             <div className="flex items-center justify-between mb-4">
               <CardTitle>Preview</CardTitle>
@@ -689,8 +689,8 @@ function TriggerTimeField({ value, onChange, inputCls, labelCls }) {
 /** Picker de color con label */
 function ColorPickerField({ label, value, onChange }) {
   return (
-    <div>
-      <p className="text-xs text-slate-500 mb-1">{label}</p>
+    <div className="min-w-0">
+      <p className="text-xs text-slate-500 mb-1 truncate">{label}</p>
       <div className="flex items-center gap-2">
         <input
           type="color"
@@ -721,19 +721,19 @@ function GradientSection({ color1, color2, direction, onColor1, onColor2, onDire
         className="w-full h-8 rounded-xl mb-3 border border-slate-200 dark:border-slate-600"
         style={{ background: `linear-gradient(${direction}, ${color1}, ${color2})` }}
       />
-      <div className="grid grid-cols-2 gap-3 mb-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
         <ColorPickerField label="Color 1" value={color1} onChange={onColor1} />
         <ColorPickerField label="Color 2 (degradado)" value={color2} onChange={onColor2} />
       </div>
       <div>
         <p className="text-xs text-slate-500 mb-1">Dirección del degradado</p>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-1.5">
           {GRADIENT_DIRS.map((d) => (
             <button
               key={d.value}
               type="button"
               onClick={() => onDirection(d.value)}
-              className={`rounded-full px-3 py-1 text-xs font-semibold transition border ${direction === d.value ? "bg-orange-500 text-white border-orange-500" : "bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600 hover:border-orange-400"}`}
+              className={`rounded-full px-2.5 sm:px-3 py-1.5 sm:py-1 text-xs font-semibold transition border text-center truncate ${direction === d.value ? "bg-orange-500 text-white border-orange-500" : "bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600 hover:border-orange-400"}`}
             >
               {d.label}
             </button>
