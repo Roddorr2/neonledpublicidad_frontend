@@ -409,7 +409,7 @@ function validate(data) {
               error={errors.aceptaPoliticaPrivacidad}
             >
               Acepto la{" "}
-              <a className="text-[#007bf9] underline" href="#">
+              <a className="text-[#007bf9] underline" href="/politica-privacidad">
                 Política de Privacidad y Protección de Datos Personales
               </a>
               *
