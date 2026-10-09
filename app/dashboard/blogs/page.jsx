@@ -562,11 +562,11 @@ export default function Page() {
           </div>
 
           {totalPages > 1 && (
-            <div className="hidden lg:flex items-center justify-between bg-white rounded-xl shadow-sm p-4 mb-6">
-              <div className="text-sm text-slate-500">
+            <div className="hidden lg:flex items-center justify-between bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 mb-6">
+              <div className="text-sm text-slate-500 dark:text-slate-400">
                 Mostrando{" "}
                 <span className="font-medium">{displayedBlogs.length}</span> de{" "}
-                <span className="font-medium">{filteredBlogs.length}</span>{" "}
+                <span className="font-medium">{filteredBlogs.length}</span>
                 blogs
               </div>
 
@@ -576,8 +576,8 @@ export default function Page() {
                   disabled={currentPage === 1}
                   className={`p-2 rounded-lg border ${
                     currentPage === 1
-                      ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                      : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                      ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
+                      : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                   }`}
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -585,18 +585,18 @@ export default function Page() {
 
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (page) => (
-                    <button
-                      key={`page-desktop-${page}`}
-                      onClick={() => setCurrentPage(page)}
-                      className={`w-9 h-9 rounded-lg border ${
-                        currentPage === page
-                          ? "bg-sky-50 text-sky-600 border-sky-200"
-                          : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ),
+                  <button
+                    key={`page-desktop-${page}`}
+                    onClick={() => setCurrentPage(page)}
+                    className={`w-9 h-9 rounded-lg border ${
+                      currentPage === page
+                        ? "bg-sky-50 dark:bg-sky-900 text-sky-600 dark:text-sky-300 border-sky-200 dark:border-sky-700"
+                        : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ),
                 )}
 
                 <button
@@ -606,8 +606,8 @@ export default function Page() {
                   disabled={currentPage === totalPages}
                   className={`p-2 rounded-lg border ${
                     currentPage === totalPages
-                      ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                      : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                      ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
+                      : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                   }`}
                 >
                   <ChevronRight className="w-4 h-4" />
