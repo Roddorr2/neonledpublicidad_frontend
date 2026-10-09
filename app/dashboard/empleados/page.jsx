@@ -480,27 +480,25 @@ export default function Page() {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-primary"></div>
               <p className="ml-4 text-blue-primary">Cargando empleados...</p>
             </div>
+          ) : filteredData.length === 0 ? (
+            <div className="text-center py-10 text-gray-500">
+              {searchTerm || selectedRole !== "all"
+                ? "No se encontraron resultados para tu búsqueda"
+                : "No hay empleados registrados"}
+            </div>
           ) : (
             <>
               {/* Cards para móvil */}
               <div className="block md:hidden">
-                {paginatedData.length > 0 ? (
-                  paginatedData.map((employee) => (
-                    <EmployeeCard
-                      key={employee.id_empleado}
-                      employee={employee}
-                      onShow={handleShow}
-                      onUpdate={onUpdate}
-                      onDelete={onDelete}
-                    />
-                  ))
-                ) : (
-                  <div className="text-center py-10 text-gray-500">
-                    {searchTerm || selectedRole !== "all"
-                      ? "No se encontraron resultados para tu búsqueda"
-                      : "No hay empleados registrados"}
-                  </div>
-                )}
+                {paginatedData.map((employee) => (
+                  <EmployeeCard
+                    key={employee.id_empleado}
+                    employee={employee}
+                    onShow={handleShow}
+                    onUpdate={onUpdate}
+                    onDelete={onDelete}
+                  />
+                ))}
               </div>
 
               {/* Tabla para desktop */}
@@ -516,19 +514,9 @@ export default function Page() {
                 )}
               </div>
 
-              {filteredData.length === 0 && (
-                <div className="text-center py-10 text-gray-500">
-                  {searchTerm || selectedRole !== "all"
-                    ? "No se encontraron resultados para tu búsqueda"
-                    : "No hay empleados registrados"}
-                </div>
-              )}
-
-              {filteredData.length > 0 && (
-                <div className="mt-4">
-                  <Pagination count={filteredData.length} />
-                </div>
-              )}
+              <div className="mt-4">
+                <Pagination count={filteredData.length} />
+              </div>
             </>
           )}
         </CardContent>
